@@ -1,0 +1,242 @@
+RUS_education_reform_start = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_education_reform_started } }
+		set_country_flag = RUS_education_reform_started
+		set_country_flag = RUS_education_reform_baseline_applied
+		clr_country_flag = RUS_education_reform_completed
+		remove_ideas = RUS_malformed_education_system
+		set_variable = { RUS_education_reform_active_decisions = 0 }
+		set_variable = { RUS_education_reform_repeat_count = 0 }
+		set_variable = { RUS_education_research_speed = -0.05 }
+		set_variable = { RUS_education_start_efficiency = -0.10 }
+		set_variable = { RUS_education_efficiency_growth = -0.10 }
+		set_variable = { RUS_education_consumer_goods_factor = 0 }
+		set_variable = { RUS_education_political_power_factor = 0 }
+		set_variable = { RUS_education_political_power_gain = 0 }
+		set_variable = { RUS_education_mio_funds_gain = 0 }
+		set_variable = { RUS_education_mio_policy_cost = 0 }
+		set_variable = { RUS_education_party_popularity_stability_factor = 0 }
+		hidden_effect = {
+			if = {
+				limit = { has_dynamic_modifier = { modifier = RUS_completed_education_reform } }
+				remove_dynamic_modifier = { modifier = RUS_completed_education_reform }
+			}
+			if = {
+				limit = { has_dynamic_modifier = { modifier = RUS_reforming_education_system } }
+				remove_dynamic_modifier = { modifier = RUS_reforming_education_system }
+			}
+		}
+		add_dynamic_modifier = { modifier = RUS_reforming_education_system }
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_education_reform_started
+			NOT = { has_country_flag = RUS_education_reform_completed }
+			has_idea = RUS_malformed_education_system
+		}
+		remove_ideas = RUS_malformed_education_system
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_education_reform_started
+			NOT = { has_country_flag = RUS_education_reform_completed }
+			NOT = { has_dynamic_modifier = { modifier = RUS_reforming_education_system } }
+		}
+		add_dynamic_modifier = { modifier = RUS_reforming_education_system }
+	}
+}
+
+RUS_education_reform_start_decision = {
+	add_to_variable = { RUS_education_reform_active_decisions = 1 }
+}
+
+RUS_education_reform_ensure_new_culture_variables = {
+	if = {
+		limit = { NOT = { has_variable = RUS_education_consumer_goods_factor } }
+		set_variable = { RUS_education_consumer_goods_factor = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = RUS_education_political_power_factor } }
+		set_variable = { RUS_education_political_power_factor = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = RUS_education_research_speed } }
+		set_variable = { RUS_education_research_speed = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = RUS_education_party_popularity_stability_factor } }
+		set_variable = { RUS_education_party_popularity_stability_factor = 0 }
+	}
+	if = {
+		limit = {
+			NOT = { has_country_flag = RUS_education_reform_started }
+			NOT = { has_country_flag = RUS_education_reform_completed }
+		}
+		RUS_education_reform_start = yes
+	}
+}
+
+RUS_education_reform_effect_new_culture_popularisation = {
+	custom_effect_tooltip = RUS_education_reform_effect_new_culture_popularisation_tt
+	hidden_effect = {
+		RUS_education_reform_ensure_new_culture_variables = yes
+		add_to_variable = { RUS_education_consumer_goods_factor = 0.05 }
+		add_to_variable = { RUS_education_political_power_factor = 0.05 }
+	}
+}
+
+RUS_education_reform_effect_new_culture_elite_art = {
+	custom_effect_tooltip = RUS_education_reform_effect_new_culture_elite_art_tt
+	hidden_effect = {
+		RUS_education_reform_ensure_new_culture_variables = yes
+		add_to_variable = { RUS_education_consumer_goods_factor = -0.05 }
+		add_to_variable = { RUS_education_political_power_factor = -0.05 }
+	}
+}
+
+RUS_education_reform_effect_revolutionary_realism = {
+	custom_effect_tooltip = RUS_education_reform_effect_revolutionary_realism_tt
+	hidden_effect = {
+		RUS_education_reform_ensure_new_culture_variables = yes
+		add_to_variable = { RUS_education_party_popularity_stability_factor = 0.10 }
+	}
+}
+
+RUS_education_reform_effect_revolutionary_romanticism = {
+	custom_effect_tooltip = RUS_education_reform_effect_revolutionary_romanticism_tt
+	hidden_effect = {
+		RUS_education_reform_ensure_new_culture_variables = yes
+		add_to_variable = { RUS_education_research_speed = 0.10 }
+	}
+}
+
+RUS_education_reform_finish_decision = {
+	if = {
+		limit = { check_variable = { RUS_education_reform_active_decisions > 0 } }
+		subtract_from_variable = { RUS_education_reform_active_decisions = 1 }
+	}
+}
+
+RUS_education_reform_add_repeat = {
+	add_to_variable = { RUS_education_reform_repeat_count = 1 }
+}
+
+RUS_education_reform_check_completion = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = RUS_education_reform_completed }
+			check_variable = { RUS_education_reform_repeat_count > 17.9 }
+			has_country_flag = RUS_edu_compulsory_education_done
+			has_country_flag = RUS_edu_higher_education_done
+			has_country_flag = RUS_edu_grassroots_cadres_done
+			has_country_flag = RUS_edu_cadre_rotation_done
+			has_country_flag = RUS_edu_cultural_propaganda_done
+			has_country_flag = RUS_edu_production_tech_done
+		}
+		set_country_flag = RUS_education_reform_completed
+		clr_country_flag = RUS_education_reform_started
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_reforming_education_system } }
+			remove_dynamic_modifier = { modifier = RUS_reforming_education_system }
+		}
+		add_dynamic_modifier = { modifier = RUS_completed_education_reform }
+	}
+}
+
+RUS_education_reform_effect_compulsory = {
+	custom_effect_tooltip = RUS_education_reform_effect_compulsory_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_research_speed = 0.02 }
+		add_to_variable = { RUS_education_start_efficiency = 0.05 }
+		set_country_flag = RUS_edu_compulsory_education_done
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_rural_school = {
+	custom_effect_tooltip = RUS_education_reform_effect_rural_school_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_research_speed = 0.01 }
+		RUS_education_reform_add_repeat = yes
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_higher_education = {
+	custom_effect_tooltip = RUS_education_reform_effect_higher_education_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_research_speed = 0.03 }
+		add_to_variable = { RUS_education_start_efficiency = 0.05 }
+		set_country_flag = RUS_edu_higher_education_done
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_worker_peasant_course = {
+	custom_effect_tooltip = RUS_education_reform_effect_worker_peasant_course_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_research_speed = 0.02 }
+		add_to_variable = { RUS_education_mio_funds_gain = 0.02 }
+		add_to_variable = { RUS_education_consumer_goods_factor = 0.03 }
+		RUS_education_reform_add_repeat = yes
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_grassroots_cadres = {
+	custom_effect_tooltip = RUS_education_reform_effect_grassroots_cadres_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_consumer_goods_factor = 0.05 }
+		add_to_variable = { RUS_education_political_power_factor = 0.10 }
+		set_country_flag = RUS_edu_grassroots_cadres_done
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_cadre_rotation = {
+	custom_effect_tooltip = RUS_education_reform_effect_cadre_rotation_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_political_power_gain = 0.2 }
+		set_country_flag = RUS_edu_cadre_rotation_done
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_cultural_propaganda = {
+	custom_effect_tooltip = RUS_education_reform_effect_cultural_propaganda_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_political_power_gain = -0.3 }
+		add_to_variable = { RUS_education_research_speed = 0.05 }
+		set_country_flag = RUS_edu_cultural_propaganda_done
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_production_technology = {
+	custom_effect_tooltip = RUS_education_reform_effect_production_technology_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_efficiency_growth = 0.10 }
+		set_country_flag = RUS_edu_production_tech_done
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_streamlined_workshops = {
+	custom_effect_tooltip = RUS_education_reform_effect_streamlined_workshops_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_consumer_goods_factor = -0.015 }
+		RUS_education_reform_add_repeat = yes
+		RUS_education_reform_check_completion = yes
+	}
+}
+
+RUS_education_reform_effect_standardized_lines = {
+	custom_effect_tooltip = RUS_education_reform_effect_standardized_lines_tt
+	hidden_effect = {
+		add_to_variable = { RUS_education_start_efficiency = 0.02 }
+		add_to_variable = { RUS_education_political_power_factor = 0.015 }
+		add_to_variable = { RUS_education_consumer_goods_factor = 0.015 }
+		RUS_education_reform_add_repeat = yes
+		RUS_education_reform_check_completion = yes
+	}
+}

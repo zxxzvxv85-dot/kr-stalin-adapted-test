@@ -1,0 +1,201 @@
+KOR_revolutionary_government = {
+	KOR = {
+		set_popularities = {
+			totalist = 12
+			syndicalist = 8
+			radical_socialist = 23
+			social_democrat = 7
+			social_liberal = 5
+			market_liberal = 3
+			social_conservative = 9
+			authoritarian_democrat = 16
+			paternal_autocrat = 11
+			national_populist = 6
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				china_alignment_left_kuomintang = yes
+				has_government = communist
+				has_government = radical_socialist
+			}
+		}
+		KOR = {
+			set_politics = {
+				ruling_party = radical_socialist
+				elections_allowed = no
+			}
+			set_party_name = {
+				ideology = radical_socialist
+				name = KOR_radical_socialist_party_split
+				long_name = KOR_radical_socialist_party_split_long
+			}
+			set_party_name = {
+				ideology = social_liberal
+				name = KOR_social_liberal_party_united
+				long_name = KOR_social_liberal_party_united_long
+			}
+			set_party_name = {
+				ideology = authoritarian_democrat
+				name = KOR_authoritarian_democrat_party_knrp
+				long_name = KOR_authoritarian_democrat_party_knrp_long
+			}
+			set_party_name = {
+				ideology = national_populist
+				name = KOR_national_populist_party_knrp
+				long_name = KOR_national_populist_party_knrp_long
+			}
+			KOR_kim_kyu_sik = {
+				if = {
+					limit = { has_ideology = authoritarian_democrat_subtype }
+					promote_character = authoritarian_democrat_subtype
+				}
+				else = {
+					add_country_leader_role = {
+						country_leader = {
+							desc = KOR_kim_kyu_sik_leader_desc
+							ideology = authoritarian_democrat_subtype
+						}
+						promote_leader = yes
+					}
+				}
+			}
+			activate_advisor = KOR_yoon_se_ju_sic
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				china_is_aligned_with_right_kmt = yes
+				has_country_leader = { character = SHX_feng_yuxiang }
+			}
+			NOT = {
+				has_government = national_populist
+			}
+		}
+		KOR = {
+			set_politics = {
+				ruling_party = authoritarian_democrat
+				elections_allowed = no
+			}
+			set_popularities = {
+				totalist = 1
+				syndicalist = 2
+				radical_socialist = 20
+				social_democrat = 10
+				social_liberal = 5
+				market_liberal = 5
+				social_conservative = 10
+				authoritarian_democrat = 29
+				paternal_autocrat = 13
+				national_populist = 5
+			}
+			set_party_name = {
+				ideology = radical_socialist
+				name = KOR_radical_socialist_party_split
+				long_name = KOR_radical_socialist_party_split_long
+			}
+			set_party_name = {
+				ideology = social_liberal
+				name = KOR_social_liberal_party_united
+				long_name = KOR_social_liberal_party_united_long
+			}
+			set_party_name = {
+				ideology = authoritarian_democrat
+				name = KOR_authoritarian_democrat_party_knrp
+				long_name = KOR_authoritarian_democrat_party_knrp_long
+			}
+			set_party_name = {
+				ideology = national_populist
+				name = KOR_national_populist_party_knrp
+				long_name = KOR_national_populist_party_knrp_long
+			}
+			KOR_kim_kyu_sik = {
+				if = {
+					limit = { has_ideology = authoritarian_democrat_subtype }
+					promote_character = authoritarian_democrat_subtype
+				}
+				else = {
+					add_country_leader_role = {
+						country_leader = {
+							desc = KOR_kim_kyu_sik_leader_desc
+							ideology = authoritarian_democrat_subtype
+						}
+						promote_leader = yes
+					}
+				}
+			}
+			activate_advisor = KOR_jo_so_ang_sic
+		}
+	}
+	else_if = {
+		limit = { has_government = syndicalist }
+		KOR = {
+			set_politics = {
+				ruling_party = syndicalist
+				elections_allowed = no
+			}
+			activate_advisor = KOR_kim_mu_chong_sic
+		}
+	}
+	else_if = {
+		limit = { has_government = totalist }
+		KOR = {
+			set_politics = {
+				ruling_party = totalist
+				elections_allowed = no
+			}
+			activate_advisor = KOR_yi_sung_yop_sic
+		}
+	}
+	else = {
+		KOR = {
+			set_politics = {
+				ruling_party = national_populist
+				elections_allowed = no
+			}
+			activate_advisor = KOR_yu_chin_san_sic
+			if = {
+				limit = {
+					PREV = { is_chinese_tag = yes }
+				}
+				KOR_kim_kyu_sik = {
+					if = {
+						limit = { has_ideology = authoritarian_democrat_subtype }
+						promote_character = authoritarian_democrat_subtype
+					}
+					else = {
+						add_country_leader_role = {
+							country_leader = {
+								desc = KOR_kim_kyu_sik_leader_desc
+								ideology = authoritarian_democrat_subtype
+							}
+							promote_leader = yes
+						}
+					}
+				}
+				set_party_name = {
+					ideology = radical_socialist
+					name = KOR_radical_socialist_party_split
+					long_name = KOR_radical_socialist_party_split_long
+				}
+				set_party_name = {
+					ideology = social_liberal
+					name = KOR_social_liberal_party_united
+					long_name = KOR_social_liberal_party_united_long
+				}
+				set_party_name = {
+					ideology = authoritarian_democrat
+					name = KOR_authoritarian_democrat_party_knrp
+					long_name = KOR_authoritarian_democrat_party_knrp_long
+				}
+				set_party_name = {
+					ideology = national_populist
+					name = KOR_national_populist_party_knrp
+					long_name = KOR_national_populist_party_knrp_long
+				}
+			}
+		}
+	}
+}

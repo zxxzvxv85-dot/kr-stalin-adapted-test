@@ -1,0 +1,376 @@
+RUS_stalin_ensure_first_five_year_plan = {
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_score } }
+			set_variable = { RUS_first_five_year_plan_score = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_stage } }
+			set_variable = { RUS_first_five_year_plan_stage = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_consumer_goods_factor } }
+			set_variable = { RUS_first_five_year_plan_consumer_goods_factor = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_construction_speed } }
+			set_variable = { RUS_first_five_year_plan_construction_speed = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_efficiency_cap } }
+			set_variable = { RUS_first_five_year_plan_efficiency_cap = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_stability } }
+			set_variable = { RUS_first_five_year_plan_stability = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_resource_gain_efficiency } }
+			set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_energy_from_coal } }
+			set_variable = { RUS_first_five_year_plan_energy_from_coal = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_factory_energy_consumption } }
+			set_variable = { RUS_first_five_year_plan_factory_energy_consumption = 0 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_first_five_year_plan_lack_of_resource_penalty_factor } }
+			set_variable = { RUS_first_five_year_plan_lack_of_resource_penalty_factor = 0 }
+		}
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = RUS_first_five_year_plan } } }
+			add_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		if = {
+			limit = {
+				has_completed_focus = RUS_4_year_plan
+				NOT = { has_country_flag = RUS_first_five_year_plan_mission_started }
+				NOT = { has_country_flag = RUS_first_five_year_plan_success }
+				NOT = { has_country_flag = RUS_first_five_year_plan_failure }
+			}
+			set_country_flag = RUS_first_five_year_plan_mission_started
+			activate_mission = RUS_first_five_year_plan_mission
+		}
+		RUS_stalin_refresh_first_five_year_plan_stage = yes
+	}
+}
+
+RUS_stalin_reset_first_five_year_plan_stage_values = {
+	set_variable = { RUS_first_five_year_plan_stage = 0 }
+	set_variable = { RUS_first_five_year_plan_consumer_goods_factor = 0 }
+	set_variable = { RUS_first_five_year_plan_construction_speed = 0 }
+	set_variable = { RUS_first_five_year_plan_efficiency_cap = 0 }
+	set_variable = { RUS_first_five_year_plan_stability = 0 }
+	set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0 }
+	set_variable = { RUS_first_five_year_plan_energy_from_coal = 0 }
+	set_variable = { RUS_first_five_year_plan_factory_energy_consumption = 0 }
+	set_variable = { RUS_first_five_year_plan_lack_of_resource_penalty_factor = 0 }
+}
+
+RUS_stalin_set_first_five_year_plan_stage_1 = {
+	set_variable = { RUS_first_five_year_plan_stage = 1 }
+	set_variable = { RUS_first_five_year_plan_consumer_goods_factor = -0.025 }
+	set_variable = { RUS_first_five_year_plan_construction_speed = 0.0375 }
+	set_variable = { RUS_first_five_year_plan_efficiency_cap = 0.025 }
+	set_variable = { RUS_first_five_year_plan_stability = 0.025 }
+	set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0.04 }
+	set_variable = { RUS_first_five_year_plan_energy_from_coal = 0.05 }
+	set_variable = { RUS_first_five_year_plan_factory_energy_consumption = -0.025 }
+}
+
+RUS_stalin_set_first_five_year_plan_stage_2 = {
+	set_variable = { RUS_first_five_year_plan_stage = 2 }
+	set_variable = { RUS_first_five_year_plan_consumer_goods_factor = -0.05 }
+	set_variable = { RUS_first_five_year_plan_construction_speed = 0.075 }
+	set_variable = { RUS_first_five_year_plan_efficiency_cap = 0.05 }
+	set_variable = { RUS_first_five_year_plan_stability = 0.05 }
+	set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0.08 }
+	set_variable = { RUS_first_five_year_plan_energy_from_coal = 0.10 }
+	set_variable = { RUS_first_five_year_plan_factory_energy_consumption = -0.05 }
+}
+
+RUS_stalin_set_first_five_year_plan_stage_3 = {
+	set_variable = { RUS_first_five_year_plan_stage = 3 }
+	set_variable = { RUS_first_five_year_plan_consumer_goods_factor = -0.075 }
+	set_variable = { RUS_first_five_year_plan_construction_speed = 0.1125 }
+	set_variable = { RUS_first_five_year_plan_efficiency_cap = 0.075 }
+	set_variable = { RUS_first_five_year_plan_stability = 0.075 }
+	set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0.12 }
+	set_variable = { RUS_first_five_year_plan_energy_from_coal = 0.15 }
+	set_variable = { RUS_first_five_year_plan_factory_energy_consumption = -0.075 }
+}
+
+RUS_stalin_set_first_five_year_plan_stage_4 = {
+	set_variable = { RUS_first_five_year_plan_stage = 4 }
+	set_variable = { RUS_first_five_year_plan_consumer_goods_factor = -0.10 }
+	set_variable = { RUS_first_five_year_plan_construction_speed = 0.15 }
+	set_variable = { RUS_first_five_year_plan_efficiency_cap = 0.10 }
+	set_variable = { RUS_first_five_year_plan_stability = 0.10 }
+	set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0.16 }
+	set_variable = { RUS_first_five_year_plan_energy_from_coal = 0.20 }
+	set_variable = { RUS_first_five_year_plan_factory_energy_consumption = -0.10 }
+}
+
+RUS_stalin_set_first_five_year_plan_stage_5 = {
+	set_variable = { RUS_first_five_year_plan_stage = 5 }
+	set_variable = { RUS_first_five_year_plan_consumer_goods_factor = -0.125 }
+	set_variable = { RUS_first_five_year_plan_construction_speed = 0.1875 }
+	set_variable = { RUS_first_five_year_plan_efficiency_cap = 0.125 }
+	set_variable = { RUS_first_five_year_plan_stability = 0.125 }
+	set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0.20 }
+	set_variable = { RUS_first_five_year_plan_energy_from_coal = 0.25 }
+	set_variable = { RUS_first_five_year_plan_factory_energy_consumption = -0.125 }
+}
+
+RUS_stalin_set_first_five_year_plan_stage_6 = {
+	set_variable = { RUS_first_five_year_plan_stage = 6 }
+	set_variable = { RUS_first_five_year_plan_consumer_goods_factor = -0.15 }
+	set_variable = { RUS_first_five_year_plan_construction_speed = 0.225 }
+	set_variable = { RUS_first_five_year_plan_efficiency_cap = 0.15 }
+	set_variable = { RUS_first_five_year_plan_stability = 0.15 }
+	set_variable = { RUS_first_five_year_plan_resource_gain_efficiency = 0.24 }
+	set_variable = { RUS_first_five_year_plan_energy_from_coal = 0.30 }
+	set_variable = { RUS_first_five_year_plan_factory_energy_consumption = -0.15 }
+}
+
+RUS_stalin_refresh_first_five_year_plan_stage = {
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		hidden_effect = {
+			RUS_stalin_reset_first_five_year_plan_stage_values = yes
+			if = {
+				limit = { check_variable = { RUS_first_five_year_plan_score > 19.9 } }
+				RUS_stalin_set_first_five_year_plan_stage_1 = yes
+			}
+			if = {
+				limit = { check_variable = { RUS_first_five_year_plan_score > 39.9 } }
+				RUS_stalin_set_first_five_year_plan_stage_2 = yes
+			}
+			if = {
+				limit = { check_variable = { RUS_first_five_year_plan_score > 59.9 } }
+				RUS_stalin_set_first_five_year_plan_stage_3 = yes
+			}
+			if = {
+				limit = { check_variable = { RUS_first_five_year_plan_score > 79.9 } }
+				RUS_stalin_set_first_five_year_plan_stage_4 = yes
+			}
+			if = {
+				limit = { check_variable = { RUS_first_five_year_plan_score > 99.9 } }
+				RUS_stalin_set_first_five_year_plan_stage_5 = yes
+			}
+			if = {
+				limit = { check_variable = { RUS_first_five_year_plan_score > 119.9 } }
+				RUS_stalin_set_first_five_year_plan_stage_6 = yes
+			}
+			if = {
+				limit = {
+					check_variable = { RUS_first_five_year_plan_stage > 1.9 }
+					check_variable = { RUS_fpc_max_optimization_tier < 5 }
+				}
+				set_variable = { RUS_fpc_max_optimization_tier = 5 }
+			}
+			if = {
+				limit = {
+					check_variable = { RUS_first_five_year_plan_stage > 3.9 }
+					check_variable = { RUS_fpc_max_optimization_tier < 6 }
+				}
+				set_variable = { RUS_fpc_max_optimization_tier = 6 }
+			}
+			if = {
+				limit = {
+					check_variable = { RUS_first_five_year_plan_stage > 5.9 }
+					check_variable = { RUS_fpc_max_optimization_tier < 7 }
+				}
+				set_variable = { RUS_fpc_max_optimization_tier = 7 }
+			}
+			if = {
+				limit = { has_country_flag = RUS_first_five_year_plan_success }
+				add_to_variable = { RUS_first_five_year_plan_stability = 0.10 }
+				add_to_variable = { RUS_first_five_year_plan_lack_of_resource_penalty_factor = -0.10 }
+			}
+			if = {
+				limit = { has_country_flag = RUS_first_five_year_plan_failure }
+				add_to_variable = { RUS_first_five_year_plan_stability = -0.10 }
+				add_to_variable = { RUS_first_five_year_plan_lack_of_resource_penalty_factor = 0.10 }
+			}
+			if = {
+				limit = {
+					has_country_flag = RUS_first_five_year_plan_tankograd_completed
+					check_variable = { RUS_first_five_year_plan_score > 79.9 }
+					NOT = { has_country_flag = RUS_first_five_year_plan_tankograd_bonus }
+				}
+				set_country_flag = RUS_first_five_year_plan_tankograd_bonus
+				add_ideas = RUS_first_five_year_plan_tankograd_bonus_hidden
+			}
+		}
+	}
+}
+
+RUS_stalin_add_first_five_year_plan_score_low = {
+	RUS_stalin_ensure_first_five_year_plan = yes
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_4_year_plan
+			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_score_low_tt
+		hidden_effect = {
+			add_to_variable = { RUS_first_five_year_plan_score = 2 }
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+		}
+	}
+}
+
+RUS_stalin_add_first_five_year_plan_score_med = {
+	RUS_stalin_ensure_first_five_year_plan = yes
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_4_year_plan
+			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_score_med_tt
+		hidden_effect = {
+			add_to_variable = { RUS_first_five_year_plan_score = 4 }
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+		}
+	}
+}
+
+RUS_stalin_add_first_five_year_plan_score_high = {
+	RUS_stalin_ensure_first_five_year_plan = yes
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_4_year_plan
+			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_score_high_tt
+		hidden_effect = {
+			add_to_variable = { RUS_first_five_year_plan_score = 6 }
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+		}
+	}
+}
+
+RUS_stalin_add_first_five_year_plan_score_75 = {
+	RUS_stalin_ensure_first_five_year_plan = yes
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_4_year_plan
+			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_score_75_tt
+		hidden_effect = {
+			add_to_variable = { RUS_first_five_year_plan_score = 7.5 }
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+		}
+	}
+}
+
+RUS_stalin_add_first_five_year_plan_tankograd_bonus = {
+	RUS_stalin_ensure_first_five_year_plan = yes
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_4_year_plan
+			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_tankograd_score_tt
+		hidden_effect = {
+			set_country_flag = RUS_first_five_year_plan_tankograd_completed
+			add_to_variable = { RUS_first_five_year_plan_score = 4 }
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+		}
+	}
+}
+
+RUS_stalin_first_five_year_plan_success = {
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			NOT = { has_country_flag = RUS_first_five_year_plan_success }
+			NOT = { has_country_flag = RUS_first_five_year_plan_failure }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_success_tt
+		hidden_effect = {
+			set_country_flag = RUS_first_five_year_plan_success
+			clr_country_flag = RUS_first_five_year_plan_mission_started
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+			country_event = { id = russia_socialist_events.436 }
+		}
+	}
+}
+
+RUS_stalin_first_five_year_plan_failure = {
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			NOT = { has_country_flag = RUS_first_five_year_plan_success }
+			NOT = { has_country_flag = RUS_first_five_year_plan_failure }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_failure_tt
+		hidden_effect = {
+			set_country_flag = RUS_first_five_year_plan_failure
+			clr_country_flag = RUS_first_five_year_plan_mission_started
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+		}
+	}
+}
+
+RUS_stalin_industry_effect = {
+	if = {
+		limit = {
+			has_government = national_populist
+			has_completed_focus = RUS_solidarist_representation
+		}
+		if = {
+			limit = { has_stability < 0.75 }
+			add_stability = 0.005
+		}
+		else = {
+			add_popularity = { ideology = national_populist popularity = 0.005 }
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_completed_focus = RUS_4_year_plan
+				has_completed_focus = RUS_planning_directory
+			}
+		}
+		add_stability = -0.005
+	}
+	else_if = {
+		limit = { has_completed_focus = RUS_new_russian_capitalism }
+		add_stability = 0.005
+	}
+	if = {
+		limit = { has_completed_focus = RUS_4_year_plan }
+		RUS_stalin_ensure_first_five_year_plan = yes
+	}
+}
+
+RUS_stalin_reapply_industry_time_bonuses = {
+	if = {
+		limit = { has_country_flag = RUS_kirov_activated_once }
+		multiply_variable = { RUS_ic_time_60 = 0.5 }
+		multiply_variable = { RUS_ic_time_120 = 0.5 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_universal_labour_service_industry_time_halved }
+		multiply_variable = { RUS_ic_time_60 = 0.5 }
+		multiply_variable = { RUS_ic_time_120 = 0.5 }
+	}
+}

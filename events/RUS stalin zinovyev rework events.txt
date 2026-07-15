@@ -1,0 +1,159 @@
+add_namespace = rus_stalin_zinovyev_rework
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.1
+	title = rus_stalin_zinovyev_rework.1.t
+	desc = rus_stalin_zinovyev_rework.1.d
+	picture = GFX_report_event_UKR_vynnychenko_hryhoriiv
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.1.a
+		hidden_effect = { country_event = { id = rus_stalin_zinovyev_rework.2 days = 7 } }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.2
+	title = rus_stalin_zinovyev_rework.2.t
+	desc = rus_stalin_zinovyev_rework.2.d
+	picture = GFX_report_event_RUS_zinovyev
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.continue
+		hidden_effect = { country_event = rus_stalin_zinovyev_rework.3 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.3
+	title = rus_stalin_zinovyev_rework.2.t
+	desc = rus_stalin_zinovyev_rework.3.d
+	picture = GFX_report_event_RUS_zinovyev
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.3.a
+		hidden_effect = { country_event = { id = rus_stalin_zinovyev_rework.10 days = 7 } }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.10
+	title = rus_stalin_zinovyev_rework.10.t
+	desc = rus_stalin_zinovyev_rework.10.d
+	picture = GFX_report_event_RUS_zinovyev
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.10.a
+		hidden_effect = { country_event = { id = rus_stalin_zinovyev_rework.11 days = 7 } }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.11
+	title = rus_stalin_zinovyev_rework.11.t
+	desc = rus_stalin_zinovyev_rework.11.d
+	picture = GFX_report_event_RUS_meeting
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.11.a
+		if = { limit = { has_idea = RUS_totalism_idea_1 } remove_ideas = RUS_totalism_idea_1 }
+		add_ideas = RUS_totalism_idea_2
+	}
+
+	option = {
+		name = rus_stalin_zinovyev_rework.11.b
+		if = { limit = { has_idea = RUS_totalism_idea_2 } remove_ideas = RUS_totalism_idea_2 }
+		add_ideas = RUS_totalism_idea_1
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.4
+	title = rus_stalin_zinovyev_rework.4.t
+	desc = rus_stalin_zinovyev_rework.4.d
+	picture = GFX_report_event_generic_mechanized_farms
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.4.a
+		hidden_effect = { country_event = { id = rus_stalin_zinovyev_rework.5 days = 7 } }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.5
+	title = rus_stalin_zinovyev_rework.5.t
+	desc = rus_stalin_zinovyev_rework.5.d
+	picture = GFX_report_event_RUS_peasants1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.continue
+		hidden_effect = { country_event = rus_stalin_zinovyev_rework.6 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.6
+	title = rus_stalin_zinovyev_rework.5.t
+	desc = rus_stalin_zinovyev_rework.6.d
+	picture = GFX_report_event_RUS_Collectivization
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.6.a
+		hidden_effect = { country_event = { id = rus_stalin_zinovyev_rework.7 days = 7 } }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.7
+	title = rus_stalin_zinovyev_rework.7.t
+	desc = rus_stalin_zinovyev_rework.7.d
+	picture = GFX_report_event_RUS_savinkov_tractor
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.continue
+		hidden_effect = { country_event = rus_stalin_zinovyev_rework.8 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.8
+	title = rus_stalin_zinovyev_rework.7.t
+	desc = rus_stalin_zinovyev_rework.8.d
+	picture = GFX_report_event_RUS_industry
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_zinovyev_rework.continue
+		hidden_effect = { country_event = rus_stalin_zinovyev_rework.9 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_zinovyev_rework.9
+	title = rus_stalin_zinovyev_rework.7.t
+	desc = rus_stalin_zinovyev_rework.9.d
+	picture = GFX_report_event_generic_factory_workers
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = { name = rus_stalin_zinovyev_rework.9.a }
+}

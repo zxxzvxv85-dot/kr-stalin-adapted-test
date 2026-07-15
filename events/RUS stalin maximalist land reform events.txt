@@ -1,0 +1,613 @@
+add_namespace = rus_maximalist_land_reform_events
+
+country_event = {
+	id = rus_maximalist_land_reform_events.1
+	title = rus_maximalist_land_reform_events.1.t
+	desc = rus_maximalist_land_reform_events.1.desc
+	picture = GFX_report_event_RUS_ustinov
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.1.a
+		add_political_power = 20
+		country_event = { id = rus_maximalist_land_reform_events.6 days = 1 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.2
+	title = rus_maximalist_land_reform_events.2.t
+	desc = rus_maximalist_land_reform_events.2.desc
+	picture = GFX_report_event_RUS_ustinov
+	is_triggered_only = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.2.a
+		custom_effect_tooltip = rus_maximalist_land_reform_events.2.a.tt
+		set_country_flag = RUS_maximalist_land_reform_success
+		clr_country_flag = RUS_maximalist_land_reform_in_progress
+		set_variable = { RUS_maximalist_land_reform_active_decisions = 0 }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.3
+	title = rus_maximalist_land_reform_events.3.t
+	desc = rus_maximalist_land_reform_events.3.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.3.a
+		custom_effect_tooltip = rus_maximalist_land_reform_events.3.a.tt
+		set_country_flag = RUS_maximalist_land_reform_failure
+		clr_country_flag = RUS_maximalist_land_reform_in_progress
+		set_variable = { RUS_maximalist_land_reform_active_decisions = 0 }
+		hidden_effect = {
+			RUS_maximalist_land_reform_remove_stage_ideas = yes
+		}
+		add_ideas = RUS_maximalist_land_reform_stagnation
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.4
+	title = rus_maximalist_land_reform_events.4.t
+	desc = rus_maximalist_land_reform_events.4.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		NOT = { has_country_flag = RUS_maximalist_land_reform_started }
+	}
+
+	immediate = {
+		set_country_flag = RUS_maximalist_land_reform_intro_chain_started
+		clr_country_flag = RUS_maximalist_land_reform_intro_chain_scheduled
+	}
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.400
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.400
+	title = rus_maximalist_land_reform_events.4.t
+	desc = rus_maximalist_land_reform_events.4.desc_2
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.4.a
+		country_event = { id = rus_maximalist_land_reform_events.1 days = 14 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.6
+	title = rus_maximalist_land_reform_events.6.t
+	desc = rus_maximalist_land_reform_events.6.desc
+	picture = GFX_report_event_RUS_ustinov
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.60
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.60
+	title = rus_maximalist_land_reform_events.6.t
+	desc = rus_maximalist_land_reform_events.6.desc_2
+	picture = GFX_report_event_RUS_ustinov
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.6.a
+		add_political_power = 20
+		country_event = { id = rus_maximalist_land_reform_events.7 days = 7 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.7
+	title = rus_maximalist_land_reform_events.7.t
+	desc = rus_maximalist_land_reform_events.7.desc
+	picture = GFX_report_event_RUS_land_reform
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.70
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.70
+	title = rus_maximalist_land_reform_events.7.t
+	desc = rus_maximalist_land_reform_events.7.desc_2
+	picture = GFX_report_event_RUS_land_reform
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.7.a
+		set_country_flag = RUS_maximalist_land_reform_started
+		set_country_flag = RUS_maximalist_land_reform_in_progress
+		set_variable = { RUS_maximalist_land_reform_score = 0 }
+		set_variable = { RUS_maximalist_land_reform_active_decisions = 0 }
+		set_variable = { RUS_maximalist_land_reform_stage = 0 }
+		remove_ideas = RUS_maximalist_land_reform_stagnation
+		RUS_maximalist_land_reform_update_stage_idea = yes
+		unlock_decision_category_tooltip = RUS_maximalist_land_reform_category
+		activate_mission = RUS_maximalist_land_reform_mission
+		country_event = { id = rus_maximalist_land_reform_events.50 days = 90 }
+		country_event = { id = rus_maximalist_land_reform_events.51 days = 270 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.10
+	title = rus_maximalist_land_reform_events.10.t
+	desc = rus_maximalist_land_reform_events.10.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.10.a
+		country_event = { id = rus_maximalist_land_reform_events.11 days = 14 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.11
+	title = rus_maximalist_land_reform_events.11.t
+	desc = rus_maximalist_land_reform_events.11.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.110
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.110
+	title = rus_maximalist_land_reform_events.11.t
+	desc = rus_maximalist_land_reform_events.11.desc_2
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.11.a
+		custom_effect_tooltip = rus_maximalist_land_reform_events.11.a.tt
+		country_event = { id = rus_maximalist_land_reform_events.13 days = 14 }
+	}
+	option = {
+		name = rus_maximalist_land_reform_events.11.b
+		custom_effect_tooltip = rus_maximalist_land_reform_events.11.b.tt
+		country_event = { id = rus_maximalist_land_reform_events.14 days = 14 }
+	}
+	option = {
+		name = rus_maximalist_land_reform_events.11.c
+		custom_effect_tooltip = rus_maximalist_land_reform_events.11.c.tt
+		set_country_flag = RUS_max_landreform_tractor_promise_active
+		set_variable = { RUS_max_landreform_tractor_promise_count = 0 }
+		activate_mission = RUS_max_landreform_tractor_promise_mission
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.12
+	title = rus_maximalist_land_reform_events.12.t
+	desc = rus_maximalist_land_reform_events.12.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.12.a
+		add_political_power = -20
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.13
+	title = rus_maximalist_land_reform_events.13.t
+	desc = rus_maximalist_land_reform_events.13.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.13.a
+		add_political_power = -20
+		add_stability = 0.01
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.14
+	title = rus_maximalist_land_reform_events.14.t
+	desc = rus_maximalist_land_reform_events.14.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.14.a
+		add_stability = -0.05
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.15
+	title = rus_maximalist_land_reform_events.15.t
+	desc = rus_maximalist_land_reform_events.15.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.15.a
+		add_stability = 0.05
+		add_political_power = 50
+		custom_effect_tooltip = rus_maximalist_land_reform_events.15.a.tt
+		set_country_flag = RUS_max_landreform_tractor_promise_kept
+		clr_country_flag = RUS_max_landreform_tractor_promise_active
+		set_country_flag = RUS_maximalist_land_reform_tractor_bonus
+		if = {
+			limit = { has_idea = RUS_maximalist_land_reform_stage_5 }
+			RUS_maximalist_land_reform_update_stage_idea = yes
+		}
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.20
+	title = rus_maximalist_land_reform_events.20.t
+	desc = rus_maximalist_land_reform_events.20.desc
+	picture = GFX_report_event_RUS_peasants1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.200
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.200
+	title = rus_maximalist_land_reform_events.20.t
+	desc = rus_maximalist_land_reform_events.20.desc_2
+	picture = GFX_report_event_RUS_peasants1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.20.a
+		add_political_power = -20
+		country_event = { id = rus_maximalist_land_reform_events.22 days = 30 }
+	}
+	option = {
+		name = rus_maximalist_land_reform_events.20.b
+		add_political_power = -30
+		custom_effect_tooltip = rus_maximalist_land_reform_events.20.b.tt
+		country_event = { id = rus_maximalist_land_reform_events.23 days = 30 }
+	}
+	option = {
+		name = rus_maximalist_land_reform_events.20.c
+		add_political_power = -50
+		custom_effect_tooltip = rus_maximalist_land_reform_events.20.c.tt
+		country_event = { id = rus_maximalist_land_reform_events.21 days = 30 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.21
+	title = rus_maximalist_land_reform_events.21.t
+	desc = rus_maximalist_land_reform_events.21.desc
+	picture = GFX_report_event_RUS_semyonov_2
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.210
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.210
+	title = rus_maximalist_land_reform_events.21.t
+	desc = rus_maximalist_land_reform_events.21.desc_2
+	picture = GFX_report_event_RUS_semyonov_2
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.21.a
+		RUS_maximalist_land_reform_add_score_1 = yes
+		add_political_power = 10
+		add_stability = 0.05
+		FER = { RUS_grigory_semyonov = { kill_character = yes } }
+		set_country_flag = RUS_semyonov_killed
+		clr_country_flag = RUS_semyonov_uprising
+		clr_country_flag = RUS_yezhov_semyonov_assassination_scheduled
+		set_country_flag = RUS_yezhov_semyonov_assassination_fired
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.22
+	title = rus_maximalist_land_reform_events.22.t
+	desc = rus_maximalist_land_reform_events.22.desc
+	picture = GFX_report_event_RUS_peasants1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.22.a
+		add_stability = 0.05
+		add_war_support = 0.05
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.23
+	title = rus_maximalist_land_reform_events.23.t
+	desc = rus_maximalist_land_reform_events.23.desc
+	picture = GFX_report_event_RUS_peasants1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.23.a
+		add_manpower = -53
+		add_stability = 0.05
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.30
+	title = rus_maximalist_land_reform_events.30.t
+	desc = rus_maximalist_land_reform_events.30.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.30.a
+		country_event = { id = rus_maximalist_land_reform_events.31 days = 14 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.31
+	title = rus_maximalist_land_reform_events.31.t
+	desc = rus_maximalist_land_reform_events.31.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.310
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.310
+	title = rus_maximalist_land_reform_events.31.t
+	desc = rus_maximalist_land_reform_events.31.desc_2
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.31.a
+		RUS_maximalist_land_reform_subtract_score_3 = yes
+		country_event = { id = rus_maximalist_land_reform_events.32 days = 7 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.32
+	title = rus_maximalist_land_reform_events.32.t
+	desc = rus_maximalist_land_reform_events.32.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.320
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.320
+	title = rus_maximalist_land_reform_events.32.t
+	desc = rus_maximalist_land_reform_events.32.desc_2
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.32.a
+		RUS_maximalist_land_reform_add_score_2 = yes
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.40
+	title = rus_maximalist_land_reform_events.40.t
+	desc = rus_maximalist_land_reform_events.40.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.40.a
+		country_event = { id = rus_maximalist_land_reform_events.41 days = 14 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.41
+	title = rus_maximalist_land_reform_events.41.t
+	desc = rus_maximalist_land_reform_events.41.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.41.a
+		country_event = { id = rus_maximalist_land_reform_events.42 days = 3 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.42
+	title = rus_maximalist_land_reform_events.42.t
+	desc = rus_maximalist_land_reform_events.42.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.42.a
+		country_event = { id = rus_maximalist_land_reform_events.43 days = 3 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.43
+	title = rus_maximalist_land_reform_events.43.t
+	desc = rus_maximalist_land_reform_events.43.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.43.a
+		country_event = { id = rus_maximalist_land_reform_events.44 days = 3 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.44
+	title = rus_maximalist_land_reform_events.44.t
+	desc = rus_maximalist_land_reform_events.44.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.44.a
+		RUS_maximalist_land_reform_add_score_3 = yes
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.50
+	title = rus_maximalist_land_reform_events.50.t
+	desc = rus_maximalist_land_reform_events.50.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.50.a
+		add_political_power = 10
+		add_stability = -0.01
+		RUS_maximalist_land_reform_add_score_1 = yes
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.51
+	title = rus_maximalist_land_reform_events.51.t
+	desc = rus_maximalist_land_reform_events.51.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.510
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.510
+	title = rus_maximalist_land_reform_events.51.t
+	desc = rus_maximalist_land_reform_events.51.desc_2
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.51.a
+		add_political_power = -20
+		country_event = { id = rus_maximalist_land_reform_events.52 days = 7 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.52
+	title = rus_maximalist_land_reform_events.52.t
+	desc = rus_maximalist_land_reform_events.52.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.52.a
+		add_political_power = 10
+		RUS_maximalist_land_reform_add_score_2 = yes
+		country_event = { id = rus_maximalist_land_reform_events.53 days = 180 }
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.53
+	title = rus_maximalist_land_reform_events.53.t
+	desc = rus_maximalist_land_reform_events.53.desc
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.next
+		country_event = rus_maximalist_land_reform_events.530
+	}
+}
+
+country_event = {
+	id = rus_maximalist_land_reform_events.530
+	title = rus_maximalist_land_reform_events.53.t
+	desc = rus_maximalist_land_reform_events.53.desc_2
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_maximalist_land_reform_events.53.a
+		RUS_maximalist_land_reform_add_score_1 = yes
+	}
+}

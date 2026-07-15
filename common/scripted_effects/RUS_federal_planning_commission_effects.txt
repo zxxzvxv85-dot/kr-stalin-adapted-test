@@ -1,0 +1,448 @@
+# Federal Planning Commission priority and optimization effects
+
+RUS_fpc_update_tier = {
+	hidden_effect = {
+		remove_ideas = {
+			RUS_fpc_no_focus_optimization_1_idea
+			RUS_fpc_no_focus_optimization_2_idea
+			RUS_fpc_no_focus_optimization_3_idea
+			RUS_fpc_no_focus_optimization_4_idea
+			RUS_fpc_no_focus_optimization_5_idea
+			RUS_fpc_no_focus_optimization_6_idea
+			RUS_fpc_no_focus_optimization_7_idea
+			RUS_fpc_infantry_focus_optimization_1_idea
+			RUS_fpc_infantry_focus_optimization_2_idea
+			RUS_fpc_infantry_focus_optimization_3_idea
+			RUS_fpc_infantry_focus_optimization_4_idea
+			RUS_fpc_infantry_focus_optimization_5_idea
+			RUS_fpc_infantry_focus_optimization_6_idea
+			RUS_fpc_infantry_focus_optimization_7_idea
+			RUS_fpc_tanks_focus_optimization_1_idea
+			RUS_fpc_tanks_focus_optimization_2_idea
+			RUS_fpc_tanks_focus_optimization_3_idea
+			RUS_fpc_tanks_focus_optimization_4_idea
+			RUS_fpc_tanks_focus_optimization_5_idea
+			RUS_fpc_tanks_focus_optimization_6_idea
+			RUS_fpc_tanks_focus_optimization_7_idea
+			RUS_fpc_planes_focus_optimization_1_idea
+			RUS_fpc_planes_focus_optimization_2_idea
+			RUS_fpc_planes_focus_optimization_3_idea
+			RUS_fpc_planes_focus_optimization_4_idea
+			RUS_fpc_planes_focus_optimization_5_idea
+			RUS_fpc_planes_focus_optimization_6_idea
+			RUS_fpc_planes_focus_optimization_7_idea
+			RUS_fpc_naval_focus_optimization_1_idea
+			RUS_fpc_naval_focus_optimization_2_idea
+			RUS_fpc_naval_focus_optimization_3_idea
+			RUS_fpc_naval_focus_optimization_4_idea
+			RUS_fpc_naval_focus_optimization_5_idea
+			RUS_fpc_naval_focus_optimization_6_idea
+			RUS_fpc_naval_focus_optimization_7_idea
+		}
+	}
+	if = {
+		limit = {
+			check_variable = { RUS_fpc_focus_var = 0 }
+		}
+		meta_effect = {
+			text = {
+				add_ideas = RUS_fpc_no_focus_optimization_[RUS_FPC_OPT]_idea
+			}
+			RUS_FPC_OPT = "[?RUS_fpc_optimization_tier]"
+		}
+	}
+	else_if = {
+		limit = {
+			check_variable = { RUS_fpc_focus_var = 1 }
+		}
+		meta_effect = {
+			text = {
+				add_ideas = RUS_fpc_infantry_focus_optimization_[RUS_FPC_OPT]_idea
+			}
+			RUS_FPC_OPT = "[?RUS_fpc_optimization_tier]"
+		}
+	}
+	else_if = {
+		limit = {
+			check_variable = { RUS_fpc_focus_var = 2 }
+		}
+		meta_effect = {
+			text = {
+				add_ideas = RUS_fpc_tanks_focus_optimization_[RUS_FPC_OPT]_idea
+			}
+			RUS_FPC_OPT = "[?RUS_fpc_optimization_tier]"
+		}
+	}
+	else_if = {
+		limit = {
+			check_variable = { RUS_fpc_focus_var = 3 }
+		}
+		meta_effect = {
+			text = {
+				add_ideas = RUS_fpc_planes_focus_optimization_[RUS_FPC_OPT]_idea
+			}
+			RUS_FPC_OPT = "[?RUS_fpc_optimization_tier]"
+		}
+	}
+	else_if = {
+		limit = {
+			check_variable = { RUS_fpc_focus_var = 4 }
+		}
+		meta_effect = {
+			text = {
+				add_ideas = RUS_fpc_naval_focus_optimization_[RUS_FPC_OPT]_idea
+			}
+			RUS_FPC_OPT = "[?RUS_fpc_optimization_tier]"
+		}
+	}
+}
+
+# Tooltip-only effects used by the inlay buttons.
+
+RUS_fpc_show_current_priority_idea_stats_no_focus = {
+	if = {
+		limit = {
+			NOT = {
+				OR = {
+					has_idea = RUS_fpc_no_focus_optimization_1_idea
+					has_idea = RUS_fpc_no_focus_optimization_2_idea
+					has_idea = RUS_fpc_no_focus_optimization_3_idea
+					has_idea = RUS_fpc_no_focus_optimization_4_idea
+					has_idea = RUS_fpc_no_focus_optimization_5_idea
+					has_idea = RUS_fpc_no_focus_optimization_6_idea
+					has_idea = RUS_fpc_no_focus_optimization_7_idea
+				}
+			}
+		}
+		custom_effect_tooltip = RUS_fpc_set_optimization_tier_to_one_tt
+		effect_tooltip = {
+			add_ideas = RUS_fpc_no_focus_optimization_1_idea
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_no_focus_optimization_1_idea
+		}
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_1_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_no_focus_optimization_2_idea
+		}
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_2_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_no_focus_optimization_3_idea
+		}
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_3_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_no_focus_optimization_4_idea
+		}
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_4_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_no_focus_optimization_5_idea
+		}
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_5_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_no_focus_optimization_6_idea
+		}
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_6_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_no_focus_optimization_7_idea
+		}
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_7_idea
+	}
+	else = {
+		show_ideas_tooltip = RUS_fpc_no_focus_optimization_1_idea
+	}
+}
+
+RUS_fpc_show_current_priority_idea_stats_infantry_focus = {
+	if = {
+		limit = {
+			NOT = {
+				OR = {
+					has_idea = RUS_fpc_infantry_focus_optimization_1_idea
+					has_idea = RUS_fpc_infantry_focus_optimization_2_idea
+					has_idea = RUS_fpc_infantry_focus_optimization_3_idea
+					has_idea = RUS_fpc_infantry_focus_optimization_4_idea
+					has_idea = RUS_fpc_infantry_focus_optimization_5_idea
+					has_idea = RUS_fpc_infantry_focus_optimization_6_idea
+					has_idea = RUS_fpc_infantry_focus_optimization_7_idea
+				}
+			}
+		}
+		custom_effect_tooltip = RUS_fpc_set_optimization_tier_to_one_tt
+		effect_tooltip = {
+			add_ideas = RUS_fpc_infantry_focus_optimization_1_idea
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_infantry_focus_optimization_1_idea
+		}
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_1_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_infantry_focus_optimization_2_idea
+		}
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_2_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_infantry_focus_optimization_3_idea
+		}
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_3_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_infantry_focus_optimization_4_idea
+		}
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_4_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_infantry_focus_optimization_5_idea
+		}
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_5_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_infantry_focus_optimization_6_idea
+		}
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_6_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_infantry_focus_optimization_7_idea
+		}
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_7_idea
+	}
+	else = {
+		show_ideas_tooltip = RUS_fpc_infantry_focus_optimization_1_idea
+	}
+}
+
+RUS_fpc_show_current_priority_idea_stats_tanks_focus = {
+	if = {
+		limit = {
+			NOT = {
+				OR = {
+					has_idea = RUS_fpc_tanks_focus_optimization_1_idea
+					has_idea = RUS_fpc_tanks_focus_optimization_2_idea
+					has_idea = RUS_fpc_tanks_focus_optimization_3_idea
+					has_idea = RUS_fpc_tanks_focus_optimization_4_idea
+					has_idea = RUS_fpc_tanks_focus_optimization_5_idea
+					has_idea = RUS_fpc_tanks_focus_optimization_6_idea
+					has_idea = RUS_fpc_tanks_focus_optimization_7_idea
+				}
+			}
+		}
+		custom_effect_tooltip = RUS_fpc_set_optimization_tier_to_one_tt
+		effect_tooltip = {
+			add_ideas = RUS_fpc_tanks_focus_optimization_1_idea
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_tanks_focus_optimization_1_idea
+		}
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_1_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_tanks_focus_optimization_2_idea
+		}
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_2_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_tanks_focus_optimization_3_idea
+		}
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_3_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_tanks_focus_optimization_4_idea
+		}
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_4_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_tanks_focus_optimization_5_idea
+		}
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_5_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_tanks_focus_optimization_6_idea
+		}
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_6_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_tanks_focus_optimization_7_idea
+		}
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_7_idea
+	}
+	else = {
+		show_ideas_tooltip = RUS_fpc_tanks_focus_optimization_1_idea
+	}
+}
+
+RUS_fpc_show_current_priority_idea_stats_planes_focus = {
+	if = {
+		limit = {
+			NOT = {
+				OR = {
+					has_idea = RUS_fpc_planes_focus_optimization_1_idea
+					has_idea = RUS_fpc_planes_focus_optimization_2_idea
+					has_idea = RUS_fpc_planes_focus_optimization_3_idea
+					has_idea = RUS_fpc_planes_focus_optimization_4_idea
+					has_idea = RUS_fpc_planes_focus_optimization_5_idea
+					has_idea = RUS_fpc_planes_focus_optimization_6_idea
+					has_idea = RUS_fpc_planes_focus_optimization_7_idea
+				}
+			}
+		}
+		custom_effect_tooltip = RUS_fpc_set_optimization_tier_to_one_tt
+		effect_tooltip = {
+			add_ideas = RUS_fpc_planes_focus_optimization_1_idea
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_planes_focus_optimization_1_idea
+		}
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_1_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_planes_focus_optimization_2_idea
+		}
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_2_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_planes_focus_optimization_3_idea
+		}
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_3_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_planes_focus_optimization_4_idea
+		}
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_4_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_planes_focus_optimization_5_idea
+		}
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_5_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_planes_focus_optimization_6_idea
+		}
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_6_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_planes_focus_optimization_7_idea
+		}
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_7_idea
+	}
+	else = {
+		show_ideas_tooltip = RUS_fpc_planes_focus_optimization_1_idea
+	}
+}
+
+RUS_fpc_show_current_priority_idea_stats_naval_focus = {
+	if = {
+		limit = {
+			NOT = {
+				OR = {
+					has_idea = RUS_fpc_naval_focus_optimization_1_idea
+					has_idea = RUS_fpc_naval_focus_optimization_2_idea
+					has_idea = RUS_fpc_naval_focus_optimization_3_idea
+					has_idea = RUS_fpc_naval_focus_optimization_4_idea
+					has_idea = RUS_fpc_naval_focus_optimization_5_idea
+					has_idea = RUS_fpc_naval_focus_optimization_6_idea
+					has_idea = RUS_fpc_naval_focus_optimization_7_idea
+				}
+			}
+		}
+		custom_effect_tooltip = RUS_fpc_set_optimization_tier_to_one_tt
+		effect_tooltip = {
+			add_ideas = RUS_fpc_naval_focus_optimization_1_idea
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_naval_focus_optimization_1_idea
+		}
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_1_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_naval_focus_optimization_2_idea
+		}
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_2_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_naval_focus_optimization_3_idea
+		}
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_3_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_naval_focus_optimization_4_idea
+		}
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_4_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_naval_focus_optimization_5_idea
+		}
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_5_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_naval_focus_optimization_6_idea
+		}
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_6_idea
+	}
+	else_if = {
+		limit = {
+			has_idea = RUS_fpc_naval_focus_optimization_7_idea
+		}
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_7_idea
+	}
+	else = {
+		show_ideas_tooltip = RUS_fpc_naval_focus_optimization_1_idea
+	}
+}
+
+RUS_fpc_start = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fpc_active } }
+		set_country_flag = RUS_fpc_active
+		set_variable = { RUS_fpc_optimization_tier = 2 }
+		set_variable = { RUS_fpc_max_optimization_tier = 4 }
+		set_variable = { RUS_fpc_focus_var = 0 }
+		RUS_fpc_update_tier = yes
+		mark_focus_tree_layout_dirty = yes
+		custom_effect_tooltip = RUS_fpc_start_tt
+	}
+}

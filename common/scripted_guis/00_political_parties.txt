@@ -1,0 +1,65 @@
+scripted_gui = {
+	party_popularity_number = {
+		context_type = player_context
+		parent_window_token = top_bar
+		window_name = "party_popularity_number_container"
+
+		ai_enabled = {
+			always = no
+		}
+
+		properties = {
+			popularity_ideology_icon = {
+				image = "[GetPopIcon]"
+			}
+		}
+	}
+
+	economic_sphere_name = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "economic_sphere_name_container"
+
+		ai_enabled = {
+			always = no
+		}
+	}
+
+	power_balance_button_disabled = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "power_balance_button_disabled_window"
+
+		ai_enabled = {
+			always = no
+		}
+
+		visible = {
+			has_any_power_balance = no
+		}
+	}
+
+	coalition_indicator = {
+		context_type = player_context
+		parent_window_name = coalition_pol_party_bg_anchor
+		window_name = "coalition_pol_party_bg"
+
+		ai_enabled = {
+			always = no
+		}
+
+		properties = {
+			coalition_pol_party_bg_tot = { frame = coalitions_array^0 }
+			coalition_pol_party_bg_com = { frame = coalitions_array^1 }
+			coalition_pol_party_bg_synd = { frame = coalitions_array^2 }
+			coalition_pol_party_bg_radsoc = { frame = coalitions_array^3 }
+			coalition_pol_party_bg_socdem = { frame = coalitions_array^4 }
+			coalition_pol_party_bg_soclib = { frame = coalitions_array^5 }
+			coalition_pol_party_bg_marlib = { frame = coalitions_array^6 }
+			coalition_pol_party_bg_soccon = { frame = coalitions_array^7 }
+			coalition_pol_party_bg_authdem = { frame = coalitions_array^8 }
+			coalition_pol_party_bg_pataut = { frame = coalitions_array^9 }
+			coalition_pol_party_bg_natpop = { frame = coalitions_array^10 }
+		}
+	}
+}

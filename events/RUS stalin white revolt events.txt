@@ -1,0 +1,393 @@
+add_namespace = rus_stalin_white_revolt_events
+
+country_event = {
+	id = rus_stalin_white_revolt_events.1
+	title = rus_stalin_white_revolt_events.1.t
+	desc = rus_stalin_white_revolt_events.1.d
+	picture = GFX_report_event_RUS_army3
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[GetLogInfo]: initialising rus_stalin_white_revolt_events.1"
+		set_country_flag = RUS_white_revolt_active
+		hidden_effect = {
+			set_variable = { RUS_white_revolt_petrograd_progress = 0 }
+			set_variable = { RUS_white_revolt_tsaritsyn_progress = 0 }
+			set_variable = { RUS_white_revolt_petrograd_required = 0 }
+			set_variable = { RUS_white_revolt_tsaritsyn_required = 0 }
+			if = { limit = { controls_state = 208 } add_to_variable = { RUS_white_revolt_petrograd_required = 1 } }
+			if = { limit = { controls_state = 216 } add_to_variable = { RUS_white_revolt_petrograd_required = 1 } }
+			if = { limit = { controls_state = 244 } add_to_variable = { RUS_white_revolt_petrograd_required = 1 } }
+			if = { limit = { controls_state = 245 } add_to_variable = { RUS_white_revolt_tsaritsyn_required = 1 } }
+			if = { limit = { controls_state = 265 } add_to_variable = { RUS_white_revolt_tsaritsyn_required = 1 } }
+			if = { limit = { controls_state = 401 } add_to_variable = { RUS_white_revolt_tsaritsyn_required = 1 } }
+			if = { limit = { controls_state = 238 } add_to_variable = { RUS_white_revolt_tsaritsyn_required = 1 } }
+			activate_mission = RUS_white_revolt_deadline
+			add_command_power = 30
+			country_event = { id = rus_stalin_white_revolt_events.2 days = 1 }
+			country_event = { id = rus_stalin_white_revolt_events.3 days = 2 }
+			country_event = { id = rus_stalin_white_revolt_events.4 days = 21 }
+		}
+	}
+
+	option = {
+		name = rus_stalin_white_revolt_events.1.a
+		custom_effect_tooltip = RUS_white_revolt_start_tt
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.2
+	title = rus_stalin_white_revolt_events.2.t
+	desc = rus_stalin_white_revolt_events.2.d
+	picture = GFX_report_event_RUS_crowd1
+	is_triggered_only = yes
+	option = { name = rus_stalin_white_revolt_events.2.a }
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.3
+	title = rus_stalin_white_revolt_events.3.t
+	desc = rus_stalin_white_revolt_events.3.d
+	picture = GFX_report_event_RUS_army_1
+	is_triggered_only = yes
+	option = { name = rus_stalin_white_revolt_events.3.a }
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.4
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = RUS_white_revolt_active
+		NOT = { has_country_flag = RUS_white_revolt_counterattack_active }
+	}
+	immediate = {
+		if = {
+			limit = {
+				any_state = {
+					has_state_flag = RUS_white_revolt_red_control
+					OR = {
+						AND = {
+							OR = { state = 208 state = 216 state = 244 }
+							ROOT = { NOT = { has_country_flag = RUS_white_revolt_petrograd_won } }
+						}
+						AND = {
+							OR = { state = 245 state = 265 state = 401 state = 238 }
+							ROOT = { NOT = { has_country_flag = RUS_white_revolt_tsaritsyn_won } }
+						}
+					}
+				}
+			}
+			random_state = {
+				limit = {
+					has_state_flag = RUS_white_revolt_red_control
+					OR = {
+						AND = {
+							OR = { state = 208 state = 216 state = 244 }
+							ROOT = { NOT = { has_country_flag = RUS_white_revolt_petrograd_won } }
+						}
+						AND = {
+							OR = { state = 245 state = 265 state = 401 state = 238 }
+							ROOT = { NOT = { has_country_flag = RUS_white_revolt_tsaritsyn_won } }
+						}
+					}
+				}
+				save_event_target_as = RUS_white_revolt_counterattack_state
+				set_state_flag = RUS_white_revolt_under_attack
+			}
+			set_country_flag = RUS_white_revolt_counterattack_active
+			activate_mission = RUS_white_revolt_counterattack_mission
+			country_event = rus_stalin_white_revolt_events.10
+		}
+		else = {
+			country_event = { id = rus_stalin_white_revolt_events.4 days = 7 }
+		}
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.10
+	title = rus_stalin_white_revolt_events.4.t
+	desc = rus_stalin_white_revolt_events.4.d
+	picture = GFX_report_event_RUS_army3
+	is_triggered_only = yes
+	option = { name = rus_stalin_white_revolt_events.4.a }
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.11
+	title = rus_stalin_white_revolt_events.11.t
+	desc = rus_stalin_white_revolt_events.11.d
+	picture = GFX_report_event_RUS_army_1
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.11.a
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.12
+	title = rus_stalin_white_revolt_events.12.t
+	desc = rus_stalin_white_revolt_events.12.d
+	picture = GFX_report_event_RUS_army3
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.12.a
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.13
+	title = rus_stalin_white_revolt_events.13.t
+	desc = rus_stalin_white_revolt_events.13.d
+	picture = GFX_report_event_RUS_army_1
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.13.a
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.14
+	title = rus_stalin_white_revolt_events.14.t
+	desc = rus_stalin_white_revolt_events.14.d
+	picture = GFX_report_event_RUS_army3
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.14.a
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.15
+	title = rus_stalin_white_revolt_events.15.t
+	desc = rus_stalin_white_revolt_events.15.d
+	picture = GFX_report_event_RUS_army_1
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.15.a
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.16
+	title = rus_stalin_white_revolt_events.16.t
+	desc = rus_stalin_white_revolt_events.16.d
+	picture = GFX_report_event_RUS_army3
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.16.a
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.17
+	title = rus_stalin_white_revolt_events.17.t
+	desc = rus_stalin_white_revolt_events.17.d
+	picture = GFX_report_event_RUS_army_1
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.17.a
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.18
+	title = rus_stalin_white_revolt_events.18.t
+	desc = rus_stalin_white_revolt_events.18.d
+	picture = GFX_report_event_RUS_army_1
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { has_socialist_government = yes }
+	option = { name = rus_stalin_white_revolt_events.18.a }
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.19
+	title = rus_stalin_white_revolt_events.19.t
+	desc = rus_stalin_white_revolt_events.19.d
+	picture = GFX_report_event_RUS_stalin
+	is_triggered_only = yes
+	option = {
+		name = rus_stalin_white_revolt_events.19.a
+		hidden_effect = { country_event = rus_stalin_white_revolt_events.20 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.20
+	title = rus_stalin_white_revolt_events.19.t
+	desc = rus_stalin_white_revolt_events.20.d
+	picture = GFX_report_event_RUS_stalin
+	is_triggered_only = yes
+	option = {
+		name = rus_stalin_white_revolt_events.20.a
+		hidden_effect = { country_event = rus_stalin_white_revolt_events.21 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.21
+	title = rus_stalin_white_revolt_events.19.t
+	desc = rus_stalin_white_revolt_events.21.d
+	picture = GFX_report_event_RUS_stalin
+	is_triggered_only = yes
+	option = { name = rus_stalin_white_revolt_events.21.a }
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.22
+	title = rus_stalin_white_revolt_events.22.t
+	desc = rus_stalin_white_revolt_events.22.d
+	picture = GFX_report_event_RUS_army3
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = rus_stalin_white_revolt_events.22.a
+		add_popularity = { ideology = totalist popularity = 0.01 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.5
+	title = rus_stalin_white_revolt_events.5.t
+	desc = rus_stalin_white_revolt_events.5.d
+	picture = GFX_report_event_RUS_army3
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = {
+			event_target:RUS_white_revolt_counterattack_state = {
+				clr_state_flag = RUS_white_revolt_under_attack
+				if = {
+					limit = { has_state_flag = RUS_white_revolt_red_control }
+					clr_state_flag = RUS_white_revolt_red_control
+					if = {
+						limit = { OR = { state = 208 state = 216 state = 244 } }
+						ROOT = { subtract_from_variable = { RUS_white_revolt_petrograd_progress = 1 } }
+					}
+					else = { ROOT = { subtract_from_variable = { RUS_white_revolt_tsaritsyn_progress = 1 } } }
+				}
+			}
+			clr_country_flag = RUS_white_revolt_counterattack_active
+			country_event = { id = rus_stalin_white_revolt_events.4 days = 21 }
+		}
+	}
+	option = { name = rus_stalin_white_revolt_events.5.a }
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.6
+	title = rus_stalin_white_revolt_events.6.t
+	desc = rus_stalin_white_revolt_events.6.d
+	picture = GFX_report_event_RUS_crowd1
+	is_triggered_only = yes
+	option = {
+		name = rus_stalin_white_revolt_events.6.a
+		hidden_effect = {
+			if = { limit = { has_country_flag = RUS_white_revolt_tsaritsyn_won } country_event = rus_stalin_white_revolt_events.9 }
+		}
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.7
+	title = rus_stalin_white_revolt_events.7.t
+	desc = rus_stalin_white_revolt_events.7.d
+	picture = GFX_report_event_RUS_army_1
+	is_triggered_only = yes
+	option = {
+		name = rus_stalin_white_revolt_events.7.a
+		hidden_effect = {
+			if = { limit = { has_country_flag = RUS_white_revolt_petrograd_won } country_event = rus_stalin_white_revolt_events.9 }
+		}
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.8
+	title = rus_stalin_white_revolt_events.8.t
+	desc = rus_stalin_white_revolt_events.8.d
+	picture = GFX_report_event_RUS_denikin2
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = {
+			clr_country_flag = RUS_white_revolt_active
+			clr_country_flag = RUS_white_revolt_counterattack_active
+			clr_country_flag = RUS_white_revolt_petrograd_won
+			clr_country_flag = RUS_white_revolt_tsaritsyn_won
+			clear_variable = RUS_white_revolt_petrograd_progress
+			clear_variable = RUS_white_revolt_tsaritsyn_progress
+			clear_variable = RUS_white_revolt_petrograd_required
+			clear_variable = RUS_white_revolt_tsaritsyn_required
+			remove_mission = RUS_white_revolt_counterattack_mission
+			every_state = {
+				limit = { OR = { has_state_flag = RUS_white_revolt_red_control has_state_flag = RUS_white_revolt_under_attack } }
+				clr_state_flag = RUS_white_revolt_red_control
+				clr_state_flag = RUS_white_revolt_under_attack
+			}
+		}
+	}
+	option = {
+		name = rus_stalin_white_revolt_events.8.a
+		custom_effect_tooltip = RUS_white_revolt_failure_tt
+		hidden_effect = {
+			RUS_military_restore_republic = yes
+			clr_global_flag = RUS_socrus_happened
+		}
+	}
+}
+
+country_event = {
+	id = rus_stalin_white_revolt_events.9
+	title = rus_stalin_white_revolt_events.9.t
+	desc = rus_stalin_white_revolt_events.9.d
+	picture = GFX_report_event_RUS_crowd1
+	is_triggered_only = yes
+	trigger = { NOT = { has_country_flag = RUS_white_revolt_finished } }
+	immediate = {
+		hidden_effect = {
+			set_country_flag = RUS_white_revolt_finished
+			clr_country_flag = RUS_white_revolt_active
+			clr_country_flag = RUS_white_revolt_counterattack_active
+			clr_country_flag = RUS_white_revolt_petrograd_won
+			clr_country_flag = RUS_white_revolt_tsaritsyn_won
+			clear_variable = RUS_white_revolt_petrograd_progress
+			clear_variable = RUS_white_revolt_tsaritsyn_progress
+			clear_variable = RUS_white_revolt_petrograd_required
+			clear_variable = RUS_white_revolt_tsaritsyn_required
+			remove_mission = RUS_white_revolt_deadline
+			remove_mission = RUS_white_revolt_counterattack_mission
+			every_state = {
+				limit = { OR = { has_state_flag = RUS_white_revolt_red_control has_state_flag = RUS_white_revolt_under_attack } }
+				clr_state_flag = RUS_white_revolt_red_control
+				clr_state_flag = RUS_white_revolt_under_attack
+			}
+		}
+	}
+	option = {
+		name = rus_stalin_white_revolt_events.9.a
+		custom_effect_tooltip = RUS_white_revolt_victory_tt
+			hidden_effect = {
+				clear_variable = RUS_military_anger
+				random_other_country = { limit = { is_ai = yes } news_event = russia_news_events.8 }
+				RUS_initialise_socrus = yes
+				RUS_fpc_start = yes
+				RUS_maximalist_land_reform_add_initial_stage = yes
+			}
+	}
+}

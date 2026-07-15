@@ -1,0 +1,472 @@
+
+# checks whether the country in scope has the same government as ROOT (the country running the event/focus)
+has_same_government_as_ROOT = {
+	has_government = var:ROOT.current_party_ideology_group
+}
+
+# checks for country in scope: totalist, syndicalist, or radical socialist
+has_socialist_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_comma
+				ITEM = totalist
+				NEXT_ITEM = {
+					localization_key = tooltip_items_comma
+					ITEM = communist
+					NEXT_ITEM = {
+						localization_key = tooltip_items_or
+						ITEM = syndicalist
+						NEXT_ITEM = radical_socialist
+					}
+				}
+			}
+		}
+		has_country_flag = KR_is_socialist
+	}
+}
+# checks for country in scope: from social democrat to social conservative
+has_elected_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_comma
+				ITEM = social_democrat
+				NEXT_ITEM = {
+					localization_key = tooltip_items_comma
+					ITEM = social_liberal
+					NEXT_ITEM = {
+						localization_key = tooltip_items_or
+						ITEM = market_liberal
+						NEXT_ITEM = social_conservative
+					}
+				}
+			}
+		}
+		has_country_flag = KR_is_elected
+	}
+}
+
+# checks for country in scope: from social democrat to authoritarian democrat
+has_democratic_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_comma
+				ITEM = social_democrat
+				NEXT_ITEM = {
+					localization_key = tooltip_items_comma
+					ITEM = social_liberal
+					NEXT_ITEM = {
+						localization_key = tooltip_items_comma
+						ITEM = market_liberal
+						NEXT_ITEM = {
+							localization_key = tooltip_items_or
+							ITEM = social_conservative
+							NEXT_ITEM = authoritarian_democrat
+						}
+					}
+				}
+			}
+		}
+		has_country_flag = KR_is_democratic
+	}
+}
+
+# checks for country in scope: authoritarian democrat, paternal autocrat, or national populist
+has_authoritarian_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_comma
+				ITEM = authoritarian_democrat
+				NEXT_ITEM = {
+					localization_key = tooltip_items_or
+					ITEM = paternal_autocrat
+					NEXT_ITEM = national_populist
+				}
+			}
+		}
+		has_country_flag = KR_is_authoritarian
+	}
+}
+
+# checks for country in scope: authoritarian democrat or paternal autocrat
+has_authdem_or_pataut_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_or
+				ITEM = authoritarian_democrat
+				NEXT_ITEM = paternal_autocrat
+			}
+		}
+		has_country_flag = KR_is_authdem_pataut
+	}
+}
+
+# checks for country in scope: paternal autocrat or national populist
+has_dictatorship_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_or
+				ITEM = paternal_autocrat
+				NEXT_ITEM = national_populist
+			}
+		}
+		has_country_flag = KR_is_dictatorship
+	}
+}
+
+# checks for country in scope: market liberal or social conservative
+has_soccon_or_marlib_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_or
+				ITEM = market_liberal
+				NEXT_ITEM = social_conservative
+			}
+		}
+		has_country_flag = KR_is_soccon_marlib
+	}
+}
+
+# checks for country in scope: social liberal or market liberal
+has_marlib_or_soclib_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_or
+				ITEM = social_liberal
+				NEXT_ITEM = market_liberal
+			}
+		}
+		has_country_flag = KR_is_marlib_soclib
+	}
+}
+
+# checks for country in scope: social democrat or social liberal
+has_soclib_or_socdem_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_or
+				ITEM = social_democrat
+				NEXT_ITEM = social_liberal
+			}
+		}
+		has_country_flag = KR_is_soclib_socdem
+	}
+}
+
+# checks for country in scope: totalist, authoritarian democrat, paternal autocrat or national populist
+has_any_authoritarian_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_comma
+				ITEM = totalist
+				NEXT_ITEM = {
+					localization_key = tooltip_items_comma
+					ITEM = authoritarian_democrat
+					NEXT_ITEM = {
+						localization_key = tooltip_items_or
+						ITEM = paternal_autocrat
+						NEXT_ITEM = national_populist
+					}
+				}
+			}
+		}
+		has_country_flag = KR_is_any_authoritarian
+	}
+}
+
+# checks for country in scope: social democrat, social liberal or market liberal
+has_liberal_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_comma
+				ITEM = social_democrat
+				NEXT_ITEM = {
+					localization_key = tooltip_items_or
+					ITEM = social_liberal
+					NEXT_ITEM = market_liberal
+				}
+			}
+		}
+		has_country_flag = KR_is_liberal
+	}
+}
+
+# checks for country in scope: social conservative or authoritarian democrat
+has_conservative_government = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = tooltip_has_government
+			IDEOLOGY = {
+				localization_key = tooltip_items_or
+				ITEM = social_conservative
+				NEXT_ITEM = authoritarian_democrat
+			}
+		}
+		has_country_flag = KR_is_conservative
+	}
+}
+
+has_coalition = {
+	has_dynamic_modifier = { modifier = party_popularity_dynamic_modifier_coalition }
+}
+
+is_in_coalition_with_totalist = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 0
+		}
+		check_variable = { coalitions_array^0 = 2 }
+	}
+}
+
+is_in_coalition_with_communist = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 1
+		}
+		check_variable = { coalitions_array^1 = 2 }
+	}
+}
+
+is_in_coalition_with_syndicalist = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 2
+		}
+		check_variable = { coalitions_array^2 = 2 }
+	}
+}
+
+is_in_coalition_with_radical_socialist = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 3
+		}
+		check_variable = { coalitions_array^3 = 2 }
+	}
+}
+
+is_in_coalition_with_social_democrat = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 4
+		}
+		check_variable = { coalitions_array^4 = 2 }
+	}
+}
+
+is_in_coalition_with_social_liberal = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 5
+		}
+		check_variable = { coalitions_array^5 = 2 }
+	}
+}
+
+is_in_coalition_with_market_liberal = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 6
+		}
+		check_variable = { coalitions_array^6 = 2 }
+	}
+}
+
+is_in_coalition_with_social_conservative = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 7
+		}
+		check_variable = { coalitions_array^7 = 2 }
+	}
+}
+
+is_in_coalition_with_authoritarian_democrat = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 8
+		}
+		check_variable = { coalitions_array^8 = 2 }
+	}
+}
+
+is_in_coalition_with_paternal_autocrat = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 9
+		}
+		check_variable = { coalitions_array^9 = 2 }
+	}
+}
+
+is_in_coalition_with_national_populist = {
+	custom_override_tooltip = {
+		tooltip = {
+			localization_key = is_in_coalition_with
+			INDEX = 10
+		}
+		check_variable = { coalitions_array^10 = 2 }
+	}
+}
+
+is_part_of_government_totalist = {
+	OR = {
+		has_government = totalist
+		is_in_coalition_with_totalist = yes
+	}
+}
+
+is_part_of_government_communist = {
+	OR = {
+		has_government = communist
+		is_in_coalition_with_communist = yes
+	}
+}
+
+is_part_of_government_syndicalist = {
+	OR = {
+		has_government = syndicalist
+		is_in_coalition_with_syndicalist = yes
+	}
+}
+
+is_part_of_government_radical_socialist = {
+	OR = {
+		has_government = radical_socialist
+		is_in_coalition_with_radical_socialist = yes
+	}
+}
+
+is_part_of_government_social_democrat = {
+	OR = {
+		has_government = social_democrat
+		is_in_coalition_with_social_democrat = yes
+	}
+}
+
+is_part_of_government_social_liberal = {
+	OR = {
+		has_government = social_liberal
+		is_in_coalition_with_social_liberal = yes
+	}
+}
+
+is_part_of_government_market_liberal = {
+	OR = {
+		has_government = market_liberal
+		is_in_coalition_with_market_liberal = yes
+	}
+}
+
+is_part_of_government_social_conservative = {
+	OR = {
+		has_government = social_conservative
+		is_in_coalition_with_social_conservative = yes
+	}
+}
+
+is_part_of_government_authoritarian_democrat = {
+	OR = {
+		has_government = authoritarian_democrat
+		is_in_coalition_with_authoritarian_democrat = yes
+	}
+}
+
+is_part_of_government_paternal_autocrat = {
+	OR = {
+		has_government = paternal_autocrat
+		is_in_coalition_with_paternal_autocrat = yes
+	}
+}
+
+is_part_of_government_national_populist = {
+	OR = {
+		has_government = national_populist
+		is_in_coalition_with_national_populist = yes
+	}
+}
+# checks whether the country in scope has the same government type as ROOT (the country running the event/focus)
+# note that it's not the exact same government - just the general type, as above
+same_government_type_as_ROOT = {
+	OR = {
+		AND = {
+			has_socialist_government = yes
+			ROOT = { has_socialist_government = yes }
+		}
+		AND = {
+			has_democratic_government = yes
+			ROOT = { has_democratic_government = yes }
+		}
+		AND = {
+			has_dictatorship_government = yes
+			ROOT = { has_dictatorship_government = yes }
+		}
+	}
+}
+
+same_government_type_as_ROOT_authoritarian = {
+	OR = {
+		AND = {
+			has_socialist_government = yes
+			ROOT = { has_socialist_government = yes }
+		}
+		AND = {
+			has_elected_government = yes
+			ROOT = { has_elected_government = yes }
+		}
+		AND = {
+			has_authoritarian_government = yes
+			ROOT = { has_authoritarian_government = yes }
+		}
+	}
+}
+
+both_socialist_or_both_not_socialist = {
+	if = {
+		limit = { PREV = { has_socialist_government = yes } }
+		has_socialist_government = yes
+	}
+	else = {
+		has_socialist_government = no
+	}
+}
+
+is_monarchy = {
+	custom_override_tooltip = {
+		tooltip = is_monarchy
+		country_leader_is_monarchical = yes
+		has_socialist_government = no #nope, don't even bother
+	}
+}

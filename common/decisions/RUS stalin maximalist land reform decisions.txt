@@ -1,0 +1,367 @@
+RUS_maximalist_land_reform_category = {
+	RUS_maximalist_land_reform_mission = {
+		icon = GFX_decision_generic_agriculture
+		allowed = { always = no }
+		available = {
+			check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+		}
+		selectable_mission = no
+		is_good = yes
+		days_mission_timeout = 540
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_maximalist_land_reform_mission"
+			country_event = { id = rus_maximalist_land_reform_events.2 hours = 6 }
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_maximalist_land_reform_mission"
+			if = {
+				limit = { check_variable = { RUS_maximalist_land_reform_score > 99 } }
+				country_event = { id = rus_maximalist_land_reform_events.2 hours = 6 }
+			}
+			else = {
+				country_event = { id = rus_maximalist_land_reform_events.3 hours = 6 }
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_tractor_promise_mission = {
+		icon = GFX_decision_generic_trucks
+		allowed = { always = no }
+		visible = { has_country_flag = RUS_max_landreform_tractor_promise_active }
+		available = {
+			check_variable = { RUS_max_landreform_tractor_promise_count > 2 }
+		}
+		selectable_mission = no
+		is_good = yes
+		days_mission_timeout = 270
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_tractor_promise_mission"
+			country_event = { id = rus_maximalist_land_reform_events.15 hours = 6 }
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_max_landreform_tractor_promise_mission"
+			if = {
+				limit = { check_variable = { RUS_max_landreform_tractor_promise_count > 2 } }
+				country_event = { id = rus_maximalist_land_reform_events.15 hours = 6 }
+			}
+			else = {
+				custom_effect_tooltip = RUS_max_landreform_tractor_promise_timeout_tt
+				add_stability = -0.10
+				add_political_power = -45
+				clr_country_flag = RUS_max_landreform_tractor_promise_active
+				set_country_flag = RUS_max_landreform_tractor_promise_failed
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_agricultural_mechanisation = {
+		icon = GFX_decision_generic_motorized
+		fire_only_once = yes
+		cost = 35
+		days_remove = 45
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_agricultural_mechanisation"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_agricultural_mechanisation"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_agricultural_mechanisation"
+			set_country_flag = RUS_max_landreform_agricultural_mechanisation_done
+			RUS_maximalist_land_reform_finish_decision = yes
+			RUS_maximalist_land_reform_add_score_10 = yes
+			country_event = { id = rus_maximalist_land_reform_events.10 hours = 6 }
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_promote_tractors = {
+		icon = GFX_decision_generic_trucks
+		fire_only_once = no
+		days_re_enable = 7
+		cost = 20
+		days_remove = 35
+		visible = { has_country_flag = RUS_max_landreform_agricultural_mechanisation_done }
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_promote_tractors"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_promote_tractors"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_promote_tractors"
+			RUS_maximalist_land_reform_finish_decision = yes
+			if = {
+				limit = { NOT = { has_country_flag = RUS_max_landreform_promote_tractors_wait_seen } }
+				set_country_flag = RUS_max_landreform_promote_tractors_wait_seen
+				country_event = { id = rus_maximalist_land_reform_events.12 hours = 6 }
+			}
+			if = {
+				limit = {
+					has_country_flag = RUS_max_landreform_tractor_promise_active
+					NOT = { has_country_flag = RUS_max_landreform_tractor_promise_kept }
+					NOT = { has_country_flag = RUS_max_landreform_tractor_promise_failed }
+				}
+				add_to_variable = { RUS_max_landreform_tractor_promise_count = 1 }
+			}
+			RUS_maximalist_land_reform_add_score_5 = yes
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_to_the_countryside = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		fire_only_once = yes
+		cost = 35
+		days_remove = 45
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_to_the_countryside"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_to_the_countryside"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_to_the_countryside"
+			set_country_flag = RUS_max_landreform_to_the_countryside_done
+			RUS_maximalist_land_reform_finish_decision = yes
+			RUS_maximalist_land_reform_add_score_10 = yes
+			country_event = { id = rus_maximalist_land_reform_events.20 days = 30 }
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_literacy_campaign = {
+		icon = GFX_decision_generic_research
+		fire_only_once = no
+		days_re_enable = 7
+		cost = 20
+		days_remove = 35
+		visible = { has_country_flag = RUS_max_landreform_to_the_countryside_done }
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_literacy_campaign"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_literacy_campaign"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_literacy_campaign"
+			RUS_maximalist_land_reform_finish_decision = yes
+			RUS_maximalist_land_reform_add_score_5 = yes
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_livestock_reorganisation = {
+		icon = GFX_decision_generic_agriculture
+		fire_only_once = yes
+		cost = 35
+		days_remove = 45
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_livestock_reorganisation"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_livestock_reorganisation"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_livestock_reorganisation"
+			set_country_flag = RUS_max_landreform_livestock_reorganisation_done
+			RUS_maximalist_land_reform_finish_decision = yes
+			RUS_maximalist_land_reform_add_score_10 = yes
+			country_event = { id = rus_maximalist_land_reform_events.30 hours = 6 }
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_concentrate_herds = {
+		icon = GFX_decision_generic_agriculture
+		fire_only_once = no
+		days_re_enable = 7
+		cost = 20
+		days_remove = 35
+		visible = { has_country_flag = RUS_max_landreform_livestock_reorganisation_done }
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_concentrate_herds"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_concentrate_herds"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_concentrate_herds"
+			RUS_maximalist_land_reform_finish_decision = yes
+			RUS_maximalist_land_reform_add_score_5 = yes
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_model_kolkhoz_zone = {
+		icon = GFX_decision_generic_agriculture
+		fire_only_once = yes
+		cost = 35
+		days_remove = 45
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_model_kolkhoz_zone"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_model_kolkhoz_zone"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_model_kolkhoz_zone"
+			set_country_flag = RUS_max_landreform_model_kolkhoz_zone_done
+			RUS_maximalist_land_reform_finish_decision = yes
+			RUS_maximalist_land_reform_add_score_10 = yes
+			country_event = { id = rus_maximalist_land_reform_events.40 hours = 6 }
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+
+	RUS_max_landreform_call_for_collectivisation = {
+		icon = GFX_decision_generic_political_rally
+		fire_only_once = no
+		days_re_enable = 7
+		cost = 20
+		days_remove = 35
+		visible = { has_country_flag = RUS_max_landreform_model_kolkhoz_zone_done }
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_maximalist_land_reform_active_slot_tt
+				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
+			}
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
+				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_max_landreform_call_for_collectivisation"
+			RUS_maximalist_land_reform_start_decision = yes
+		}
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel RUS_max_landreform_call_for_collectivisation"
+			RUS_maximalist_land_reform_finish_decision = yes
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_max_landreform_call_for_collectivisation"
+			RUS_maximalist_land_reform_finish_decision = yes
+			RUS_maximalist_land_reform_add_score_5 = yes
+		}
+		ai_will_do = { base = 100 }
+		fixed_random_seed = no
+	}
+}

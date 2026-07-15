@@ -1,0 +1,155 @@
+add_namespace = rus_stalin_new_culture_events
+
+country_event = {
+	id = rus_stalin_new_culture_events.1
+	title = rus_stalin_new_culture_events.1.t
+	desc = rus_stalin_new_culture_events.1.desc
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.next
+		country_event = rus_stalin_new_culture_events.101
+	}
+}
+
+country_event = {
+	id = rus_stalin_new_culture_events.101
+	title = rus_stalin_new_culture_events.1.t
+	desc = rus_stalin_new_culture_events.1.desc_2
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.1.a
+		custom_effect_tooltip = rus_stalin_new_culture_events.1.a.tt
+		add_stability = -0.03
+		add_political_power = 30
+		country_event = { id = rus_stalin_new_culture_events.2 days = 7 }
+	}
+	option = {
+		name = rus_stalin_new_culture_events.1.b
+		custom_effect_tooltip = rus_stalin_new_culture_events.1.b.tt
+		add_stability = 0.03
+		add_political_power = -30
+		country_event = { id = rus_stalin_new_culture_events.2 days = 7 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_new_culture_events.2
+	title = rus_stalin_new_culture_events.2.t
+	desc = rus_stalin_new_culture_events.2.desc
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.next
+		country_event = rus_stalin_new_culture_events.201
+	}
+}
+
+country_event = {
+	id = rus_stalin_new_culture_events.201
+	title = rus_stalin_new_culture_events.2.t
+	desc = rus_stalin_new_culture_events.2.desc_2
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.2.a
+		custom_effect_tooltip = rus_stalin_new_culture_events.2.a.tt
+		RUS_education_reform_effect_new_culture_popularisation = yes
+		country_event = { id = rus_stalin_new_culture_events.3 days = 7 }
+	}
+	option = {
+		name = rus_stalin_new_culture_events.2.b
+		custom_effect_tooltip = rus_stalin_new_culture_events.2.b.tt
+		RUS_education_reform_effect_new_culture_elite_art = yes
+		country_event = { id = rus_stalin_new_culture_events.3 days = 7 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_new_culture_events.3
+	title = rus_stalin_new_culture_events.3.t
+	desc = rus_stalin_new_culture_events.3.desc
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.next
+		country_event = rus_stalin_new_culture_events.301
+	}
+}
+
+country_event = {
+	id = rus_stalin_new_culture_events.301
+	title = rus_stalin_new_culture_events.3.t
+	desc = rus_stalin_new_culture_events.3.desc_2
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.3.a
+		custom_effect_tooltip = rus_stalin_new_culture_events.3.a.tt
+		RUS_education_reform_effect_revolutionary_realism = yes
+		country_event = { id = rus_stalin_new_culture_events.4 days = 7 }
+	}
+	option = {
+		name = rus_stalin_new_culture_events.3.b
+		custom_effect_tooltip = rus_stalin_new_culture_events.3.b.tt
+		add_stability = -0.05
+		RUS_education_reform_effect_revolutionary_romanticism = yes
+		country_event = { id = rus_stalin_new_culture_events.4 days = 7 }
+	}
+}
+
+country_event = {
+	id = rus_stalin_new_culture_events.4
+	title = rus_stalin_new_culture_events.4.t
+	desc = rus_stalin_new_culture_events.4.desc
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.next
+		country_event = rus_stalin_new_culture_events.401
+	}
+}
+
+country_event = {
+	id = rus_stalin_new_culture_events.401
+	title = rus_stalin_new_culture_events.4.t
+	desc = rus_stalin_new_culture_events.4.desc_2
+	picture = GFX_report_event_RUS_comintern
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = rus_stalin_new_culture_events.4.a
+		custom_effect_tooltip = rus_stalin_new_culture_events.4.a.tt
+		add_popularity = {
+			ideology = syndicalist
+			popularity = 0.05
+		}
+		RUS_stalin_add_totalist_or_communist_popularity_005 = yes
+		RUS_increase_antisoc_resistance = yes
+	}
+	option = {
+		name = rus_stalin_new_culture_events.4.b
+		custom_effect_tooltip = rus_stalin_new_culture_events.4.b.tt
+		add_popularity = {
+			ideology = syndicalist
+			popularity = -0.05
+		}
+		RUS_decrease_antisoc_resistance = yes
+	}
+}

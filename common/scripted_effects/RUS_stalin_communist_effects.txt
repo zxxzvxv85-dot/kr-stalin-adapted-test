@@ -1,0 +1,2348 @@
+RUS_stalin_convert_totalist_support_to_communist = {
+	if = {
+		limit = { totalist > 0 }
+		set_temp_variable = { RUS_stalin_totalist_popularity = party_popularity@totalist }
+		add_popularity = {
+			ideology = communist
+			popularity = RUS_stalin_totalist_popularity
+		}
+		multiply_temp_variable = { RUS_stalin_totalist_popularity = -1 }
+		add_popularity = {
+			ideology = totalist
+			popularity = RUS_stalin_totalist_popularity
+		}
+	}
+}
+
+RUS_stalin_set_country_radical_socialist_for_subject_release = {
+	set_politics = {
+		ruling_party = radical_socialist
+		elections_allowed = no
+	}
+	set_political_party = {
+		ideology = radical_socialist
+		popularity = 55
+	}
+	set_government_flags = yes
+}
+
+RUS_stalin_set_subject_radical_socialist_if_communist_path = {
+	if = {
+		limit = {
+			RUS = {
+				OR = {
+					has_country_flag = RUS_stalin_communist_path
+					has_government = communist
+				}
+			}
+		}
+		RUS_stalin_set_country_radical_socialist_for_subject_release = yes
+	}
+}
+
+RUS_stalin_set_released_country_radical_socialist_if_from_communist_russia = {
+	if = {
+		limit = {
+			NOT = { tag = RUS }
+			FROM = {
+				original_tag = RUS
+				OR = {
+					has_country_flag = RUS_stalin_communist_path
+					has_government = communist
+				}
+			}
+		}
+		RUS_stalin_set_country_radical_socialist_for_subject_release = yes
+		country_event = { id = stalin_form_sov.20 hours = 1 }
+	}
+}
+
+RUS_stalin_reapply_leader_focus_traits = {
+	if = {
+		limit = {
+			has_country_leader = { character = RUS_iosif_stalin }
+			RUS_iosif_stalin = {
+				NOT = {
+					OR = {
+						has_trait = KR_bolshevik_stalin
+						has_trait = KR_bolshevik_stalin_bop
+					}
+				}
+			}
+		}
+		if = {
+			limit = { has_power_balance = { id = RUS_kamenev_power_balance } }
+			RUS_iosif_stalin = {
+				add_trait = {
+					trait = KR_bolshevik_stalin_bop
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+		else = {
+			RUS_iosif_stalin = {
+				add_trait = {
+					trait = KR_bolshevik_stalin
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			has_country_leader = { character = RUS_iosif_stalin }
+			has_completed_focus = RUS_hearts_of_iron
+		}
+		if = {
+			limit = {
+				has_completed_focus = RUS_stay_strong
+				RUS_iosif_stalin = { NOT = { has_trait = RUS_stalin_hearts_of_iron_2 } }
+			}
+			RUS_iosif_stalin = {
+				if = {
+					limit = { has_trait = RUS_stalin_hearts_of_iron }
+					remove_trait = {
+						trait = RUS_stalin_hearts_of_iron
+						ideology = marxism_leninism_subtype
+					}
+				}
+				add_trait = {
+					trait = RUS_stalin_hearts_of_iron_2
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				RUS_iosif_stalin = {
+					NOT = { has_trait = RUS_stalin_hearts_of_iron }
+					NOT = { has_trait = RUS_stalin_hearts_of_iron_2 }
+				}
+			}
+			RUS_iosif_stalin = {
+				add_trait = {
+					trait = RUS_stalin_hearts_of_iron
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			has_country_leader = { character = RUS_iosif_stalin }
+			has_completed_focus = RUS_a_compromise_choice
+		}
+		if = {
+			limit = {
+				has_completed_focus = RUS_stay_strong
+				RUS_iosif_stalin = { NOT = { has_trait = RUS_stalin_compromise_choice_2 } }
+			}
+			RUS_iosif_stalin = {
+				if = {
+					limit = { has_trait = RUS_stalin_compromise_choice }
+					remove_trait = {
+						trait = RUS_stalin_compromise_choice
+						ideology = marxism_leninism_subtype
+					}
+				}
+				add_trait = {
+					trait = RUS_stalin_compromise_choice_2
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				RUS_iosif_stalin = {
+					NOT = { has_trait = RUS_stalin_compromise_choice }
+					NOT = { has_trait = RUS_stalin_compromise_choice_2 }
+				}
+			}
+			RUS_iosif_stalin = {
+				add_trait = {
+					trait = RUS_stalin_compromise_choice
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			has_country_leader = { character = RUS_iosif_stalin }
+			has_completed_focus = RUS_political_figurehead
+		}
+		if = {
+			limit = {
+				has_completed_focus = RUS_stay_strong
+				RUS_iosif_stalin = { NOT = { has_trait = RUS_stalin_political_figurehead_2 } }
+			}
+			RUS_iosif_stalin = {
+				if = {
+					limit = { has_trait = RUS_stalin_political_figurehead }
+					remove_trait = {
+						trait = RUS_stalin_political_figurehead
+						ideology = marxism_leninism_subtype
+					}
+				}
+				add_trait = {
+					trait = RUS_stalin_political_figurehead_2
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				RUS_iosif_stalin = {
+					NOT = { has_trait = RUS_stalin_political_figurehead }
+					NOT = { has_trait = RUS_stalin_political_figurehead_2 }
+				}
+			}
+			RUS_iosif_stalin = {
+				add_trait = {
+					trait = RUS_stalin_political_figurehead
+					ideology = marxism_leninism_subtype
+				}
+			}
+		}
+	}
+}
+
+RUS_stalin_remove_all_frunze_doctrine_ideas = {
+	remove_ideas = {
+		RUS_frunze_doctrine_1
+		RUS_frunze_doctrine_2
+		RUS_frunze_doctrine_3
+		RUS_frunze_doctrine_4
+		RUS_frunze_doctrine_stalin_1_00
+		RUS_frunze_doctrine_stalin_1_00_commissars
+		RUS_frunze_doctrine_stalin_1_01
+		RUS_frunze_doctrine_stalin_1_01_commissars
+		RUS_frunze_doctrine_stalin_1_02
+		RUS_frunze_doctrine_stalin_1_02_commissars
+		RUS_frunze_doctrine_stalin_1_03
+		RUS_frunze_doctrine_stalin_1_03_commissars
+		RUS_frunze_doctrine_stalin_1_04
+		RUS_frunze_doctrine_stalin_1_04_commissars
+		RUS_frunze_doctrine_stalin_1_05
+		RUS_frunze_doctrine_stalin_1_05_commissars
+		RUS_frunze_doctrine_stalin_1_06
+		RUS_frunze_doctrine_stalin_1_06_commissars
+		RUS_frunze_doctrine_stalin_1_07
+		RUS_frunze_doctrine_stalin_1_07_commissars
+		RUS_frunze_doctrine_stalin_1_08
+		RUS_frunze_doctrine_stalin_1_08_commissars
+		RUS_frunze_doctrine_stalin_1_09
+		RUS_frunze_doctrine_stalin_1_09_commissars
+		RUS_frunze_doctrine_stalin_1_10
+		RUS_frunze_doctrine_stalin_1_10_commissars
+		RUS_frunze_doctrine_stalin_1_11
+		RUS_frunze_doctrine_stalin_1_11_commissars
+		RUS_frunze_doctrine_stalin_1_12
+		RUS_frunze_doctrine_stalin_1_12_commissars
+		RUS_frunze_doctrine_stalin_1_13
+		RUS_frunze_doctrine_stalin_1_13_commissars
+		RUS_frunze_doctrine_stalin_1_14
+		RUS_frunze_doctrine_stalin_1_14_commissars
+		RUS_frunze_doctrine_stalin_1_15
+		RUS_frunze_doctrine_stalin_1_15_commissars
+		RUS_frunze_doctrine_stalin_1_16
+		RUS_frunze_doctrine_stalin_1_16_commissars
+		RUS_frunze_doctrine_stalin_1_17
+		RUS_frunze_doctrine_stalin_1_17_commissars
+		RUS_frunze_doctrine_stalin_1_18
+		RUS_frunze_doctrine_stalin_1_18_commissars
+		RUS_frunze_doctrine_stalin_1_19
+		RUS_frunze_doctrine_stalin_1_19_commissars
+		RUS_frunze_doctrine_stalin_1_20
+		RUS_frunze_doctrine_stalin_1_20_commissars
+		RUS_frunze_doctrine_stalin_1_21
+		RUS_frunze_doctrine_stalin_1_21_commissars
+		RUS_frunze_doctrine_stalin_1_22
+		RUS_frunze_doctrine_stalin_1_22_commissars
+		RUS_frunze_doctrine_stalin_1_23
+		RUS_frunze_doctrine_stalin_1_23_commissars
+		RUS_frunze_doctrine_stalin_1_24
+		RUS_frunze_doctrine_stalin_1_24_commissars
+		RUS_frunze_doctrine_stalin_1_25
+		RUS_frunze_doctrine_stalin_1_25_commissars
+		RUS_frunze_doctrine_stalin_1_26
+		RUS_frunze_doctrine_stalin_1_26_commissars
+		RUS_frunze_doctrine_stalin_1_27
+		RUS_frunze_doctrine_stalin_1_27_commissars
+		RUS_frunze_doctrine_stalin_1_28
+		RUS_frunze_doctrine_stalin_1_28_commissars
+		RUS_frunze_doctrine_stalin_1_29
+		RUS_frunze_doctrine_stalin_1_29_commissars
+		RUS_frunze_doctrine_stalin_1_30
+		RUS_frunze_doctrine_stalin_1_30_commissars
+		RUS_frunze_doctrine_stalin_1_31
+		RUS_frunze_doctrine_stalin_1_31_commissars
+		RUS_frunze_doctrine_stalin_1_32
+		RUS_frunze_doctrine_stalin_1_32_commissars
+		RUS_frunze_doctrine_stalin_2_00
+		RUS_frunze_doctrine_stalin_2_00_commissars
+		RUS_frunze_doctrine_stalin_2_01
+		RUS_frunze_doctrine_stalin_2_01_commissars
+		RUS_frunze_doctrine_stalin_2_02
+		RUS_frunze_doctrine_stalin_2_02_commissars
+		RUS_frunze_doctrine_stalin_2_03
+		RUS_frunze_doctrine_stalin_2_03_commissars
+		RUS_frunze_doctrine_stalin_2_04
+		RUS_frunze_doctrine_stalin_2_04_commissars
+		RUS_frunze_doctrine_stalin_2_05
+		RUS_frunze_doctrine_stalin_2_05_commissars
+		RUS_frunze_doctrine_stalin_2_06
+		RUS_frunze_doctrine_stalin_2_06_commissars
+		RUS_frunze_doctrine_stalin_2_07
+		RUS_frunze_doctrine_stalin_2_07_commissars
+		RUS_frunze_doctrine_stalin_2_08
+		RUS_frunze_doctrine_stalin_2_08_commissars
+		RUS_frunze_doctrine_stalin_2_09
+		RUS_frunze_doctrine_stalin_2_09_commissars
+		RUS_frunze_doctrine_stalin_2_10
+		RUS_frunze_doctrine_stalin_2_10_commissars
+		RUS_frunze_doctrine_stalin_2_11
+		RUS_frunze_doctrine_stalin_2_11_commissars
+		RUS_frunze_doctrine_stalin_2_12
+		RUS_frunze_doctrine_stalin_2_12_commissars
+		RUS_frunze_doctrine_stalin_2_13
+		RUS_frunze_doctrine_stalin_2_13_commissars
+		RUS_frunze_doctrine_stalin_2_14
+		RUS_frunze_doctrine_stalin_2_14_commissars
+		RUS_frunze_doctrine_stalin_2_15
+		RUS_frunze_doctrine_stalin_2_15_commissars
+		RUS_frunze_doctrine_stalin_2_16
+		RUS_frunze_doctrine_stalin_2_16_commissars
+		RUS_frunze_doctrine_stalin_2_17
+		RUS_frunze_doctrine_stalin_2_17_commissars
+		RUS_frunze_doctrine_stalin_2_18
+		RUS_frunze_doctrine_stalin_2_18_commissars
+		RUS_frunze_doctrine_stalin_2_19
+		RUS_frunze_doctrine_stalin_2_19_commissars
+		RUS_frunze_doctrine_stalin_2_20
+		RUS_frunze_doctrine_stalin_2_20_commissars
+		RUS_frunze_doctrine_stalin_2_21
+		RUS_frunze_doctrine_stalin_2_21_commissars
+		RUS_frunze_doctrine_stalin_2_22
+		RUS_frunze_doctrine_stalin_2_22_commissars
+		RUS_frunze_doctrine_stalin_2_23
+		RUS_frunze_doctrine_stalin_2_23_commissars
+		RUS_frunze_doctrine_stalin_2_24
+		RUS_frunze_doctrine_stalin_2_24_commissars
+		RUS_frunze_doctrine_stalin_2_25
+		RUS_frunze_doctrine_stalin_2_25_commissars
+		RUS_frunze_doctrine_stalin_2_26
+		RUS_frunze_doctrine_stalin_2_26_commissars
+		RUS_frunze_doctrine_stalin_2_27
+		RUS_frunze_doctrine_stalin_2_27_commissars
+		RUS_frunze_doctrine_stalin_2_28
+		RUS_frunze_doctrine_stalin_2_28_commissars
+		RUS_frunze_doctrine_stalin_2_29
+		RUS_frunze_doctrine_stalin_2_29_commissars
+		RUS_frunze_doctrine_stalin_2_30
+		RUS_frunze_doctrine_stalin_2_30_commissars
+		RUS_frunze_doctrine_stalin_2_31
+		RUS_frunze_doctrine_stalin_2_31_commissars
+		RUS_frunze_doctrine_stalin_2_32
+		RUS_frunze_doctrine_stalin_2_32_commissars
+		RUS_frunze_doctrine_stalin_3_00
+		RUS_frunze_doctrine_stalin_3_00_commissars
+		RUS_frunze_doctrine_stalin_3_01
+		RUS_frunze_doctrine_stalin_3_01_commissars
+		RUS_frunze_doctrine_stalin_3_02
+		RUS_frunze_doctrine_stalin_3_02_commissars
+		RUS_frunze_doctrine_stalin_3_03
+		RUS_frunze_doctrine_stalin_3_03_commissars
+		RUS_frunze_doctrine_stalin_3_04
+		RUS_frunze_doctrine_stalin_3_04_commissars
+		RUS_frunze_doctrine_stalin_3_05
+		RUS_frunze_doctrine_stalin_3_05_commissars
+		RUS_frunze_doctrine_stalin_3_06
+		RUS_frunze_doctrine_stalin_3_06_commissars
+		RUS_frunze_doctrine_stalin_3_07
+		RUS_frunze_doctrine_stalin_3_07_commissars
+		RUS_frunze_doctrine_stalin_3_08
+		RUS_frunze_doctrine_stalin_3_08_commissars
+		RUS_frunze_doctrine_stalin_3_09
+		RUS_frunze_doctrine_stalin_3_09_commissars
+		RUS_frunze_doctrine_stalin_3_10
+		RUS_frunze_doctrine_stalin_3_10_commissars
+		RUS_frunze_doctrine_stalin_3_11
+		RUS_frunze_doctrine_stalin_3_11_commissars
+		RUS_frunze_doctrine_stalin_3_12
+		RUS_frunze_doctrine_stalin_3_12_commissars
+		RUS_frunze_doctrine_stalin_3_13
+		RUS_frunze_doctrine_stalin_3_13_commissars
+		RUS_frunze_doctrine_stalin_3_14
+		RUS_frunze_doctrine_stalin_3_14_commissars
+		RUS_frunze_doctrine_stalin_3_15
+		RUS_frunze_doctrine_stalin_3_15_commissars
+		RUS_frunze_doctrine_stalin_3_16
+		RUS_frunze_doctrine_stalin_3_16_commissars
+		RUS_frunze_doctrine_stalin_3_17
+		RUS_frunze_doctrine_stalin_3_17_commissars
+		RUS_frunze_doctrine_stalin_3_18
+		RUS_frunze_doctrine_stalin_3_18_commissars
+		RUS_frunze_doctrine_stalin_3_19
+		RUS_frunze_doctrine_stalin_3_19_commissars
+		RUS_frunze_doctrine_stalin_3_20
+		RUS_frunze_doctrine_stalin_3_20_commissars
+		RUS_frunze_doctrine_stalin_3_21
+		RUS_frunze_doctrine_stalin_3_21_commissars
+		RUS_frunze_doctrine_stalin_3_22
+		RUS_frunze_doctrine_stalin_3_22_commissars
+		RUS_frunze_doctrine_stalin_3_23
+		RUS_frunze_doctrine_stalin_3_23_commissars
+		RUS_frunze_doctrine_stalin_3_24
+		RUS_frunze_doctrine_stalin_3_24_commissars
+		RUS_frunze_doctrine_stalin_3_25
+		RUS_frunze_doctrine_stalin_3_25_commissars
+		RUS_frunze_doctrine_stalin_3_26
+		RUS_frunze_doctrine_stalin_3_26_commissars
+		RUS_frunze_doctrine_stalin_3_27
+		RUS_frunze_doctrine_stalin_3_27_commissars
+		RUS_frunze_doctrine_stalin_3_28
+		RUS_frunze_doctrine_stalin_3_28_commissars
+		RUS_frunze_doctrine_stalin_3_29
+		RUS_frunze_doctrine_stalin_3_29_commissars
+		RUS_frunze_doctrine_stalin_3_30
+		RUS_frunze_doctrine_stalin_3_30_commissars
+		RUS_frunze_doctrine_stalin_3_31
+		RUS_frunze_doctrine_stalin_3_31_commissars
+		RUS_frunze_doctrine_stalin_3_32
+		RUS_frunze_doctrine_stalin_3_32_commissars
+		RUS_frunze_doctrine_stalin_4_00
+		RUS_frunze_doctrine_stalin_4_00_commissars
+		RUS_frunze_doctrine_stalin_4_01
+		RUS_frunze_doctrine_stalin_4_01_commissars
+		RUS_frunze_doctrine_stalin_4_02
+		RUS_frunze_doctrine_stalin_4_02_commissars
+		RUS_frunze_doctrine_stalin_4_03
+		RUS_frunze_doctrine_stalin_4_03_commissars
+		RUS_frunze_doctrine_stalin_4_04
+		RUS_frunze_doctrine_stalin_4_04_commissars
+		RUS_frunze_doctrine_stalin_4_05
+		RUS_frunze_doctrine_stalin_4_05_commissars
+		RUS_frunze_doctrine_stalin_4_06
+		RUS_frunze_doctrine_stalin_4_06_commissars
+		RUS_frunze_doctrine_stalin_4_07
+		RUS_frunze_doctrine_stalin_4_07_commissars
+		RUS_frunze_doctrine_stalin_4_08
+		RUS_frunze_doctrine_stalin_4_08_commissars
+		RUS_frunze_doctrine_stalin_4_09
+		RUS_frunze_doctrine_stalin_4_09_commissars
+		RUS_frunze_doctrine_stalin_4_10
+		RUS_frunze_doctrine_stalin_4_10_commissars
+		RUS_frunze_doctrine_stalin_4_11
+		RUS_frunze_doctrine_stalin_4_11_commissars
+		RUS_frunze_doctrine_stalin_4_12
+		RUS_frunze_doctrine_stalin_4_12_commissars
+		RUS_frunze_doctrine_stalin_4_13
+		RUS_frunze_doctrine_stalin_4_13_commissars
+		RUS_frunze_doctrine_stalin_4_14
+		RUS_frunze_doctrine_stalin_4_14_commissars
+		RUS_frunze_doctrine_stalin_4_15
+		RUS_frunze_doctrine_stalin_4_15_commissars
+		RUS_frunze_doctrine_stalin_4_16
+		RUS_frunze_doctrine_stalin_4_16_commissars
+		RUS_frunze_doctrine_stalin_4_17
+		RUS_frunze_doctrine_stalin_4_17_commissars
+		RUS_frunze_doctrine_stalin_4_18
+		RUS_frunze_doctrine_stalin_4_18_commissars
+		RUS_frunze_doctrine_stalin_4_19
+		RUS_frunze_doctrine_stalin_4_19_commissars
+		RUS_frunze_doctrine_stalin_4_20
+		RUS_frunze_doctrine_stalin_4_20_commissars
+		RUS_frunze_doctrine_stalin_4_21
+		RUS_frunze_doctrine_stalin_4_21_commissars
+		RUS_frunze_doctrine_stalin_4_22
+		RUS_frunze_doctrine_stalin_4_22_commissars
+		RUS_frunze_doctrine_stalin_4_23
+		RUS_frunze_doctrine_stalin_4_23_commissars
+		RUS_frunze_doctrine_stalin_4_24
+		RUS_frunze_doctrine_stalin_4_24_commissars
+		RUS_frunze_doctrine_stalin_4_25
+		RUS_frunze_doctrine_stalin_4_25_commissars
+		RUS_frunze_doctrine_stalin_4_26
+		RUS_frunze_doctrine_stalin_4_26_commissars
+		RUS_frunze_doctrine_stalin_4_27
+		RUS_frunze_doctrine_stalin_4_27_commissars
+		RUS_frunze_doctrine_stalin_4_28
+		RUS_frunze_doctrine_stalin_4_28_commissars
+		RUS_frunze_doctrine_stalin_4_29
+		RUS_frunze_doctrine_stalin_4_29_commissars
+		RUS_frunze_doctrine_stalin_4_30
+		RUS_frunze_doctrine_stalin_4_30_commissars
+		RUS_frunze_doctrine_stalin_4_31
+		RUS_frunze_doctrine_stalin_4_31_commissars
+		RUS_frunze_doctrine_stalin_4_32
+		RUS_frunze_doctrine_stalin_4_32_commissars
+	}
+}
+
+RUS_stalin_recalculate_red_army_dynamic_modifier = {
+	if = {
+		limit = { has_dynamic_modifier = { modifier = RUS_stalin_red_army_dynamic_modifier } }
+		remove_dynamic_modifier = { modifier = RUS_stalin_red_army_dynamic_modifier }
+	}
+
+	set_variable = { RUS_stalin_red_army_terrain_focus_count = 0 }
+
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		if = { limit = { has_completed_focus = RUS_address_the_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_improve_savinkov_line } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_military_production } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_update_equipment } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_roads_of_courage } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_NPP_tanks } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_artillery_production } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_motorisation } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_expand_ird } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_academy_of_black_epaulettes } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_legacy_of_workers_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_heirs_of_stavka } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_death_to_white_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_commissars } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_military_independence } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_democratic_guard } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_basis_of_victory } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_sword_of_revolution } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_praporshchiks_generation } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_with_small_blood } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_glory_of_the_people_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_deep_battle_focus } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_technological_supremacy } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_desperate_measures } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_rehabilitate_red_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_end_army_factionalism } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_military_marxism } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_punitive_brigades } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_exhortation_organisation_reprisals } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_general_winter } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { has_completed_focus = RUS_maskirovka } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		clamp_variable = {
+			var = RUS_stalin_red_army_terrain_focus_count
+			min = 0
+			max = 32
+		}
+	}
+
+	if = {
+		limit = {
+			has_country_flag = RUS_stalin_communist_path
+			has_completed_focus = RUS_legacy_of_workers_army
+		}
+		RUS_stalin_remove_all_frunze_doctrine_ideas = yes
+		if = {
+			limit = {
+				OR = {
+					has_completed_focus = RUS_sword_of_revolution
+					has_country_flag = RUS_stalin_frunze_stage_4
+				}
+			}
+			if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 0 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_00_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_00 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_01_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_01 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 2 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_02_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_02 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 3 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_03_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_03 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 4 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_04_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_04 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 5 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_05_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_05 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 6 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_06_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_06 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 7 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_07_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_07 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 8 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_08_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_08 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 9 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_09_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_09 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 10 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_10_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_10 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 11 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_11_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_11 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 12 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_12_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_12 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 13 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_13_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_13 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 14 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_14_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_14 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 15 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_15_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_15 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 16 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_16_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_16 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 17 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_17_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_17 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 18 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_18_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_18 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 19 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_19_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_19 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 20 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_20_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_20 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 21 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_21_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_21 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 22 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_22_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_22 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 23 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_23_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_23 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 24 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_24_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_24 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 25 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_25_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_25 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 26 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_26_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_26 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 27 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_27_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_27 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 28 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_28_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_28 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 29 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_29_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_29 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 30 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_30_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_30 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 31 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_31_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_31 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 32 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_4_32_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_4_32 }
+			}
+			else = { add_ideas = RUS_frunze_doctrine_stalin_4_32 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_completed_focus = RUS_basis_of_victory
+					has_country_flag = RUS_stalin_frunze_stage_3
+				}
+			}
+			if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 0 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_00_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_00 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_01_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_01 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 2 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_02_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_02 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 3 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_03_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_03 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 4 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_04_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_04 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 5 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_05_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_05 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 6 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_06_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_06 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 7 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_07_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_07 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 8 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_08_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_08 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 9 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_09_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_09 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 10 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_10_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_10 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 11 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_11_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_11 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 12 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_12_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_12 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 13 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_13_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_13 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 14 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_14_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_14 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 15 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_15_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_15 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 16 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_16_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_16 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 17 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_17_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_17 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 18 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_18_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_18 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 19 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_19_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_19 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 20 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_20_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_20 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 21 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_21_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_21 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 22 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_22_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_22 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 23 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_23_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_23 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 24 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_24_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_24 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 25 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_25_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_25 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 26 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_26_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_26 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 27 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_27_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_27 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 28 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_28_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_28 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 29 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_29_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_29 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 30 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_30_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_30 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 31 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_31_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_31 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 32 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_3_32_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_3_32 }
+			}
+			else = { add_ideas = RUS_frunze_doctrine_stalin_3_32 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_completed_focus = RUS_democratic_guard
+					has_country_flag = RUS_stalin_frunze_stage_2
+				}
+			}
+			if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 0 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_00_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_00 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_01_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_01 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 2 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_02_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_02 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 3 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_03_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_03 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 4 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_04_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_04 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 5 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_05_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_05 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 6 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_06_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_06 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 7 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_07_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_07 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 8 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_08_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_08 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 9 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_09_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_09 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 10 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_10_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_10 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 11 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_11_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_11 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 12 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_12_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_12 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 13 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_13_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_13 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 14 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_14_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_14 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 15 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_15_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_15 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 16 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_16_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_16 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 17 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_17_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_17 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 18 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_18_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_18 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 19 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_19_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_19 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 20 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_20_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_20 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 21 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_21_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_21 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 22 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_22_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_22 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 23 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_23_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_23 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 24 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_24_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_24 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 25 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_25_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_25 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 26 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_26_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_26 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 27 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_27_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_27 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 28 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_28_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_28 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 29 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_29_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_29 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 30 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_30_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_30 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 31 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_31_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_31 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 32 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_2_32_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_2_32 }
+			}
+			else = { add_ideas = RUS_frunze_doctrine_stalin_2_32 }
+		}
+		else = {
+			if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 0 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_00_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_00 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_01_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_01 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 2 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_02_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_02 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 3 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_03_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_03 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 4 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_04_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_04 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 5 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_05_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_05 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 6 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_06_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_06 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 7 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_07_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_07 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 8 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_08_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_08 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 9 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_09_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_09 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 10 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_10_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_10 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 11 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_11_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_11 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 12 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_12_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_12 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 13 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_13_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_13 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 14 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_14_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_14 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 15 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_15_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_15 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 16 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_16_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_16 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 17 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_17_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_17 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 18 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_18_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_18 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 19 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_19_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_19 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 20 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_20_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_20 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 21 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_21_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_21 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 22 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_22_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_22 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 23 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_23_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_23 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 24 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_24_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_24 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 25 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_25_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_25 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 26 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_26_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_26 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 27 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_27_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_27 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 28 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_28_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_28 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 29 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_29_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_29 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 30 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_30_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_30 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 31 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_31_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_31 }
+			}
+			else_if = {
+				limit = { check_variable = { RUS_stalin_red_army_terrain_focus_count = 32 } }
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = RUS_stalin_red_army_commissars
+							has_completed_focus = RUS_commissars
+						}
+					}
+					add_ideas = RUS_frunze_doctrine_stalin_1_32_commissars
+				}
+				else = { add_ideas = RUS_frunze_doctrine_stalin_1_32 }
+			}
+			else = { add_ideas = RUS_frunze_doctrine_stalin_1_32 }
+		}
+	}
+}
+RUS_stalin_add_totalist_or_communist_popularity_001 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.01 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.01 } }
+}
+
+RUS_stalin_add_totalist_or_communist_popularity_002 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.02 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.02 } }
+}
+
+RUS_stalin_add_totalist_or_communist_popularity_0025 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.025 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.025 } }
+}
+
+RUS_stalin_add_totalist_or_communist_popularity_003 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.03 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.03 } }
+}
+
+RUS_stalin_add_totalist_or_communist_popularity_004 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.04 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.04 } }
+}
+
+RUS_stalin_add_totalist_or_communist_popularity_005 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.05 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.05 } }
+}
+
+RUS_stalin_add_totalist_or_communist_popularity_0075 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.075 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.075 } }
+}
+
+RUS_stalin_add_totalist_or_communist_popularity_010 = {
+	if = {
+		limit = { has_country_flag = RUS_stalin_communist_path }
+		add_popularity = { ideology = communist popularity = 0.1 }
+	}
+	else = { add_popularity = { ideology = totalist popularity = 0.1 } }
+}

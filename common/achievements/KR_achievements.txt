@@ -1,0 +1,5244 @@
+unique_id = kr_achievements
+
+### Any achievement ID starting with 0 denotes a global achievement. They are tagged as such so that they appear first in the order. All other achievements are named after their respective tags.
+### Do NOT edit the ID of achievements that made it to a public release. This effectively creates a brand new achievement entry that the player must earn again.
+### The is_ai check is to lock achievement when in observer mode.
+### The on_startup_completed check is to make them show in the menu.
+
+000_legacy_of_the_weltkrieg_achievement = {
+	possible = {
+		custom_override_tooltip = {
+			tooltip = achievement_available_as_any_tag_tooltip
+			always = yes
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			has_global_flag = second_weltkrieg_has_ended
+			has_war = no
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+00_fantastic_day_for_capitalism_achievement = {
+	possible = {
+		custom_override_tooltip = {
+			tooltip = fantastic_day_for_capitalism_disallowed_condition
+			NOT = { has_country_flag = fantastic_day_for_capitalism_disallowed_tag }
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = fantastic_day_for_capitalism_achievement_tooltip
+				OR = {
+					LEC_is_legation_council_member = yes
+					has_country_flag = PAL_convention_member
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+00_gatekeeper_achievement = {
+	possible = {
+		custom_override_tooltip = {
+			tooltip = achievement_available_as_any_tag_tooltip
+			always = yes
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = achievement_gatekeeper_tooltip
+				685 = { is_owned_by = ROOT } # Panama Canal
+				336 = { is_owned_by = ROOT } # Singapore
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+00_home_by_christmas_achievement = {
+	possible = {
+		custom_override_tooltip = {
+			tooltip = achievement_available_as_any_tag_tooltip
+			always = yes
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			custom_override_tooltip = {
+				tooltip = achievement_home_by_christmas_tooltip
+				has_global_flag = { flag = weltkrieg_home_by_christmas_achievement_timer value > 0 }
+			}
+			OR = { # Reichspakt, Moscow Accord, or Internationale
+				is_in_faction_with = GER
+				is_in_faction_with = RUS
+				is_in_faction_with = INT
+			}
+			has_global_flag = second_weltkrieg_has_ended
+			has_war_with_major = no
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+00_no_worker_has_ever_heard_of_syndicalism_achievement = {
+	possible = {
+		custom_override_tooltip = {
+			tooltip = achievement_available_as_any_tag_tooltip
+			always = yes
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_government = syndicalist
+			syndicalist > 0.90
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ARG_reconquest_of_the_desert_achievement = {
+	possible = {
+		tag = ARG
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			owns_state = 512 # Chubut
+			owns_state = 1029 # Santa Cruz
+			OR = {
+				CHL = { has_socialist_government = no }
+				NOT = { country_exists = CHL }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+AUS_bismarcks_nightmare_achievement = {
+	possible = {
+		tag = AUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = bismarcks_nightmare_achievement_tooltip
+				has_cosmetic_tag = AUS_germany
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+AUS_held_together_by_super_glue_and_love_achievement = {
+	possible = {
+		tag = AUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = AUS_military_occupation
+			custom_override_tooltip = {
+				tooltip = held_together_by_super_glue_achievement_tooltip
+				HUN = { all_core_state = { is_owned_by = AUS } }
+				CZE = { all_core_state = { is_owned_by = AUS } }
+				CRO = { all_core_state = { is_owned_by = AUS } }
+				GAL = { all_core_state = { is_owned_by = AUS } }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+AUS_indivisibiliter_ac_inseparabiliter_achievement = {
+	possible = {
+		tag = AUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = indivisibiliter_ac_inseparabiliter_achievement_tooltip
+				107 = { is_owned_by_ROOT_or_ally = yes } # Belgrade
+				46 = { is_owned_by_ROOT_or_ally = yes } # Muntenia
+			}
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+AUS_renovatio_imperii_achievement = {
+	possible = {
+		tag = AUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OR = {
+				has_completed_focus = AUS_austro-marxism
+				has_completed_focus = AUS_us_deal_with_Cisleithania
+			}
+			HUN = { all_core_state = { is_owned_by = AUS } }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BAT_baltic_knight_rises_achievement = {
+	possible = {
+		tag = BAT
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = BAT
+			BAT = {
+				NOT = { has_country_flag = BAT_flight_to_riga }
+			}
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BAT_please_go_outside_achievement = {
+	possible = {
+		tag = BAT
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = please_go_outside_achievement_tooltip
+				has_cosmetic_tag = BAT_germany
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BAT_one_city_challenge_achievement = {
+	possible = {
+		tag = BAT
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = one_city_challenge_achievement_tooltip
+				has_country_flag = BAT_flight_to_riga
+				has_cosmetic_tag = BAT_rep
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BHU_lightning_in_a_bottle_achievement = {
+	possible = {
+		tag = BHU
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = lightning_in_a_bottle_achievement_tooltip
+				has_cosmetic_tag = BHU_DRUK
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BLR_get_out_of_my_marsh_achievement = {
+	possible = {
+		tag = BLR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = BLR #Disable for RSA or any tag switch
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BLR_landscaping_achievement = {
+	possible = {
+		tag = BLR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_idea = BLR_successful_land_reform_plan_excellent
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BUL_art_of_sore_losing_achievement = {
+	possible = {
+		tag = BUL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = BUL_balkan_war_defeat
+			has_government = national_populist
+			owns_state = 106 # Macedonia
+			owns_state = 767 # Nish
+			owns_state = 77 # Silistria
+			owns_state = 772 # Constantza
+			owns_state = 731 # Western Macedonia
+			owns_state = 769 # Eastern Macedonia
+			owns_state = 184 # Western Thrace
+			owns_state = 1089 # Kardzhali
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BUL_circular_reasoning_achievement = {
+	possible = {
+		tag = BUL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = circular_reasoning_achievement_tooltip
+				OR = {
+					has_cosmetic_tag = BUL_YUG
+					has_cosmetic_tag = BUL_YUG_mon
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BUL_enemies_to_lovers_achievement = {
+	possible = {
+		tag = BUL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = BUL_balkan_war_defeat
+			has_completed_focus = BUL_path_to_peace
+			custom_override_tooltip = {
+				tooltip = enemies_to_lovers_achievement_serbia_tooltip
+				SER = {
+					OR = {
+						has_completed_focus = SER_YUG_united_states
+						has_completed_focus = SER_YUG_three_named_nation
+						has_completed_focus = SER_YUG_integral_yugoslavia
+						has_completed_focus = SER_YUG_balkan_federalism
+						has_completed_focus = SER_YUG_royal_federation
+						AND = {
+							has_country_leader = { character = SER_milan_nedic }
+							is_subject = no
+						}
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = enemies_to_lovers_achievement_romania_tooltip
+				ROM = {
+					owns_state = 76 # Cluj
+					owns_state = 82 # Banat
+					owns_state = 83 # Partium
+					owns_state = 84 # Brasov
+					owns_state = 789 # Szeklerland
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BUL_things_that_happen_when_you_talk_achievement = {
+	possible = {
+		tag = BUL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = things_that_happen_when_you_talk_achievement_tooltip
+			}
+			BUL = { has_country_flag = BUL_balkan_union }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BUL_tsarist_rumble_achievement = {
+	possible = {
+		tag = BUL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = BUL_balkan_war_victory
+			NOT = { has_global_flag = germany_demands_end_to_balkan_war }
+			NOT = { has_global_flag = austria_demands_end_to_balkan_war }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+BUL_tsars_new_clothes_achievement = {
+	possible = {
+		tag = BUL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = tsars_new_clothes_achievement_tooltip
+				has_cosmetic_tag = BUL_empire
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CA_dont_steppe_achievement = {
+	possible = {
+		OR = {
+			tag = KAZ
+			tag = TRK
+			tag = KHI
+			tag = BUK
+			tag = ETS
+			hidden_trigger = { tag = SIK } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_country_flag = CA_united_flag
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_FED_begonia_with_many_leaves_achievement = {
+	possible = {
+		OR = {
+			tag = GXC
+			tag = SZC
+			tag = YUN
+			tag = HNN
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = formed_upc_tooltip
+				china_alignment_federalists = yes
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_FNG_new_tricks_for_old_marshals_achievement = {
+	possible = {
+		tag = FNG
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = FNG #Disable for FER or any tag switch
+			is_subject = no
+			custom_override_tooltip = {
+				tooltip = formed_roc_tooltip
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_LEC_another_century_of_humiliation_achievement = {
+	possible = {
+		tag = LEC
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = another_century_of_humiliation_achievement_tooltip
+				has_cosmetic_tag = LEC_china
+				all_collection_elements = {
+					collection = {
+						input = constant:state_groups.china_claim_area_states
+						name = another_century_of_humiliation_achievement_tooltip
+					}
+					is_owned_by_ROOT_or_subject = yes
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_LKMT_march_of_the_volunteers_achievement = {
+	possible = {
+		OR = {
+			hidden_trigger = { tag = LEP } #Tag switch to CHI
+			tag = CHI
+			tag = GXC
+			tag = HNN
+			tag = YUN
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = formed_roc_tooltip
+				china_alignment_left_kuomintang = yes
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_LKMT_revolutionary_export_economy_achievement = {
+	possible = {
+		OR = {
+			hidden_trigger = { tag = LEP } #Tag switch
+			tag = CHI
+			tag = GXC
+			tag = YUN
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = KMT_imperialism_crushed_forevermore
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_QIE_raise_your_banners_achievement = {
+	possible = {
+		OR = {
+			tag = QIE
+			hidden_trigger = { tag = SHX } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = formed_qing_tooltip
+				china_alignment_manchu_qing = yes
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_QIE_to_govern_a_nation_by_morality_achievement = {
+	possible = {
+		OR = {
+			tag = QIE
+			tag = SHD
+			tag = LEP
+			tag = ANQ
+			tag = GXC
+			tag = HNN
+			tag = SZC
+			tag = YUN
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = united_china_tooltip
+				china_is_aligned_with_zhili = yes
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_RKMT_forget_not_what_happened_in_ju_achievement = {
+	possible = {
+		OR = {
+			tag = GXC
+			tag = YUN
+			tag = HNN
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = formed_roc_tooltip
+				china_alignment_right_kuomintang = yes
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_SHX_honouring_the_wuyuan_oath_achievement = {
+	possible = {
+		tag = SHX
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_country_leader = { character = SHX_feng_yuxiang }
+			custom_override_tooltip = {
+				tooltip = formed_roc_tooltip
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_SHX_model_of_the_model_governor_achievement = {
+	possible = {
+		tag = SHX
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_country_leader = { character = SHX_yan_xishan }
+			custom_override_tooltip = {
+				tooltip = formed_roc_tooltip
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_SIK_watching_the_western_wall_achievement = {
+	possible = {
+		tag = SIK
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = SIK
+			has_global_flag = SIK_ETS_rebellion
+			NOT = { country_exists = ETS }
+			NOT = { country_exists = KUM }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_SZC_in_liu_of_legitimacy_achievement = {
+	possible = {
+		tag = SZC
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_country_leader = { character = SZC_liu_xiang }
+			custom_override_tooltip = {
+				tooltip = formed_roc_tooltip
+				china_is_the_unifier_of_china_trigger = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_XSM_master_of_the_northwest_achievement = {
+	possible = {
+		tag = XSM
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_global_flag = northwest_conflict_ended
+			owns_state = 353 # Yushu
+			owns_state = 604 # Babao
+			owns_state = 348 # Alxa
+			owns_state = 616 # Ordos
+			owns_state = 621 # Guisui
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_little_trouble_in_big_china_achievement = {
+	possible = {
+		is_chinese_or_potential_chinese_tag = yes
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = little_trouble_in_big_china_achievement_tooltip
+				if = { # putting this on all generic China achievements to make sure KUM can only do it if ruled by a Han leader
+					limit = {
+						original_tag = KUM
+					}
+					has_country_flag = KUM_is_chinese_tag
+				}
+				all_collection_elements = {
+					collection = {
+						input = constant:state_groups.china_claim_area_states
+						name = little_trouble_in_big_china_achievement_tooltip
+					}
+					is_owned_by_ROOT_or_subject = yes
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_source_of_the_nation_achievement = {
+	possible = {
+		is_chinese_or_potential_chinese_tag = yes
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = source_of_the_nation_achievement_tooltip
+				if = { # putting this on all generic China achievements to make sure KUM can only do it if ruled by a Han leader
+					limit = {
+						original_tag = KUM
+					}
+					has_country_flag = KUM_is_chinese_tag
+				}
+				capital_scope = { state = 799 } # Guanzhong (Xi'an)
+			}
+			has_country_flag = china_is_potential_government
+			has_war = no
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+CHINA_walking_on_sunshine_achievement = {
+	possible = {
+		is_chinese_or_potential_chinese_tag = yes
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = walking_on_the_sun_achievement_tooltip
+				if = { # putting this on all generic China achievements to make sure KUM can only do it if ruled by a Han leader
+					limit = {
+						original_tag = KUM
+					}
+					has_country_flag = KUM_is_chinese_tag
+				}
+				has_global_flag = walking_on_the_sun_achievement_condition
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+EGY_rights_above_power_achievement = {
+	possible = {
+		tag = EGY
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = EGY
+			has_global_flag = OTT_defeat_levant
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ENG_the_peoples_flag_achievement = {
+	possible = {
+		tag = ENG
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_global_flag = second_weltkrieg_has_ended # 2WK in Europe is over
+			NOT = { country_exists = GER }
+			custom_override_tooltip = {
+				tooltip = the_peoples_flag_achievement_tooltip
+				NOT = { country_exists = ENT }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+EST_trees_speak_finno_ugric_achievement = {
+	possible = {
+		OR = {
+			hidden_trigger = { tag = BAT } #Tag switch
+			tag = EST
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = EST
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ETS_yarkando_achievement = {
+	possible = {
+		OR = {
+			hidden_trigger = { tag = SIK } #Tag switch
+			tag = ETS
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = ETS
+			has_global_flag = SIK_ETS_rebellion
+			NOT = { country_exists = SIK }
+			NOT = { country_exists = KUM }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+FOP_in_the_hall_of_the_mountain_chairman_achievement = {
+	possible = {
+		tag = FOP
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = in_the_hall_of_the_mountain_achievement_tooltip
+				has_cosmetic_tag = FOP_AND
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+FOP_sons_of_the_hills_achievement = {
+	possible = {
+		tag = FOP
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			NOT = { country_exists = ARG }
+			owns_state = 278 # Buenos Aires
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+FRA_syndicalist_bias_achievement = {
+	possible = {
+		tag = FRA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_global_flag = second_weltkrieg_has_ended # GER was defeated
+			NOT = { country_exists = NFA }
+			custom_override_tooltip = {
+				tooltip = syndicalist_bias_achievement_tooltip
+				28 = { is_owned_and_controlled_by = ROOT } # Alcase-Lorraine
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+GBR_just_a_very_long_holiday_achievement = {
+	possible = {
+		tag = IMP
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = GBR
+			second_weltkrieg_has_begun = yes # 2WK has started
+			NOT = { country_exists = ENG }
+			custom_override_tooltip = {
+				tooltip = just_a_very_long_holiday_achievement_tooltip
+				has_global_flag = CAN_returned_king # UK restored
+				all_of_scopes = { # Great Britain is owned and controlled
+					array = global.britain_states_array
+					is_owned_and_controlled_by = GBR
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+GER_another_place_in_the_sun_achievement = {
+	possible = {
+		tag = GER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = another_place_in_the_sun_achievement_tooltip
+				all_collection_elements = {
+					collection = {
+						input = constant:state_groups.another_place_in_the_sun_achievement_states
+						name = another_place_in_the_sun_achievement_tooltip
+					}
+					owner = { is_ally_with = ROOT }
+				}
+				tag = GER #Disable for RSA or any tag switch
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+GER_believe_in_the_heart_of_the_cards_achievement = {
+	possible = {
+		NOT = { has_game_rule = { rule = GER_card_game option = GER_CARD_GAME_DISABLED } }
+		tag = GER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = believe_in_the_heart_of_the_cards_achievement_tooltip
+				has_country_flag = GER_believe_in_the_heart_of_the_cards_achievement_condition
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+GER_name_of_the_game_achievement = {
+	possible = {
+		tag = GER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = GER #Disable for RSA or any tag switch
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+GER_only_mostly_dead_achievement = {
+	possible = {
+		tag = GER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = only_mostly_dead_achievement_tooltip
+				OR = {
+					has_country_flag = GER_republic_established
+					has_country_flag = GER_bauer_putsch
+				}
+				second_weltkrieg_is_over_in_europe = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+GRE_greater_annexations_achievement = {
+	possible = {
+		tag = GRE
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			owns_state = 731 # Western Macedonia
+			owns_state = 769 # Eastern Macedonia
+			owns_state = 164 # Dodecanese
+			owns_state = 183 # Cyprus
+			owns_state = 184 # Western Thrace
+			owns_state = 187 # Aegean Islands
+			owns_state = 766 # Northern Epirus
+			owns_state = 339 # Smyrna
+			owns_state = 340 # Bursa
+			owns_state = 341 # Adrianople
+			owns_state = 342 # Mugla
+			owns_state = 773 # Constantinople
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+GRE_greeks_shall_inherit_the_earth_achievement = {
+	possible = {
+		tag = GRE
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			owns_state = 731 # Western Macedonia
+			owns_state = 769 # Eastern Macedonia
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+INDIA_truth_alone_endures_achievement = {
+	possible = {
+		OR = {
+			tag = HND
+			tag = RAJ
+			tag = PRF
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = india_truth_alone_endures_achievement_tooltip
+				all_of_scopes = {
+					array = global.india_states_array
+					OR = {
+						controller = { is_ally_with = ROOT }
+						state = 323 #Nepal
+						state = 324 #Bhutan
+						state = 858 #Tawang
+						state = 897 #Aksai Chin
+						state = 733 #Andaman & Nicobar
+						is_ceylon = yes #Ceylon, Maldives, Diego Garcia
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+IRE_auld_love_triangle_achievement = {
+	possible = {
+		tag = IRE
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			# IRE has won the Gateway mechanic and finished all the Gateway foci
+			custom_override_tooltip = {
+				tooltip = IRE_gateway_finished
+				IRE_gateway_finished = yes
+			}
+			has_country_flag = IRE_gateway_IRE_victory
+			has_completed_focus = IRE_contracts_with_rheinmetall
+			has_completed_focus = IRE_flying_with_hawker
+			has_completed_focus = IRE_greenest_fields
+			has_completed_focus = IRE_liffey_hydro
+			has_completed_focus = IRE_staff_college
+			has_completed_focus = IRE_krupp_deal
+			has_completed_focus = IRE_kws_observership
+			custom_override_tooltip = {
+				tooltip = {
+					localization_key = TRIGGER_HAS_COMPLETED_FOCUS
+					FOCUS = IRE_overlook_exports_main
+				}
+				has_completed_focus = IRE_overlook_exports
+			}
+			has_completed_focus = IRE_inexpensive_credit
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+IRE_fighting_irish_achievement = {
+	possible = {
+		tag = IRE
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			# IRE sent volunteers to SER/ROM/GREvBUL/ALB, SPAvSPRvCNT, ARGvFOP, USAvWCAvAPGvACCvNEE, OTTvEGY/PER, ITAvSRIvSICvLOMvVNCvPAPvSRD
+			custom_override_tooltip = {
+				tooltip = fighting_irish_achievement_SCW_tooltip
+				NOT = { has_global_flag = spanish_civil_war }
+				OR = {
+					AND = {
+						has_country_flag = IRE_supported_SPK
+						SPK = { has_country_flag = SPA_aftermath_of_the_civil_war }
+					}
+					AND = {
+						has_country_flag = IRE_supported_SPR
+						SPR = { has_country_flag = SPA_aftermath_of_the_civil_war }
+					}
+					AND = {
+						has_country_flag = IRE_supported_SWF
+						SWF = { has_country_flag = SPA_aftermath_of_the_civil_war }
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = fighting_irish_achievement_4BW_tooltip
+				has_global_flag = balkan_war_ended
+				OR = {
+					AND = {
+						has_country_flag = IRE_supported_SER
+						BUL = { has_country_flag = BUL_balkan_peace_loss }
+					}
+					AND = {
+						has_country_flag = IRE_supported_BUL
+						BUL = { NOT = { has_country_flag = BUL_balkan_peace_loss } }
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = fighting_irish_achievement_india_tooltip
+				has_global_flag = india_united
+				OR = {
+					AND = {
+						has_country_flag = IRE_supported_RAJ
+						RAJ = {
+							exists = yes
+							is_subject = no
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_PRF
+						PRF = {
+							exists = yes
+							is_subject = no
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_HND
+						HND = {
+							exists = yes
+							is_subject = no
+						}
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = fighting_irish_achievement_ACW_tooltip
+				has_global_flag = USA_civil_war_over_flag
+				OR = {
+					AND = {
+						has_country_flag = IRE_supported_USA
+						OR = {
+							USA = {
+								exists = yes
+								is_subject = no
+							}
+							NEE = {
+								exists = yes
+								is_subject = no
+								has_country_flag = USA_Leader	# WIP
+							}
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_WCA
+						WCA = {
+							exists = yes
+							is_subject = no
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_APG
+						APG = {
+							exists = yes
+							is_subject = no
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_ACC
+						OR = {
+							ACC = {
+								exists = yes
+								is_subject = no
+							}
+							NEE = {
+								exists = yes
+								is_subject = no
+								has_country_flag = ACC_Leader
+							}
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_NEE
+						NEE = {
+							exists = yes
+							is_subject = no
+							NOT = { has_country_flag = USA_Leader }
+							NOT = { has_country_flag = ACC_Leader }
+						}
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = fighting_irish_achievement_ICW_tooltip
+				OR = {
+					AND = {
+						has_country_flag = IRE_supported_ITA
+						ITA = {
+							is_subject = no
+							has_country_flag = ITA_united_italia
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_SRI
+						SRI = {
+							is_subject = no
+							has_country_flag = SRI_italy_unified_flag
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_SIC
+						SIC = {
+							is_subject = no
+							OR = {
+								has_country_flag = SIC_confed
+								has_country_flag = SIC_empire
+							}
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_SRD
+						SRD = {
+							is_subject = no
+							has_completed_focus = SRD_italia_riunita
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_PAP
+						PAP = {
+							is_subject = no
+							has_country_flag = ITA_united_italia
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_LOM
+						LOM = {
+							is_subject = no
+							has_country_flag = ITA_united_italia
+						}
+					}
+					AND = {
+						has_country_flag = IRE_supported_VNC
+						VNC = {
+							is_subject = no
+							has_country_flag = ITA_united_italia
+						}
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = fighting_irish_achievement_SC_tooltip
+				OR = {
+					AND = {
+						has_country_flag = IRE_supported_ARG
+						ARG = {
+							exists = yes
+							is_subject = no
+						}
+						NOT = { country_exists = FOP }
+					}
+					AND = {
+						has_country_flag = IRE_supported_FOP
+						FOP = {
+							exists = yes
+							is_subject = no
+						}
+						NOT = { country_exists = ARG }
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = fighting_irish_achievement_WITD_tooltip
+				OR = {
+					AND = {
+						has_country_flag = IRE_supported_OTT
+						NOT = { has_global_flag = OTT_defeat_levant }
+						OTT_cairo_pact_defeated = yes
+					}
+					AND = {
+						has_country_flag = IRE_supported_EGY
+						has_global_flag = OTT_defeat_levant
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+IRE_long_way_from_tipperary_achievement = {
+	possible = {
+		tag = IRE
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			# IRE is in a faction other than RP, TI or Entente
+			is_subject = no
+			is_in_faction = yes
+			is_faction_leader = no
+			IRE = {
+				NOT = { is_in_faction_with = GER }
+				NOT = { is_in_faction_with = INT }
+				NOT = { is_in_faction_with = ENT }
+			}
+			hidden_trigger = {
+				faction_leader = {
+					OR = {
+						AND = {
+							is_american_tag = yes
+							OR = {
+								has_completed_focus = USA_cooperation_treaties
+								has_completed_focus = WCA_free_the_west
+							}
+						}
+						tag = RUS
+						tag = JAP
+						AND = {
+							tag = UKR
+							has_country_flag = UKR_small_pact_tree
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+IRE_youll_never_beat_the_irish_achievement = {
+	possible = {
+		tag = IRE
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ITA_bandiera_rossa_achievement = {
+	possible = {
+		tag = SRI
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_country_flag = SRI_italy_unified_flag
+			NOT = { country_exists = ITA }
+			NOT = { country_exists = SIC }
+			NOT = { country_exists = PAP }
+			NOT = { country_exists = SRD }
+			NOT = { country_exists = LOM }
+			NOT = { country_exists = VNC }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ITA_going_into_business_achievement = {
+	possible = {
+		tag = ITA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = ITA_ani_elected
+			has_country_flag = ITA_united_italia
+			NOT = { country_exists = SRI }
+			NOT = { country_exists = SIC }
+			NOT = { country_exists = PAP }
+			NOT = { country_exists = SRD }
+			owns_state = 783 # Trento
+			owns_state = 488 # Trieste
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ITA_outside_bet_achievement = {
+	possible = {
+		tag = SRD
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = SRD_italia_riunita
+			NOT = { country_exists = SRI }
+			NOT = { country_exists = ITA }
+			NOT = { country_exists = SIC }
+			NOT = { country_exists = PAP }
+			NOT = { country_exists = LOM }
+			NOT = { country_exists = VNC }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ITA_reversimento_achievement = {
+	possible = {
+		tag = ITA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = ITA_king_of_italy
+			has_country_flag = ITA_united_italia
+			NOT = { country_exists = SRI }
+			NOT = { country_exists = SIC }
+			NOT = { country_exists = PAP }
+			NOT = { country_exists = SRD }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ITA_risposta_meridionale_achievement = {
+	possible = {
+		tag = SIC
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OR = {
+				has_country_flag = SIC_confed
+				has_country_flag = SIC_empire
+			}
+			NOT = { country_exists = SRI }
+			NOT = { country_exists = ITA }
+			OR = {
+				NOT = { country_exists = SRD }
+				SRD = { is_subject_of = SIC }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ITA_road_to_redemption_achievement = {
+	possible = {
+		custom_override_tooltip = {
+			tooltip = is_italian_tag
+			OR = {
+				tag = SRI
+				tag = ITA
+				tag = SIC
+				tag = SRD
+				tag = PAP
+				tag = LOM
+				tag = VNC
+			}
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			all_collection_elements = {
+				collection = {
+					input = constant:state_groups.italy_european_claim_states
+					name = road_to_redemption_achievement_tooltip
+				}
+				is_owned_by = ROOT
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ITA_thought_and_action_achievement = {
+	possible = {
+		tag = ITA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = ITA_republic_survives_tooltip
+				has_completed_focus = ITA_social_liberal_victory
+				NOT = {
+					has_completed_focus = ITA_ani_elected
+					has_completed_focus = ITA_king_of_italy
+				}
+			}
+			has_country_flag = ITA_united_italia
+			NOT = { country_exists = SRI }
+			NOT = { country_exists = SIC }
+			NOT = { country_exists = PAP }
+			NOT = { country_exists = SRD }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+JAP_invisible_hand_achievement = {
+	possible = {
+		tag = JAP
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = JAP #Disable for FER or any tag switch
+			FNG = {
+				custom_override_tooltip = {
+					tooltip = FNG_JAP_influence_above_50_tooltip
+					OR = {
+						FNG_mantetsu_level_high = yes
+						FNG_mantetsu_level_very_high = yes
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+JAP_longest_day_achievement = {
+	possible = {
+		tag = JAP
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = JAP_final_victory
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+KUM_wrath_of_the_khan_achievement = {
+	possible = {
+		tag = KUM
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_global_flag = SIK_ETS_rebellion
+			NOT = { country_exists = ETS }
+			NOT = { country_exists = SIK }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+LAT_triumph_of_the_partisan_republic_achievement = {
+	possible = {
+		OR = {
+			hidden_trigger = { tag = BAT } #Tag switch
+			tag = LAT
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = LAT
+			owns_state = 842 # Riga
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+LBA_1001_libyan_nights_achievement = {
+	possible = {
+		tag = LBA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = 1001_libyan_nights_achievement_tooltip
+				has_cosmetic_tag = IFR
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+LBA_caravan_simulator_achievement = {
+	possible = {
+		tag = LBA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = caravan_simulator_zawiya_tooltip
+				all_collection_elements = {
+					collection = {
+						input = constant:state_groups.cyrenaica_zawiya_states
+						name = caravan_simulator_zawiya_tooltip
+					}
+					has_state_flag = lba_zawiya_2
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = caravan_simulator_caravan_tooltip
+				all_collection_elements = {
+					collection = {
+						input = constant:state_groups.cyrenaica_caravan_states
+						name = caravan_simulator_caravan_tooltip
+					}
+					has_state_flag = trading_post_upgraded
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+LIT_put_up_your_grand_dukes_achievement = {
+	possible = {
+		OR = {
+			tag = LIT
+			tag = BLR
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = put_up_your_grand_dukes_achievement_tooltip
+				OR = {
+					LIT_is_litbel = yes
+					has_cosmetic_tag = BLR_LITBEL
+					has_cosmetic_tag = BLR_LITKRY
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+LIT_red_flood_achievement = {
+	possible = {
+		tag = LIT
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = LIT #Disable for RSA or any tag switch
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+MIT_bear_trap_achievement = {
+	possible = {
+		OR = {
+			tag = POL
+			tag = LIT
+			tag = BAT
+			tag = LAT
+			tag = EST
+			tag = BLR
+			tag = UKR
+			tag = FIN
+			tag = GEO
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			is_in_faction_with = GER
+			custom_override_tooltip = {
+				tooltip = achievement_bear_trap_tooltip
+				RUS = { casualties_inflicted_by = { opponent = ROOT thousands > 999 } }
+				NOT = { tag = RSA } #Disable for tag switch
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+MIT_illusion_of_free_choice_achievement = {
+	possible = {
+		OR = {
+			tag = POL
+			tag = UKR
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = illusion_of_free_choice_achievement_tooltip
+				has_country_flag = illusion_of_free_choice_achievement_condition # flag assigned to events where POL or UKR rejoin the RP, or UKR negotiates to stay
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+MON_horsing_around_achievement = {
+	possible = {
+		tag = MON
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			owns_state = 348 # Alxa
+			owns_state = 616 # Ordos
+			owns_state = 621 # Guisui
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+NFA_arent_you_a_little_short_achievement = {
+	possible = {
+		tag = NFA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = arent_you_a_little_short_achievement_tooltip
+				has_cosmetic_tag = NFA_empire
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+NFA_its_bloody_flag_has_been_raised_achievement = {
+	possible = {
+		tag = NFA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_government = national_populist
+			has_idea = NFA_AF_purged_high_idea
+			custom_override_tooltip = {
+				tooltip = its_bloody_flag_has_been_raised_achievement_tooltip
+				16 = { is_owned_and_controlled_by = ROOT }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+NFA_liberte_egalite_fratricide_achievement = {
+	possible = {
+		tag = NFA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = liberte_egalite_fratricide_achievement_tooltip
+				FRA = { casualties_inflicted_by = { opponent = NFA thousands > 999 } }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+NFA_macmahons_third_law_achievement = {
+	possible = {
+		tag = NFA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			second_weltkrieg_has_begun = yes # 2WK has started
+			NOT = { country_exists = FRA }
+			owns_any_state_of = {
+				14 # Upper Brittany (Nantes)
+				16 # Ile de France (Paris)
+				19 # Aquitaine (Bordeaux)
+				20 # Lyonnais (Lyon)
+				21 # Provence (Marseille)
+				980 # Lille
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+NFA_third_times_the_charm_achievement = {
+	possible = {
+		tag = NFA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = third_times_the_charm_achievement_tooltip
+				all_of_scopes = {
+					array = global.france_states_array
+					is_owned_by = ROOT
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+PER_sweet_fruits_of_bitter_patience_achievement = {
+	possible = {
+		tag = PER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = PER
+			OTT_ottomans_defeated = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+PHI_mabuhay_achievement = {
+	possible = {
+		tag = PHI
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OR = {
+				has_completed_focus = PHI_the_national_dream_fulfilled
+				has_completed_focus = PHI_true_independence
+				has_completed_focus = PHI_break_the_colonial_pattern
+				has_completed_focus = PHI_philippines_unbowed
+				has_completed_focus = PHI_unification_of_politics
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+POL_cant_believe_its_not_zapadoslavia_achievement = {
+	possible = {
+		tag = POL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = cant_believe_its_not_zapadoslavia_achievement_tooltip
+				has_cosmetic_tag = POL_zapa
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+POL_how_its_made_achievement = {
+	possible = {
+		tag = POL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = how_its_made_achievement_tooltip
+				has_country_flag = how_its_made_achievement_condition
+				has_cosmetic_tag = POL_kingdom
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+POL_selling_out_achievement = {
+	possible = {
+		tag = POL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = POL #Disable for RSA or any tag switch
+			set_temp_variable = { POL_influence_check = 10 }
+			POL_polish_influence_check = no
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+POL_still_not_lost_achievement = {
+	possible = {
+		tag = POL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = POL #Disable for RSA or any tag switch
+			OR = {
+				custom_override_tooltip = {
+					tooltip = still_not_lost_achievement_tooltip
+					date > 1945.1.1
+					has_capitulated = no
+				}
+				second_weltkrieg_is_over_in_europe = yes
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+POL_wait_this_isnt_europa_universalis_achievement = {
+	possible = {
+		tag = POL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = wait_this_isnt_eu4_achievement_tooltip
+				has_cosmetic_tag = POL_commonwealth
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+POL_west_by_northwest_achievement = {
+	possible = {
+		tag = POL
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = POL #Disable for RSA or any tag switch
+			LIT = { has_autonomy_state = slavic_union_member }
+			BLR = { has_autonomy_state = slavic_union_member }
+			UKR = { has_autonomy_state = slavic_union_member }
+			CZE = { has_autonomy_state = slavic_union_member }
+			OR = {
+				SLO = { has_autonomy_state = slavic_union_member }
+				custom_override_tooltip = {
+					tooltip = west_by_northwest_achievement_tooltip
+					CZE = { has_cosmetic_tag = CZE_czechoslavakia }
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+ROM_fourth_rome_achievement = {
+	possible = {
+		tag = ROM
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = ROM_renew_pride
+			76 = { is_core_of = ROM } # Cluj
+			82 = { is_core_of = ROM } # Banat
+			83 = { is_core_of = ROM } # Partium
+			84 = { is_core_of = ROM } # Transylvania
+			789 = { is_core_of = ROM } # Szeklerland
+			77 = { is_core_of = ROM } # Silistria
+			772 = { is_core_of = ROM } # Dobrudja
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_and_hades_followed_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = RUS #Disable for FER / RSA
+			has_government = national_populist
+			NOT = { country_exists = GER }
+			custom_override_tooltip = {
+				tooltip = and_hades_followed_achievement_tooltip
+				NOT = {
+					country_exists = INT
+					any_other_country = { has_socialist_government = yes }
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_from_siberia_with_love_achievement = {
+	possible = {
+		OR = {
+			tag = FER
+			hidden_trigger = { tag = RUS } #Tag switch
+			hidden_trigger = { tag = FNG } #Tag switch
+			hidden_trigger = { tag = JAP } #Tag switch
+			hidden_trigger = { tag = MON } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = FER
+			has_completed_focus = FER_return_to_kremlin
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_see_nick_that_wasnt_so_hard_achievement_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = RUS #Disable for FER / RSA
+			has_global_flag = second_weltkrieg_has_ended # GER was defeated
+			custom_override_tooltip = {
+				tooltip = see_nick_achievement_tooltip
+			# all starting Oststaaten territory (excluding FIN) are owned by Russia or an ally
+				UKR = { all_core_state = { is_owned_by_ROOT_or_ally = yes } }
+				BLR = { all_core_state = { is_owned_by_ROOT_or_ally = yes } }
+				LAT = { all_core_state = { is_owned_by_ROOT_or_ally = yes } }
+				EST = { all_core_state = { is_owned_by_ROOT_or_ally = yes } }
+				LIT = { all_core_state = { is_owned_by_ROOT_or_ally = yes } }
+			# POL starting territory
+				10 = { is_owned_by_ROOT_or_ally = yes } # Warsaw
+				87 = { is_owned_by_ROOT_or_ally = yes } # Kalisz
+				90 = { is_owned_by_ROOT_or_ally = yes } # Kielce
+				98 = { is_owned_by_ROOT_or_ally = yes } # Plock
+				1088 = { is_owned_by_ROOT_or_ally = yes } # Chelm
+			# GEO starting territory
+				231 = { is_owned_by_ROOT_or_ally = yes } # Georgia
+				1080 = { is_owned_by_ROOT_or_ally = yes } # Abkhazia
+			# AZR starting territory
+				229 = { is_owned_by_ROOT_or_ally = yes } # Azerbaijan
+				998 = { is_owned_by_ROOT_or_ally = yes } # Karabagh
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_take_notes_kerensky_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_achievement_2_tt
+				var:country_leader = { has_character_flag = RUS_agendas_complete }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_two_emperors_walk_into_a_tsar_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = RUS #Disable for FER
+			is_monarchy = yes
+			count_triggers = {
+				amount = 2
+				custom_override_tooltip = {
+					tooltip = two_emperors_walk_into_a_tsar_achievement_tooltip
+					RUS = { any_allied_country = { has_cosmetic_tag = GRU_empire } }
+				}
+				AUS = {
+					is_ally_with = RUS
+					is_monarchy = yes
+				}
+				JAP = {
+					is_ally_with = RUS
+					is_monarchy = yes
+				}
+				TUR = {
+					is_ally_with = RUS
+					is_monarchy = yes
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_what_a_childish_fantasy_achievement = {
+	possible = {
+		OR = {
+			tag = LAT
+			tag = RUS
+			hidden_trigger = { tag = BAT } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = what_a_childish_fantasy_achievement_tooltip
+				OR = {
+					has_cosmetic_tag = LAT_SOV
+					has_cosmetic_tag = RUS_sov_union
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_you_looks_angry_achievement = {
+	possible = {
+		tag = RUS
+	}
+	happened = {
+		if = {
+			limit = {
+				NOT = {
+					has_global_flag = disallow_achievements_flag
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = you_looks_angry
+				has_country_flag = RUS_stalin_has_defeated_zinoviev
+			}
+		}
+		else = {
+			custom_trigger_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+	}
+}
+
+RUS_sov_world_revolution_succeed_achievement = {
+	possible = {
+		tag = RUS
+	}
+	happened = {
+		if = {
+			limit = {
+				NOT = {
+					has_global_flag = disallow_achievements_flag
+				}
+			}
+			tag = RUS
+			has_socialist_government = yes
+			custom_trigger_tooltip = {
+				tooltip = sov_world_revolution_succeed
+				NOT = {
+					any_other_country = {
+						has_socialist_government = no
+					}
+				}
+			}
+		}
+		else = {
+			custom_trigger_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+	}
+}
+
+RUS_darkest_time_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = RUS_triple_flip
+			custom_override_tooltip = {
+				tooltip = darkest_time_passed
+				has_country_flag = RUS_triple_flip_happened
+				all_of_scopes = {
+					array = RUS.triple_flip_peace_array
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				OR = {
+					NOT = { has_war_with = GER }
+					GER = { exists = no }
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_whatever_happened_to_the_popular_front_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = RUS_heir_of_world_revolution
+			custom_override_tooltip = {
+				tooltip = whatever_happened_achievement_tooltip
+				all_of_scopes = {
+					array = global.european_tags_array
+					OR = {
+						exists = no
+						has_socialist_government = yes
+						capital_scope = { NOT = { is_on_continent = europe } } #== NFA or capitulation antics
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_you_and_what_army_achievement = {
+	possible = {
+		OR = {
+			tag = RSA
+			hidden_trigger = { tag = RUS } #Tag switch
+			hidden_trigger = { tag = GER } #Tag switch
+			hidden_trigger = { tag = AZR } #Tag switch
+			hidden_trigger = { tag = BAT } #Tag switch
+			hidden_trigger = { tag = BLR } #Tag switch
+			hidden_trigger = { tag = FIN } #Tag switch
+			hidden_trigger = { tag = LIT } #Tag switch
+			hidden_trigger = { tag = GEO } #Tag switch
+			hidden_trigger = { tag = POL } #Tag switch
+			hidden_trigger = { tag = UKR } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = RSA # this should not occur for non-RSA RUS for any reason
+			has_completed_focus = RUS_democracy_restored
+			has_country_leader = { character = RUS_vasily_boldyrev }
+			# i'm hoping this catches everything for an RSA victory fairly neatly
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+SCA_a_scan_do_attitude_achievement = {
+	possible = {
+		OR = {
+			tag = SWE
+			tag = NOR
+			tag = DEN
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			country_exists = SCA
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+SER_coming_of_age_story_achievement = {
+	possible = {
+		tag = SER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = SER_March_Conspiracy
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+SER_consequences_of_my_own_actions_achievement = {
+	possible = {
+		tag = SER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = consequences_of_my_own_actions_achievement_tooltip
+				has_country_leader = { character = SER_milan_nedic }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+SER_four_of_a_kind_achievement = {
+	possible = {
+		tag = SER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = four_of_a_kind_achievement_tooltip
+				has_country_flag = four_of_a_kind_achievement_condition # double check this is placed everywhere it should be before merging in
+			}
+			has_completed_focus = SER_YUG_brotherhood_and_unity
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+SER_hej_sloveni_achievement = {
+	possible = {
+		tag = SER
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OR = {
+				has_completed_focus = SER_YUG_united_states
+				has_completed_focus = SER_YUG_three_named_nation
+				has_completed_focus = SER_YUG_integral_yugoslavia
+				has_completed_focus = SER_YUG_balkan_federalism
+				has_completed_focus = SER_YUG_royal_federation
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+SWE_scandinavian_twins_achievement = {
+	possible = {
+		tag = SWE
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = scandinavian_twins_achievement_tooltip
+				has_cosmetic_tag = SWENOR
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+SYR_arab_awakening_achievement = {
+	possible = {
+		OR = {
+			tag = SYR
+			tag = IRQ
+			hidden_trigger = { tag = EGY } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = arable_land_achievement_tooltip
+				has_cosmetic_tag = IRQ_federation
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+TIB_on_top_of_the_world_achievement = {
+	possible = {
+		tag = TIB
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			owns_state = 353 # Yushu
+			owns_state = 604 # Babao
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+TUR_assembly_of_all_the_talents_achievement = {
+	possible = {
+		tag = TUR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OTT_has_centralist_government = no
+			has_completed_focus = OTT_First_Elections_of_the_Grand_Assembly
+			EGY = {
+				OR = {
+					is_subject_of = TUR
+					exists = no
+				}
+			}
+			PER = {
+				OR = {
+					is_subject_of = TUR
+					exists = no
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+TUR_hand_that_rocks_achievement = {
+	possible = {
+		tag = TUR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = OTT
+			OTT = { has_idea = ott_seeds_of_peace }
+			EGY = { has_idea = ott_absorbed_state_monopolies_5 }
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+TUR_immunised_man_of_europe_achievement = {
+	possible = {
+		tag = TUR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OTT_has_centralist_government = yes
+			### Clearly tell player they shouldn't give these away
+			owns_state = 183 #Cyprus
+			owns_state = 585 #Batumi
+			owns_state = 812 #Basra
+			#All core states have been centralised to max level
+			custom_override_tooltip = {
+				tooltip = immunised_man_of_europe_achievement_tooltip
+				all_core_state = {
+					OR = {
+						OTT_cannot_centralise_state = yes
+						OTT_is_integrated_province = yes
+						### Can earn achievement if LBA remained a loyal vassal
+						AND = {
+							LBA = { is_subject_of = OTT }
+							OR = {
+								state = 451 #Ajdabiya
+								state = 663 #Jaghbub
+								state = 1009 #Kufra
+							}
+						}
+					}
+				}
+			}
+			has_completed_focus = OTT_Handle_the_Yemeni_Affair #Integrated Yemeni states
+			has_completed_focus = OTT_Create_the_Sanjak_of_al_Hasa #Integrated Hasa
+			OTT_cairo_pact_defeated = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+UKR_hetmanaged_economy_achievement = {
+	possible = {
+		tag = UKR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OR = {
+				has_democratic_government = yes
+				has_government = paternal_autocrat
+			}
+			custom_override_tooltip = {
+				tooltip = hetmanaged_economy_achievement_tooltip
+				OR = {
+					has_idea = UKR_land_reform_leftist_7
+					has_idea = UKR_land_reform_rightist_7
+				}
+				OR = {
+					has_idea = UKR_industrialisation_protofis_7
+					has_idea = UKR_industrialisation_hetmanate_7
+					has_idea = UKR_industrialisation_republic_7
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+UKR_hot_heart_of_the_ukrainian_people_achievement = {
+	possible = {
+		tag = UKR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			tag = UKR #Disable for RSA or any tag switch
+			# 2WK has come and gone, player is not at war (i.e. they lived)
+			second_weltkrieg_is_over_in_europe = yes
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+UKR_one_and_a_half_hetmen_achievement = {
+	possible = {
+		tag = UKR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = one_and_a_half_hetmen_achievement_tooltip
+				UKR = { has_country_flag = one_and_a_half_hetmen_achievement_condition } # gov't-VDR negotiation succeeded; assigned by ukraine_negotiations_events.26
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+UKR_paint_it_black_achievement = {
+	possible = {
+		tag = UKR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_government = national_populist
+			is_faction_leader = yes
+			all_country_of = {
+				target = constant:country_groups.ukraine_black_sea_union_tags
+				OR = {
+					is_ally_with = ROOT
+					exists = no
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+UKR_war_against_the_world_achievement = {
+	possible = {
+		tag = UKR
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_government = syndicalist
+			has_global_flag = second_weltkrieg_has_ended
+			UKR = {
+				NOT = { has_war_with = GER }
+				NOT = { has_war_with = RUS }
+			}
+			custom_override_tooltip = {
+				tooltip = russia_not_socialist_tooltip
+				OR = {
+					RUS = { has_socialist_government = no }
+					RUS = { is_subject = yes }
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_barracks_socialism_achievement = {
+	possible = {
+		OR = {
+			tag = WCA
+			hidden_trigger = { tag = USA } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = barracks_socialism_achievement_tooltip
+				tag = WCA
+				has_country_flag = barracks_socialism_achievement_condition # had the Butler/Carlson coup; set by america_workers_congress_events.67
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_crossing_the_potomac_achievement = {
+	possible = {
+		tag = USA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				has_country_flag = crossing_the_potomac_achievement_condition # finished the 2ACW; flag assigned by american_civil_war_events.24, applies when ruling party is PatAut
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_crowned_republic_achievement = {
+	possible = {
+		OR = {
+			tag = APG
+			hidden_trigger = { tag = USA } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				tag = APG
+				has_country_flag = crowned_republic_achievement_condition # finished the 2ACW; flag assigned by american_civil_war_events.24
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_from_sea_to_shining_sea_achievement = {
+	possible = {
+		OR = {
+			tag = ACC
+			hidden_trigger = { tag = USA } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				tag = ACC
+				has_country_flag = from_sea_to_shining_sea_achievement_condition # finished the 2ACW; flag assigned by american_civil_war_events.24
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_guns_of_the_patriots_achievement = {
+	possible = {
+		OR = {
+			tag = NEE
+			hidden_trigger = { tag = USA } #Tag switch
+			hidden_trigger = { tag = CAN } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			has_completed_focus = NEE_Underground_Railroad
+			custom_override_tooltip = {
+				tooltip = guns_of_the_patriots_achievement_tooltip
+				all_collection_elements = {
+					collection = {
+						input = constant:state_groups.new_england_safehouse_states
+						name = guns_of_the_patriots_achievement_tooltip
+					}
+					has_state_flag = stricter_security
+					has_state_flag = scouted_alternate_routes
+					NOT = { has_state_flag = blocked_route }
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_kings_ransom_achievement = {
+	possible = {
+		tag = USA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				has_country_flag = rally_once_again_achievement_condition # finished the 2ACW; flag assigned by american_civil_war_events.24, applies when ruling party is not PatAut
+			}
+			custom_override_tooltip = {
+				tooltip = kings_ransom_achievement_tooltip
+				has_country_flag = USA_ACW_austerity_rejected # compromised with Reed, assigned by united_states_events.75
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_not_so_divided_states_achievement = {
+	possible = {
+		tag = USA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			date < 1938.7.4
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				OR = {
+					has_country_flag = rally_once_again_achievement_condition
+					has_country_flag = crossing_the_potomac_achievement_condition
+					has_country_flag = permanent_american_revolution_achievement_condition
+					has_country_flag = crowned_republic_achievement_condition
+					has_country_flag = from_sea_to_shining_sea_achievement_condition
+					has_country_flag = sons_of_liberty_achievement_condition
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_permanent_american_revolution_achievement = {
+	possible = {
+		OR = {
+			tag = WCA
+			hidden_trigger = { tag = USA } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				tag = WCA
+				has_country_flag = permanent_american_revolution_achievement_condition # finished the 2ACW; flag assigned by american_civil_war_events.24
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_rally_once_again_achievement = {
+	possible = {
+		tag = USA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				has_country_flag = rally_once_again_achievement_condition # finished the 2ACW; flag assigned by american_civil_war_events.24, applies when ruling party is not PatAut
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_sons_of_liberty_achievement = {
+	possible = {
+		OR = {
+			tag = NEE
+			hidden_trigger = { tag = USA } #Tag switch
+			hidden_trigger = { tag = CAN } #Tag switch
+		}
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = sons_of_liberty_achievement_tooltip
+				tag = NEE
+				has_country_flag = sons_of_liberty_achievement_condition # finished the 2ACW; flag assigned to american_civil_war_events.24
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_worlds_least_radical_country_achievement = {
+	possible = {
+		tag = USA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = won_ACW_tooltip
+				has_country_flag = rally_once_again_achievement_condition # finished the 2ACW; flag assigned by american_civil_war_events.24, applies when ruling party is not PatAut
+			}
+			custom_override_tooltip = {
+				tooltip = worlds_least_radical_country_achievement_tooltip
+				has_country_flag = worlds_least_radical_country_achievement_condition # assigned by united_states_crisis_events.114
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+USA_we_have_returned_achievement = {
+	possible = {
+		tag = USA
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			OR = {
+				PHI = { has_country_flag = PHI_USA_won_fight_for_philippines_flag }
+				AND = {
+					has_global_flag = USA_civil_war_over_flag
+					has_subject = PHI #So there's no RNG lock-out of the achievement if PHI goes socialist
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}

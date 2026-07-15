@@ -1,0 +1,86 @@
+RUS_federal_planning_commission_inlay_window = {
+	window_name = RUS_fpc_ui_window
+	internal = yes
+	visible = { has_country_flag = RUS_fpc_active }
+
+	scripted_images = {
+		RUS_fpc_no_focus_image = {
+			GFX_RUS_fpc_square_default = { NOT = { check_variable = { RUS_fpc_focus_var = 0 } } }
+		}
+		RUS_fpc_infantry_focus_image = {
+			GFX_RUS_fpc_square_infantry = { NOT = { check_variable = { RUS_fpc_focus_var = 1 } } }
+		}
+		RUS_fpc_tanks_focus_image = {
+			GFX_RUS_fpc_square_armor = { NOT = { check_variable = { RUS_fpc_focus_var = 2 } } }
+		}
+		RUS_fpc_planes_focus_image = {
+			GFX_RUS_fpc_square_aircraft = { NOT = { check_variable = { RUS_fpc_focus_var = 3 } } }
+		}
+		RUS_fpc_naval_focus_image = {
+			GFX_RUS_fpc_square_naval = { NOT = { check_variable = { RUS_fpc_focus_var = 4 } } }
+		}
+		RUS_fpc_no_focus_image_selected = {
+			GFX_RUS_fpc_square_default_selected = { check_variable = { RUS_fpc_focus_var = 0 } }
+		}
+		RUS_fpc_infantry_focus_image_selected = {
+			GFX_RUS_fpc_square_infantry_selected = { check_variable = { RUS_fpc_focus_var = 1 } }
+		}
+		RUS_fpc_tanks_focus_image_selected = {
+			GFX_RUS_fpc_square_armor_selected = { check_variable = { RUS_fpc_focus_var = 2 } }
+		}
+		RUS_fpc_planes_focus_image_selected = {
+			GFX_RUS_fpc_square_aircraft_selected = { check_variable = { RUS_fpc_focus_var = 3 } }
+		}
+		RUS_fpc_naval_focus_image_selected = {
+			GFX_RUS_fpc_square_naval_selected = { check_variable = { RUS_fpc_focus_var = 4 } }
+		}
+	}
+
+	scripted_buttons = {
+		RUS_fpc_no_focus_image = {
+			click_effect = {
+				set_variable = { RUS_fpc_focus_var = 0 }
+				set_variable = { RUS_fpc_optimization_tier = 1 }
+				set_country_flag = { flag = RUS_fpc_recently_changed_focus days = 60 value = 1 }
+				RUS_fpc_show_current_priority_idea_stats_no_focus = yes
+				hidden_effect = { RUS_fpc_update_tier = yes }
+			}
+		}
+		RUS_fpc_infantry_focus_image = {
+			click_effect = {
+				set_variable = { RUS_fpc_focus_var = 1 }
+				set_variable = { RUS_fpc_optimization_tier = 1 }
+				set_country_flag = { flag = RUS_fpc_recently_changed_focus days = 60 value = 1 }
+				RUS_fpc_show_current_priority_idea_stats_infantry_focus = yes
+				hidden_effect = { RUS_fpc_update_tier = yes }
+			}
+		}
+		RUS_fpc_tanks_focus_image = {
+			click_effect = {
+				set_variable = { RUS_fpc_focus_var = 2 }
+				set_variable = { RUS_fpc_optimization_tier = 1 }
+				set_country_flag = { flag = RUS_fpc_recently_changed_focus days = 60 value = 1 }
+				RUS_fpc_show_current_priority_idea_stats_tanks_focus = yes
+				hidden_effect = { RUS_fpc_update_tier = yes }
+			}
+		}
+		RUS_fpc_planes_focus_image = {
+			click_effect = {
+				set_variable = { RUS_fpc_focus_var = 3 }
+				set_variable = { RUS_fpc_optimization_tier = 1 }
+				set_country_flag = { flag = RUS_fpc_recently_changed_focus days = 60 value = 1 }
+				RUS_fpc_show_current_priority_idea_stats_planes_focus = yes
+				hidden_effect = { RUS_fpc_update_tier = yes }
+			}
+		}
+		RUS_fpc_naval_focus_image = {
+			click_effect = {
+				set_variable = { RUS_fpc_focus_var = 4 }
+				set_variable = { RUS_fpc_optimization_tier = 1 }
+				set_country_flag = { flag = RUS_fpc_recently_changed_focus days = 60 value = 1 }
+				RUS_fpc_show_current_priority_idea_stats_naval_focus = yes
+				hidden_effect = { RUS_fpc_update_tier = yes }
+			}
+		}
+	}
+}

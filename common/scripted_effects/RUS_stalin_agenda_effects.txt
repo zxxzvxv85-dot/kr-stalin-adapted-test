@@ -1,0 +1,238 @@
+RUS_stalin_update_agenda_traits = {
+	if = {
+		limit = {
+			RUS_iosif_stalin = {
+				NOT = { has_character_flag = RUS_stalin_agendas_assigned }
+			}
+		}
+		if = {
+			limit = {
+				RUS_iosif_stalin = {
+					NOT = { has_trait = RUS_stalin_party_stability_agenda_off }
+					NOT = { has_trait = RUS_stalin_party_stability_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_stalin_party_stability_agenda_off
+		}
+		if = {
+			limit = {
+				RUS_iosif_stalin = {
+					NOT = { has_trait = RUS_stalin_heir_of_lenin_agenda_off }
+					NOT = { has_trait = RUS_stalin_heir_of_lenin_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_stalin_heir_of_lenin_agenda_off
+		}
+		if = {
+			limit = {
+				RUS_iosif_stalin = {
+					NOT = { has_trait = RUS_stalin_first_and_last_revolution_agenda_off }
+					NOT = { has_trait = RUS_stalin_first_and_last_revolution_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_stalin_first_and_last_revolution_agenda_off
+		}
+		RUS_iosif_stalin = { set_character_flag = RUS_stalin_agendas_assigned }
+	}
+
+	if = {
+		limit = {
+			RUS_iosif_stalin = { has_trait = RUS_stalin_party_stability_agenda_off }
+			has_stability > 0.95
+		}
+		remove_country_leader_trait = RUS_stalin_party_stability_agenda_off
+		add_country_leader_trait = RUS_stalin_party_stability_agenda_on
+	}
+	if = {
+		limit = {
+			RUS_iosif_stalin = { has_trait = RUS_stalin_heir_of_lenin_agenda_off }
+			has_completed_focus = RUS_found_sov_union
+		}
+		remove_country_leader_trait = RUS_stalin_heir_of_lenin_agenda_off
+		add_country_leader_trait = RUS_stalin_heir_of_lenin_agenda_on
+	}
+	if = {
+		limit = {
+			RUS_iosif_stalin = { has_trait = RUS_stalin_first_and_last_revolution_agenda_off }
+			has_completed_focus = RUS_abolish_war
+			is_faction_leader = yes
+			OR = {
+				NOT = { country_exists = INT }
+				INT = { is_in_faction_with = ROOT }
+			}
+		}
+		remove_country_leader_trait = RUS_stalin_first_and_last_revolution_agenda_off
+		add_country_leader_trait = RUS_stalin_first_and_last_revolution_agenda_on
+	}
+
+	if = {
+		limit = {
+			RUS_iosif_stalin = {
+				has_trait = RUS_stalin_party_stability_agenda_on
+				has_trait = RUS_stalin_heir_of_lenin_agenda_on
+				has_trait = RUS_stalin_first_and_last_revolution_agenda_on
+			}
+		}
+		RUS_iosif_stalin = { set_character_flag = RUS_stalin_agendas_complete }
+	}
+}
+
+RUS_zinovyev_update_agenda_traits = {
+	if = {
+		limit = {
+			RUS_grigory_zinovyev = {
+				NOT = { has_character_flag = RUS_zinovyev_agendas_assigned }
+			}
+		}
+		if = {
+			limit = {
+				RUS_grigory_zinovyev = {
+					NOT = { has_trait = RUS_zinovyev_russian_totalitarianism_agenda_off }
+					NOT = { has_trait = RUS_zinovyev_russian_totalitarianism_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_zinovyev_russian_totalitarianism_agenda_off
+		}
+		if = {
+			limit = {
+				RUS_grigory_zinovyev = {
+					NOT = { has_trait = RUS_zinovyev_heir_of_lenin_agenda_off }
+					NOT = { has_trait = RUS_zinovyev_heir_of_lenin_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_zinovyev_heir_of_lenin_agenda_off
+		}
+		if = {
+			limit = {
+				RUS_grigory_zinovyev = {
+					NOT = { has_trait = RUS_zinovyev_red_helmsman_agenda_off }
+					NOT = { has_trait = RUS_zinovyev_red_helmsman_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_zinovyev_red_helmsman_agenda_off
+		}
+		RUS_grigory_zinovyev = { set_character_flag = RUS_zinovyev_agendas_assigned }
+	}
+
+	if = {
+		limit = {
+			RUS_grigory_zinovyev = { has_trait = RUS_zinovyev_russian_totalitarianism_agenda_off }
+			totalist > 0.45
+		}
+		remove_country_leader_trait = RUS_zinovyev_russian_totalitarianism_agenda_off
+		add_country_leader_trait = RUS_zinovyev_russian_totalitarianism_agenda_on
+	}
+	if = {
+		limit = {
+			RUS_grigory_zinovyev = { has_trait = RUS_zinovyev_heir_of_lenin_agenda_off }
+			has_completed_focus = RUS_coordinate_development
+		}
+		remove_country_leader_trait = RUS_zinovyev_heir_of_lenin_agenda_off
+		add_country_leader_trait = RUS_zinovyev_heir_of_lenin_agenda_on
+	}
+	if = {
+		limit = {
+			RUS_grigory_zinovyev = { has_trait = RUS_zinovyev_red_helmsman_agenda_off }
+			all_country = {
+				OR = {
+					NOT = { is_in_europe = yes }
+					has_government = totalist
+				}
+			}
+		}
+		remove_country_leader_trait = RUS_zinovyev_red_helmsman_agenda_off
+		add_country_leader_trait = RUS_zinovyev_red_helmsman_agenda_on
+	}
+
+	if = {
+		limit = {
+			RUS_grigory_zinovyev = {
+				has_trait = RUS_zinovyev_russian_totalitarianism_agenda_on
+				has_trait = RUS_zinovyev_heir_of_lenin_agenda_on
+				has_trait = RUS_zinovyev_red_helmsman_agenda_on
+			}
+		}
+		RUS_grigory_zinovyev = { set_character_flag = RUS_zinovyev_agendas_complete }
+	}
+}
+
+RUS_kamenev_update_agenda_traits = {
+	if = {
+		limit = {
+			RUS_lev_kamenev = {
+				NOT = { has_character_flag = RUS_kamenev_agendas_assigned }
+			}
+		}
+		if = {
+			limit = {
+				RUS_lev_kamenev = {
+					NOT = { has_trait = RUS_kamenev_red_gentleman_agenda_off }
+					NOT = { has_trait = RUS_kamenev_red_gentleman_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_kamenev_red_gentleman_agenda_off
+		}
+		if = {
+			limit = {
+				RUS_lev_kamenev = {
+					NOT = { has_trait = RUS_kamenev_political_maneuver_agenda_off }
+					NOT = { has_trait = RUS_kamenev_political_maneuver_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_kamenev_political_maneuver_agenda_off
+		}
+		if = {
+			limit = {
+				RUS_lev_kamenev = {
+					NOT = { has_trait = RUS_kamenev_october_watchman_agenda_off }
+					NOT = { has_trait = RUS_kamenev_october_watchman_agenda_on }
+				}
+			}
+			add_country_leader_trait = RUS_kamenev_october_watchman_agenda_off
+		}
+		RUS_lev_kamenev = { set_character_flag = RUS_kamenev_agendas_assigned }
+	}
+
+	if = {
+		limit = {
+			RUS_lev_kamenev = { has_trait = RUS_kamenev_red_gentleman_agenda_off }
+			set_temp_variable = { RUS_relation_check = 6 }
+			RUS_sr_check = yes
+			RUS_vst_left_check = yes
+		}
+		remove_country_leader_trait = RUS_kamenev_red_gentleman_agenda_off
+		add_country_leader_trait = RUS_kamenev_red_gentleman_agenda_on
+	}
+	if = {
+		limit = {
+			RUS_lev_kamenev = { has_trait = RUS_kamenev_political_maneuver_agenda_off }
+			power_balance_value = { id = RUS_kamenev_power_balance value > 0.75 }
+			set_temp_variable = { RUS_relation_check = 5 }
+			RUS_sr_check = yes
+		}
+		remove_country_leader_trait = RUS_kamenev_political_maneuver_agenda_off
+		add_country_leader_trait = RUS_kamenev_political_maneuver_agenda_on
+	}
+	if = {
+		limit = {
+			RUS_lev_kamenev = { has_trait = RUS_kamenev_october_watchman_agenda_off }
+			NOT = { has_country_leader = { character = RUS_grigory_zinovyev } }
+			RUS_grigory_zinovyev = {
+				NOT = { has_character_flag = RUS_zinovyev_agendas_assigned }
+			}
+		}
+		remove_country_leader_trait = RUS_kamenev_october_watchman_agenda_off
+		add_country_leader_trait = RUS_kamenev_october_watchman_agenda_on
+	}
+
+	if = {
+		limit = {
+			RUS_lev_kamenev = {
+				has_trait = RUS_kamenev_red_gentleman_agenda_on
+				has_trait = RUS_kamenev_political_maneuver_agenda_on
+				has_trait = RUS_kamenev_october_watchman_agenda_on
+			}
+		}
+		RUS_lev_kamenev = { set_character_flag = RUS_kamenev_agendas_complete }
+	}
+}

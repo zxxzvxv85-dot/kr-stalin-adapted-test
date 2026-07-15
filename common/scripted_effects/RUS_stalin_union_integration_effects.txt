@@ -1,0 +1,49 @@
+RUS_stalin_enable_union_integration = {
+	custom_effect_tooltip = union_republics_enable_integration_tt
+	hidden_effect = {
+		MNR = { enable_country_integration_50_compliance = yes }
+		UKR = { enable_country_integration_50_compliance = yes }
+		BLR = { enable_country_integration_50_compliance = yes }
+		KAZ = { enable_country_integration_50_compliance = yes }
+		GEO = { enable_country_integration_50_compliance = yes }
+		ARM = { enable_country_integration_50_compliance = yes }
+		AZR = { enable_country_integration_50_compliance = yes }
+		LIT = { enable_country_integration_50_compliance = yes }
+		LAT = { enable_country_integration_50_compliance = yes }
+		EST = { enable_country_integration_50_compliance = yes }
+		BAT = { enable_country_integration_50_compliance = yes }
+		KHI = { enable_country_integration_50_compliance = yes }
+		TRK = { enable_country_integration_50_compliance = yes }
+		BUK = { enable_country_integration_50_compliance = yes }
+
+		ENG = { enable_country_integration_50_compliance = yes }
+		IRE = { enable_country_integration_50_compliance = yes }
+		ICE = { enable_country_integration_50_compliance = yes }
+		WLS = { enable_country_integration_50_compliance = yes }
+		SCO = { enable_country_integration_50_compliance = yes }
+		CYP = { enable_country_integration_50_compliance = yes }
+
+		for_each_scope_loop = {
+			array = RUS_SSTR_tags
+			if = {
+				limit = {
+					OR = {
+						has_autonomy_state = union_republic
+						has_autonomy_state = union_republic_autonomous
+						has_autonomy_state = soviet_socialist_republic
+					}
+				}
+				enable_country_integration_50_compliance = yes
+			}
+		}
+
+		91 = { enable_state_integration_50_compliance = yes } # Lwow
+		89 = { enable_state_integration_50_compliance = yes } # Stanislawow
+		1088 = { enable_state_integration_50_compliance = yes } # Chelm
+		329 = { enable_state_integration_50_compliance = yes } # Tuva
+		97 = { enable_state_integration_50_compliance = yes } # Bialystok
+		73 = { enable_state_integration_50_compliance = yes } # Transcarpathia
+		78 = { enable_state_integration_80_compliance = yes } # Bessarabia
+		80 = { enable_state_integration_80_compliance = yes } # Cernauti
+	}
+}

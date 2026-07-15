@@ -1,0 +1,35 @@
+add_namespace = rus_stalin_startup_events
+
+country_event = {
+	id = rus_stalin_startup_events.1
+	title = rus_stalin_startup_events.1.t
+	desc = rus_stalin_startup_events.1.desc
+	picture = GFX_report_event_RUS_famine
+	is_triggered_only = yes
+
+	trigger = {
+		tag = RUS
+		NOT = { has_country_flag = RUS_volga_famine_legacy_seen }
+	}
+
+	option = {
+		name = rus_stalin_startup_events.next
+		hidden_effect = {
+			country_event = { id = rus_stalin_startup_events.2 }
+		}
+	}
+}
+
+country_event = {
+	id = rus_stalin_startup_events.2
+	title = rus_stalin_startup_events.1.t
+	desc = rus_stalin_startup_events.1.desc_2
+	picture = GFX_report_event_RUS_famine
+	is_triggered_only = yes
+
+	option = {
+		name = rus_stalin_startup_events.1.a
+		set_country_flag = RUS_volga_famine_legacy_seen
+		add_popularity = { ideology = national_populist popularity = 0.01 }
+	}
+}

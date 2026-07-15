@@ -1,0 +1,38 @@
+liberate_workers_occupation = {
+	icon = 5
+	sound_effect = "Martial_Law_Interface_Liberate_Workers_Occupation_Unique_COM"
+
+	visible = {
+		OR = {
+			has_government = communist
+			has_government = syndicalist
+			has_government = radical_socialist
+		}
+	}
+
+	state_modifier = {
+		resistance_target 				= -0.15
+		compliance_gain 				= -0.025
+		required_garrison_factor 		= -0.15
+		resistance_damage_to_garrison 	= 0.25
+		local_factories 				= 0.2
+		local_resources 				= 0.3
+	}
+
+	ai_will_do = {
+		base = 100
+		modifier = {
+			factor = 0
+			check_variable = { resistance_target_without_law < 0.2 }
+		}
+		modifier = {
+			factor = 0
+			check_variable = { garrison_min_support_ratio < 0.35 }
+		}
+		modifier = {
+			set_temp_variable = { compliance_negative = compliance }
+			multiply_temp_variable = { compliance_negative = -1 }
+			add = compliance_negative
+		}
+	}
+}

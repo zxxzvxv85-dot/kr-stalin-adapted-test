@@ -1,0 +1,134 @@
+RUS_maximalist_land_reform_remove_stage_ideas = {
+	remove_ideas = {
+		RUS_pre_maximalist_land_reform
+		RUS_maximalist_land_reform_stage_0
+		RUS_maximalist_land_reform_stage_1
+		RUS_maximalist_land_reform_stage_2
+		RUS_maximalist_land_reform_stage_3
+		RUS_maximalist_land_reform_stage_4
+		RUS_maximalist_land_reform_stage_5
+		RUS_maximalist_land_reform_stage_5_tractor_bonus
+	}
+}
+
+RUS_maximalist_land_reform_add_initial_stage = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = RUS_maximalist_land_reform_started }
+			NOT = { has_country_flag = RUS_maximalist_land_reform_success }
+			NOT = { has_country_flag = RUS_maximalist_land_reform_failure }
+			NOT = { has_idea = RUS_maximalist_land_reform_stagnation }
+		}
+		set_variable = { RUS_maximalist_land_reform_score = 0 }
+		set_variable = { RUS_maximalist_land_reform_active_decisions = 0 }
+		set_variable = { RUS_maximalist_land_reform_stage = 0 }
+		hidden_effect = {
+			RUS_maximalist_land_reform_remove_stage_ideas = yes
+		}
+		add_ideas = RUS_pre_maximalist_land_reform
+	}
+}
+
+RUS_maximalist_land_reform_update_stage_idea = {
+	hidden_effect = {
+		RUS_maximalist_land_reform_remove_stage_ideas = yes
+	}
+	if = {
+		limit = { check_variable = { RUS_maximalist_land_reform_score < 20 } }
+		set_variable = { RUS_maximalist_land_reform_stage = 0 }
+		add_ideas = RUS_maximalist_land_reform_stage_0
+	}
+	else_if = {
+		limit = { check_variable = { RUS_maximalist_land_reform_score < 40 } }
+		set_variable = { RUS_maximalist_land_reform_stage = 1 }
+		add_ideas = RUS_maximalist_land_reform_stage_1
+	}
+	else_if = {
+		limit = { check_variable = { RUS_maximalist_land_reform_score < 60 } }
+		set_variable = { RUS_maximalist_land_reform_stage = 2 }
+		add_ideas = RUS_maximalist_land_reform_stage_2
+	}
+	else_if = {
+		limit = { check_variable = { RUS_maximalist_land_reform_score < 80 } }
+		set_variable = { RUS_maximalist_land_reform_stage = 3 }
+		add_ideas = RUS_maximalist_land_reform_stage_3
+	}
+	else_if = {
+		limit = { check_variable = { RUS_maximalist_land_reform_score < 100 } }
+		set_variable = { RUS_maximalist_land_reform_stage = 4 }
+		add_ideas = RUS_maximalist_land_reform_stage_4
+	}
+	else = {
+		set_variable = { RUS_maximalist_land_reform_stage = 5 }
+		if = {
+			limit = { has_country_flag = RUS_maximalist_land_reform_tractor_bonus }
+			add_ideas = RUS_maximalist_land_reform_stage_5_tractor_bonus
+		}
+		else = {
+			add_ideas = RUS_maximalist_land_reform_stage_5
+		}
+	}
+}
+
+RUS_maximalist_land_reform_start_decision = {
+	add_to_variable = { RUS_maximalist_land_reform_active_decisions = 1 }
+}
+
+RUS_maximalist_land_reform_finish_decision = {
+	if = {
+		limit = { check_variable = { RUS_maximalist_land_reform_active_decisions > 0 } }
+		subtract_from_variable = { RUS_maximalist_land_reform_active_decisions = 1 }
+	}
+}
+
+RUS_maximalist_land_reform_add_score_1 = {
+	custom_effect_tooltip = RUS_maximalist_land_reform_add_score_1_tt
+	hidden_effect = {
+		add_to_variable = { RUS_maximalist_land_reform_score = 1 }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+}
+
+RUS_maximalist_land_reform_add_score_5 = {
+	custom_effect_tooltip = RUS_maximalist_land_reform_add_score_5_tt
+	hidden_effect = {
+		add_to_variable = { RUS_maximalist_land_reform_score = 5 }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+}
+
+RUS_maximalist_land_reform_add_score_3 = {
+	custom_effect_tooltip = RUS_maximalist_land_reform_add_score_3_tt
+	hidden_effect = {
+		add_to_variable = { RUS_maximalist_land_reform_score = 3 }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+}
+
+RUS_maximalist_land_reform_subtract_score_3 = {
+	custom_effect_tooltip = RUS_maximalist_land_reform_subtract_score_3_tt
+	hidden_effect = {
+		subtract_from_variable = { RUS_maximalist_land_reform_score = 3 }
+		if = {
+			limit = { check_variable = { RUS_maximalist_land_reform_score < 0 } }
+			set_variable = { RUS_maximalist_land_reform_score = 0 }
+		}
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+}
+
+RUS_maximalist_land_reform_add_score_2 = {
+	custom_effect_tooltip = RUS_maximalist_land_reform_add_score_2_tt
+	hidden_effect = {
+		add_to_variable = { RUS_maximalist_land_reform_score = 2 }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+}
+
+RUS_maximalist_land_reform_add_score_10 = {
+	custom_effect_tooltip = RUS_maximalist_land_reform_add_score_10_tt
+	hidden_effect = {
+		add_to_variable = { RUS_maximalist_land_reform_score = 10 }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+}
