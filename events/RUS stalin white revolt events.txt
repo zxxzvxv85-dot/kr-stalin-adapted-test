@@ -384,8 +384,14 @@ country_event = {
 		custom_effect_tooltip = RUS_white_revolt_victory_tt
 			hidden_effect = {
 				clear_variable = RUS_military_anger
-				random_other_country = { limit = { is_ai = yes } news_event = russia_news_events.8 }
-				RUS_initialise_socrus = yes
+				if = {
+					limit = { NOT = { has_idea = RUS_white_army_red_baron } }
+					random_other_country = { limit = { is_ai = yes } news_event = russia_news_events.8 }
+					RUS_initialise_socrus = yes
+				}
+				else = {
+					log = "[GetLogInfo]: skipped duplicate RUS_initialise_socrus after the white revolt"
+				}
 				RUS_fpc_start = yes
 				RUS_maximalist_land_reform_add_initial_stage = yes
 			}

@@ -305,9 +305,15 @@ on_actions = {
 	on_daily_RUS = {
 		effect = {
 			# Unit-leader events do not reliably dispatch country events in older saves.
-			# The Manstein option therefore leaves a one-shot country flag for the daily country scope.
+			# The Manstein option therefore leaves a one-shot global flag for the daily country scope.
 			if = {
-				limit = { has_country_flag = RUS_white_revolt_pending }
+				limit = {
+					OR = {
+						has_global_flag = RUS_white_revolt_pending_global
+						has_country_flag = RUS_white_revolt_pending
+					}
+				}
+				clr_global_flag = RUS_white_revolt_pending_global
 				clr_country_flag = RUS_white_revolt_pending
 				if = {
 					limit = {
@@ -315,7 +321,7 @@ on_actions = {
 						NOT = { has_country_flag = RUS_white_revolt_finished }
 					}
 					set_country_flag = RUS_white_revolt_start_dispatched
-					log = "[GetLogInfo]: dispatching rus_stalin_white_revolt_events.1 from RUS_white_revolt_pending"
+					log = "[GetLogInfo]: dispatching rus_stalin_white_revolt_events.1 from the Manstein option"
 					country_event = rus_stalin_white_revolt_events.1
 					country_event = { id = rus_stalin_white_revolt_events.18 days = 60 }
 				}
