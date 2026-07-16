@@ -352,6 +352,17 @@ on_actions = {
 				complete_national_focus = RUS_self_determination
 				mark_focus_tree_layout_dirty = yes
 			}
+			# Recovery for saves which won the white-revolt minigame before its focus reward was restored.
+			if = {
+				limit = {
+					has_socialist_government = yes
+					has_country_flag = RUS_white_revolt_finished
+					NOT = { has_completed_focus = RUS_red_flag_over_kremlin }
+				}
+				log = "[GetLogInfo]: recovering automatic completion of RUS_red_flag_over_kremlin"
+				complete_national_focus = RUS_red_flag_over_kremlin
+				mark_focus_tree_layout_dirty = yes
+			}
 			# Reapply the auto-loader unlock for saves which researched the sabot-shell tech before this module effect was added.
 			if = {
 				limit = {

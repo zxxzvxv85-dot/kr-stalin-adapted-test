@@ -319,6 +319,7 @@ mio:RUS_example_organization = {
 - 为“纠正历史进程”增加新旧存档兼容检查：社会主义且独立的俄罗斯若已完成 `RUS_russian_congress`、但未完成外交线首个国策 `RUS_self_determination`，下一次每日刷新会自动补完并刷新国策树布局。
 - 实机确认 More Custom AI 的旧曼施坦因选项与白军小游戏胜利结算分别执行了一次 `RUS_initialise_socrus`，造成社会主义事件链重复。兼容补丁依赖名已改为实际启用的 Local Loader 与 More Custom AI 名称，并在小游戏结算加入 `RUS_white_army_red_baron` 防重复检测。
 - 曼施坦因歌曲调用改用 KR 现行的 `scoped_play_song`，启动请求改用人物作用域可可靠设置的全局待处理旗标。
+- 将 `RUS_red_flag_over_kremlin` 的自动完成放入白军反抗小游戏胜利结算，并使用 `has_completed_focus` 防重复；已经赢得小游戏但缺失该国策的存档会在下一次每日刷新补发。
 - 完成 1.19 语法适配：`add_army_experience` 改为 `army_experience`，决议 `cancel_if` 改为 `cancel_trigger`，修正季诺维也夫议程的欧洲国家判定，并为高级炮兵科技补齐文件变量。
 - 将斯大林与伏罗希洛夫的老存档补发改为人物作用域 `set_nationality`，避免事件效果中直接 `recruit_character` 的作用域问题。
 - 新增 `RUS_stalin_purge_white_generals_safe`，替换 KR 已失效的 `PREV.PREV` 白军将领清洗作用域，停止 `error.log` 大量重复报错。
