@@ -33,6 +33,13 @@ country_event = {
 	option = {
 		name = rus_stalin_white_revolt_events.1.a
 		custom_effect_tooltip = RUS_white_revolt_start_tt
+		hidden_effect = {
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_red_flag_over_kremlin } }
+				complete_national_focus = RUS_red_flag_over_kremlin
+				mark_focus_tree_layout_dirty = yes
+			}
+		}
 	}
 }
 
@@ -384,11 +391,6 @@ country_event = {
 		custom_effect_tooltip = RUS_white_revolt_victory_tt
 			hidden_effect = {
 				clear_variable = RUS_military_anger
-				if = {
-					limit = { NOT = { has_completed_focus = RUS_red_flag_over_kremlin } }
-					complete_national_focus = RUS_red_flag_over_kremlin
-					mark_focus_tree_layout_dirty = yes
-				}
 				if = {
 					limit = { NOT = { has_idea = RUS_white_army_red_baron } }
 					random_other_country = { limit = { is_ai = yes } news_event = russia_news_events.8 }
