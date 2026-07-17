@@ -308,6 +308,10 @@ mio:RUS_example_organization = {
 
 ## 9. 更新记录
 
+### 2026-07-17
+
+- 根据实机 `error.log` 的 `recruit_character: Unknown character RUS_kliment_voroshilov`，确认独立的 `zzz_RUS_kliment_voroshilov.txt` 没有进入启动时角色数据库。现将完整角色定义并入确定会加载的 `common/characters/RUS characters.txt`，删除独立文件；国策奖励与每日老存档补发继续使用 `recruit_character`。该修复必须完全退出并重启 HOI4 后才会生效，随后旧存档推进一天即可触发补发。
+
 ### 2026-07-16
 
 - 将适配版、测试版、Local Loader 与 `[KR] Stalin Adapted - More Custom AI Compat` 更新至游戏版本 `1.19.2`（支持 `1.19.*`）。
@@ -323,7 +327,7 @@ mio:RUS_example_organization = {
 - 实机确认尚未加入国家的预定义角色不能通过人物作用域 `set_nationality` 招募。伏罗希洛夫的国策奖励与老存档补发、以及斯大林的缺失角色补发均恢复为 `recruit_character`；现有存档完成“平反红军”后会在下一次每日刷新补入伏罗希洛夫。
 - 修正自动装弹机科技来源：从 KR 与 More Custom AI 的 `artillery5`、`antiair5`、`antitank5` 中删除旧解锁，并移除自定义文件中无效的重复科技定义。现在 `auto_loader` 只由 `sp_advance_sabot_shells`（先进脱壳穿甲弹）或对应老存档兼容科技解锁，OF-63 等科技的自动生成说明也不再显示自动装弹机。
 - 完成 1.19 语法适配：`add_army_experience` 改为 `army_experience`，决议 `cancel_if` 改为 `cancel_trigger`，修正季诺维也夫议程的欧洲国家判定，并为高级炮兵科技补齐文件变量。
-- 将斯大林与伏罗希洛夫的老存档补发改为人物作用域 `set_nationality`，避免事件效果中直接 `recruit_character` 的作用域问题。
+- 曾尝试将斯大林与伏罗希洛夫的老存档补发改为人物作用域 `set_nationality`，但实机确认未招募角色无法用该效果加入国家，现已撤销并恢复为国家作用域 `recruit_character`。
 - 新增 `RUS_stalin_purge_white_generals_safe`，替换 KR 已失效的 `PREV.PREV` 白军将领清洗作用域，停止 `error.log` 大量重复报错。
 - 静态校验确认：关键文件大括号、引号成对；适配版与测试版对应文件 SHA-256 一致；兼容补丁相对适配版仅保留上述预期差异。
 
