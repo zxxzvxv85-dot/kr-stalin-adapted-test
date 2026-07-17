@@ -321,6 +321,7 @@ mio:RUS_example_organization = {
 - 曼施坦因歌曲调用改用 KR 现行的 `scoped_play_song`，启动请求改用人物作用域可可靠设置的全局待处理旗标。
 - 按事件原设计，将 `RUS_red_flag_over_kremlin` 的自动完成放在“白军拒绝缴械”开场事件按钮中，并使用 `has_completed_focus` 防重复；已经点击开场事件但缺失该国策的存档，会在小游戏进行中或结束后的下一次每日刷新补发。
 - 实机确认尚未加入国家的预定义角色不能通过人物作用域 `set_nationality` 招募。伏罗希洛夫的国策奖励与老存档补发、以及斯大林的缺失角色补发均恢复为 `recruit_character`；现有存档完成“平反红军”后会在下一次每日刷新补入伏罗希洛夫。
+- 修正自动装弹机科技来源：从 KR 与 More Custom AI 的 `artillery5`、`antiair5`、`antitank5` 中删除旧解锁，并移除自定义文件中无效的重复科技定义。现在 `auto_loader` 只由 `sp_advance_sabot_shells`（先进脱壳穿甲弹）或对应老存档兼容科技解锁，OF-63 等科技的自动生成说明也不再显示自动装弹机。
 - 完成 1.19 语法适配：`add_army_experience` 改为 `army_experience`，决议 `cancel_if` 改为 `cancel_trigger`，修正季诺维也夫议程的欧洲国家判定，并为高级炮兵科技补齐文件变量。
 - 将斯大林与伏罗希洛夫的老存档补发改为人物作用域 `set_nationality`，避免事件效果中直接 `recruit_character` 的作用域问题。
 - 新增 `RUS_stalin_purge_white_generals_safe`，替换 KR 已失效的 `PREV.PREV` 白军将领清洗作用域，停止 `error.log` 大量重复报错。
