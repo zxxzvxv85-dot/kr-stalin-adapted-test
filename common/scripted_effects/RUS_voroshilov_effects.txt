@@ -1,0 +1,37 @@
+# Country scope. Dynamically generates Voroshilov so the character can be added to saves created before the mod introduced him.
+RUS_generate_kliment_voroshilov = {
+	if = {
+		limit = {
+			NOT = { has_character = kliment_voroshilov }
+			NOT = { has_character = RUS_kliment_voroshilov }
+		}
+		generate_character = {
+			token_base = kliment_voroshilov
+			name = RUS_kliment_voroshilov
+			portraits = {
+				army = {
+					large = GFX_portrait_RUS_kliment_voroshilov
+					small = GFX_idea_RUS_kliment_voroshilov
+				}
+			}
+			field_marshal = {
+				traits = { old_guard inflexible_strategist politically_connected }
+				skill = 4
+				attack_skill = 3
+				defense_skill = 5
+				planning_skill = 4
+				logistics_skill = 6
+			}
+			advisor = {
+				slot = army_chief
+				idea_token = RUS_kliment_voroshilov_army_chief
+				available = {
+					has_completed_focus = RUS_rehabilitate_red_army
+					not_already_hired_except_as = army_chief
+				}
+				traits = { KR_army_breakthrough_2 }
+				cost = 50
+			}
+		}
+	}
+}
