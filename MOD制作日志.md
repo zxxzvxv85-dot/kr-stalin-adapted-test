@@ -317,7 +317,7 @@ mio:RUS_example_organization = {
 
 - 为 `KR Tech Extension`、`Unoffical KRTX Patch Reupload` 与其简体中文包制作直接兼容：三个模组均声明依赖 Local Loader 并更新为 `1.19.*`；两个代码版的 `antitank3` 新增通向 `sp_advance_sabot_shells` 的支线，解决科技拓展界面中的 `Found no grid box`；从 `artillery5`、`antiair5`、`antitank5` 删除提前解锁 `auto_loader`；新增末尾模块覆盖，保留 KRTX 的 `tank_special_module_stabilizer` 类别及稳定器 1–4 级升级链，同时应用本模组的稳定器与自动装弹机属性。并移除本模组三个合并版 `artillery.txt` 中重复的 `sp_advance_sabot_shells` 定义，使独立兼容科技文件成为唯一科技定义来源。
 - 从 KRTX 移植现代高速加农炮与现代重型加农炮为本模组独立模块，避免被上游同名 ID 覆盖。解锁链改为：研究 `antitank5`（1943 年反坦克炮）后，在科技效果栏显示并解锁特殊项目 `sp_land_modern_fin_stabilized_discarding_sabot`（现代稳定尾翼脱壳穿甲弹）；完成项目才设置隐藏科技 `RUS_modern_cannons_unlock`，并解锁两门现代炮。项目沿用“大口径动能脱壳穿甲弹”的地面专业、火炮标签、复杂度、突破点、资源消耗、原型奖励池和图标。
-- 现代高速加农炮属性：软攻 `45`、硬攻 `60`、最大速度 `-4 km/h`、可靠性 `-75%`；现代重型加农炮属性：软攻 `50`、硬攻 `55`、最大速度 `-4 km/h`、可靠性 `-80%`。两门炮均使用标准 `tank_medium_main_armament` 类别，定位为中型主武器；完成项目解锁后可安装到任何接受中型主武器的炮塔，不要求现代坦克底盘。适配版自身新增末尾装备覆盖 `zzzz_RUS_modern_tank_chassis_adjustment.txt`，将 `modern_tank_chassis` 原型基础速度由 `7 km/h` 提高至 `10 km/h`、基础可靠性由 `120%` 提高至 `150%`；因此无论当前底盘来源是 KR 本体还是 KRTX，加载器都会应用该数值。首个现代坦克底盘继承这组属性，后续 KRTX 底盘仍保留各自独立属性。
+- 现代高速加农炮属性：软攻 `45`、硬攻 `60`、最大速度 `-4 km/h`、可靠性 `-75%`；现代重型加农炮属性：软攻 `50`、硬攻 `55`、最大速度 `-4 km/h`、可靠性 `-80%`。两门炮均使用标准 `tank_medium_main_armament` 类别，定位为中型主武器；完成项目解锁后可安装到任何接受中型主武器的炮塔，不要求现代坦克底盘。适配版以同路径完整文件 `common/units/equipment/tank_chassis.txt` 覆盖 KR 本体，将 `modern_tank_chassis` 原型基础速度由 `7 km/h` 提高至 `10 km/h`、基础可靠性由 `120%` 提高至 `150%`；装备数据库不接受用不同文件重复定义同一原型，因此此前的末尾重复定义方案已删除。坦克设计器与“现代坦克”科技详情卡都读取这一原型，会同时更新。启用 KRTX 时则由已经同步修改的 KRTX 同路径文件接管。
 - 火炮稳定器可靠性加成由 `+15%` 提高为 `+40%`；适配版、测试版以及 KRTX 本体与兼容补丁中的末尾模块覆盖均同步该数值。
 
 ### 2026-07-16
