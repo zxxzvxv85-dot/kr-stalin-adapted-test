@@ -313,6 +313,10 @@ mio:RUS_example_organization = {
 - 根据实机 `error.log` 的 `recruit_character: Unknown character RUS_kliment_voroshilov`，确认独立的 `zzz_RUS_kliment_voroshilov.txt` 没有进入启动时角色数据库。现将完整角色定义并入确定会加载的 `common/characters/RUS characters.txt`，删除独立文件；国策奖励与每日老存档补发继续使用 `recruit_character`。该修复必须完全退出并重启 HOI4 后才会生效，随后旧存档推进一天即可触发补发。
 - 再次实机验证发现，每日补发会执行但旧战役持续报告 `Unknown character`；将角色主文件放进最终兼容层后错误仍存在，证明根因并非 More Custom AI 的文件覆盖，而是旧存档在战役建立时已经固化角色数据库，后加的预定义角色无法用 `recruit_character` 注入。现撤销兼容层的整份角色文件，改用运行时 `generate_character` 动态生成伏罗希洛夫，使新档、旧档以及 More Custom AI 组合均走同一条可执行流程；动态角色同时包含等级 4、`3/5/4/6` 的陆军元帅身份和“陆军突破（大师）”陆军部长身份。
 
+### 2026-07-18
+
+- 为 `KR Tech Extension`、`Unoffical KRTX Patch Reupload` 与其简体中文包制作直接兼容：三个模组均声明依赖 Local Loader 并更新为 `1.19.*`；两个代码版的 `antitank3` 新增通向 `sp_advance_sabot_shells` 的支线，解决科技拓展界面中的 `Found no grid box`；从 `artillery5`、`antiair5`、`antitank5` 删除提前解锁 `auto_loader`；新增末尾模块覆盖，保留 KRTX 的 `tank_special_module_stabilizer` 类别及稳定器 1–4 级升级链，同时应用本模组的稳定器与自动装弹机属性。并移除本模组三个合并版 `artillery.txt` 中重复的 `sp_advance_sabot_shells` 定义，使独立兼容科技文件成为唯一科技定义来源。
+
 ### 2026-07-16
 
 - 将适配版、测试版、Local Loader 与 `[KR] Stalin Adapted - More Custom AI Compat` 更新至游戏版本 `1.19.2`（支持 `1.19.*`）。
