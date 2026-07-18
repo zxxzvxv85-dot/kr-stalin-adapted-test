@@ -1292,6 +1292,16 @@ technologies = {
 			lc_heavy_high_velocity_cannons #Module for Land Cruiser
 		}
 
+		on_research_complete = {
+			if = {
+				limit = { has_dlc_pfot = yes }
+				custom_effect_tooltip = {
+					localization_key = SP_UNLOCK_PROJECT
+					PROJECT = sp_land_modern_fin_stabilized_discarding_sabot
+				}
+			}
+		}
+
 		research_cost = 1
 
 		start_year = 1943
