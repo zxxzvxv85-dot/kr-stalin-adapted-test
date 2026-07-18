@@ -316,6 +316,7 @@ mio:RUS_example_organization = {
 ### 2026-07-18
 
 - 为 `KR Tech Extension`、`Unoffical KRTX Patch Reupload` 与其简体中文包制作直接兼容：三个模组均声明依赖 Local Loader 并更新为 `1.19.*`；两个代码版的 `antitank3` 新增通向 `sp_advance_sabot_shells` 的支线，解决科技拓展界面中的 `Found no grid box`；从 `artillery5`、`antiair5`、`antitank5` 删除提前解锁 `auto_loader`；新增末尾模块覆盖，保留 KRTX 的 `tank_special_module_stabilizer` 类别及稳定器 1–4 级升级链，同时应用本模组的稳定器与自动装弹机属性。并移除本模组三个合并版 `artillery.txt` 中重复的 `sp_advance_sabot_shells` 定义，使独立兼容科技文件成为唯一科技定义来源。
+- 从 KRTX 移植现代高速加农炮与现代重型加农炮为本模组独立模块，避免被上游同名 ID 覆盖。现代高速加农炮设为软攻 `45`、硬攻 `60`，现代重型加农炮设为软攻 `50`、硬攻 `55`，其余穿深、突破、造价、速度、可靠性和资源消耗沿用 KRTX 补丁版。研究 `main_battle_tank_chassis` 后由隐藏兼容科技解锁；模块使用专属 `RUS_modern_main_armament` 类别，只有 KRTX 的现代坦克炮塔、现代固定战斗室及后续现代炮塔接受该类别，因此无法安装在早期底盘上。图标素材复制进适配版与测试版，旧存档在每日刷新时补发解锁。
 
 ### 2026-07-16
 

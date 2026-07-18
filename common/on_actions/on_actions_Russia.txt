@@ -374,6 +374,14 @@ on_actions = {
 				}
 				set_technology = { RUS_auto_loader_old_save_compat = 1 popup = no }
 			}
+			# Unlock the adapted modern cannons when the first modern tank chassis is researched.
+			if = {
+				limit = {
+					has_tech = main_battle_tank_chassis
+					NOT = { has_tech = RUS_modern_cannons_unlock }
+				}
+				set_technology = { RUS_modern_cannons_unlock = 1 popup = yes }
+			}
 			# Compatibility for Socialist Russia saves created before the Federal Planning Commission was added.
 			if = {
 				limit = {
