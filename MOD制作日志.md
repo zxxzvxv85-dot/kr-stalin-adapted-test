@@ -317,7 +317,7 @@ mio:RUS_example_organization = {
 
 - 为 `KR Tech Extension`、`Unoffical KRTX Patch Reupload` 与其简体中文包制作直接兼容：三个模组均声明依赖 Local Loader 并更新为 `1.19.*`；两个代码版的 `antitank3` 新增通向 `sp_advance_sabot_shells` 的支线，解决科技拓展界面中的 `Found no grid box`；从 `artillery5`、`antiair5`、`antitank5` 删除提前解锁 `auto_loader`；新增末尾模块覆盖，保留 KRTX 的 `tank_special_module_stabilizer` 类别及稳定器 1–4 级升级链，同时应用本模组的稳定器与自动装弹机属性。并移除本模组三个合并版 `artillery.txt` 中重复的 `sp_advance_sabot_shells` 定义，使独立兼容科技文件成为唯一科技定义来源。
 - 从 KRTX 移植现代高速加农炮与现代重型加农炮为本模组独立模块，避免被上游同名 ID 覆盖。解锁链改为：研究 `antitank5`（1943 年反坦克炮）后，在科技效果栏显示并解锁特殊项目 `sp_land_modern_fin_stabilized_discarding_sabot`（现代稳定尾翼脱壳穿甲弹）；完成项目才设置隐藏科技 `RUS_modern_cannons_unlock`，并解锁两门现代炮。项目沿用“大口径动能脱壳穿甲弹”的地面专业、火炮标签、复杂度、突破点、资源消耗、原型奖励池和图标。
-- 现代高速加农炮属性：软攻 `45`、硬攻 `60`、最大速度 `-2 km/h`、可靠性 `-50%`；现代重型加农炮属性：软攻 `50`、硬攻 `55`、最大速度 `-2 km/h`、可靠性 `-55%`。模块使用专属 `RUS_modern_main_armament` 类别，只有 KRTX 的现代坦克炮塔、现代固定战斗室及后续现代炮塔接受该类别，因此无法安装在早期底盘上。
+- 现代高速加农炮属性：软攻 `45`、硬攻 `60`、最大速度 `-2 km/h`、可靠性 `-50%`；现代重型加农炮属性：软攻 `50`、硬攻 `55`、最大速度 `-2 km/h`、可靠性 `-55%`。两门炮均改用标准 `tank_medium_main_armament` 类别，定位为中型主武器；完成项目解锁后可安装到任何接受中型主武器的炮塔，不再要求现代坦克底盘。原先为 KRTX 现代炮塔追加专属类别的覆盖文件已删除。
 - 火炮稳定器可靠性加成由 `+15%` 提高为 `+40%`；适配版、测试版以及 KRTX 本体与兼容补丁中的末尾模块覆盖均同步该数值。
 
 ### 2026-07-16
