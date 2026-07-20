@@ -1,0 +1,135 @@
+RUS_fr_military_reform_decisions = {
+	icon = GFX_decision_generic_military
+	visible = {
+		original_tag = RUS
+		has_country_flag = RUS_fr_military_reform_unlocked
+	}
+
+	RUS_fr_federal_plan_armaments_allocation = {
+		icon = GFX_decision_generic_industry
+		cost = 25
+		days_re_enable = 90
+		available = {
+			OR = {
+				has_completed_focus = RUS_4_year_plan
+				has_completed_focus = RUS_planning_directory
+				has_completed_focus = SR_stalin_4_industrialization
+				has_completed_focus = RUS_coordinate_development
+			}
+		}
+		complete_effect = { add_to_variable = { RUS_fr_military_reform_materials = 15 } }
+		ai_will_do = { factor = 5 }
+	}
+
+	RUS_fr_draw_general_staff_reserves = {
+		icon = GFX_decision_generic_military
+		custom_cost_text = RUS_fr_cost_25_army_xp
+		custom_cost_trigger = { army_experience > 24 }
+		days_re_enable = 60
+		complete_effect = {
+			army_experience = -25
+			add_to_variable = { RUS_fr_military_reform_materials = 12 }
+		}
+		ai_will_do = { factor = 3 }
+	}
+
+	RUS_fr_wartime_emergency_procurement = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		cost = 50
+		days_re_enable = 60
+		available = { has_war = yes }
+		complete_effect = {
+			add_stability = -0.01
+			add_to_variable = { RUS_fr_military_reform_materials = 25 }
+		}
+		ai_will_do = { factor = 8 }
+	}
+
+	RUS_fr_reform_command_audit = {
+		icon = GFX_decision_generic_military
+		visible = { has_completed_focus = RUS_fr_national_military_reform_program }
+		available = {
+			has_idea = RUS_fr_reform_disorganisation_4
+			check_variable = { RUS_fr_military_reform_materials > 14 }
+			army_experience > 24
+			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -15 }
+			army_experience = -25
+			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_4 add_idea = RUS_fr_reform_disorganisation_3 }
+			RUS_fr_clear_reform_basic_bonus = yes
+			add_ideas = RUS_fr_reform_basic_bonuses_1
+			set_country_flag = RUS_fr_reform_stage_1
+			set_country_flag = { flag = RUS_fr_reform_decision_cooldown days = 90 }
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_reform_standard_tables = {
+		icon = GFX_decision_generic_military
+		visible = { has_country_flag = RUS_fr_reform_stage_1 }
+		available = {
+			has_idea = RUS_fr_reform_disorganisation_3
+			check_variable = { RUS_fr_military_reform_materials > 14 }
+			army_experience > 39
+			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -15 }
+			army_experience = -40
+			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_3 add_idea = RUS_fr_reform_disorganisation_2 }
+			RUS_fr_clear_reform_basic_bonus = yes
+			add_ideas = RUS_fr_reform_basic_bonuses_2
+			set_country_flag = RUS_fr_reform_stage_2
+			set_country_flag = { flag = RUS_fr_reform_decision_cooldown days = 90 }
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_reform_training_cycles = {
+		icon = GFX_decision_generic_military
+		visible = { has_country_flag = RUS_fr_reform_stage_2 }
+		available = {
+			has_idea = RUS_fr_reform_disorganisation_2
+			check_variable = { RUS_fr_military_reform_materials > 19 }
+			army_experience > 59
+			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -20 }
+			army_experience = -60
+			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
+			RUS_fr_clear_reform_basic_bonus = yes
+			add_ideas = RUS_fr_reform_basic_bonuses_3
+			set_country_flag = RUS_fr_reform_stage_3
+			set_country_flag = { flag = RUS_fr_reform_decision_cooldown days = 90 }
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_reform_grand_field_test = {
+		icon = GFX_decision_generic_operation
+		visible = { has_country_flag = RUS_fr_reform_stage_3 }
+		available = {
+			has_idea = RUS_fr_reform_disorganisation_1
+			check_variable = { RUS_fr_military_reform_materials > 24 }
+			army_experience > 79
+			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -25 }
+			army_experience = -80
+			remove_ideas = RUS_fr_reform_disorganisation_1
+			RUS_fr_clear_reform_basic_bonus = yes
+			add_ideas = RUS_fr_reform_basic_bonuses_4
+			set_country_flag = RUS_fr_reform_stage_4
+			set_country_flag = RUS_fr_basic_reform_completed
+		}
+		ai_will_do = { factor = 10 }
+	}
+}

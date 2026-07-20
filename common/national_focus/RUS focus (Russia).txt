@@ -1,4 +1,4 @@
-﻿############################################################################################################
+############################################################################################################
 # Russia Focus Tree																				   		   #
 ############################################################################################################
 # First attempted rework by Rylock and Alpinia															   #
@@ -19268,6 +19268,7 @@ focus_tree = {
 
 		allow_branch = {
 			has_socialist_government = yes
+			has_country_flag = RUS_fr_use_legacy_military_tree
 		}
 		prerequisite = {
 			focus = RUS_address_the_army
@@ -19346,6 +19347,7 @@ focus_tree = {
 
 		allow_branch = {
 			has_socialist_government = yes
+			has_country_flag = RUS_fr_use_legacy_military_tree
 		}
 		prerequisite = {
 			focus = RUS_address_the_army
@@ -20233,6 +20235,8 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_rehabilitate_red_army"
+			set_variable = { RUS_fr_military_reform_materials = 60 }
+			set_country_flag = RUS_fr_military_reform_unlocked
 			hidden_effect = { RUS_stalin_recalculate_red_army_dynamic_modifier = yes }
 			if = {
 				limit = {
@@ -20359,13 +20363,13 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = RUS_military_marxism
+		id = RUS_fr_rebuild_revolutionary_military_council
 		icon = GFX_focus_SOV_the_path_of_marxism_leninism
-		cost = 5
+		cost = 3
 
-		relative_position_id = RUS_rehabilitate_red_army
+		relative_position_id = RUS_fr_unified_military_leadership
 		x = 0
-		y = 2
+		y = 1
 
 		ai_will_do = {
 			factor = 4
@@ -20388,10 +20392,21 @@ focus_tree = {
 		}
 
 		prerequisite = {
-			focus = RUS_rehabilitate_red_army
+			focus = RUS_fr_unified_military_leadership
+		}
+		available = {
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
+		select_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -8 }
 		}
 		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_military_marxism"
+			log = "[GetLogRoot]: Focus Completed RUS_fr_rebuild_revolutionary_military_council"
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_military_marxism } }
+				complete_national_focus = RUS_military_marxism
+			}
+			set_country_flag = RUS_fr_revolutionary_military_council_rebuilt
 			hidden_effect = { RUS_stalin_recalculate_red_army_dynamic_modifier = yes }
 			if = {
 				limit = {
@@ -20553,7 +20568,7 @@ focus_tree = {
 		x = 0
 		y = 3
 		prerequisite = {
-			focus = RUS_military_marxism
+			focus = RUS_fr_rebuild_revolutionary_military_council
 		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_mother_russia_bleed_them_dry"
@@ -20580,7 +20595,7 @@ focus_tree = {
 			focus = RUS_punitive_brigades
 		}
 		prerequisite = {
-			focus = RUS_military_marxism
+			focus = RUS_fr_rebuild_revolutionary_military_council
 		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_exhortation_organisation_reprisals"
@@ -23813,6 +23828,9 @@ focus_tree = {
 		id = RUS_military_production
 		icon = GFX_focus_generic_reorient_production #GFX_goal_Focus_Military_Mobilisation
 		cost = 7
+		allow_branch = {
+			has_socialist_government = no
+		}
 
 		relative_position_id = RUS_address_the_army
 		x = -7
@@ -24350,6 +24368,9 @@ focus_tree = {
 		id = RUS_academy_of_black_epaulettes
 		icon = GFX_goal_doctrine_tank_warfare
 		cost = 6
+		allow_branch = {
+			has_socialist_government = no
+		}
 		relative_position_id = RUS_address_the_army
 		x = 4
 		y = 1
@@ -28166,6 +28187,807 @@ focus_tree = {
 				}
 			}
 		}
+	}
+
+	### Frunze's Socialist Military Reform ###
+
+	focus = {
+		id = RUS_fr_unified_military_leadership
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		cost = 3
+		relative_position_id = RUS_rehabilitate_red_army
+		x = 2
+		y = 2
+		allow_branch = { has_socialist_government = yes }
+		prerequisite = { focus = RUS_rehabilitate_red_army }
+		available = { check_variable = { RUS_fr_military_reform_materials > 4 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -5 } }
+		completion_reward = {
+			set_country_flag = RUS_fr_new_military_tree_active
+			if = {
+				limit = {
+					has_completed_focus = RUS_heirs_of_stavka
+					NOT = { has_completed_focus = RUS_legacy_of_workers_army }
+				}
+				uncomplete_national_focus = {
+					focus = RUS_heirs_of_stavka
+					uncomplete_children = yes
+					refund_political_power = no
+				}
+				remove_ideas = {
+					RUS_vasilevsky_doctrine_1
+					RUS_vasilevsky_doctrine_2
+					RUS_vasilevsky_doctrine_3
+					RUS_vasilevsky_doctrine_4
+				}
+			}
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_legacy_of_workers_army } }
+				complete_national_focus = RUS_legacy_of_workers_army
+			}
+			if = {
+				limit = { NOT = { has_idea = RUS_fr_reform_disorganisation_4 } }
+				add_ideas = RUS_fr_reform_disorganisation_4
+			}
+			if = {
+				limit = { has_character = RUS_mikhail_frunze }
+				RUS_mikhail_frunze = { promote_leader = yes }
+			}
+			army_experience = 10
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MILITARY_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_fr_reorganise_general_staff_districts
+		icon = GFX_goal_generic_army_motorized
+		cost = 3
+		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			RUS_fix_army_soc = yes
+			army_experience = 15
+			add_command_power = 10
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_national_military_reform_program
+		icon = GFX_focus_generic_military_mission
+		cost = 3
+		relative_position_id = RUS_fr_reorganise_general_staff_districts
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_reorganise_general_staff_districts }
+		available = {
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+			OR = {
+				has_completed_focus = RUS_4_year_plan
+				has_completed_focus = RUS_planning_directory
+				has_completed_focus = SR_stalin_4_industrialization
+				has_completed_focus = RUS_coordinate_development
+			}
+		}
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			set_country_flag = RUS_fr_reform_program_adopted
+			add_political_power = 25
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = RUS_fr_cadres_decide_everything
+		icon = GFX_focus_generic_military_academy
+		cost = 3
+		relative_position_id = RUS_fr_national_military_reform_program
+		x = -3
+		y = 1
+		prerequisite = { focus = RUS_fr_national_military_reform_program }
+		available = {
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+			NOT = { has_country_flag = RUS_fr_priority_reform_cooldown }
+		}
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
+		completion_reward = {
+			set_country_flag = { flag = RUS_fr_priority_reform_cooldown days = 180 }
+			set_country_flag = RUS_fr_red_commanders_upgrade_bonus
+			add_doctrine_cost_reduction = { name = RUS_fr_cadres_decide_everything cost_reduction = 0.20 uses = 1 category = land_doctrine }
+		}
+		search_filters = { FOCUS_FILTER_MILITARY_CHARACTER FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_equipment_is_the_armys_skeleton
+		icon = GFX_focus_generic_military_equipment
+		cost = 3
+		relative_position_id = RUS_fr_national_military_reform_program
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_national_military_reform_program }
+		available = {
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+			NOT = { has_country_flag = RUS_fr_priority_reform_cooldown }
+		}
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
+		completion_reward = {
+			set_country_flag = { flag = RUS_fr_priority_reform_cooldown days = 180 }
+			add_tech_bonus = { name = RUS_fr_equipment_is_the_armys_skeleton bonus = 0.50 uses = 1 category = infantry_weapons }
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_train_before_expansion
+		icon = GFX_goal_generic_special_forces
+		cost = 3
+		relative_position_id = RUS_fr_national_military_reform_program
+		x = 3
+		y = 1
+		prerequisite = { focus = RUS_fr_national_military_reform_program }
+		available = {
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+			NOT = { has_country_flag = RUS_fr_priority_reform_cooldown }
+		}
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
+		completion_reward = {
+			set_country_flag = { flag = RUS_fr_priority_reform_cooldown days = 180 }
+			army_experience = 20
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = RUS_fr_red_commander_system
+		icon = GFX_focus_generic_military_academy
+		cost = 3
+		relative_position_id = RUS_fr_cadres_decide_everything
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_cadres_decide_everything }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_democratic_guard } }
+				complete_national_focus = RUS_democratic_guard
+			}
+			army_experience = 20
+			add_command_power = 15
+		}
+		search_filters = { FOCUS_FILTER_MILITARY_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_fr_unified_ordnance_supply_system
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 3
+		relative_position_id = RUS_fr_equipment_is_the_armys_skeleton
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_equipment_is_the_armys_skeleton }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			add_tech_bonus = { name = RUS_fr_unified_ordnance_supply_system bonus = 0.50 uses = 1 category = support_tech }
+			add_offsite_building = { type = arms_factory level = 1 }
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_unified_training_mobilisation_system
+		icon = GFX_goal_generic_army_doctrines
+		cost = 3
+		relative_position_id = RUS_fr_train_before_expansion
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_train_before_expansion }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			RUS_fix_army_soc = yes
+			add_war_support = 0.03
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = RUS_fr_frunze_field_regulations
+		icon = GFX_goal_planning_bonus
+		cost = 4
+		relative_position_id = RUS_fr_national_military_reform_program
+		x = 0
+		y = 3
+		prerequisite = { focus = RUS_fr_red_commander_system }
+		prerequisite = { focus = RUS_fr_unified_ordnance_supply_system }
+		prerequisite = { focus = RUS_fr_unified_training_mobilisation_system }
+		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_basis_of_victory } }
+				complete_national_focus = RUS_basis_of_victory
+			}
+			add_doctrine_cost_reduction = { name = RUS_fr_frunze_field_regulations cost_reduction = 0.35 uses = 2 category = land_doctrine }
+			army_experience = 25
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_general_staff_experimental_formations
+		icon = GFX_focus_generic_combined_arms
+		cost = 3
+		relative_position_id = RUS_fr_frunze_field_regulations
+		x = -1
+		y = 1
+		prerequisite = { focus = RUS_fr_frunze_field_regulations }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			add_tech_bonus = { name = RUS_fr_general_staff_experimental_formations bonus = 0.50 uses = 1 category = cat_mechanized_equipment }
+			army_experience = 15
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_national_mobilisation_supply_test
+		icon = GFX_focus_SOV_the_road_of_life
+		cost = 3
+		relative_position_id = RUS_fr_frunze_field_regulations
+		x = 1
+		y = 1
+		prerequisite = { focus = RUS_fr_frunze_field_regulations }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			add_tech_bonus = { name = RUS_fr_national_mobilisation_supply_test bonus = 0.50 uses = 1 category = logistics_tech }
+			add_war_support = 0.03
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_all_russian_red_army_exercise
+		icon = GFX_goal_generic_position_armies
+		cost = 4
+		relative_position_id = RUS_fr_frunze_field_regulations
+		x = 0
+		y = 2
+		prerequisite = { focus = RUS_fr_general_staff_experimental_formations }
+		prerequisite = { focus = RUS_fr_national_mobilisation_supply_test }
+		available = {
+			check_variable = { RUS_fr_military_reform_materials > 11 }
+			has_country_flag = RUS_fr_basic_reform_completed
+		}
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -12 } }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_sword_of_revolution } }
+				complete_national_focus = RUS_sword_of_revolution
+			}
+			RUS_fix_army_soc = yes
+			army_experience = 35
+			add_command_power = 25
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_revolutionary_military_system_finalised
+		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
+		cost = 4
+		relative_position_id = RUS_fr_all_russian_red_army_exercise
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_all_russian_red_army_exercise }
+		prerequisite = { focus = RUS_fr_unified_military_political_system }
+		available = { check_variable = { RUS_fr_military_reform_materials > 11 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -12 } }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_academy_of_black_epaulettes } }
+				complete_national_focus = RUS_academy_of_black_epaulettes
+			}
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_deep_battle_focus } }
+				complete_national_focus = RUS_deep_battle_focus
+			}
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_technological_supremacy } }
+				complete_national_focus = RUS_technological_supremacy
+			}
+			set_country_flag = RUS_fr_military_reform_finalised
+			army_experience = 50
+			add_stability = 0.05
+			country_event = { id = RUS_fr_military_reform.90 days = 1 }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESEARCH }
+	}
+
+	### Military Rectification Branch ###
+
+	focus = {
+		id = RUS_fr_military_rectification
+		icon = GFX_focus_SOV_the_last_purge
+		cost = 3
+		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
+		x = -5
+		y = 1
+		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
+		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
+		completion_reward = { add_stability = -0.01 army_experience = 10 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_investigate_white_networks
+		icon = GFX_focus_generic_secret_service_agency
+		cost = 3
+		relative_position_id = RUS_fr_military_rectification
+		x = -1
+		y = 1
+		prerequisite = { focus = RUS_fr_military_rectification }
+		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_death_to_white_army } }
+				complete_national_focus = RUS_death_to_white_army
+			}
+			RUS_fix_army_soc = yes
+			add_political_power = -25
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_fr_officer_oath_service_review
+		icon = GFX_goal_generic_army_doctrines
+		cost = 3
+		relative_position_id = RUS_fr_investigate_white_networks
+		x = 1
+		y = 1
+		prerequisite = { focus = RUS_fr_investigate_white_networks }
+		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
+		completion_reward = { army_experience = 15 add_stability = 0.01 }
+		search_filters = { FOCUS_FILTER_MILITARY_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_fr_basic_commissar_system
+		icon = GFX_goal_generic_socialist_army
+		cost = 3
+		relative_position_id = RUS_fr_officer_oath_service_review
+		x = -1
+		y = 1
+		prerequisite = { focus = RUS_fr_officer_oath_service_review }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_completed_focus = RUS_commissars }
+					NOT = { has_completed_focus = RUS_military_independence }
+				}
+				complete_national_focus = RUS_commissars
+			}
+			if = {
+				limit = { has_idea = RUS_commissars_communist_1 }
+				swap_ideas = { remove_idea = RUS_commissars_communist_1 add_idea = RUS_commissars_communist_2 }
+			}
+			else_if = { limit = { NOT = { has_idea = RUS_commissars_communist_2 } } add_ideas = RUS_commissars_communist_1 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_soldiers_committees
+		icon = GFX_goal_generic_solidarity
+		cost = 3
+		relative_position_id = RUS_fr_basic_commissar_system
+		x = 1
+		y = 1
+		prerequisite = { focus = RUS_fr_basic_commissar_system }
+		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
+		completion_reward = { add_stability = 0.02 add_war_support = 0.02 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_fr_unified_military_political_system
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		cost = 4
+		relative_position_id = RUS_fr_soldiers_committees
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_soldiers_committees }
+		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
+		completion_reward = { RUS_fix_army_soc = yes add_stability = 0.03 army_experience = 20 }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	### Federal Armaments and Defence Industry Commission ###
+
+	focus = {
+		id = RUS_fr_federal_armaments_defence_industry_commission
+		icon = GFX_focus_generic_reorient_production
+		cost = 4
+		relative_position_id = RUS_fr_national_military_reform_program
+		x = 10
+		y = 1
+		prerequisite = { focus = RUS_fr_national_military_reform_program }
+		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
+		completion_reward = {
+			set_country_flag = RUS_fr_armaments_commission_active
+			set_country_flag = RUS_fr_armaments_meeting_called
+			add_to_variable = { RUS_fr_military_reform_materials = 30 }
+			if = {
+				limit = { NOT = { has_completed_focus = RUS_military_production } }
+				complete_national_focus = RUS_military_production
+			}
+			country_event = { id = RUS_fr_military_reform.10 hours = 6 }
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	### Automatic Armaments Program: Infantry Weapons ###
+
+	focus = {
+		id = RUS_fr_light_weapons_artillery_design
+		icon = GFX_goal_generic_small_arms
+		cost = 5
+		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
+		x = -6
+		y = 1
+		prerequisite = { focus = RUS_fr_federal_armaments_defence_industry_commission }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = {
+			if = { limit = { NOT = { has_completed_focus = RUS_update_equipment } } complete_national_focus = RUS_update_equipment }
+			add_tech_bonus = { name = RUS_fr_light_weapons_artillery_design bonus = 0.50 uses = 1 category = artillery }
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_ergonomic_tolerance_standards
+		icon = GFX_focus_generic_military_equipment
+		cost = 5
+		relative_position_id = RUS_fr_light_weapons_artillery_design
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_light_weapons_artillery_design }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { country_event = { id = RUS_fr_military_reform.20 hours = 6 } }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_soldier_load_lightening_program
+		icon = GFX_goal_generic_special_forces
+		cost = 5
+		relative_position_id = RUS_fr_ergonomic_tolerance_standards
+		x = -1
+		y = 1
+		prerequisite = { focus = RUS_fr_ergonomic_tolerance_standards }
+		mutually_exclusive = { focus = RUS_fr_divisional_artillery_support_standard }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_soldier_load_lightening_program bonus = 0.75 uses = 1 category = infantry_weapons } }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_divisional_artillery_support_standard
+		icon = GFX_goal_generic_artillery_factories
+		cost = 5
+		relative_position_id = RUS_fr_ergonomic_tolerance_standards
+		x = 1
+		y = 1
+		prerequisite = { focus = RUS_fr_ergonomic_tolerance_standards }
+		mutually_exclusive = { focus = RUS_fr_soldier_load_lightening_program }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_divisional_artillery_support_standard bonus = 0.75 uses = 1 category = artillery } }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_armaments_quality_assurance_inspectorate
+		icon = GFX_goal_generic_production
+		cost = 5
+		relative_position_id = RUS_fr_ergonomic_tolerance_standards
+		x = 0
+		y = 2
+		prerequisite = { focus = RUS_fr_soldier_load_lightening_program focus = RUS_fr_divisional_artillery_support_standard }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = {
+			if = {
+				limit = { has_dlc_aat = yes }
+				mio:RUS_vpoz_organisation = {
+					add_to_variable = {
+						max_research_speed = 0.05
+						tooltip = RUS_fr_mio_research_cap_tt
+					}
+				}
+			}
+			add_political_power = 15
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_combined_arms_support_standard
+		icon = GFX_focus_generic_combined_arms
+		cost = 6
+		relative_position_id = RUS_fr_armaments_quality_assurance_inspectorate
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_armaments_quality_assurance_inspectorate }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = {
+			RUS_fr_apply_artillery_legacy_rewards = yes
+			if = {
+				limit = { has_dlc_aat = yes }
+				mio:RUS_bmz_organisation = {
+					add_to_variable = {
+						max_research_speed = 0.05
+						tooltip = RUS_fr_mio_research_cap_tt
+					}
+				}
+			}
+			add_ideas = RUS_fr_armaments_basic_result
+			set_country_flag = RUS_fr_armaments_line_finished
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	### Automatic Armaments Program: Mobility ###
+
+	focus = {
+		id = RUS_fr_mechanisation_wave
+		icon = GFX_goal_generic_army_motorized
+		cost = 5
+		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_federal_armaments_defence_industry_commission }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = {
+			if = { limit = { NOT = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } } complete_national_focus = RUS_nizhegorodsky_avtomobilny_focus }
+			add_tech_bonus = { name = RUS_fr_mechanisation_wave bonus = 0.50 uses = 1 category = motorized_equipment }
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_motor_transport_coordination
+		icon = GFX_focus_SOV_the_road_of_life
+		cost = 5
+		relative_position_id = RUS_fr_mechanisation_wave
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_mechanisation_wave }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { country_event = { id = RUS_fr_military_reform.30 hours = 6 } }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_vehicle_manufacturing_integration
+		icon = GFX_goal_generic_production
+		cost = 5
+		relative_position_id = RUS_fr_motor_transport_coordination
+		x = -2
+		y = 1
+		prerequisite = { focus = RUS_fr_motor_transport_coordination }
+		mutually_exclusive = { focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_helicopter_pilot_program }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_offsite_building = { type = arms_factory level = 1 } }
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_mechanised_logistics_regulations
+		icon = GFX_focus_SOV_the_road_of_life
+		cost = 5
+		relative_position_id = RUS_fr_motor_transport_coordination
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_motor_transport_coordination }
+		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_helicopter_pilot_program }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_mechanised_logistics_regulations bonus = 0.75 uses = 1 category = logistics_tech } }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_helicopter_pilot_program
+		icon = GFX_goal_generic_air_doctrine
+		cost = 5
+		relative_position_id = RUS_fr_motor_transport_coordination
+		x = 2
+		y = 1
+		prerequisite = { focus = RUS_fr_motor_transport_coordination }
+		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_helicopter_pilot_program bonus = 1.00 uses = 1 category = helicopter_tech } }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_rapid_operational_corps
+		icon = GFX_goal_generic_army_motorized
+		cost = 6
+		relative_position_id = RUS_fr_vehicle_manufacturing_integration
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { RUS_fr_complete_mobility_legacy_focuses = yes }
+		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_specialised_logistics_corps
+		icon = GFX_focus_SOV_the_road_of_life
+		cost = 6
+		relative_position_id = RUS_fr_mechanised_logistics_regulations
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_mechanised_logistics_regulations }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { RUS_fr_complete_mobility_legacy_focuses = yes }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_air_assault_brigades
+		icon = GFX_goal_generic_special_forces
+		cost = 6
+		relative_position_id = RUS_fr_helicopter_pilot_program
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_helicopter_pilot_program }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = {
+			if = { limit = { NOT = { has_completed_focus = RUS_roads_of_courage } } complete_national_focus = RUS_roads_of_courage }
+			add_tech_bonus = { name = RUS_fr_air_assault_brigades bonus = 1.00 uses = 2 category = helicopter_tech }
+			set_country_flag = RUS_fr_air_assault_infantry_path
+			add_ideas = RUS_fr_mobility_basic_result
+			set_country_flag = RUS_fr_mobility_line_finished
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	### Automatic Armaments Program: Armour ###
+
+	focus = {
+		id = RUS_fr_emphasise_armour_design
+		icon = GFX_focus_generic_tank_production
+		cost = 5
+		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
+		x = 5
+		y = 1
+		prerequisite = { focus = RUS_fr_federal_armaments_defence_industry_commission }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_emphasise_armour_design bonus = 0.50 uses = 1 category = mio_cat_tech_all_armor_and_modules } }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_alloy_armour_standard
+		icon = GFX_focus_generic_tank_production
+		cost = 5
+		relative_position_id = RUS_fr_emphasise_armour_design
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_emphasise_armour_design }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { country_event = { id = RUS_fr_military_reform.40 hours = 6 } }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_breakthrough_chassis_program
+		icon = GFX_goal_doctrine_tank_warfare
+		cost = 5
+		relative_position_id = RUS_fr_alloy_armour_standard
+		x = -1
+		y = 1
+		prerequisite = { focus = RUS_fr_alloy_armour_standard }
+		mutually_exclusive = { focus = RUS_fr_hull_structural_durability_trials }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_breakthrough_chassis_program bonus = 0.75 uses = 1 category = armor } }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_hull_structural_durability_trials
+		icon = GFX_focus_generic_tank_production
+		cost = 5
+		relative_position_id = RUS_fr_alloy_armour_standard
+		x = 1
+		y = 1
+		prerequisite = { focus = RUS_fr_alloy_armour_standard }
+		mutually_exclusive = { focus = RUS_fr_breakthrough_chassis_program }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_hull_structural_durability_trials bonus = 0.75 uses = 1 category = mio_cat_tech_all_armor_and_modules } }
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_fr_long_range_armoured_exploitation
+		icon = GFX_goal_generic_army_motorized
+		cost = 5
+		relative_position_id = RUS_fr_breakthrough_chassis_program
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_breakthrough_chassis_program }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_tech_bonus = { name = RUS_fr_long_range_armoured_exploitation bonus = 0.50 uses = 1 category = armor } }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_fr_universal_hull_standards
+		icon = GFX_goal_generic_production
+		cost = 5
+		relative_position_id = RUS_fr_hull_structural_durability_trials
+		x = 0
+		y = 1
+		prerequisite = { focus = RUS_fr_hull_structural_durability_trials }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { add_offsite_building = { type = arms_factory level = 1 } }
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_land_warfare_mainstay
+		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
+		cost = 6
+		relative_position_id = RUS_fr_alloy_armour_standard
+		x = 0
+		y = 3
+		prerequisite = { focus = RUS_fr_long_range_armoured_exploitation focus = RUS_fr_universal_hull_standards }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = {
+			if = { limit = { NOT = { has_completed_focus = RUS_NPP_tanks } } complete_national_focus = RUS_NPP_tanks }
+			if = { limit = { NOT = { has_completed_focus = RUS_expand_ird } } complete_national_focus = RUS_expand_ird }
+			if = {
+				limit = { has_dlc_aat = yes }
+				mio:RUS_chtz_organisation = {
+					add_to_variable = {
+						max_research_speed = 0.10
+						tooltip = RUS_fr_mio_research_cap_tt
+					}
+				}
+			}
+			add_ideas = RUS_fr_armour_basic_result
+			set_country_flag = RUS_fr_armour_line_finished
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	# Compatibility focus for scripts and submods which still check the old KR focus ID.
+	focus = {
+		id = RUS_military_marxism
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		cost = 1
+		x = 0
+		y = 0
+		allow_branch = { always = no }
+		completion_reward = { set_country_flag = RUS_fr_old_military_marxism_compat }
 	}
 
 }

@@ -1,0 +1,40 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			if = {
+				limit = { tag = RUS }
+				country_event = { id = RUS_fr_military_reform.900 hours = 1 }
+			}
+		}
+	}
+
+	on_weekly = {
+		effect = {
+			if = {
+				limit = { tag = RUS }
+				country_event = { id = RUS_fr_military_reform.900 hours = 1 }
+			}
+		}
+	}
+
+	# Cadres Decide Everything: 25% chance to gain +1 Attack on level-up.
+	# Do not stack with the vanilla Bold Attack spirit, which has its own roll.
+	on_unit_leader_level_up = {
+		effect = {
+			if = {
+				limit = {
+					FROM = {
+						has_country_flag = RUS_fr_red_commanders_upgrade_bonus
+						NOT = { has_idea = bold_attack_spirit }
+					}
+				}
+				character = {
+					if = {
+						limit = { is_army_leader = yes }
+						random_list = { 25 = { add_attack = 1 } 75 = { } }
+					}
+				}
+			}
+		}
+	}
+}
