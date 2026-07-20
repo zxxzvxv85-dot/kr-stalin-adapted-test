@@ -13583,7 +13583,7 @@ focus_tree = {
 			modifier = {
 				factor = 0
 				has_country_flag = RUS_stalin_ai
-				NOT = { has_completed_focus = RUS_military_marxism }
+				NOT = { has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }
 			}
 		}
 		select_effect = {
@@ -19697,7 +19697,7 @@ focus_tree = {
 			}
 			if = {
 				limit = {
-					has_completed_focus = RUS_military_marxism
+					has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 				}
 				add_popularity = { ideology = communist popularity = 0.05 }
 			}
@@ -20458,10 +20458,6 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_fr_rebuild_revolutionary_military_council"
-			if = {
-				limit = { NOT = { has_completed_focus = RUS_military_marxism } }
-				complete_national_focus = RUS_military_marxism
-			}
 			set_country_flag = RUS_fr_revolutionary_military_council_rebuilt
 			hidden_effect = { RUS_stalin_recalculate_red_army_dynamic_modifier = yes }
 			if = {
@@ -28572,7 +28568,7 @@ focus_tree = {
 			set_country_flag = RUS_fr_military_reform_finalised
 			army_experience = 50
 			add_stability = 0.05
-			country_event = { id = RUS_fr_military_reform.90 days = 1 }
+			country_event = { id = RUS_fr_military_reform.400 days = 1 }
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESEARCH }
 	}
@@ -28711,8 +28707,8 @@ focus_tree = {
 		icon = GFX_goal_generic_army_superior_firepower
 		cost = 4
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -8
-		y = 2
+		x = -4
+		y = 1
 		prerequisite = { focus = RUS_fr_federal_armaments_defence_industry_commission }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = { add_tech_bonus = { name = RUS_fr_light_weapons_artillery_design bonus = 0.50 uses = 1 category = infantry_weapons category = artillery } }
@@ -28724,8 +28720,8 @@ focus_tree = {
 		icon = GFX_focus_generic_military_equipment
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -10
-		y = 3
+		x = -7
+		y = 2
 		prerequisite = { focus = RUS_fr_light_weapons_artillery_design }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = {
@@ -28740,8 +28736,8 @@ focus_tree = {
 		icon = GFX_goal_generic_artillery_factories
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -6
-		y = 3
+		x = -4
+		y = 2
 		prerequisite = { focus = RUS_fr_light_weapons_artillery_design }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = {
@@ -28756,8 +28752,8 @@ focus_tree = {
 		icon = GFX_focus_generic_commonwealth_build_infantry
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -12
-		y = 4
+		x = -8
+		y = 3
 		prerequisite = { focus = RUS_fr_small_arms_standardisation_committee }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = { add_tech_bonus = { name = RUS_fr_ergonomic_tolerance_standards bonus = 0.50 uses = 1 category = infantry_weapons } }
@@ -28769,8 +28765,8 @@ focus_tree = {
 		icon = GFX_focus_generic_industrial_experts
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -9
-		y = 4
+		x = -6
+		y = 3
 		prerequisite = { focus = RUS_fr_small_arms_standardisation_committee }
 		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -28790,8 +28786,8 @@ focus_tree = {
 		icon = GFX_focus_generic_combined_arms
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -5
-		y = 4
+		x = -4
+		y = 3
 		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -28807,8 +28803,8 @@ focus_tree = {
 		icon = GFX_focus_generic_diverse_army
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -11
-		y = 5
+		x = -7
+		y = 4
 		prerequisite = { focus = RUS_fr_ergonomic_tolerance_standards }
 		prerequisite = { focus = RUS_fr_armaments_quality_assurance_inspectorate }
 		mutually_exclusive = { focus = RUS_fr_divisional_artillery_support_standard }
@@ -28822,8 +28818,8 @@ focus_tree = {
 		icon = GFX_goal_generic_artillery_factories
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -5
-		y = 5
+		x = -4
+		y = 4
 		prerequisite = { focus = RUS_fr_self_propelled_support_fire_trials }
 		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_air_assault_brigades }
 		mutually_exclusive = { focus = RUS_fr_soldier_load_lightening_program }
@@ -28837,8 +28833,8 @@ focus_tree = {
 		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -8
-		y = 6
+		x = -6
+		y = 5
 		prerequisite = { focus = RUS_fr_soldier_load_lightening_program focus = RUS_fr_divisional_artillery_support_standard }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = { add_ideas = RUS_fr_armaments_basic_result set_country_flag = RUS_fr_armaments_line_finished }
@@ -28853,7 +28849,7 @@ focus_tree = {
 		cost = 4
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 0
-		y = 2
+		y = 1
 		prerequisite = { focus = RUS_fr_federal_armaments_defence_industry_commission }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = {
@@ -28868,8 +28864,8 @@ focus_tree = {
 		icon = GFX_focus_SOV_merge_plants
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -2
-		y = 3
+		x = -1
+		y = 2
 		prerequisite = { focus = RUS_fr_mechanisation_wave }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = { add_tech_bonus = { name = RUS_fr_mechanised_platform_research_committee bonus = 0.75 uses = 1 category = cat_mechanized_equipment } }
@@ -28881,8 +28877,8 @@ focus_tree = {
 		icon = GFX_focus_generic_improve_roads
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 2
-		y = 3
+		x = 1
+		y = 2
 		prerequisite = { focus = RUS_fr_mechanisation_wave }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = {
@@ -28897,8 +28893,8 @@ focus_tree = {
 		icon = GFX_focus_SOV_merge_plants
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = -4
-		y = 4
+		x = -2
+		y = 3
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
 		prerequisite = { focus = RUS_fr_alloy_armour_standard }
 		mutually_exclusive = { focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_helicopter_pilot_program }
@@ -28913,7 +28909,7 @@ focus_tree = {
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 0
-		y = 4
+		y = 3
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
 		prerequisite = { focus = RUS_fr_rapid_mobility_equipment_trials }
 		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_helicopter_pilot_program }
@@ -28930,8 +28926,8 @@ focus_tree = {
 		icon = GFX_focus_generic_early_helicopter
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 3
-		y = 4
+		x = 2
+		y = 3
 		prerequisite = { focus = RUS_fr_rapid_mobility_equipment_trials }
 		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -28944,8 +28940,8 @@ focus_tree = {
 		icon = GFX_focus_generic_armored_air_support
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 3
-		y = 5
+		x = 1
+		y = 4
 		prerequisite = { focus = RUS_fr_helicopter_pilot_program }
 		prerequisite = { focus = RUS_fr_small_arms_standardisation_committee }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -28962,7 +28958,7 @@ focus_tree = {
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = -2
-		y = 6
+		y = 5
 		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations }
 		prerequisite = { focus = RUS_fr_self_propelled_direct_fire_system focus = RUS_fr_hull_structural_durability_trials }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -28976,7 +28972,7 @@ focus_tree = {
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 2
-		y = 6
+		y = 5
 		prerequisite = { focus = RUS_fr_air_assault_brigades }
 		prerequisite = { focus = RUS_fr_long_range_armoured_exploitation }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -28991,8 +28987,8 @@ focus_tree = {
 		icon = GFX_goal_generic_army_tanks3
 		cost = 4
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 8
-		y = 2
+		x = 4
+		y = 1
 		prerequisite = { focus = RUS_fr_federal_armaments_defence_industry_commission }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = {
@@ -29007,8 +29003,8 @@ focus_tree = {
 		icon = GFX_focus_generic_heavy_tank
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 6
-		y = 3
+		x = 4
+		y = 2
 		prerequisite = { focus = RUS_fr_emphasise_armour_design }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = {
@@ -29023,8 +29019,8 @@ focus_tree = {
 		icon = GFX_goal_doctrine_tank_warfare
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 10
-		y = 3
+		x = 7
+		y = 2
 		prerequisite = { focus = RUS_fr_emphasise_armour_design }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
 		completion_reward = {
@@ -29040,7 +29036,7 @@ focus_tree = {
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 4
-		y = 4
+		y = 3
 		prerequisite = { focus = RUS_fr_alloy_armour_standard }
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -29053,8 +29049,8 @@ focus_tree = {
 		icon = GFX_goal_generic_army_motorized
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 7
-		y = 4
+		x = 6
+		y = 3
 		prerequisite = { focus = RUS_fr_alloy_armour_standard }
 		prerequisite = { focus = RUS_fr_rapid_mobility_equipment_trials }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -29067,8 +29063,8 @@ focus_tree = {
 		icon = GFX_goal_generic_artillery_factories
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 12
-		y = 4
+		x = 8
+		y = 3
 		prerequisite = { focus = RUS_fr_tank_firepower_development_plan }
 		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -29085,7 +29081,7 @@ focus_tree = {
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 4
-		y = 5
+		y = 4
 		prerequisite = { focus = RUS_fr_breakthrough_chassis_program }
 		prerequisite = { focus = RUS_fr_long_range_armoured_exploitation }
 		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_air_assault_brigades }
@@ -29102,8 +29098,8 @@ focus_tree = {
 		icon = GFX_focus_generic_combined_arms
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 7
-		y = 5
+		x = 6
+		y = 4
 		prerequisite = { focus = RUS_fr_tank_firepower_development_plan }
 		prerequisite = { focus = RUS_fr_self_propelled_support_fire_trials }
 		mutually_exclusive = { focus = RUS_fr_hull_structural_durability_trials }
@@ -29117,8 +29113,8 @@ focus_tree = {
 		icon = GFX_focus_generic_army_tanks2
 		cost = 5
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 11
-		y = 5
+		x = 8
+		y = 4
 		prerequisite = { focus = RUS_fr_alloy_armour_standard }
 		prerequisite = { focus = RUS_fr_armaments_quality_assurance_inspectorate }
 		mutually_exclusive = { focus = RUS_fr_self_propelled_direct_fire_system }
@@ -29132,8 +29128,8 @@ focus_tree = {
 		icon = GFX_focus_generic_combined_arms
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 8
-		y = 6
+		x = 6
+		y = 5
 		prerequisite = { focus = RUS_fr_high_velocity_kinetic_gun_program }
 		prerequisite = { focus = RUS_fr_self_propelled_direct_fire_system focus = RUS_fr_hull_structural_durability_trials }
 		prerequisite = { focus = RUS_fr_soldier_load_lightening_program focus = RUS_fr_divisional_artillery_support_standard }
@@ -29148,8 +29144,8 @@ focus_tree = {
 		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 8
-		y = 7
+		x = 6
+		y = 6
 		prerequisite = { focus = RUS_fr_universal_hull_standards }
 		prerequisite = { focus = RUS_fr_armoured_firepower_coordination_standard }
 		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
@@ -29159,6 +29155,21 @@ focus_tree = {
 			set_country_flag = RUS_fr_armour_line_finished
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = RUS_fr_armaments_construction_stage_summary
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		cost = 4
+		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
+		x = 0
+		y = 7
+		prerequisite = { focus = RUS_fr_combined_arms_support_standard }
+		prerequisite = { focus = RUS_fr_rapid_operational_corps focus = RUS_fr_deep_mobility_program }
+		prerequisite = { focus = RUS_fr_land_warfare_mainstay }
+		available = { custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no } }
+		completion_reward = { country_event = { id = RUS_fr_military_reform.90 days = 1 } }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_BONUS }
 	}
 
 	# Hidden legacy IDs retained only for existing script checks and inherited effects.
@@ -29171,15 +29182,4 @@ focus_tree = {
 		allow_branch = { always = no }
 		completion_reward = { set_country_flag = RUS_fr_old_rehabilitate_red_army_compat }
 	}
-
-	focus = {
-		id = RUS_military_marxism
-		icon = GFX_focus_SOV_the_path_of_marxism_leninism
-		cost = 1
-		x = 0
-		y = 0
-		allow_branch = { always = no }
-		completion_reward = { set_country_flag = RUS_fr_old_military_marxism_compat }
-	}
-
 }
