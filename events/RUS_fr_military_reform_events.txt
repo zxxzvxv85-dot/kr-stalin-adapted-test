@@ -410,25 +410,6 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_completed_focus = RUS_rehabilitate_red_army
-				NOT = { has_variable = RUS_fr_military_reform_materials }
-			}
-			set_variable = { RUS_fr_military_reform_materials = 60 }
-			set_country_flag = RUS_fr_military_reform_unlocked
-		}
-		if = {
-			limit = {
-				has_completed_focus = RUS_military_marxism
-				NOT = { has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }
-			}
-			if = {
-				limit = { NOT = { has_completed_focus = RUS_fr_unified_military_leadership } }
-				complete_national_focus = RUS_fr_unified_military_leadership
-			}
-			complete_national_focus = RUS_fr_rebuild_revolutionary_military_council
-		}
-		if = {
-			limit = {
 				has_completed_focus = RUS_fr_federal_armaments_defence_industry_commission
 				NOT = { has_country_flag = RUS_fr_armaments_meeting_called }
 			}
