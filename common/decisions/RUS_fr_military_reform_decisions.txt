@@ -36,11 +36,11 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_wartime_emergency_procurement = {
 		icon = GFX_decision_eng_propaganda_campaigns
 		cost = 50
-		days_re_enable = 60
+		fire_only_once = yes
 		available = { has_war = yes }
 		complete_effect = {
-			add_stability = -0.01
-			add_to_variable = { RUS_fr_military_reform_materials = 25 }
+			add_stability = -0.02
+			add_to_variable = { RUS_fr_military_reform_materials = 30 }
 		}
 		ai_will_do = { factor = 8 }
 	}
@@ -57,6 +57,7 @@ RUS_fr_military_reform_decisions = {
 		fire_only_once = yes
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -15 }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 }
 			army_experience = -25
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_4 add_idea = RUS_fr_reform_disorganisation_3 }
 			RUS_fr_clear_reform_basic_bonus = yes
@@ -79,6 +80,7 @@ RUS_fr_military_reform_decisions = {
 		fire_only_once = yes
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -15 }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 }
 			army_experience = -40
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_3 add_idea = RUS_fr_reform_disorganisation_2 }
 			RUS_fr_clear_reform_basic_bonus = yes
@@ -101,6 +103,7 @@ RUS_fr_military_reform_decisions = {
 		fire_only_once = yes
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -20 }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 }
 			army_experience = -60
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
 			RUS_fr_clear_reform_basic_bonus = yes
@@ -123,6 +126,7 @@ RUS_fr_military_reform_decisions = {
 		fire_only_once = yes
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -25 }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 }
 			army_experience = -80
 			remove_ideas = RUS_fr_reform_disorganisation_1
 			RUS_fr_clear_reform_basic_bonus = yes

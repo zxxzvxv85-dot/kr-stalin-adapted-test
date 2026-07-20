@@ -54,22 +54,84 @@ RUS_fr_complete_mobility_legacy_focuses = {
 		limit = { NOT = { has_completed_focus = RUS_roads_of_courage } }
 		complete_national_focus = RUS_roads_of_courage
 	}
-	if = {
-		limit = { has_dlc_aat = yes }
-		mio:RUS_amo_organisation = {
-			add_to_variable = {
-				RUS_amo_cic_bonus = 250
-				tooltip = RUS_fr_amo_research_surplus_tt
-			}
-		}
-	}
 	add_ideas = RUS_fr_mobility_basic_result
 	set_country_flag = RUS_fr_mobility_line_finished
 }
 
+RUS_fr_apply_committee_base_bonuses = {
+	if = {
+		limit = { has_dlc_aat = yes }
+		mio:RUS_toz_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_vpoz_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_obukhov_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_bmz_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_amo_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_naz_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_laz_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_putilovets_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_okmo_kr_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_uztm_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_chtz_organisation = { add_mio_funds_gain_factor = 0.05 }
+	}
+}
+
+RUS_fr_apply_armaments_priority_bonuses = {
+	add_ideas = RUS_fr_armaments_priority_result
+	if = {
+		limit = { has_dlc_aat = yes }
+		mio:RUS_toz_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_vpoz_organisation = {
+			add_mio_funds_gain_factor = 0.10
+			add_to_variable = { max_research_speed = 0.10 tooltip = RUS_fr_mio_research_cap_tt }
+			add_mio_size = 1
+		}
+		mio:RUS_obukhov_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_bmz_organisation = {
+			add_mio_funds_gain_factor = 0.10
+			add_to_variable = { max_research_speed = 0.10 tooltip = RUS_fr_mio_research_cap_tt }
+			add_mio_size = 1
+		}
+	}
+}
+
+RUS_fr_apply_mobility_priority_bonuses = {
+	if = {
+		limit = { has_country_flag = RUS_fr_helicopter_air_assault_route }
+		add_ideas = RUS_fr_mobility_air_priority_result
+	}
+	else = { add_ideas = RUS_fr_mobility_mechanised_priority_result }
+	if = {
+		limit = { has_dlc_aat = yes }
+		mio:RUS_amo_organisation = {
+			add_mio_funds_gain_factor = 0.10
+			add_to_variable = { RUS_amo_cic_bonus = 250 tooltip = RUS_fr_amo_research_surplus_tt }
+			add_mio_size = 1
+		}
+		mio:RUS_naz_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_laz_organisation = { add_mio_funds_gain_factor = 0.10 }
+		set_country_flag = naz_research_funds_gain
+		set_country_flag = laz_research_funds_gain
+	}
+}
+
+RUS_fr_apply_armour_priority_bonuses = {
+	add_ideas = RUS_fr_armour_priority_result
+	if = {
+		limit = { has_dlc_aat = yes }
+		mio:RUS_putilovets_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_okmo_kr_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_uztm_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_chtz_organisation = {
+			add_mio_funds_gain_factor = 0.10
+			add_to_variable = { max_research_speed = 0.10 tooltip = RUS_fr_mio_research_cap_tt }
+			add_mio_size = 1
+		}
+	}
+}
+
 RUS_fr_calculate_specialisation_bonus = {
 	set_variable = { RUS_fr_socialist_military_support = party_popularity@totalist }
-	add_to_variable = { RUS_fr_socialist_military_support = party_popularity@syndicalist }
+	add_to_variable = { RUS_fr_socialist_military_support = party_popularity@communist }
 	set_variable = { RUS_fr_specialist_primary_bonus = RUS_fr_socialist_military_support }
 	multiply_variable = { RUS_fr_specialist_primary_bonus = 0.20 }
 	clamp_variable = { var = RUS_fr_specialist_primary_bonus min = 0 max = 0.20 }

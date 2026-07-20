@@ -569,6 +569,11 @@ on_actions = {
 				add_to_variable = { RUS_fpc_optimization_tier = 1 }
 				set_country_flag = { flag = RUS_fpc_bimonthly_flag days = 35 value = 1 }
 				RUS_fpc_update_tier = yes
+				if = {
+					limit = { has_country_flag = RUS_fr_military_reform_unlocked }
+					add_to_variable = { RUS_fr_military_reform_materials = 12 }
+					custom_effect_tooltip = RUS_fr_fpc_optimisation_materials_tt
+				}
 			}
 		}
 	}

@@ -166,48 +166,68 @@ ideas = {
 			picture = SOV_third_five_year_plan_military
 			allowed = { always = no }
 			removal_cost = -1
-			modifier = {
-				industrial_capacity_factory = 0.05
-				production_factory_max_efficiency_factor = 0.05
-				equipment_capture_factor = 0.03
-				army_artillery_defence_factor = 0.05
-				army_artillery_attack_factor = 0.05
-			}
 			equipment_bonus = {
-				infantry_equipment = {
-					build_cost_ic = -0.05
-					instant = yes
-				}
-				artillery_equipment = {
-					build_cost_ic = -0.10
-					instant = yes
-				}
-				anti_tank_equipment = {
-					build_cost_ic = -0.10
-					instant = yes
-				}
-				anti_air_equipment = {
-					build_cost_ic = -0.10
-					instant = yes
-				}
+				infantry_equipment = { reliability = 0.03 instant = yes }
+				artillery_equipment = { reliability = 0.03 instant = yes }
+				anti_tank_equipment = { reliability = 0.03 instant = yes }
+				anti_air_equipment = { reliability = 0.03 instant = yes }
 			}
 		}
 		RUS_fr_mobility_basic_result = {
 			picture = generic_motorized_equipment_manufacturer_1
 			allowed = { always = no }
 			removal_cost = -1
-			modifier = {
-				army_speed_factor = 0.05
-				supply_consumption_factor = -0.05
+			equipment_bonus = {
+				motorized_equipment = { reliability = 0.03 build_cost_ic = -0.02 instant = yes }
+				mechanized_equipment = { reliability = 0.03 build_cost_ic = -0.02 instant = yes }
 			}
 		}
 		RUS_fr_armour_basic_result = {
 			picture = generic_tank_manufacturer_1
 			allowed = { always = no }
 			removal_cost = -1
+			equipment_bonus = {
+				armor = { reliability = 0.03 build_cost_ic = -0.02 instant = yes }
+			}
+		}
+
+		RUS_fr_armaments_priority_result = {
+			picture = SOV_third_five_year_plan_military
+			allowed = { always = no }
+			removal_cost = -1
+			equipment_bonus = {
+				infantry_equipment = { reliability = 0.05 instant = yes }
+				artillery_equipment = { reliability = 0.05 instant = yes }
+				anti_tank_equipment = { reliability = 0.05 instant = yes }
+				anti_air_equipment = { reliability = 0.05 instant = yes }
+			}
+		}
+		RUS_fr_mobility_mechanised_priority_result = {
+			picture = generic_motorized_equipment_manufacturer_1
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = { supply_consumption_factor = -0.08 }
+			equipment_bonus = {
+				motorized_equipment = { reliability = 0.05 build_cost_ic = -0.03 instant = yes }
+				mechanized_equipment = { reliability = 0.05 build_cost_ic = -0.03 instant = yes }
+			}
+		}
+		RUS_fr_mobility_air_priority_result = {
+			picture = generic_motorized_equipment_manufacturer_1
+			allowed = { always = no }
+			removal_cost = -1
 			modifier = {
-				breakthrough_factor = 0.05
-				army_attack_factor = 0.025
+				special_forces_cap = 0.05
+				special_forces_min = 6
+				army_morale_factor = 0.10
+			}
+		}
+		RUS_fr_armour_priority_result = {
+			picture = generic_tank_manufacturer_1
+			allowed = { always = no }
+			removal_cost = -1
+			equipment_bonus = {
+				armor = { reliability = 0.05 build_cost_ic = -0.03 instant = yes }
 			}
 		}
 	}
