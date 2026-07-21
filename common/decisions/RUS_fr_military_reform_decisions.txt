@@ -42,23 +42,23 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_command_audit = {
 		icon = GFX_decision_generic_military
 		visible = {
-			has_completed_focus = RUS_fr_national_military_reform_program
+			has_completed_focus = RUS_fr_military_rectification
 			NOT = { has_country_flag = RUS_fr_reform_stage_1 }
 		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_4
 			RUS_fr_requires_15_military_reform_materials = yes
 			army_experience > 24
-			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
+		days_remove = 120
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -15 tooltip = RUS_fr_military_reform_materials_change_tt }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -25
-			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_4 add_idea = RUS_fr_reform_disorganisation_3 }
-			set_country_flag = RUS_fr_reform_stage_1
-			set_country_flag = { flag = RUS_fr_reform_decision_cooldown days = 90 }
+		}
+		remove_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
+			RUS_fr_apply_rectification_stage_one = yes
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -66,6 +66,7 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_standard_tables = {
 		icon = GFX_decision_generic_military
 		visible = {
+			has_completed_focus = RUS_fr_unified_military_political_system
 			has_country_flag = RUS_fr_reform_stage_1
 			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
 		}
@@ -73,16 +74,16 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_3
 			RUS_fr_requires_15_military_reform_materials = yes
 			army_experience > 39
-			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
+		days_remove = 120
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -15 tooltip = RUS_fr_military_reform_materials_change_tt }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -40
-			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_3 add_idea = RUS_fr_reform_disorganisation_2 }
-			set_country_flag = RUS_fr_reform_stage_2
-			set_country_flag = { flag = RUS_fr_reform_decision_cooldown days = 90 }
+		}
+		remove_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
+			RUS_fr_apply_rectification_stage_two = yes
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -90,6 +91,7 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_training_cycles = {
 		icon = GFX_decision_generic_military
 		visible = {
+			has_completed_focus = RUS_fr_national_military_reform_program
 			has_country_flag = RUS_fr_reform_stage_2
 			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
 		}
@@ -97,16 +99,17 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_2
 			RUS_fr_requires_20_military_reform_materials = yes
 			army_experience > 59
-			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
+		days_remove = 120
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -20 tooltip = RUS_fr_military_reform_materials_change_tt }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -60
+		}
+		remove_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
 			set_country_flag = RUS_fr_reform_stage_3
-			set_country_flag = { flag = RUS_fr_reform_decision_cooldown days = 90 }
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -114,6 +117,7 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_grand_field_test = {
 		icon = GFX_decision_generic_operation
 		visible = {
+			has_completed_focus = RUS_fr_national_military_reform_program
 			has_country_flag = RUS_fr_reform_stage_3
 			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
 		}
@@ -121,13 +125,15 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_1
 			RUS_fr_requires_25_military_reform_materials = yes
 			army_experience > 79
-			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
+		days_remove = 120
 		complete_effect = {
 			add_to_variable = { RUS_fr_military_reform_materials = -25 tooltip = RUS_fr_military_reform_materials_change_tt }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -80
+		}
+		remove_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
 			set_country_flag = RUS_fr_reform_stage_4
 			set_country_flag = RUS_fr_basic_reform_completed

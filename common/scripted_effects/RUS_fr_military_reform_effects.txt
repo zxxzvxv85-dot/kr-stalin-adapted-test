@@ -423,9 +423,9 @@ RUS_fr_calculate_specialisation_bonus = {
 	multiply_variable = { RUS_fr_specialist_negative_bonus = -1 }
 }
 
-# The rectification branch replaces the first two decision stages. These
-# effects are deliberately monotonic: completing them after a decision can
-# never restore a stronger version of the combined reform spirit.
+# The first two 120-day reform decisions use these monotonic completion
+# effects, so an out-of-order script call can never restore a stronger
+# version of the combined reform spirit.
 RUS_fr_apply_rectification_stage_one = {
 	if = {
 		limit = { has_idea = RUS_fr_reform_disorganisation_4 }
