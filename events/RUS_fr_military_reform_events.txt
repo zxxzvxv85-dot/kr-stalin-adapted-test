@@ -124,6 +124,38 @@ country_event = {
 	}
 }
 
+# The army's institutional ethos is selected by event. The three focuses are
+# visible in the tree but cannot be manually selected.
+country_event = {
+	id = RUS_fr_military_reform.50
+	title = RUS_fr_military_reform.50.t
+	desc = RUS_fr_military_reform.50.d
+	picture = GFX_report_event_RUS_how_steel_was_tempered
+	is_triggered_only = yes
+	trigger = {
+		has_completed_focus = RUS_fr_all_russian_red_army_exercise
+		NOT = { has_completed_focus = RUS_fr_revolutionary_collectivism }
+		NOT = { has_completed_focus = RUS_fr_military_vanguardism }
+		NOT = { has_completed_focus = RUS_fr_revolutionary_heroism }
+	}
+
+	option = {
+		name = RUS_fr_military_reform.50.a
+		ai_chance = { factor = 40 }
+		complete_national_focus = RUS_fr_revolutionary_collectivism
+	}
+	option = {
+		name = RUS_fr_military_reform.50.b
+		ai_chance = { factor = 35 }
+		complete_national_focus = RUS_fr_military_vanguardism
+	}
+	option = {
+		name = RUS_fr_military_reform.50.c
+		ai_chance = { factor = 25 }
+		complete_national_focus = RUS_fr_revolutionary_heroism
+	}
+}
+
 # Final armaments report. All three domains receive their basic rewards; only the priority receives specialisation.
 country_event = {
 	id = RUS_fr_military_reform.90

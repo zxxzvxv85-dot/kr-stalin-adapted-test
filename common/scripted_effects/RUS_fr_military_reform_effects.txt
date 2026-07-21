@@ -156,3 +156,58 @@ RUS_fr_clear_reform_basic_bonus = {
 		RUS_fr_reform_basic_bonuses_4
 	}
 }
+
+# The rectification branch replaces the first two decision stages. These
+# effects are deliberately monotonic: completing them after a decision can
+# never restore a stronger debuff or reduce an existing basic reform bonus.
+RUS_fr_apply_rectification_stage_one = {
+	if = {
+		limit = { has_idea = RUS_fr_reform_disorganisation_4 }
+		swap_ideas = {
+			remove_idea = RUS_fr_reform_disorganisation_4
+			add_idea = RUS_fr_reform_disorganisation_3
+		}
+	}
+	if = {
+		limit = {
+			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
+			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+			NOT = { has_idea = RUS_fr_reform_basic_bonuses_2 }
+			NOT = { has_idea = RUS_fr_reform_basic_bonuses_3 }
+			NOT = { has_idea = RUS_fr_reform_basic_bonuses_4 }
+		}
+		RUS_fr_clear_reform_basic_bonus = yes
+		add_ideas = RUS_fr_reform_basic_bonuses_1
+	}
+	set_country_flag = RUS_fr_reform_stage_1
+}
+
+RUS_fr_apply_rectification_stage_two = {
+	if = {
+		limit = { has_idea = RUS_fr_reform_disorganisation_4 }
+		swap_ideas = {
+			remove_idea = RUS_fr_reform_disorganisation_4
+			add_idea = RUS_fr_reform_disorganisation_2
+		}
+	}
+	else_if = {
+		limit = { has_idea = RUS_fr_reform_disorganisation_3 }
+		swap_ideas = {
+			remove_idea = RUS_fr_reform_disorganisation_3
+			add_idea = RUS_fr_reform_disorganisation_2
+		}
+	}
+	if = {
+		limit = {
+			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+			NOT = { has_idea = RUS_fr_reform_basic_bonuses_3 }
+			NOT = { has_idea = RUS_fr_reform_basic_bonuses_4 }
+		}
+		RUS_fr_clear_reform_basic_bonus = yes
+		add_ideas = RUS_fr_reform_basic_bonuses_2
+	}
+	set_country_flag = RUS_fr_reform_stage_1
+	set_country_flag = RUS_fr_reform_stage_2
+}

@@ -41,7 +41,10 @@ RUS_fr_military_reform_decisions = {
 
 	RUS_fr_reform_command_audit = {
 		icon = GFX_decision_generic_military
-		visible = { has_completed_focus = RUS_fr_national_military_reform_program }
+		visible = {
+			has_completed_focus = RUS_fr_national_military_reform_program
+			NOT = { has_country_flag = RUS_fr_reform_stage_1 }
+		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_4
 			check_variable = { RUS_fr_military_reform_materials > 14 }
@@ -64,7 +67,10 @@ RUS_fr_military_reform_decisions = {
 
 	RUS_fr_reform_standard_tables = {
 		icon = GFX_decision_generic_military
-		visible = { has_country_flag = RUS_fr_reform_stage_1 }
+		visible = {
+			has_country_flag = RUS_fr_reform_stage_1
+			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
+		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_3
 			check_variable = { RUS_fr_military_reform_materials > 14 }
@@ -87,7 +93,10 @@ RUS_fr_military_reform_decisions = {
 
 	RUS_fr_reform_training_cycles = {
 		icon = GFX_decision_generic_military
-		visible = { has_country_flag = RUS_fr_reform_stage_2 }
+		visible = {
+			has_country_flag = RUS_fr_reform_stage_2
+			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_2
 			check_variable = { RUS_fr_military_reform_materials > 19 }
@@ -110,7 +119,10 @@ RUS_fr_military_reform_decisions = {
 
 	RUS_fr_reform_grand_field_test = {
 		icon = GFX_decision_generic_operation
-		visible = { has_country_flag = RUS_fr_reform_stage_3 }
+		visible = {
+			has_country_flag = RUS_fr_reform_stage_3
+			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_1
 			check_variable = { RUS_fr_military_reform_materials > 24 }
