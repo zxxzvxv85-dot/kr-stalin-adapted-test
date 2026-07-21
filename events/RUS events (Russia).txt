@@ -26737,8 +26737,12 @@ country_event = { #Blyukher Report Part 2
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.f"
 		name = russia_socialist_events.132.f
 		trigger = {
-			RUS_VST = yes
 			has_character = RUS_mikhail_frunze
+			OR = {
+				RUS_VST = yes
+				has_country_flag = RUS_stalin_communist_path
+				has_country_leader = { character = RUS_iosif_stalin }
+			}
 		}
 		activate_advisor = RUS_mikhail_frunze_army_chief
 		RUS_stalin_add_totalist_or_communist_popularity_0025 = yes
