@@ -15,27 +15,24 @@ country_event = {
 		ai_chance = { factor = 40 }
 		set_country_flag = RUS_fr_specialise_armaments
 		set_country_flag = RUS_fr_armaments_program_started
+		set_country_flag = RUS_fr_auto_dispatch_scheduled
 		country_event = { id = RUS_fr_military_reform.100 days = 7 }
-		country_event = { id = RUS_fr_military_reform.200 days = 42 }
-		country_event = { id = RUS_fr_military_reform.300 days = 42 }
 	}
 	option = {
 		name = RUS_fr_military_reform.10.b
 		ai_chance = { factor = 35 }
 		set_country_flag = RUS_fr_specialise_mobility
 		set_country_flag = RUS_fr_armaments_program_started
-		country_event = { id = RUS_fr_military_reform.100 days = 42 }
-		country_event = { id = RUS_fr_military_reform.200 days = 7 }
-		country_event = { id = RUS_fr_military_reform.300 days = 42 }
+		set_country_flag = RUS_fr_auto_dispatch_scheduled
+		country_event = { id = RUS_fr_military_reform.100 days = 7 }
 	}
 	option = {
 		name = RUS_fr_military_reform.10.c
 		ai_chance = { factor = 25 }
 		set_country_flag = RUS_fr_specialise_armour
 		set_country_flag = RUS_fr_armaments_program_started
-		country_event = { id = RUS_fr_military_reform.100 days = 42 }
-		country_event = { id = RUS_fr_military_reform.200 days = 42 }
-		country_event = { id = RUS_fr_military_reform.300 days = 7 }
+		set_country_flag = RUS_fr_auto_dispatch_scheduled
+		country_event = { id = RUS_fr_military_reform.100 days = 7 }
 	}
 }
 
@@ -55,13 +52,11 @@ country_event = {
 		name = RUS_fr_military_reform.20.a
 		ai_chance = { factor = 50 }
 		set_country_flag = RUS_fr_infantry_lightweight_route
-		country_event = { id = RUS_fr_military_reform.100 hours = 1 }
 	}
 	option = {
 		name = RUS_fr_military_reform.20.b
 		ai_chance = { factor = 50 }
 		set_country_flag = RUS_fr_infantry_artillery_route
-		country_event = { id = RUS_fr_military_reform.100 hours = 1 }
 	}
 }
 
@@ -82,19 +77,16 @@ country_event = {
 		name = RUS_fr_military_reform.30.a
 		ai_chance = { factor = 40 }
 		set_country_flag = RUS_fr_vehicle_manufacturing_route
-		country_event = { id = RUS_fr_military_reform.200 hours = 1 }
 	}
 	option = {
 		name = RUS_fr_military_reform.30.b
 		ai_chance = { factor = 40 }
 		set_country_flag = RUS_fr_mechanised_logistics_route
-		country_event = { id = RUS_fr_military_reform.200 hours = 1 }
 	}
 	option = {
 		name = RUS_fr_military_reform.30.c
 		ai_chance = { factor = 20 }
 		set_country_flag = RUS_fr_helicopter_air_assault_route
-		country_event = { id = RUS_fr_military_reform.200 hours = 1 }
 	}
 }
 
@@ -114,13 +106,11 @@ country_event = {
 		name = RUS_fr_military_reform.40.a
 		ai_chance = { factor = 55 }
 		set_country_flag = RUS_fr_self_propelled_fire_route
-		country_event = { id = RUS_fr_military_reform.300 hours = 1 }
 	}
 	option = {
 		name = RUS_fr_military_reform.40.b
 		ai_chance = { factor = 45 }
 		set_country_flag = RUS_fr_structural_durability_route
-		country_event = { id = RUS_fr_military_reform.300 hours = 1 }
 	}
 }
 
@@ -163,45 +153,80 @@ country_event = {
 	}
 }
 
-### Land Armaments Automatic Focus Controller ###
+### Shared Automatic Focus Controller ###
+# The opening conference fixes the first programme. Afterwards one eligible project
+# is drawn at random from all three branches, while event-selected routes remain binding.
 country_event = {
 	id = RUS_fr_military_reform.100
 	hidden = yes
 	is_triggered_only = yes
 	trigger = {
 		has_country_flag = RUS_fr_armaments_program_started
-		NOT = { has_country_flag = RUS_fr_armaments_line_finished }
-		NOT = { OR = {
-			has_shine_effect_on_focus = RUS_fr_light_weapons_artillery_design
-			has_shine_effect_on_focus = RUS_fr_small_arms_standardisation_committee
-			has_shine_effect_on_focus = RUS_fr_artillery_ammunition_technical_committee
-			has_shine_effect_on_focus = RUS_fr_ergonomic_tolerance_standards
-			has_shine_effect_on_focus = RUS_fr_armaments_quality_assurance_inspectorate
-			has_shine_effect_on_focus = RUS_fr_self_propelled_support_fire_trials
-			has_shine_effect_on_focus = RUS_fr_soldier_load_lightening_program
-			has_shine_effect_on_focus = RUS_fr_divisional_artillery_support_standard
-			has_shine_effect_on_focus = RUS_fr_combined_arms_support_standard
-		} }
+		NOT = { has_country_flag = RUS_fr_auto_project_active }
+		NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
+		NOT = { has_shine_effect_on_focus = RUS_fr_armaments_construction_stage_summary }
 	}
 	immediate = {
-		set_country_flag = RUS_fr_armaments_line_started
-		if = { limit = { NOT = { has_completed_focus = RUS_fr_light_weapons_artillery_design } check_variable = { RUS_fr_military_reform_materials > 7 } } add_to_variable = { RUS_fr_military_reform_materials = -8 } activate_shine_on_focus = RUS_fr_light_weapons_artillery_design set_country_flag = RUS_fr_light_weapons_artillery_design_in_progress country_event = { id = RUS_fr_military_reform.101 days = 21 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_light_weapons_artillery_design } } set_country_flag = RUS_fr_armaments_waiting_for_materials country_event = { id = RUS_fr_military_reform.100 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_small_arms_standardisation_committee } check_variable = { RUS_fr_military_reform_materials > 9 } } add_to_variable = { RUS_fr_military_reform_materials = -10 } activate_shine_on_focus = RUS_fr_small_arms_standardisation_committee set_country_flag = RUS_fr_small_arms_standardisation_committee_in_progress country_event = { id = RUS_fr_military_reform.101 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_small_arms_standardisation_committee } } set_country_flag = RUS_fr_armaments_waiting_for_materials country_event = { id = RUS_fr_military_reform.100 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_artillery_ammunition_technical_committee } check_variable = { RUS_fr_military_reform_materials > 9 } } add_to_variable = { RUS_fr_military_reform_materials = -10 } activate_shine_on_focus = RUS_fr_artillery_ammunition_technical_committee set_country_flag = RUS_fr_artillery_ammunition_technical_committee_in_progress country_event = { id = RUS_fr_military_reform.101 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_artillery_ammunition_technical_committee } } set_country_flag = RUS_fr_armaments_waiting_for_materials country_event = { id = RUS_fr_military_reform.100 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_ergonomic_tolerance_standards } check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_ergonomic_tolerance_standards set_country_flag = RUS_fr_ergonomic_tolerance_standards_in_progress country_event = { id = RUS_fr_military_reform.101 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_ergonomic_tolerance_standards } } set_country_flag = RUS_fr_armaments_waiting_for_materials country_event = { id = RUS_fr_military_reform.100 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_armaments_quality_assurance_inspectorate } check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_armaments_quality_assurance_inspectorate set_country_flag = RUS_fr_armaments_quality_assurance_inspectorate_in_progress country_event = { id = RUS_fr_military_reform.101 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_armaments_quality_assurance_inspectorate } } set_country_flag = RUS_fr_armaments_waiting_for_materials country_event = { id = RUS_fr_military_reform.100 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_self_propelled_support_fire_trials } has_completed_focus = RUS_fr_mechanised_platform_research_committee check_variable = { RUS_fr_military_reform_materials > 14 } } add_to_variable = { RUS_fr_military_reform_materials = -15 } activate_shine_on_focus = RUS_fr_self_propelled_support_fire_trials set_country_flag = RUS_fr_self_propelled_support_fire_trials_in_progress country_event = { id = RUS_fr_military_reform.101 days = 35 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_self_propelled_support_fire_trials } } set_country_flag = RUS_fr_armaments_waiting_for_cross_project country_event = { id = RUS_fr_military_reform.100 days = 7 } }
-		else_if = { limit = { has_country_flag = RUS_fr_infantry_lightweight_route NOT = { has_completed_focus = RUS_fr_soldier_load_lightening_program } check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_soldier_load_lightening_program set_country_flag = RUS_fr_soldier_load_lightening_program_in_progress country_event = { id = RUS_fr_military_reform.101 days = 28 } }
-		else_if = { limit = { has_country_flag = RUS_fr_infantry_artillery_route NOT = { has_completed_focus = RUS_fr_divisional_artillery_support_standard } OR = { has_completed_focus = RUS_fr_vehicle_manufacturing_integration has_completed_focus = RUS_fr_mechanised_logistics_regulations has_completed_focus = RUS_fr_air_assault_brigades } check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_divisional_artillery_support_standard set_country_flag = RUS_fr_divisional_artillery_support_standard_in_progress country_event = { id = RUS_fr_military_reform.101 days = 28 } }
-		else_if = { limit = { NOT = { OR = { has_completed_focus = RUS_fr_soldier_load_lightening_program has_completed_focus = RUS_fr_divisional_artillery_support_standard } } } set_country_flag = RUS_fr_armaments_waiting_for_route country_event = { id = RUS_fr_military_reform.100 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_combined_arms_support_standard } check_variable = { RUS_fr_military_reform_materials > 19 } } add_to_variable = { RUS_fr_military_reform_materials = -20 } activate_shine_on_focus = RUS_fr_combined_arms_support_standard set_country_flag = RUS_fr_combined_arms_support_standard_in_progress country_event = { id = RUS_fr_military_reform.101 days = 35 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_combined_arms_support_standard } } set_country_flag = RUS_fr_armaments_waiting_for_materials country_event = { id = RUS_fr_military_reform.100 days = 7 } }
+		clr_country_flag = RUS_fr_auto_dispatch_scheduled
+		clr_country_flag = RUS_fr_auto_project_selected
+		clr_country_flag = RUS_fr_auto_project_waiting
+
+		if = {
+			limit = { has_country_flag = RUS_fr_armaments_line_finished has_country_flag = RUS_fr_mobility_line_finished has_country_flag = RUS_fr_armour_line_finished }
+			if = { limit = { has_completed_focus = RUS_fr_revolutionary_military_system_finalised } country_event = { id = RUS_fr_military_reform.400 hours = 1 } }
+			else = { set_country_flag = RUS_fr_auto_project_waiting set_country_flag = RUS_fr_auto_dispatch_scheduled country_event = { id = RUS_fr_military_reform.100 days = 7 } }
+		}
+		else_if = {
+			limit = { NOT = { has_country_flag = RUS_fr_initial_priority_project_started } }
+			if = { limit = { has_country_flag = RUS_fr_specialise_armaments RUS_fr_auto_can_light_weapons_artillery_design = yes } set_country_flag = RUS_fr_initial_priority_project_started RUS_fr_auto_start_light_weapons_artillery_design = yes }
+			else_if = { limit = { has_country_flag = RUS_fr_specialise_mobility RUS_fr_auto_can_mechanisation_wave = yes } set_country_flag = RUS_fr_initial_priority_project_started RUS_fr_auto_start_mechanisation_wave = yes }
+			else_if = { limit = { has_country_flag = RUS_fr_specialise_armour RUS_fr_auto_can_emphasise_armour_design = yes } set_country_flag = RUS_fr_initial_priority_project_started RUS_fr_auto_start_emphasise_armour_design = yes }
+		}
+		else = {
+			random_list = {
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_light_weapons_artillery_design = yes } } RUS_fr_auto_start_light_weapons_artillery_design = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_small_arms_standardisation_committee = yes } } RUS_fr_auto_start_small_arms_standardisation_committee = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_artillery_ammunition_technical_committee = yes } } RUS_fr_auto_start_artillery_ammunition_technical_committee = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_ergonomic_tolerance_standards = yes } } RUS_fr_auto_start_ergonomic_tolerance_standards = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_armaments_quality_assurance_inspectorate = yes } } RUS_fr_auto_start_armaments_quality_assurance_inspectorate = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_self_propelled_support_fire_trials = yes } } RUS_fr_auto_start_self_propelled_support_fire_trials = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_soldier_load_lightening_program = yes } } RUS_fr_auto_start_soldier_load_lightening_program = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_divisional_artillery_support_standard = yes } } RUS_fr_auto_start_divisional_artillery_support_standard = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_combined_arms_support_standard = yes } } RUS_fr_auto_start_combined_arms_support_standard = yes }
+
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_mechanisation_wave = yes } } RUS_fr_auto_start_mechanisation_wave = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_mechanised_platform_research_committee = yes } } RUS_fr_auto_start_mechanised_platform_research_committee = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_rapid_mobility_equipment_trials = yes } } RUS_fr_auto_start_rapid_mobility_equipment_trials = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_vehicle_manufacturing_integration = yes } } RUS_fr_auto_start_vehicle_manufacturing_integration = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_mechanised_logistics_regulations = yes } } RUS_fr_auto_start_mechanised_logistics_regulations = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_helicopter_pilot_program = yes } } RUS_fr_auto_start_helicopter_pilot_program = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_air_assault_brigades = yes } } RUS_fr_auto_start_air_assault_brigades = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_rapid_operational_corps = yes } } RUS_fr_auto_start_rapid_operational_corps = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_deep_mobility_program = yes } } RUS_fr_auto_start_deep_mobility_program = yes }
+
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_emphasise_armour_design = yes } } RUS_fr_auto_start_emphasise_armour_design = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_alloy_armour_standard = yes } } RUS_fr_auto_start_alloy_armour_standard = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_tank_firepower_development_plan = yes } } RUS_fr_auto_start_tank_firepower_development_plan = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_breakthrough_chassis_program = yes } } RUS_fr_auto_start_breakthrough_chassis_program = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_long_range_armoured_exploitation = yes } } RUS_fr_auto_start_long_range_armoured_exploitation = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_high_velocity_kinetic_gun_program = yes } } RUS_fr_auto_start_high_velocity_kinetic_gun_program = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_self_propelled_direct_fire_system = yes } } RUS_fr_auto_start_self_propelled_direct_fire_system = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_hull_structural_durability_trials = yes } } RUS_fr_auto_start_hull_structural_durability_trials = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_universal_hull_standards = yes } } RUS_fr_auto_start_universal_hull_standards = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_armoured_firepower_coordination_standard = yes } } RUS_fr_auto_start_armoured_firepower_coordination_standard = yes }
+				10 = { modifier = { factor = 0 NOT = { RUS_fr_auto_can_land_warfare_mainstay = yes } } RUS_fr_auto_start_land_warfare_mainstay = yes }
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = { has_country_flag = RUS_fr_auto_project_selected }
+				NOT = { AND = { has_country_flag = RUS_fr_armaments_line_finished has_country_flag = RUS_fr_mobility_line_finished has_country_flag = RUS_fr_armour_line_finished } }
+			}
+			set_country_flag = RUS_fr_auto_project_waiting
+			set_country_flag = RUS_fr_auto_dispatch_scheduled
+			country_event = { id = RUS_fr_military_reform.100 days = 7 }
+		}
 	}
 }
 
@@ -210,15 +235,39 @@ country_event = {
 	hidden = yes
 	is_triggered_only = yes
 	immediate = {
-		if = { limit = { has_shine_effect_on_focus = RUS_fr_light_weapons_artillery_design } complete_national_focus = { focus = RUS_fr_light_weapons_artillery_design use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_small_arms_standardisation_committee } complete_national_focus = { focus = RUS_fr_small_arms_standardisation_committee use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_artillery_ammunition_technical_committee } complete_national_focus = { focus = RUS_fr_artillery_ammunition_technical_committee use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_ergonomic_tolerance_standards } complete_national_focus = { focus = RUS_fr_ergonomic_tolerance_standards use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_armaments_quality_assurance_inspectorate } complete_national_focus = { focus = RUS_fr_armaments_quality_assurance_inspectorate use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_self_propelled_support_fire_trials } complete_national_focus = { focus = RUS_fr_self_propelled_support_fire_trials use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_soldier_load_lightening_program } complete_national_focus = { focus = RUS_fr_soldier_load_lightening_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_divisional_artillery_support_standard } complete_national_focus = { focus = RUS_fr_divisional_artillery_support_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_combined_arms_support_standard } complete_national_focus = { focus = RUS_fr_combined_arms_support_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } country_event = { id = RUS_fr_military_reform.400 days = 1 } }
+		if = { limit = { has_country_flag = RUS_fr_light_weapons_artillery_design_in_progress } complete_national_focus = { focus = RUS_fr_light_weapons_artillery_design use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_small_arms_standardisation_committee_in_progress } complete_national_focus = { focus = RUS_fr_small_arms_standardisation_committee use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_artillery_ammunition_technical_committee_in_progress } complete_national_focus = { focus = RUS_fr_artillery_ammunition_technical_committee use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_ergonomic_tolerance_standards_in_progress } complete_national_focus = { focus = RUS_fr_ergonomic_tolerance_standards use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_armaments_quality_assurance_inspectorate_in_progress } complete_national_focus = { focus = RUS_fr_armaments_quality_assurance_inspectorate use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_self_propelled_support_fire_trials_in_progress } complete_national_focus = { focus = RUS_fr_self_propelled_support_fire_trials use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_soldier_load_lightening_program_in_progress } complete_national_focus = { focus = RUS_fr_soldier_load_lightening_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_divisional_artillery_support_standard_in_progress } complete_national_focus = { focus = RUS_fr_divisional_artillery_support_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_combined_arms_support_standard_in_progress } complete_national_focus = { focus = RUS_fr_combined_arms_support_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_mechanisation_wave_in_progress } complete_national_focus = { focus = RUS_fr_mechanisation_wave use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_mechanised_platform_research_committee_in_progress } complete_national_focus = { focus = RUS_fr_mechanised_platform_research_committee use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_rapid_mobility_equipment_trials_in_progress } complete_national_focus = { focus = RUS_fr_rapid_mobility_equipment_trials use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_vehicle_manufacturing_integration_in_progress } complete_national_focus = { focus = RUS_fr_vehicle_manufacturing_integration use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_mechanised_logistics_regulations_in_progress } complete_national_focus = { focus = RUS_fr_mechanised_logistics_regulations use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_helicopter_pilot_program_in_progress } complete_national_focus = { focus = RUS_fr_helicopter_pilot_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_air_assault_brigades_in_progress } complete_national_focus = { focus = RUS_fr_air_assault_brigades use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_rapid_operational_corps_in_progress } complete_national_focus = { focus = RUS_fr_rapid_operational_corps use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_deep_mobility_program_in_progress } complete_national_focus = { focus = RUS_fr_deep_mobility_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_emphasise_armour_design_in_progress } complete_national_focus = { focus = RUS_fr_emphasise_armour_design use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_alloy_armour_standard_in_progress } complete_national_focus = { focus = RUS_fr_alloy_armour_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_tank_firepower_development_plan_in_progress } complete_national_focus = { focus = RUS_fr_tank_firepower_development_plan use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_breakthrough_chassis_program_in_progress } complete_national_focus = { focus = RUS_fr_breakthrough_chassis_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_long_range_armoured_exploitation_in_progress } complete_national_focus = { focus = RUS_fr_long_range_armoured_exploitation use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_high_velocity_kinetic_gun_program_in_progress } complete_national_focus = { focus = RUS_fr_high_velocity_kinetic_gun_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_self_propelled_direct_fire_system_in_progress } complete_national_focus = { focus = RUS_fr_self_propelled_direct_fire_system use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_hull_structural_durability_trials_in_progress } complete_national_focus = { focus = RUS_fr_hull_structural_durability_trials use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_universal_hull_standards_in_progress } complete_national_focus = { focus = RUS_fr_universal_hull_standards use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_armoured_firepower_coordination_standard_in_progress } complete_national_focus = { focus = RUS_fr_armoured_firepower_coordination_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+		else_if = { limit = { has_country_flag = RUS_fr_land_warfare_mainstay_in_progress } complete_national_focus = { focus = RUS_fr_land_warfare_mainstay use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
+
+		clr_country_flag = RUS_fr_auto_project_active
+		clr_country_flag = RUS_fr_auto_project_selected
+		clr_country_flag = RUS_fr_auto_project_waiting
 		clr_country_flag = RUS_fr_light_weapons_artillery_design_in_progress
 		clr_country_flag = RUS_fr_small_arms_standardisation_committee_in_progress
 		clr_country_flag = RUS_fr_artillery_ammunition_technical_committee_in_progress
@@ -228,65 +277,6 @@ country_event = {
 		clr_country_flag = RUS_fr_soldier_load_lightening_program_in_progress
 		clr_country_flag = RUS_fr_divisional_artillery_support_standard_in_progress
 		clr_country_flag = RUS_fr_combined_arms_support_standard_in_progress
-		clr_country_flag = RUS_fr_armaments_waiting_for_materials
-		clr_country_flag = RUS_fr_armaments_waiting_for_cross_project
-		clr_country_flag = RUS_fr_armaments_waiting_for_route
-		country_event = { id = RUS_fr_military_reform.100 days = 7 }
-	}
-}
-
-### Mobility Automatic Focus Controller ###
-country_event = {
-	id = RUS_fr_military_reform.200
-	hidden = yes
-	is_triggered_only = yes
-	trigger = {
-		has_country_flag = RUS_fr_armaments_program_started
-		NOT = { has_country_flag = RUS_fr_mobility_line_finished }
-		NOT = { OR = {
-			has_shine_effect_on_focus = RUS_fr_mechanisation_wave
-			has_shine_effect_on_focus = RUS_fr_mechanised_platform_research_committee
-			has_shine_effect_on_focus = RUS_fr_rapid_mobility_equipment_trials
-			has_shine_effect_on_focus = RUS_fr_vehicle_manufacturing_integration
-			has_shine_effect_on_focus = RUS_fr_mechanised_logistics_regulations
-			has_shine_effect_on_focus = RUS_fr_helicopter_pilot_program
-			has_shine_effect_on_focus = RUS_fr_air_assault_brigades
-			has_shine_effect_on_focus = RUS_fr_rapid_operational_corps
-			has_shine_effect_on_focus = RUS_fr_deep_mobility_program
-		} }
-	}
-	immediate = {
-		set_country_flag = RUS_fr_mobility_line_started
-		if = { limit = { NOT = { has_completed_focus = RUS_fr_mechanisation_wave } check_variable = { RUS_fr_military_reform_materials > 7 } } add_to_variable = { RUS_fr_military_reform_materials = -8 } activate_shine_on_focus = RUS_fr_mechanisation_wave set_country_flag = RUS_fr_mechanisation_wave_in_progress country_event = { id = RUS_fr_military_reform.201 days = 21 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_mechanisation_wave } } set_country_flag = RUS_fr_mobility_waiting_for_materials country_event = { id = RUS_fr_military_reform.200 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_mechanised_platform_research_committee } check_variable = { RUS_fr_military_reform_materials > 9 } } add_to_variable = { RUS_fr_military_reform_materials = -10 } activate_shine_on_focus = RUS_fr_mechanised_platform_research_committee set_country_flag = RUS_fr_mechanised_platform_research_committee_in_progress country_event = { id = RUS_fr_military_reform.201 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_mechanised_platform_research_committee } } set_country_flag = RUS_fr_mobility_waiting_for_materials country_event = { id = RUS_fr_military_reform.200 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_rapid_mobility_equipment_trials } check_variable = { RUS_fr_military_reform_materials > 9 } } add_to_variable = { RUS_fr_military_reform_materials = -10 } activate_shine_on_focus = RUS_fr_rapid_mobility_equipment_trials set_country_flag = RUS_fr_rapid_mobility_equipment_trials_in_progress country_event = { id = RUS_fr_military_reform.201 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_rapid_mobility_equipment_trials } } set_country_flag = RUS_fr_mobility_waiting_for_materials country_event = { id = RUS_fr_military_reform.200 days = 7 } }
-		else_if = { limit = { has_country_flag = RUS_fr_vehicle_manufacturing_route NOT = { has_completed_focus = RUS_fr_vehicle_manufacturing_integration } has_completed_focus = RUS_fr_alloy_armour_standard check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_vehicle_manufacturing_integration set_country_flag = RUS_fr_vehicle_manufacturing_integration_in_progress country_event = { id = RUS_fr_military_reform.201 days = 28 } }
-		else_if = { limit = { has_country_flag = RUS_fr_mechanised_logistics_route NOT = { has_completed_focus = RUS_fr_mechanised_logistics_regulations } check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_mechanised_logistics_regulations set_country_flag = RUS_fr_mechanised_logistics_regulations_in_progress country_event = { id = RUS_fr_military_reform.201 days = 28 } }
-		else_if = { limit = { has_country_flag = RUS_fr_helicopter_air_assault_route NOT = { has_completed_focus = RUS_fr_helicopter_pilot_program } check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_helicopter_pilot_program set_country_flag = RUS_fr_helicopter_pilot_program_in_progress country_event = { id = RUS_fr_military_reform.201 days = 28 } }
-		else_if = { limit = { has_country_flag = RUS_fr_helicopter_air_assault_route has_completed_focus = RUS_fr_helicopter_pilot_program NOT = { has_completed_focus = RUS_fr_air_assault_brigades } has_completed_focus = RUS_fr_small_arms_standardisation_committee check_variable = { RUS_fr_military_reform_materials > 14 } } add_to_variable = { RUS_fr_military_reform_materials = -15 } activate_shine_on_focus = RUS_fr_air_assault_brigades set_country_flag = RUS_fr_air_assault_brigades_in_progress country_event = { id = RUS_fr_military_reform.201 days = 35 } }
-		else_if = { limit = { OR = { has_country_flag = RUS_fr_vehicle_manufacturing_route has_country_flag = RUS_fr_mechanised_logistics_route } OR = { has_completed_focus = RUS_fr_vehicle_manufacturing_integration has_completed_focus = RUS_fr_mechanised_logistics_regulations } OR = { has_completed_focus = RUS_fr_self_propelled_direct_fire_system has_completed_focus = RUS_fr_hull_structural_durability_trials } NOT = { has_completed_focus = RUS_fr_rapid_operational_corps } check_variable = { RUS_fr_military_reform_materials > 19 } } add_to_variable = { RUS_fr_military_reform_materials = -20 } activate_shine_on_focus = RUS_fr_rapid_operational_corps set_country_flag = RUS_fr_rapid_operational_corps_in_progress country_event = { id = RUS_fr_military_reform.201 days = 35 } }
-		else_if = { limit = { has_country_flag = RUS_fr_helicopter_air_assault_route has_completed_focus = RUS_fr_air_assault_brigades has_completed_focus = RUS_fr_long_range_armoured_exploitation NOT = { has_completed_focus = RUS_fr_deep_mobility_program } check_variable = { RUS_fr_military_reform_materials > 19 } } add_to_variable = { RUS_fr_military_reform_materials = -20 } activate_shine_on_focus = RUS_fr_deep_mobility_program set_country_flag = RUS_fr_deep_mobility_program_in_progress country_event = { id = RUS_fr_military_reform.201 days = 35 } }
-		else_if = { limit = { NOT = { has_country_flag = RUS_fr_mobility_line_finished } } set_country_flag = RUS_fr_mobility_waiting_for_route country_event = { id = RUS_fr_military_reform.200 days = 7 } }
-	}
-}
-
-country_event = {
-	id = RUS_fr_military_reform.201
-	hidden = yes
-	is_triggered_only = yes
-	immediate = {
-		if = { limit = { has_shine_effect_on_focus = RUS_fr_mechanisation_wave } complete_national_focus = { focus = RUS_fr_mechanisation_wave use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_mechanised_platform_research_committee } complete_national_focus = { focus = RUS_fr_mechanised_platform_research_committee use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_rapid_mobility_equipment_trials } complete_national_focus = { focus = RUS_fr_rapid_mobility_equipment_trials use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_vehicle_manufacturing_integration } complete_national_focus = { focus = RUS_fr_vehicle_manufacturing_integration use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_mechanised_logistics_regulations } complete_national_focus = { focus = RUS_fr_mechanised_logistics_regulations use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_helicopter_pilot_program } complete_national_focus = { focus = RUS_fr_helicopter_pilot_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_air_assault_brigades } complete_national_focus = { focus = RUS_fr_air_assault_brigades use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_rapid_operational_corps } complete_national_focus = { focus = RUS_fr_rapid_operational_corps use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } country_event = { id = RUS_fr_military_reform.400 days = 1 } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_deep_mobility_program } complete_national_focus = { focus = RUS_fr_deep_mobility_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } country_event = { id = RUS_fr_military_reform.400 days = 1 } }
 		clr_country_flag = RUS_fr_mechanisation_wave_in_progress
 		clr_country_flag = RUS_fr_mechanised_platform_research_committee_in_progress
 		clr_country_flag = RUS_fr_rapid_mobility_equipment_trials_in_progress
@@ -296,76 +286,6 @@ country_event = {
 		clr_country_flag = RUS_fr_air_assault_brigades_in_progress
 		clr_country_flag = RUS_fr_rapid_operational_corps_in_progress
 		clr_country_flag = RUS_fr_deep_mobility_program_in_progress
-		clr_country_flag = RUS_fr_mobility_waiting_for_materials
-		clr_country_flag = RUS_fr_mobility_waiting_for_route
-		country_event = { id = RUS_fr_military_reform.200 days = 7 }
-	}
-}
-
-### Armour Automatic Focus Controller ###
-country_event = {
-	id = RUS_fr_military_reform.300
-	hidden = yes
-	is_triggered_only = yes
-	trigger = {
-		has_country_flag = RUS_fr_armaments_program_started
-		NOT = { has_country_flag = RUS_fr_armour_line_finished }
-		NOT = { OR = {
-			has_shine_effect_on_focus = RUS_fr_emphasise_armour_design
-			has_shine_effect_on_focus = RUS_fr_alloy_armour_standard
-			has_shine_effect_on_focus = RUS_fr_tank_firepower_development_plan
-			has_shine_effect_on_focus = RUS_fr_breakthrough_chassis_program
-			has_shine_effect_on_focus = RUS_fr_long_range_armoured_exploitation
-			has_shine_effect_on_focus = RUS_fr_high_velocity_kinetic_gun_program
-			has_shine_effect_on_focus = RUS_fr_universal_hull_standards
-			has_shine_effect_on_focus = RUS_fr_self_propelled_direct_fire_system
-			has_shine_effect_on_focus = RUS_fr_hull_structural_durability_trials
-			has_shine_effect_on_focus = RUS_fr_armoured_firepower_coordination_standard
-			has_shine_effect_on_focus = RUS_fr_land_warfare_mainstay
-		} }
-	}
-	immediate = {
-		set_country_flag = RUS_fr_armour_line_started
-		if = { limit = { NOT = { has_completed_focus = RUS_fr_emphasise_armour_design } check_variable = { RUS_fr_military_reform_materials > 7 } } add_to_variable = { RUS_fr_military_reform_materials = -8 } activate_shine_on_focus = RUS_fr_emphasise_armour_design set_country_flag = RUS_fr_emphasise_armour_design_in_progress country_event = { id = RUS_fr_military_reform.301 days = 21 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_emphasise_armour_design } } set_country_flag = RUS_fr_armour_waiting_for_materials country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_alloy_armour_standard } check_variable = { RUS_fr_military_reform_materials > 9 } } add_to_variable = { RUS_fr_military_reform_materials = -10 } activate_shine_on_focus = RUS_fr_alloy_armour_standard set_country_flag = RUS_fr_alloy_armour_standard_in_progress country_event = { id = RUS_fr_military_reform.301 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_alloy_armour_standard } } set_country_flag = RUS_fr_armour_waiting_for_materials country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_tank_firepower_development_plan } check_variable = { RUS_fr_military_reform_materials > 9 } } add_to_variable = { RUS_fr_military_reform_materials = -10 } activate_shine_on_focus = RUS_fr_tank_firepower_development_plan set_country_flag = RUS_fr_tank_firepower_development_plan_in_progress country_event = { id = RUS_fr_military_reform.301 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_tank_firepower_development_plan } } set_country_flag = RUS_fr_armour_waiting_for_materials country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_breakthrough_chassis_program } has_completed_focus = RUS_fr_mechanised_platform_research_committee check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_breakthrough_chassis_program set_country_flag = RUS_fr_breakthrough_chassis_program_in_progress country_event = { id = RUS_fr_military_reform.301 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_breakthrough_chassis_program } } set_country_flag = RUS_fr_armour_waiting_for_cross_project country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_long_range_armoured_exploitation } has_completed_focus = RUS_fr_rapid_mobility_equipment_trials check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_long_range_armoured_exploitation set_country_flag = RUS_fr_long_range_armoured_exploitation_in_progress country_event = { id = RUS_fr_military_reform.301 days = 28 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_long_range_armoured_exploitation } } set_country_flag = RUS_fr_armour_waiting_for_cross_project country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program } has_completed_focus = RUS_fr_artillery_ammunition_technical_committee check_variable = { RUS_fr_military_reform_materials > 14 } } add_to_variable = { RUS_fr_military_reform_materials = -15 } activate_shine_on_focus = RUS_fr_high_velocity_kinetic_gun_program set_country_flag = RUS_fr_high_velocity_kinetic_gun_program_in_progress country_event = { id = RUS_fr_military_reform.301 days = 35 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program } } set_country_flag = RUS_fr_armour_waiting_for_cross_project country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { has_country_flag = RUS_fr_self_propelled_fire_route NOT = { has_completed_focus = RUS_fr_self_propelled_direct_fire_system } has_completed_focus = RUS_fr_self_propelled_support_fire_trials check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_self_propelled_direct_fire_system set_country_flag = RUS_fr_self_propelled_direct_fire_system_in_progress country_event = { id = RUS_fr_military_reform.301 days = 28 } }
-		else_if = { limit = { has_country_flag = RUS_fr_structural_durability_route NOT = { has_completed_focus = RUS_fr_hull_structural_durability_trials } has_completed_focus = RUS_fr_armaments_quality_assurance_inspectorate check_variable = { RUS_fr_military_reform_materials > 11 } } add_to_variable = { RUS_fr_military_reform_materials = -12 } activate_shine_on_focus = RUS_fr_hull_structural_durability_trials set_country_flag = RUS_fr_hull_structural_durability_trials_in_progress country_event = { id = RUS_fr_military_reform.301 days = 28 } }
-		else_if = { limit = { NOT = { OR = { has_completed_focus = RUS_fr_self_propelled_direct_fire_system has_completed_focus = RUS_fr_hull_structural_durability_trials } } } set_country_flag = RUS_fr_armour_waiting_for_route country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_universal_hull_standards } has_completed_focus = RUS_fr_breakthrough_chassis_program has_completed_focus = RUS_fr_long_range_armoured_exploitation OR = { has_completed_focus = RUS_fr_vehicle_manufacturing_integration has_completed_focus = RUS_fr_mechanised_logistics_regulations has_completed_focus = RUS_fr_air_assault_brigades } check_variable = { RUS_fr_military_reform_materials > 14 } } add_to_variable = { RUS_fr_military_reform_materials = -15 } activate_shine_on_focus = RUS_fr_universal_hull_standards set_country_flag = RUS_fr_universal_hull_standards_in_progress country_event = { id = RUS_fr_military_reform.301 days = 35 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_universal_hull_standards } } set_country_flag = RUS_fr_armour_waiting_for_cross_project country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_armoured_firepower_coordination_standard } has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program OR = { has_completed_focus = RUS_fr_self_propelled_direct_fire_system has_completed_focus = RUS_fr_hull_structural_durability_trials } OR = { has_completed_focus = RUS_fr_soldier_load_lightening_program has_completed_focus = RUS_fr_divisional_artillery_support_standard } OR = { has_completed_focus = RUS_fr_vehicle_manufacturing_integration has_completed_focus = RUS_fr_mechanised_logistics_regulations has_completed_focus = RUS_fr_air_assault_brigades } check_variable = { RUS_fr_military_reform_materials > 14 } } add_to_variable = { RUS_fr_military_reform_materials = -15 } activate_shine_on_focus = RUS_fr_armoured_firepower_coordination_standard set_country_flag = RUS_fr_armoured_firepower_coordination_standard_in_progress country_event = { id = RUS_fr_military_reform.301 days = 35 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_armoured_firepower_coordination_standard } } set_country_flag = RUS_fr_armour_waiting_for_cross_project country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_land_warfare_mainstay } check_variable = { RUS_fr_military_reform_materials > 19 } } add_to_variable = { RUS_fr_military_reform_materials = -20 } activate_shine_on_focus = RUS_fr_land_warfare_mainstay set_country_flag = RUS_fr_land_warfare_mainstay_in_progress country_event = { id = RUS_fr_military_reform.301 days = 35 } }
-		else_if = { limit = { NOT = { has_completed_focus = RUS_fr_land_warfare_mainstay } } set_country_flag = RUS_fr_armour_waiting_for_materials country_event = { id = RUS_fr_military_reform.300 days = 7 } }
-	}
-}
-
-country_event = {
-	id = RUS_fr_military_reform.301
-	hidden = yes
-	is_triggered_only = yes
-	immediate = {
-		if = { limit = { has_shine_effect_on_focus = RUS_fr_emphasise_armour_design } complete_national_focus = { focus = RUS_fr_emphasise_armour_design use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_alloy_armour_standard } complete_national_focus = { focus = RUS_fr_alloy_armour_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_tank_firepower_development_plan } complete_national_focus = { focus = RUS_fr_tank_firepower_development_plan use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_breakthrough_chassis_program } complete_national_focus = { focus = RUS_fr_breakthrough_chassis_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_long_range_armoured_exploitation } complete_national_focus = { focus = RUS_fr_long_range_armoured_exploitation use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_high_velocity_kinetic_gun_program } complete_national_focus = { focus = RUS_fr_high_velocity_kinetic_gun_program use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_self_propelled_direct_fire_system } complete_national_focus = { focus = RUS_fr_self_propelled_direct_fire_system use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_hull_structural_durability_trials } complete_national_focus = { focus = RUS_fr_hull_structural_durability_trials use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_universal_hull_standards } complete_national_focus = { focus = RUS_fr_universal_hull_standards use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_armoured_firepower_coordination_standard } complete_national_focus = { focus = RUS_fr_armoured_firepower_coordination_standard use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } }
-		else_if = { limit = { has_shine_effect_on_focus = RUS_fr_land_warfare_mainstay } complete_national_focus = { focus = RUS_fr_land_warfare_mainstay use_side_message = yes originator_name = RUS_fr_federal_armaments_defence_industry_commission } country_event = { id = RUS_fr_military_reform.400 days = 1 } }
 		clr_country_flag = RUS_fr_emphasise_armour_design_in_progress
 		clr_country_flag = RUS_fr_alloy_armour_standard_in_progress
 		clr_country_flag = RUS_fr_tank_firepower_development_plan_in_progress
@@ -377,10 +297,8 @@ country_event = {
 		clr_country_flag = RUS_fr_universal_hull_standards_in_progress
 		clr_country_flag = RUS_fr_armoured_firepower_coordination_standard_in_progress
 		clr_country_flag = RUS_fr_land_warfare_mainstay_in_progress
-		clr_country_flag = RUS_fr_armour_waiting_for_materials
-		clr_country_flag = RUS_fr_armour_waiting_for_cross_project
-		clr_country_flag = RUS_fr_armour_waiting_for_route
-		country_event = { id = RUS_fr_military_reform.300 days = 7 }
+		set_country_flag = RUS_fr_auto_dispatch_scheduled
+		country_event = { id = RUS_fr_military_reform.100 days = 7 }
 	}
 }
 
@@ -396,11 +314,13 @@ country_event = {
 		has_country_flag = RUS_fr_armour_line_finished
 		NOT = { has_completed_focus = RUS_fr_armaments_construction_stage_summary }
 		NOT = { has_shine_effect_on_focus = RUS_fr_armaments_construction_stage_summary }
+		NOT = { has_country_flag = RUS_fr_auto_project_active }
 	}
 	immediate = {
 		set_country_flag = RUS_fr_summary_controller_started
 		if = {
 			limit = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+			set_country_flag = RUS_fr_auto_project_active
 			add_to_variable = { RUS_fr_military_reform_materials = -8 }
 			activate_shine_on_focus = RUS_fr_armaments_construction_stage_summary
 			set_country_flag = RUS_fr_armaments_construction_stage_summary_in_progress
@@ -429,6 +349,7 @@ country_event = {
 		}
 		clr_country_flag = RUS_fr_armaments_construction_stage_summary_in_progress
 		clr_country_flag = RUS_fr_summary_waiting_for_materials
+		clr_country_flag = RUS_fr_auto_project_active
 	}
 }
 
@@ -439,57 +360,27 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		if = {
-			limit = { OR = {
-				has_country_flag = { flag = RUS_fr_light_weapons_artillery_design_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_small_arms_standardisation_committee_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_artillery_ammunition_technical_committee_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_ergonomic_tolerance_standards_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_armaments_quality_assurance_inspectorate_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_self_propelled_support_fire_trials_in_progress days > 63 }
-				has_country_flag = { flag = RUS_fr_soldier_load_lightening_program_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_divisional_artillery_support_standard_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_combined_arms_support_standard_in_progress days > 63 }
-			} }
+			limit = {
+				has_country_flag = { flag = RUS_fr_auto_project_active days > 63 }
+				NOT = { has_country_flag = RUS_fr_armaments_construction_stage_summary_in_progress }
+			}
 			country_event = { id = RUS_fr_military_reform.101 hours = 1 }
 		}
 		if = {
-			limit = { OR = {
-				has_country_flag = { flag = RUS_fr_mechanisation_wave_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_mechanised_platform_research_committee_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_rapid_mobility_equipment_trials_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_vehicle_manufacturing_integration_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_mechanised_logistics_regulations_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_helicopter_pilot_program_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_air_assault_brigades_in_progress days > 63 }
-				has_country_flag = { flag = RUS_fr_rapid_operational_corps_in_progress days > 63 }
-				has_country_flag = { flag = RUS_fr_deep_mobility_program_in_progress days > 63 }
-			} }
-			country_event = { id = RUS_fr_military_reform.201 hours = 1 }
-		}
-		if = {
-			limit = { OR = {
-				has_country_flag = { flag = RUS_fr_emphasise_armour_design_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_alloy_armour_standard_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_tank_firepower_development_plan_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_breakthrough_chassis_program_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_long_range_armoured_exploitation_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_high_velocity_kinetic_gun_program_in_progress days > 63 }
-				has_country_flag = { flag = RUS_fr_self_propelled_direct_fire_system_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_hull_structural_durability_trials_in_progress days > 56 }
-				has_country_flag = { flag = RUS_fr_universal_hull_standards_in_progress days > 63 }
-				has_country_flag = { flag = RUS_fr_armoured_firepower_coordination_standard_in_progress days > 63 }
-				has_country_flag = { flag = RUS_fr_land_warfare_mainstay_in_progress days > 63 }
-			} }
-			country_event = { id = RUS_fr_military_reform.301 hours = 1 }
-		}
-		if = {
-			limit = { has_country_flag = { flag = RUS_fr_armaments_construction_stage_summary_in_progress days > 56 } }
+			limit = { has_country_flag = { flag = RUS_fr_armaments_construction_stage_summary_in_progress days > 63 } }
 			country_event = { id = RUS_fr_military_reform.401 hours = 1 }
 		}
 		if = { limit = { has_completed_focus = RUS_fr_federal_armaments_defence_industry_commission NOT = { has_country_flag = RUS_fr_armaments_meeting_called } } country_event = { id = RUS_fr_military_reform.10 hours = 1 } }
-		if = { limit = { has_country_flag = RUS_fr_armaments_line_started NOT = { has_country_flag = RUS_fr_armaments_line_finished } OR = { has_country_flag = RUS_fr_armaments_waiting_for_materials has_country_flag = RUS_fr_armaments_waiting_for_cross_project has_country_flag = RUS_fr_armaments_waiting_for_route } } country_event = { id = RUS_fr_military_reform.100 hours = 1 } }
-		if = { limit = { has_country_flag = RUS_fr_mobility_line_started NOT = { has_country_flag = RUS_fr_mobility_line_finished } OR = { has_country_flag = RUS_fr_mobility_waiting_for_materials has_country_flag = RUS_fr_mobility_waiting_for_route } } country_event = { id = RUS_fr_military_reform.200 hours = 1 } }
-		if = { limit = { has_country_flag = RUS_fr_armour_line_started NOT = { has_country_flag = RUS_fr_armour_line_finished } OR = { has_country_flag = RUS_fr_armour_waiting_for_materials has_country_flag = RUS_fr_armour_waiting_for_cross_project has_country_flag = RUS_fr_armour_waiting_for_route } } country_event = { id = RUS_fr_military_reform.300 hours = 1 } }
+		if = {
+			limit = {
+				has_country_flag = RUS_fr_armaments_program_started
+				NOT = { has_country_flag = RUS_fr_auto_project_active }
+				NOT = { has_country_flag = RUS_fr_auto_dispatch_scheduled }
+				NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
+			}
+			set_country_flag = RUS_fr_auto_dispatch_scheduled
+			country_event = { id = RUS_fr_military_reform.100 hours = 1 }
+		}
 		if = { limit = { has_completed_focus = RUS_fr_revolutionary_military_system_finalised has_country_flag = RUS_fr_armaments_line_finished has_country_flag = RUS_fr_mobility_line_finished has_country_flag = RUS_fr_armour_line_finished NOT = { has_completed_focus = RUS_fr_armaments_construction_stage_summary } NOT = { has_shine_effect_on_focus = RUS_fr_armaments_construction_stage_summary } OR = { NOT = { has_country_flag = RUS_fr_summary_controller_started } has_country_flag = RUS_fr_summary_waiting_for_materials } } country_event = { id = RUS_fr_military_reform.400 hours = 1 } }
 		if = { limit = { has_completed_focus = RUS_fr_armaments_construction_stage_summary NOT = { has_country_flag = RUS_fr_armaments_summary_complete } } country_event = { id = RUS_fr_military_reform.90 hours = 1 } }
 	}

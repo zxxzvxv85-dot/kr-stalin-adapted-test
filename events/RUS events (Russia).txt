@@ -23698,6 +23698,7 @@ country_event = { #Return of the Exiles
 		log = "[GetLogInfo]: event russia_socialist_events.30 option russia_socialist_events.30.a"
 		name = russia_socialist_events.30.a
 		RUS_restore_bolshevik_exiles = yes
+		RUS_fr_delay_academy_officers = yes
 		hidden_effect = {
 			if = {
 				limit = { NOT = { has_character = RUS_iosif_stalin } }
@@ -26772,7 +26773,10 @@ country_event = { #Blyukher Report Part 2
 	option = { #Yegorov
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.e"
 		name = russia_socialist_events.132.e
-		trigger = { RUS_VST = yes }
+		trigger = {
+			RUS_VST = yes
+			has_character = RUS_aleksandr_yegorov
+		}
 		activate_advisor = RUS_aleksandr_yegorov_army_chief
 		add_stability = 0.02
 	}
@@ -47943,6 +47947,7 @@ country_event = {
 			RUS_iosif_stalin = { set_nationality = PREV.PREV }
 			RUS_aleksandr_yegorov = { set_nationality = PREV.PREV }
 		}
+		RUS_fr_delay_academy_officers = yes
 		set_country_flag = RUS_exiles_have_returned
 		add_ideas = RUS_fr_reform_disorganisation_4
 		add_ideas = RUS_anti_socialist_resistance_3
@@ -47984,6 +47989,7 @@ country_event = {
 			RUS_iosif_stalin = { set_nationality = PREV.PREV }
 			RUS_aleksandr_yegorov = { set_nationality = PREV.PREV }
 		}
+		RUS_fr_delay_academy_officers = yes
 		set_country_flag = RUS_exiles_have_returned
 		add_ideas = RUS_fr_reform_disorganisation_4
 		add_ideas = RUS_anti_socialist_resistance_3

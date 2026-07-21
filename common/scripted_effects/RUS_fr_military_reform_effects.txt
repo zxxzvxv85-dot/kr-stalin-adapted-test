@@ -457,25 +457,25 @@ RUS_fr_apply_rectification_stage_two = {
 RUS_fr_initialise_unified_army_reform = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-		set_variable = { RUS_fr_unified_pp_factor = 0 }
-		set_variable = { RUS_fr_unified_org_factor = 0.03 }
-		set_variable = { RUS_fr_unified_morale_factor = 0.03 }
-		set_variable = { RUS_fr_unified_planning_speed = 0.04 }
-		set_variable = { RUS_fr_unified_max_planning = 0.02 }
-		set_variable = { RUS_fr_unified_army_xp_gain = 0.20 }
-		set_variable = { RUS_fr_unified_leader_xp_gain = 0.05 }
-		set_variable = { RUS_fr_unified_unit_xp_gain = 0 }
-		set_variable = { RUS_fr_unified_mobilization_speed = 0.05 }
-		set_variable = { RUS_fr_unified_reinforce_rate = 0.01 }
-		set_variable = { RUS_fr_unified_training_time = -0.03 }
-		set_variable = { RUS_fr_unified_supply_consumption = -0.02 }
-		set_variable = { RUS_fr_unified_attrition = -0.03 }
-		set_variable = { RUS_fr_unified_terrain_penalty_reduction = 0.04 }
-		set_variable = { RUS_fr_unified_attack_factor = 0.02 }
-		set_variable = { RUS_fr_unified_defence_factor = 0.02 }
-		set_variable = { RUS_fr_unified_command_power_gain = 0 }
-		set_variable = { RUS_fr_unified_army_speed = 0 }
-		set_variable = { RUS_fr_unified_war_support_factor = 0 }
+		add_to_variable = { RUS_fr_unified_pp_factor = 0 }
+		add_to_variable = { RUS_fr_unified_org_factor = 0.03 }
+		add_to_variable = { RUS_fr_unified_morale_factor = 0.03 }
+		add_to_variable = { RUS_fr_unified_planning_speed = 0.04 }
+		add_to_variable = { RUS_fr_unified_max_planning = 0.02 }
+		add_to_variable = { RUS_fr_unified_army_xp_gain = 0.20 }
+		add_to_variable = { RUS_fr_unified_leader_xp_gain = 0.05 }
+		add_to_variable = { RUS_fr_unified_unit_xp_gain = 0 }
+		add_to_variable = { RUS_fr_unified_mobilization_speed = 0.05 }
+		add_to_variable = { RUS_fr_unified_reinforce_rate = 0.01 }
+		add_to_variable = { RUS_fr_unified_training_time = -0.03 }
+		add_to_variable = { RUS_fr_unified_supply_consumption = -0.02 }
+		add_to_variable = { RUS_fr_unified_attrition = -0.03 }
+		add_to_variable = { RUS_fr_unified_terrain_penalty_reduction = 0.04 }
+		add_to_variable = { RUS_fr_unified_attack_factor = 0.02 }
+		add_to_variable = { RUS_fr_unified_defence_factor = 0.02 }
+		add_to_variable = { RUS_fr_unified_command_power_gain = 0 }
+		add_to_variable = { RUS_fr_unified_army_speed = 0 }
+		add_to_variable = { RUS_fr_unified_war_support_factor = 0 }
 		set_country_flag = RUS_fr_unified_army_reform_active
 
 		remove_ideas = {
@@ -517,6 +517,60 @@ RUS_fr_initialise_unified_army_reform = {
 
 		add_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
 	}
+}
+
+# These institutional reforms are attached directly to the unified reform
+# modifier. They may be completed before or after the modifier is created;
+# add_to_variable preserves their values through the later consolidation.
+RUS_fr_apply_military_democracy_reform = {
+	add_to_variable = { RUS_fr_unified_armor_attack_factor = -0.05 tooltip = army_armor_attack_factor_tt }
+	add_to_variable = { RUS_fr_unified_armor_defence_factor = -0.05 tooltip = army_armor_defence_factor_tt }
+	add_to_variable = { RUS_fr_unified_non_core_attack_factor = 0.05 tooltip = army_non_core_attack_factor_tt }
+	add_to_variable = { RUS_fr_unified_non_core_defence_factor = 0.05 tooltip = army_non_core_defence_factor_tt }
+}
+
+RUS_fr_apply_political_work_reform = {
+	add_to_variable = { RUS_fr_unified_party_stability_factor = 0.10 tooltip = party_popularity_stability_factor_tt }
+	add_to_variable = { RUS_fr_unified_org_factor = -0.03 tooltip = army_org_factor_tt }
+}
+
+RUS_fr_apply_soldiers_committees_reform = {
+	add_to_variable = { RUS_fr_unified_strength_factor = 0.05 tooltip = army_strength_factor_tooltip }
+}
+
+RUS_fr_apply_discipline_review_reform = {
+	add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 tooltip = army_infantry_attack_factor_tt }
+	add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 tooltip = army_infantry_defence_factor_tt }
+	add_to_variable = { RUS_fr_unified_experience_loss_factor = -0.20 tooltip = experience_loss_factor_tooltip }
+}
+
+RUS_fr_apply_standardised_army_structure_reform = {
+	add_to_variable = { RUS_fr_unified_org_factor = 0.05 tooltip = army_org_factor_tt }
+	add_to_variable = { RUS_fr_unified_morale_factor = 0.02 tooltip = army_morale_factor_tt }
+}
+
+# The exile-return event still restores the wider Bolshevik officer corps.
+# These academy cadres remain abroad until the Thunderstorm academy is opened.
+RUS_fr_delay_academy_officers = {
+	if = {
+		limit = { NOT = { has_completed_focus = RUS_fr_red_commander_system } }
+		RUS_vasily_blyukher = { set_nationality = event_target:system }
+		RUS_aleksandr_yegorov = { set_nationality = event_target:system }
+		RUS_semyon_timoshenko = { set_nationality = event_target:system }
+		RUS_kirill_meretskov = { set_nationality = event_target:system }
+		RUS_boris_shaposhnikov = { set_nationality = event_target:system }
+	}
+}
+
+RUS_fr_restore_academy_officers = {
+	RUS_vasily_blyukher = {
+		set_nationality = var:global.russia
+		promote_leader = yes
+	}
+	RUS_aleksandr_yegorov = { set_nationality = var:global.russia }
+	RUS_semyon_timoshenko = { set_nationality = var:global.russia }
+	RUS_kirill_meretskov = { set_nationality = var:global.russia }
+	RUS_boris_shaposhnikov = { set_nationality = var:global.russia }
 }
 
 RUS_fr_merge_political_commissar_organisation = {

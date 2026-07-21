@@ -20272,15 +20272,6 @@ focus_tree = {
 			}
 			hidden_effect = { RUS_stalin_recalculate_red_army_dynamic_modifier = yes }
 			add_war_support = 0.1
-			RUS_generate_kliment_voroshilov = yes
-			custom_effect_tooltip = RUS_kliment_voroshilov_recruit_tt
-			custom_effect_tooltip = available_military_high_command
-			custom_effect_tooltip = RUS_kliment_voroshilov_army_chief_tt
-			show_ideas_tooltip = RUS_vasily_blyukher_high_command
-			show_ideas_tooltip = RUS_aleksandr_yegorov_high_command
-			show_ideas_tooltip = RUS_semyon_timoshenko_high_command
-			show_ideas_tooltip = RUS_kirill_meretskov_high_command
-			show_ideas_tooltip = RUS_boris_shaposhnikov_theorist
 			custom_effect_tooltip = tooltip_white_line
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_VST_left_relation = yes
@@ -28208,13 +28199,7 @@ focus_tree = {
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
-			RUS_fr_show_white_networks_legacy_rewards = yes
-			hidden_effect = {
-				if = {
-					limit = { NOT = { has_completed_focus = RUS_death_to_white_army } }
-					complete_national_focus = RUS_death_to_white_army
-				}
-			}
+			RUS_fr_apply_military_democracy_reform = yes
 			add_political_power = -25
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -28233,6 +28218,7 @@ focus_tree = {
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
+			RUS_fr_apply_political_work_reform = yes
 			army_experience = 15
 			add_stability = 0.01
 		}
@@ -28252,6 +28238,7 @@ focus_tree = {
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
+			RUS_fr_apply_discipline_review_reform = yes
 			army_experience = 10
 			add_war_support = 0.01
 		}
@@ -28272,6 +28259,7 @@ focus_tree = {
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
+			RUS_fr_apply_soldiers_committees_reform = yes
 			add_stability = 0.02
 			add_war_support = 0.02
 		}
@@ -28404,6 +28392,16 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_equipment_is_the_armys_skeleton }
 		completion_reward = {
+			hidden_effect = { RUS_fr_restore_academy_officers = yes }
+			RUS_generate_kliment_voroshilov = yes
+			custom_effect_tooltip = RUS_kliment_voroshilov_recruit_tt
+			custom_effect_tooltip = available_military_high_command
+			custom_effect_tooltip = RUS_kliment_voroshilov_army_chief_tt
+			show_ideas_tooltip = RUS_vasily_blyukher_high_command
+			show_ideas_tooltip = RUS_aleksandr_yegorov_high_command
+			show_ideas_tooltip = RUS_semyon_timoshenko_high_command
+			show_ideas_tooltip = RUS_kirill_meretskov_high_command
+			show_ideas_tooltip = RUS_boris_shaposhnikov_theorist
 			add_popularity = { ideology = communist popularity = 0.05 }
 			enable_tech_irregulars = yes
 			army_experience = 20
@@ -28464,6 +28462,7 @@ focus_tree = {
 		y = 3
 		prerequisite = { focus = RUS_fr_train_before_expansion }
 		completion_reward = {
+			RUS_fr_apply_standardised_army_structure_reform = yes
 			add_war_support = 0.03
 			army_experience = 15
 		}
@@ -28481,6 +28480,13 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_frunze_field_regulations }
 		prerequisite = { focus = RUS_fr_unified_training_mobilisation_system }
 		completion_reward = {
+			RUS_fr_show_white_networks_legacy_rewards = yes
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_death_to_white_army } }
+					complete_national_focus = RUS_death_to_white_army
+				}
+			}
 			army_experience = 20
 			add_command_power = 15
 		}
