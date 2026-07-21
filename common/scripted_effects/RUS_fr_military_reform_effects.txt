@@ -1,22 +1,26 @@
 RUS_fr_apply_artillery_legacy_rewards = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_fr_artillery_legacy_rewards_applied } }
-		if = {
-			limit = { NOT = { has_completed_focus = RUS_artillery_production } }
-			add_tech_bonus = {
-				name = RUS_artillery_production
-				bonus = 1
-				uses = 1
-				category = artillery
-			}
+		add_tech_bonus = {
+			name = RUS_fr_artillery_ammunition_technical_committee
+			bonus = 1
+			uses = 1
+			category = artillery
+		}
+		unlock_decision_tooltip = {
+			decision = RUS_tula_arms_factory
+			show_effect_tooltip = no
+			show_modifiers = no
+		}
+		hidden_effect = {
 			activate_targeted_decision = { target = 223 decision = RUS_tula_arms_factory }
-			if = {
-				limit = {
-					has_dlc_gtd = yes
-					NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer }
-				}
-				sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.1 }
+		}
+		if = {
+			limit = {
+				has_dlc_gtd = yes
+				NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer }
 			}
+			sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.1 }
 		}
 		set_country_flag = RUS_fr_artillery_legacy_rewards_applied
 	}
@@ -24,23 +28,30 @@ RUS_fr_apply_artillery_legacy_rewards = {
 
 RUS_fr_complete_mobility_legacy_focuses = {
 	# The old artillery and motorisation focuses are mutually exclusive. The new
-	# reform tree combines their useful results, so keep motorisation completed
-	# for OKMO compatibility and carry the artillery bonuses in the new idea.
-	if = {
-		limit = {
-			has_completed_focus = RUS_artillery_production
-			NOT = { has_completed_focus = RUS_motorisation }
+	# reform tree keeps their compatibility state hidden so the visible tooltip
+	# describes the new project instead of listing removed focuses.
+	custom_effect_tooltip = RUS_fr_mobility_legacy_rewards_tt
+	hidden_effect = {
+		if = {
+			limit = {
+				has_completed_focus = RUS_artillery_production
+				NOT = { has_completed_focus = RUS_motorisation }
+			}
+			set_country_flag = RUS_fr_artillery_legacy_rewards_applied
+			uncomplete_national_focus = {
+				focus = RUS_artillery_production
+				uncomplete_children = no
+				refund_political_power = no
+			}
 		}
-		set_country_flag = RUS_fr_artillery_legacy_rewards_applied
-		uncomplete_national_focus = {
-			focus = RUS_artillery_production
-			uncomplete_children = no
-			refund_political_power = no
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_motorisation } }
+			complete_national_focus = RUS_motorisation
 		}
-	}
-	if = {
-		limit = { NOT = { has_completed_focus = RUS_motorisation } }
-		complete_national_focus = RUS_motorisation
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_roads_of_courage } }
+			complete_national_focus = RUS_roads_of_courage
+		}
 	}
 	if = {
 		limit = { has_idea = RUS_military_production_idea_3 }
@@ -49,10 +60,6 @@ RUS_fr_complete_mobility_legacy_focuses = {
 			limit = { NOT = { has_idea = RUS_military_production_idea_4 } }
 			add_ideas = RUS_military_production_idea_4
 		}
-	}
-	if = {
-		limit = { NOT = { has_completed_focus = RUS_roads_of_courage } }
-		complete_national_focus = RUS_roads_of_courage
 	}
 	add_ideas = RUS_fr_mobility_basic_result
 	set_country_flag = RUS_fr_mobility_line_finished
