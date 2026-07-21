@@ -1,6 +1,5 @@
 RUS_fr_show_unified_leadership_legacy_rewards = {
 	effect_tooltip = {
-		RUS_fix_army_soc = yes
 		add_doctrine_cost_reduction = {
 			name = RUS_legacy_of_workers_army
 			cost_reduction = 0.5
@@ -20,7 +19,6 @@ RUS_fr_show_unified_leadership_legacy_rewards = {
 RUS_fr_show_white_networks_legacy_rewards = {
 	effect_tooltip = {
 		add_manpower = -40500
-		RUS_fix_army_soc = yes
 		RUS_promote_socialist_generals = yes
 		RUS_basan_gorodovikov = { set_nationality = ROOT }
 		RUS_pavel_rychagov = {
@@ -433,18 +431,9 @@ RUS_fr_calculate_specialisation_bonus = {
 	multiply_variable = { RUS_fr_specialist_negative_bonus = -1 }
 }
 
-RUS_fr_clear_reform_basic_bonus = {
-	remove_ideas = {
-		RUS_fr_reform_basic_bonuses_1
-		RUS_fr_reform_basic_bonuses_2
-		RUS_fr_reform_basic_bonuses_3
-		RUS_fr_reform_basic_bonuses_4
-	}
-}
-
 # The rectification branch replaces the first two decision stages. These
 # effects are deliberately monotonic: completing them after a decision can
-# never restore a stronger debuff or reduce an existing basic reform bonus.
+# never restore a stronger version of the combined reform spirit.
 RUS_fr_apply_rectification_stage_one = {
 	if = {
 		limit = { has_idea = RUS_fr_reform_disorganisation_4 }
@@ -452,18 +441,6 @@ RUS_fr_apply_rectification_stage_one = {
 			remove_idea = RUS_fr_reform_disorganisation_4
 			add_idea = RUS_fr_reform_disorganisation_3
 		}
-	}
-	if = {
-		limit = {
-			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
-			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
-			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
-			NOT = { has_idea = RUS_fr_reform_basic_bonuses_2 }
-			NOT = { has_idea = RUS_fr_reform_basic_bonuses_3 }
-			NOT = { has_idea = RUS_fr_reform_basic_bonuses_4 }
-		}
-		RUS_fr_clear_reform_basic_bonus = yes
-		add_ideas = RUS_fr_reform_basic_bonuses_1
 	}
 	set_country_flag = RUS_fr_reform_stage_1
 }
@@ -482,16 +459,6 @@ RUS_fr_apply_rectification_stage_two = {
 			remove_idea = RUS_fr_reform_disorganisation_3
 			add_idea = RUS_fr_reform_disorganisation_2
 		}
-	}
-	if = {
-		limit = {
-			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
-			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
-			NOT = { has_idea = RUS_fr_reform_basic_bonuses_3 }
-			NOT = { has_idea = RUS_fr_reform_basic_bonuses_4 }
-		}
-		RUS_fr_clear_reform_basic_bonus = yes
-		add_ideas = RUS_fr_reform_basic_bonuses_2
 	}
 	set_country_flag = RUS_fr_reform_stage_1
 	set_country_flag = RUS_fr_reform_stage_2

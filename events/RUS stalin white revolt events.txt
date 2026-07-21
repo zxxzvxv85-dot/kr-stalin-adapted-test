@@ -392,7 +392,17 @@ country_event = {
 			hidden_effect = {
 				clear_variable = RUS_military_anger
 				if = {
-					limit = { NOT = { has_idea = RUS_white_army_red_baron } }
+					limit = {
+						NOT = {
+							OR = {
+								has_idea = RUS_fr_reform_disorganisation_4
+								has_idea = RUS_fr_reform_disorganisation_3
+								has_idea = RUS_fr_reform_disorganisation_2
+								has_idea = RUS_fr_reform_disorganisation_1
+								has_idea = RUS_fr_reform_disorganisation_0
+							}
+						}
+					}
 					random_other_country = { limit = { is_ai = yes } news_event = russia_news_events.8 }
 					RUS_initialise_socrus = yes
 				}
