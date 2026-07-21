@@ -391,6 +391,14 @@ on_actions = {
 				}
 				RUS_generate_kliment_voroshilov = yes
 			}
+			# Trigger the army-chief selection event once for every Socialist Russia path.
+			if = {
+				limit = {
+					has_socialist_government = yes
+					NOT = { has_country_flag = RUS_fr_army_chief_selection_event_started }
+				}
+				country_event = russia_socialist_events.131
+			}
 			if = {
 				limit = {
 					tag = RUS

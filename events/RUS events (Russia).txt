@@ -26612,8 +26612,18 @@ country_event = { #Blyukher Report Part 1
 		trigger = { RUS_VST = yes }
 		text = russia_socialist_events.131.d.VST
 	}
+	desc = {
+		trigger = {
+			has_socialist_government = yes
+			RUS_is_maximalist = no
+			RUS_is_spiridonist = no
+			RUS_VST = no
+		}
+		text = russia_socialist_events.131.d.VST
+	}
 	is_triggered_only = yes
 	picture = GFX_report_event_generic_diplomacy1
+	immediate = { set_country_flag = RUS_fr_army_chief_selection_event_started }
 
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.131 option russia_socialist_events.131.a"
@@ -26635,6 +26645,15 @@ country_event = { #Blyukher Report Part 2
 	}
 	desc = {
 		trigger = { RUS_VST = yes }
+		text = russia_socialist_events.132.d.VST
+	}
+	desc = {
+		trigger = {
+			has_socialist_government = yes
+			RUS_is_maximalist = no
+			RUS_is_spiridonist = no
+			RUS_VST = no
+		}
 		text = russia_socialist_events.132.d.VST
 	}
 	is_triggered_only = yes
@@ -26737,12 +26756,9 @@ country_event = { #Blyukher Report Part 2
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.f"
 		name = russia_socialist_events.132.f
 		trigger = {
+			has_socialist_government = yes
+			RUS_is_maximalist = no
 			has_character = RUS_mikhail_frunze
-			OR = {
-				RUS_VST = yes
-				has_country_flag = RUS_stalin_communist_path
-				has_country_leader = { character = RUS_iosif_stalin }
-			}
 		}
 		activate_advisor = RUS_mikhail_frunze_army_chief
 		RUS_stalin_add_totalist_or_communist_popularity_0025 = yes
