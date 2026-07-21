@@ -11,7 +11,7 @@ RUS_fr_military_reform_decisions = {
 				has_completed_focus = RUS_coordinate_development
 			}
 		}
-		complete_effect = { add_to_variable = { RUS_fr_military_reform_materials = 15 } }
+		complete_effect = { add_to_variable = { RUS_fr_military_reform_materials = 15 tooltip = RUS_fr_military_reform_materials_change_tt } }
 		ai_will_do = { factor = 5 }
 	}
 
@@ -22,7 +22,7 @@ RUS_fr_military_reform_decisions = {
 		days_re_enable = 60
 		complete_effect = {
 			army_experience = -25
-			add_to_variable = { RUS_fr_military_reform_materials = 12 }
+			add_to_variable = { RUS_fr_military_reform_materials = 12 tooltip = RUS_fr_military_reform_materials_change_tt }
 		}
 		ai_will_do = { factor = 3 }
 	}
@@ -34,7 +34,7 @@ RUS_fr_military_reform_decisions = {
 		available = { has_war = yes }
 		complete_effect = {
 			add_stability = -0.02
-			add_to_variable = { RUS_fr_military_reform_materials = 30 }
+			add_to_variable = { RUS_fr_military_reform_materials = 30 tooltip = RUS_fr_military_reform_materials_change_tt }
 		}
 		ai_will_do = { factor = 8 }
 	}
@@ -47,14 +47,14 @@ RUS_fr_military_reform_decisions = {
 		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_4
-			check_variable = { RUS_fr_military_reform_materials > 14 }
+			RUS_fr_requires_15_military_reform_materials = yes
 			army_experience > 24
 			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -15 }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 }
+			add_to_variable = { RUS_fr_military_reform_materials = -15 tooltip = RUS_fr_military_reform_materials_change_tt }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -25
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_4 add_idea = RUS_fr_reform_disorganisation_3 }
 			set_country_flag = RUS_fr_reform_stage_1
@@ -71,14 +71,14 @@ RUS_fr_military_reform_decisions = {
 		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_3
-			check_variable = { RUS_fr_military_reform_materials > 14 }
+			RUS_fr_requires_15_military_reform_materials = yes
 			army_experience > 39
 			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -15 }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 }
+			add_to_variable = { RUS_fr_military_reform_materials = -15 tooltip = RUS_fr_military_reform_materials_change_tt }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -40
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_3 add_idea = RUS_fr_reform_disorganisation_2 }
 			set_country_flag = RUS_fr_reform_stage_2
@@ -95,14 +95,14 @@ RUS_fr_military_reform_decisions = {
 		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_2
-			check_variable = { RUS_fr_military_reform_materials > 19 }
+			RUS_fr_requires_20_military_reform_materials = yes
 			army_experience > 59
 			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -20 }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 }
+			add_to_variable = { RUS_fr_military_reform_materials = -20 tooltip = RUS_fr_military_reform_materials_change_tt }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -60
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
 			set_country_flag = RUS_fr_reform_stage_3
@@ -119,14 +119,14 @@ RUS_fr_military_reform_decisions = {
 		}
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_1
-			check_variable = { RUS_fr_military_reform_materials > 24 }
+			RUS_fr_requires_25_military_reform_materials = yes
 			army_experience > 79
 			NOT = { has_country_flag = RUS_fr_reform_decision_cooldown }
 		}
 		fire_only_once = yes
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -25 }
-			add_to_variable = { RUS_fr_military_reform_materials = 5 }
+			add_to_variable = { RUS_fr_military_reform_materials = -25 tooltip = RUS_fr_military_reform_materials_change_tt }
+			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			army_experience = -80
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
 			set_country_flag = RUS_fr_reform_stage_4
