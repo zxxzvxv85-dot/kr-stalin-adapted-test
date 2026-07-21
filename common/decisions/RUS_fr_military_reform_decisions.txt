@@ -148,4 +148,144 @@ RUS_fr_military_reform_decisions = {
 		}
 		ai_will_do = { factor = 10 }
 	}
+
+	RUS_fr_establish_political_commissar_organisation = {
+		icon = GFX_decision_generic_military
+		visible = {
+			has_completed_focus = RUS_fr_cadres_decide_everything
+			NOT = { has_idea = RUS_fr_political_commissar_organisation_idea }
+		}
+		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
+		custom_cost_trigger = {
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+			army_experience > 29
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
+			army_experience = -30
+			add_ideas = RUS_fr_political_commissar_organisation_idea
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_establish_scientific_general_staff = {
+		icon = GFX_decision_generic_military
+		visible = {
+			has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
+			NOT = { has_idea = RUS_fr_scientific_general_staff_idea }
+		}
+		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
+		custom_cost_trigger = {
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+			army_experience > 29
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
+			army_experience = -30
+			add_ideas = RUS_fr_scientific_general_staff_idea
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_adopt_deep_battle_concept = {
+		icon = GFX_decision_generic_military
+		visible = {
+			has_completed_focus = RUS_fr_train_before_expansion
+			NOT = { has_idea = RUS_fr_deep_battle_concept_idea }
+		}
+		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
+		custom_cost_trigger = {
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+			army_experience > 29
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
+			army_experience = -30
+			add_ideas = RUS_fr_deep_battle_concept_idea
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_establish_one_man_command = {
+		icon = GFX_decision_generic_military
+		visible = {
+			has_completed_focus = RUS_fr_unified_military_leadership
+			NOT = { has_idea = RUS_fr_one_man_command_idea }
+		}
+		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
+		custom_cost_trigger = {
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+			army_experience > 29
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
+			army_experience = -30
+			add_ideas = RUS_fr_one_man_command_idea
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_adopt_revolutionary_collectivism = {
+		icon = GFX_decision_generic_military
+		visible = {
+			has_completed_focus = RUS_fr_revolutionary_collectivism
+			NOT = { has_idea = RUS_fr_revolutionary_collectivism_idea }
+		}
+		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
+		custom_cost_trigger = {
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+			army_experience > 29
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
+			army_experience = -30
+			add_ideas = RUS_fr_revolutionary_collectivism_idea
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_adopt_military_vanguardism = {
+		icon = GFX_decision_generic_military
+		visible = {
+			has_completed_focus = RUS_fr_military_vanguardism
+			NOT = { has_idea = RUS_fr_military_vanguardism_idea }
+		}
+		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
+		custom_cost_trigger = {
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+			army_experience > 29
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
+			army_experience = -30
+			add_ideas = RUS_fr_military_vanguardism_idea
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	RUS_fr_adopt_revolutionary_heroism = {
+		icon = GFX_decision_generic_military
+		visible = {
+			has_completed_focus = RUS_fr_revolutionary_heroism
+			NOT = { has_idea = RUS_fr_revolutionary_heroism_idea }
+		}
+		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
+		custom_cost_trigger = {
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+			army_experience > 29
+		}
+		fire_only_once = yes
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
+			army_experience = -30
+			add_ideas = RUS_fr_revolutionary_heroism_idea
+		}
+		ai_will_do = { factor = 10 }
+	}
 }
