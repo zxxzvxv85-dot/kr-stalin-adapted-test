@@ -48,17 +48,15 @@ RUS_fr_military_reform_decisions = {
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_4
 			NOT = { has_country_flag = RUS_fr_reform_stage_1 }
-			RUS_fr_requires_15_military_reform_materials = yes
-			army_experience > 24
 		}
+		custom_cost_text = RUS_fr_xp_100
+		custom_cost_trigger = { army_experience > 99 }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -15 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -25
+			army_experience = -100
 		}
 		remove_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			RUS_fr_apply_rectification_stage_one = yes
 		}
 		ai_will_do = { factor = 10 }
@@ -75,17 +73,15 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_3
 			has_country_flag = RUS_fr_reform_stage_1
 			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
-			RUS_fr_requires_15_military_reform_materials = yes
-			army_experience > 39
 		}
+		custom_cost_text = RUS_fr_xp_100
+		custom_cost_trigger = { army_experience > 99 }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -15 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -40
+			army_experience = -100
 		}
 		remove_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			RUS_fr_apply_rectification_stage_two = yes
 		}
 		ai_will_do = { factor = 10 }
@@ -102,17 +98,15 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_2
 			has_country_flag = RUS_fr_reform_stage_2
 			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
-			RUS_fr_requires_20_military_reform_materials = yes
-			army_experience > 59
 		}
+		custom_cost_text = RUS_fr_xp_100
+		custom_cost_trigger = { army_experience > 99 }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -20 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -60
+			army_experience = -100
 		}
 		remove_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
 			set_country_flag = RUS_fr_reform_stage_3
 			unlock_decision_tooltip = { decision = RUS_fr_reform_grand_field_test show_effect_tooltip = no show_modifiers = no }
@@ -131,17 +125,15 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_1
 			has_country_flag = RUS_fr_reform_stage_3
 			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
-			RUS_fr_requires_25_military_reform_materials = yes
-			army_experience > 79
 		}
+		custom_cost_text = RUS_fr_xp_100
+		custom_cost_trigger = { army_experience > 99 }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -25 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -80
+			army_experience = -100
 		}
 		remove_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = 5 tooltip = RUS_fr_military_reform_materials_change_tt }
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
 			set_country_flag = RUS_fr_reform_stage_4
 			set_country_flag = RUS_fr_basic_reform_completed
@@ -155,15 +147,14 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_cadres_decide_everything
 			NOT = { has_idea = RUS_fr_political_commissar_organisation_idea }
 		}
-		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
-		custom_cost_trigger = {
-			check_variable = { RUS_fr_military_reform_materials > 9 }
-			army_experience > 29
-		}
+		custom_cost_text = RUS_fr_xp_50
+		custom_cost_trigger = { army_experience > 49 }
 		fire_only_once = yes
+		days_remove = 90
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -30
+			army_experience = -50
+		}
+		remove_effect = {
 			add_ideas = RUS_fr_political_commissar_organisation_idea
 		}
 		ai_will_do = { factor = 10 }
@@ -175,15 +166,14 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
 			NOT = { has_idea = RUS_fr_scientific_general_staff_idea }
 		}
-		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
-		custom_cost_trigger = {
-			check_variable = { RUS_fr_military_reform_materials > 9 }
-			army_experience > 29
-		}
+		custom_cost_text = RUS_fr_xp_60
+		custom_cost_trigger = { army_experience > 59 }
 		fire_only_once = yes
+		days_remove = 120
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -30
+			army_experience = -60
+		}
+		remove_effect = {
 			add_ideas = RUS_fr_scientific_general_staff_idea
 		}
 		ai_will_do = { factor = 10 }
@@ -195,15 +185,14 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_train_before_expansion
 			NOT = { has_idea = RUS_fr_deep_battle_concept_idea }
 		}
-		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
-		custom_cost_trigger = {
-			check_variable = { RUS_fr_military_reform_materials > 9 }
-			army_experience > 29
-		}
+		custom_cost_text = RUS_fr_xp_65
+		custom_cost_trigger = { army_experience > 64 }
 		fire_only_once = yes
+		days_remove = 120
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -30
+			army_experience = -65
+		}
+		remove_effect = {
 			add_ideas = RUS_fr_deep_battle_concept_idea
 		}
 		ai_will_do = { factor = 10 }
@@ -215,15 +204,14 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_unified_military_leadership
 			NOT = { has_idea = RUS_fr_one_man_command_idea }
 		}
-		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
-		custom_cost_trigger = {
-			check_variable = { RUS_fr_military_reform_materials > 9 }
-			army_experience > 29
-		}
+		custom_cost_text = RUS_fr_xp_45
+		custom_cost_trigger = { army_experience > 44 }
 		fire_only_once = yes
+		days_remove = 60
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -30
+			army_experience = -45
+		}
+		remove_effect = {
 			add_ideas = RUS_fr_one_man_command_idea
 		}
 		ai_will_do = { factor = 10 }
@@ -235,15 +223,14 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_revolutionary_collectivism
 			NOT = { has_idea = RUS_fr_revolutionary_collectivism_idea }
 		}
-		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
-		custom_cost_trigger = {
-			check_variable = { RUS_fr_military_reform_materials > 9 }
-			army_experience > 29
-		}
+		custom_cost_text = RUS_fr_xp_40
+		custom_cost_trigger = { army_experience > 39 }
 		fire_only_once = yes
+		days_remove = 60
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -30
+			army_experience = -40
+		}
+		remove_effect = {
 			add_ideas = RUS_fr_revolutionary_collectivism_idea
 		}
 		ai_will_do = { factor = 10 }
@@ -255,15 +242,14 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_military_vanguardism
 			NOT = { has_idea = RUS_fr_military_vanguardism_idea }
 		}
-		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
-		custom_cost_trigger = {
-			check_variable = { RUS_fr_military_reform_materials > 9 }
-			army_experience > 29
-		}
+		custom_cost_text = RUS_fr_xp_55
+		custom_cost_trigger = { army_experience > 54 }
 		fire_only_once = yes
+		days_remove = 90
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -30
+			army_experience = -55
+		}
+		remove_effect = {
 			add_ideas = RUS_fr_military_vanguardism_idea
 		}
 		ai_will_do = { factor = 10 }
@@ -275,15 +261,14 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_revolutionary_heroism
 			NOT = { has_idea = RUS_fr_revolutionary_heroism_idea }
 		}
-		custom_cost_text = RUS_fr_cost_10_materials_30_army_xp
-		custom_cost_trigger = {
-			check_variable = { RUS_fr_military_reform_materials > 9 }
-			army_experience > 29
-		}
+		custom_cost_text = RUS_fr_xp_50
+		custom_cost_trigger = { army_experience > 49 }
 		fire_only_once = yes
+		days_remove = 60
 		complete_effect = {
-			add_to_variable = { RUS_fr_military_reform_materials = -10 tooltip = RUS_fr_military_reform_materials_change_tt }
-			army_experience = -30
+			army_experience = -50
+		}
+		remove_effect = {
 			add_ideas = RUS_fr_revolutionary_heroism_idea
 		}
 		ai_will_do = { factor = 10 }
