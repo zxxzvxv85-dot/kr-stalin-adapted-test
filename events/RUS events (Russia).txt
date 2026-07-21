@@ -23710,6 +23710,15 @@ country_event = { #Return of the Exiles
 		}
 		RUS_stalin_add_totalist_or_communist_popularity_002 = yes
 		set_country_flag = RUS_exiles_have_returned
+		if = {
+			limit = {
+				NOT = { has_country_flag = RUS_fr_army_chief_report_scheduled }
+				NOT = { has_country_flag = RUS_fr_army_chief_report_shown }
+				NOT = { has_country_flag = RUS_fr_army_chief_selection_event_started }
+			}
+			set_country_flag = RUS_fr_army_chief_report_scheduled
+			country_event = { id = russia_socialist_events.131 days = 7 }
+		}
 		country_event = { id = russia_socialist_events.31 days = 30 random_days = 30 }
 	}
 }
@@ -26623,12 +26632,20 @@ country_event = { #Blyukher Report Part 1
 	}
 	is_triggered_only = yes
 	picture = GFX_report_event_generic_diplomacy1
-	immediate = { set_country_flag = RUS_fr_army_chief_selection_event_started }
+	trigger = {
+		has_socialist_government = yes
+		has_country_flag = RUS_exiles_have_returned
+		NOT = { has_country_flag = RUS_fr_army_chief_report_shown }
+	}
+	immediate = {
+		set_country_flag = RUS_fr_army_chief_report_shown
+		set_country_flag = RUS_fr_army_chief_selection_event_started
+	}
 
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.131 option russia_socialist_events.131.a"
 		name = russia_socialist_events.131.a
-		country_event = { id = russia_socialist_events.132 days = 1 }
+		country_event = { id = russia_socialist_events.132 days = 7 }
 	}
 }
 
@@ -26658,6 +26675,13 @@ country_event = { #Blyukher Report Part 2
 	}
 	is_triggered_only = yes
 	picture = GFX_report_event_generic_diplomacy2
+	trigger = {
+		has_socialist_government = yes
+		has_country_flag = RUS_exiles_have_returned
+		has_country_flag = RUS_fr_army_chief_report_shown
+		NOT = { has_country_flag = RUS_fr_army_chief_selection_event_shown }
+	}
+	immediate = { set_country_flag = RUS_fr_army_chief_selection_event_shown }
 
 	option = { #Levandovsky, Maximalists
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.a"

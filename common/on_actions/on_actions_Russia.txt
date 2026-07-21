@@ -391,13 +391,26 @@ on_actions = {
 				}
 				RUS_generate_kliment_voroshilov = yes
 			}
-			# Trigger the army-chief selection event once for every Socialist Russia path.
+			# Repair saves affected by the temporary early army-chief event trigger.
+			if = {
+				limit = {
+					has_country_flag = RUS_fr_army_chief_selection_event_started
+					NOT = { has_country_flag = RUS_fr_army_chief_report_scheduled }
+					NOT = { has_country_flag = RUS_fr_army_chief_report_shown }
+				}
+				clr_country_flag = RUS_fr_army_chief_selection_event_started
+			}
+			# Fallback for saves where the exiles returned before the delayed report was added.
 			if = {
 				limit = {
 					has_socialist_government = yes
+					has_country_flag = RUS_exiles_have_returned
+					NOT = { has_country_flag = RUS_fr_army_chief_report_scheduled }
+					NOT = { has_country_flag = RUS_fr_army_chief_report_shown }
 					NOT = { has_country_flag = RUS_fr_army_chief_selection_event_started }
 				}
-				country_event = russia_socialist_events.131
+				set_country_flag = RUS_fr_army_chief_report_scheduled
+				country_event = { id = russia_socialist_events.131 days = 7 }
 			}
 			if = {
 				limit = {

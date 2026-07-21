@@ -20355,51 +20355,6 @@ focus_tree = {
 				}
 				custom_effect_tooltip = RUS_stalin_red_army_terrain_focus_tt
 			}
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_army_chief_selection_event_started } }
-				country_event = russia_socialist_events.131
-			}
-			custom_effect_tooltip = tooltip_event_allows_choice
-			custom_effect_tooltip = tooltip_event_choice_option_1
-			if = {
-				limit = { RUS_is_maximalist = yes }
-				event_option_tooltip = russia_socialist_events.132.a #Levandovsky
-				custom_effect_tooltip = tooltip_event_choice_option_2
-				event_option_tooltip = russia_socialist_events.132.b #Frunze
-				custom_effect_tooltip = tooltip_event_choice_option_3
-				event_option_tooltip = russia_socialist_events.132.c #Tukhachevsky
-			}
-			if = {
-				limit = { RUS_is_spiridonist = yes }
-				event_option_tooltip = russia_socialist_events.132.a2 #Levandovsky
-				custom_effect_tooltip = tooltip_event_choice_option_2
-				event_option_tooltip = russia_socialist_events.132.b2 #Sablin
-				if = {
-					limit = { NOT = { has_country_flag = RUS_sablin_only } }
-					custom_effect_tooltip = tooltip_event_choice_option_3
-					event_option_tooltip = russia_socialist_events.132.c #Tukhachevsky
-				}
-			}
-			else = {
-				event_option_tooltip = russia_socialist_events.132.a2 #Levandovsky
-				custom_effect_tooltip = tooltip_event_choice_or
-				event_option_tooltip = russia_socialist_events.132.e #Yegorov
-				if = {
-					limit = {
-						has_character = RUS_mikhail_frunze
-					}
-					custom_effect_tooltip = tooltip_event_choice_or
-					event_option_tooltip = russia_socialist_events.132.f #Frunze
-				}
-				if = {
-					limit = {
-						RUS_VST_right = yes
-						has_character = RUS_aleksandr_vasilevsky
-					}
-					custom_effect_tooltip = tooltip_event_choice_or
-					event_option_tooltip = russia_socialist_events.132.g #Vasilevsky
-				}
-			}
 		}
 	}
 	focus = {
