@@ -19566,14 +19566,6 @@ focus_tree = {
 				change_ruling_party_popularity = yes
 			}
 			if = {
-				limit = { has_idea = RUS_commissars_communist_1 }
-				swap_ideas = {
-					remove_idea = RUS_commissars_communist_1
-					add_idea = RUS_commissars_communist_2
-				}
-			}
-			else = { add_ideas = RUS_commissars_communist_1 }
-			if = {
 				limit = { RUS_is_spiridonist = yes }
 				set_temp_variable = { RUS_spiridonist_influence_change = -2 }
 				RUS_add_faith = yes
@@ -20440,6 +20432,7 @@ focus_tree = {
 			focus = RUS_fr_frunze_defence_report
 		}
 		available = {
+			RUS_fr_show_current_military_reform_materials = yes
 			check_variable = { RUS_fr_military_reform_materials > 7 }
 		}
 		select_effect = {
@@ -20461,14 +20454,6 @@ focus_tree = {
 			hidden_effect = { RUS_stalin_recalculate_red_army_dynamic_modifier = yes }
 			add_popularity = { ideology = communist popularity = 0.04 }
 			custom_effect_tooltip = tooltip_white_line
-			if = {
-				limit = { has_idea = RUS_commissars_communist_1 }
-				swap_ideas = {
-					remove_idea = RUS_commissars_communist_1
-					add_idea = RUS_commissars_communist_2
-				}
-			}
-			else = { add_ideas = RUS_commissars_communist_1 }
 			if = {
 				limit = { has_character = RUS_iosif_stalin }
 				custom_effect_tooltip = available_military_high_command
@@ -28241,7 +28226,10 @@ focus_tree = {
 		y = 1
 		allow_branch = { has_socialist_government = yes }
 		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			RUS_fr_apply_rectification_stage_one = yes
@@ -28259,7 +28247,10 @@ focus_tree = {
 		x = -3
 		y = 1
 		prerequisite = { focus = RUS_fr_military_rectification }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			RUS_fr_show_white_networks_legacy_rewards = yes
@@ -28282,7 +28273,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_military_rectification }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			army_experience = 15
@@ -28299,7 +28293,10 @@ focus_tree = {
 		x = 3
 		y = 1
 		prerequisite = { focus = RUS_fr_military_rectification }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			army_experience = 10
@@ -28317,7 +28314,10 @@ focus_tree = {
 		y = 2
 		prerequisite = { focus = RUS_fr_investigate_white_networks }
 		prerequisite = { focus = RUS_fr_officer_oath_service_review }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_stability = 0.02
@@ -28334,7 +28334,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_soldiers_committees }
-		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
 		completion_reward = {
 			RUS_fr_apply_rectification_stage_two = yes
@@ -28355,7 +28358,14 @@ focus_tree = {
 		y = 1
 		allow_branch = { has_socialist_government = yes }
 		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_unified_military_political_system_tt
+				has_completed_focus = RUS_fr_unified_military_political_system
+			}
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			set_country_flag = RUS_fr_new_military_tree_active
@@ -28408,7 +28418,10 @@ focus_tree = {
 		x = -3
 		y = 1
 		prerequisite = { focus = RUS_fr_national_military_reform_program }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			add_ideas = RUS_fr_political_commissar_organisation_idea
@@ -28420,6 +28433,10 @@ focus_tree = {
 						NOT = { has_completed_focus = RUS_military_independence }
 					}
 					complete_national_focus = RUS_commissars
+				}
+				remove_ideas = {
+					RUS_commissars_communist_1
+					RUS_commissars_communist_2
 				}
 			}
 			add_doctrine_cost_reduction = {
@@ -28440,7 +28457,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_national_military_reform_program }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			add_ideas = RUS_fr_scientific_general_staff_idea
@@ -28463,7 +28483,10 @@ focus_tree = {
 		x = 3
 		y = 1
 		prerequisite = { focus = RUS_fr_national_military_reform_program }
-		available = { check_variable = { RUS_fr_military_reform_materials > 5 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 5 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
 		completion_reward = {
 			add_ideas = RUS_fr_deep_battle_concept_idea
@@ -28480,7 +28503,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_equipment_is_the_armys_skeleton }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			RUS_fr_show_red_commander_legacy_rewards = yes
@@ -28505,7 +28531,10 @@ focus_tree = {
 		y = 3
 		prerequisite = { focus = RUS_fr_basic_commissar_system }
 		prerequisite = { focus = RUS_fr_cadres_decide_everything }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_ideas = RUS_fr_one_man_command_idea
@@ -28522,7 +28551,10 @@ focus_tree = {
 		x = 0
 		y = 3
 		prerequisite = { focus = RUS_fr_red_commander_system }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			RUS_fr_show_frunze_regulations_legacy_rewards = yes
@@ -28551,7 +28583,10 @@ focus_tree = {
 		x = 2
 		y = 3
 		prerequisite = { focus = RUS_fr_train_before_expansion }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_war_support = 0.03
@@ -28570,7 +28605,10 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_unified_military_leadership }
 		prerequisite = { focus = RUS_fr_frunze_field_regulations }
 		prerequisite = { focus = RUS_fr_unified_training_mobilisation_system }
-		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
 		completion_reward = {
 			army_experience = 20
@@ -28588,6 +28626,7 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_reorganise_general_staff_districts }
 		available = {
+			RUS_fr_show_current_military_reform_materials = yes
 			check_variable = { RUS_fr_military_reform_materials > 11 }
 			custom_trigger_tooltip = {
 				tooltip = RUS_fr_basic_reform_completed_tt
@@ -28619,7 +28658,10 @@ focus_tree = {
 		x = -4
 		y = 1
 		prerequisite = { focus = RUS_fr_all_russian_red_army_exercise }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_ideas = RUS_fr_revolutionary_collectivism_idea
@@ -28635,7 +28677,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_all_russian_red_army_exercise }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_ideas = RUS_fr_military_vanguardism_idea
@@ -28651,7 +28696,10 @@ focus_tree = {
 		x = 4
 		y = 1
 		prerequisite = { focus = RUS_fr_all_russian_red_army_exercise }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_ideas = RUS_fr_revolutionary_heroism_idea
@@ -28667,7 +28715,10 @@ focus_tree = {
 		x = -1
 		y = 1
 		prerequisite = { focus = RUS_fr_revolutionary_collectivism }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_doctrine_cost_reduction = {
@@ -28689,7 +28740,10 @@ focus_tree = {
 		x = 1
 		y = 1
 		prerequisite = { focus = RUS_fr_revolutionary_collectivism }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_manpower = 50000
@@ -28707,7 +28761,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_military_vanguardism }
-		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
 		completion_reward = {
 			add_tech_bonus = {
@@ -28729,7 +28786,10 @@ focus_tree = {
 		x = -1
 		y = 1
 		prerequisite = { focus = RUS_fr_revolutionary_heroism }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			add_tech_bonus = {
@@ -28752,7 +28812,10 @@ focus_tree = {
 		x = 1
 		y = 1
 		prerequisite = { focus = RUS_fr_revolutionary_heroism }
-		available = { check_variable = { RUS_fr_military_reform_materials > 7 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 7 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
 		completion_reward = {
 			set_country_flag = RUS_fr_red_commanders_upgrade_bonus
@@ -28774,7 +28837,10 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_army_mechanisation_torrent }
 		prerequisite = { focus = RUS_fr_guards_model_units }
 		prerequisite = { focus = RUS_fr_revolutionary_merit_competition }
-		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
 		completion_reward = {
 			add_stability = 0.03
@@ -28793,7 +28859,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_people_and_revolutionary_army }
-		available = { check_variable = { RUS_fr_military_reform_materials > 11 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 11 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -12 } }
 		completion_reward = {
 			RUS_fr_show_finalised_legacy_rewards = yes
@@ -28829,7 +28898,10 @@ focus_tree = {
 		x = 12
 		y = 1
 		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
-		available = { check_variable = { RUS_fr_military_reform_materials > 9 } }
+		available = {
+			RUS_fr_show_current_military_reform_materials = yes
+			check_variable = { RUS_fr_military_reform_materials > 9 }
+		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
 		completion_reward = {
 			set_country_flag = RUS_fr_armaments_commission_active
