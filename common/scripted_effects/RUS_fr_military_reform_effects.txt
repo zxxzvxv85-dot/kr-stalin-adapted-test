@@ -1,3 +1,288 @@
+RUS_fr_show_unified_leadership_legacy_rewards = {
+	effect_tooltip = {
+		RUS_fix_army_soc = yes
+		add_doctrine_cost_reduction = {
+			name = RUS_legacy_of_workers_army
+			cost_reduction = 0.5
+			uses = 1
+			category = land_doctrine
+		}
+		add_mastery_bonus = {
+			name = RUS_legacy_of_workers_army
+			bonus = 0.1
+			days = 365
+			track = combat_support
+		}
+		add_ideas = RUS_frunze_doctrine_1
+	}
+}
+
+RUS_fr_show_white_networks_legacy_rewards = {
+	effect_tooltip = {
+		add_manpower = -40500
+		RUS_fix_army_soc = yes
+		RUS_promote_socialist_generals = yes
+		RUS_basan_gorodovikov = { set_nationality = ROOT }
+		RUS_pavel_rychagov = {
+			add_advisor_role = {
+				advisor = {
+					slot = air_chief
+					idea_token = RUS_pavel_rychagov_air_chief
+					desc = RUS_pavel_rychagov_high_command_desc
+					traits = { KR_air_chief_reform_2 }
+					cost = 100
+				}
+			}
+		}
+	}
+}
+
+RUS_fr_show_commissar_legacy_rewards = {
+	effect_tooltip = {
+		add_popularity = { ideology = communist popularity = 0.05 }
+		if = {
+			limit = { has_idea = RUS_commissars_communist_1 }
+			swap_ideas = {
+				remove_idea = RUS_commissars_communist_1
+				add_idea = RUS_commissars_communist_2
+			}
+		}
+		else = { add_ideas = RUS_commissars_communist_1 }
+	}
+}
+
+RUS_fr_show_red_commander_legacy_rewards = {
+	effect_tooltip = {
+		add_popularity = { ideology = communist popularity = 0.05 }
+		swap_ideas = {
+			remove_idea = RUS_frunze_doctrine_1
+			add_idea = RUS_frunze_doctrine_2
+		}
+		enable_tech_irregulars = yes
+	}
+}
+
+RUS_fr_show_frunze_regulations_legacy_rewards = {
+	effect_tooltip = {
+		swap_ideas = {
+			remove_idea = RUS_frunze_doctrine_2
+			add_idea = RUS_frunze_doctrine_3
+		}
+		add_tech_bonus = {
+			name = RUS_basis_of_victory
+			bonus = 1
+			uses = 1
+			category = cat_mechanized_equipment
+		}
+		enable_tech_semi_motorised_cav = yes
+	}
+}
+
+RUS_fr_show_red_army_exercise_legacy_rewards = {
+	effect_tooltip = {
+		swap_ideas = {
+			remove_idea = RUS_frunze_doctrine_3
+			add_idea = RUS_frunze_doctrine_4
+		}
+	}
+}
+
+RUS_fr_show_finalised_legacy_rewards = {
+	effect_tooltip = {
+		show_ideas_tooltip = RUS_mikhail_tukhachevsky_high_command
+		show_ideas_tooltip = RUS_aleksandr_vasilevsky_high_command
+		show_unit_leaders_tooltip = RUS_mikhail_katukov
+		add_doctrine_cost_reduction = {
+			name = RUS_academy_of_black_epaulettes
+			cost_reduction = 0.33
+			uses = 1
+			category = land_doctrine
+		}
+		add_mastery = {
+			amount = 120
+			track = operations
+		}
+		add_doctrine_cost_reduction = {
+			name = RUS_deep_battle_focus
+			cost_reduction = 0.5
+			uses = 1
+			category = land_doctrine
+		}
+		show_ideas_tooltip = RUS_vladimir_triandafillov_theorist
+		modify_tech_sharing_bonus = {
+			id = phalanstere_research
+			bonus = 0.1
+		}
+		572 = { add_building_construction = { type = land_facility level = 1 province = 1821 instant_build = yes } }
+		239 = { add_building_construction = { type = land_facility level = 1 province = 3578 instant_build = yes } }
+		880 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
+		218 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
+		add_tech_bonus = {
+			name = RUS_technological_supremacy
+			bonus = 1
+			uses = 1
+			category = armor
+		}
+		add_tech_bonus = {
+			name = RUS_technological_supremacy
+			bonus = 1
+			uses = 1
+			category = air_equipment
+		}
+		add_tech_bonus = {
+			name = RUS_technological_supremacy
+			bonus = 1
+			uses = 1
+			category = mio_cat_all_artillery_equipment
+		}
+		add_advisor_role = {
+			character = RUS_leonid_govorov
+			advisor = {
+				slot = high_command
+				idea_token = RUS_leonid_govorov_high_command
+				desc = RUS_leonid_govorov_commander_desc
+				ledger = army
+				traits = { KR_MHC_artillery_2 }
+				cost = 100
+			}
+		}
+	}
+}
+
+RUS_fr_show_military_production_legacy_rewards = {
+	effect_tooltip = {
+		653 = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = arms_factory level = 2 }
+		}
+		add_ideas = RUS_military_production_idea_1
+		if = {
+			limit = { has_dlc_aat = no }
+			show_ideas_tooltip = vpoz
+		}
+		else = {
+			custom_effect_tooltip = {
+				localization_key = KR_available_mio_tt
+				MIO = "[?mio:RUS_vpoz_organisation.GetName]"
+				TYPE = vpoz_RUS_MIO
+			}
+		}
+	}
+}
+
+RUS_fr_show_small_arms_legacy_rewards = {
+	effect_tooltip = {
+		add_tech_bonus = {
+			name = RUS_update_equipment
+			bonus = 1
+			uses = 1
+			category = infantry_weapons
+		}
+		add_tech_bonus = {
+			name = RUS_update_equipment
+			bonus = 1
+			uses = 1
+			category = support_tech
+		}
+		swap_ideas = {
+			remove_idea = RUS_military_production_idea_1
+			add_idea = RUS_military_production_idea_2
+		}
+		if = {
+			limit = { has_dlc_aat = yes }
+			mio:RUS_laz_organisation = { unlock_mio_trait_tooltip = { trait = laz_upgrade_4_1 } }
+			mio:RUS_laz_organisation = { unlock_mio_trait_tooltip = { trait = laz_upgrade_4_2 } }
+		}
+		else = { show_ideas_tooltip = laz_improved }
+	}
+}
+
+RUS_fr_show_mechanisation_legacy_rewards = {
+	effect_tooltip = {
+		252 = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = { type = arms_factory level = 2 }
+		}
+		add_tech_bonus = {
+			name = RUS_nizhegorodsky_avtomobilny_focus
+			bonus = 1
+			uses = 1
+			category = cat_mechanized_equipment
+			category = motorized_equipment
+		}
+		if = {
+			limit = { has_dlc_aat = yes }
+			mio:RUS_naz_organisation = { unlock_mio_trait_tooltip = { trait = naz_upgrade_4_2 } }
+		}
+		else = { show_ideas_tooltip = naz_improved }
+	}
+}
+
+RUS_fr_show_logistics_legacy_rewards = {
+	effect_tooltip = {
+		enable_tech_improved_logistics = yes
+		enable_tech_winter_logistics_support = yes
+	}
+}
+
+RUS_fr_show_armour_design_legacy_rewards = {
+	effect_tooltip = {
+		add_tech_bonus = {
+			name = RUS_NPP_tanks
+			bonus = 1
+			uses = 2
+			category = mio_cat_tech_all_armor_and_modules
+		}
+		custom_effect_tooltip = RUS_tanks_design_focus_tt
+		RUS_spawn_breakthrough_tanks = yes
+		if = {
+			limit = { has_dlc_aat = no }
+			show_ideas_tooltip = sormovo_improved
+		}
+	}
+}
+
+RUS_fr_show_land_warfare_legacy_rewards = {
+	effect_tooltip = {
+		572 = { add_building_construction = { type = air_facility level = 1 province = 9292 instant_build = yes } }
+		add_tech_bonus = {
+			name = RUS_expand_ird
+			bonus = 1
+			uses = 2
+			category = rocketry
+		}
+		show_ideas_tooltip = ird
+	}
+}
+
+RUS_fr_show_mobility_legacy_rewards = {
+	effect_tooltip = {
+		swap_ideas = {
+			remove_idea = RUS_military_production_idea_2
+			add_idea = RUS_military_production_idea_4
+		}
+		custom_effect_tooltip = RUS_tank_design_focus_tt
+		RUS_spawn_light_tanks = yes
+		if = {
+			limit = { has_dlc_aat = no }
+			show_ideas_tooltip = okmo_kr
+		}
+		else = {
+			custom_effect_tooltip = {
+				localization_key = KR_available_mio_tt
+				MIO = "[?mio:RUS_okmo_kr_organisation.GetName]"
+				TYPE = okmo_RUS_MIO
+			}
+		}
+		if = {
+			limit = { NOT = { is_special_project_completed = sp:sp_land_military_engineering_vehicles } }
+			sp:sp_land_military_engineering_vehicles = { add_project_progress_ratio = 0.15 }
+		}
+		enable_tech_improved_logistics = yes
+		enable_tech_winter_logistics_support = yes
+	}
+}
+
 RUS_fr_apply_artillery_legacy_rewards = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_fr_artillery_legacy_rewards_applied } }
@@ -28,9 +313,9 @@ RUS_fr_apply_artillery_legacy_rewards = {
 
 RUS_fr_complete_mobility_legacy_focuses = {
 	# The old artillery and motorisation focuses are mutually exclusive. The new
-	# reform tree keeps their compatibility state hidden so the visible tooltip
-	# describes the new project instead of listing removed focuses.
-	custom_effect_tooltip = RUS_fr_mobility_legacy_rewards_tt
+	# reform tree keeps their compatibility state hidden while reproducing their
+	# actual rewards through native effect tooltips.
+	RUS_fr_show_mobility_legacy_rewards = yes
 	hidden_effect = {
 		if = {
 			limit = {
