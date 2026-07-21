@@ -450,3 +450,164 @@ RUS_fr_apply_rectification_stage_two = {
 		set_country_flag = RUS_fr_reform_stage_2
 	}
 }
+
+# Consolidates the completed basic reform and all decision-based military
+# institutions into one variable-driven spirit. Later specialisations can
+# extend the same variables without recreating a collection of ideas.
+RUS_fr_initialise_unified_army_reform = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
+		set_variable = { RUS_fr_unified_pp_factor = 0 }
+		set_variable = { RUS_fr_unified_org_factor = 0.03 }
+		set_variable = { RUS_fr_unified_morale_factor = 0.03 }
+		set_variable = { RUS_fr_unified_planning_speed = 0.04 }
+		set_variable = { RUS_fr_unified_max_planning = 0.02 }
+		set_variable = { RUS_fr_unified_army_xp_gain = 0.20 }
+		set_variable = { RUS_fr_unified_leader_xp_gain = 0.05 }
+		set_variable = { RUS_fr_unified_unit_xp_gain = 0 }
+		set_variable = { RUS_fr_unified_mobilization_speed = 0.05 }
+		set_variable = { RUS_fr_unified_reinforce_rate = 0.01 }
+		set_variable = { RUS_fr_unified_training_time = -0.03 }
+		set_variable = { RUS_fr_unified_supply_consumption = -0.02 }
+		set_variable = { RUS_fr_unified_attrition = -0.03 }
+		set_variable = { RUS_fr_unified_terrain_penalty_reduction = 0.04 }
+		set_variable = { RUS_fr_unified_attack_factor = 0.02 }
+		set_variable = { RUS_fr_unified_defence_factor = 0.02 }
+		set_variable = { RUS_fr_unified_command_power_gain = 0 }
+		set_variable = { RUS_fr_unified_army_speed = 0 }
+		set_variable = { RUS_fr_unified_war_support_factor = 0 }
+		set_country_flag = RUS_fr_unified_army_reform_active
+
+		remove_ideas = {
+			RUS_fr_reform_disorganisation_4
+			RUS_fr_reform_disorganisation_3
+			RUS_fr_reform_disorganisation_2
+			RUS_fr_reform_disorganisation_1
+			RUS_fr_reform_disorganisation_0
+		}
+
+		if = {
+			limit = { has_idea = RUS_fr_political_commissar_organisation_idea }
+			RUS_fr_merge_political_commissar_organisation = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_scientific_general_staff_idea }
+			RUS_fr_merge_scientific_general_staff = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_deep_battle_concept_idea }
+			RUS_fr_merge_deep_battle_concept = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_one_man_command_idea }
+			RUS_fr_merge_one_man_command = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_revolutionary_collectivism_idea }
+			RUS_fr_merge_revolutionary_collectivism = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_military_vanguardism_idea }
+			RUS_fr_merge_military_vanguardism = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_revolutionary_heroism_idea }
+			RUS_fr_merge_revolutionary_heroism = yes
+		}
+
+		add_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
+	}
+}
+
+RUS_fr_merge_political_commissar_organisation = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_commissar_merged } }
+		add_to_variable = { RUS_fr_unified_pp_factor = 0.06 }
+		add_to_variable = { RUS_fr_unified_org_factor = 0.02 }
+		add_to_variable = { RUS_fr_unified_morale_factor = -0.10 }
+		add_to_variable = { RUS_fr_unified_army_xp_gain = 0.15 }
+		add_to_variable = { RUS_fr_unified_unit_xp_gain = 0.05 }
+		add_to_variable = { RUS_fr_unified_training_time = -0.02 }
+		remove_ideas = RUS_fr_political_commissar_organisation_idea
+		set_country_flag = RUS_fr_unified_commissar_merged
+	}
+}
+
+RUS_fr_merge_scientific_general_staff = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_general_staff_merged } }
+		add_to_variable = { RUS_fr_unified_planning_speed = 0.04 }
+		add_to_variable = { RUS_fr_unified_max_planning = 0.03 }
+		add_to_variable = { RUS_fr_unified_army_xp_gain = 0.10 }
+		add_to_variable = { RUS_fr_unified_command_power_gain = 0.04 }
+		remove_ideas = RUS_fr_scientific_general_staff_idea
+		set_country_flag = RUS_fr_unified_general_staff_merged
+	}
+}
+
+RUS_fr_merge_deep_battle_concept = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_deep_battle_merged } }
+		add_to_variable = { RUS_fr_unified_army_xp_gain = 0.05 }
+		add_to_variable = { RUS_fr_unified_attack_factor = 0.015 }
+		add_to_variable = { RUS_fr_unified_reinforce_rate = 0.005 }
+		add_to_variable = { RUS_fr_unified_army_speed = 0.02 }
+		add_to_variable = { RUS_fr_unified_supply_consumption = -0.02 }
+		add_to_variable = { RUS_fr_unified_terrain_penalty_reduction = 0.03 }
+		remove_ideas = RUS_fr_deep_battle_concept_idea
+		set_country_flag = RUS_fr_unified_deep_battle_merged
+	}
+}
+
+RUS_fr_merge_one_man_command = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_one_man_command_merged } }
+		add_to_variable = { RUS_fr_unified_org_factor = 0.02 }
+		add_to_variable = { RUS_fr_unified_morale_factor = 0.05 }
+		add_to_variable = { RUS_fr_unified_command_power_gain = 0.04 }
+		add_to_variable = { RUS_fr_unified_mobilization_speed = 0.02 }
+		add_to_variable = { RUS_fr_unified_training_time = -0.01 }
+		remove_ideas = RUS_fr_one_man_command_idea
+		set_country_flag = RUS_fr_unified_one_man_command_merged
+	}
+}
+
+RUS_fr_merge_revolutionary_collectivism = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_collectivism_merged } }
+		add_to_variable = { RUS_fr_unified_org_factor = 0.01 }
+		add_to_variable = { RUS_fr_unified_defence_factor = 0.03 }
+		add_to_variable = { RUS_fr_unified_reinforce_rate = 0.01 }
+		add_to_variable = { RUS_fr_unified_mobilization_speed = 0.03 }
+		add_to_variable = { RUS_fr_unified_training_time = -0.02 }
+		add_to_variable = { RUS_fr_unified_attrition = -0.03 }
+		remove_ideas = RUS_fr_revolutionary_collectivism_idea
+		set_country_flag = RUS_fr_unified_collectivism_merged
+	}
+}
+
+RUS_fr_merge_military_vanguardism = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_vanguardism_merged } }
+		add_to_variable = { RUS_fr_unified_attack_factor = 0.015 }
+		add_to_variable = { RUS_fr_unified_planning_speed = 0.02 }
+		add_to_variable = { RUS_fr_unified_army_speed = 0.03 }
+		add_to_variable = { RUS_fr_unified_supply_consumption = -0.01 }
+		add_to_variable = { RUS_fr_unified_terrain_penalty_reduction = 0.03 }
+		remove_ideas = RUS_fr_military_vanguardism_idea
+		set_country_flag = RUS_fr_unified_vanguardism_merged
+	}
+}
+
+RUS_fr_merge_revolutionary_heroism = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_unified_heroism_merged } }
+		add_to_variable = { RUS_fr_unified_morale_factor = 0.10 }
+		add_to_variable = { RUS_fr_unified_leader_xp_gain = 0.05 }
+		add_to_variable = { RUS_fr_unified_unit_xp_gain = 0.05 }
+		add_to_variable = { RUS_fr_unified_attrition = -0.02 }
+		add_to_variable = { RUS_fr_unified_war_support_factor = 0.05 }
+		remove_ideas = RUS_fr_revolutionary_heroism_idea
+		set_country_flag = RUS_fr_unified_heroism_merged
+	}
+}

@@ -161,7 +161,11 @@ RUS_fr_military_reform_decisions = {
 			army_experience = -50
 		}
 		remove_effect = {
-			add_ideas = RUS_fr_political_commissar_organisation_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+				RUS_fr_merge_political_commissar_organisation = yes
+			}
+			else = { add_ideas = RUS_fr_political_commissar_organisation_idea }
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -181,7 +185,11 @@ RUS_fr_military_reform_decisions = {
 			army_experience = -60
 		}
 		remove_effect = {
-			add_ideas = RUS_fr_scientific_general_staff_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+				RUS_fr_merge_scientific_general_staff = yes
+			}
+			else = { add_ideas = RUS_fr_scientific_general_staff_idea }
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -201,7 +209,11 @@ RUS_fr_military_reform_decisions = {
 			army_experience = -65
 		}
 		remove_effect = {
-			add_ideas = RUS_fr_deep_battle_concept_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+				RUS_fr_merge_deep_battle_concept = yes
+			}
+			else = { add_ideas = RUS_fr_deep_battle_concept_idea }
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -221,7 +233,11 @@ RUS_fr_military_reform_decisions = {
 			army_experience = -45
 		}
 		remove_effect = {
-			add_ideas = RUS_fr_one_man_command_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+				RUS_fr_merge_one_man_command = yes
+			}
+			else = { add_ideas = RUS_fr_one_man_command_idea }
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -241,7 +257,11 @@ RUS_fr_military_reform_decisions = {
 			army_experience = -40
 		}
 		remove_effect = {
-			add_ideas = RUS_fr_revolutionary_collectivism_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+				RUS_fr_merge_revolutionary_collectivism = yes
+			}
+			else = { add_ideas = RUS_fr_revolutionary_collectivism_idea }
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -261,7 +281,11 @@ RUS_fr_military_reform_decisions = {
 			army_experience = -55
 		}
 		remove_effect = {
-			add_ideas = RUS_fr_military_vanguardism_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+				RUS_fr_merge_military_vanguardism = yes
+			}
+			else = { add_ideas = RUS_fr_military_vanguardism_idea }
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -281,7 +305,11 @@ RUS_fr_military_reform_decisions = {
 			army_experience = -50
 		}
 		remove_effect = {
-			add_ideas = RUS_fr_revolutionary_heroism_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+				RUS_fr_merge_revolutionary_heroism = yes
+			}
+			else = { add_ideas = RUS_fr_revolutionary_heroism_idea }
 		}
 		ai_will_do = { factor = 10 }
 	}
