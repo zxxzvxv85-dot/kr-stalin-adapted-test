@@ -439,19 +439,14 @@ RUS_fr_apply_rectification_stage_one = {
 
 RUS_fr_apply_rectification_stage_two = {
 	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_4 }
-		swap_ideas = {
-			remove_idea = RUS_fr_reform_disorganisation_4
-			add_idea = RUS_fr_reform_disorganisation_2
+		limit = {
+			has_country_flag = RUS_fr_reform_stage_1
+			has_idea = RUS_fr_reform_disorganisation_3
 		}
-	}
-	else_if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_3 }
 		swap_ideas = {
 			remove_idea = RUS_fr_reform_disorganisation_3
 			add_idea = RUS_fr_reform_disorganisation_2
 		}
+		set_country_flag = RUS_fr_reform_stage_2
 	}
-	set_country_flag = RUS_fr_reform_stage_1
-	set_country_flag = RUS_fr_reform_stage_2
 }
