@@ -483,6 +483,8 @@ RUS_fr_initialise_unified_army_reform = {
 		add_to_variable = { RUS_fr_unified_recon_factor = 0 }
 		add_to_variable = { RUS_fr_unified_cas_damage_reduction = 0 }
 		add_to_variable = { RUS_fr_unified_army_intel_to_others = 0 }
+		add_to_variable = { RUS_fr_unified_send_volunteer_size = 0 }
+		add_to_variable = { RUS_fr_unified_army_experience_from_volunteers = 0 }
 		set_country_flag = RUS_fr_unified_army_reform_active
 
 		remove_ideas = {
@@ -549,6 +551,15 @@ RUS_fr_initialise_unified_army_reform = {
 				}
 			}
 			RUS_fr_merge_tempered_in_steel = yes
+		}
+		if = {
+			limit = {
+				OR = {
+					has_completed_focus = RUS_comrades_abroad
+					has_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
+				}
+			}
+			RUS_fr_apply_comrades_abroad_army_reform_bonus = yes
 		}
 		hidden_effect = { remove_ideas = RUS_fr_command_merit_system_idea }
 
@@ -678,6 +689,20 @@ RUS_fr_merge_tempered_in_steel = {
 			}
 		}
 		set_country_flag = RUS_fr_unified_tempered_in_steel_merged
+	}
+}
+
+RUS_fr_apply_comrades_abroad_army_reform_bonus = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_comrades_abroad_reform_bonus_merged } }
+		if = {
+			limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+			add_to_variable = { RUS_fr_unified_send_volunteer_size = 5 }
+			add_to_variable = { RUS_fr_unified_army_experience_from_volunteers = 0.50 }
+			clr_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
+			set_country_flag = RUS_fr_comrades_abroad_reform_bonus_merged
+		}
+		else = { set_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending }
 	}
 }
 
