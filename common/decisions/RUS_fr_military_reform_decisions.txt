@@ -56,7 +56,11 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_50_negative }
 		remove_effect = {
-			add_ideas = RUS_fr_katyusha_rocket_artillery_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_armaments_summary_complete }
+				add_ideas = RUS_fr_hidden_katyusha_rocket_artillery
+			}
+			else = { add_ideas = RUS_fr_katyusha_rocket_artillery_idea }
 			set_country_flag = RUS_fr_katyusha_project_completed
 		}
 		ai_will_do = { factor = 10 }

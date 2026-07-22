@@ -137,18 +137,16 @@ country_event = {
 		RUS_fr_calculate_specialisation_bonus = yes
 		if = {
 			limit = { has_country_flag = RUS_fr_specialise_armaments }
-			add_dynamic_modifier = { modifier = RUS_fr_armaments_specialisation }
 			RUS_fr_apply_armaments_priority_bonuses = yes
 		}
 		else_if = {
 			limit = { has_country_flag = RUS_fr_specialise_mobility }
-			add_dynamic_modifier = { modifier = RUS_fr_mobility_specialisation }
 			RUS_fr_apply_mobility_priority_bonuses = yes
 		}
 		else = {
-			add_dynamic_modifier = { modifier = RUS_fr_armour_specialisation }
 			RUS_fr_apply_armour_priority_bonuses = yes
 		}
+		force_update_dynamic_modifier = yes
 		set_country_flag = RUS_fr_armaments_summary_complete
 		add_political_power = 50
 	}
