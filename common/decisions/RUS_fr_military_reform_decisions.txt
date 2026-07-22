@@ -142,6 +142,19 @@ RUS_fr_military_reform_decisions = {
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
 			set_country_flag = RUS_fr_reform_stage_4
 			set_country_flag = RUS_fr_basic_reform_completed
+			custom_effect_tooltip = RUS_fr_timoshenko_stage_four_upgrade_tt
+			hidden_effect = {
+				remove_trait = {
+					character = RUS_semyon_timoshenko
+					slot = theorist
+					trait = RUS_fr_timoshenko_reform_theorist
+				}
+				add_trait = {
+					character = RUS_semyon_timoshenko
+					slot = theorist
+					trait = RUS_fr_timoshenko_reform_theorist_reformed
+				}
+			}
 		}
 		ai_will_do = { factor = 10 }
 	}
