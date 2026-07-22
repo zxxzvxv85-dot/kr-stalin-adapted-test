@@ -8,7 +8,3 @@ NDefines.NFactions.FACTION_INTELLIGENCE_ALLOWED_ADVISOR_TRAIT = {
 	"KR_savinkovs_shadow",
 	"RUS_red_domovoi"
 }
-
-NDefines.NMilitary.MAX_ARMY_EXPERIENCE = 2000
-NDefines.NMilitary.MAX_NAVY_EXPERIENCE = 2000
-NDefines.NMilitary.MAX_AIR_EXPERIENCE = 2000
