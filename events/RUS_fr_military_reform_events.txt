@@ -362,12 +362,19 @@ country_event = {
 	}
 }
 
-# Weekly recovery controller. Old-save migration is intentionally not included.
+# Weekly recovery controller.
 country_event = {
 	id = RUS_fr_military_reform.900
 	hidden = yes
 	is_triggered_only = yes
 	immediate = {
+		if = {
+			limit = {
+				has_completed_focus = RUS_fr_armaments_construction_stage_summary
+				RUS_fr_has_unconsolidated_armaments_results = yes
+			}
+			RUS_fr_consolidate_armaments_construction_results = yes
+		}
 		if = {
 			limit = {
 				has_country_flag = { flag = RUS_fr_auto_project_active days > 63 }

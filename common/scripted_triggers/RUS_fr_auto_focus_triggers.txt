@@ -181,3 +181,34 @@ RUS_fr_auto_can_land_warfare_mainstay = {
 	has_completed_focus = RUS_fr_armoured_firepower_coordination_standard
 	check_variable = { RUS_fr_military_reform_materials > 19 }
 }
+
+RUS_fr_has_unconsolidated_armaments_results = {
+	OR = {
+		NOT = { has_country_flag = RUS_fr_armaments_results_consolidated }
+		has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
+		has_idea = RUS_fr_ergonomic_infantry_equipment_idea
+		has_idea = RUS_fr_support_fire_joint_trials_idea
+		has_idea = RUS_fr_armaments_priority_support_tradeoffs_idea
+		has_idea = RUS_fr_light_infantry_load_standard_idea
+		has_idea = RUS_fr_divisional_artillery_priority_idea
+		has_idea = RUS_fr_armaments_system_priority_idea
+		has_idea = RUS_fr_katyusha_rocket_artillery_idea
+		has_idea = RUS_fr_armaments_basic_result
+		has_idea = RUS_fr_mobility_basic_result
+		has_idea = RUS_fr_mechanised_platform_mobility_priority
+		has_idea = RUS_fr_vehicle_manufacturing_integration_idea
+		has_idea = RUS_fr_air_assault_brigades_idea
+		has_idea = RUS_fr_air_assault_mobility_priority_idea
+		has_idea = RUS_fr_deep_mobility_priority_idea
+		has_idea = RUS_fr_armour_basic_result
+		has_idea = RUS_fr_tank_firepower_development_idea
+		has_idea = RUS_fr_armour_breakthrough_programme_idea
+		has_idea = RUS_fr_long_range_armoured_exploitation_idea
+		has_idea = RUS_fr_armour_reliability_priority_idea
+		has_idea = RUS_fr_universal_hull_armour_priority_idea
+		has_idea = RUS_fr_tank_destroyer_structural_idea
+		has_idea = RUS_fr_armoured_firepower_coordination_idea
+		has_idea = RUS_fr_armoured_priority_coordination_tradeoff_idea
+		has_idea = RUS_fr_land_warfare_mainstay_idea
+	}
+}

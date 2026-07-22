@@ -593,8 +593,6 @@ RUS_fr_apply_armoured_firepower_coordination_bonus = {
 }
 
 RUS_fr_consolidate_armaments_construction_results = {
-	if = {
-		limit = { NOT = { has_country_flag = RUS_fr_armaments_results_consolidated } }
 		remove_dynamic_modifier = { modifier = RUS_fr_armaments_specialisation }
 		remove_dynamic_modifier = { modifier = RUS_fr_mobility_specialisation }
 		remove_dynamic_modifier = { modifier = RUS_fr_armour_specialisation }
@@ -758,9 +756,16 @@ RUS_fr_consolidate_armaments_construction_results = {
 			else = { add_ideas = RUS_fr_unified_armaments_equipment_standard_idea }
 		}
 
-		set_country_flag = RUS_fr_armaments_results_consolidated
-		force_update_dynamic_modifier = yes
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform } }
+			remove_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
+		}
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final } } }
+			add_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
 	}
+	set_country_flag = RUS_fr_armaments_results_consolidated
+	force_update_dynamic_modifier = yes
 }
 
 RUS_fr_calculate_specialisation_bonus = {
