@@ -242,6 +242,11 @@ RUS_fr_show_military_production_legacy_rewards = {
 			add_building_construction = { type = arms_factory level = 2 }
 		}
 		add_ideas = RUS_military_production_idea_1
+	}
+}
+
+RUS_fr_show_vpoz_unlock = {
+	effect_tooltip = {
 		if = {
 			limit = { has_dlc_aat = no }
 			show_ideas_tooltip = vpoz
@@ -251,6 +256,22 @@ RUS_fr_show_military_production_legacy_rewards = {
 				localization_key = KR_available_mio_tt
 				MIO = "[?mio:RUS_vpoz_organisation.GetName]"
 				TYPE = vpoz_RUS_MIO
+			}
+		}
+	}
+}
+
+RUS_fr_show_okmo_unlock = {
+	effect_tooltip = {
+		if = {
+			limit = { has_dlc_aat = no }
+			show_ideas_tooltip = okmo_kr
+		}
+		else = {
+			custom_effect_tooltip = {
+				localization_key = KR_available_mio_tt
+				MIO = "[?mio:RUS_okmo_kr_organisation.GetName]"
+				TYPE = okmo_RUS_MIO
 			}
 		}
 	}
@@ -350,17 +371,6 @@ RUS_fr_show_mobility_legacy_rewards = {
 		custom_effect_tooltip = RUS_tank_design_focus_tt
 		RUS_spawn_light_tanks = yes
 		if = {
-			limit = { has_dlc_aat = no }
-			show_ideas_tooltip = okmo_kr
-		}
-		else = {
-			custom_effect_tooltip = {
-				localization_key = KR_available_mio_tt
-				MIO = "[?mio:RUS_okmo_kr_organisation.GetName]"
-				TYPE = okmo_RUS_MIO
-			}
-		}
-		if = {
 			limit = { NOT = { is_special_project_completed = sp:sp_land_military_engineering_vehicles } }
 			sp:sp_land_military_engineering_vehicles = { add_project_progress_ratio = 0.15 }
 		}
@@ -372,12 +382,6 @@ RUS_fr_show_mobility_legacy_rewards = {
 RUS_fr_apply_artillery_legacy_rewards = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_fr_artillery_legacy_rewards_applied } }
-		add_tech_bonus = {
-			name = RUS_fr_artillery_ammunition_technical_committee
-			bonus = 1
-			uses = 1
-			category = artillery
-		}
 		unlock_decision_tooltip = {
 			decision = RUS_tula_arms_factory
 			show_effect_tooltip = no
@@ -423,6 +427,29 @@ RUS_fr_complete_mobility_legacy_focuses = {
 			limit = { NOT = { has_completed_focus = RUS_roads_of_courage } }
 			complete_national_focus = RUS_roads_of_courage
 		}
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_fr_motorisation_rewards_deferred
+			NOT = { has_country_flag = RUS_fr_motorisation_deferred_rewards_applied }
+		}
+		if = {
+			limit = { has_idea = RUS_military_production_idea_2 }
+			swap_ideas = {
+				remove_idea = RUS_military_production_idea_2
+				add_idea = RUS_military_production_idea_4
+			}
+		}
+		else_if = {
+			limit = { NOT = { has_idea = RUS_military_production_idea_4 } }
+			add_ideas = RUS_military_production_idea_4
+		}
+		RUS_spawn_light_tanks = yes
+		if = {
+			limit = { NOT = { is_special_project_completed = sp:sp_land_military_engineering_vehicles } }
+			sp:sp_land_military_engineering_vehicles = { add_project_progress_ratio = 0.15 }
+		}
+		set_country_flag = RUS_fr_motorisation_deferred_rewards_applied
 	}
 	if = {
 		limit = { has_idea = RUS_military_production_idea_3 }

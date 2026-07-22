@@ -40,6 +40,28 @@ RUS_fr_military_reform_decisions = {
 		ai_will_do = { factor = 8 }
 	}
 
+	RUS_fr_develop_katyusha_rocket_artillery = {
+		icon = GFX_decision_generic_operation
+		visible = {
+			has_country_flag = RUS_fr_katyusha_project_unlocked
+			NOT = { has_country_flag = RUS_fr_katyusha_project_completed }
+		}
+		available = {
+			has_country_flag = RUS_fr_specialise_armaments
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_50 }
+		}
+		custom_cost_text = RUS_fr_xp_50
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
+		fire_only_once = yes
+		days_remove = 120
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_50_negative }
+		remove_effect = {
+			add_ideas = RUS_fr_katyusha_rocket_artillery_idea
+			set_country_flag = RUS_fr_katyusha_project_completed
+		}
+		ai_will_do = { factor = 10 }
+	}
+
 	RUS_fr_reform_command_audit = {
 		icon = GFX_decision_generic_military
 		visible = {
