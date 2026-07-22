@@ -28872,7 +28872,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_tech_bonus = { name = RUS_fr_divisional_artillery_support_standard bonus = 1.00 ahead_reduction = 2 uses = 1 category = artillery }
-			if = { limit = { has_dlc_gtd = yes } add_breakthrough_points = { specialization = specialization_land value = 1 } }
+			if = { limit = { has_dlc_gtd = yes } add_breakthrough_progress = { specialization = specialization_land value = 1 } }
 			if = {
 				limit = {
 					custom_trigger_tooltip = {
@@ -28950,7 +28950,16 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_10_military_reform_materials = yes
 		}
-		completion_reward = { add_tech_bonus = { name = RUS_fr_mechanised_platform_research_committee bonus = 0.75 uses = 1 category = cat_mechanized_equipment } }
+		completion_reward = {
+			add_tech_bonus = { name = RUS_fr_mechanised_platform_research_committee bonus = 1.50 uses = 1 category = cat_mechanized_equipment }
+			custom_effect_tooltip = RUS_fr_mechanised_platform_mobility_priority_tt
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = RUS_fr_specialise_mobility }
+					add_ideas = RUS_fr_mechanised_platform_mobility_priority
+				}
+			}
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 	}
 
@@ -28968,6 +28977,11 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_tech_bonus = { name = RUS_fr_rapid_mobility_equipment_trials bonus = 0.75 uses = 1 category = motorized_equipment }
+			if = {
+				limit = { has_dlc_aat = yes }
+				mio:RUS_amo_organisation = { add_mio_research_bonus = 0.15 }
+			}
+			custom_effect_tooltip = RUS_fr_amo_moderate_output_upgrade_tt
 			country_event = { id = RUS_fr_military_reform.30 hours = 6 }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
@@ -28987,7 +29001,7 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_12_military_reform_materials = yes
 		}
-		completion_reward = { add_offsite_building = { type = arms_factory level = 1 } }
+		completion_reward = { add_ideas = RUS_fr_vehicle_manufacturing_integration_idea }
 		search_filters = { FOCUS_FILTER_PRODUCTION }
 	}
 
@@ -29026,9 +29040,21 @@ focus_tree = {
 		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations }
 		available = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
-			RUS_fr_requires_12_military_reform_materials = yes
+			RUS_fr_requires_24_military_reform_materials = yes
 		}
-		completion_reward = { add_tech_bonus = { name = RUS_fr_helicopter_pilot_program bonus = 1.00 uses = 1 category = helicopter_tech } }
+		completion_reward = {
+			if = {
+				limit = { has_dlc_gtd = yes }
+				add_breakthrough_progress = {
+					specialization = specialization_air
+					value = 1
+				}
+				if = {
+					limit = { NOT = { is_special_project_completed = sp:sp_air_helicopter } }
+					sp:sp_air_helicopter = { add_project_progress_ratio = 0.50 }
+				}
+			}
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 	}
 
@@ -29043,11 +29069,22 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_small_arms_standardisation_committee }
 		available = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
-			RUS_fr_requires_15_military_reform_materials = yes
+			RUS_fr_requires_30_military_reform_materials = yes
 		}
 		completion_reward = {
 			set_country_flag = RUS_fr_air_assault_infantry_path
-			add_tech_bonus = { name = RUS_fr_air_assault_brigades bonus = 1.00 uses = 2 category = helicopter_tech category = cat_special_forces_generic }
+			add_ideas = RUS_fr_air_assault_brigades_idea
+			custom_effect_tooltip = RUS_fr_air_assault_mobility_priority_tt
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = RUS_fr_specialise_mobility }
+					add_ideas = RUS_fr_air_assault_mobility_priority_idea
+					set_technology = {
+						RUS_fr_air_assault_mobility_priority_bonus = 1
+						popup = no
+					}
+				}
+			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
 	}
@@ -29082,7 +29119,16 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_20_military_reform_materials = yes
 		}
-		completion_reward = { RUS_fr_complete_mobility_legacy_focuses = yes }
+		completion_reward = {
+			RUS_fr_complete_mobility_legacy_focuses = yes
+			custom_effect_tooltip = RUS_fr_deep_mobility_priority_tt
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = RUS_fr_specialise_mobility }
+					add_ideas = RUS_fr_deep_mobility_priority_idea
+				}
+			}
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
 	}
 

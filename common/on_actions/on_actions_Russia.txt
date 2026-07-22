@@ -434,12 +434,40 @@ on_actions = {
 			if = {
 				limit = {
 					tag = RUS
+					has_completed_focus = RUS_fr_helicopter_pilot_program
 					is_special_project_completed = sp:sp_air_helicopter
 					NOT = { has_tech = RUS_stalin_air_assault_infantry }
+					NOT = { has_tech = RUS_stalin_air_assault_special_forces_infantry }
 				}
-				set_technology = {
-					RUS_stalin_air_assault_infantry = 1
-					popup = no
+				if = {
+					limit = { has_country_flag = RUS_fr_specialise_mobility }
+					set_technology = {
+						RUS_stalin_air_assault_special_forces_infantry = 1
+						popup = no
+					}
+				}
+				else = {
+					set_technology = {
+						RUS_stalin_air_assault_infantry = 1
+						popup = no
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_dlc_aat = yes
+					has_country_flag = RUS_fr_specialise_mobility
+					has_completed_focus = RUS_fr_rapid_mobility_equipment_trials
+				}
+				mio:RUS_amo_organisation = {
+					if = {
+						limit = {
+							has_mio_trait = amo_upgrade_1_2
+							NOT = { check_variable = { RUS_fr_moderate_output_priority_bonus_applied > 0 } }
+						}
+						add_to_variable = { RUS_amo_cic_bonus = 250 tooltip = RUS_fr_amo_research_surplus_tt }
+						set_variable = { RUS_fr_moderate_output_priority_bonus_applied = 1 }
+					}
 				}
 			}
 			if = {
