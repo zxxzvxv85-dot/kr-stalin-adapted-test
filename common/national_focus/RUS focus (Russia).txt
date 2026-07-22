@@ -28250,8 +28250,14 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_investigate_white_networks }
 		prerequisite = { focus = RUS_fr_officer_oath_service_review }
 		available = {
-			has_country_flag = RUS_fr_military_democracy_decision_complete
-			has_country_flag = RUS_fr_political_work_decision_complete
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_white_networks_decision_tt
+				has_country_flag = RUS_fr_military_democracy_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_officer_review_decision_tt
+				has_country_flag = RUS_fr_political_work_decision_complete
+			}
 			RUS_fr_requires_8_military_reform_materials = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -8 } }
@@ -28270,7 +28276,10 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_soldiers_committees }
 		available = {
-			has_country_flag = RUS_fr_soldiers_committees_decision_complete
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_soldiers_committees_decision_tt
+				has_country_flag = RUS_fr_soldiers_committees_decision_complete
+			}
 			RUS_fr_requires_10_military_reform_materials = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
@@ -28298,7 +28307,10 @@ focus_tree = {
 				tooltip = RUS_fr_requires_unified_military_political_system_tt
 				has_completed_focus = RUS_fr_unified_military_political_system
 			}
-			has_country_flag = RUS_fr_reform_stage_2
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_reform_stage_two_decision_tt
+				has_country_flag = RUS_fr_reform_stage_2
+			}
 			RUS_fr_requires_6_military_reform_materials = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
@@ -28404,8 +28416,14 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_basic_commissar_system }
 		prerequisite = { focus = RUS_fr_cadres_decide_everything }
 		available = {
-			has_country_flag = RUS_fr_discipline_review_decision_complete
-			has_country_flag = RUS_fr_commissar_organisation_decision_complete
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_discipline_review_decision_tt
+				has_country_flag = RUS_fr_discipline_review_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_commissar_organisation_decision_tt
+				has_country_flag = RUS_fr_commissar_organisation_decision_complete
+			}
 		}
 		completion_reward = {
 			unlock_decision_tooltip = { decision = RUS_fr_establish_one_man_command show_effect_tooltip = no show_modifiers = no }
@@ -28452,9 +28470,18 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_frunze_field_regulations }
 		prerequisite = { focus = RUS_fr_unified_training_mobilisation_system }
 		available = {
-			has_country_flag = RUS_fr_one_man_command_decision_complete
-			has_country_flag = RUS_fr_field_regulations_decision_complete
-			has_country_flag = RUS_fr_standardised_structure_decision_complete
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_one_man_command_decision_tt
+				has_country_flag = RUS_fr_one_man_command_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_field_regulations_decision_tt
+				has_country_flag = RUS_fr_field_regulations_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_standardised_structure_decision_tt
+				has_country_flag = RUS_fr_standardised_structure_decision_complete
+			}
 		}
 		completion_reward = {
 			unlock_decision_tooltip = { decision = RUS_fr_reorganise_general_staff_district_network show_effect_tooltip = no show_modifiers = no }
@@ -28471,7 +28498,10 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_reorganise_general_staff_districts }
 		available = {
-			has_country_flag = RUS_fr_district_reorganisation_decision_complete
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_district_reorganisation_decision_tt
+				has_country_flag = RUS_fr_district_reorganisation_decision_complete
+			}
 			custom_trigger_tooltip = {
 				tooltip = RUS_fr_basic_reform_completed_tt
 				has_country_flag = RUS_fr_basic_reform_completed
@@ -28493,7 +28523,12 @@ focus_tree = {
 		x = -4
 		y = 1
 		prerequisite = { focus = RUS_fr_all_russian_red_army_exercise }
-		available = { has_country_flag = RUS_fr_all_army_exercise_decision_complete }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_all_army_exercise_decision_tt
+				has_country_flag = RUS_fr_all_army_exercise_decision_complete
+			}
+		}
 		completion_reward = {
 			unlock_decision_tooltip = {
 				decision = RUS_fr_adopt_revolutionary_collectivism
@@ -28512,7 +28547,12 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_all_russian_red_army_exercise }
-		available = { has_country_flag = RUS_fr_all_army_exercise_decision_complete }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_all_army_exercise_decision_tt
+				has_country_flag = RUS_fr_all_army_exercise_decision_complete
+			}
+		}
 		completion_reward = {
 			unlock_decision_tooltip = {
 				decision = RUS_fr_adopt_military_vanguardism
@@ -28531,7 +28571,12 @@ focus_tree = {
 		x = 4
 		y = 1
 		prerequisite = { focus = RUS_fr_all_russian_red_army_exercise }
-		available = { has_country_flag = RUS_fr_all_army_exercise_decision_complete }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_all_army_exercise_decision_tt
+				has_country_flag = RUS_fr_all_army_exercise_decision_complete
+			}
+		}
 		completion_reward = {
 			unlock_decision_tooltip = {
 				decision = RUS_fr_adopt_revolutionary_heroism
@@ -28625,14 +28670,32 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_guards_model_units }
 		prerequisite = { focus = RUS_fr_revolutionary_merit_competition }
 		available = {
-			has_country_flag = RUS_fr_experimental_formations_decision_complete
-			has_country_flag = RUS_fr_mobilisation_test_decision_complete
-			has_country_flag = RUS_fr_mechanisation_decision_complete
-			has_country_flag = RUS_fr_guards_units_decision_complete
-			has_country_flag = RUS_fr_merit_competition_decision_complete
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_experimental_formations_decision_tt
+				has_country_flag = RUS_fr_experimental_formations_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_mobilisation_test_decision_tt
+				has_country_flag = RUS_fr_mobilisation_test_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_mechanisation_decision_tt
+				has_country_flag = RUS_fr_mechanisation_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_guards_units_decision_tt
+				has_country_flag = RUS_fr_guards_units_decision_complete
+			}
+			custom_trigger_tooltip = {
+				tooltip = RUS_fr_requires_merit_competition_decision_tt
+				has_country_flag = RUS_fr_merit_competition_decision_complete
+			}
 		}
 		completion_reward = {
-			unlock_decision_tooltip = { decision = RUS_fr_consolidate_people_and_revolutionary_army show_effect_tooltip = no show_modifiers = no }
+			custom_effect_tooltip = RUS_fr_unify_basic_army_reform_tt
+			hidden_effect = {
+				RUS_fr_initialise_unified_army_reform = yes
+			}
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MANPOWER }
 	}
@@ -28645,7 +28708,6 @@ focus_tree = {
 		x = 0
 		y = 1
 		prerequisite = { focus = RUS_fr_people_and_revolutionary_army }
-		available = { has_country_flag = RUS_fr_consolidation_decision_complete }
 		completion_reward = {
 			unlock_decision_tooltip = { decision = RUS_fr_finalise_revolutionary_military_system show_effect_tooltip = no show_modifiers = no }
 		}

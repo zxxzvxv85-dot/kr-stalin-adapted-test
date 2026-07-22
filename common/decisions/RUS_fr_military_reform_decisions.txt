@@ -577,30 +577,10 @@ RUS_fr_military_reform_decisions = {
 		ai_will_do = { factor = 10 }
 	}
 
-	RUS_fr_consolidate_people_and_revolutionary_army = {
-		icon = GFX_decision_generic_military
-		visible = { has_completed_focus = RUS_fr_people_and_revolutionary_army NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-		available = {
-			has_country_flag = RUS_fr_experimental_formations_decision_complete
-			has_country_flag = RUS_fr_mobilisation_test_decision_complete
-			has_country_flag = RUS_fr_mechanisation_decision_complete
-			has_country_flag = RUS_fr_guards_units_decision_complete
-			has_country_flag = RUS_fr_merit_competition_decision_complete
-			has_army_experience > 64
-		}
-		custom_cost_text = RUS_fr_xp_65
-		custom_cost_trigger = { has_army_experience > 64 }
-		fire_only_once = yes
-		days_remove = 120
-		complete_effect = { army_experience = -65 }
-		remove_effect = { RUS_fr_initialise_unified_army_reform = yes set_country_flag = RUS_fr_consolidation_decision_complete }
-		ai_will_do = { factor = 10 }
-	}
-
 	RUS_fr_finalise_revolutionary_military_system = {
 		icon = GFX_decision_generic_operation
 		visible = { has_completed_focus = RUS_fr_revolutionary_military_system_finalised NOT = { has_country_flag = RUS_fr_military_reform_finalised } }
-		available = { has_country_flag = RUS_fr_consolidation_decision_complete has_army_experience > 99 }
+		available = { has_army_experience > 99 }
 		custom_cost_text = RUS_fr_xp_100
 		custom_cost_trigger = { has_army_experience > 99 }
 		fire_only_once = yes
