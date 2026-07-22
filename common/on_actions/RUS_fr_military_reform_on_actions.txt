@@ -3,7 +3,17 @@ on_actions = {
 		effect = {
 			every_country = {
 				limit = { original_tag = RUS }
+				RUS_fr_update_timoshenko_decision_costs = yes
 				country_event = { id = RUS_fr_military_reform.900 hours = 1 }
+			}
+		}
+	}
+
+	on_daily = {
+		effect = {
+			if = {
+				limit = { tag = RUS }
+				RUS_fr_update_timoshenko_decision_costs = yes
 			}
 		}
 	}
@@ -21,6 +31,12 @@ on_actions = {
 	# Do not stack with the vanilla Bold Attack spirit, which has its own roll.
 	on_unit_leader_level_up = {
 		effect = {
+			character = {
+				if = {
+					limit = { is_character = RUS_semyon_timoshenko }
+					FROM = { RUS_fr_update_timoshenko_decision_costs = yes }
+				}
+			}
 			if = {
 				limit = {
 					FROM = {

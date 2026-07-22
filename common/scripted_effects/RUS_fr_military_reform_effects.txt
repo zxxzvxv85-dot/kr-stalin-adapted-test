@@ -1,3 +1,60 @@
+RUS_fr_update_timoshenko_decision_costs = {
+	set_variable = { RUS_fr_timoshenko_reform_discount = 0 }
+	RUS_semyon_timoshenko = {
+		if = { limit = { skill > 8 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.45 } } }
+		else_if = { limit = { skill > 7 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.40 } } }
+		else_if = { limit = { skill > 6 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.35 } } }
+		else_if = { limit = { skill > 5 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.30 } } }
+		else_if = { limit = { skill > 4 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.25 } } }
+		else_if = { limit = { skill > 3 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.20 } } }
+		else_if = { limit = { skill > 2 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.15 } } }
+		else_if = { limit = { skill > 1 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.10 } } }
+		else_if = { limit = { skill > 0 } PREV = { set_variable = { RUS_fr_timoshenko_reform_discount = 0.05 } } }
+	}
+
+	set_variable = { RUS_fr_timoshenko_reform_cost_factor = 1 }
+	if = {
+		limit = { has_idea = RUS_semyon_timoshenko_theorist }
+		subtract_from_variable = {
+			var = RUS_fr_timoshenko_reform_cost_factor
+			value = RUS_fr_timoshenko_reform_discount
+		}
+	}
+
+	set_variable = { RUS_fr_xp_cost_25 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_25 = 25 }
+	set_variable = { RUS_fr_xp_cost_25_negative = RUS_fr_xp_cost_25 }
+	multiply_variable = { RUS_fr_xp_cost_25_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_40 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_40 = 40 }
+	set_variable = { RUS_fr_xp_cost_40_negative = RUS_fr_xp_cost_40 }
+	multiply_variable = { RUS_fr_xp_cost_40_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_45 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_45 = 45 }
+	set_variable = { RUS_fr_xp_cost_45_negative = RUS_fr_xp_cost_45 }
+	multiply_variable = { RUS_fr_xp_cost_45_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_50 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_50 = 50 }
+	set_variable = { RUS_fr_xp_cost_50_negative = RUS_fr_xp_cost_50 }
+	multiply_variable = { RUS_fr_xp_cost_50_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_55 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_55 = 55 }
+	set_variable = { RUS_fr_xp_cost_55_negative = RUS_fr_xp_cost_55 }
+	multiply_variable = { RUS_fr_xp_cost_55_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_60 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_60 = 60 }
+	set_variable = { RUS_fr_xp_cost_60_negative = RUS_fr_xp_cost_60 }
+	multiply_variable = { RUS_fr_xp_cost_60_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_65 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_65 = 65 }
+	set_variable = { RUS_fr_xp_cost_65_negative = RUS_fr_xp_cost_65 }
+	multiply_variable = { RUS_fr_xp_cost_65_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_100 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_100 = 100 }
+	set_variable = { RUS_fr_xp_cost_100_negative = RUS_fr_xp_cost_100 }
+	multiply_variable = { RUS_fr_xp_cost_100_negative = -1 }
+}
+
 RUS_fr_show_unified_leadership_legacy_rewards = {
 	effect_tooltip = {
 		add_doctrine_cost_reduction = {

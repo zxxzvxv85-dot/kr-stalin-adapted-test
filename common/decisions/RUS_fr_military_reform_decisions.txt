@@ -17,12 +17,12 @@ RUS_fr_military_reform_decisions = {
 
 	RUS_fr_draw_general_staff_reserves = {
 		icon = GFX_decision_generic_military
-		available = { has_army_experience > 24 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_25 } }
 		custom_cost_text = RUS_fr_cost_25_army_xp
-		custom_cost_trigger = { has_army_experience > 24 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_25 } }
 		days_re_enable = 60
 		complete_effect = {
-			army_experience = -25
+			army_experience = var:RUS_fr_xp_cost_25_negative
 			add_to_variable = { RUS_fr_military_reform_materials = 12 tooltip = RUS_fr_military_reform_materials_change_tt }
 		}
 		ai_will_do = { factor = 3 }
@@ -49,14 +49,14 @@ RUS_fr_military_reform_decisions = {
 		available = {
 			has_idea = RUS_fr_reform_disorganisation_4
 			NOT = { has_country_flag = RUS_fr_reform_stage_1 }
-			has_army_experience > 99
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
 		}
 		custom_cost_text = RUS_fr_xp_100
-		custom_cost_trigger = { has_army_experience > 99 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_100 } }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			army_experience = -100
+			army_experience = var:RUS_fr_xp_cost_100_negative
 		}
 		remove_effect = {
 			RUS_fr_apply_rectification_stage_one = yes
@@ -75,14 +75,14 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_3
 			has_country_flag = RUS_fr_reform_stage_1
 			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
-			has_army_experience > 99
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
 		}
 		custom_cost_text = RUS_fr_xp_100
-		custom_cost_trigger = { has_army_experience > 99 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_100 } }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			army_experience = -100
+			army_experience = var:RUS_fr_xp_cost_100_negative
 		}
 		remove_effect = {
 			RUS_fr_apply_rectification_stage_two = yes
@@ -101,14 +101,14 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_2
 			has_country_flag = RUS_fr_reform_stage_2
 			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
-			has_army_experience > 99
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
 		}
 		custom_cost_text = RUS_fr_xp_100
-		custom_cost_trigger = { has_army_experience > 99 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_100 } }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			army_experience = -100
+			army_experience = var:RUS_fr_xp_cost_100_negative
 		}
 		remove_effect = {
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
@@ -129,14 +129,14 @@ RUS_fr_military_reform_decisions = {
 			has_idea = RUS_fr_reform_disorganisation_1
 			has_country_flag = RUS_fr_reform_stage_3
 			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
-			has_army_experience > 99
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
 		}
 		custom_cost_text = RUS_fr_xp_100
-		custom_cost_trigger = { has_army_experience > 99 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_100 } }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			army_experience = -100
+			army_experience = var:RUS_fr_xp_cost_100_negative
 		}
 		remove_effect = {
 			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
@@ -165,13 +165,13 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_cadres_decide_everything
 			NOT = { has_idea = RUS_fr_political_commissar_organisation_idea }
 		}
-		available = { has_army_experience > 49 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		custom_cost_text = RUS_fr_xp_50
-		custom_cost_trigger = { has_army_experience > 49 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		fire_only_once = yes
 		days_remove = 90
 		complete_effect = {
-			army_experience = -50
+			army_experience = var:RUS_fr_xp_cost_50_negative
 		}
 		remove_effect = {
 			if = {
@@ -190,13 +190,13 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
 			NOT = { has_idea = RUS_fr_scientific_general_staff_idea }
 		}
-		available = { has_army_experience > 59 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		custom_cost_text = RUS_fr_xp_60
-		custom_cost_trigger = { has_army_experience > 59 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			army_experience = -60
+			army_experience = var:RUS_fr_xp_cost_60_negative
 		}
 		remove_effect = {
 			if = {
@@ -219,13 +219,13 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_train_before_expansion
 			NOT = { has_idea = RUS_fr_deep_battle_concept_idea }
 		}
-		available = { has_army_experience > 64 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_65 } }
 		custom_cost_text = RUS_fr_xp_65
-		custom_cost_trigger = { has_army_experience > 64 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_65 } }
 		fire_only_once = yes
 		days_remove = 120
 		complete_effect = {
-			army_experience = -65
+			army_experience = var:RUS_fr_xp_cost_65_negative
 		}
 		remove_effect = {
 			if = {
@@ -248,13 +248,13 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_unified_military_leadership
 			NOT = { has_idea = RUS_fr_one_man_command_idea }
 		}
-		available = { has_army_experience > 44 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		custom_cost_text = RUS_fr_xp_45
-		custom_cost_trigger = { has_army_experience > 44 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		fire_only_once = yes
 		days_remove = 60
 		complete_effect = {
-			army_experience = -45
+			army_experience = var:RUS_fr_xp_cost_45_negative
 		}
 		remove_effect = {
 			if = {
@@ -273,13 +273,13 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_revolutionary_collectivism
 			NOT = { has_idea = RUS_fr_revolutionary_collectivism_idea }
 		}
-		available = { has_army_experience > 39 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
 		custom_cost_text = RUS_fr_xp_40
-		custom_cost_trigger = { has_army_experience > 39 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
 		fire_only_once = yes
 		days_remove = 60
 		complete_effect = {
-			army_experience = -40
+			army_experience = var:RUS_fr_xp_cost_40_negative
 		}
 		remove_effect = {
 			if = {
@@ -298,13 +298,13 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_military_vanguardism
 			NOT = { has_idea = RUS_fr_military_vanguardism_idea }
 		}
-		available = { has_army_experience > 54 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_55 } }
 		custom_cost_text = RUS_fr_xp_55
-		custom_cost_trigger = { has_army_experience > 54 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_55 } }
 		fire_only_once = yes
 		days_remove = 90
 		complete_effect = {
-			army_experience = -55
+			army_experience = var:RUS_fr_xp_cost_55_negative
 		}
 		remove_effect = {
 			if = {
@@ -323,13 +323,13 @@ RUS_fr_military_reform_decisions = {
 			has_completed_focus = RUS_fr_revolutionary_heroism
 			NOT = { has_idea = RUS_fr_revolutionary_heroism_idea }
 		}
-		available = { has_army_experience > 49 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		custom_cost_text = RUS_fr_xp_50
-		custom_cost_trigger = { has_army_experience > 49 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		fire_only_once = yes
 		days_remove = 60
 		complete_effect = {
-			army_experience = -50
+			army_experience = var:RUS_fr_xp_cost_50_negative
 		}
 		remove_effect = {
 			if = {
@@ -345,12 +345,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_investigate_white_networks_operation = {
 		icon = GFX_decision_generic_operation
 		visible = { has_completed_focus = RUS_fr_investigate_white_networks NOT = { has_country_flag = RUS_fr_military_democracy_decision_complete } }
-		available = { has_army_experience > 39 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
 		custom_cost_text = RUS_fr_xp_40
-		custom_cost_trigger = { has_army_experience > 39 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
 		fire_only_once = yes
 		days_remove = 30
-		complete_effect = { army_experience = -40 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_40_negative }
 		remove_effect = { RUS_fr_apply_military_democracy_reform = yes }
 		ai_will_do = { factor = 10 }
 	}
@@ -358,12 +358,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_review_officer_service_records = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_officer_oath_service_review NOT = { has_country_flag = RUS_fr_political_work_decision_complete } }
-		available = { has_army_experience > 44 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		custom_cost_text = RUS_fr_xp_45
-		custom_cost_trigger = { has_army_experience > 44 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		fire_only_once = yes
 		days_remove = 30
-		complete_effect = { army_experience = -45 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_45_negative }
 		remove_effect = { RUS_fr_apply_political_work_reform = yes }
 		ai_will_do = { factor = 10 }
 	}
@@ -371,12 +371,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_organise_basic_commissar_network = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_basic_commissar_system NOT = { has_country_flag = RUS_fr_discipline_review_decision_complete } }
-		available = { has_army_experience > 39 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
 		custom_cost_text = RUS_fr_xp_40
-		custom_cost_trigger = { has_army_experience > 39 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
 		fire_only_once = yes
 		days_remove = 30
-		complete_effect = { army_experience = -40 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_40_negative }
 		remove_effect = { RUS_fr_apply_discipline_review_reform = yes }
 		ai_will_do = { factor = 10 }
 	}
@@ -384,12 +384,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_institutionalise_soldiers_committees = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_soldiers_committees NOT = { has_country_flag = RUS_fr_soldiers_committees_decision_complete } }
-		available = { has_army_experience > 44 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		custom_cost_text = RUS_fr_xp_45
-		custom_cost_trigger = { has_army_experience > 44 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		fire_only_once = yes
 		days_remove = 30
-		complete_effect = { army_experience = -45 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_45_negative }
 		remove_effect = { RUS_fr_apply_soldiers_committees_reform = yes }
 		ai_will_do = { factor = 10 }
 	}
@@ -397,12 +397,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reopen_thunderstorm_military_academy = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_red_commander_system NOT = { has_country_flag = RUS_fr_red_academy_decision_complete } }
-		available = { has_army_experience > 59 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		custom_cost_text = RUS_fr_xp_60
-		custom_cost_trigger = { has_army_experience > 59 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		fire_only_once = yes
 		days_remove = 120
-		complete_effect = { army_experience = -60 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_60_negative }
 		remove_effect = {
 			if = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
@@ -417,12 +417,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_issue_frunze_field_regulations = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_frunze_field_regulations NOT = { has_country_flag = RUS_fr_field_regulations_decision_complete } }
-		available = { has_army_experience > 59 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		custom_cost_text = RUS_fr_xp_60
-		custom_cost_trigger = { has_army_experience > 59 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		fire_only_once = yes
 		days_remove = 120
-		complete_effect = { army_experience = -60 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_60_negative }
 		remove_effect = {
 			if = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
@@ -439,12 +439,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_implement_unified_training_mobilisation = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_unified_training_mobilisation_system NOT = { has_country_flag = RUS_fr_standardised_structure_decision_complete } }
-		available = { has_army_experience > 49 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		custom_cost_text = RUS_fr_xp_50
-		custom_cost_trigger = { has_army_experience > 49 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		fire_only_once = yes
 		days_remove = 120
-		complete_effect = { army_experience = -50 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_50_negative }
 		remove_effect = {
 			RUS_fr_apply_standardised_army_structure_reform = yes
 			if = {
@@ -458,12 +458,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reorganise_general_staff_district_network = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_reorganise_general_staff_districts NOT = { has_country_flag = RUS_fr_district_reorganisation_decision_complete } }
-		available = { has_army_experience > 54 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_55 } }
 		custom_cost_text = RUS_fr_xp_55
-		custom_cost_trigger = { has_army_experience > 54 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_55 } }
 		fire_only_once = yes
 		days_remove = 120
-		complete_effect = { army_experience = -55 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_55_negative }
 		remove_effect = {
 			if = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
@@ -479,12 +479,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_conduct_all_russian_red_army_exercise = {
 		icon = GFX_decision_generic_operation
 		visible = { has_completed_focus = RUS_fr_all_russian_red_army_exercise NOT = { has_country_flag = RUS_fr_all_army_exercise_decision_complete } }
-		available = { has_army_experience > 49 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		custom_cost_text = RUS_fr_xp_50
-		custom_cost_trigger = { has_army_experience > 49 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		fire_only_once = yes
 		days_remove = 30
-		complete_effect = { army_experience = -50 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_50_negative }
 		remove_effect = { set_country_flag = RUS_fr_all_army_exercise_decision_complete }
 		ai_will_do = { factor = 10 }
 	}
@@ -492,12 +492,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_test_experimental_general_staff_formations = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_general_staff_experimental_formations NOT = { has_country_flag = RUS_fr_experimental_formations_decision_complete } }
-		available = { has_army_experience > 44 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		custom_cost_text = RUS_fr_xp_45
-		custom_cost_trigger = { has_army_experience > 44 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		fire_only_once = yes
 		days_remove = 90
-		complete_effect = { army_experience = -45 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_45_negative }
 		remove_effect = {
 			add_doctrine_cost_reduction = { name = RUS_fr_general_staff_experimental_formations cost_reduction = 0.15 uses = 1 category = land_doctrine }
 			set_country_flag = RUS_fr_experimental_formations_decision_complete
@@ -508,12 +508,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_conduct_national_mobilisation_supply_test = {
 		icon = GFX_decision_generic_operation
 		visible = { has_completed_focus = RUS_fr_national_mobilisation_supply_test NOT = { has_country_flag = RUS_fr_mobilisation_test_decision_complete } }
-		available = { has_army_experience > 44 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		custom_cost_text = RUS_fr_xp_45
-		custom_cost_trigger = { has_army_experience > 44 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		fire_only_once = yes
 		days_remove = 90
-		complete_effect = { army_experience = -45 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_45_negative }
 		remove_effect = {
 			if = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
@@ -530,12 +530,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_launch_army_mechanisation_programme = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_army_mechanisation_torrent NOT = { has_country_flag = RUS_fr_mechanisation_decision_complete } }
-		available = { has_army_experience > 59 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		custom_cost_text = RUS_fr_xp_60
-		custom_cost_trigger = { has_army_experience > 59 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		fire_only_once = yes
 		days_remove = 120
-		complete_effect = { army_experience = -60 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_60_negative }
 		remove_effect = {
 			if = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
@@ -550,12 +550,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_form_guards_model_units = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_guards_model_units NOT = { has_country_flag = RUS_fr_guards_units_decision_complete } }
-		available = { has_army_experience > 44 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		custom_cost_text = RUS_fr_xp_45
-		custom_cost_trigger = { has_army_experience > 44 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		fire_only_once = yes
 		days_remove = 90
-		complete_effect = { army_experience = -45 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_45_negative }
 		remove_effect = {
 			if = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
@@ -570,12 +570,12 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_institute_revolutionary_merit_competition = {
 		icon = GFX_decision_generic_military
 		visible = { has_completed_focus = RUS_fr_revolutionary_merit_competition NOT = { has_country_flag = RUS_fr_merit_competition_decision_complete } }
-		available = { has_army_experience > 49 }
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		custom_cost_text = RUS_fr_xp_50
-		custom_cost_trigger = { has_army_experience > 49 }
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		fire_only_once = yes
 		days_remove = 90
-		complete_effect = { army_experience = -50 }
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_50_negative }
 		remove_effect = {
 			clr_country_flag = RUS_fr_officer_training_penalty
 			set_country_flag = RUS_fr_officer_training_reformed
