@@ -28646,6 +28646,7 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
 		available = {
 			RUS_fr_requires_10_military_reform_materials = yes
+			RUS_fpc_heavy_industry_tier_4 = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
 		completion_reward = {
@@ -28822,6 +28823,10 @@ focus_tree = {
 		}
 		completion_reward = {
 			if = { limit = { has_dlc_gtd = yes NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer } } sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.15 } }
+			RUS_fr_show_land_warfare_legacy_rewards = yes
+			hidden_effect = {
+				if = { limit = { NOT = { has_completed_focus = RUS_expand_ird } } complete_national_focus = RUS_expand_ird }
+			}
 			add_ideas = RUS_fr_support_fire_joint_trials_idea
 			if = {
 				limit = {
@@ -28888,7 +28893,7 @@ focus_tree = {
 
 	focus = {
 		id = RUS_fr_combined_arms_support_standard
-		icon = GFX_goal_RUS_fr_combined_arms_support
+		icon = GFX_goal_generic_small_arms
 		cost = 6
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = -6
@@ -28897,6 +28902,7 @@ focus_tree = {
 		available = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_20_military_reform_materials = yes
+			RUS_fpc_infantry_tier_3 = yes
 		}
 		completion_reward = {
 			add_ideas = RUS_fr_armaments_basic_result
@@ -29177,7 +29183,19 @@ focus_tree = {
 			RUS_fr_requires_10_military_reform_materials = yes
 		}
 		completion_reward = {
-			if = { limit = { has_dlc_aat = yes } mio:RUS_chtz_organisation = { add_to_variable = { max_research_speed = 0.05 tooltip = RUS_fr_mio_research_cap_tt } } }
+			if = {
+				limit = { has_dlc_aat = yes }
+				mio:RUS_chtz_organisation = {
+					add_to_variable = { weekly_research_speed_gain = 0.02 tooltip = KR_mio_manufacturer_trait_research_gain_tt }
+				}
+				if = {
+					limit = { has_country_flag = RUS_fr_specialise_armour }
+					mio:RUS_chtz_organisation = { add_to_variable = { max_research_speed = 0.50 tooltip = RUS_fr_mio_research_cap_tt } }
+				}
+				else = {
+					mio:RUS_chtz_organisation = { add_to_variable = { max_research_speed = 0.05 tooltip = RUS_fr_mio_research_cap_tt } }
+				}
+			}
 			add_tech_bonus = { name = RUS_fr_alloy_armour_standard bonus = 0.75 uses = 1 category = mio_cat_tech_all_armor_and_modules }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
@@ -29197,6 +29215,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_tech_bonus = { name = RUS_fr_tank_firepower_development_plan bonus = 0.75 uses = 1 category = mio_cat_tech_all_armor_and_modules }
+			add_ideas = RUS_fr_tank_firepower_development_idea
 			country_event = { id = RUS_fr_military_reform.40 hours = 6 }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
@@ -29215,7 +29234,10 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_12_military_reform_materials = yes
 		}
-		completion_reward = { add_tech_bonus = { name = RUS_fr_breakthrough_chassis_program bonus = 0.75 uses = 1 category = armor } }
+		completion_reward = {
+			add_ideas = RUS_fr_armour_breakthrough_programme_idea
+			custom_effect_tooltip = RUS_fr_armour_breakthrough_bonus_tt
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 	}
 
@@ -29232,7 +29254,14 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_12_military_reform_materials = yes
 		}
-		completion_reward = { add_tech_bonus = { name = RUS_fr_long_range_armoured_exploitation bonus = 0.75 uses = 1 category = armor } }
+		completion_reward = {
+			add_ideas = RUS_fr_long_range_armoured_exploitation_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_armour }
+				add_ideas = RUS_fr_armour_reliability_priority_idea
+				custom_effect_tooltip = RUS_fr_armour_reliability_priority_bonus_tt
+			}
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
 	}
 
@@ -29252,6 +29281,11 @@ focus_tree = {
 		completion_reward = {
 			if = { limit = { has_dlc_gtd = yes NOT = { is_special_project_completed = sp:sp_land_modern_fin_stabilized_discarding_sabot } } sp:sp_land_modern_fin_stabilized_discarding_sabot = { add_project_progress_ratio = 0.15 } }
 			add_tech_bonus = { name = RUS_fr_high_velocity_kinetic_gun_program bonus = 1.00 uses = 1 category = mio_cat_tech_all_armor_and_modules }
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_armour }
+				set_technology = { RUS_fr_unlock_stabilizer = 1 popup = no }
+				custom_effect_tooltip = RUS_fr_unlock_stabilizer_tt
+			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 	}
@@ -29271,8 +29305,12 @@ focus_tree = {
 			RUS_fr_requires_15_military_reform_materials = yes
 		}
 		completion_reward = {
-			if = { limit = { has_dlc_aat = yes } mio:RUS_chtz_organisation = { add_to_variable = { max_research_speed = 0.05 tooltip = RUS_fr_mio_research_cap_tt } } }
-			add_offsite_building = { type = arms_factory level = 1 }
+			set_country_flag = RUS_fr_okmo_half_xp_cost
+			custom_effect_tooltip = RUS_fr_okmo_half_xp_cost_tt
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_armour }
+				add_ideas = RUS_fr_universal_hull_armour_priority_idea
+			}
 		}
 		search_filters = { FOCUS_FILTER_PRODUCTION }
 	}
@@ -29291,7 +29329,15 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_12_military_reform_materials = yes
 		}
-		completion_reward = { add_tech_bonus = { name = RUS_fr_self_propelled_direct_fire_system bonus = 1.00 uses = 1 category = artillery category = mio_cat_tech_all_armor_and_modules } }
+		completion_reward = {
+			set_technology = { RUS_fr_self_propelled_artillery_firepower_bonus = 1 popup = no }
+			custom_effect_tooltip = RUS_fr_self_propelled_artillery_firepower_bonus_tt
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_armour }
+				set_technology = { RUS_fr_armour_priority_self_propelled_bonus = 1 popup = no }
+				custom_effect_tooltip = RUS_fr_armour_priority_self_propelled_bonus_tt
+			}
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 	}
 
@@ -29309,7 +29355,12 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_12_military_reform_materials = yes
 		}
-		completion_reward = { add_tech_bonus = { name = RUS_fr_hull_structural_durability_trials bonus = 1.00 uses = 1 category = mio_cat_tech_all_armor_and_modules } }
+		completion_reward = {
+			add_tech_bonus = { name = RUS_fr_hull_structural_durability_trials bonus = 1.00 uses = 1 category = mio_cat_tech_all_armor_and_modules }
+			add_ideas = RUS_fr_tank_destroyer_structural_idea
+			set_country_flag = RUS_fr_tank_destroyer_structural_results
+			custom_effect_tooltip = RUS_fr_tank_destroyer_structural_bonus_tt
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 	}
 
@@ -29327,8 +29378,18 @@ focus_tree = {
 		available = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_15_military_reform_materials = yes
+			RUS_fpc_tank_tier_3 = yes
 		}
-		completion_reward = { add_tech_bonus = { name = RUS_fr_armoured_firepower_coordination_standard bonus = 1.00 uses = 1 category = armor category = artillery } }
+		completion_reward = {
+			add_tech_bonus = { name = RUS_fr_armoured_firepower_coordination_standard bonus = 1.00 uses = 1 category = armor category = artillery }
+			add_ideas = RUS_fr_armoured_firepower_coordination_idea
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_armour }
+				add_ideas = RUS_fr_armoured_priority_coordination_tradeoff_idea
+				set_country_flag = RUS_fr_armoured_firepower_decision_unlocked
+				unlock_decision_tooltip = { decision = RUS_fr_coordinate_armoured_firepower show_effect_tooltip = no show_modifiers = no }
+			}
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
 	}
 
@@ -29346,10 +29407,7 @@ focus_tree = {
 			RUS_fr_requires_20_military_reform_materials = yes
 		}
 		completion_reward = {
-			RUS_fr_show_land_warfare_legacy_rewards = yes
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_expand_ird } } complete_national_focus = RUS_expand_ird }
-			}
+			add_ideas = RUS_fr_land_warfare_mainstay_idea
 			add_ideas = RUS_fr_armour_basic_result
 			set_country_flag = RUS_fr_armour_line_finished
 		}

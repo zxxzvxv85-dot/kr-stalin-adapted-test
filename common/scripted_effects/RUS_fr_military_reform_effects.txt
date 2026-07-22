@@ -25,6 +25,10 @@ RUS_fr_update_timoshenko_decision_costs = {
 	multiply_variable = { RUS_fr_xp_cost_25 = 25 }
 	set_variable = { RUS_fr_xp_cost_25_negative = RUS_fr_xp_cost_25 }
 	multiply_variable = { RUS_fr_xp_cost_25_negative = -1 }
+	set_variable = { RUS_fr_xp_cost_30 = RUS_fr_timoshenko_reform_cost_factor }
+	multiply_variable = { RUS_fr_xp_cost_30 = 30 }
+	set_variable = { RUS_fr_xp_cost_30_negative = RUS_fr_xp_cost_30 }
+	multiply_variable = { RUS_fr_xp_cost_30_negative = -1 }
 	set_variable = { RUS_fr_xp_cost_40 = RUS_fr_timoshenko_reform_cost_factor }
 	multiply_variable = { RUS_fr_xp_cost_40 = 40 }
 	set_variable = { RUS_fr_xp_cost_40_negative = RUS_fr_xp_cost_40 }
@@ -530,6 +534,127 @@ RUS_fr_apply_armour_priority_bonuses = {
 			add_to_variable = { max_research_speed = 0.10 tooltip = RUS_fr_mio_research_cap_tt }
 			add_mio_size = 1
 		}
+	}
+}
+
+RUS_fr_update_okmo_half_xp_cost = {
+	if = {
+		limit = {
+			has_country_flag = RUS_fr_okmo_half_xp_cost
+			has_country_flag = okmo_kr_stats_for_xp
+		}
+		if = {
+			limit = { NOT = { has_country_flag = RUS_fr_okmo_half_xp_initialised } }
+			multiply_variable = { okmo_kr_xp_requirement = 0.50 }
+			set_variable = { RUS_fr_okmo_discounted_xp_requirement = okmo_kr_xp_requirement }
+			set_variable = { okmo_kr_xp_cost = okmo_kr_xp_requirement }
+			multiply_variable = { okmo_kr_xp_cost = -1 }
+			set_country_flag = RUS_fr_okmo_half_xp_initialised
+		}
+		else_if = {
+			limit = { check_variable = { okmo_kr_xp_requirement > RUS_fr_okmo_discounted_xp_requirement } }
+			set_temp_variable = { RUS_fr_okmo_new_xp_increment = okmo_kr_xp_requirement }
+			subtract_from_variable = { var = RUS_fr_okmo_new_xp_increment value = RUS_fr_okmo_discounted_xp_requirement }
+			multiply_variable = { RUS_fr_okmo_new_xp_increment = 0.50 }
+			subtract_from_variable = { var = okmo_kr_xp_requirement value = RUS_fr_okmo_new_xp_increment }
+			set_variable = { RUS_fr_okmo_discounted_xp_requirement = okmo_kr_xp_requirement }
+			set_variable = { okmo_kr_xp_cost = okmo_kr_xp_requirement }
+			multiply_variable = { okmo_kr_xp_cost = -1 }
+		}
+	}
+}
+
+RUS_fr_apply_armoured_firepower_coordination_bonus = {
+	if = {
+		limit = { NOT = { has_variable = RUS_fr_armoured_firepower_bonus } }
+		set_variable = { RUS_fr_armoured_firepower_bonus = 0 }
+	}
+	set_temp_variable = { RUS_fr_armour_increment = party_popularity@communist }
+	multiply_variable = { RUS_fr_armour_increment = 1.50 }
+	set_temp_variable = { RUS_fr_armour_remaining = 0.15 }
+	subtract_from_variable = { var = RUS_fr_armour_remaining value = RUS_fr_armoured_firepower_bonus }
+	if = {
+		limit = { check_variable = { RUS_fr_armour_increment > RUS_fr_armour_remaining } }
+		set_temp_variable = { RUS_fr_armour_increment = RUS_fr_armour_remaining }
+	}
+	add_to_variable = { RUS_fr_unified_armor_attack_factor = RUS_fr_armour_increment tooltip = army_armor_attack_factor_tt }
+	add_to_variable = { RUS_fr_unified_armor_defence_factor = RUS_fr_armour_increment tooltip = army_armor_defence_factor_tt }
+	add_to_variable = { RUS_fr_armoured_firepower_bonus = RUS_fr_armour_increment }
+	clamp_variable = { var = RUS_fr_armoured_firepower_bonus min = 0 max = 0.15 }
+	force_update_dynamic_modifier = yes
+}
+
+RUS_fr_consolidate_armaments_construction_results = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_armaments_results_consolidated } }
+		if = {
+			limit = { has_idea = RUS_fr_tank_firepower_development_idea }
+			add_to_variable = { RUS_fr_unified_armor_attack_factor = 0.05 }
+			add_to_variable = { RUS_fr_unified_armor_defence_factor = 0.05 }
+			remove_ideas = RUS_fr_tank_firepower_development_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_long_range_armoured_exploitation_idea }
+			add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 }
+			add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 }
+			add_to_variable = { RUS_fr_unified_armor_attack_factor = 0.05 }
+			add_to_variable = { RUS_fr_unified_armor_defence_factor = 0.05 }
+			add_to_variable = { RUS_fr_unified_armor_speed_factor = 0.05 }
+			remove_ideas = RUS_fr_long_range_armoured_exploitation_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_universal_hull_armour_priority_idea }
+			add_to_variable = { RUS_fr_unified_equipment_conversion_speed = 0.20 }
+			remove_ideas = RUS_fr_universal_hull_armour_priority_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_armoured_firepower_coordination_idea }
+			add_to_variable = { RUS_fr_unified_armor_attack_factor = 0.05 }
+			add_to_variable = { RUS_fr_unified_armor_defence_factor = 0.05 }
+			remove_ideas = RUS_fr_armoured_firepower_coordination_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_armoured_priority_coordination_tradeoff_idea }
+			add_to_variable = { RUS_fr_unified_attack_factor = -0.05 }
+			add_to_variable = { RUS_fr_unified_defence_factor = -0.05 }
+			remove_ideas = RUS_fr_armoured_priority_coordination_tradeoff_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_land_warfare_mainstay_idea }
+			add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 }
+			add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 }
+			remove_ideas = RUS_fr_land_warfare_mainstay_idea
+			if = {
+				limit = {
+					has_country_flag = RUS_fr_tank_destroyer_structural_results
+					has_country_flag = RUS_fr_specialise_armour
+				}
+				add_ideas = RUS_fr_unified_armaments_equipment_standard_priority_td_idea
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_fr_tank_destroyer_structural_results }
+				add_ideas = RUS_fr_unified_armaments_equipment_standard_td_idea
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_fr_specialise_armour }
+				add_ideas = RUS_fr_unified_armaments_equipment_standard_priority_idea
+			}
+			else = { add_ideas = RUS_fr_unified_armaments_equipment_standard_idea }
+		}
+		if = {
+			limit = { has_idea = RUS_fr_armour_breakthrough_programme_idea }
+			remove_ideas = RUS_fr_armour_breakthrough_programme_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_tank_destroyer_structural_idea }
+			remove_ideas = RUS_fr_tank_destroyer_structural_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_armour_reliability_priority_idea }
+			remove_ideas = RUS_fr_armour_reliability_priority_idea
+		}
+		set_country_flag = RUS_fr_armaments_results_consolidated
+		force_update_dynamic_modifier = yes
 	}
 }
 

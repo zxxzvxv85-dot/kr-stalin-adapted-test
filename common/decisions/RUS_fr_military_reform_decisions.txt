@@ -62,6 +62,25 @@ RUS_fr_military_reform_decisions = {
 		ai_will_do = { factor = 10 }
 	}
 
+	RUS_fr_coordinate_armoured_firepower = {
+		icon = GFX_decision_generic_tank
+		visible = {
+			has_country_flag = RUS_fr_armoured_firepower_decision_unlocked
+			has_country_flag = RUS_fr_specialise_armour
+			OR = {
+				NOT = { has_variable = RUS_fr_armoured_firepower_bonus }
+				check_variable = { RUS_fr_armoured_firepower_bonus < 0.15 }
+			}
+		}
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_30 } }
+		custom_cost_text = RUS_fr_xp_30
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_30 } }
+		days_remove = 15
+		complete_effect = { army_experience = var:RUS_fr_xp_cost_30_negative }
+		remove_effect = { RUS_fr_apply_armoured_firepower_coordination_bonus = yes }
+		ai_will_do = { factor = 10 }
+	}
+
 	RUS_fr_reform_command_audit = {
 		icon = GFX_decision_generic_military
 		visible = {
