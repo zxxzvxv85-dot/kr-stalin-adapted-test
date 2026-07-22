@@ -20166,11 +20166,13 @@ focus_tree = {
 		allow_branch = { has_socialist_government = yes }
 		prerequisite = { focus = RUS_fr_post_revolutionary_armed_forces }
 		completion_reward = {
+			set_country_flag = RUS_fr_frunze_defence_report_delivered
+			RUS_semyon_timoshenko = { set_nationality = ROOT }
+			activate_advisor = RUS_semyon_timoshenko_theorist
 			army_experience = 20
 			add_to_variable = { RUS_fr_military_reform_materials = 15 tooltip = RUS_fr_military_reform_materials_change_tt }
 			add_ideas = RUS_semyon_timoshenko_theorist
 			RUS_fr_update_timoshenko_decision_costs = yes
-			set_country_flag = RUS_fr_frunze_defence_report_delivered
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MILITARY_CHARACTER }
 	}
