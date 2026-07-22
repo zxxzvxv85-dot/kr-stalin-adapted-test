@@ -29185,12 +29185,12 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = { has_dlc_aat = yes }
-				mio:RUS_chtz_organisation = {
-					add_to_variable = { weekly_research_speed_gain = 0.02 tooltip = KR_mio_manufacturer_trait_research_gain_tt }
-				}
 				if = {
 					limit = { has_country_flag = RUS_fr_specialise_armour }
-					mio:RUS_chtz_organisation = { add_to_variable = { max_research_speed = 0.50 tooltip = RUS_fr_mio_research_cap_tt } }
+					mio:RUS_chtz_organisation = {
+						add_to_variable = { max_research_speed = 0.50 tooltip = RUS_fr_mio_research_cap_tt }
+						add_to_variable = { weekly_research_speed_gain = 0.02 tooltip = KR_mio_manufacturer_trait_research_gain_tt }
+					}
 				}
 				else = {
 					mio:RUS_chtz_organisation = { add_to_variable = { max_research_speed = 0.05 tooltip = RUS_fr_mio_research_cap_tt } }

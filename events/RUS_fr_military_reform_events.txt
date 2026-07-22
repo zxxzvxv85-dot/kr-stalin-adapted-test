@@ -8,11 +8,16 @@ country_event = {
 	desc = RUS_fr_military_reform.10.d
 	picture = GFX_report_event_generic_factory
 	is_triggered_only = yes
+	trigger = {
+		NOT = { has_country_flag = RUS_fr_armaments_meeting_called }
+	}
 	immediate = { set_country_flag = RUS_fr_armaments_meeting_called }
 
 	option = {
 		name = RUS_fr_military_reform.10.a
 		ai_chance = { factor = 40 }
+		clr_country_flag = RUS_fr_specialise_mobility
+		clr_country_flag = RUS_fr_specialise_armour
 		set_country_flag = RUS_fr_specialise_armaments
 		set_country_flag = RUS_fr_armaments_program_started
 		set_country_flag = RUS_fr_auto_dispatch_scheduled
@@ -21,6 +26,8 @@ country_event = {
 	option = {
 		name = RUS_fr_military_reform.10.b
 		ai_chance = { factor = 35 }
+		clr_country_flag = RUS_fr_specialise_armaments
+		clr_country_flag = RUS_fr_specialise_armour
 		set_country_flag = RUS_fr_specialise_mobility
 		set_country_flag = RUS_fr_armaments_program_started
 		set_country_flag = RUS_fr_auto_dispatch_scheduled
@@ -29,6 +36,8 @@ country_event = {
 	option = {
 		name = RUS_fr_military_reform.10.c
 		ai_chance = { factor = 25 }
+		clr_country_flag = RUS_fr_specialise_armaments
+		clr_country_flag = RUS_fr_specialise_mobility
 		set_country_flag = RUS_fr_specialise_armour
 		set_country_flag = RUS_fr_armaments_program_started
 		set_country_flag = RUS_fr_auto_dispatch_scheduled
@@ -143,7 +152,8 @@ country_event = {
 			limit = { has_country_flag = RUS_fr_specialise_mobility }
 			RUS_fr_apply_mobility_priority_bonuses = yes
 		}
-		else = {
+		else_if = {
+			limit = { has_country_flag = RUS_fr_specialise_armour }
 			RUS_fr_apply_armour_priority_bonuses = yes
 		}
 		force_update_dynamic_modifier = yes
