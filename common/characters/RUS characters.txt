@@ -1659,7 +1659,10 @@
 			desc = RUS_aleksandr_vasilevsky_army_chief_desc
 			ledger = army
 			available = {
-				has_completed_focus = RUS_academy_of_black_epaulettes
+				OR = {
+					has_completed_focus = RUS_academy_of_black_epaulettes
+					has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
+				}
 				not_already_hired_except_as = high_command
 			}
 			traits = { KR_MHC_army_regrouping_2 }
@@ -1827,6 +1830,21 @@
 			planning_skill = 2
 			logistics_skill = 1
 		}
+		advisor = {
+			slot = high_command
+			idea_token = RUS_leonid_govorov_high_command
+			desc = RUS_leonid_govorov_commander_desc
+			ledger = army
+			visible = {
+				OR = {
+					has_completed_focus = RUS_technological_supremacy
+					has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
+				}
+			}
+			available = { not_already_hired_except_as = high_command }
+			traits = { KR_MHC_artillery_2 }
+			cost = 100
+		}
 	}
 
 	##########################
@@ -1970,7 +1988,10 @@
 			available = {
 				if = {
 					limit = { original_tag = RUS }
-					has_completed_focus = RUS_academy_of_black_epaulettes
+					OR = {
+						has_completed_focus = RUS_academy_of_black_epaulettes
+						has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
+					}
 				}
 			}
 			traits = { KR_MHC_armoured_2 }
@@ -2371,7 +2392,10 @@
 			available = {
 				if = {
 					limit = { is_russian_tag = yes }
-					has_completed_focus = RUS_deep_battle_focus
+					OR = {
+						has_completed_focus = RUS_deep_battle_focus
+						has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
+					}
 				}
 			}
 			traits = { KR_deep_operation_theorist }

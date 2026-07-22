@@ -577,25 +577,4 @@ RUS_fr_military_reform_decisions = {
 		ai_will_do = { factor = 10 }
 	}
 
-	RUS_fr_finalise_revolutionary_military_system = {
-		icon = GFX_decision_generic_operation
-		visible = { has_completed_focus = RUS_fr_revolutionary_military_system_finalised NOT = { has_country_flag = RUS_fr_military_reform_finalised } }
-		available = { has_army_experience > 99 }
-		custom_cost_text = RUS_fr_xp_100
-		custom_cost_trigger = { has_army_experience > 99 }
-		fire_only_once = yes
-		days_remove = 120
-		complete_effect = { army_experience = -100 }
-		remove_effect = {
-			RUS_fr_show_finalised_legacy_rewards = yes
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_academy_of_black_epaulettes } } complete_national_focus = RUS_academy_of_black_epaulettes }
-				if = { limit = { NOT = { has_completed_focus = RUS_deep_battle_focus } } complete_national_focus = RUS_deep_battle_focus }
-				if = { limit = { NOT = { has_completed_focus = RUS_technological_supremacy } } complete_national_focus = RUS_technological_supremacy }
-			}
-			set_country_flag = RUS_fr_military_reform_finalised
-			country_event = { id = RUS_fr_military_reform.400 days = 1 }
-		}
-		ai_will_do = { factor = 10 }
-	}
 }

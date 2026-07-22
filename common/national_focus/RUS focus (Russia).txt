@@ -20090,17 +20090,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = tooltip_white_line
 			custom_effect_tooltip = available_military_high_command
-			add_advisor_role = {
-				character = RUS_leonid_govorov
-				advisor = {
-					slot = high_command
-					idea_token = RUS_leonid_govorov_high_command
-					desc = RUS_leonid_govorov_commander_desc
-					ledger = army
-					traits = { KR_MHC_artillery_2 }
-					cost = 100
-				}
-			}
+			show_ideas_tooltip = RUS_leonid_govorov_high_command
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS }
 	}
@@ -28204,6 +28194,7 @@ focus_tree = {
 			set_country_flag = RUS_fr_new_military_tree_active
 			set_country_flag = RUS_fr_reform_program_adopted
 			unlock_decision_tooltip = { decision = RUS_fr_reform_training_cycles show_effect_tooltip = no show_modifiers = no }
+			RUS_fr_apply_army_reorganisation_legacy_rewards = yes
 			hidden_effect = {
 				if = {
 					limit = { NOT = { has_completed_focus = RUS_end_army_factionalism } }
@@ -28247,6 +28238,12 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_national_military_reform_program }
 		completion_reward = {
 			unlock_decision_tooltip = { decision = RUS_fr_establish_scientific_general_staff show_effect_tooltip = no show_modifiers = no }
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = RUS_mikhail_tukhachevsky_high_command
+			show_ideas_tooltip = RUS_aleksandr_vasilevsky_high_command
+			show_ideas_tooltip = RUS_leonid_govorov_high_command
+			custom_effect_tooltip = available_theorist
+			show_ideas_tooltip = RUS_vladimir_triandafillov_theorist
 			add_doctrine_cost_reduction = {
 				name = RUS_fr_equipment_is_the_armys_skeleton
 				cost_reduction = 0.70
@@ -28617,7 +28614,8 @@ focus_tree = {
 			NOT = { country_exists = GER }
 		}
 		completion_reward = {
-			unlock_decision_tooltip = { decision = RUS_fr_finalise_revolutionary_military_system show_effect_tooltip = no show_modifiers = no }
+			add_to_variable = { RUS_fr_unified_attack_factor = 0.05 tooltip = army_attack_factor_tt }
+			add_to_variable = { RUS_fr_unified_defence_factor = 0.05 tooltip = army_defence_factor_tt }
 			army_experience = 30
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESEARCH }
