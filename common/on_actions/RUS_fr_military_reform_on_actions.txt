@@ -37,4 +37,23 @@ on_actions = {
 			}
 		}
 	}
+
+	on_unit_leader_created = {
+		effect = {
+			character = {
+				if = {
+					limit = {
+						FROM = { has_country_flag = RUS_fr_officer_training_penalty }
+						is_army_leader = yes
+					}
+					root = {
+						if = {
+							limit = { NOT = { has_unit_leader_trait = RUS_fr_fragmented_officer_training } }
+							add_unit_leader_trait = RUS_fr_fragmented_officer_training
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -473,9 +473,13 @@ RUS_fr_initialise_unified_army_reform = {
 		add_to_variable = { RUS_fr_unified_terrain_penalty_reduction = 0.04 }
 		add_to_variable = { RUS_fr_unified_attack_factor = 0.02 }
 		add_to_variable = { RUS_fr_unified_defence_factor = 0.02 }
+		add_to_variable = { RUS_fr_unified_breakthrough_factor = 0.10 }
 		add_to_variable = { RUS_fr_unified_command_power_gain = 0 }
 		add_to_variable = { RUS_fr_unified_army_speed = 0 }
 		add_to_variable = { RUS_fr_unified_war_support_factor = 0 }
+		add_to_variable = { RUS_fr_unified_land_mastery_gain = 0.25 }
+		add_to_variable = { RUS_fr_unified_special_forces_attack = 0.05 }
+		add_to_variable = { RUS_fr_unified_special_forces_defence = 0.05 }
 		set_country_flag = RUS_fr_unified_army_reform_active
 
 		remove_ideas = {
@@ -514,6 +518,49 @@ RUS_fr_initialise_unified_army_reform = {
 			limit = { has_idea = RUS_fr_revolutionary_heroism_idea }
 			RUS_fr_merge_revolutionary_heroism = yes
 		}
+		if = {
+			limit = { has_idea = RUS_fr_military_democracy_trial_idea }
+			RUS_fr_merge_military_democracy_trial = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_political_work_system_idea }
+			RUS_fr_merge_political_work_system = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_soldiers_committees_system_idea }
+			RUS_fr_merge_soldiers_committees_system = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_discipline_review_system_idea }
+			RUS_fr_merge_discipline_review_system = yes
+		}
+		if = {
+			limit = { has_idea = RUS_fr_standardised_army_structure_idea }
+			RUS_fr_merge_standardised_army_structure = yes
+		}
+		hidden_effect = { remove_ideas = RUS_fr_command_merit_system_idea }
+
+		# These ideas only cancel specialist penalties carried by the old
+		# disorganisation spirit. Both sides disappear during consolidation.
+		hidden_effect = {
+			remove_ideas = {
+				RUS_fr_equipment_standardisation_correction
+				RUS_fr_armoured_production_correction
+				RUS_fr_field_regulations_correction
+				RUS_fr_climate_training_correction
+				RUS_fr_core_operations_correction
+				RUS_fr_red_academy_correction
+				RUS_fr_armoured_coordination_correction
+				RUS_fr_special_forces_correction
+				RUS_fr_mobilisation_base_correction
+			}
+		}
+		clr_country_flag = RUS_fr_officer_training_penalty
+		set_country_flag = RUS_fr_officer_training_reformed
+		every_army_leader = {
+			limit = { has_unit_leader_trait = RUS_fr_fragmented_officer_training }
+			remove_unit_leader_trait = RUS_fr_fragmented_officer_training
+		}
 
 		add_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
 	}
@@ -523,30 +570,87 @@ RUS_fr_initialise_unified_army_reform = {
 # modifier. They may be completed before or after the modifier is created;
 # add_to_variable preserves their values through the later consolidation.
 RUS_fr_apply_military_democracy_reform = {
-	add_to_variable = { RUS_fr_unified_armor_attack_factor = -0.05 tooltip = army_armor_attack_factor_tt }
-	add_to_variable = { RUS_fr_unified_armor_defence_factor = -0.05 tooltip = army_armor_defence_factor_tt }
-	add_to_variable = { RUS_fr_unified_non_core_attack_factor = 0.05 tooltip = army_non_core_attack_factor_tt }
-	add_to_variable = { RUS_fr_unified_non_core_defence_factor = 0.05 tooltip = army_non_core_defence_factor_tt }
+	if = {
+		limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+		add_to_variable = { RUS_fr_unified_armor_attack_factor = -0.05 tooltip = army_armor_attack_factor_tt }
+		add_to_variable = { RUS_fr_unified_armor_defence_factor = -0.05 tooltip = army_armor_defence_factor_tt }
+		add_to_variable = { RUS_fr_unified_non_core_attack_factor = 0.05 tooltip = army_non_core_attack_factor_tt }
+		add_to_variable = { RUS_fr_unified_non_core_defence_factor = 0.05 tooltip = army_non_core_defence_factor_tt }
+	}
+	else = { add_ideas = RUS_fr_military_democracy_trial_idea }
+	set_country_flag = RUS_fr_military_democracy_decision_complete
 }
 
 RUS_fr_apply_political_work_reform = {
-	add_to_variable = { RUS_fr_unified_party_stability_factor = 0.10 tooltip = party_popularity_stability_factor_tt }
-	add_to_variable = { RUS_fr_unified_org_factor = -0.03 tooltip = army_org_factor_tt }
+	if = {
+		limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+		add_to_variable = { RUS_fr_unified_party_stability_factor = 0.10 tooltip = party_popularity_stability_factor_tt }
+		add_to_variable = { RUS_fr_unified_org_factor = -0.03 tooltip = army_org_factor_tt }
+	}
+	else = { add_ideas = RUS_fr_political_work_system_idea }
+	set_country_flag = RUS_fr_political_work_decision_complete
 }
 
 RUS_fr_apply_soldiers_committees_reform = {
-	add_to_variable = { RUS_fr_unified_strength_factor = 0.05 tooltip = army_strength_factor_tooltip }
+	if = {
+		limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+		add_to_variable = { RUS_fr_unified_strength_factor = 0.05 tooltip = army_strength_factor_tooltip }
+	}
+	else = { add_ideas = RUS_fr_soldiers_committees_system_idea }
+	set_country_flag = RUS_fr_soldiers_committees_decision_complete
 }
 
 RUS_fr_apply_discipline_review_reform = {
-	add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 tooltip = army_infantry_attack_factor_tt }
-	add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 tooltip = army_infantry_defence_factor_tt }
-	add_to_variable = { RUS_fr_unified_experience_loss_factor = -0.20 tooltip = experience_loss_factor_tooltip }
+	if = {
+		limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+		add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 tooltip = army_infantry_attack_factor_tt }
+		add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 tooltip = army_infantry_defence_factor_tt }
+		add_to_variable = { RUS_fr_unified_experience_loss_factor = -0.20 tooltip = experience_loss_factor_tooltip }
+	}
+	else = { add_ideas = RUS_fr_discipline_review_system_idea }
+	set_country_flag = RUS_fr_discipline_review_decision_complete
 }
 
 RUS_fr_apply_standardised_army_structure_reform = {
-	add_to_variable = { RUS_fr_unified_org_factor = 0.05 tooltip = army_org_factor_tt }
-	add_to_variable = { RUS_fr_unified_morale_factor = 0.02 tooltip = army_morale_factor_tt }
+	if = {
+		limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+		add_to_variable = { RUS_fr_unified_org_factor = 0.05 tooltip = army_org_factor_tt }
+		add_to_variable = { RUS_fr_unified_morale_factor = 0.02 tooltip = army_morale_factor_tt }
+	}
+	else = { add_ideas = RUS_fr_standardised_army_structure_idea }
+	set_country_flag = RUS_fr_standardised_structure_decision_complete
+}
+
+RUS_fr_merge_military_democracy_trial = {
+	add_to_variable = { RUS_fr_unified_armor_attack_factor = -0.05 }
+	add_to_variable = { RUS_fr_unified_armor_defence_factor = -0.05 }
+	add_to_variable = { RUS_fr_unified_non_core_attack_factor = 0.05 }
+	add_to_variable = { RUS_fr_unified_non_core_defence_factor = 0.05 }
+	hidden_effect = { remove_ideas = RUS_fr_military_democracy_trial_idea }
+}
+
+RUS_fr_merge_political_work_system = {
+	add_to_variable = { RUS_fr_unified_party_stability_factor = 0.10 }
+	add_to_variable = { RUS_fr_unified_org_factor = -0.03 }
+	hidden_effect = { remove_ideas = RUS_fr_political_work_system_idea }
+}
+
+RUS_fr_merge_soldiers_committees_system = {
+	add_to_variable = { RUS_fr_unified_strength_factor = 0.05 }
+	hidden_effect = { remove_ideas = RUS_fr_soldiers_committees_system_idea }
+}
+
+RUS_fr_merge_discipline_review_system = {
+	add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 }
+	add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 }
+	add_to_variable = { RUS_fr_unified_experience_loss_factor = -0.20 }
+	hidden_effect = { remove_ideas = RUS_fr_discipline_review_system_idea }
+}
+
+RUS_fr_merge_standardised_army_structure = {
+	add_to_variable = { RUS_fr_unified_org_factor = 0.05 }
+	add_to_variable = { RUS_fr_unified_morale_factor = 0.02 }
+	hidden_effect = { remove_ideas = RUS_fr_standardised_army_structure_idea }
 }
 
 # The exile-return event still restores the wider Bolshevik officer corps.
