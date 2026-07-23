@@ -687,8 +687,13 @@ RUS_fr_consolidate_armaments_construction_results = {
 		}
 		if = {
 			limit = { has_idea = RUS_fr_ergonomic_infantry_equipment_priority_idea }
+			add_to_variable = { RUS_fr_unified_infantry_attack_factor = 0.10 }
+			add_to_variable = { RUS_fr_unified_infantry_defence_factor = 0.10 }
+			add_to_variable = { RUS_fr_unified_special_forces_attack = 0.05 }
+			add_to_variable = { RUS_fr_unified_special_forces_defence = 0.05 }
 			add_ideas = RUS_fr_hidden_ergonomic_infantry_equipment_priority
 			remove_ideas = RUS_fr_ergonomic_infantry_equipment_priority_idea
+			set_country_flag = RUS_fr_ergonomic_priority_combat_bonus_merged
 		}
 		if = {
 			limit = {
@@ -914,6 +919,23 @@ RUS_fr_consolidate_armaments_construction_results = {
 	}
 	set_country_flag = RUS_fr_armaments_results_consolidated
 	force_update_dynamic_modifier = yes
+}
+
+RUS_fr_repair_legacy_ergonomic_priority_combat_bonus = {
+	if = {
+		limit = {
+			has_country_flag = RUS_fr_specialise_armaments
+			has_completed_focus = RUS_fr_ergonomic_tolerance_standards
+			has_country_flag = RUS_fr_armaments_results_consolidated
+			NOT = { has_country_flag = RUS_fr_ergonomic_priority_combat_bonus_merged }
+		}
+		add_to_variable = { RUS_fr_unified_infantry_attack_factor = 0.10 }
+		add_to_variable = { RUS_fr_unified_infantry_defence_factor = 0.10 }
+		add_to_variable = { RUS_fr_unified_special_forces_attack = 0.05 }
+		add_to_variable = { RUS_fr_unified_special_forces_defence = 0.05 }
+		set_country_flag = RUS_fr_ergonomic_priority_combat_bonus_merged
+		force_update_dynamic_modifier = yes
+	}
 }
 
 RUS_fr_repair_legacy_armaments_system_infantry_bonus = {
