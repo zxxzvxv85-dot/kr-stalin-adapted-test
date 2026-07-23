@@ -597,19 +597,47 @@ RUS_fr_apply_armoured_firepower_coordination_bonus = {
 		limit = { NOT = { has_variable = RUS_fr_armoured_firepower_bonus } }
 		set_variable = { RUS_fr_armoured_firepower_bonus = 0 }
 	}
-	set_temp_variable = { RUS_fr_armour_increment = party_popularity@communist }
-	multiply_variable = { RUS_fr_armour_increment = 1.50 }
-	set_temp_variable = { RUS_fr_armour_remaining = 0.15 }
-	subtract_from_variable = { var = RUS_fr_armour_remaining value = RUS_fr_armoured_firepower_bonus }
-	if = {
-		limit = { check_variable = { RUS_fr_armour_increment > RUS_fr_armour_remaining } }
-		set_temp_variable = { RUS_fr_armour_increment = RUS_fr_armour_remaining }
-	}
-	add_to_variable = { RUS_fr_unified_armor_attack_factor = RUS_fr_armour_increment tooltip = army_armor_attack_factor_tt }
-	add_to_variable = { RUS_fr_unified_armor_defence_factor = RUS_fr_armour_increment tooltip = army_armor_defence_factor_tt }
-	add_to_variable = { RUS_fr_armoured_firepower_bonus = RUS_fr_armour_increment }
 	clamp_variable = { var = RUS_fr_armoured_firepower_bonus min = 0 max = 0.15 }
+	set_temp_variable = { RUS_fr_armour_increment = party_popularity@communist }
+
+	# party_popularity uses one tenth of the displayed percentage: at 60%
+	# support it returns 0.06.  Using it directly therefore grants 6%, i.e.
+	# one tenth of the displayed Communist support.
+	add_to_variable = { RUS_fr_armoured_firepower_bonus = RUS_fr_armour_increment }
+	if = {
+		limit = { check_variable = { RUS_fr_armoured_firepower_bonus > 0.15 } }
+		set_temp_variable = { RUS_fr_armour_overflow = RUS_fr_armoured_firepower_bonus }
+		subtract_from_variable = { var = RUS_fr_armour_overflow value = 0.15 }
+		subtract_from_variable = { var = RUS_fr_armour_increment value = RUS_fr_armour_overflow }
+		set_variable = { RUS_fr_armoured_firepower_bonus = 0.15 }
+	}
+	if = {
+		limit = { check_variable = { RUS_fr_armour_increment > 0 } }
+		add_to_variable = { RUS_fr_unified_armor_attack_factor = RUS_fr_armour_increment tooltip = army_armor_attack_factor_tt }
+		add_to_variable = { RUS_fr_unified_armor_defence_factor = RUS_fr_armour_increment tooltip = army_armor_defence_factor_tt }
+	}
 	force_update_dynamic_modifier = yes
+}
+
+# Repair the already observed legacy save where two 9% completions were both
+# written into the unified modifier before the tracking variable was clamped.
+RUS_fr_repair_legacy_armoured_firepower_overflow = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = RUS_fr_legacy_armoured_firepower_cap_repaired }
+			has_variable = RUS_fr_armoured_firepower_bonus
+			check_variable = { RUS_fr_armoured_firepower_bonus > 0.149 }
+			check_variable = { RUS_fr_unified_armor_attack_factor > 0.279 }
+			check_variable = { RUS_fr_unified_armor_attack_factor < 0.281 }
+			check_variable = { RUS_fr_unified_armor_defence_factor > 0.279 }
+			check_variable = { RUS_fr_unified_armor_defence_factor < 0.281 }
+		}
+		add_to_variable = { RUS_fr_unified_armor_attack_factor = -0.03 }
+		add_to_variable = { RUS_fr_unified_armor_defence_factor = -0.03 }
+		set_variable = { RUS_fr_armoured_firepower_bonus = 0.15 }
+		force_update_dynamic_modifier = yes
+	}
+	set_country_flag = RUS_fr_legacy_armoured_firepower_cap_repaired
 }
 
 RUS_fr_consolidate_armaments_construction_results = {
