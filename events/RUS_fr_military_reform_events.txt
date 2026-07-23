@@ -422,29 +422,15 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_idea = RUS_military_production_idea_3
-				OR = {
-					has_completed_focus = RUS_fr_rapid_operational_corps
-					has_completed_focus = RUS_fr_deep_mobility_program
-				}
+				has_completed_focus = RUS_fr_rapid_operational_corps
 			}
-			swap_ideas = {
-				remove_idea = RUS_military_production_idea_3
-				add_idea = RUS_military_production_idea_2
-			}
+			RUS_fr_apply_heavy_mechanised_production_legacy = yes
 		}
-		if = {
+		else_if = {
 			limit = {
-				has_idea = RUS_military_production_idea_4
-				OR = {
-					has_completed_focus = RUS_fr_rapid_operational_corps
-					has_completed_focus = RUS_fr_deep_mobility_program
-				}
+				has_completed_focus = RUS_fr_deep_mobility_program
 			}
-			swap_ideas = {
-				remove_idea = RUS_military_production_idea_4
-				add_idea = RUS_military_production_idea_2
-			}
+			RUS_fr_suppress_deep_mobility_production_legacy = yes
 		}
 		if = {
 			limit = {

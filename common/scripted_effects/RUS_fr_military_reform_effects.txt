@@ -440,6 +440,35 @@ RUS_fr_complete_mobility_legacy_focuses = {
 		}
 		set_country_flag = RUS_fr_motorisation_deferred_rewards_applied
 	}
+	add_ideas = RUS_fr_mobility_basic_result
+	set_country_flag = RUS_fr_mobility_line_finished
+}
+
+RUS_fr_apply_heavy_mechanised_production_legacy = {
+	if = {
+		limit = { has_idea = RUS_military_production_idea_1 }
+		swap_ideas = {
+			remove_idea = RUS_military_production_idea_1
+			add_idea = RUS_military_production_idea_4
+		}
+	}
+	else_if = {
+		limit = { has_idea = RUS_military_production_idea_2 }
+		swap_ideas = {
+			remove_idea = RUS_military_production_idea_2
+			add_idea = RUS_military_production_idea_4
+		}
+	}
+	else_if = {
+		limit = { has_idea = RUS_military_production_idea_3 }
+		swap_ideas = {
+			remove_idea = RUS_military_production_idea_3
+			add_idea = RUS_military_production_idea_4
+		}
+	}
+}
+
+RUS_fr_suppress_deep_mobility_production_legacy = {
 	hidden_effect = {
 		if = {
 			limit = { has_idea = RUS_military_production_idea_3 }
@@ -448,7 +477,7 @@ RUS_fr_complete_mobility_legacy_focuses = {
 				add_idea = RUS_military_production_idea_2
 			}
 		}
-		if = {
+		else_if = {
 			limit = { has_idea = RUS_military_production_idea_4 }
 			swap_ideas = {
 				remove_idea = RUS_military_production_idea_4
@@ -456,8 +485,6 @@ RUS_fr_complete_mobility_legacy_focuses = {
 			}
 		}
 	}
-	add_ideas = RUS_fr_mobility_basic_result
-	set_country_flag = RUS_fr_mobility_line_finished
 }
 
 RUS_fr_apply_committee_base_bonuses = {
