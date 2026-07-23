@@ -59,6 +59,41 @@ RUS_fr_update_timoshenko_decision_costs = {
 	multiply_variable = { RUS_fr_xp_cost_100_negative = -1 }
 }
 
+RUS_fr_apply_timoshenko_armaments_specialisation_trait = {
+	if = {
+		limit = {
+			has_country_flag = RUS_fr_specialise_armaments
+			NOT = { has_country_flag = RUS_fr_timoshenko_armaments_trait_applied }
+		}
+		remove_trait = {
+			character = RUS_semyon_timoshenko
+			slot = theorist
+			trait = RUS_fr_timoshenko_reform_theorist
+		}
+		remove_trait = {
+			character = RUS_semyon_timoshenko
+			slot = theorist
+			trait = RUS_fr_timoshenko_reform_theorist_reformed
+		}
+		if = {
+			limit = { has_country_flag = RUS_fr_reform_stage_4 }
+			add_trait = {
+				character = RUS_semyon_timoshenko
+				slot = theorist
+				trait = RUS_fr_timoshenko_reform_theorist_reformed_armaments
+			}
+		}
+		else = {
+			add_trait = {
+				character = RUS_semyon_timoshenko
+				slot = theorist
+				trait = RUS_fr_timoshenko_reform_theorist_armaments
+			}
+		}
+		set_country_flag = RUS_fr_timoshenko_armaments_trait_applied
+	}
+}
+
 RUS_fr_show_unified_leadership_legacy_rewards = {
 	effect_tooltip = {
 		add_doctrine_cost_reduction = {

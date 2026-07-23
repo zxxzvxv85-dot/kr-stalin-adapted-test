@@ -189,15 +189,30 @@ RUS_fr_military_reform_decisions = {
 			set_country_flag = RUS_fr_basic_reform_completed
 			custom_effect_tooltip = RUS_fr_timoshenko_stage_four_upgrade_tt
 			hidden_effect = {
-				remove_trait = {
-					character = RUS_semyon_timoshenko
-					slot = theorist
-					trait = RUS_fr_timoshenko_reform_theorist
+				if = {
+					limit = { has_country_flag = RUS_fr_specialise_armaments }
+					remove_trait = {
+						character = RUS_semyon_timoshenko
+						slot = theorist
+						trait = RUS_fr_timoshenko_reform_theorist_armaments
+					}
+					add_trait = {
+						character = RUS_semyon_timoshenko
+						slot = theorist
+						trait = RUS_fr_timoshenko_reform_theorist_reformed_armaments
+					}
 				}
-				add_trait = {
-					character = RUS_semyon_timoshenko
-					slot = theorist
-					trait = RUS_fr_timoshenko_reform_theorist_reformed
+				else = {
+					remove_trait = {
+						character = RUS_semyon_timoshenko
+						slot = theorist
+						trait = RUS_fr_timoshenko_reform_theorist
+					}
+					add_trait = {
+						character = RUS_semyon_timoshenko
+						slot = theorist
+						trait = RUS_fr_timoshenko_reform_theorist_reformed
+					}
 				}
 			}
 		}
