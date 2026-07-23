@@ -733,6 +733,7 @@ RUS_fr_consolidate_armaments_construction_results = {
 			limit = { has_idea = RUS_fr_land_warfare_mainstay_idea }
 			add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 }
 			add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 }
+			add_ideas = RUS_fr_hidden_armour_basic_result
 			remove_ideas = RUS_fr_land_warfare_mainstay_idea
 			if = {
 				limit = { has_country_flag = RUS_fr_tank_destroyer_structural_results has_country_flag = RUS_fr_specialise_armour }
@@ -747,6 +748,12 @@ RUS_fr_consolidate_armaments_construction_results = {
 				add_ideas = RUS_fr_unified_armaments_equipment_standard_priority_idea
 			}
 			else = { add_ideas = RUS_fr_unified_armaments_equipment_standard_idea }
+		}
+		if = {
+			limit = { NOT = { has_country_flag = RUS_fr_land_warfare_general_penalty_merged } }
+			add_to_variable = { RUS_fr_unified_attack_factor = -0.05 }
+			add_to_variable = { RUS_fr_unified_defence_factor = -0.05 }
+			set_country_flag = RUS_fr_land_warfare_general_penalty_merged
 		}
 
 		if = {
