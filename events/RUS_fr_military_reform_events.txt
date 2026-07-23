@@ -370,6 +370,16 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
+				has_dlc_aat = yes
+				has_completed_focus = RUS_fr_alloy_armour_standard
+				has_country_flag = RUS_fr_specialise_armour
+				NOT = { has_country_flag = RUS_fr_chtz_uncapped_existing_trait_checked }
+			}
+			mio:RUS_chtz_organisation = { RUS_fr_apply_chtz_uncapped_existing_trait_bonus = yes }
+			set_country_flag = RUS_fr_chtz_uncapped_existing_trait_checked
+		}
+		if = {
+			limit = {
 				has_completed_focus = RUS_fr_ergonomic_tolerance_standards
 				has_country_flag = RUS_fr_specialise_armaments
 				has_idea = RUS_fr_ergonomic_infantry_equipment_idea
