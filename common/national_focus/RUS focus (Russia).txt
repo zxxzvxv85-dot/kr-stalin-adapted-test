@@ -28760,7 +28760,13 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_12_military_reform_materials = yes
 		}
-		completion_reward = { add_ideas = RUS_fr_ergonomic_infantry_equipment_idea }
+		completion_reward = {
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_armaments }
+				add_ideas = RUS_fr_ergonomic_infantry_equipment_priority_idea
+			}
+			else = { add_ideas = RUS_fr_ergonomic_infantry_equipment_idea }
+		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 	}
 

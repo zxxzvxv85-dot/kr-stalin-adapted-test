@@ -190,6 +190,12 @@ RUS_fr_has_unconsolidated_armaments_results = {
 		NOT = { has_country_flag = RUS_fr_land_warfare_general_penalty_merged }
 		has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
 		has_idea = RUS_fr_ergonomic_infantry_equipment_idea
+		has_idea = RUS_fr_ergonomic_infantry_equipment_priority_idea
+		AND = {
+			has_completed_focus = RUS_fr_ergonomic_tolerance_standards
+			has_country_flag = RUS_fr_specialise_armaments
+			NOT = { has_idea = RUS_fr_hidden_ergonomic_infantry_equipment_priority }
+		}
 		has_idea = RUS_fr_support_fire_joint_trials_idea
 		has_idea = RUS_fr_armaments_priority_support_tradeoffs_idea
 		has_idea = RUS_fr_light_infantry_load_standard_idea

@@ -370,6 +370,18 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
+				has_completed_focus = RUS_fr_ergonomic_tolerance_standards
+				has_country_flag = RUS_fr_specialise_armaments
+				has_idea = RUS_fr_ergonomic_infantry_equipment_idea
+				NOT = { has_idea = RUS_fr_ergonomic_infantry_equipment_priority_idea }
+			}
+			swap_ideas = {
+				remove_idea = RUS_fr_ergonomic_infantry_equipment_idea
+				add_idea = RUS_fr_ergonomic_infantry_equipment_priority_idea
+			}
+		}
+		if = {
+			limit = {
 				has_completed_focus = RUS_fr_vehicle_manufacturing_integration
 				has_country_flag = RUS_fr_specialise_mobility
 				has_idea = RUS_fr_vehicle_manufacturing_integration_idea

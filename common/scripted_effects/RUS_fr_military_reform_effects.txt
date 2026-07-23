@@ -596,6 +596,22 @@ RUS_fr_consolidate_armaments_construction_results = {
 			remove_ideas = RUS_fr_ergonomic_infantry_equipment_idea
 		}
 		if = {
+			limit = { has_idea = RUS_fr_ergonomic_infantry_equipment_priority_idea }
+			add_ideas = RUS_fr_hidden_ergonomic_infantry_equipment_priority
+			remove_ideas = RUS_fr_ergonomic_infantry_equipment_priority_idea
+		}
+		if = {
+			limit = {
+				has_completed_focus = RUS_fr_ergonomic_tolerance_standards
+				has_country_flag = RUS_fr_specialise_armaments
+			}
+			remove_ideas = RUS_fr_hidden_ergonomic_infantry_equipment
+			if = {
+				limit = { NOT = { has_idea = RUS_fr_hidden_ergonomic_infantry_equipment_priority } }
+				add_ideas = RUS_fr_hidden_ergonomic_infantry_equipment_priority
+			}
+		}
+		if = {
 			limit = { has_idea = RUS_fr_support_fire_joint_trials_idea }
 			add_to_variable = { RUS_fr_unified_artillery_attack_factor = 0.05 }
 			add_ideas = RUS_fr_hidden_support_fire_joint_trials
