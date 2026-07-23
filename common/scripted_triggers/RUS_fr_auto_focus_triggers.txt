@@ -201,6 +201,11 @@ RUS_fr_has_unconsolidated_armaments_results = {
 		has_idea = RUS_fr_light_infantry_load_standard_idea
 		has_idea = RUS_fr_divisional_artillery_priority_idea
 		has_idea = RUS_fr_armaments_system_priority_idea
+		AND = {
+			has_completed_focus = RUS_fr_combined_arms_support_standard
+			has_country_flag = RUS_fr_specialise_armaments
+			NOT = { has_country_flag = RUS_fr_armaments_system_force_structure_bonus_merged }
+		}
 		has_idea = RUS_fr_katyusha_rocket_artillery_idea
 		has_idea = RUS_fr_armaments_basic_result
 		has_idea = RUS_fr_mobility_basic_result
