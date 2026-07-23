@@ -370,6 +370,18 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
+				has_completed_focus = RUS_fr_vehicle_manufacturing_integration
+				has_country_flag = RUS_fr_specialise_mobility
+				has_idea = RUS_fr_vehicle_manufacturing_integration_idea
+				NOT = { has_idea = RUS_fr_vehicle_manufacturing_integration_priority_idea }
+			}
+			swap_ideas = {
+				remove_idea = RUS_fr_vehicle_manufacturing_integration_idea
+				add_idea = RUS_fr_vehicle_manufacturing_integration_priority_idea
+			}
+		}
+		if = {
+			limit = {
 				has_completed_focus = RUS_fr_rapid_operational_corps
 				has_country_flag = RUS_fr_specialise_mobility
 				NOT = { has_tech = RUS_fr_mobility_priority_improved_logistics_bonus }

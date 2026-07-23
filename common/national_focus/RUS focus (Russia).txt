@@ -29007,7 +29007,13 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_12_military_reform_materials = yes
 		}
-		completion_reward = { add_ideas = RUS_fr_vehicle_manufacturing_integration_idea }
+		completion_reward = {
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_mobility }
+				add_ideas = RUS_fr_vehicle_manufacturing_integration_priority_idea
+			}
+			else = { add_ideas = RUS_fr_vehicle_manufacturing_integration_idea }
+		}
 		search_filters = { FOCUS_FILTER_PRODUCTION }
 	}
 

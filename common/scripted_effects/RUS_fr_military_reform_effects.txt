@@ -662,6 +662,21 @@ RUS_fr_consolidate_armaments_construction_results = {
 			remove_ideas = RUS_fr_vehicle_manufacturing_integration_idea
 		}
 		if = {
+			limit = { has_idea = RUS_fr_vehicle_manufacturing_integration_priority_idea }
+			add_ideas = RUS_fr_hidden_vehicle_manufacturing_integration
+			remove_ideas = RUS_fr_vehicle_manufacturing_integration_priority_idea
+		}
+		if = {
+			limit = {
+				has_completed_focus = RUS_fr_vehicle_manufacturing_integration
+				has_country_flag = RUS_fr_specialise_mobility
+				NOT = { has_country_flag = RUS_fr_vehicle_manufacturing_mobility_bonus_merged }
+			}
+			add_to_variable = { RUS_fr_unified_mechanized_attack_factor = 0.05 }
+			add_to_variable = { RUS_fr_unified_mechanized_defence_factor = 0.05 }
+			set_country_flag = RUS_fr_vehicle_manufacturing_mobility_bonus_merged
+		}
+		if = {
 			limit = { has_idea = RUS_fr_air_assault_brigades_idea }
 			add_to_variable = { RUS_fr_unified_consumer_goods_factor = 0.10 }
 			add_to_variable = { RUS_fr_unified_army_attack_speed_factor = 0.10 }
