@@ -29108,7 +29108,19 @@ focus_tree = {
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_20_military_reform_materials = yes
 		}
-		completion_reward = { RUS_fr_complete_mobility_legacy_focuses = yes }
+		completion_reward = {
+			RUS_fr_complete_mobility_legacy_focuses = yes
+			custom_effect_tooltip = RUS_fr_mobility_priority_logistics_bonus_tt
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = RUS_fr_specialise_mobility }
+					set_technology = {
+						RUS_fr_mobility_priority_improved_logistics_bonus = 1
+						popup = no
+					}
+				}
+			}
+		}
 		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_ARMY_BONUS }
 	}
 

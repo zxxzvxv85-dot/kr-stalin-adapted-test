@@ -370,6 +370,17 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
+				has_completed_focus = RUS_fr_rapid_operational_corps
+				has_country_flag = RUS_fr_specialise_mobility
+				NOT = { has_tech = RUS_fr_mobility_priority_improved_logistics_bonus }
+			}
+			set_technology = {
+				RUS_fr_mobility_priority_improved_logistics_bonus = 1
+				popup = no
+			}
+		}
+		if = {
+			limit = {
 				has_idea = RUS_fr_land_warfare_mainstay_idea
 				has_idea = RUS_fr_armour_basic_result
 			}
