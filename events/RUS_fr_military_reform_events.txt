@@ -370,6 +370,32 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
+				has_idea = RUS_military_production_idea_3
+				OR = {
+					has_completed_focus = RUS_fr_rapid_operational_corps
+					has_completed_focus = RUS_fr_deep_mobility_program
+				}
+			}
+			swap_ideas = {
+				remove_idea = RUS_military_production_idea_3
+				add_idea = RUS_military_production_idea_2
+			}
+		}
+		if = {
+			limit = {
+				has_idea = RUS_military_production_idea_4
+				OR = {
+					has_completed_focus = RUS_fr_rapid_operational_corps
+					has_completed_focus = RUS_fr_deep_mobility_program
+				}
+			}
+			swap_ideas = {
+				remove_idea = RUS_military_production_idea_4
+				add_idea = RUS_military_production_idea_2
+			}
+		}
+		if = {
+			limit = {
 				has_completed_focus = RUS_fr_armaments_construction_stage_summary
 				RUS_fr_has_unconsolidated_armaments_results = yes
 			}

@@ -368,10 +368,6 @@ RUS_fr_show_land_warfare_legacy_rewards = {
 
 RUS_fr_show_mobility_legacy_rewards = {
 	effect_tooltip = {
-		swap_ideas = {
-			remove_idea = RUS_military_production_idea_2
-			add_idea = RUS_military_production_idea_4
-		}
 		custom_effect_tooltip = RUS_tank_design_focus_tt
 		RUS_spawn_light_tanks = yes
 		if = {
@@ -437,17 +433,6 @@ RUS_fr_complete_mobility_legacy_focuses = {
 			has_country_flag = RUS_fr_motorisation_rewards_deferred
 			NOT = { has_country_flag = RUS_fr_motorisation_deferred_rewards_applied }
 		}
-		if = {
-			limit = { has_idea = RUS_military_production_idea_2 }
-			swap_ideas = {
-				remove_idea = RUS_military_production_idea_2
-				add_idea = RUS_military_production_idea_4
-			}
-		}
-		else_if = {
-			limit = { NOT = { has_idea = RUS_military_production_idea_4 } }
-			add_ideas = RUS_military_production_idea_4
-		}
 		RUS_spawn_light_tanks = yes
 		if = {
 			limit = { NOT = { is_special_project_completed = sp:sp_land_military_engineering_vehicles } }
@@ -455,12 +440,20 @@ RUS_fr_complete_mobility_legacy_focuses = {
 		}
 		set_country_flag = RUS_fr_motorisation_deferred_rewards_applied
 	}
-	if = {
-		limit = { has_idea = RUS_military_production_idea_3 }
-		remove_ideas = RUS_military_production_idea_3
+	hidden_effect = {
 		if = {
-			limit = { NOT = { has_idea = RUS_military_production_idea_4 } }
-			add_ideas = RUS_military_production_idea_4
+			limit = { has_idea = RUS_military_production_idea_3 }
+			swap_ideas = {
+				remove_idea = RUS_military_production_idea_3
+				add_idea = RUS_military_production_idea_2
+			}
+		}
+		if = {
+			limit = { has_idea = RUS_military_production_idea_4 }
+			swap_ideas = {
+				remove_idea = RUS_military_production_idea_4
+				add_idea = RUS_military_production_idea_2
+			}
 		}
 	}
 	add_ideas = RUS_fr_mobility_basic_result
