@@ -656,28 +656,40 @@ RUS_fr_apply_armoured_firepower_coordination_bonus = {
 		add_to_variable = { RUS_fr_unified_armor_attack_factor = RUS_fr_armour_increment tooltip = army_armor_attack_factor_tt }
 		add_to_variable = { RUS_fr_unified_armor_defence_factor = RUS_fr_armour_increment tooltip = army_armor_defence_factor_tt }
 	}
+	# Other armaments focuses provide a net 10% armour bonus, while this repeatable
+	# decision may contribute at most another 15%; the final displayed ceiling is 25%.
+	if = {
+		limit = { check_variable = { RUS_fr_unified_armor_attack_factor > 0.25 } }
+		set_variable = { RUS_fr_unified_armor_attack_factor = 0.25 }
+	}
+	if = {
+		limit = { check_variable = { RUS_fr_unified_armor_defence_factor > 0.25 } }
+		set_variable = { RUS_fr_unified_armor_defence_factor = 0.25 }
+	}
 	force_update_dynamic_modifier = yes
 }
 
-# Repair the already observed legacy save where two 9% completions were both
-# written into the unified modifier before the tracking variable was clamped.
+# Keep the decision tracker within 15% and the final unified armour values within
+# 25% (10% from the focus line plus 15% from the repeatable decision). This runs
+# from the weekly recovery controller, so existing overflow is also corrected.
 RUS_fr_repair_legacy_armoured_firepower_overflow = {
 	if = {
 		limit = {
-			NOT = { has_country_flag = RUS_fr_legacy_armoured_firepower_cap_repaired }
 			has_variable = RUS_fr_armoured_firepower_bonus
-			check_variable = { RUS_fr_armoured_firepower_bonus > 0.149 }
-			check_variable = { RUS_fr_unified_armor_attack_factor > 0.279 }
-			check_variable = { RUS_fr_unified_armor_attack_factor < 0.281 }
-			check_variable = { RUS_fr_unified_armor_defence_factor > 0.279 }
-			check_variable = { RUS_fr_unified_armor_defence_factor < 0.281 }
+			check_variable = { RUS_fr_armoured_firepower_bonus > 0.15 }
 		}
-		add_to_variable = { RUS_fr_unified_armor_attack_factor = -0.03 }
-		add_to_variable = { RUS_fr_unified_armor_defence_factor = -0.03 }
 		set_variable = { RUS_fr_armoured_firepower_bonus = 0.15 }
+	}
+	if = {
+		limit = { check_variable = { RUS_fr_unified_armor_attack_factor > 0.25 } }
+		set_variable = { RUS_fr_unified_armor_attack_factor = 0.25 }
 		force_update_dynamic_modifier = yes
 	}
-	set_country_flag = RUS_fr_legacy_armoured_firepower_cap_repaired
+	if = {
+		limit = { check_variable = { RUS_fr_unified_armor_defence_factor > 0.25 } }
+		set_variable = { RUS_fr_unified_armor_defence_factor = 0.25 }
+		force_update_dynamic_modifier = yes
+	}
 }
 
 # Correct saves created while Communist popularity was applied at full value

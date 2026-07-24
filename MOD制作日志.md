@@ -352,6 +352,8 @@ mio:RUS_example_organization = {
 - RHoiScribe 混合扫描仍会对 KR 大型覆盖项目产生大量 CWT 基线误报。当前扫描没有 `brace_balance` 或 `unclosed_block` 阻断项，`git diff --check` 通过；不得根据总红灯数量自动修复。
 - 新增项目级 `AGENTS.md`，固化只修改本地测试副本、保护现有 Git 脏工作区、订阅目录只读、本地化编码和验证流程等约束。
 - 将用户确认的红军列队油画原图直接设为测试版主菜单背景。源图以 `gfx/loadingscreens/RUS_stalin_main_menu_source.png` 保存，尺寸为 `2048x1152`、比例为16:9；转换后的 `RUS_stalin_main_menu.dds` 与源PNG逐像素一致，未进行裁剪、拉伸、扩图或调色。此前生成的裁剪与扩图文件仅为未引用草稿，不得作为当前主菜单资源。
+- 核对 GitHub 与本地测试版的主菜单 DDS 和源 PNG，SHA-256 分别一致；保留该背景资源，并将 `frontendmainviewbg.gfx` 的画布尺寸调整为 `1920x1080`，与16:9源图一致。未引用的扩图草稿不纳入 GitHub。
+- 合并本地尚未同步的军改修正：装甲火力协调决议的累计贡献封顶为15%，统一装甲攻击与防御最终封顶为25%，每周恢复逻辑会纠正已有溢出；军备委员会报告中的正向统计数字改用绿色强调。
 
 ### 2026-07-22
 
