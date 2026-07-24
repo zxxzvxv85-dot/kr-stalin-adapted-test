@@ -10,5 +10,5 @@ tags={
 }
 name="[KR] 多么幼稚的幻想，但是斯大林 - 测试版"
 picture="thumbnail.png"
-supported_version="1.19.*"
+supported_version="1.19.2.0"
 remote_file_id="3746983015"

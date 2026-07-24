@@ -2193,19 +2193,10 @@ focus_tree = {
 	focus = {
 		id = RUS_controlling_the_military
 		icon = {
-			trigger = { RUS_sergey_markov = { is_army_chief = yes } }
-			value = GFX_goal_RUS_markov
-		}
-		icon = {
-			trigger = { RUS_pyotr_wrangel = { is_army_chief = yes } }
-			value = GFX_goal_RUS_wrangel
-		}
-		icon = {
-			trigger = { RUS_lavr_kornilov = { is_army_chief = yes } }
-			value = GFX_goal_RUS_kornilov
-		}
-		icon = {
-			value = GFX_goal_RUS_denikin
+			GFX_goal_RUS_markov = { RUS_sergey_markov = { is_army_chief = yes } }
+			GFX_goal_RUS_wrangel = { RUS_pyotr_wrangel = { is_army_chief = yes } }
+			GFX_goal_RUS_kornilov = { RUS_lavr_kornilov = { is_army_chief = yes } }
+			GFX_goal_RUS_denikin = yes
 		}
 		dynamic = yes
 		cost = 6
@@ -7445,12 +7436,8 @@ focus_tree = {
 	focus = {
 		id = RUS_triumphant_russian_nation
 		icon = {
-			trigger = { is_monarchy = yes }
-			value = GFX_goal_RUS_empire_victorious
-		}
-		icon = {
-			trigger = { is_monarchy = no }
-			value = GFX_goal_RUS_republic_victorious
+			GFX_goal_RUS_empire_victorious = { is_monarchy = yes }
+			GFX_goal_RUS_republic_victorious = yes
 		}
 		cost = 6
 		dynamic = yes
@@ -8013,12 +8000,8 @@ focus_tree = {
 	focus = {
 		id = RUS_social_republic
 		icon = {
-			trigger = { is_monarchy = no }
-			value = GFX_focus_ARG_women_in_industry
-		}
-		icon = {
-			trigger = { is_monarchy = yes }
-			value = GFX_focus_SWE_form_rfsu
+			GFX_focus_ARG_women_in_industry = { is_monarchy = no }
+			GFX_focus_SWE_form_rfsu = yes
 		}
 		dynamic = yes
 		cost = 5
@@ -10228,12 +10211,8 @@ focus_tree = {
 	focus = {
 		id = RUS_embolden_the_revolutionary_spirit
 		icon = {
-			trigger = { RUS_is_maximalist = no }
-			value = GFX_goal_generic_revolutionary_government
-		}
-		icon = {
-			trigger = { RUS_is_maximalist = yes }
-			value = GFX_goal_ideology_totalist
+			GFX_goal_generic_revolutionary_government = { RUS_is_maximalist = no }
+			GFX_goal_ideology_totalist = yes
 		}
 		cost = 3
 
@@ -15890,12 +15869,8 @@ focus_tree = {
 	focus = {
 		id = RUS_centre_victory
 		icon = {
-			trigger = { has_completed_focus = RUS_devolution_party }
-			value = GFX_focus_ARG_no_gods_no_masters
-		}
-		icon = {
-			trigger = { NOT = { has_completed_focus = RUS_devolution_party } }
-			value = GFX_focus_NORDIC_com_institution_1
+			GFX_focus_ARG_no_gods_no_masters = { has_completed_focus = RUS_devolution_party }
+			GFX_focus_NORDIC_com_institution_1 = yes
 		}
 		cost = 5
 		allow_branch = { always = no }
@@ -16905,12 +16880,8 @@ focus_tree = {
 	focus = {
 		id = RUS_address_the_army
 		icon = {
-			trigger = { has_socialist_government = no }
-			value = GFX_goal_RUS_army
-		}
-		icon = {
-			trigger = { has_socialist_government = yes }
-			value = GFX_goal_RUS_army_socialist
+			GFX_goal_RUS_army = { has_socialist_government = no }
+			GFX_goal_RUS_army_socialist = yes
 		}
 		cost = 3
 
@@ -24399,12 +24370,8 @@ focus_tree = {
 	focus = {
 		id = RUS_evaluate_VVFR
 		icon = {
-			trigger = { has_socialist_government = no }
-			value = GFX_goal_RUS_airforce
-		}
-		icon = {
-			trigger = { has_socialist_government = yes }
-			value = GFX_goal_RUS_airforce_socialist
+			GFX_goal_RUS_airforce = { has_socialist_government = no }
+			GFX_goal_RUS_airforce_socialist = yes
 		}
 		cost = 4
 
@@ -25207,12 +25174,8 @@ focus_tree = {
 	focus = {
 		id = RUS_create_the_VDV
 		icon = {
-			trigger = { has_socialist_government = no }
-			value = GFX_goal_RUS_vdv
-		}
-		icon = {
-			trigger = { has_socialist_government = yes }
-			value = GFX_focus_DEN_sovaernets_operative_kommando
+			GFX_goal_RUS_vdv = { has_socialist_government = no }
+			GFX_focus_DEN_sovaernets_operative_kommando = yes
 		}
 		cost = 5
 
@@ -25230,7 +25193,7 @@ focus_tree = {
 				name = RUS_create_the_VDV
 				cost_reduction = 0.5
 				uses = 2
-				category = cat_paratroopers_doctrine
+				category = special_forces_doctrine
 			}
 			custom_override_tooltip = {
 				tooltip = {
@@ -25596,12 +25559,8 @@ focus_tree = {
 	focus = {
 		id = RUS_inspect_VMFR
 		icon = {
-			trigger = { has_socialist_government = no }
-			value = GFX_goal_RUS_navy
-		}
-		icon = {
-			trigger = { has_socialist_government = yes }
-			value = GFX_goal_RUS_navy_socialist
+			GFX_goal_RUS_navy = { has_socialist_government = no }
+			GFX_goal_RUS_navy_socialist = yes
 		}
 		cost = 4
 
@@ -29457,7 +29416,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_armaments_summary_integration_tt
 			hidden_effect = { RUS_fr_consolidate_armaments_construction_results = yes }
-			country_event = { id = RUS_fr_military_reform.90 days = 1 }
+			country_event = { id = RUS_fr_military_reform.90 hours = 1 }
 		}
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_BONUS }
 	}

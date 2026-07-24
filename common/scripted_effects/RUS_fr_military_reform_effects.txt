@@ -65,15 +65,21 @@ RUS_fr_apply_timoshenko_armaments_specialisation_trait = {
 			has_country_flag = RUS_fr_specialise_armaments
 			NOT = { has_country_flag = RUS_fr_timoshenko_armaments_trait_applied }
 		}
-		remove_trait = {
-			character = RUS_semyon_timoshenko
-			slot = theorist
-			trait = RUS_fr_timoshenko_reform_theorist
+		if = {
+			limit = { RUS_semyon_timoshenko = { has_trait = RUS_fr_timoshenko_reform_theorist } }
+			remove_trait = {
+				character = RUS_semyon_timoshenko
+				slot = theorist
+				trait = RUS_fr_timoshenko_reform_theorist
+			}
 		}
-		remove_trait = {
-			character = RUS_semyon_timoshenko
-			slot = theorist
-			trait = RUS_fr_timoshenko_reform_theorist_reformed
+		if = {
+			limit = { RUS_semyon_timoshenko = { has_trait = RUS_fr_timoshenko_reform_theorist_reformed } }
+			remove_trait = {
+				character = RUS_semyon_timoshenko
+				slot = theorist
+				trait = RUS_fr_timoshenko_reform_theorist_reformed
+			}
 		}
 		if = {
 			limit = { has_country_flag = RUS_fr_reform_stage_4 }
@@ -634,10 +640,9 @@ RUS_fr_apply_armoured_firepower_coordination_bonus = {
 	}
 	clamp_variable = { var = RUS_fr_armoured_firepower_bonus min = 0 max = 0.15 }
 	set_temp_variable = { RUS_fr_armour_increment = party_popularity@communist }
-
-	# party_popularity uses one tenth of the displayed percentage: at 60%
-	# support it returns 0.06.  Using it directly therefore grants 6%, i.e.
-	# one tenth of the displayed Communist support.
+	# Party popularity is stored as a 0-1 fraction. Multiplying it by 0.1
+	# grants one tenth of the displayed Communist support: 9.02% becomes 0.902%.
+	multiply_temp_variable = { RUS_fr_armour_increment = 0.1 }
 	add_to_variable = { RUS_fr_armoured_firepower_bonus = RUS_fr_armour_increment }
 	if = {
 		limit = { check_variable = { RUS_fr_armoured_firepower_bonus > 0.15 } }
@@ -673,6 +678,26 @@ RUS_fr_repair_legacy_armoured_firepower_overflow = {
 		force_update_dynamic_modifier = yes
 	}
 	set_country_flag = RUS_fr_legacy_armoured_firepower_cap_repaired
+}
+
+# Correct saves created while Communist popularity was applied at full value
+# instead of the intended one-tenth value. The tracked contribution is reduced
+# together with the values already merged into the unified reform modifier.
+RUS_fr_repair_legacy_armoured_firepower_scaling = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = RUS_fr_legacy_armoured_firepower_scaling_repaired }
+			has_variable = RUS_fr_armoured_firepower_bonus
+			check_variable = { RUS_fr_armoured_firepower_bonus > 0 }
+		}
+		set_temp_variable = { RUS_fr_armoured_firepower_legacy_reduction = RUS_fr_armoured_firepower_bonus }
+		multiply_temp_variable = { RUS_fr_armoured_firepower_legacy_reduction = 0.9 }
+		subtract_from_variable = { var = RUS_fr_unified_armor_attack_factor value = RUS_fr_armoured_firepower_legacy_reduction }
+		subtract_from_variable = { var = RUS_fr_unified_armor_defence_factor value = RUS_fr_armoured_firepower_legacy_reduction }
+		multiply_variable = { RUS_fr_armoured_firepower_bonus = 0.1 }
+		force_update_dynamic_modifier = yes
+	}
+	set_country_flag = RUS_fr_legacy_armoured_firepower_scaling_repaired
 }
 
 RUS_fr_consolidate_armaments_construction_results = {
@@ -1136,8 +1161,8 @@ RUS_fr_initialise_unified_army_reform = {
 		}
 		clr_country_flag = RUS_fr_officer_training_penalty
 		set_country_flag = RUS_fr_officer_training_reformed
-		every_army_leader = {
-			limit = { has_unit_leader_trait = RUS_fr_fragmented_officer_training }
+	every_army_leader = {
+				limit = { has_trait = RUS_fr_fragmented_officer_training }
 			remove_unit_leader_trait = RUS_fr_fragmented_officer_training
 		}
 

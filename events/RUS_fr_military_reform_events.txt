@@ -132,13 +132,11 @@ country_event = {
 	picture = GFX_report_event_generic_factory
 	is_triggered_only = yes
 	trigger = {
-		has_completed_focus = RUS_fr_revolutionary_military_system_finalised
 		has_completed_focus = RUS_fr_armaments_construction_stage_summary
-		has_country_flag = RUS_fr_armaments_line_finished
-		has_country_flag = RUS_fr_mobility_line_finished
-		has_country_flag = RUS_fr_armour_line_finished
+		NOT = { has_country_flag = RUS_fr_armaments_summary_event_opened }
 		NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
 	}
+	immediate = { set_country_flag = RUS_fr_armaments_summary_event_opened }
 
 	option = {
 		name = RUS_fr_military_reform.90.a
@@ -373,6 +371,7 @@ country_event = {
 		RUS_fr_repair_legacy_ergonomic_priority_combat_bonus = yes
 		RUS_fr_repair_legacy_armaments_system_infantry_bonus = yes
 		RUS_fr_repair_legacy_armoured_firepower_overflow = yes
+		RUS_fr_repair_legacy_armoured_firepower_scaling = yes
 		if = {
 			limit = {
 				has_dlc_aat = yes
@@ -467,6 +466,6 @@ country_event = {
 			country_event = { id = RUS_fr_military_reform.100 hours = 1 }
 		}
 		if = { limit = { has_completed_focus = RUS_fr_revolutionary_military_system_finalised has_country_flag = RUS_fr_armaments_line_finished has_country_flag = RUS_fr_mobility_line_finished has_country_flag = RUS_fr_armour_line_finished NOT = { has_completed_focus = RUS_fr_armaments_construction_stage_summary } NOT = { has_shine_effect_on_focus = RUS_fr_armaments_construction_stage_summary } OR = { NOT = { has_country_flag = RUS_fr_summary_controller_started } has_country_flag = RUS_fr_summary_waiting_for_materials } } country_event = { id = RUS_fr_military_reform.400 hours = 1 } }
-		if = { limit = { has_completed_focus = RUS_fr_armaments_construction_stage_summary NOT = { has_country_flag = RUS_fr_armaments_summary_complete } } country_event = { id = RUS_fr_military_reform.90 hours = 1 } }
+		if = { limit = { has_completed_focus = RUS_fr_armaments_construction_stage_summary NOT = { has_country_flag = RUS_fr_armaments_summary_event_opened } NOT = { has_country_flag = RUS_fr_armaments_summary_complete } } country_event = { id = RUS_fr_military_reform.90 hours = 1 } }
 	}
 }

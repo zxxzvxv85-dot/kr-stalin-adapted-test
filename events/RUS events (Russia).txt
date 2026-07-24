@@ -61,10 +61,6 @@ country_event = { #This is how AI picks paths.
 				NOT = { has_game_rule = { rule = RUS_aftermath option = RUS_AFTERMATH_REG } }
 				NOT = { has_game_rule = { rule = RUS_aftermath option = RUS_AFTERMATH_NOT_SOC } }
 			}
-			modifier = {
-				factor = 0
-				has_game_rule = { rule = RUS_path option = RUS_PATH_STALIN_TOTALIST }
-			}
 		}
 		set_country_flag = RUS_savinkov_ai
 		country_event = { id = russia_events.10001 hours = 6 }
@@ -79,10 +75,6 @@ country_event = { #This is how AI picks paths.
 				NOT = { has_game_rule = { rule = RUS_aftermath option = DEFAULT } }
 				NOT = { has_game_rule = { rule = RUS_aftermath option = RUS_AFTERMATH_REP } }
 				NOT = { has_game_rule = { rule = RUS_aftermath option = RUS_AFTERMATH_NOT_SOC } }
-			}
-			modifier = {
-				factor = 0
-				has_game_rule = { rule = RUS_path option = RUS_PATH_STALIN_TOTALIST }
 			}
 		}
 		set_country_flag = RUS_republic_ai
@@ -99,10 +91,6 @@ country_event = { #This is how AI picks paths.
 				NOT = { has_game_rule = { rule = RUS_aftermath option = RUS_AFTERMATH_MON } }
 				NOT = { has_game_rule = { rule = RUS_aftermath option = RUS_AFTERMATH_NOT_SOC } }
 			}
-			modifier = {
-				factor = 0
-				has_game_rule = { rule = RUS_path option = RUS_PATH_STALIN_TOTALIST }
-			}
 		}
 		set_country_flag = RUS_empire_ai
 		country_event = { id = russia_events.10004 hours = 6 }
@@ -116,11 +104,6 @@ country_event = { #This is how AI picks paths.
 				factor = 0
 				NOT = { has_game_rule = { rule = RUS_aftermath option = DEFAULT } }
 				NOT = { has_game_rule = { rule = RUS_aftermath option = RUS_AFTERMATH_SOC } }
-				NOT = { has_game_rule = { rule = RUS_path option = RUS_PATH_STALIN_TOTALIST } }
-			}
-			modifier = {
-				add = 1000
-				has_game_rule = { rule = RUS_path option = RUS_PATH_STALIN_TOTALIST }
 			}
 		}
 		set_country_flag = RUS_socialist_ai
@@ -534,7 +517,6 @@ country_event = { #This is how AI picks paths for Socialists.
 			modifier = {
 				factor = 0
 				NOT = { has_game_rule = { rule = RUS_path option = DEFAULT } }
-				NOT = { has_game_rule = { rule = RUS_path option = RUS_PATH_STALIN_TOTALIST } }
 			}
 		}
 		set_country_flag = RUS_zinovyev_ai
@@ -39116,11 +39098,8 @@ country_event = { #Decision for approach to China
 		name = russia_foreign_policy_events.125.b
 		add_political_power = 50
 		set_country_flag = RUS_sino_russian_relations_peaceful
-		if = {
-			limit = { exists = CHN }
-			effect_tooltip = {
-				activate_targeted_decision = { decision = RUS_trade_deal_china target = CHN }
-			}
+		effect_tooltip = {
+			activate_targeted_decision = { decision = RUS_trade_deal_china target = CHN }
 		}
 		LEC_remove_from_legation_council = yes
 	}
@@ -46615,7 +46594,7 @@ country_event = { #Mountain Rifles
 			name = russia_flavour_events.165.t
 			cost_reduction = 0.5
 			uses = 1
-			category = cat_mountaineers_doctrine
+			category = special_forces_doctrine
 		}
 	}
 }

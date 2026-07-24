@@ -1,7 +1,20 @@
-# Country scope. Recruit the static Voroshilov character after the new military entry focus.
+# Country scope. Voroshilov is recruited at game start without a command role;
+# completing the relevant military reform grants his field-marshal role.
 RUS_generate_kliment_voroshilov = {
 	if = {
-		limit = { NOT = { has_character = RUS_kliment_voroshilov } }
-		recruit_character = RUS_kliment_voroshilov
+		limit = {
+			has_character = RUS_kliment_voroshilov
+			RUS_kliment_voroshilov = { is_unit_leader = no }
+		}
+		RUS_kliment_voroshilov = {
+			add_field_marshal_role = {
+				traits = { old_guard inflexible_strategist politically_connected }
+				skill = 4
+				attack_skill = 3
+				defense_skill = 5
+				planning_skill = 4
+				logistics_skill = 6
+			}
+		}
 	}
 }

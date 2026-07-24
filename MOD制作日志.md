@@ -1,6 +1,6 @@
 # [KR] 多么幼稚的幻想，但是斯大林——制作日志与开发备忘
 
-最后更新：2026-07-21
+最后更新：2026-07-24
 
 ## 1. 文档用途
 
@@ -16,8 +16,9 @@
 
 | 用途 | 路径 | 说明 |
 | --- | --- | --- |
-| 适配版（主开发版） | `D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_local` | 日常修改的权威版本 |
-| 测试版 | `D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_test` | 每次完成修改后同步 |
+| 适配版（另一台电脑的原主开发版） | `D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_local` | 当前电脑不存在；恢复前不要把修改写往同名假目录 |
+| 测试版本地开发副本 | `D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_test` | 当前电脑唯一默认可写、当前阶段的权威开发目录 |
+| 已发布测试版快照 | `D:\steam\steamapps\workshop\content\394360\3746983015` | 工坊订阅内容，只读；用于恢复本地开发副本 |
 | 原始订阅模组 | `D:\steam\steamapps\workshop\content\394360\3723313895` | `Stalin Returns - A Kaiserreich Submod`，只作为上游参考，不直接开发 |
 | Kaiserreich | `D:\steam\steamapps\workshop\content\394360\1521695605` | KR 原版脚本、美术与本地化参考 |
 | 霜泽美术馆 | `D:\steam\steamapps\workshop\content\394360\3473772709` | 美术教程、PSD、国策图标与免抠素材 |
@@ -25,10 +26,11 @@
 
 同步原则：
 
-1. 先修改适配版，再将对应文件同步到测试版。
-2. 不覆盖两版之间有意保留的 descriptor、版本号或发布信息差异。
-3. 完成后比较对应文件 SHA-256；应一致的机制文件必须哈希一致。
-4. Steam 订阅目录可能自动更新，不能把唯一开发成果只放在订阅模组目录中。
+1. 当前电脑只修改测试版本地开发副本；在 `kr_stalin_adapted_local` 被明确恢复前，不执行“先改适配版再同步”的旧流程。
+2. 将来恢复适配版后，不覆盖两版之间有意保留的 descriptor、版本号或发布信息差异。
+3. 双版本同步恢复后，完成修改要比较对应文件 SHA-256；应一致的机制文件必须哈希一致。
+4. 所有纯数字 Steam 订阅目录均按只读上游处理，不能把唯一开发成果只放在订阅目录中。
+5. 本地启动器通过 `kr_stalin_adapted_test_local_loader` 的目录联接实时读取开发副本；不要在加载器投影中重复修改文件。
 
 ## 3. 当前已实现内容
 
@@ -340,6 +342,16 @@ mio:RUS_example_organization = {
 - 公开发布使用霜泽美术馆素材前，逐项确认来源与署名要求。
 
 ## 9. 更新记录
+
+### 2026-07-24
+
+- 在新电脑上完整解析两份跨电脑 rollout 记录，共26322行，JSON解析错误为0；恢复了开发路径、工具安装命令、测试约束和未完成事项。
+- 从工坊测试版 `3746983015` 完整复制出本地开发副本 `kr_stalin_adapted_test`，保留 `.git` 历史和发布快照中尚未提交的最新修改。复制前后文件数、总字节数和关键资源哈希一致；原工坊目录未修改。
+- 恢复独立本地加载器 `kr_stalin_adapted_test_local_loader`，以目录联接实时投影 `common`、`events`、`gfx`、`history`、`interface`、`localisation` 和 `music`。在本机实际 HOI4 用户目录中安装无 `remote_file_id` 的外层 `.mod`，当前播放集启用本地加载器而未同时启用订阅测试版。
+- 安装并全局注册 RHoiScribe MCP `v0.4.1`。Windows 可执行文件 SHA-256 为 `0fbff19cf1c0a7655a5220f9f01d2ce2b1cc6156e0ee8abe7485a66f5c9937b7`，与 GitHub Release 一致；服务发现、36项工具目录、知识资源和项目只读扫描通过。
+- RHoiScribe 混合扫描仍会对 KR 大型覆盖项目产生大量 CWT 基线误报。当前扫描没有 `brace_balance` 或 `unclosed_block` 阻断项，`git diff --check` 通过；不得根据总红灯数量自动修复。
+- 新增项目级 `AGENTS.md`，固化只修改本地测试副本、保护现有 Git 脏工作区、订阅目录只读、本地化编码和验证流程等约束。
+- 将用户确认的红军列队油画原图直接设为测试版主菜单背景。源图以 `gfx/loadingscreens/RUS_stalin_main_menu_source.png` 保存，尺寸为 `2048x1152`、比例为16:9；转换后的 `RUS_stalin_main_menu.dds` 与源PNG逐像素一致，未进行裁剪、拉伸、扩图或调色。此前生成的裁剪与扩图文件仅为未引用草稿，不得作为当前主菜单资源。
 
 ### 2026-07-22
 
