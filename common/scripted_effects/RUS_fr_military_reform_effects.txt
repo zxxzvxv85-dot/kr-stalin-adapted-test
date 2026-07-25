@@ -773,6 +773,8 @@ RUS_fr_consolidate_armaments_construction_results = {
 		}
 		if = {
 			limit = { has_idea = RUS_fr_armaments_system_priority_idea }
+			add_to_variable = { RUS_fr_unified_initiative_factor = 0.25 }
+			add_to_variable = { RUS_fr_unified_coordination_bonus = 0.05 }
 			add_to_variable = { RUS_fr_unified_infantry_attack_factor = 0.15 }
 			add_to_variable = { RUS_fr_unified_infantry_defence_factor = 0.15 }
 			add_to_variable = { RUS_fr_unified_armor_attack_factor = -0.05 }
@@ -909,6 +911,8 @@ RUS_fr_consolidate_armaments_construction_results = {
 		}
 		if = {
 			limit = { has_idea = RUS_fr_land_warfare_mainstay_idea }
+			add_to_variable = { RUS_fr_unified_initiative_factor = 0.25 }
+			add_to_variable = { RUS_fr_unified_coordination_bonus = 0.05 }
 			add_to_variable = { RUS_fr_unified_infantry_attack_factor = -0.05 }
 			add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 }
 			add_ideas = RUS_fr_hidden_armour_basic_result
@@ -990,14 +994,46 @@ RUS_fr_repair_legacy_armaments_system_infantry_bonus = {
 	}
 }
 
+RUS_fr_repair_specialisation_ratio_to_ten_percent = {
+	if = {
+		limit = {
+			has_country_flag = RUS_fr_armaments_summary_complete
+			NOT = { has_country_flag = RUS_fr_specialisation_ratio_ten_percent_repaired }
+			has_variable = RUS_fr_specialist_primary_bonus
+			has_variable = RUS_fr_specialist_secondary_bonus
+		}
+		if = {
+			limit = { check_variable = { RUS_fr_specialist_primary_bonus > RUS_fr_specialist_secondary_bonus } }
+			set_temp_variable = { RUS_fr_specialisation_ratio_reduction = RUS_fr_specialist_primary_bonus }
+			subtract_from_variable = { var = RUS_fr_specialisation_ratio_reduction value = RUS_fr_specialist_secondary_bonus }
+			if = {
+				limit = { has_country_flag = RUS_fr_specialise_armaments }
+				subtract_from_variable = { var = RUS_fr_unified_industrial_capacity_factory value = RUS_fr_specialisation_ratio_reduction }
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_fr_specialise_mobility }
+				add_to_variable = { RUS_fr_unified_supply_consumption = RUS_fr_specialisation_ratio_reduction }
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_fr_specialise_armour }
+				subtract_from_variable = { var = RUS_fr_unified_breakthrough_factor value = RUS_fr_specialisation_ratio_reduction }
+			}
+		}
+		set_variable = { RUS_fr_specialist_primary_bonus = RUS_fr_specialist_secondary_bonus }
+		set_variable = { RUS_fr_specialist_negative_bonus = RUS_fr_specialist_secondary_bonus }
+		multiply_variable = { RUS_fr_specialist_negative_bonus = -1 }
+		set_country_flag = RUS_fr_specialisation_ratio_ten_percent_repaired
+		force_update_dynamic_modifier = yes
+	}
+}
+
 RUS_fr_calculate_specialisation_bonus = {
 	set_variable = { RUS_fr_socialist_military_support = party_popularity@totalist }
 	add_to_variable = { RUS_fr_socialist_military_support = party_popularity@communist }
 	set_variable = { RUS_fr_specialist_primary_bonus = RUS_fr_socialist_military_support }
-	multiply_variable = { RUS_fr_specialist_primary_bonus = 0.20 }
-	clamp_variable = { var = RUS_fr_specialist_primary_bonus min = 0 max = 0.20 }
+	multiply_variable = { RUS_fr_specialist_primary_bonus = 0.10 }
+	clamp_variable = { var = RUS_fr_specialist_primary_bonus min = 0 max = 0.10 }
 	set_variable = { RUS_fr_specialist_secondary_bonus = RUS_fr_specialist_primary_bonus }
-	multiply_variable = { RUS_fr_specialist_secondary_bonus = 0.50 }
 	set_variable = { RUS_fr_specialist_negative_bonus = RUS_fr_specialist_primary_bonus }
 	multiply_variable = { RUS_fr_specialist_negative_bonus = -1 }
 }
@@ -1053,6 +1089,8 @@ RUS_fr_initialise_unified_army_reform = {
 		add_to_variable = { RUS_fr_unified_attack_factor = 0.02 }
 		add_to_variable = { RUS_fr_unified_defence_factor = 0.02 }
 		add_to_variable = { RUS_fr_unified_breakthrough_factor = 0.10 }
+		add_to_variable = { RUS_fr_unified_initiative_factor = 0 }
+		add_to_variable = { RUS_fr_unified_coordination_bonus = 0 }
 		add_to_variable = { RUS_fr_unified_command_power_gain = 0 }
 		add_to_variable = { RUS_fr_unified_army_speed = 0 }
 		add_to_variable = { RUS_fr_unified_war_support_factor = 0 }

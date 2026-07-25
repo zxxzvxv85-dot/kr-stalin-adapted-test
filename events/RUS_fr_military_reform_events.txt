@@ -140,6 +140,18 @@ country_event = {
 
 	option = {
 		name = RUS_fr_military_reform.90.a
+		if = {
+			limit = { has_country_flag = RUS_fr_specialise_armaments }
+			custom_effect_tooltip = RUS_fr_armaments_summary_armaments_specialisation_tt
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_fr_specialise_mobility }
+			custom_effect_tooltip = RUS_fr_armaments_summary_mobility_specialisation_tt
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_fr_specialise_armour }
+			custom_effect_tooltip = RUS_fr_armaments_summary_armour_specialisation_tt
+		}
 		RUS_fr_consolidate_armaments_construction_results = yes
 		RUS_fr_apply_committee_base_bonuses = yes
 		RUS_fr_calculate_specialisation_bonus = yes
@@ -368,6 +380,7 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		RUS_fr_apply_timoshenko_armaments_specialisation_trait = yes
+		RUS_fr_repair_specialisation_ratio_to_ten_percent = yes
 		RUS_fr_repair_legacy_ergonomic_priority_combat_bonus = yes
 		RUS_fr_repair_legacy_armaments_system_infantry_bonus = yes
 		RUS_fr_repair_legacy_armoured_firepower_overflow = yes
