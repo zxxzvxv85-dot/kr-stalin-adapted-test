@@ -28586,9 +28586,21 @@ focus_tree = {
 			NOT = { country_exists = GER }
 		}
 		completion_reward = {
+			custom_effect_tooltip = RUS_fr_unlock_invincible_legendary_status_tt
+			hidden_effect = {
+				if = {
+					limit = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform } }
+					remove_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
+				}
+				if = {
+					limit = { NOT = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final } } }
+					add_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
+				}
+			}
 			add_to_variable = { RUS_fr_unified_attack_factor = 0.05 tooltip = army_attack_factor_tt }
 			add_to_variable = { RUS_fr_unified_defence_factor = 0.05 tooltip = army_defence_factor_tt }
 			army_experience = 30
+			force_update_dynamic_modifier = yes
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESEARCH }
 	}

@@ -387,6 +387,16 @@ country_event = {
 		RUS_fr_repair_legacy_armoured_firepower_scaling = yes
 		if = {
 			limit = {
+				has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+				has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
+				NOT = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final } }
+			}
+			remove_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
+			add_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
+			force_update_dynamic_modifier = yes
+		}
+		if = {
+			limit = {
 				has_dlc_aat = yes
 				has_completed_focus = RUS_fr_alloy_armour_standard
 				has_country_flag = RUS_fr_specialise_armour
