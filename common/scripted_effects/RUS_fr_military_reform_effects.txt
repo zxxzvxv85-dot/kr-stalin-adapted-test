@@ -1188,10 +1188,12 @@ RUS_fr_initialise_unified_army_reform = {
 				OR = {
 					has_completed_focus = RUS_comrades_abroad
 					has_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
+					has_idea = RUS_fr_comrades_abroad_interim_bonus_idea
 				}
 			}
 			RUS_fr_apply_comrades_abroad_army_reform_bonus = yes
 		}
+		hidden_effect = { remove_ideas = RUS_fr_comrades_abroad_interim_bonus_idea }
 		hidden_effect = { remove_ideas = RUS_fr_command_merit_system_idea }
 
 		# These ideas only cancel specialist penalties carried by the old
@@ -1328,12 +1330,30 @@ RUS_fr_apply_comrades_abroad_army_reform_bonus = {
 		limit = { NOT = { has_country_flag = RUS_fr_comrades_abroad_reform_bonus_merged } }
 		if = {
 			limit = { has_country_flag = RUS_fr_unified_army_reform_active }
+			hidden_effect = { remove_ideas = RUS_fr_comrades_abroad_interim_bonus_idea }
 			add_to_variable = { RUS_fr_unified_send_volunteer_size = 5 }
 			add_to_variable = { RUS_fr_unified_army_experience_from_volunteers = 0.50 }
 			clr_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
 			set_country_flag = RUS_fr_comrades_abroad_reform_bonus_merged
+			force_update_dynamic_modifier = yes
 		}
-		else = { set_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending }
+		else = {
+			if = {
+				limit = { NOT = { has_idea = RUS_fr_comrades_abroad_interim_bonus_idea } }
+				add_ideas = RUS_fr_comrades_abroad_interim_bonus_idea
+			}
+			set_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
+		}
+	}
+}
+
+RUS_fr_repair_comrades_abroad_army_reform_bonus = {
+	if = {
+		limit = {
+			has_completed_focus = RUS_comrades_abroad
+			NOT = { has_country_flag = RUS_fr_comrades_abroad_reform_bonus_merged }
+		}
+		RUS_fr_apply_comrades_abroad_army_reform_bonus = yes
 	}
 }
 
