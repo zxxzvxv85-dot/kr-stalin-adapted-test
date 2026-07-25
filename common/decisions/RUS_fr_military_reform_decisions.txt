@@ -40,6 +40,233 @@ RUS_fr_military_reform_decisions = {
 		ai_will_do = { factor = 8 }
 	}
 
+	RUS_fr_field_political_agitation = {
+		icon = GFX_decision_generic_political_discourse
+		cost = 25
+		days_re_enable = 90
+		visible = {
+			has_completed_focus = RUS_fr_cadres_decide_everything
+			NOT = { has_idea = RUS_fr_field_political_agitation_idea }
+		}
+		complete_effect = {
+			add_timed_idea = {
+				idea = RUS_fr_field_political_agitation_idea
+				days = 60
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_general_staff_wargames = {
+		icon = GFX_decision_generic_military
+		days_re_enable = 90
+		visible = {
+			has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
+			NOT = { has_idea = RUS_fr_general_staff_wargames_idea }
+		}
+		available = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_25 }
+			NOT = { command_power < 20 }
+		}
+		custom_cost_text = RUS_fr_cost_25_xp_20_cp
+		custom_cost_trigger = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_25 }
+			NOT = { command_power < 20 }
+		}
+		complete_effect = {
+			army_experience = var:RUS_fr_xp_cost_25_negative
+			add_command_power = -20
+			add_timed_idea = {
+				idea = RUS_fr_general_staff_wargames_idea
+				days = 60
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_deep_battle_exercise = {
+		icon = GFX_decision_generic_operation
+		days_re_enable = 90
+		visible = {
+			has_completed_focus = RUS_fr_train_before_expansion
+			NOT = { has_idea = RUS_fr_deep_battle_exercise_idea }
+		}
+		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
+		custom_cost_text = RUS_fr_xp_40
+		custom_cost_trigger = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
+		complete_effect = {
+			army_experience = var:RUS_fr_xp_cost_40_negative
+			add_timed_idea = {
+				idea = RUS_fr_deep_battle_exercise_idea
+				days = 60
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_central_military_liaison = {
+		icon = GFX_decision_generic_political_discourse
+		days_re_enable = 90
+		visible = {
+			has_completed_focus = RUS_fr_unified_military_leadership
+			NOT = { has_idea = RUS_fr_central_military_liaison_idea }
+		}
+		available = {
+			NOT = { has_political_power < 20 }
+			NOT = { command_power < 15 }
+		}
+		custom_cost_text = RUS_fr_cost_20_pp_15_cp
+		custom_cost_trigger = {
+			NOT = { has_political_power < 20 }
+			NOT = { command_power < 15 }
+		}
+		complete_effect = {
+			add_political_power = -20
+			add_command_power = -15
+			add_timed_idea = {
+				idea = RUS_fr_central_military_liaison_idea
+				days = 60
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_academy_research_groups = {
+		icon = GFX_decision_generic_research
+		days_re_enable = 120
+		visible = {
+			has_completed_focus = RUS_fr_frunze_field_regulations
+			NOT = { has_idea = RUS_fr_academy_research_groups_idea }
+		}
+		available = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_30 }
+			NOT = { has_political_power < 15 }
+		}
+		custom_cost_text = RUS_fr_cost_30_xp_15_pp
+		custom_cost_trigger = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_30 }
+			NOT = { has_political_power < 15 }
+		}
+		complete_effect = {
+			army_experience = var:RUS_fr_xp_cost_30_negative
+			add_political_power = -15
+			add_timed_idea = {
+				idea = RUS_fr_academy_research_groups_idea
+				days = 90
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_unified_training_rotation = {
+		icon = GFX_decision_generic_military
+		days_re_enable = 120
+		visible = {
+			has_completed_focus = RUS_fr_unified_training_mobilisation_system
+			NOT = { has_idea = RUS_fr_unified_training_rotation_idea }
+		}
+		available = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_30 }
+			NOT = { has_political_power < 15 }
+		}
+		custom_cost_text = RUS_fr_cost_30_xp_15_pp
+		custom_cost_trigger = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_30 }
+			NOT = { has_political_power < 15 }
+		}
+		complete_effect = {
+			army_experience = var:RUS_fr_xp_cost_30_negative
+			add_political_power = -15
+			add_timed_idea = {
+				idea = RUS_fr_unified_training_rotation_idea
+				days = 90
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_military_district_readiness = {
+		icon = GFX_decision_generic_military
+		days_re_enable = 90
+		visible = {
+			has_completed_focus = RUS_fr_reorganise_general_staff_districts
+			NOT = { has_idea = RUS_fr_military_district_readiness_idea }
+		}
+		available = {
+			NOT = { has_political_power < 20 }
+			NOT = { command_power < 25 }
+		}
+		custom_cost_text = RUS_fr_cost_20_pp_25_cp
+		custom_cost_trigger = {
+			NOT = { has_political_power < 20 }
+			NOT = { command_power < 25 }
+		}
+		complete_effect = {
+			add_political_power = -20
+			add_command_power = -25
+			add_timed_idea = {
+				idea = RUS_fr_military_district_readiness_idea
+				days = 60
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_voronezh_exercise_review = {
+		icon = GFX_decision_generic_operation
+		days_re_enable = 120
+		visible = {
+			has_completed_focus = RUS_fr_all_russian_red_army_exercise
+			has_country_flag = RUS_fr_all_army_exercise_decision_complete
+			NOT = { has_idea = RUS_fr_voronezh_exercise_review_idea }
+		}
+		available = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_45 }
+			NOT = { command_power < 25 }
+		}
+		custom_cost_text = RUS_fr_cost_45_xp_25_cp
+		custom_cost_trigger = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_45 }
+			NOT = { command_power < 25 }
+		}
+		complete_effect = {
+			army_experience = var:RUS_fr_xp_cost_45_negative
+			add_command_power = -25
+			add_timed_idea = {
+				idea = RUS_fr_voronezh_exercise_review_idea
+				days = 60
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
+	RUS_fr_emergency_workshop_norms = {
+		icon = GFX_decision_generic_industry
+		days_re_enable = 120
+		visible = {
+			has_completed_focus = RUS_fr_national_mobilisation_supply_test
+			NOT = { has_idea = RUS_fr_emergency_workshop_norms_idea }
+		}
+		available = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_25 }
+			NOT = { has_political_power < 20 }
+		}
+		custom_cost_text = RUS_fr_cost_25_xp_20_pp
+		custom_cost_trigger = {
+			NOT = { has_army_experience < var:RUS_fr_xp_cost_25 }
+			NOT = { has_political_power < 20 }
+		}
+		complete_effect = {
+			army_experience = var:RUS_fr_xp_cost_25_negative
+			add_political_power = -20
+			add_timed_idea = {
+				idea = RUS_fr_emergency_workshop_norms_idea
+				days = 60
+			}
+		}
+		ai_will_do = { factor = 2 }
+	}
+
 	RUS_fr_develop_katyusha_rocket_artillery = {
 		icon = GFX_decision_generic_operation
 		visible = {
