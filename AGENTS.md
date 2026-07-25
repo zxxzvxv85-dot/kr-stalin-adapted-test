@@ -58,15 +58,14 @@
   - 工作树干净时运行 `git pull --ff-only origin main`
   - 工作树不干净时不要直接拉取、重置或覆盖；先识别改动归属，必要时向用户确认。
 - 新电脑首次使用时，在 GitHub 身份验证完成后克隆私有仓库。开发副本必须放在非纯数字的可写目录中；不得克隆或覆盖 Steam 创意工坊的数字订阅目录。
-- 每次结束开发前：
+- 每次结束开发前都必须：
   - 更新 `MOD制作日志.md`；
   - 完成与改动风险相称的静态检查和游戏内测试；
   - 只暂存本次有意修改的文件并执行 `git diff --cached --check`；
-  - 创建说明清晰的提交；
-  - 再次 `git fetch origin`。如果远端已经前进，先在干净工作树中将本地提交变基到 `origin/main`，遇到冲突立即停止并报告，不得猜测解决；
-  - `git push origin main`，并确认 `git rev-parse HEAD` 与 `git ls-remote origin refs/heads/main` 的哈希一致。
+  - 创建说明清晰的本地 Git 提交。
+- GitHub 推送与本地提交分离。仅在用户明确要求推送，或确认需要进行跨电脑同步时，才再次 `git fetch origin`；如果远端已经前进，先在干净工作树中将本地提交变基到 `origin/main`，遇到冲突立即停止并报告，不得猜测解决。随后执行 `git push origin main`，并确认 `git rev-parse HEAD` 与 `git ls-remote origin refs/heads/main` 的哈希一致。
 - 禁止 `git push --force`、`git reset --hard`、删除他方未合并提交，或把 Steam 创意工坊当作源码同步源。
-- 如果本次工作不能安全提交并推送，必须明确告诉用户“尚未同步”，不能让另一台电脑开始开发。
+- 如果本次工作不能安全创建本地提交，必须明确报告；如果已经提交但尚未推送，则明确说明“已提交本地 Git，尚未同步 GitHub”，不能让另一台电脑开始开发。
 
 ## Git 与交付
 
