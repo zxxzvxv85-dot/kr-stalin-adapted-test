@@ -20281,6 +20281,9 @@ focus_tree = {
 			hidden_effect = {
 				country_event = { id = russia_socialist_events.386 days = 260 } #Against the Anti-Social Intelligentsia
 				country_event = { id = RUS_fr_military_reform.51 hours = 6 }
+				set_country_flag = RUS_fr_rectification_program_started
+				set_country_flag = RUS_fr_auto_dispatch_scheduled
+				country_event = { id = RUS_fr_military_reform.100 days = 7 }
 			}
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MILITARY_CHARACTER }
@@ -28023,6 +28026,7 @@ focus_tree = {
 		allow_branch = { has_socialist_government = yes }
 		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
 		available = {
+			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_6_military_reform_materials = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
@@ -28043,6 +28047,7 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_military_rectification }
 		available = {
+			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_6_military_reform_materials = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
@@ -28062,6 +28067,7 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_military_rectification }
 		available = {
+			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_6_military_reform_materials = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
@@ -28081,6 +28087,7 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_military_rectification }
 		available = {
+			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_6_military_reform_materials = yes
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -6 } }
@@ -28101,6 +28108,7 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_investigate_white_networks }
 		prerequisite = { focus = RUS_fr_officer_oath_service_review }
 		available = {
+			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			custom_trigger_tooltip = {
 				tooltip = RUS_fr_requires_white_networks_decision_tt
 				has_country_flag = RUS_fr_military_democracy_decision_complete
@@ -28128,6 +28136,7 @@ focus_tree = {
 		y = 1
 		prerequisite = { focus = RUS_fr_soldiers_committees }
 		available = {
+			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			custom_trigger_tooltip = {
 				tooltip = RUS_fr_requires_soldiers_committees_decision_tt
 				has_country_flag = RUS_fr_soldiers_committees_decision_complete
@@ -28136,6 +28145,7 @@ focus_tree = {
 		}
 		select_effect = { add_to_variable = { RUS_fr_military_reform_materials = -10 } }
 		completion_reward = {
+			set_country_flag = RUS_fr_rectification_line_finished
 			unlock_decision_tooltip = { decision = RUS_fr_reform_standard_tables show_effect_tooltip = no show_modifiers = no }
 			add_stability = 0.03
 			army_experience = 30

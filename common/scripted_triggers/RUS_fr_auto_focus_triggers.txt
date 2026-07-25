@@ -1,5 +1,42 @@
+RUS_fr_auto_can_military_rectification = {
+	NOT = { has_completed_focus = RUS_fr_military_rectification }
+	has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
+	check_variable = { RUS_fr_military_reform_materials > 5 }
+}
+RUS_fr_auto_can_investigate_white_networks = {
+	NOT = { has_completed_focus = RUS_fr_investigate_white_networks }
+	has_completed_focus = RUS_fr_military_rectification
+	check_variable = { RUS_fr_military_reform_materials > 5 }
+}
+RUS_fr_auto_can_officer_oath_service_review = {
+	NOT = { has_completed_focus = RUS_fr_officer_oath_service_review }
+	has_completed_focus = RUS_fr_military_rectification
+	check_variable = { RUS_fr_military_reform_materials > 5 }
+}
+RUS_fr_auto_can_basic_commissar_system = {
+	NOT = { has_completed_focus = RUS_fr_basic_commissar_system }
+	has_completed_focus = RUS_fr_military_rectification
+	check_variable = { RUS_fr_military_reform_materials > 5 }
+}
+RUS_fr_auto_can_soldiers_committees = {
+	NOT = { has_completed_focus = RUS_fr_soldiers_committees }
+	has_completed_focus = RUS_fr_investigate_white_networks
+	has_completed_focus = RUS_fr_officer_oath_service_review
+	has_country_flag = RUS_fr_military_democracy_decision_complete
+	has_country_flag = RUS_fr_political_work_decision_complete
+	check_variable = { RUS_fr_military_reform_materials > 7 }
+}
+RUS_fr_auto_can_unified_military_political_system = {
+	NOT = { has_completed_focus = RUS_fr_unified_military_political_system }
+	has_completed_focus = RUS_fr_basic_commissar_system
+	has_completed_focus = RUS_fr_soldiers_committees
+	has_country_flag = RUS_fr_soldiers_committees_decision_complete
+	check_variable = { RUS_fr_military_reform_materials > 9 }
+}
+
 RUS_fr_auto_can_light_weapons_artillery_design = {
 	NOT = { has_completed_focus = RUS_fr_light_weapons_artillery_design }
+	has_completed_focus = RUS_fr_federal_armaments_defence_industry_commission
 	check_variable = { RUS_fr_military_reform_materials > 7 }
 }
 RUS_fr_auto_can_small_arms_standardisation_committee = {
@@ -59,6 +96,7 @@ RUS_fr_auto_can_combined_arms_support_standard = {
 
 RUS_fr_auto_can_mechanisation_wave = {
 	NOT = { has_completed_focus = RUS_fr_mechanisation_wave }
+	has_completed_focus = RUS_fr_federal_armaments_defence_industry_commission
 	check_variable = { RUS_fr_military_reform_materials > 7 }
 }
 RUS_fr_auto_can_mechanised_platform_research_committee = {
@@ -115,6 +153,7 @@ RUS_fr_auto_can_deep_mobility_program = {
 
 RUS_fr_auto_can_emphasise_armour_design = {
 	NOT = { has_completed_focus = RUS_fr_emphasise_armour_design }
+	has_completed_focus = RUS_fr_federal_armaments_defence_industry_commission
 	check_variable = { RUS_fr_military_reform_materials > 7 }
 }
 RUS_fr_auto_can_alloy_armour_standard = {
