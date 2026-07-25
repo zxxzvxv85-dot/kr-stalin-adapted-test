@@ -28192,7 +28192,7 @@ focus_tree = {
 			hidden_effect = {
 				if = {
 					limit = { NOT = { has_completed_focus = RUS_end_army_factionalism } }
-					complete_national_focus = RUS_end_army_factionalism
+					complete_national_focus = { focus = RUS_end_army_factionalism use_side_message = no }
 				}
 				RUS_stalin_remove_all_frunze_doctrine_ideas = yes
 			}
@@ -28704,7 +28704,7 @@ focus_tree = {
 			RUS_fr_show_vpoz_unlock = yes
 			add_tech_bonus = { name = RUS_fr_light_weapons_artillery_design bonus = 0.50 uses = 1 category = infantry_weapons category = artillery }
 			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_military_production } } complete_national_focus = RUS_military_production }
+				if = { limit = { NOT = { has_completed_focus = RUS_military_production } } complete_national_focus = { focus = RUS_military_production use_side_message = no } }
 			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
@@ -28725,7 +28725,7 @@ focus_tree = {
 		completion_reward = {
 			RUS_fr_show_small_arms_legacy_rewards = yes
 			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_update_equipment } } complete_national_focus = RUS_update_equipment }
+				if = { limit = { NOT = { has_completed_focus = RUS_update_equipment } } complete_national_focus = { focus = RUS_update_equipment use_side_message = no } }
 			}
 			add_tech_bonus = { name = RUS_fr_small_arms_standardisation_committee bonus = 0.75 uses = 1 category = infantry_weapons category = support_tech }
 		}
@@ -28834,7 +28834,7 @@ focus_tree = {
 			if = { limit = { has_dlc_gtd = yes NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer } } sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.15 } }
 			RUS_fr_show_land_warfare_legacy_rewards = yes
 			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_expand_ird } } complete_national_focus = RUS_expand_ird }
+				if = { limit = { NOT = { has_completed_focus = RUS_expand_ird } } complete_national_focus = { focus = RUS_expand_ird use_side_message = no } }
 			}
 			add_ideas = RUS_fr_support_fire_joint_trials_idea
 			if = {
@@ -28946,7 +28946,7 @@ focus_tree = {
 		completion_reward = {
 			RUS_fr_show_mechanisation_legacy_rewards = yes
 			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } } complete_national_focus = RUS_nizhegorodsky_avtomobilny_focus }
+				if = { limit = { NOT = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } } complete_national_focus = { focus = RUS_nizhegorodsky_avtomobilny_focus use_side_message = no } }
 			}
 			add_tech_bonus = { name = RUS_fr_mechanisation_wave bonus = 0.50 uses = 1 category = motorized_equipment category = cat_mechanized_equipment }
 		}
@@ -29043,7 +29043,7 @@ focus_tree = {
 		completion_reward = {
 			RUS_fr_show_logistics_legacy_rewards = yes
 			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_roads_of_courage } } complete_national_focus = RUS_roads_of_courage }
+				if = { limit = { NOT = { has_completed_focus = RUS_roads_of_courage } } complete_national_focus = { focus = RUS_roads_of_courage use_side_message = no } }
 			}
 			add_tech_bonus = { name = RUS_fr_mechanised_logistics_regulations bonus = 1.00 uses = 1 category = logistics_tech }
 		}
@@ -29187,12 +29187,12 @@ focus_tree = {
 				limit = { NOT = { has_completed_focus = RUS_motorisation } }
 				hidden_effect = {
 					set_country_flag = RUS_fr_motorisation_rewards_deferred
-					complete_national_focus = RUS_motorisation
+					complete_national_focus = { focus = RUS_motorisation use_side_message = no }
 				}
 			}
 			RUS_fr_show_armour_design_legacy_rewards = yes
 			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_NPP_tanks } } complete_national_focus = RUS_NPP_tanks }
+				if = { limit = { NOT = { has_completed_focus = RUS_NPP_tanks } } complete_national_focus = { focus = RUS_NPP_tanks use_side_message = no } }
 			}
 			add_tech_bonus = { name = RUS_fr_emphasise_armour_design bonus = 0.50 uses = 2 category = mio_cat_tech_all_armor_and_modules }
 		}
