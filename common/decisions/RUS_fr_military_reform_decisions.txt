@@ -319,7 +319,10 @@ RUS_fr_military_reform_decisions = {
 			NOT = { has_country_flag = RUS_fr_reform_stage_1 }
 		}
 		available = {
-			has_idea = RUS_fr_reform_disorganisation_4
+			OR = {
+				has_idea = RUS_fr_reform_disorganisation_4
+				has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad
+			}
 			NOT = { has_country_flag = RUS_fr_reform_stage_1 }
 			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
 		}
@@ -344,7 +347,10 @@ RUS_fr_military_reform_decisions = {
 			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
 		}
 		available = {
-			has_idea = RUS_fr_reform_disorganisation_3
+			OR = {
+				has_idea = RUS_fr_reform_disorganisation_3
+				has_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
+			}
 			has_country_flag = RUS_fr_reform_stage_1
 			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
 			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
@@ -370,7 +376,10 @@ RUS_fr_military_reform_decisions = {
 			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
 		}
 		available = {
-			has_idea = RUS_fr_reform_disorganisation_2
+			OR = {
+				has_idea = RUS_fr_reform_disorganisation_2
+				has_idea = RUS_fr_reform_disorganisation_2_comrades_abroad
+			}
 			has_country_flag = RUS_fr_reform_stage_2
 			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
 			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
@@ -383,7 +392,14 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_100_negative
 		}
 		remove_effect = {
-			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
+			if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_2 }
+				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
+			}
+			else_if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_2_comrades_abroad }
+				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2_comrades_abroad add_idea = RUS_fr_reform_disorganisation_1_comrades_abroad }
+			}
 			set_country_flag = RUS_fr_reform_stage_3
 			unlock_decision_tooltip = { decision = RUS_fr_reform_grand_field_test show_effect_tooltip = no show_modifiers = no }
 		}
@@ -398,7 +414,10 @@ RUS_fr_military_reform_decisions = {
 			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
 		}
 		available = {
-			has_idea = RUS_fr_reform_disorganisation_1
+			OR = {
+				has_idea = RUS_fr_reform_disorganisation_1
+				has_idea = RUS_fr_reform_disorganisation_1_comrades_abroad
+			}
 			has_country_flag = RUS_fr_reform_stage_3
 			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
 			NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
@@ -411,7 +430,14 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_100_negative
 		}
 		remove_effect = {
-			swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
+			if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_1 }
+				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
+			}
+			else_if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_1_comrades_abroad }
+				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1_comrades_abroad add_idea = RUS_fr_reform_disorganisation_0_comrades_abroad }
+			}
 			set_country_flag = RUS_fr_reform_stage_4
 			set_country_flag = RUS_fr_basic_reform_completed
 			custom_effect_tooltip = RUS_fr_timoshenko_stage_four_upgrade_tt

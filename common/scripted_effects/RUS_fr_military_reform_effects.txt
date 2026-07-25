@@ -1038,6 +1038,15 @@ RUS_fr_calculate_specialisation_bonus = {
 	multiply_variable = { RUS_fr_specialist_negative_bonus = -1 }
 }
 
+RUS_fr_add_initial_reform_disorganisation = {
+	if = {
+		limit = { has_completed_focus = RUS_comrades_abroad }
+		add_ideas = RUS_fr_reform_disorganisation_4_comrades_abroad
+		set_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
+	}
+	else = { add_ideas = RUS_fr_reform_disorganisation_4 }
+}
+
 # The first two 120-day reform decisions use these monotonic completion
 # effects, so an out-of-order script call can never restore a stronger
 # version of the combined reform spirit.
@@ -1047,6 +1056,13 @@ RUS_fr_apply_rectification_stage_one = {
 		swap_ideas = {
 			remove_idea = RUS_fr_reform_disorganisation_4
 			add_idea = RUS_fr_reform_disorganisation_3
+		}
+	}
+	else_if = {
+		limit = { has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad }
+		swap_ideas = {
+			remove_idea = RUS_fr_reform_disorganisation_4_comrades_abroad
+			add_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
 		}
 	}
 	set_country_flag = RUS_fr_reform_stage_1
@@ -1061,6 +1077,17 @@ RUS_fr_apply_rectification_stage_two = {
 		swap_ideas = {
 			remove_idea = RUS_fr_reform_disorganisation_3
 			add_idea = RUS_fr_reform_disorganisation_2
+		}
+		set_country_flag = RUS_fr_reform_stage_2
+	}
+	else_if = {
+		limit = {
+			has_country_flag = RUS_fr_reform_stage_1
+			has_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
+		}
+		swap_ideas = {
+			remove_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
+			add_idea = RUS_fr_reform_disorganisation_2_comrades_abroad
 		}
 		set_country_flag = RUS_fr_reform_stage_2
 	}
@@ -1124,6 +1151,11 @@ RUS_fr_initialise_unified_army_reform = {
 			RUS_fr_reform_disorganisation_2
 			RUS_fr_reform_disorganisation_1
 			RUS_fr_reform_disorganisation_0
+			RUS_fr_reform_disorganisation_4_comrades_abroad
+			RUS_fr_reform_disorganisation_3_comrades_abroad
+			RUS_fr_reform_disorganisation_2_comrades_abroad
+			RUS_fr_reform_disorganisation_1_comrades_abroad
+			RUS_fr_reform_disorganisation_0_comrades_abroad
 		}
 
 		if = {
@@ -1188,12 +1220,15 @@ RUS_fr_initialise_unified_army_reform = {
 				OR = {
 					has_completed_focus = RUS_comrades_abroad
 					has_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
-					has_idea = RUS_fr_comrades_abroad_interim_bonus_idea
+					has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad
+					has_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
+					has_idea = RUS_fr_reform_disorganisation_2_comrades_abroad
+					has_idea = RUS_fr_reform_disorganisation_1_comrades_abroad
+					has_idea = RUS_fr_reform_disorganisation_0_comrades_abroad
 				}
 			}
 			RUS_fr_apply_comrades_abroad_army_reform_bonus = yes
 		}
-		hidden_effect = { remove_ideas = RUS_fr_comrades_abroad_interim_bonus_idea }
 		hidden_effect = { remove_ideas = RUS_fr_command_merit_system_idea }
 
 		# These ideas only cancel specialist penalties carried by the old
@@ -1330,7 +1365,6 @@ RUS_fr_apply_comrades_abroad_army_reform_bonus = {
 		limit = { NOT = { has_country_flag = RUS_fr_comrades_abroad_reform_bonus_merged } }
 		if = {
 			limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-			hidden_effect = { remove_ideas = RUS_fr_comrades_abroad_interim_bonus_idea }
 			add_to_variable = { RUS_fr_unified_send_volunteer_size = 5 }
 			add_to_variable = { RUS_fr_unified_army_experience_from_volunteers = 0.50 }
 			clr_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
@@ -1339,8 +1373,39 @@ RUS_fr_apply_comrades_abroad_army_reform_bonus = {
 		}
 		else = {
 			if = {
-				limit = { NOT = { has_idea = RUS_fr_comrades_abroad_interim_bonus_idea } }
-				add_ideas = RUS_fr_comrades_abroad_interim_bonus_idea
+				limit = { has_idea = RUS_fr_reform_disorganisation_4 }
+				swap_ideas = {
+					remove_idea = RUS_fr_reform_disorganisation_4
+					add_idea = RUS_fr_reform_disorganisation_4_comrades_abroad
+				}
+			}
+			else_if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_3 }
+				swap_ideas = {
+					remove_idea = RUS_fr_reform_disorganisation_3
+					add_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
+				}
+			}
+			else_if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_2 }
+				swap_ideas = {
+					remove_idea = RUS_fr_reform_disorganisation_2
+					add_idea = RUS_fr_reform_disorganisation_2_comrades_abroad
+				}
+			}
+			else_if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_1 }
+				swap_ideas = {
+					remove_idea = RUS_fr_reform_disorganisation_1
+					add_idea = RUS_fr_reform_disorganisation_1_comrades_abroad
+				}
+			}
+			else_if = {
+				limit = { has_idea = RUS_fr_reform_disorganisation_0 }
+				swap_ideas = {
+					remove_idea = RUS_fr_reform_disorganisation_0
+					add_idea = RUS_fr_reform_disorganisation_0_comrades_abroad
+				}
 			}
 			set_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
 		}

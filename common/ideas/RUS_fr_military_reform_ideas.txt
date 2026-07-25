@@ -225,6 +225,242 @@ ideas = {
 				armor = { build_cost_ic = 0.10 instant = yes }
 			}
 		}
+		RUS_fr_reform_disorganisation_4_comrades_abroad = {
+			picture = RUS_fr_discipline_review_system_idea
+			allowed = { always = no }
+			removal_cost = -1
+			on_add = {
+				set_country_flag = RUS_fr_officer_training_penalty
+				every_army_leader = {
+					limit = { NOT = { has_trait = RUS_fr_fragmented_officer_training } }
+					add_unit_leader_trait = RUS_fr_fragmented_officer_training
+				}
+			}
+			modifier = {
+				army_org_factor = -0.20
+				army_morale_factor = -0.20
+				planning_speed = -0.30
+				max_planning = -0.15
+				combat_width_factor = 0.10
+				experience_gain_army_unit_factor = -0.25
+				experience_gain_factor = -0.15
+				experience_loss_factor = 0.20
+				mobilization_speed = -0.30
+				training_time_army_factor = 0.25
+				supply_consumption_factor = 0.15
+				attrition = 0.20
+				army_attack_factor = -0.20
+				army_defence_factor = -0.20
+				breakthrough_factor = -0.20
+				army_core_attack_factor = -0.15
+				army_core_defence_factor = -0.15
+				army_infantry_attack_factor = -0.10
+				army_infantry_defence_factor = -0.10
+				army_armor_attack_factor = -0.10
+				army_armor_defence_factor = -0.10
+				acclimatization_cold_climate_gain_factor = -0.20
+				acclimatization_hot_climate_gain_factor = -0.20
+				land_doctrine_cost_factor = 0.40
+				land_mastery_gain_factor = -0.25
+				special_forces_attack_factor = -0.10
+				special_forces_defence_factor = -0.10
+				custom_modifier_tooltip = RUS_fr_recruitable_population_factor_penalty_tt
+				hidden_modifier = { recruitable_population_factor = -0.10 }
+				custom_modifier_tooltip = RUS_fr_officer_attack_growth_penalty_tt
+				send_volunteer_size = 5
+				army_experience_from_volunteers = 0.50
+			}
+			equipment_bonus = {
+				infantry_equipment = { build_cost_ic = 0.10 instant = yes }
+				support_equipment = { build_cost_ic = 0.10 instant = yes }
+				armor = { build_cost_ic = 0.10 instant = yes }
+			}
+		}
+		RUS_fr_reform_disorganisation_3_comrades_abroad = {
+			picture = RUS_fr_command_merit_system_idea
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				# Stage I: command chain, operational planning and frontage control.
+				army_org_factor = -0.15
+				army_morale_factor = -0.15
+				planning_speed = -0.10
+				max_planning = -0.05
+				combat_width_factor = 0.05
+				experience_gain_army_unit_factor = -0.25
+				experience_gain_army_factor = 0.05
+				experience_gain_factor = -0.1375
+				experience_loss_factor = 0.20
+				mobilization_speed = -0.30
+				land_reinforce_rate = 0.0025
+				training_time_army_factor = 0.25
+				supply_consumption_factor = 0.15
+				attrition = 0.20
+				terrain_penalty_reduction = 0.01
+				army_attack_factor = -0.20
+				army_defence_factor = -0.20
+				breakthrough_factor = -0.20
+				army_core_attack_factor = -0.15
+				army_core_defence_factor = -0.15
+				army_infantry_attack_factor = -0.10
+				army_infantry_defence_factor = -0.10
+				army_armor_attack_factor = -0.10
+				army_armor_defence_factor = -0.10
+				acclimatization_cold_climate_gain_factor = -0.20
+				acclimatization_hot_climate_gain_factor = -0.20
+				land_doctrine_cost_factor = 0.40
+				land_mastery_gain_factor = -0.25
+				special_forces_attack_factor = -0.10
+				special_forces_defence_factor = -0.10
+				custom_modifier_tooltip = RUS_fr_recruitable_population_factor_penalty_tt
+				hidden_modifier = { recruitable_population_factor = -0.10 }
+				custom_modifier_tooltip = RUS_fr_officer_attack_growth_penalty_tt
+				send_volunteer_size = 5
+				army_experience_from_volunteers = 0.50
+			}
+			equipment_bonus = {
+				infantry_equipment = { build_cost_ic = 0.10 instant = yes }
+				support_equipment = { build_cost_ic = 0.10 instant = yes }
+				armor = { build_cost_ic = 0.10 instant = yes }
+			}
+		}
+		RUS_fr_reform_disorganisation_2_comrades_abroad = {
+			picture = RUS_fr_standardised_army_structure_idea
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				# Stage II: standardised organisation, authority and unit coordination.
+				army_org_factor = -0.05
+				army_morale_factor = -0.10
+				planning_speed = -0.05
+				max_planning = -0.025
+				experience_gain_army_unit_factor = -0.20
+				experience_gain_army_factor = 0.10
+				experience_gain_factor = -0.125
+				experience_loss_factor = 0.20
+				mobilization_speed = -0.20
+				land_reinforce_rate = 0.005
+				training_time_army_factor = 0.20
+				supply_consumption_factor = 0.15
+				attrition = 0.20
+				terrain_penalty_reduction = 0.02
+				army_attack_factor = -0.10
+				army_defence_factor = -0.10
+				breakthrough_factor = -0.10
+				army_core_attack_factor = -0.15
+				army_core_defence_factor = -0.15
+				army_infantry_attack_factor = -0.10
+				army_infantry_defence_factor = -0.10
+				army_armor_attack_factor = -0.10
+				army_armor_defence_factor = -0.10
+				acclimatization_cold_climate_gain_factor = -0.20
+				acclimatization_hot_climate_gain_factor = -0.20
+				land_doctrine_cost_factor = 0.40
+				land_mastery_gain_factor = -0.25
+				special_forces_attack_factor = -0.10
+				special_forces_defence_factor = -0.10
+				custom_modifier_tooltip = RUS_fr_recruitable_population_factor_penalty_tt
+				hidden_modifier = { recruitable_population_factor = -0.10 }
+				custom_modifier_tooltip = RUS_fr_officer_attack_growth_penalty_tt
+				send_volunteer_size = 5
+				army_experience_from_volunteers = 0.50
+			}
+			equipment_bonus = {
+				infantry_equipment = { build_cost_ic = 0.10 instant = yes }
+				support_equipment = { build_cost_ic = 0.10 instant = yes }
+				armor = { build_cost_ic = 0.10 instant = yes }
+			}
+		}
+		RUS_fr_reform_disorganisation_1_comrades_abroad = {
+			picture = RUS_fr_scientific_general_staff_idea
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				# Stage III: training, mobilisation, replacement and logistics cycles.
+				army_org_factor = -0.025
+				army_morale_factor = -0.05
+				experience_gain_army_factor = 0.15
+				experience_gain_factor = -0.1125
+				experience_loss_factor = 0.20
+				mobilization_speed = -0.05
+				land_reinforce_rate = 0.0075
+				training_time_army_factor = 0.05
+				supply_consumption_factor = 0.05
+				attrition = 0.05
+				terrain_penalty_reduction = 0.03
+				army_attack_factor = -0.05
+				army_defence_factor = -0.05
+				breakthrough_factor = -0.05
+				army_core_attack_factor = -0.15
+				army_core_defence_factor = -0.15
+				army_infantry_attack_factor = -0.10
+				army_infantry_defence_factor = -0.10
+				army_armor_attack_factor = -0.10
+				army_armor_defence_factor = -0.10
+				acclimatization_cold_climate_gain_factor = -0.20
+				acclimatization_hot_climate_gain_factor = -0.20
+				land_doctrine_cost_factor = 0.40
+				land_mastery_gain_factor = -0.25
+				special_forces_attack_factor = -0.10
+				special_forces_defence_factor = -0.10
+				custom_modifier_tooltip = RUS_fr_recruitable_population_factor_penalty_tt
+				hidden_modifier = { recruitable_population_factor = -0.10 }
+				custom_modifier_tooltip = RUS_fr_officer_attack_growth_penalty_tt
+				send_volunteer_size = 5
+				army_experience_from_volunteers = 0.50
+			}
+			equipment_bonus = {
+				infantry_equipment = { build_cost_ic = 0.10 instant = yes }
+				support_equipment = { build_cost_ic = 0.10 instant = yes }
+				armor = { build_cost_ic = 0.10 instant = yes }
+			}
+		}
+		RUS_fr_reform_disorganisation_0_comrades_abroad = {
+			picture = RUS_fr_tempered_in_steel_idea
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				army_org_factor = 0.03
+				army_morale_factor = 0.03
+				planning_speed = 0.04
+				max_planning = 0.02
+				experience_gain_army_factor = 0.20
+				experience_gain_factor = -0.10
+				experience_loss_factor = 0.20
+				mobilization_speed = 0.05
+				land_reinforce_rate = 0.01
+				training_time_army_factor = -0.03
+				supply_consumption_factor = -0.02
+				attrition = -0.03
+				terrain_penalty_reduction = 0.04
+				army_attack_factor = 0.02
+				army_defence_factor = 0.02
+				breakthrough_factor = 0.10
+				army_core_attack_factor = -0.15
+				army_core_defence_factor = -0.15
+				army_infantry_attack_factor = -0.10
+				army_infantry_defence_factor = -0.10
+				army_armor_attack_factor = -0.10
+				army_armor_defence_factor = -0.10
+				acclimatization_cold_climate_gain_factor = -0.20
+				acclimatization_hot_climate_gain_factor = -0.20
+				land_doctrine_cost_factor = 0.40
+				land_mastery_gain_factor = -0.25
+				special_forces_attack_factor = -0.10
+				special_forces_defence_factor = -0.10
+				custom_modifier_tooltip = RUS_fr_recruitable_population_factor_penalty_tt
+				hidden_modifier = { recruitable_population_factor = -0.10 }
+				custom_modifier_tooltip = RUS_fr_officer_attack_growth_penalty_tt
+				send_volunteer_size = 5
+				army_experience_from_volunteers = 0.50
+			}
+			equipment_bonus = {
+				infantry_equipment = { build_cost_ic = 0.10 instant = yes }
+				support_equipment = { build_cost_ic = 0.10 instant = yes }
+				armor = { build_cost_ic = 0.10 instant = yes }
+			}
+		}
+
 
 		# Temporary specialist corrections. They offset the professional
 		# shortcomings left behind by the four general rectification stages.
@@ -885,16 +1121,6 @@ ideas = {
 				industrial_capacity_factory = 0.10
 				production_factory_efficiency_gain_factor = 0.10
 				production_factory_max_efficiency_factor = 0.10
-			}
-		}
-
-		RUS_fr_comrades_abroad_interim_bonus_idea = {
-			picture = RUS_fr_revolutionary_heroism_idea
-			allowed = { always = no }
-			removal_cost = -1
-			modifier = {
-				send_volunteer_size = 5
-				army_experience_from_volunteers = 0.50
 			}
 		}
 

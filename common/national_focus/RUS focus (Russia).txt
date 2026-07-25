@@ -9149,7 +9149,10 @@ focus_tree = {
 		}
 		available = {
 			has_socialist_government = yes
-			has_idea = RUS_fr_reform_disorganisation_4
+			OR = {
+				has_idea = RUS_fr_reform_disorganisation_4
+				has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad
+			}
 		}
 		ai_will_do = { factor = 500 }
 		completion_reward = {
@@ -20252,8 +20255,13 @@ focus_tree = {
 					NOT = { has_idea = RUS_fr_reform_disorganisation_2 }
 					NOT = { has_idea = RUS_fr_reform_disorganisation_1 }
 					NOT = { has_idea = RUS_fr_reform_disorganisation_0 }
+					NOT = { has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad }
+					NOT = { has_idea = RUS_fr_reform_disorganisation_3_comrades_abroad }
+					NOT = { has_idea = RUS_fr_reform_disorganisation_2_comrades_abroad }
+					NOT = { has_idea = RUS_fr_reform_disorganisation_1_comrades_abroad }
+					NOT = { has_idea = RUS_fr_reform_disorganisation_0_comrades_abroad }
 				}
-				add_ideas = RUS_fr_reform_disorganisation_4
+				RUS_fr_add_initial_reform_disorganisation = yes
 			}
 			hidden_effect = { RUS_stalin_recalculate_red_army_dynamic_modifier = yes }
 			add_popularity = { ideology = communist popularity = 0.04 }
