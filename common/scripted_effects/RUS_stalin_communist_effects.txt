@@ -24,6 +24,55 @@ RUS_stalin_set_country_radical_socialist_for_subject_release = {
 		popularity = 55
 	}
 	set_government_flags = yes
+	if = {
+		limit = { tag = GXC }
+		RUS_stalin_setup_gxc_peng_pai_subject = yes
+	}
+}
+
+RUS_stalin_setup_gxc_peng_pai_subject = {
+	set_politics = {
+		ruling_party = radical_socialist
+		elections_allowed = no
+	}
+	set_political_party = {
+		ideology = radical_socialist
+		popularity = 55
+	}
+	set_party_name = {
+		ideology = syndicalist
+		long_name = GXC_chinese_revolutionary_party_long
+		name = GXC_chinese_revolutionary_party
+	}
+	set_party_name = {
+		ideology = radical_socialist
+		long_name = GXC_chinese_peasants_party_long
+		name = GXC_chinese_peasants_party
+	}
+	set_party_name = {
+		ideology = social_democrat
+		long_name = GXC_productive_peoples_party_long
+		name = GXC_productive_peoples_party
+	}
+	if = {
+		limit = { has_character = GXC_peng_pai }
+		GXC_peng_pai = { set_nationality = GXC }
+		promote_character = {
+			character = GXC_peng_pai
+			ideology = radical_socialist_subtype
+		}
+	}
+	if = {
+		limit = { has_character = GXC_gu_dacun }
+		GXC_gu_dacun = { set_nationality = GXC }
+		activate_advisor = GXC_gu_dacun_sic
+	}
+	complete_national_focus = GXC_a_red_liangguang
+	complete_national_focus = GXC_fallout_of_the_baise_uprising
+	hidden_effect = {
+		set_country_flag = GXC_phase_4_begins_flag
+		mark_focus_tree_layout_dirty = yes
+	}
 }
 
 RUS_stalin_set_subject_radical_socialist_if_communist_path = {
