@@ -1138,6 +1138,7 @@ RUS_fr_initialise_unified_army_reform = {
 		add_to_variable = { RUS_fr_unified_command_power_gain = 0 }
 		add_to_variable = { RUS_fr_unified_army_speed = 0 }
 		add_to_variable = { RUS_fr_unified_war_support_factor = 0 }
+		add_to_variable = { RUS_fr_unified_conscription = 0 }
 		add_to_variable = { RUS_fr_unified_land_mastery_gain = 0.25 }
 		add_to_variable = { RUS_fr_unified_special_forces_attack = 0.05 }
 		add_to_variable = { RUS_fr_unified_special_forces_defence = 0.05 }
@@ -1523,8 +1524,21 @@ RUS_fr_merge_revolutionary_collectivism = {
 		add_to_variable = { RUS_fr_unified_mobilization_speed = 0.03 }
 		add_to_variable = { RUS_fr_unified_training_time = -0.02 }
 		add_to_variable = { RUS_fr_unified_attrition = -0.03 }
+		add_to_variable = { RUS_fr_unified_conscription = 0.02 }
 		hidden_effect = { remove_ideas = RUS_fr_revolutionary_collectivism_idea }
 		set_country_flag = RUS_fr_unified_collectivism_merged
+		set_country_flag = RUS_fr_collectivism_conscription_bonus_applied
+	}
+}
+
+RUS_fr_repair_revolutionary_collectivism_conscription_bonus = {
+	if = {
+		limit = {
+			has_country_flag = RUS_fr_unified_collectivism_merged
+			NOT = { has_country_flag = RUS_fr_collectivism_conscription_bonus_applied }
+		}
+		add_to_variable = { RUS_fr_unified_conscription = 0.02 }
+		set_country_flag = RUS_fr_collectivism_conscription_bonus_applied
 	}
 }
 
