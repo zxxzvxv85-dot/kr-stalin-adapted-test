@@ -28991,7 +28991,10 @@ country_event = { #Choice of Syndie Sub-Path
 	immediate = {
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.320 days = 100 random_days = 100 } #Uglanov's Resignation
-			country_event = { id = russia_socialist_events.305 days = 300 } #VST Congress
+			if = {
+				limit = { NOT = { has_country_leader = { character = RUS_iosif_stalin } } }
+				country_event = { id = russia_socialist_events.305 days = 300 } #VST Congress
+			}
 		}
 	}
 
@@ -29086,6 +29089,9 @@ country_event = { #Choice of Syndie Sub-Path
 country_event = { # Annual Congress of VST
 	id = russia_socialist_events.305
 	title = russia_socialist_events.305.t
+	trigger = {
+		NOT = { has_country_leader = { character = RUS_iosif_stalin } }
+	}
 	desc = {
 		trigger = { has_war_with = GER }
 		text = russia_socialist_events.305.d.war
@@ -29165,7 +29171,10 @@ country_event = { # Annual Congress of VST
 	immediate = {
 		RUS_VST_party_check = yes
 		hidden_effect = {
-			country_event = { id = russia_socialist_events.305 days = 365 }
+			if = {
+				limit = { NOT = { has_country_leader = { character = RUS_iosif_stalin } } }
+				country_event = { id = russia_socialist_events.305 days = 365 }
+			}
 		}
 	}
 
