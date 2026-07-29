@@ -1,0 +1,140 @@
+RUS_fr_dashboard_final_state = {
+	OR = {
+		has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+		has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
+	}
+}
+
+RUS_fr_dashboard_stage_0_state = {
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	NOT = { has_country_flag = RUS_fr_reform_stage_1 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_2 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+}
+
+RUS_fr_dashboard_stage_1_state = {
+	has_country_flag = RUS_fr_reform_stage_1
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	NOT = { has_country_flag = RUS_fr_reform_stage_2 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+}
+
+RUS_fr_dashboard_stage_2_state = {
+	has_country_flag = RUS_fr_reform_stage_2
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+}
+
+RUS_fr_dashboard_stage_3_state = {
+	has_country_flag = RUS_fr_reform_stage_3
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+}
+
+RUS_fr_dashboard_stage_4_state = {
+	has_country_flag = RUS_fr_reform_stage_4
+	NOT = { RUS_fr_dashboard_final_state = yes }
+}
+
+RUS_fr_dashboard_status_stage_3_state = {
+	OR = {
+		RUS_fr_dashboard_stage_3_state = yes
+		RUS_fr_dashboard_stage_4_state = yes
+	}
+}
+
+RUS_fr_dashboard_has_special_achievement = {
+	OR = {
+		has_country_flag = RUS_fr_armaments_summary_complete
+		has_country_flag = RUS_fr_unified_army_reform_active
+		AND = {
+			has_country_flag = RUS_fr_commissar_organisation_decision_complete
+			has_country_flag = RUS_fr_one_man_command_decision_complete
+		}
+		AND = {
+			has_country_flag = RUS_fr_scientific_staff_decision_complete
+			has_country_flag = RUS_fr_deep_battle_decision_complete
+		}
+		has_country_flag = RUS_fr_collectivism_decision_complete
+		has_country_flag = RUS_fr_vanguardism_decision_complete
+		has_country_flag = RUS_fr_heroism_decision_complete
+	}
+}
+
+RUS_fr_dashboard_achievement_armaments_state = {
+	has_country_flag = RUS_fr_armaments_summary_complete
+	NOT = { RUS_fr_dashboard_final_state = yes }
+}
+
+RUS_fr_dashboard_achievement_unified_state = {
+	has_country_flag = RUS_fr_unified_army_reform_active
+	NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
+	NOT = { RUS_fr_dashboard_final_state = yes }
+}
+
+RUS_fr_dashboard_achievement_command_state = {
+	has_country_flag = RUS_fr_commissar_organisation_decision_complete
+	has_country_flag = RUS_fr_one_man_command_decision_complete
+	NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
+	NOT = { has_country_flag = RUS_fr_unified_army_reform_active }
+	NOT = { RUS_fr_dashboard_final_state = yes }
+}
+
+RUS_fr_dashboard_achievement_staff_state = {
+	has_country_flag = RUS_fr_scientific_staff_decision_complete
+	has_country_flag = RUS_fr_deep_battle_decision_complete
+	NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
+	NOT = { has_country_flag = RUS_fr_unified_army_reform_active }
+	NOT = {
+		has_country_flag = RUS_fr_commissar_organisation_decision_complete
+		has_country_flag = RUS_fr_one_man_command_decision_complete
+	}
+	NOT = { RUS_fr_dashboard_final_state = yes }
+}
+
+RUS_fr_dashboard_achievement_spirit_state = {
+	OR = {
+		has_country_flag = RUS_fr_collectivism_decision_complete
+		has_country_flag = RUS_fr_vanguardism_decision_complete
+		has_country_flag = RUS_fr_heroism_decision_complete
+	}
+	NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
+	NOT = { has_country_flag = RUS_fr_unified_army_reform_active }
+	NOT = {
+		has_country_flag = RUS_fr_commissar_organisation_decision_complete
+		has_country_flag = RUS_fr_one_man_command_decision_complete
+	}
+	NOT = {
+		has_country_flag = RUS_fr_scientific_staff_decision_complete
+		has_country_flag = RUS_fr_deep_battle_decision_complete
+	}
+	NOT = { RUS_fr_dashboard_final_state = yes }
+}
+
+RUS_fr_dashboard_achievement_stage_0_state = {
+	RUS_fr_dashboard_stage_0_state = yes
+	NOT = { RUS_fr_dashboard_has_special_achievement = yes }
+}
+
+RUS_fr_dashboard_achievement_stage_1_state = {
+	RUS_fr_dashboard_stage_1_state = yes
+	NOT = { RUS_fr_dashboard_has_special_achievement = yes }
+}
+
+RUS_fr_dashboard_achievement_stage_2_state = {
+	RUS_fr_dashboard_stage_2_state = yes
+	NOT = { RUS_fr_dashboard_has_special_achievement = yes }
+}
+
+RUS_fr_dashboard_achievement_stage_3_state = {
+	RUS_fr_dashboard_stage_3_state = yes
+	NOT = { RUS_fr_dashboard_has_special_achievement = yes }
+}
+
+RUS_fr_dashboard_achievement_stage_4_state = {
+	RUS_fr_dashboard_stage_4_state = yes
+	NOT = { RUS_fr_dashboard_has_special_achievement = yes }
+}
