@@ -2,6 +2,18 @@
 
 最后更新：2026-07-29
 
+## 2026-07-29 — 动态全国军事改革仪表板
+
+状态：**已实现，待完整重启与新存档游戏内实测**
+
+- 为 `RUS_fr_military_reform_decisions` 决议分类接入专用 `scripted_gui`。仪表板位于分类顶部，原有军改决议继续由原生决议栏显示，费用、时长、可用条件与完成效果均未重写。
+- 仪表板不是数值汇总表，而是动态军队建设档案：左侧显示各阶段尚存积弊，右侧会识别政治委员体系、科学化总参谋部、纵深作战、首长负责制、革命军队精神、统一整合与军备委员会总结等实际成果，中央显示“乌合之众—百废待兴—淬火成钢—铁流万里—无敌与传奇”的红军现状。
+- 四个基础改革阶段使用独立图标、当前阶段金色框和已完成红星印章；随着 `RUS_fr_reform_stage_1` 至 `RUS_fr_reform_stage_4` 推进，背景会从灰暗失序逐步恢复红色与对比度。完成 `RUS_fr_revolutionary_military_system_finalised` 后切换为最终图层。
+- 军备侧重会根据 `RUS_fr_specialise_armaments`、`RUS_fr_specialise_mobility`、`RUS_fr_specialise_armour` 实时显示为陆军兵器、机动化建设或装甲兵器。
+- 专用底图采用无文字的苏维埃档案拼贴构图，强调红军群像、总参谋部协作、军工与铁路建设；最终游戏资产压缩为 `498×166`，以粗颗粒印刷、模糊人物轮廓和有限色彩降低高清 AI 概念图质感。
+- 主要实现位置：`common/scripted_guis/RUS_fr_military_reform_dashboard.txt`、`common/scripted_localisation/RUS_fr_military_reform_dashboard_scripted_loc.txt`、`interface/RUS_fr_military_reform_dashboard.gui`、`interface/RUS_fr_military_reform_dashboard.gfx`、`gfx/interface/rus_fr_dashboard/`、`localisation/simp_chinese/RUS_fr_military_reform_dashboard_l_simp_chinese.yml`。
+- 本次仅修改测试版；未修改 KR 原版、任何纯数字工坊目录、适配版或兼容补丁。
+
 ## 2026-07-29 — 最高苏维埃领袖特质调整
 
 状态：**已实现，待游戏内实测**
