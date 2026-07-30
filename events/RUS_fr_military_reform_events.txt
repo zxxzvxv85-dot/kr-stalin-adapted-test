@@ -163,6 +163,19 @@ country_event = {
 	}
 }
 
+# General Political Directorate circular on the Marxist conception of heroism.
+country_event = {
+	id = RUS_fr_military_reform.53
+	title = RUS_fr_military_reform.53.t
+	desc = RUS_fr_military_reform.53.d
+	picture = GFX_report_event_RUS_army2
+	is_triggered_only = yes
+
+	option = {
+		name = RUS_fr_military_reform.53.a
+	}
+}
+
 # Final armaments report. All three domains receive their basic rewards; only the priority receives specialisation.
 country_event = {
 	id = RUS_fr_military_reform.90
@@ -545,6 +558,14 @@ country_event = {
 		RUS_fr_repair_legacy_armoured_firepower_scaling = yes
 		RUS_fr_repair_comrades_abroad_army_reform_bonus = yes
 		RUS_fr_apply_invincible_legendary_final_bonus = yes
+		if = {
+			limit = {
+				has_completed_focus = RUS_fr_revolutionary_heroism
+				NOT = { has_country_flag = RUS_fr_marxist_heroism_report_dispatched }
+			}
+			set_country_flag = RUS_fr_marxist_heroism_report_dispatched
+			country_event = { id = RUS_fr_military_reform.53 hours = 6 }
+		}
 		if = {
 			limit = {
 				has_country_flag = RUS_fr_red_academy_decision_complete
