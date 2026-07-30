@@ -15156,6 +15156,13 @@ focus_tree = {
 					}
 					set_faction_leader = yes
 				}
+				if = {
+					limit = {
+						NOT = { has_country_flag = RUS_bolsheviks_leave_home_event_scheduled }
+					}
+					set_country_flag = RUS_bolsheviks_leave_home_event_scheduled
+					country_event = { id = stalin_form_sov.25 days = 7 }
+				}
 			}
 			if = {
 				limit = {
