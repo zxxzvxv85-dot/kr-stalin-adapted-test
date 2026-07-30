@@ -683,7 +683,12 @@ RUS_fr_military_reform_decisions = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
 				add_ideas = RUS_fr_red_academy_correction
 			}
-			hidden_effect = { RUS_fr_restore_academy_officers = yes RUS_generate_kliment_voroshilov = yes }
+			hidden_effect = {
+				RUS_fr_restore_academy_officers = yes
+				recruit_character = RUS_semyon_budyonny
+				set_country_flag = RUS_fr_budyonny_recruited
+				RUS_generate_kliment_voroshilov = yes
+			}
 			set_country_flag = RUS_fr_red_academy_decision_complete
 		}
 		ai_will_do = { factor = 10 }

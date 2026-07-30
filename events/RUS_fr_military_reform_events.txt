@@ -547,6 +547,14 @@ country_event = {
 		RUS_fr_apply_invincible_legendary_final_bonus = yes
 		if = {
 			limit = {
+				has_country_flag = RUS_fr_red_academy_decision_complete
+				NOT = { has_country_flag = RUS_fr_budyonny_recruited }
+			}
+			recruit_character = RUS_semyon_budyonny
+			set_country_flag = RUS_fr_budyonny_recruited
+		}
+		if = {
+			limit = {
 				has_completed_focus = RUS_fr_revolutionary_military_system_finalised
 				has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform }
 				NOT = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final } }
