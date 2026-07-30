@@ -315,6 +315,7 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_command_audit = {
 		icon = GFX_decision_generic_military
 		visible = {
+			is_ai = yes
 			has_completed_focus = RUS_fr_military_rectification
 			NOT = { has_country_flag = RUS_fr_reform_stage_1 }
 		}
@@ -332,6 +333,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = {
 			army_experience = var:RUS_fr_xp_cost_100_negative
+			set_country_flag = RUS_fr_reform_stage_1_in_progress
 		}
 		remove_effect = {
 			RUS_fr_apply_rectification_stage_one = yes
@@ -342,6 +344,7 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_standard_tables = {
 		icon = GFX_decision_generic_military
 		visible = {
+			is_ai = yes
 			has_completed_focus = RUS_fr_unified_military_political_system
 			has_country_flag = RUS_fr_reform_stage_1
 			NOT = { has_country_flag = RUS_fr_reform_stage_2 }
@@ -361,6 +364,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = {
 			army_experience = var:RUS_fr_xp_cost_100_negative
+			set_country_flag = RUS_fr_reform_stage_2_in_progress
 		}
 		remove_effect = {
 			RUS_fr_apply_rectification_stage_two = yes
@@ -371,6 +375,7 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_training_cycles = {
 		icon = GFX_decision_generic_military
 		visible = {
+			is_ai = yes
 			has_completed_focus = RUS_fr_national_military_reform_program
 			has_country_flag = RUS_fr_reform_stage_2
 			NOT = { has_country_flag = RUS_fr_reform_stage_3 }
@@ -390,18 +395,10 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 90
 		complete_effect = {
 			army_experience = var:RUS_fr_xp_cost_100_negative
+			set_country_flag = RUS_fr_reform_stage_3_in_progress
 		}
 		remove_effect = {
-			if = {
-				limit = { has_idea = RUS_fr_reform_disorganisation_2 }
-				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2 add_idea = RUS_fr_reform_disorganisation_1 }
-			}
-			else_if = {
-				limit = { has_idea = RUS_fr_reform_disorganisation_2_comrades_abroad }
-				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_2_comrades_abroad add_idea = RUS_fr_reform_disorganisation_1_comrades_abroad }
-			}
-			set_country_flag = RUS_fr_reform_stage_3
-			unlock_decision_tooltip = { decision = RUS_fr_reform_grand_field_test show_effect_tooltip = no show_modifiers = no }
+			RUS_fr_apply_rectification_stage_three = yes
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -409,6 +406,7 @@ RUS_fr_military_reform_decisions = {
 	RUS_fr_reform_grand_field_test = {
 		icon = GFX_decision_generic_operation
 		visible = {
+			is_ai = yes
 			has_completed_focus = RUS_fr_national_military_reform_program
 			has_country_flag = RUS_fr_reform_stage_3
 			NOT = { has_country_flag = RUS_fr_reform_stage_4 }
@@ -428,46 +426,10 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 90
 		complete_effect = {
 			army_experience = var:RUS_fr_xp_cost_100_negative
+			set_country_flag = RUS_fr_reform_stage_4_in_progress
 		}
 		remove_effect = {
-			if = {
-				limit = { has_idea = RUS_fr_reform_disorganisation_1 }
-				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1 add_idea = RUS_fr_reform_disorganisation_0 }
-			}
-			else_if = {
-				limit = { has_idea = RUS_fr_reform_disorganisation_1_comrades_abroad }
-				swap_ideas = { remove_idea = RUS_fr_reform_disorganisation_1_comrades_abroad add_idea = RUS_fr_reform_disorganisation_0_comrades_abroad }
-			}
-			set_country_flag = RUS_fr_reform_stage_4
-			set_country_flag = RUS_fr_basic_reform_completed
-			custom_effect_tooltip = RUS_fr_timoshenko_stage_four_upgrade_tt
-			hidden_effect = {
-				if = {
-					limit = { has_country_flag = RUS_fr_specialise_armaments }
-					remove_trait = {
-						character = RUS_semyon_timoshenko
-						slot = theorist
-						trait = RUS_fr_timoshenko_reform_theorist_armaments
-					}
-					add_trait = {
-						character = RUS_semyon_timoshenko
-						slot = theorist
-						trait = RUS_fr_timoshenko_reform_theorist_reformed_armaments
-					}
-				}
-				else = {
-					remove_trait = {
-						character = RUS_semyon_timoshenko
-						slot = theorist
-						trait = RUS_fr_timoshenko_reform_theorist
-					}
-					add_trait = {
-						character = RUS_semyon_timoshenko
-						slot = theorist
-						trait = RUS_fr_timoshenko_reform_theorist_reformed
-					}
-				}
-			}
+			RUS_fr_apply_rectification_stage_four = yes
 		}
 		ai_will_do = { factor = 10 }
 	}

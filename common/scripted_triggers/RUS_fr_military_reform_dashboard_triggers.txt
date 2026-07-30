@@ -46,6 +46,61 @@ RUS_fr_dashboard_status_stage_3_state = {
 	}
 }
 
+RUS_fr_can_start_reform_stage_one = {
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	has_completed_focus = RUS_fr_military_rectification
+	OR = {
+		has_idea = RUS_fr_reform_disorganisation_4
+		has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad
+	}
+	NOT = { has_country_flag = RUS_fr_reform_stage_1 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_1_in_progress }
+	NOT = { has_active_mission = RUS_fr_reform_command_audit }
+	NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
+}
+
+RUS_fr_can_start_reform_stage_two = {
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	has_completed_focus = RUS_fr_unified_military_political_system
+	has_country_flag = RUS_fr_reform_stage_1
+	OR = {
+		has_idea = RUS_fr_reform_disorganisation_3
+		has_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
+	}
+	NOT = { has_country_flag = RUS_fr_reform_stage_2 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_2_in_progress }
+	NOT = { has_active_mission = RUS_fr_reform_standard_tables }
+	NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
+}
+
+RUS_fr_can_start_reform_stage_three = {
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	has_completed_focus = RUS_fr_national_military_reform_program
+	has_country_flag = RUS_fr_reform_stage_2
+	OR = {
+		has_idea = RUS_fr_reform_disorganisation_2
+		has_idea = RUS_fr_reform_disorganisation_2_comrades_abroad
+	}
+	NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_3_in_progress }
+	NOT = { has_active_mission = RUS_fr_reform_training_cycles }
+	NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
+}
+
+RUS_fr_can_start_reform_stage_four = {
+	NOT = { RUS_fr_dashboard_final_state = yes }
+	has_completed_focus = RUS_fr_national_military_reform_program
+	has_country_flag = RUS_fr_reform_stage_3
+	OR = {
+		has_idea = RUS_fr_reform_disorganisation_1
+		has_idea = RUS_fr_reform_disorganisation_1_comrades_abroad
+	}
+	NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+	NOT = { has_country_flag = RUS_fr_reform_stage_4_in_progress }
+	NOT = { has_active_mission = RUS_fr_reform_grand_field_test }
+	NOT = { has_army_experience < var:RUS_fr_xp_cost_100 }
+}
+
 RUS_fr_dashboard_has_special_achievement = {
 	OR = {
 		has_country_flag = RUS_fr_armaments_summary_complete

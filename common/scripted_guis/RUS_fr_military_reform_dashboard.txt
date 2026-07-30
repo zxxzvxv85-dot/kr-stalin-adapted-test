@@ -55,7 +55,28 @@ scripted_gui = {
 				}
 			}
 
+			RUS_fr_dashboard_stage_1_icon_visible = {
+				OR = {
+					has_country_flag = RUS_fr_reform_stage_1
+					has_country_flag = RUS_fr_reform_stage_2
+					has_country_flag = RUS_fr_reform_stage_3
+					has_country_flag = RUS_fr_reform_stage_4
+					has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+					has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
+				}
+			}
+
 			RUS_fr_dashboard_stage_2_complete_visible = {
+				OR = {
+					has_country_flag = RUS_fr_reform_stage_2
+					has_country_flag = RUS_fr_reform_stage_3
+					has_country_flag = RUS_fr_reform_stage_4
+					has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+					has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
+				}
+			}
+
+			RUS_fr_dashboard_stage_2_icon_visible = {
 				OR = {
 					has_country_flag = RUS_fr_reform_stage_2
 					has_country_flag = RUS_fr_reform_stage_3
@@ -74,12 +95,45 @@ scripted_gui = {
 				}
 			}
 
+			RUS_fr_dashboard_stage_3_icon_visible = {
+				OR = {
+					has_country_flag = RUS_fr_reform_stage_3
+					has_country_flag = RUS_fr_reform_stage_4
+					has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+					has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
+				}
+			}
+
 			RUS_fr_dashboard_stage_4_complete_visible = {
 				OR = {
 					has_country_flag = RUS_fr_reform_stage_4
 					has_completed_focus = RUS_fr_revolutionary_military_system_finalised
 					has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
 				}
+			}
+
+			RUS_fr_dashboard_stage_4_icon_visible = {
+				OR = {
+					has_country_flag = RUS_fr_reform_stage_4
+					has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+					has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final }
+				}
+			}
+
+			RUS_fr_dashboard_stage_1_button_click_enabled = {
+				RUS_fr_can_start_reform_stage_one = yes
+			}
+
+			RUS_fr_dashboard_stage_2_button_click_enabled = {
+				RUS_fr_can_start_reform_stage_two = yes
+			}
+
+			RUS_fr_dashboard_stage_3_button_click_enabled = {
+				RUS_fr_can_start_reform_stage_three = yes
+			}
+
+			RUS_fr_dashboard_stage_4_button_click_enabled = {
+				RUS_fr_can_start_reform_stage_four = yes
 			}
 
 			RUS_fr_dashboard_stage_1_current_visible = {
@@ -216,6 +270,44 @@ scripted_gui = {
 
 			RUS_fr_dashboard_army_status_final_visible = {
 				RUS_fr_dashboard_final_state = yes
+			}
+		}
+
+		effects = {
+			RUS_fr_dashboard_stage_1_button_click = {
+				if = {
+					limit = { RUS_fr_can_start_reform_stage_one = yes }
+					army_experience = var:RUS_fr_xp_cost_100_negative
+					set_country_flag = RUS_fr_reform_stage_1_in_progress
+					country_event = { id = RUS_fr_military_reform.910 days = 120 }
+				}
+			}
+
+			RUS_fr_dashboard_stage_2_button_click = {
+				if = {
+					limit = { RUS_fr_can_start_reform_stage_two = yes }
+					army_experience = var:RUS_fr_xp_cost_100_negative
+					set_country_flag = RUS_fr_reform_stage_2_in_progress
+					country_event = { id = RUS_fr_military_reform.911 days = 120 }
+				}
+			}
+
+			RUS_fr_dashboard_stage_3_button_click = {
+				if = {
+					limit = { RUS_fr_can_start_reform_stage_three = yes }
+					army_experience = var:RUS_fr_xp_cost_100_negative
+					set_country_flag = RUS_fr_reform_stage_3_in_progress
+					country_event = { id = RUS_fr_military_reform.912 days = 90 }
+				}
+			}
+
+			RUS_fr_dashboard_stage_4_button_click = {
+				if = {
+					limit = { RUS_fr_can_start_reform_stage_four = yes }
+					army_experience = var:RUS_fr_xp_cost_100_negative
+					set_country_flag = RUS_fr_reform_stage_4_in_progress
+					country_event = { id = RUS_fr_military_reform.913 days = 90 }
+				}
 			}
 		}
 	}

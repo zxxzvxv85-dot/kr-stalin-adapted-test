@@ -486,6 +486,51 @@ country_event = {
 	}
 }
 
+# Completion timers for the four reform-stage buttons on the military reform dashboard.
+country_event = {
+	id = RUS_fr_military_reform.910
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = RUS_fr_reform_stage_1_in_progress
+		NOT = { has_country_flag = RUS_fr_reform_stage_1 }
+	}
+	immediate = { RUS_fr_apply_rectification_stage_one = yes }
+}
+
+country_event = {
+	id = RUS_fr_military_reform.911
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = RUS_fr_reform_stage_2_in_progress
+		NOT = { has_country_flag = RUS_fr_reform_stage_2 }
+	}
+	immediate = { RUS_fr_apply_rectification_stage_two = yes }
+}
+
+country_event = {
+	id = RUS_fr_military_reform.912
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = RUS_fr_reform_stage_3_in_progress
+		NOT = { has_country_flag = RUS_fr_reform_stage_3 }
+	}
+	immediate = { RUS_fr_apply_rectification_stage_three = yes }
+}
+
+country_event = {
+	id = RUS_fr_military_reform.913
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = RUS_fr_reform_stage_4_in_progress
+		NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+	}
+	immediate = { RUS_fr_apply_rectification_stage_four = yes }
+}
+
 # Weekly recovery controller.
 country_event = {
 	id = RUS_fr_military_reform.900
