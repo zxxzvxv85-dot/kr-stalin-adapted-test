@@ -727,6 +727,15 @@ RUS_fr_apply_invincible_legendary_final_bonus = {
 		set_country_flag = RUS_fr_invincible_legendary_final_bonus_applied
 		force_update_dynamic_modifier = yes
 	}
+	if = {
+		limit = {
+			has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+			NOT = { has_country_flag = RUS_fr_invincible_legendary_combat_width_bonus_applied }
+		}
+		add_to_variable = { RUS_fr_unified_combat_width_factor = -0.05 }
+		set_country_flag = RUS_fr_invincible_legendary_combat_width_bonus_applied
+		force_update_dynamic_modifier = yes
+	}
 }
 
 RUS_fr_consolidate_armaments_construction_results = {
@@ -1223,6 +1232,7 @@ RUS_fr_initialise_unified_army_reform = {
 		add_to_variable = { RUS_fr_unified_attack_against_major_factor = 0 }
 		add_to_variable = { RUS_fr_unified_defence_against_major_factor = 0 }
 		add_to_variable = { RUS_fr_unified_breakthrough_factor = 0.10 }
+		add_to_variable = { RUS_fr_unified_combat_width_factor = 0 }
 		add_to_variable = { RUS_fr_unified_initiative_factor = 0 }
 		add_to_variable = { RUS_fr_unified_coordination_bonus = 0 }
 		add_to_variable = { RUS_fr_unified_command_power_gain = 0 }
