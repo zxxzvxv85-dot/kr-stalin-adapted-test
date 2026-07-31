@@ -28540,6 +28540,15 @@ focus_tree = {
 		completion_reward = {
 			unlock_decision_tooltip = { decision = RUS_fr_institute_revolutionary_merit_competition show_effect_tooltip = no show_modifiers = no }
 			army_experience = 20
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = { has_country_flag = RUS_fr_first_revolutionary_military_competition_scheduled }
+					}
+					set_country_flag = RUS_fr_first_revolutionary_military_competition_scheduled
+					country_event = { id = stalin_form_sov.26 hours = 6 }
+				}
+			}
 		}
 		search_filters = { FOCUS_FILTER_MILITARY_CHARACTER FOCUS_FILTER_POLITICAL }
 	}
