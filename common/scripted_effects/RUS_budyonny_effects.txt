@@ -1,22 +1,10 @@
-# Country scope. Generate Budyonny at runtime so saves created before his introduction can still receive him.
+# Country scope. Create Budyonny directly as a field marshal so old saves do not depend on a new character token.
 RUS_generate_semyon_budyonny = {
 	if = {
-		limit = {
-			NOT = { has_character = semyon_budyonny }
-			NOT = { has_character = RUS_semyon_budyonny }
-		}
-		generate_character = {
-			token_base = semyon_budyonny
-			name = SOV_semyon_budyonny
-			portraits = {
-				army = {
-					large = GFX_portrait_SOV_semyon_budyonny
-					small = GFX_portrait_SOV_semyon_budyonny_small
-				}
-			}
-		}
-		add_field_marshal_role = {
-			character = RUS_semyon_budyonny
+		limit = { NOT = { has_country_flag = RUS_fr_budyonny_field_marshal_created } }
+		create_field_marshal = {
+			name = "谢苗·布琼尼"
+			gfx = "GFX_portrait_SOV_semyon_budyonny"
 			traits = { old_guard inflexible_strategist politically_connected }
 			skill = 1
 			attack_skill = 1
@@ -24,6 +12,7 @@ RUS_generate_semyon_budyonny = {
 			planning_skill = 1
 			logistics_skill = 1
 		}
+		set_country_flag = RUS_fr_budyonny_field_marshal_created
+		set_country_flag = RUS_fr_budyonny_recruited
 	}
-	set_country_flag = RUS_fr_budyonny_recruited
 }
