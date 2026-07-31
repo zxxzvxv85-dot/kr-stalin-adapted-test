@@ -3,6 +3,13 @@ scripted_gui = {
 		context_type = decision_category
 		window_name = "RUS_fr_military_reform_dashboard_window"
 
+		properties = {
+			RUS_fr_dashboard_reform_progressbar = {
+				x = RUS_fr_dashboard_reform_progressbar_x
+				frame = RUS_fr_dashboard_reform_progressbar_frame
+			}
+		}
+
 		triggers = {
 			RUS_fr_dashboard_bg_0_visible = {
 				NOT = { has_country_flag = RUS_fr_reform_stage_1 }
@@ -163,6 +170,52 @@ scripted_gui = {
 				NOT = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final } }
 			}
 
+			RUS_fr_dashboard_reform_progress_shadow_visible = {
+				always = yes
+			}
+
+			RUS_fr_dashboard_reform_progress_clip_visible = {
+				RUS_fr_dashboard_reform_in_progress = yes
+			}
+
+			RUS_fr_dashboard_reform_progress_stage_1_visible = {
+				has_country_flag = RUS_fr_reform_stage_1_in_progress
+			}
+
+			RUS_fr_dashboard_reform_progress_stage_2_visible = {
+				has_country_flag = RUS_fr_reform_stage_2_in_progress
+			}
+
+			RUS_fr_dashboard_reform_progress_stage_3_visible = {
+				has_country_flag = RUS_fr_reform_stage_3_in_progress
+			}
+
+			RUS_fr_dashboard_reform_progress_stage_4_visible = {
+				has_country_flag = RUS_fr_reform_stage_4_in_progress
+			}
+
+			RUS_fr_dashboard_reform_progress_idle_visible = {
+				NOT = { RUS_fr_dashboard_reform_in_progress = yes }
+				NOT = { has_country_flag = RUS_fr_reform_stage_4 }
+				NOT = { RUS_fr_dashboard_final_state = yes }
+			}
+
+			RUS_fr_dashboard_reform_progress_complete_bar_visible = {
+				NOT = { RUS_fr_dashboard_reform_in_progress = yes }
+				OR = {
+					has_country_flag = RUS_fr_reform_stage_4
+					RUS_fr_dashboard_final_state = yes
+				}
+			}
+
+			RUS_fr_dashboard_reform_progress_complete_visible = {
+				NOT = { RUS_fr_dashboard_reform_in_progress = yes }
+				OR = {
+					has_country_flag = RUS_fr_reform_stage_4
+					RUS_fr_dashboard_final_state = yes
+				}
+			}
+
 			RUS_fr_dashboard_obstacles_stage_0_visible = {
 				RUS_fr_dashboard_stage_0_state = yes
 			}
@@ -279,6 +332,11 @@ scripted_gui = {
 					limit = { RUS_fr_can_start_reform_stage_one = yes }
 					army_experience = var:RUS_fr_xp_cost_100_negative
 					set_country_flag = RUS_fr_reform_stage_1_in_progress
+					set_variable = { RUS_fr_dashboard_reform_total_days = 120 }
+					set_variable = { RUS_fr_dashboard_reform_elapsed_days = 0 }
+					set_variable = { RUS_fr_dashboard_reform_days_remaining = 120 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_x = -158 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_frame = 1 }
 					country_event = { id = RUS_fr_military_reform.910 days = 120 }
 				}
 			}
@@ -288,6 +346,11 @@ scripted_gui = {
 					limit = { RUS_fr_can_start_reform_stage_two = yes }
 					army_experience = var:RUS_fr_xp_cost_100_negative
 					set_country_flag = RUS_fr_reform_stage_2_in_progress
+					set_variable = { RUS_fr_dashboard_reform_total_days = 120 }
+					set_variable = { RUS_fr_dashboard_reform_elapsed_days = 0 }
+					set_variable = { RUS_fr_dashboard_reform_days_remaining = 120 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_x = -158 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_frame = 1 }
 					country_event = { id = RUS_fr_military_reform.911 days = 120 }
 				}
 			}
@@ -297,6 +360,11 @@ scripted_gui = {
 					limit = { RUS_fr_can_start_reform_stage_three = yes }
 					army_experience = var:RUS_fr_xp_cost_100_negative
 					set_country_flag = RUS_fr_reform_stage_3_in_progress
+					set_variable = { RUS_fr_dashboard_reform_total_days = 90 }
+					set_variable = { RUS_fr_dashboard_reform_elapsed_days = 0 }
+					set_variable = { RUS_fr_dashboard_reform_days_remaining = 90 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_x = -158 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_frame = 1 }
 					country_event = { id = RUS_fr_military_reform.912 days = 90 }
 				}
 			}
@@ -306,6 +374,11 @@ scripted_gui = {
 					limit = { RUS_fr_can_start_reform_stage_four = yes }
 					army_experience = var:RUS_fr_xp_cost_100_negative
 					set_country_flag = RUS_fr_reform_stage_4_in_progress
+					set_variable = { RUS_fr_dashboard_reform_total_days = 90 }
+					set_variable = { RUS_fr_dashboard_reform_elapsed_days = 0 }
+					set_variable = { RUS_fr_dashboard_reform_days_remaining = 90 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_x = -158 }
+					set_variable = { RUS_fr_dashboard_reform_progressbar_frame = 1 }
 					country_event = { id = RUS_fr_military_reform.913 days = 90 }
 				}
 			}

@@ -1073,6 +1073,61 @@ RUS_fr_add_initial_reform_disorganisation = {
 	else = { add_ideas = RUS_fr_reform_disorganisation_4 }
 }
 
+# Advances the dashboard bar used by the four clickable reform-stage icons.
+# The delayed completion events remain authoritative; these variables only
+# provide a visible daily countdown and also initialise old in-progress saves.
+RUS_fr_update_dashboard_reform_progress = {
+	if = {
+		limit = { RUS_fr_dashboard_reform_in_progress = yes }
+		if = {
+			limit = { NOT = { check_variable = { RUS_fr_dashboard_reform_total_days > 0 } } }
+			if = {
+				limit = { has_country_flag = RUS_fr_reform_stage_1_in_progress }
+				set_variable = { RUS_fr_dashboard_reform_total_days = 120 }
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_fr_reform_stage_2_in_progress }
+				set_variable = { RUS_fr_dashboard_reform_total_days = 120 }
+			}
+			else = { set_variable = { RUS_fr_dashboard_reform_total_days = 90 } }
+			set_variable = { RUS_fr_dashboard_reform_elapsed_days = 0 }
+			set_variable = { RUS_fr_dashboard_reform_progressbar_x = -158 }
+		}
+		if = {
+			limit = {
+				check_variable = { RUS_fr_dashboard_reform_elapsed_days < RUS_fr_dashboard_reform_total_days }
+			}
+			add_to_variable = { RUS_fr_dashboard_reform_elapsed_days = 1 }
+		}
+		set_variable = {
+			RUS_fr_dashboard_reform_days_remaining = {
+				value = RUS_fr_dashboard_reform_total_days
+				subtract = RUS_fr_dashboard_reform_elapsed_days
+				round = yes
+				clamp = { min = 0 max = 120 }
+			}
+		}
+		set_variable = {
+			RUS_fr_dashboard_reform_progressbar_x = {
+				value = RUS_fr_dashboard_reform_elapsed_days
+				divide = RUS_fr_dashboard_reform_total_days
+				multiply = 158
+				subtract = 158
+				round = yes
+				clamp = { min = -158 max = 0 }
+			}
+		}
+		set_variable = { RUS_fr_dashboard_reform_progressbar_frame = 1 }
+	}
+	else = {
+		set_variable = { RUS_fr_dashboard_reform_total_days = 0 }
+		set_variable = { RUS_fr_dashboard_reform_elapsed_days = 0 }
+		set_variable = { RUS_fr_dashboard_reform_days_remaining = 0 }
+		set_variable = { RUS_fr_dashboard_reform_progressbar_x = -158 }
+		set_variable = { RUS_fr_dashboard_reform_progressbar_frame = 1 }
+	}
+}
+
 # The first two 120-day reform decisions use these monotonic completion
 # effects, so an out-of-order script call can never restore a stronger
 # version of the combined reform spirit.
