@@ -391,6 +391,15 @@ on_actions = {
 				}
 				RUS_generate_kliment_voroshilov = yes
 			}
+			# Recover Budyonny in saves where the Thunderstorm Military Academy completed before he was introduced.
+			if = {
+				limit = {
+					has_country_flag = RUS_fr_red_academy_decision_complete
+					NOT = { has_character = semyon_budyonny }
+					NOT = { has_character = RUS_semyon_budyonny }
+				}
+				RUS_generate_semyon_budyonny = yes
+			}
 			# Repair saves affected by the temporary early army-chief event trigger.
 			if = {
 				limit = {
