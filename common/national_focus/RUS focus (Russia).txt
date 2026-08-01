@@ -20082,7 +20082,7 @@ focus_tree = {
 			has_country_flag = RUS_exiles_have_returned
 			has_completed_focus = RUS_slay_militarism
 		}
-		x = 10
+		x = 8
 		y = 9
 		offset = {
 			x = -7
@@ -20406,14 +20406,12 @@ focus_tree = {
 		allow_branch = { always = no }
 		available = {
 			any_enemy_country = { is_actual_major = yes }
+			has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 		}
 		ai_will_do = { base = 1000 }
 		relative_position_id = RUS_rehabilitate_red_army
 		x = 0
 		y = 3
-		prerequisite = {
-			focus = RUS_fr_rebuild_revolutionary_military_council
-		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_mother_russia_bleed_them_dry"
 			add_war_support = 0.1
@@ -20432,12 +20430,12 @@ focus_tree = {
 		relative_position_id = RUS_rehabilitate_red_army
 		x = 0
 		y = 3
-		available = { RUS_VST_right = no }
-		prerequisite = {
-			focus = RUS_punitive_brigades
+		available = {
+			RUS_VST_right = no
+			has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 		}
 		prerequisite = {
-			focus = RUS_fr_rebuild_revolutionary_military_council
+			focus = RUS_punitive_brigades
 		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_exhortation_organisation_reprisals"
