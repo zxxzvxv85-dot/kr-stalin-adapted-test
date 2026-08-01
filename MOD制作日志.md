@@ -2,6 +2,17 @@
 
 最后更新：2026-08-01
 
+## 2026-08-01 — “革命功勋竞赛”专属国策图标
+
+状态：**已完成，待完全重启游戏确认实际显示效果**
+
+- 为国策 `RUS_fr_revolutionary_merit_competition` 新制作独立图标，不再复用“火炬永不灭”的 `GFX_focus_RUS_red_october_never_fade`。
+- 图标以红星功勋章为中心，结合步枪、机械量具、齿轮、麦穗与月桂，分别表现战斗训练、技术竞赛、军工技能和集体荣誉；明确避开火炬、火焰、文字和个人英雄肖像。
+- 新资源保存为 `gfx/interface/goals/RUS_fr_military_reform/revolutionary_merit_competition.png`，画布为 `100×88` 透明 PNG，并注册普通与高亮动画精灵 `GFX_goal_RUS_fr_revolutionary_merit_competition` / `_shine`。
+- 原始图由内置图像生成工具在纯绿色键控背景上生成，随后移除色键、收缩边缘、去除绿色溢色，并在缩小过程中降低饱和度、对比度和过锐细节，使其更接近 KR 国策图标的旧式金属与印刷质感。
+- 同步为“淬火成钢”国策 `RUS_fr_all_russian_red_army_exercise` 制作专属图标：以铁锤、炽热钢坯、铁砧、红星、齿轮和对称麦穗表现红军在演习与制度检验中被反复锻造，不再使用带双头鹰意象的通用 `GFX_goal_RUS_army`。
+- “淬火成钢”资源保存为 `gfx/interface/goals/RUS_fr_military_reform/tempered_in_steel.png`，同样采用 `100×88` 透明画布，并注册 `GFX_goal_RUS_fr_tempered_in_steel` 及其 `_shine` 高亮动画。
+
 ## 2026-08-01 — 新增 HOI4 Mod 入门与本项目维护教程
 
 状态：**已完成**
