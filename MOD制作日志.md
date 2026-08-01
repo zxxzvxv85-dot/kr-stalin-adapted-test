@@ -12,6 +12,7 @@
 - 适配版与测试版分别生成独立上传目录，避免 Steam 上传器把 Git 历史一并计入体积。
 - 为 `localisation/replace/RUS_stalin_high_command_desc_replace_l_russian.yml` 补齐 HOI4 本地化所需的 UTF-8 BOM，并同步应用到适配版。
 - 上传脚本不再依赖中文文件名匹配，统一排除仓库根目录的 Markdown 文件，避免 Windows PowerShell 编码差异使制作日志进入发布包。
+- Paradox Launcher 的正式适配版、测试版条目改为读取各自 `_upload` 目录；同时新增两个无远程 ID 的“开发目录”条目，供直接载入 Git 工作区进行实测。
 
 ## 2026-07-31 — 修复军改进度栏标题缺字
 
