@@ -1,6 +1,16 @@
 # [KR] 多么幼稚的幻想，但是斯大林——制作日志与开发备忘
 
-最后更新：2026-07-31
+最后更新：2026-08-01
+
+## 2026-08-01 — 建立干净的 Steam 上传目录
+
+状态：**已实现**
+
+- 新增 `tools/Build-CleanWorkshopUpload.ps1`，以当前 Git 跟踪文件生成同级 `_upload` 目录。
+- 上传包自动排除 `.git` 相关配置、`AGENTS.md`、制作日志、开发工具、源图和预览草稿，保留 `descriptor.mod`、`thumbnail.png` 及全部实际游戏资源。
+- 如果目标上传目录已经存在，脚本会先将旧目录改名为带时间戳的备份，再生成全新目录；这样不会用递归删除破坏现有发布文件。
+- 适配版与测试版分别生成独立上传目录，避免 Steam 上传器把 Git 历史一并计入体积。
+- 为 `localisation/replace/RUS_stalin_high_command_desc_replace_l_russian.yml` 补齐 HOI4 本地化所需的 UTF-8 BOM，并同步应用到适配版。
 
 ## 2026-07-31 — 修复军改进度栏标题缺字
 
