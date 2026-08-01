@@ -11,6 +11,7 @@
 - 如果目标上传目录已经存在，脚本会先将旧目录改名为带时间戳的备份，再生成全新目录；这样不会用递归删除破坏现有发布文件。
 - 适配版与测试版分别生成独立上传目录，避免 Steam 上传器把 Git 历史一并计入体积。
 - 为 `localisation/replace/RUS_stalin_high_command_desc_replace_l_russian.yml` 补齐 HOI4 本地化所需的 UTF-8 BOM，并同步应用到适配版。
+- 上传脚本不再依赖中文文件名匹配，统一排除仓库根目录的 Markdown 文件，避免 Windows PowerShell 编码差异使制作日志进入发布包。
 
 ## 2026-07-31 — 修复军改进度栏标题缺字
 

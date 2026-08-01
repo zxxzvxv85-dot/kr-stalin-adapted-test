@@ -36,7 +36,8 @@ if ($LASTEXITCODE -ne 0 -or $insideWorkTree -ne "true") {
 }
 
 $excludePatterns = @(
-    '^(?:\.gitattributes|\.gitignore|AGENTS\.md|MOD制作日志\.md)$',
+    '^(?:\.gitattributes|\.gitignore)$',
+    '^[^/]+\.md$',
     '^tools/',
     '(?i)(?:^|/)[^/]*(?:_source|_preview(?:_v?\d+)?|_draft)[^/]*\.(?:png|jpe?g|dds|tga|psd)$',
     '(?i)^thumbnail_before_.*$',
