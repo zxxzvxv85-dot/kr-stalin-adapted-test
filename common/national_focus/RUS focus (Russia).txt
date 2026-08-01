@@ -20136,10 +20136,12 @@ focus_tree = {
 		icon = GFX_goal_generic_army_high_command
 		cost = 3
 		relative_position_id = RUS_fr_post_revolutionary_armed_forces
-		x = 0
-		y = 1
+		x = 2
+		y = 0
 		allow_branch = { has_socialist_government = yes }
-		prerequisite = { focus = RUS_fr_post_revolutionary_armed_forces }
+		available = {
+			has_completed_focus = RUS_fr_post_revolutionary_armed_forces
+		}
 		completion_reward = {
 			set_country_flag = RUS_fr_frunze_defence_report_delivered
 			RUS_semyon_timoshenko = { set_nationality = ROOT }
@@ -20214,8 +20216,8 @@ focus_tree = {
 		cost = 3
 
 		relative_position_id = RUS_fr_frunze_defence_report
-		x = 0
-		y = 1
+		x = 2
+		y = 0
 
 		ai_will_do = {
 			factor = 4
@@ -20237,10 +20239,8 @@ focus_tree = {
 			}
 		}
 
-		prerequisite = {
-			focus = RUS_fr_frunze_defence_report
-		}
 		available = {
+			has_completed_focus = RUS_fr_frunze_defence_report
 			RUS_fr_requires_8_military_reform_materials = yes
 		}
 		select_effect = {
@@ -28030,11 +28030,12 @@ focus_tree = {
 		icon = GFX_focus_SOV_military_purge
 		cost = 3
 		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
-		x = -6
+		x = -10
 		y = 1
 		allow_branch = { has_socialist_government = yes }
-		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
+		prerequisite = { focus = RUS_fr_post_revolutionary_armed_forces }
 		available = {
+			has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 			custom_override_tooltip = { tooltip = RUS_fr_automatic_focus_tt always = no }
 			RUS_fr_requires_6_military_reform_materials = yes
 		}
@@ -28178,11 +28179,12 @@ focus_tree = {
 		icon = GFX_focus_generic_military_mission
 		cost = 3
 		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
-		x = 0
+		x = -4
 		y = 1
 		allow_branch = { has_socialist_government = yes }
-		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
+		prerequisite = { focus = RUS_fr_frunze_defence_report }
 		available = {
+			has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 			custom_trigger_tooltip = {
 				tooltip = RUS_fr_requires_unified_military_political_system_tt
 				has_completed_focus = RUS_fr_unified_military_political_system
@@ -28389,9 +28391,11 @@ focus_tree = {
 		icon = GFX_goal_RUS_army
 		cost = 4
 		relative_position_id = RUS_fr_reorganise_general_staff_districts
-		x = 0
-		y = 1
-		prerequisite = { focus = RUS_fr_reorganise_general_staff_districts }
+		x = -2
+		y = 0
+		available = {
+			has_completed_focus = RUS_fr_reorganise_general_staff_districts
+		}
 		completion_reward = {
 			unlock_decision_tooltip = { decision = RUS_fr_conduct_all_russian_red_army_exercise show_effect_tooltip = no show_modifiers = no }
 			unlock_decision_tooltip = { decision = RUS_fr_voronezh_exercise_review show_effect_tooltip = no show_modifiers = no }
@@ -28646,7 +28650,7 @@ focus_tree = {
 		icon = GFX_goal_RUS_fr_federal_armaments_commission
 		cost = 4
 		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
-		x = 12
+		x = 8
 		y = 1
 		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
 		available = {
