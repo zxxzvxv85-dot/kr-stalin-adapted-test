@@ -1,0 +1,221 @@
+unique_id = RUS_stalin_adapted_achievements
+
+RUS_stalin_adapted_steel_comrade_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_stalin_adapted_steel_comrade_achievement_tt
+				has_country_flag = RUS_stalin_communist_path
+				has_completed_focus = RUS_unite_under_stalin
+				has_country_leader = { character = RUS_iosif_stalin }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_stalin_adapted_plan_overfulfilled_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_stalin_adapted_plan_overfulfilled_achievement_tt
+				has_country_flag = RUS_first_five_year_plan_success
+				check_variable = { RUS_first_five_year_plan_stage > 5.9 }
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_stalin_adapted_field_to_classroom_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_stalin_adapted_field_to_classroom_achievement_tt
+				has_country_flag = RUS_education_reform_completed
+				has_country_flag = RUS_maximalist_land_reform_success
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_stalin_adapted_red_army_strongest_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_stalin_adapted_red_army_strongest_achievement_tt
+				has_completed_focus = RUS_fr_revolutionary_military_system_finalised
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_stalin_adapted_three_agendas_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_stalin_adapted_three_agendas_achievement_tt
+				has_country_flag = RUS_stalin_communist_path
+				RUS_iosif_stalin = {
+					has_character_flag = RUS_stalin_agendas_complete
+				}
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
+
+RUS_stalin_adapted_childish_fantasy_achievement = {
+	possible = {
+		tag = RUS
+	}
+
+	happened = {
+		if = {
+			limit = {
+				NOT = { has_global_flag = disallow_achievements_flag }
+				OR = {
+					NOT = { has_global_flag = on_startup_completed }
+					is_ai = no
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_stalin_adapted_childish_fantasy_achievement_tt
+				has_country_flag = RUS_stalin_communist_path
+				has_completed_focus = RUS_found_communist_international
+				has_completed_focus = RUS_found_sov_union
+				has_cosmetic_tag = RUS_sov_union
+			}
+		}
+		else_if = {
+			limit = { has_global_flag = disallow_achievements_flag }
+			custom_override_tooltip = {
+				tooltip = achievements_disabled
+				always = no
+			}
+		}
+		else = {
+			custom_override_tooltip = {
+				tooltip = achievements_disabled_observer
+				always = no
+			}
+		}
+	}
+}
