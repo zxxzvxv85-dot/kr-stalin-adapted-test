@@ -73,6 +73,24 @@ if (Test-Path -LiteralPath $destination) {
     Write-Host "Previous upload directory moved to: $backup"
 }
 
+# Retain only the newest safety backup so repeated builds do not accumulate
+# large .previous.* directories indefinitely.
+$previousDirectories = @(
+    Get-ChildItem -LiteralPath $destinationParent -Directory -Filter "$destinationName.previous.*" |
+        Sort-Object Name -Descending
+)
+foreach ($oldPreviousDirectory in ($previousDirectories | Select-Object -Skip 1)) {
+    $oldPreviousPath = [System.IO.Path]::GetFullPath($oldPreviousDirectory.FullName).TrimEnd([System.IO.Path]::DirectorySeparatorChar)
+    $oldPreviousParent = [System.IO.Path]::GetFullPath((Split-Path -Parent $oldPreviousPath)).TrimEnd([System.IO.Path]::DirectorySeparatorChar)
+    $oldPreviousName = Split-Path -Leaf $oldPreviousPath
+    if (-not $oldPreviousParent.Equals($destinationParent, [System.StringComparison]::OrdinalIgnoreCase) -or
+        -not $oldPreviousName.StartsWith("$destinationName.previous.", [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Refusing to remove an unverified previous upload directory: $oldPreviousPath"
+    }
+    Remove-Item -LiteralPath $oldPreviousPath -Recurse -Force
+    Write-Host "Removed older upload backup: $oldPreviousPath"
+}
+
 New-Item -ItemType Directory -Path $destination -Force | Out-Null
 
 $copied = 0
