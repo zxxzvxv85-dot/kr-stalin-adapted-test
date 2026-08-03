@@ -399,6 +399,14 @@ on_actions = {
 				}
 				RUS_generate_semyon_budyonny = yes
 			}
+			# Add Bukharin to Socialist Russia saves created before his advisor role was introduced.
+			if = {
+				limit = {
+					has_socialist_government = yes
+					NOT = { has_country_flag = RUS_nikolay_bukharin_character_present }
+				}
+				RUS_generate_nikolay_bukharin_advisor_compat = yes
+			}
 			# Repair saves affected by the temporary early army-chief event trigger.
 			if = {
 				limit = {

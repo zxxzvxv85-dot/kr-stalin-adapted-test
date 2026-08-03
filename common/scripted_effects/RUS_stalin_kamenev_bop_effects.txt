@@ -215,6 +215,13 @@ RUS_stalin_kamenev_bop_swap_character_traits = {
 		}
 	}
 	if = {
+		limit = { RUS_nikolay_bukharin = { has_trait = KR_bolshevik_bukharin } }
+		RUS_nikolay_bukharin = {
+			remove_trait = { trait = KR_bolshevik_bukharin slot = political_advisor }
+			add_trait = { trait = KR_bolshevik_bukharin_bop slot = political_advisor }
+		}
+	}
+	if = {
 		limit = { RUS_ilya_mayorov = { has_trait = KR_spiridonist_mayorov } }
 		RUS_ilya_mayorov = {
 			remove_trait = { trait = KR_spiridonist_mayorov slot = political_advisor }

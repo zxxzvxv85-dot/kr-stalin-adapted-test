@@ -1,0 +1,39 @@
+# Country scope. Generate Bukharin as an advisor for saves created before his predefined character was added.
+RUS_generate_nikolay_bukharin_advisor_compat = {
+	if = {
+		limit = {
+			has_socialist_government = yes
+			NOT = { has_country_flag = RUS_nikolay_bukharin_character_present }
+		}
+		generate_character = {
+			token_base = nikolay_bukharin_advisor_compat
+			advisor = {
+				slot = political_advisor
+				idea_token = RUS_nikolay_bukharin_advisor
+				desc = RUS_nikolay_bukharin_advisor_desc
+				available = {
+					RUS_stalin_can_hire_bolshevik_advisor = yes
+					has_completed_focus = RUS_invite_sverdlov
+					not_already_hired_except_as = political_advisor
+				}
+				visible = { has_socialist_government = yes }
+				# The compatibility character carries the BoP marker from creation so it also works
+				# in saves where the Kamenev balance was enabled before this character existed.
+				traits = { RUS_bukharin_economic_theorist KR_bolshevik_bukharin KR_bolshevik_bukharin_bop }
+				on_add = {
+					set_temp_variable = { RUS_relation_change = 1 }
+					RUS_RKP_relation = yes
+				}
+				on_remove = {
+					set_temp_variable = { RUS_relation_change = -1 }
+					RUS_RKP_relation = yes
+				}
+				ai_will_do = { base = 50 }
+			}
+			portraits = {
+				army = { small = GFX_portrait_RUS_nikolay_bukharin_civilian_small }
+			}
+		}
+		set_country_flag = RUS_nikolay_bukharin_character_present
+	}
+}

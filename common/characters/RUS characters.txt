@@ -2326,6 +2326,35 @@
 			ai_will_do = { base = 50 }
 		}
 	}
+	RUS_nikolay_bukharin = {
+		name = RUS_nikolay_bukharin
+		portraits = {
+			civilian = {
+				small = GFX_portrait_RUS_nikolay_bukharin_civilian_small
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = RUS_nikolay_bukharin_advisor
+			desc = RUS_nikolay_bukharin_advisor_desc
+			available = {
+				RUS_stalin_can_hire_bolshevik_advisor = yes
+				has_completed_focus = RUS_invite_sverdlov
+				not_already_hired_except_as = political_advisor
+			}
+			visible = { has_socialist_government = yes }
+			traits = { RUS_bukharin_economic_theorist KR_bolshevik_bukharin }
+			on_add = {
+				set_temp_variable = { RUS_relation_change = 1 }
+				RUS_RKP_relation = yes
+			}
+			on_remove = {
+				set_temp_variable = { RUS_relation_change = -1 }
+				RUS_RKP_relation = yes
+			}
+			ai_will_do = { base = 50 }
+		}
+	}
 	RUS_boris_shaposhnikov = {
 		name = RUS_boris_shaposhnikov
 		portraits = {
