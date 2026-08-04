@@ -1,0 +1,81 @@
+guiTypes = {
+
+	containerWindowType = {
+		name = "RUS_soviet_foundation_super_event_window"
+		position = { x = 0 y = 0 }
+		size = { width = 1120 height = 650 }
+		orientation = center
+		origo = center
+		clipping = no
+		moveable = no
+		background = {
+			name = "RUS_soviet_foundation_super_event_background"
+			spriteType = "GFX_RUS_soviet_foundation_super_event_background"
+			alwaystransparent = yes
+		}
+
+		iconType = {
+			name = "RUS_soviet_foundation_super_event_poster"
+			position = { x = 92 y = 94 }
+			spriteType = "GFX_RUS_soviet_foundation_super_event_poster"
+			scale = 0.74
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_soviet_foundation_super_event_title"
+			position = { x = 542 y = 111 }
+			font = "hoi_24header"
+			text = "stalin_form_sov.22.t"
+			format = center
+			maxWidth = 500
+			maxHeight = 56
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+
+		containerWindowType = {
+			name = "RUS_soviet_foundation_super_event_text_viewport"
+			position = { x = 548 y = 171 }
+			size = { width = 492 height = 342 }
+			clipping = yes
+			scroll_wheel_factor = 24
+			smooth_scrolling = yes
+			drag_scroll = { left middle }
+
+			instantTextBoxType = {
+				name = "RUS_soviet_foundation_super_event_declaration"
+				position = { x = 6 y = 0 }
+				font = "hoi_18mbs"
+				text = "stalin_form_sov.22.desc"
+				format = left
+				maxWidth = 468
+				maxHeight = 1700
+				fixedsize = yes
+				context_aware_tooltip = RUS_soviet_foundation_super_event_full_text_tt
+				alwaystransparent = yes
+			}
+		}
+
+		instantTextBoxType = {
+			name = "RUS_soviet_foundation_super_event_scroll_hint"
+			position = { x = 560 y = 522 }
+			font = "hoi_16mbs"
+			text = "RUS_soviet_foundation_super_event_scroll_hint"
+			format = center
+			maxWidth = 465
+			maxHeight = 24
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+
+		buttonType = {
+			name = "RUS_soviet_foundation_super_event_close"
+			position = { x = 608 y = 579 }
+			quadTextureSprite = "GFX_event_option_entry"
+			buttonText = "RUS_soviet_foundation_super_event_button"
+			buttonFont = "hoi_24header"
+			clicksound = click_close
+		}
+	}
+}
