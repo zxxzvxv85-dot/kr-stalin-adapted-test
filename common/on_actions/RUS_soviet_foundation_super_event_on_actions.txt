@@ -1,0 +1,31 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			every_country = {
+				limit = {
+					original_tag = RUS
+					is_ai = no
+					has_completed_focus = RUS_found_sov_union
+					NOT = { has_country_flag = RUS_soviet_foundation_super_event_seen }
+					NOT = { has_country_flag = RUS_soviet_foundation_super_event_visible }
+				}
+				country_event = { id = RUS_soviet_foundation_super_event.1 hours = 1 }
+			}
+		}
+	}
+
+	on_daily = {
+		effect = {
+			if = {
+				limit = {
+					tag = RUS
+					is_ai = no
+					has_completed_focus = RUS_found_sov_union
+					NOT = { has_country_flag = RUS_soviet_foundation_super_event_seen }
+					NOT = { has_country_flag = RUS_soviet_foundation_super_event_visible }
+				}
+				country_event = { id = RUS_soviet_foundation_super_event.1 hours = 1 }
+			}
+		}
+	}
+}
