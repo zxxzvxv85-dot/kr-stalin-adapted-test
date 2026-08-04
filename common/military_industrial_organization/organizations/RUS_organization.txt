@@ -475,7 +475,10 @@ RUS_okmo_kr_organisation = {
 		FROM = {
 			if = {
 				limit = { original_tag = RUS }
-				has_completed_focus = RUS_motorisation
+				OR = {
+					has_completed_focus = RUS_motorisation
+					has_completed_focus = RUS_fr_emphasise_armour_design
+				}
 			}
 			else_if = {
 				limit = { original_tag = FER }
@@ -10468,7 +10471,10 @@ RUS_vpoz_organisation = {
 		FROM = {
 			if = {
 				limit = { original_tag = RUS }
-				has_completed_focus = RUS_military_production
+				OR = {
+					has_completed_focus = RUS_military_production
+					has_completed_focus = RUS_fr_light_weapons_artillery_design
+				}
 			}
 			else_if = {
 				limit = { original_tag = FER }
@@ -12980,7 +12986,10 @@ RUS_naz_organisation = {
 			FROM = {
 				if = {
 					limit = { original_tag = RUS }
-					has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus
+					OR = {
+						has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus
+						has_completed_focus = RUS_fr_mechanisation_wave
+					}
 				}
 				else_if = {
 					limit = { original_tag = FER }
@@ -13015,7 +13024,7 @@ RUS_naz_organisation = {
 		}
 
 		available = {
-			FROM = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus }
+			FROM = { OR = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus has_completed_focus = RUS_fr_mechanisation_wave } }
 		}
 
 		any_parent = { naz_upgrade_3_1 naz_upgrade_3_2 naz_upgrade_3_3 }
@@ -13657,7 +13666,10 @@ RUS_laz_organisation = {
 
 		available = {
 			FROM = {
-				has_completed_focus = RUS_update_equipment
+				OR = {
+					has_completed_focus = RUS_update_equipment
+					has_completed_focus = RUS_fr_small_arms_standardisation_committee
+				}
 			}
 		}
 
@@ -13683,7 +13695,10 @@ RUS_laz_organisation = {
 
 		available = {
 			FROM = {
-				has_completed_focus = RUS_update_equipment
+				OR = {
+					has_completed_focus = RUS_update_equipment
+					has_completed_focus = RUS_fr_small_arms_standardisation_committee
+				}
 			}
 		}
 

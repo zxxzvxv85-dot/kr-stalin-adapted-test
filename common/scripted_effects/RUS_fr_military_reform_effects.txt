@@ -420,6 +420,182 @@ RUS_fr_show_mobility_legacy_rewards = {
 	}
 }
 
+# Transfer rewards from the hidden pre-rework focuses without completing those
+# focuses. complete_national_focus still creates completion broadcasts in the
+# current game version even when use_side_message = no.
+RUS_fr_apply_white_networks_legacy_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_white_networks_legacy_rewards_applied } }
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_death_to_white_army } }
+			add_manpower = -40500
+			RUS_promote_socialist_generals = yes
+			RUS_basan_gorodovikov = { set_nationality = ROOT }
+			RUS_pavel_rychagov = {
+				add_advisor_role = {
+					advisor = {
+						slot = air_chief
+						idea_token = RUS_pavel_rychagov_air_chief
+						desc = RUS_pavel_rychagov_high_command_desc
+						traits = { KR_air_chief_reform_2 }
+						cost = 100
+					}
+				}
+			}
+			hidden_effect = {
+				country_event = { id = russia_flavour_events.163 days = 10 random_days = 90 }
+			}
+		}
+		set_country_flag = RUS_fr_white_networks_legacy_rewards_applied
+	}
+}
+
+RUS_fr_apply_military_production_legacy_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_military_production_rewards_transferred } }
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_military_production } }
+			653 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = arms_factory level = 2 }
+			}
+			activate_targeted_decision = { target = 219 decision = RUS_modernisation_of_AMO }
+			activate_targeted_decision = { target = 399 decision = RUS_izhevsk_mechanical_plant }
+			activate_targeted_decision = { target = 572 decision = RUS_create_tankograd }
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_idea = RUS_military_production_idea_1
+							has_idea = RUS_military_production_idea_2
+							has_idea = RUS_military_production_idea_3
+							has_idea = RUS_military_production_idea_4
+						}
+					}
+				}
+				add_ideas = RUS_military_production_idea_1
+			}
+		}
+		set_country_flag = RUS_fr_military_production_rewards_transferred
+	}
+}
+
+RUS_fr_apply_small_arms_legacy_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_small_arms_legacy_rewards_applied } }
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_update_equipment } }
+			add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = infantry_weapons }
+			add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = support_tech }
+			if = {
+				limit = { has_idea = RUS_military_production_idea_1 }
+				swap_ideas = { remove_idea = RUS_military_production_idea_1 add_idea = RUS_military_production_idea_2 }
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_idea = RUS_military_production_idea_2
+							has_idea = RUS_military_production_idea_3
+							has_idea = RUS_military_production_idea_4
+						}
+					}
+				}
+				add_ideas = RUS_military_production_idea_2
+			}
+			set_country_flag = improve_soz
+			if = {
+				limit = { has_dlc_aat = no has_idea = soz }
+				swap_ideas = { remove_idea = soz add_idea = soz_improved }
+			}
+			if = {
+				limit = { has_dlc_aat = no has_idea = laz }
+				swap_ideas = { remove_idea = laz add_idea = laz_improved }
+			}
+		}
+		set_country_flag = RUS_fr_small_arms_legacy_rewards_applied
+	}
+}
+
+RUS_fr_apply_mechanisation_legacy_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_mechanisation_legacy_rewards_applied } }
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } }
+			252 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = arms_factory level = 2 }
+			}
+			add_tech_bonus = {
+				name = RUS_nizhegorodsky_avtomobilny_focus
+				bonus = 1
+				uses = 1
+				category = cat_mechanized_equipment
+				category = motorized_equipment
+			}
+			if = {
+				limit = { has_dlc_aat = no has_idea = naz }
+				swap_ideas = { remove_idea = naz add_idea = naz_improved }
+			}
+		}
+		set_country_flag = RUS_fr_mechanisation_legacy_rewards_applied
+	}
+}
+
+RUS_fr_apply_logistics_legacy_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_logistics_legacy_rewards_applied } }
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_roads_of_courage } }
+			enable_tech_improved_logistics = yes
+			enable_tech_winter_logistics_support = yes
+		}
+		set_country_flag = RUS_fr_logistics_legacy_rewards_applied
+	}
+}
+
+RUS_fr_apply_expand_ird_legacy_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_expand_ird_legacy_rewards_applied } }
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_expand_ird } }
+			if = {
+				limit = {
+					controls_province = 9292
+					572 = { is_owned_and_controlled_by = ROOT can_construct_building = air_facility }
+				}
+				572 = { add_building_construction = { type = air_facility level = 1 province = 9292 instant_build = yes } }
+			}
+			else = {
+				random_owned_controlled_state = {
+					prioritize = { 403 572 583 653 }
+					limit = { is_core_of = ROOT can_construct_building = air_facility }
+					construct_building_in_random_province = { air_facility = 1 }
+				}
+			}
+			add_tech_bonus = { name = RUS_expand_ird bonus = 1 uses = 2 category = rocketry }
+		}
+		set_country_flag = RUS_fr_expand_ird_legacy_rewards_applied
+	}
+}
+
+RUS_fr_apply_armour_design_legacy_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_fr_armour_design_legacy_rewards_applied } }
+		if = {
+			limit = { NOT = { has_completed_focus = RUS_NPP_tanks } }
+			add_tech_bonus = { name = RUS_NPP_tanks bonus = 1 uses = 2 category = mio_cat_tech_all_armor_and_modules }
+			RUS_spawn_breakthrough_tanks = yes
+			if = {
+				limit = { has_dlc_aat = no has_idea = sormovo }
+				swap_ideas = { remove_idea = sormovo add_idea = sormovo_improved }
+				set_country_flag = upgrade_sormovo
+			}
+		}
+		set_country_flag = RUS_fr_armour_design_legacy_rewards_applied
+	}
+}
+
 RUS_fr_apply_artillery_legacy_rewards = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_fr_artillery_legacy_rewards_applied } }
@@ -443,32 +619,10 @@ RUS_fr_apply_artillery_legacy_rewards = {
 }
 
 RUS_fr_complete_mobility_legacy_focuses = {
-	# The old artillery and motorisation focuses are mutually exclusive. The new
-	# reform tree keeps their compatibility state hidden while reproducing their
-	# actual rewards through native effect tooltips.
+	# The new tree reproduces the old mobility rewards directly. It deliberately
+	# does not complete or uncomplete any hidden pre-rework focus, because those
+	# operations still generate misleading focus-completion broadcasts.
 	RUS_fr_show_mobility_legacy_rewards = yes
-	hidden_effect = {
-		if = {
-			limit = {
-				has_completed_focus = RUS_artillery_production
-				NOT = { has_completed_focus = RUS_motorisation }
-			}
-			set_country_flag = RUS_fr_artillery_legacy_rewards_applied
-			uncomplete_national_focus = {
-				focus = RUS_artillery_production
-				uncomplete_children = no
-				refund_political_power = no
-			}
-		}
-		if = {
-			limit = { NOT = { has_completed_focus = RUS_motorisation } }
-			complete_national_focus = { focus = RUS_motorisation use_side_message = no }
-		}
-		if = {
-			limit = { NOT = { has_completed_focus = RUS_roads_of_courage } }
-			complete_national_focus = { focus = RUS_roads_of_courage use_side_message = no }
-		}
-	}
 	if = {
 		limit = {
 			has_country_flag = RUS_fr_motorisation_rewards_deferred

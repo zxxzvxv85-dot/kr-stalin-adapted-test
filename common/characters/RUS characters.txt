@@ -4693,7 +4693,10 @@
 			slot = political_advisor
 			idea_token = RUS_vasily_grabin_advisor
 			available = {
-				has_completed_focus = RUS_update_equipment
+				OR = {
+					has_completed_focus = RUS_update_equipment
+					has_completed_focus = RUS_fr_small_arms_standardisation_committee
+				}
 			}
 			visible = {
 				RUS_is_demrus = yes

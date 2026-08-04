@@ -541,18 +541,18 @@ RUS_stalin_recalculate_red_army_dynamic_modifier = {
 		limit = { has_country_flag = RUS_stalin_communist_path }
 		if = { limit = { has_completed_focus = RUS_address_the_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_improve_savinkov_line } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_military_production } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_update_equipment } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_roads_of_courage } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_NPP_tanks } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_military_production has_completed_focus = RUS_fr_light_weapons_artillery_design } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_update_equipment has_completed_focus = RUS_fr_small_arms_standardisation_committee } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_roads_of_courage has_completed_focus = RUS_fr_mechanised_logistics_regulations } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus has_completed_focus = RUS_fr_mechanisation_wave } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_NPP_tanks has_completed_focus = RUS_fr_emphasise_armour_design } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_artillery_production } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_motorisation } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_expand_ird } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_motorisation has_completed_focus = RUS_fr_emphasise_armour_design } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_expand_ird has_completed_focus = RUS_fr_self_propelled_support_fire_trials } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_academy_of_black_epaulettes } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_legacy_of_workers_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_heirs_of_stavka } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_death_to_white_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_death_to_white_army has_country_flag = RUS_fr_district_reorganisation_decision_complete } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_commissars } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_military_independence } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_democratic_guard } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
@@ -565,7 +565,7 @@ RUS_stalin_recalculate_red_army_dynamic_modifier = {
 		if = { limit = { has_completed_focus = RUS_technological_supremacy } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_desperate_measures } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_rehabilitate_red_army } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
-		if = { limit = { has_completed_focus = RUS_end_army_factionalism } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
+		if = { limit = { OR = { has_completed_focus = RUS_end_army_factionalism has_completed_focus = RUS_fr_national_military_reform_program } } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_fr_rebuild_revolutionary_military_council } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_punitive_brigades } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_exhortation_organisation_reprisals } add_to_variable = { RUS_stalin_red_army_terrain_focus_count = 1 } }

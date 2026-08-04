@@ -14631,7 +14631,10 @@ focus_tree = {
 				}
 				has_completed_focus = RUS_russian_socialism
 				RUS_aleksey_ustinov = { is_second_in_command = yes }
-				has_completed_focus = RUS_end_army_factionalism
+				OR = {
+					has_completed_focus = RUS_end_army_factionalism
+					has_completed_focus = RUS_fr_national_military_reform_program
+				}
 				totalist > 0.50
 				custom_override_tooltip = {
 					check_variable = { RUS_maximalist_influence > 75 }
@@ -17708,11 +17711,11 @@ focus_tree = {
 			custom_effect_tooltip = RUS_separate_mechanised_divisions_tt
 			set_temp_variable = { RUS_num_divisions_to_spawn = 1 } # Base
 			if = {
-				limit = { has_completed_focus = RUS_NPP_tanks }
+				limit = { OR = { has_completed_focus = RUS_NPP_tanks has_completed_focus = RUS_fr_emphasise_armour_design } }
 				add_to_temp_variable = { RUS_num_divisions_to_spawn = 1 }
 			}
 			if = {
-				limit = { has_completed_focus = RUS_military_production }
+				limit = { OR = { has_completed_focus = RUS_military_production has_completed_focus = RUS_fr_light_weapons_artillery_design } }
 				add_to_temp_variable = { RUS_num_divisions_to_spawn = 1 }
 			}
 			if = {
@@ -22011,7 +22014,10 @@ focus_tree = {
 			modifier = {
 				factor = 2
 				date > 1938.5.1
-				has_completed_focus = RUS_military_production
+				OR = {
+					has_completed_focus = RUS_military_production
+					has_completed_focus = RUS_fr_light_weapons_artillery_design
+				}
 			}
 			modifier = {
 				factor = 0.2
@@ -28195,10 +28201,7 @@ focus_tree = {
 			custom_effect_tooltip = RUS_fr_dashboard_unlock_late_stages_tt
 			RUS_fr_apply_army_reorganisation_legacy_rewards = yes
 			hidden_effect = {
-				if = {
-					limit = { NOT = { has_completed_focus = RUS_end_army_factionalism } }
-					complete_national_focus = { focus = RUS_end_army_factionalism use_side_message = no }
-				}
+				RUS_stalin_recalculate_red_army_dynamic_modifier = yes
 				RUS_stalin_remove_all_frunze_doctrine_ideas = yes
 			}
 			if = {
@@ -28658,18 +28661,7 @@ focus_tree = {
 			add_to_variable = { RUS_fr_military_reform_materials = 30 tooltip = RUS_fr_military_reform_materials_change_tt }
 			RUS_fr_show_military_production_legacy_rewards = yes
 			hidden_effect = {
-				if = {
-					limit = { NOT = { has_completed_focus = RUS_military_production } }
-					653 = {
-						add_extra_state_shared_building_slots = 2
-						add_building_construction = { type = arms_factory level = 2 }
-					}
-					activate_targeted_decision = { target = 219 decision = RUS_modernisation_of_AMO }
-					activate_targeted_decision = { target = 399 decision = RUS_izhevsk_mechanical_plant }
-					activate_targeted_decision = { target = 572 decision = RUS_create_tankograd }
-					add_ideas = RUS_military_production_idea_1
-					set_country_flag = RUS_fr_military_production_rewards_transferred
-				}
+				RUS_fr_apply_military_production_legacy_rewards = yes
 			}
 			unlock_decision_tooltip = { decision = RUS_modernisation_of_AMO show_effect_tooltip = no show_modifiers = no }
 			unlock_decision_tooltip = { decision = RUS_izhevsk_mechanical_plant show_effect_tooltip = no show_modifiers = no }
@@ -28704,9 +28696,6 @@ focus_tree = {
 		completion_reward = {
 			RUS_fr_show_vpoz_unlock = yes
 			add_tech_bonus = { name = RUS_fr_light_weapons_artillery_design bonus = 0.50 uses = 1 category = infantry_weapons category = artillery }
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_military_production } } complete_national_focus = { focus = RUS_military_production use_side_message = no } }
-			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 	}
@@ -28725,9 +28714,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			RUS_fr_show_small_arms_legacy_rewards = yes
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_update_equipment } } complete_national_focus = { focus = RUS_update_equipment use_side_message = no } }
-			}
+			RUS_fr_apply_small_arms_legacy_rewards = yes
 			add_tech_bonus = { name = RUS_fr_small_arms_standardisation_committee bonus = 0.75 uses = 1 category = infantry_weapons category = support_tech }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
@@ -28834,9 +28821,7 @@ focus_tree = {
 		completion_reward = {
 			if = { limit = { has_dlc_gtd = yes NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer } } sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.15 } }
 			RUS_fr_show_land_warfare_legacy_rewards = yes
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_expand_ird } } complete_national_focus = { focus = RUS_expand_ird use_side_message = no } }
-			}
+			RUS_fr_apply_expand_ird_legacy_rewards = yes
 			add_ideas = RUS_fr_support_fire_joint_trials_idea
 			if = {
 				limit = {
@@ -28946,9 +28931,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			RUS_fr_show_mechanisation_legacy_rewards = yes
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } } complete_national_focus = { focus = RUS_nizhegorodsky_avtomobilny_focus use_side_message = no } }
-			}
+			RUS_fr_apply_mechanisation_legacy_rewards = yes
 			add_tech_bonus = { name = RUS_fr_mechanisation_wave bonus = 0.50 uses = 1 category = motorized_equipment category = cat_mechanized_equipment }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
@@ -29043,9 +29026,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			RUS_fr_show_logistics_legacy_rewards = yes
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_roads_of_courage } } complete_national_focus = { focus = RUS_roads_of_courage use_side_message = no } }
-			}
+			RUS_fr_apply_logistics_legacy_rewards = yes
 			add_tech_bonus = { name = RUS_fr_mechanised_logistics_regulations bonus = 1.00 uses = 1 category = logistics_tech }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
@@ -29184,17 +29165,17 @@ focus_tree = {
 		}
 		completion_reward = {
 			RUS_fr_show_okmo_unlock = yes
-			if = {
-				limit = { NOT = { has_completed_focus = RUS_motorisation } }
-				hidden_effect = {
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = { has_completed_focus = RUS_motorisation }
+						NOT = { has_country_flag = RUS_fr_motorisation_rewards_deferred }
+					}
 					set_country_flag = RUS_fr_motorisation_rewards_deferred
-					complete_national_focus = { focus = RUS_motorisation use_side_message = no }
 				}
 			}
 			RUS_fr_show_armour_design_legacy_rewards = yes
-			hidden_effect = {
-				if = { limit = { NOT = { has_completed_focus = RUS_NPP_tanks } } complete_national_focus = { focus = RUS_NPP_tanks use_side_message = no } }
-			}
+			RUS_fr_apply_armour_design_legacy_rewards = yes
 			add_tech_bonus = { name = RUS_fr_emphasise_armour_design bonus = 0.50 uses = 2 category = mio_cat_tech_all_armor_and_modules }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }

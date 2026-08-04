@@ -559,6 +559,41 @@ country_event = {
 		RUS_fr_repair_comrades_abroad_army_reform_bonus = yes
 		RUS_fr_apply_invincible_legendary_final_bonus = yes
 		if = {
+			limit = { has_country_flag = RUS_fr_district_reorganisation_decision_complete }
+			RUS_fr_apply_white_networks_legacy_rewards = yes
+		}
+		if = {
+			limit = { has_completed_focus = RUS_fr_federal_armaments_defence_industry_commission }
+			RUS_fr_apply_military_production_legacy_rewards = yes
+		}
+		if = {
+			limit = { has_completed_focus = RUS_fr_small_arms_standardisation_committee }
+			RUS_fr_apply_small_arms_legacy_rewards = yes
+		}
+		if = {
+			limit = { has_completed_focus = RUS_fr_self_propelled_support_fire_trials }
+			RUS_fr_apply_expand_ird_legacy_rewards = yes
+		}
+		if = {
+			limit = { has_completed_focus = RUS_fr_mechanisation_wave }
+			RUS_fr_apply_mechanisation_legacy_rewards = yes
+		}
+		if = {
+			limit = { has_completed_focus = RUS_fr_mechanised_logistics_regulations }
+			RUS_fr_apply_logistics_legacy_rewards = yes
+		}
+		if = {
+			limit = { has_completed_focus = RUS_fr_emphasise_armour_design }
+			if = {
+				limit = {
+					NOT = { has_completed_focus = RUS_motorisation }
+					NOT = { has_country_flag = RUS_fr_motorisation_rewards_deferred }
+				}
+				set_country_flag = RUS_fr_motorisation_rewards_deferred
+			}
+			RUS_fr_apply_armour_design_legacy_rewards = yes
+		}
+		if = {
 			limit = {
 				has_completed_focus = RUS_fr_revolutionary_heroism
 				NOT = { has_country_flag = RUS_fr_marxist_heroism_report_dispatched }

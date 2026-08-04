@@ -944,7 +944,10 @@ unit_leader_event = { #Army demands funds
 		NOT = {
 			has_completed_focus = RUS_spirit_of_victory
 			has_completed_focus = RUS_science_of_victory
-			has_completed_focus = RUS_military_production
+			OR = {
+				has_completed_focus = RUS_military_production
+				has_completed_focus = RUS_fr_light_weapons_artillery_design
+			}
 			has_government = paternal_autocrat
 			has_socialist_government = yes
 		}
@@ -974,7 +977,10 @@ unit_leader_event = { #Army furious
 		NOT = {
 			has_completed_focus = RUS_spirit_of_victory
 			has_completed_focus = RUS_science_of_victory
-			has_completed_focus = RUS_military_production
+			OR = {
+				has_completed_focus = RUS_military_production
+				has_completed_focus = RUS_fr_light_weapons_artillery_design
+			}
 			focus_progress = { focus = RUS_spirit_of_victory progress > 0 }
 			focus_progress = { focus = RUS_science_of_victory progress > 0 }
 			focus_progress = { focus = RUS_military_production progress > 0 }
