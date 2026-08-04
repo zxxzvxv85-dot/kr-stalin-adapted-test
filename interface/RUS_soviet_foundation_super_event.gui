@@ -38,20 +38,28 @@ guiTypes = {
 			name = "RUS_soviet_foundation_super_event_text_viewport"
 			position = { x = 548 y = 171 }
 			size = { width = 492 height = 385 }
+			margin = { left = 6 right = 28 top = 0 bottom = 8 }
 			clipping = yes
 			verticalScrollbar = "right_vertical_slider"
 			scroll_wheel_factor = 0
 			smooth_scrolling = yes
 
+			# HOI4 only initialises a container scrollbar reliably when the
+			# scrollable container has a background object. This transparent
+			# paper is the same dummy used by Kaiserreich's long-text panels.
+			background = {
+				name = "RUS_soviet_foundation_super_event_text_scroll_anchor"
+				spriteType = "GFX_empty_paper"
+				alwaystransparent = yes
+			}
+
 			instantTextBoxType = {
 				name = "RUS_soviet_foundation_super_event_declaration"
-				position = { x = 6 y = 0 }
+				position = { x = 0 y = 0 }
 				font = "hoi_18mbs"
 				text = "stalin_form_sov.22.desc"
 				format = left
-				maxWidth = 448
-				maxHeight = 1700
-				fixedsize = yes
+				maxWidth = 444
 				alwaystransparent = yes
 			}
 		}
