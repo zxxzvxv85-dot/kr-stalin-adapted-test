@@ -1,0 +1,75 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			every_country = {
+				limit = {
+					tag = GXC
+					NOT = { has_global_flag = RUS_stalin_lkmt_compat_enabled }
+					OR = {
+						has_country_flag = RUS_stalin_radical_socialist_subject_release
+						AND = {
+							is_subject = yes
+							overlord = {
+								original_tag = RUS
+								OR = {
+									has_country_flag = RUS_stalin_communist_path
+									has_government = communist
+								}
+							}
+						}
+					}
+					OR = {
+						NOT = { has_government = radical_socialist }
+						AND = {
+							GXC_peng_pai = { is_dead = no }
+							NOT = { has_country_leader = { character = GXC_peng_pai } }
+						}
+						AND = {
+							GXC_gu_dacun = { is_dead = no }
+							NOT = { GXC_gu_dacun = { is_second_in_command = yes } }
+						}
+					}
+				}
+				RUS_stalin_setup_gxc_peng_pai_subject = yes
+				set_country_flag = RUS_stalin_radical_socialist_subject_release
+			}
+		}
+	}
+
+	on_daily = {
+		effect = {
+			if = {
+				limit = {
+					tag = GXC
+					NOT = { has_global_flag = RUS_stalin_lkmt_compat_enabled }
+					OR = {
+						has_country_flag = RUS_stalin_radical_socialist_subject_release
+						AND = {
+							is_subject = yes
+							overlord = {
+								original_tag = RUS
+								OR = {
+									has_country_flag = RUS_stalin_communist_path
+									has_government = communist
+								}
+							}
+						}
+					}
+					OR = {
+						NOT = { has_government = radical_socialist }
+						AND = {
+							GXC_peng_pai = { is_dead = no }
+							NOT = { has_country_leader = { character = GXC_peng_pai } }
+						}
+						AND = {
+							GXC_gu_dacun = { is_dead = no }
+							NOT = { GXC_gu_dacun = { is_second_in_command = yes } }
+						}
+					}
+				}
+				RUS_stalin_setup_gxc_peng_pai_subject = yes
+				set_country_flag = RUS_stalin_radical_socialist_subject_release
+			}
+		}
+	}
+}
