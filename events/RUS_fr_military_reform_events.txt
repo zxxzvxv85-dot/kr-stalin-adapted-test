@@ -499,6 +499,25 @@ country_event = {
 	}
 }
 
+# Warn the player when reform materials can no longer sustain the next automatic project.
+country_event = {
+	id = RUS_fr_military_reform.402
+	title = RUS_fr_military_reform.402.t
+	desc = RUS_fr_military_reform.402.d
+	picture = GFX_report_event_generic_factory
+	is_triggered_only = yes
+	trigger = {
+		is_ai = no
+		has_country_flag = RUS_fr_military_reform_unlocked
+		NOT = { has_completed_focus = RUS_fr_armaments_construction_stage_summary }
+		check_variable = { RUS_fr_military_reform_materials < 8 }
+	}
+
+	option = {
+		name = RUS_fr_military_reform.402.a
+	}
+}
+
 # Completion timers for the four reform-stage buttons on the military reform dashboard.
 country_event = {
 	id = RUS_fr_military_reform.910
