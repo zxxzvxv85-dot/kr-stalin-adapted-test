@@ -17,7 +17,7 @@ RUS_generate_semyon_budyonny = {
 	}
 }
 
-# Country scope. Recruit or repair the separate army-chief character for both new and old saves.
+# Country scope. Recruit or repair the separate high-command character for both new and old saves.
 RUS_generate_semyon_budyonny_air_assault_chief = {
 	if = {
 		limit = { NOT = { has_character = RUS_semyon_budyonny_air_assault_chief } }
@@ -30,14 +30,26 @@ RUS_generate_semyon_budyonny_air_assault_chief = {
 	if = {
 		limit = {
 			has_character = RUS_semyon_budyonny_air_assault_chief
-			RUS_semyon_budyonny_air_assault_chief = { NOT = { has_advisor_role = army_chief } }
+			RUS_semyon_budyonny_air_assault_chief = { has_advisor_role = army_chief }
 		}
-		log = "[GetDateText]: [ROOT.GetName] repairs Budyonny's missing army-chief role"
+		log = "[GetDateText]: [ROOT.GetName] removes Budyonny's obsolete army-chief role"
+		every_character = {
+			limit = { is_character = RUS_semyon_budyonny_air_assault_chief }
+			remove_advisor_role = { slot = army_chief }
+		}
+	}
+	if = {
+		limit = {
+			has_character = RUS_semyon_budyonny_air_assault_chief
+			RUS_semyon_budyonny_air_assault_chief = { NOT = { has_advisor_role = high_command } }
+		}
+		log = "[GetDateText]: [ROOT.GetName] repairs Budyonny's missing high-command role"
 		add_advisor_role = {
 			character = RUS_semyon_budyonny_air_assault_chief
 			advisor = {
-				slot = army_chief
-				idea_token = RUS_semyon_budyonny_air_assault_chief
+				slot = high_command
+				idea_token = RUS_semyon_budyonny_air_assault_high_command
+				ledger = army
 				traits = { RUS_budyonny_air_assault_chief }
 				cost = 50
 				ai_will_do = { base = 100 }
@@ -47,7 +59,7 @@ RUS_generate_semyon_budyonny_air_assault_chief = {
 	}
 	if = {
 		limit = { has_character = RUS_semyon_budyonny_air_assault_chief }
-		activate_advisor = RUS_semyon_budyonny_air_assault_chief
+		activate_advisor = RUS_semyon_budyonny_air_assault_high_command
 		set_country_flag = RUS_semyon_budyonny_air_assault_chief_present
 	}
 }
