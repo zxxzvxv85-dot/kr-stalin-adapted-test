@@ -41,6 +41,7 @@ $excludePatterns = @(
     '^tools/',
     '(?i)(?:^|/)[^/]*(?:_source|_preview(?:_v?\d+)?|_draft)[^/]*\.(?:png|jpe?g|dds|tga|psd)$',
     '(?i)^thumbnail_before_.*$',
+    '(?i)^thumbnail_old\.(?:png|jpe?g)$',
     '(?i)^thumbnail_preview\.(?:png|jpe?g)$'
 )
 
