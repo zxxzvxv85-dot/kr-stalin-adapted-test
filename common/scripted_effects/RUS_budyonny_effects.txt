@@ -16,3 +16,34 @@ RUS_generate_semyon_budyonny = {
 		set_country_flag = RUS_fr_budyonny_recruited
 	}
 }
+
+# Country scope. Generate a separate army-chief character so both new and old saves can unlock the advisor.
+RUS_generate_semyon_budyonny_air_assault_chief = {
+	if = {
+		limit = {
+			has_socialist_government = yes
+			NOT = { has_country_flag = RUS_semyon_budyonny_air_assault_chief_present }
+		}
+		generate_character = {
+			token_base = semyon_budyonny_air_assault_chief
+			name = RUS_semyon_budyonny_air_assault_chief
+			advisor = {
+				slot = army_chief
+				idea_token = RUS_semyon_budyonny_air_assault_chief
+				allowed = { original_tag = RUS }
+				available = {
+					has_completed_focus = RUS_fr_air_assault_brigades
+					not_already_hired_except_as = army_chief
+				}
+				visible = { has_socialist_government = yes }
+				traits = { RUS_budyonny_air_assault_chief }
+				cost = 50
+				ai_will_do = { base = 100 }
+			}
+			portraits = {
+				army = { small = GFX_portrait_SOV_semyon_budyonny_small }
+			}
+		}
+		set_country_flag = RUS_semyon_budyonny_air_assault_chief_present
+	}
+}

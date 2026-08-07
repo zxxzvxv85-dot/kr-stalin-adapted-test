@@ -399,6 +399,15 @@ on_actions = {
 				}
 				RUS_generate_semyon_budyonny = yes
 			}
+			# Add Budyonny's air-assault army-chief role to saves which completed the focus before it was introduced.
+			if = {
+				limit = {
+					has_socialist_government = yes
+					has_completed_focus = RUS_fr_air_assault_brigades
+					NOT = { has_country_flag = RUS_semyon_budyonny_air_assault_chief_present }
+				}
+				RUS_generate_semyon_budyonny_air_assault_chief = yes
+			}
 			# Add Bukharin to Socialist Russia saves created before his advisor role was introduced.
 			if = {
 				limit = {
