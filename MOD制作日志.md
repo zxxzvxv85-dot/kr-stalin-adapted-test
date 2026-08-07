@@ -13,7 +13,7 @@
 - 第二枚样张选取“统一指挥与军制”（`RUS_fr_reorganise_general_staff_districts`），将原先语义较弱、来源不清晰的红星麦穗图标替换为“参谋总部建筑 + 苏式红星与麦穗”的组合构图。
 - 新图标仅拼接 HOI4 原版 `focus_PHI_usaffe_headquarters.dds` 的总部建筑内场与 `focus_SOV_organization_centralization_discipline.dds` 的苏式麦穗、绶带和红星，并统一为暗红珐琅、旧铜和灰钢色调；未使用其他模组美术。
 - 在 `12×` 工作尺寸完成遮罩、边缘融合、内圈重绘和统一调色，再用 Lanczos 缩回原有 `94×80` 透明 PNG；保持 `GFX_goal_RUS_fr_general_staff_districts` 及高亮精灵注册不变，不影响国策脚本与存档。
-- 重制“政治委员组织体系”（`RUS_fr_cadres_decide_everything`）：弃用带中国军装人物及来源不清晰的旧图标，也放弃难以彻底去除三色旗痕迹的俄罗斯军号兵草稿；最终拼接 KR `RUS_army_socialist.png` 的俄罗斯社会主义陆军红星、麦穗徽章与原版 `focus_generic_workers.dds` 的官兵群像，以党徽统合基层队伍表现政治委员组织网。
+- 重制“政治委员组织体系”（`RUS_fr_cadres_decide_everything`）：弃用带中国军装人物及来源不清晰的旧图标，也放弃难以彻底去除三色旗痕迹的俄罗斯军号兵草稿；最终拼接 KR `RUS_army_socialist.png` 的俄罗斯社会主义陆军红星、麦穗徽章与原版 `focus_generic_workers.dds` 的官兵群像，以党徽统合基层队伍表现政治委员组织网。精修版完整保留群像自身的透明轮廓，不再使用椭圆硬遮罩；群像整体缩小并下移，使人物下缘、红星和锤镰徽记均保持可读。
 - 重制“军事先锋主义”（`RUS_fr_military_vanguardism`）：以原版 `focus_generic_combined_arms.dds` 的合成兵种轮廓、`focus_PRC_a_modern_army.dds` 的通信装备和 KR `generic_german_mechanized.png` 的装甲车辆组合试验部队，并增加两道红色前进箭头；保持原有 `100×88` DXT5 DDS 路径和 GFX 注册。
 - 重制终点国策“红军最强大”（`RUS_fr_revolutionary_military_system_finalised`）：将原版 `focus_SOV_the_glory_of_the_red_army_communism.dds` 的红旗坦克纵队，与 `focus_SOV_builder_of_the_red_army.dds` 的红星、麦穗及绶带重新组合，形成整条军事改革线的汇总徽章。
 - 三枚图标均在 `12×` 工作尺寸完成合成、遮罩和统一红铜调色后缩回原尺寸；“严格训练制度”的现有图标经比对确认源自 KR `RUS_training.png` 的红旗改色版，按“原版/KR 图标不重置”的规则保留。
