@@ -402,9 +402,11 @@ on_actions = {
 			# Add Budyonny's air-assault army-chief role to saves which completed the focus before it was introduced.
 			if = {
 				limit = {
-					has_socialist_government = yes
 					has_completed_focus = RUS_fr_air_assault_brigades
-					NOT = { has_character = RUS_semyon_budyonny_air_assault_chief }
+					OR = {
+						NOT = { has_character = RUS_semyon_budyonny_air_assault_chief }
+						RUS_semyon_budyonny_air_assault_chief = { NOT = { has_advisor_role = army_chief } }
+					}
 				}
 				RUS_generate_semyon_budyonny_air_assault_chief = yes
 			}
