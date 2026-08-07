@@ -21,13 +21,18 @@ RUS_generate_semyon_budyonny = {
 RUS_generate_semyon_budyonny_air_assault_chief = {
 	if = {
 		limit = { NOT = { has_character = RUS_semyon_budyonny_air_assault_chief } }
-		recruit_character = RUS_semyon_budyonny_air_assault_chief
+		log = "[GetDateText]: [ROOT.GetName] transfers the static Budyonny air-assault advisor into the country"
+		set_nationality = {
+			character = RUS_semyon_budyonny_air_assault_chief
+			target_country = ROOT
+		}
 	}
 	if = {
 		limit = {
 			has_character = RUS_semyon_budyonny_air_assault_chief
 			RUS_semyon_budyonny_air_assault_chief = { NOT = { has_advisor_role = army_chief } }
 		}
+		log = "[GetDateText]: [ROOT.GetName] repairs Budyonny's missing army-chief role"
 		add_advisor_role = {
 			character = RUS_semyon_budyonny_air_assault_chief
 			advisor = {
@@ -42,6 +47,7 @@ RUS_generate_semyon_budyonny_air_assault_chief = {
 	}
 	if = {
 		limit = { has_character = RUS_semyon_budyonny_air_assault_chief }
+		activate_advisor = RUS_semyon_budyonny_air_assault_chief
 		set_country_flag = RUS_semyon_budyonny_air_assault_chief_present
 	}
 }

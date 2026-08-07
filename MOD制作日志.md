@@ -6,6 +6,8 @@
 
 状态：**脚本修复完成，需完全退出并重启游戏后复测效果栏、旧档补发与攻防加成**
 
+- 第二次实机复测从 `error.log` 确认，`recruit_character` 只允许在国家历史初始化时执行，在国策或每日补发中调用会被引擎拒绝并报 `Unknown character`。
+- 新档改为在 `history/countries/RUS - Russia.txt` 初始招募人物；旧档按 KR 现用人物转入模式，通过 `set_nationality = ROOT` 将静态人物纳入俄罗斯，再显式执行 `activate_advisor`。
 - 实机确认国策提示已显示但顾问仍未出现后，停用不稳定的 `generate_character` 方案，改为在 `common/characters` 中定义独立的布琼尼陆军总司令人物。
 - 国策完成时招募该静态人物；旧存档若已留下同令牌但缺少顾问身份的人物外壳，每日补发会通过 `add_advisor_role` 直接挂载并激活陆军总司令身份。
 - 修复 More Custom AI 兼容补丁仍用旧版俄罗斯国策文件覆盖适配版的问题：目标国策的效果栏重新显示布琼尼解锁提示，完成后也会实际调用静态人物招募效果。
