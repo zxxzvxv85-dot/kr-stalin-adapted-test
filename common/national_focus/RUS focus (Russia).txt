@@ -11163,14 +11163,16 @@ focus_tree = {
 					NOT = { check_variable = { vst_centre_unity > 2 } }
 					RUS_VST_left = no
 				}
-				hidden_effect = {
-					set_country_flag = RUS_auto_kamenev_vst_left_path
-					set_country_flag = RUS_VST_conference_kamenev
-					set_country_flag = RUS_kamenev_party_agenda_layout_v3_refreshed
-					RUS_stalin_enable_kamenev_bop = yes
-					mark_focus_tree_layout_dirty = yes
-					country_event = { id = russia_socialist_events.338 days = 1 }
-				}
+					hidden_effect = {
+						set_country_flag = RUS_auto_kamenev_vst_left_path
+						set_country_flag = RUS_VST_conference_kamenev
+						set_country_flag = RUS_kamenev_party_agenda_layout_v3_refreshed
+						RUS_stalin_enable_kamenev_bop = yes
+						mark_focus_tree_layout_dirty = yes
+						RUS_stalin_kamenev_sync_transferred_industry = yes
+						RUS_stalin_kamenev_dispatch_psr_agenda = yes
+						country_event = { id = russia_socialist_events.338 days = 1 }
+					}
 			}
 			if = {
 				limit = {
@@ -11202,17 +11204,17 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_three_accounts
-		icon = GFX_goal_RUS_coalition_of_idealists
+		icon = GFX_goal_RUS_radsocs
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 2
-		y = 1
+		x = -2
+		y = 2
 		allow_branch = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
 		}
 		prerequisite = {
-			focus = RUS_syndicalists
+			focus = RUS_kamenev_no_permanent_creditor
 		}
 		available = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
@@ -11229,20 +11231,20 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_no_permanent_creditor
-		icon = GFX_goal_RUS_rebuild_eser_party
+		icon = GFX_goal_RUS_kamenev_no_permanent_creditor
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = -4
-		y = 3
+		x = -1
+		y = 1
 		allow_branch = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
 		}
 		prerequisite = {
-			focus = RUS_mensheviks
+			focus = RUS_syndicalists
 		}
 		mutually_exclusive = {
-			focus = RUS_eser_deal
+			focus = RUS_kamenev_acknowledge_eser_contribution
 		}
 		available = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
@@ -11260,20 +11262,20 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_one_party_card
-		icon = GFX_focus_SOV_organization_centralization_discipline
+		icon = GFX_goal_RUS_kamenev_one_party_card
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 1
-		y = 3
+		x = 3
+		y = 1
 		allow_branch = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
 		}
 		prerequisite = {
-			focus = RUS_mensheviks
+			focus = RUS_syndicalists
 		}
 		mutually_exclusive = {
-			focus = RUS_invite_sverdlov
+			focus = RUS_kamenev_majority_rule
 		}
 		available = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
@@ -11290,20 +11292,20 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_majority_rule
-		icon = GFX_focus_ARG_keep_it_in_the_party
+		icon = GFX_goal_RUS_kamenev_majority_rule
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 6
-		y = 3
+		x = 5
+		y = 1
 		allow_branch = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
 		}
 		prerequisite = {
-			focus = RUS_mensheviks
+			focus = RUS_syndicalists
 		}
 		mutually_exclusive = {
-			focus = RUS_invite_zeller
+			focus = RUS_kamenev_one_party_card
 		}
 		available = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
@@ -11321,17 +11323,17 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_revolutionary_legality
-		icon = GFX_focus_BRA_utilize_security_law
+		icon = GFX_goal_RUS_radsocs
 		cost = 3
 
-		relative_position_id = RUS_labour_and_defence
+		relative_position_id = RUS_syndicalists
 		x = 2
-		y = 0
+		y = 2
 		allow_branch = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
 		}
 		prerequisite = {
-			focus = RUS_labour_and_defence
+			focus = RUS_kamenev_acknowledge_eser_contribution
 		}
 		available = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
@@ -11356,11 +11358,12 @@ focus_tree = {
 		y = 1
 		dynamic = yes
 		offset = {
-			x = -2
-			y = 2
+			x = 1
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 			has_completed_focus = RUS_syndicalists
 			OR = {
 				RUS_VST = yes
@@ -11377,7 +11380,7 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_mensheviks
+					has_completed_focus = RUS_syndicalists
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -11435,38 +11438,17 @@ focus_tree = {
 		relative_position_id = RUS_syndicalists
 		x = -10
 		y = 1
-		dynamic = yes
-		offset = {
-			x = 18
-			y = 2
-			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
-			OR = {
-				RUS_VST = yes
-				has_government = national_populist
-			}
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
 			focus = RUS_syndicalists
 		}
-		mutually_exclusive = {
-			focus = RUS_kamenev_majority_rule
-		}
 		available = {
-			OR = {
-				AND = {
-					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_mensheviks
-				}
-				AND = {
-					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-					set_temp_variable = { RUS_relation_check = 4 }
-					RUS_socdem_check = yes
-				}
-			}
+			set_temp_variable = { RUS_relation_check = 4 }
+			RUS_socdem_check = yes
 		}
 		ai_will_do = {
 			factor = 15
@@ -11593,23 +11575,15 @@ focus_tree = {
 		relative_position_id = RUS_syndicalists
 		x = -6
 		y = 1
-		dynamic = yes
-		offset = {
-			x = 8
-			y = 1
-			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
 			focus = RUS_syndicalists
 		}
-		available = {
-			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_kamenev_three_accounts
-		}
+		available = { always = no }
 		ai_will_do = { factor = 15 }
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_mensheviks"
@@ -11619,18 +11593,18 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 	}
 
-	### Automatic Party Agendas: Socialist Revolutionaries ###
+### Automatic Party Agenda: Socialist Revolutionaries ###
 
 	focus = {
 		id = RUS_kamenev_psr_rebuild_central_committee
-		icon = GFX_goal_RUS_rebuild_eser_party
+		icon = GFX_goal_RUS_kamenev_psr_rebuild_central_committee
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = -6
-		y = 2
+		x = 7
+		y = 1
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_mensheviks }
+		prerequisite = { focus = RUS_syndicalists }
 		available = {
 			custom_override_tooltip = {
 				tooltip = RUS_kamenev_psr_automatic_focus_tt
@@ -11648,11 +11622,11 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_psr_preserve_land_committees
-		icon = GFX_focus_generic_farmland
+		icon = GFX_goal_RUS_kamenev_psr_preserve_land_committees
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = -8
+		x = 6
 		y = 2
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		prerequisite = { focus = RUS_kamenev_psr_rebuild_central_committee }
@@ -11672,91 +11646,15 @@ focus_tree = {
 	}
 
 	focus = {
-		id = RUS_kamenev_psr_land_socialisation_bill
-		icon = GFX_focus_SOV_breadbasket_of_the_union
+		id = RUS_kamenev_psr_claim_internal_affairs
+		icon = GFX_goal_RUS_kamenev_psr_claim_internal_affairs
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = -10
+		x = 8
 		y = 2
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_psr_preserve_land_committees }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_psr_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			country_event = { id = RUS_stalin_kamenev_agendas.1 hours = 6 }
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
-
-	focus = {
-		id = RUS_kamenev_psr_local_self_government
-		icon = GFX_goal_HOL_council_communism
-		cost = 2
-
-		relative_position_id = RUS_syndicalists
-		x = -10
-		y = 3
-		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_psr_land_socialisation_bill }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_psr_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			RUS_stalin_kamenev_bop_move_left_005 = yes
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
-
-	focus = {
-		id = RUS_kamenev_psr_peasant_congress
-		icon = GFX_goal_RUS_union_of_peasants_and_workers
-		cost = 2
-
-		relative_position_id = RUS_syndicalists
-		x = -6
-		y = 4
-		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_psr_cooperatives_fair_grain_prices }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_psr_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			RUS_stalin_kamenev_bop_move_left_005 = yes
-			country_event = { id = RUS_stalin_kamenev_agendas.2 hours = 6 }
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
-
-	focus = {
-		id = RUS_kamenev_psr_claim_internal_affairs
-		icon = GFX_goal_generic_police_state
-		cost = 2
-
-		relative_position_id = RUS_syndicalists
-		x = -8
-		y = 3
-		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_psr_local_self_government }
+		prerequisite = { focus = RUS_kamenev_psr_rebuild_central_committee }
 		available = {
 			custom_override_tooltip = {
 				tooltip = RUS_kamenev_psr_automatic_focus_tt
@@ -11775,39 +11673,15 @@ focus_tree = {
 	}
 
 	focus = {
-		id = RUS_kamenev_psr_cooperatives_fair_grain_prices
-		icon = GFX_focus_russian_cooperation
-		cost = 2
-
-		relative_position_id = RUS_syndicalists
-		x = -6
-		y = 3
-		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_psr_claim_internal_affairs }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_psr_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
-
-	focus = {
 		id = RUS_kamenev_psr_defend_revolutionary_democracy
-		icon = GFX_goal_ideology_radical_socialist
+		icon = GFX_goal_RUS_kamenev_psr_defend_revolutionary_democracy
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = -8
-		y = 4
+		x = 10
+		y = 2
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_psr_peasant_congress }
+		prerequisite = { focus = RUS_kamenev_psr_rebuild_central_committee }
 		available = {
 			custom_override_tooltip = {
 				tooltip = RUS_kamenev_psr_automatic_focus_tt
@@ -11826,12 +11700,37 @@ focus_tree = {
 	}
 
 	focus = {
-		id = RUS_kamenev_psr_final_party_congress
-		icon = GFX_goal_RUS_coalition_of_idealists
+		id = RUS_kamenev_psr_land_socialisation_bill
+		icon = GFX_goal_RUS_kamenev_psr_land_socialisation_bill
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = -10
+		x = 7
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_psr_rebuild_central_committee }
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_kamenev_psr_automatic_focus_tt
+				always = no
+			}
+		}
+		ai_will_do = { factor = 0 }
+		completion_reward = {
+			set_temp_variable = { RUS_relation_change = 1 }
+			RUS_PSR_relation = yes
+			country_event = { id = RUS_stalin_kamenev_agendas.1 hours = 6 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_psr_peasant_congress
+		icon = GFX_goal_RUS_kamenev_psr_peasant_congress
+		cost = 2
+
+		relative_position_id = RUS_syndicalists
+		x = 10
 		y = 4
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		prerequisite = { focus = RUS_kamenev_psr_defend_revolutionary_democracy }
@@ -11846,55 +11745,128 @@ focus_tree = {
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_PSR_relation = yes
 			RUS_stalin_kamenev_bop_move_left_005 = yes
-			country_event = { id = RUS_stalin_kamenev_agendas.7 hours = 6 }
+			country_event = { id = RUS_stalin_kamenev_agendas.2 hours = 6 }
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 	}
 
-	### Automatic Party Agendas: Bolsheviks ###
-
 	focus = {
-		id = RUS_kamenev_bol_restore_central_bureau
-		icon = GFX_goal_RUS_centralise_party
+		id = RUS_kamenev_psr_final_party_congress
+		icon = GFX_goal_RUS_kamenev_psr_final_party_congress
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 12
-		y = 2
+		x = 6
+		y = 4
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_bol_register_returning_members }
+		prerequisite = { focus = RUS_kamenev_psr_preserve_land_committees }
 		available = {
 			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
+				tooltip = RUS_kamenev_psr_automatic_focus_tt
 				always = no
 			}
 		}
 		ai_will_do = { factor = 0 }
 		completion_reward = {
 			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_RKP_relation = yes
-			RUS_stalin_kamenev_bop_move_right_010 = yes
+			RUS_PSR_relation = yes
+			RUS_stalin_kamenev_bop_move_left_005 = yes
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 	}
 
 	focus = {
-		id = RUS_kamenev_bol_register_returning_members
-		icon = GFX_focus_SOV_organization_centralization_discipline
+		id = RUS_kamenev_psr_cooperatives_fair_grain_prices
+		icon = GFX_goal_RUS_kamenev_psr_cooperatives_fair_grain_prices
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 10
-		y = 2
+		x = 8
+		y = 4
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_mensheviks }
+		prerequisite = { focus = RUS_kamenev_psr_land_socialisation_bill }
 		available = {
 			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
+				tooltip = RUS_kamenev_psr_automatic_focus_tt
 				always = no
 			}
 		}
 		ai_will_do = { factor = 0 }
+		completion_reward = {
+			set_temp_variable = { RUS_relation_change = 1 }
+			RUS_PSR_relation = yes
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_psr_local_self_government
+		icon = GFX_goal_RUS_kamenev_psr_local_self_government
+		cost = 2
+
+		relative_position_id = RUS_syndicalists
+		x = 7
+		y = 5
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_psr_land_socialisation_bill }
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_kamenev_psr_automatic_focus_tt
+				always = no
+			}
+		}
+		ai_will_do = { factor = 0 }
+		completion_reward = {
+			set_temp_variable = { RUS_relation_change = 1 }
+			RUS_PSR_relation = yes
+			RUS_stalin_kamenev_bop_move_left_005 = yes
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_psr_agrarian_socialism
+		icon = GFX_goal_RUS_kamenev_psr_agrarian_socialism
+		cost = 2
+
+		relative_position_id = RUS_syndicalists
+		x = 8
+		y = 6
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_psr_final_party_congress }
+		prerequisite = { focus = RUS_kamenev_psr_cooperatives_fair_grain_prices }
+		prerequisite = { focus = RUS_kamenev_psr_local_self_government }
+		prerequisite = { focus = RUS_kamenev_psr_peasant_congress }
+		available = {
+			custom_override_tooltip = {
+				tooltip = RUS_kamenev_psr_automatic_focus_tt
+				always = no
+			}
+		}
+		ai_will_do = { factor = 0 }
+		completion_reward = {
+			set_temp_variable = { RUS_relation_change = 1 }
+			RUS_PSR_relation = yes
+			RUS_stalin_kamenev_bop_move_left_010 = yes
+			country_event = { id = RUS_stalin_kamenev_agendas.7 hours = 6 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	### Bolshevik Organisation Line ###
+
+	focus = {
+		id = RUS_kamenev_bol_register_returning_members
+		icon = GFX_goal_RUS_kamenev_bol_register_returning_members
+		cost = 2
+
+		relative_position_id = RUS_syndicalists
+		x = -9
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_return_to_leninism }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
 		completion_reward = {
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_RKP_relation = yes
@@ -11906,21 +11878,16 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_bol_restore_pravda
-		icon = GFX_goal_generic_seize_press
+		icon = GFX_goal_RUS_kamenev_bol_restore_pravda
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 14
-		y = 2
+		x = -10
+		y = 4
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_bol_restore_central_bureau }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
+		prerequisite = { focus = RUS_kamenev_bol_register_returning_members }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
 		completion_reward = {
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_RKP_relation = yes
@@ -11930,22 +11897,57 @@ focus_tree = {
 	}
 
 	focus = {
-		id = RUS_kamenev_bol_rebuild_factory_cells
-		icon = GFX_goal_generic_enforce_labor_regulation
+		id = RUS_kamenev_bol_restore_central_bureau
+		icon = GFX_goal_RUS_kamenev_bol_restore_central_bureau
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 14
-		y = 3
+		x = -8
+		y = 4
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_bol_register_returning_members }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
+		completion_reward = {
+			set_temp_variable = { RUS_relation_change = 1 }
+			RUS_RKP_relation = yes
+			RUS_stalin_kamenev_bop_move_right_010 = yes
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_bol_unify_planning_apparatus
+		icon = GFX_goal_RUS_kamenev_bol_unify_planning_apparatus
+		cost = 2
+
+		relative_position_id = RUS_syndicalists
+		x = -11
+		y = 5
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		prerequisite = { focus = RUS_kamenev_bol_restore_pravda }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
-				always = no
-			}
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
+		completion_reward = {
+			set_temp_variable = { RUS_relation_change = 1 }
+			RUS_RKP_relation = yes
+			RUS_stalin_kamenev_bop_move_right_010 = yes
 		}
-		ai_will_do = { factor = 0 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_bol_rebuild_factory_cells
+		icon = GFX_goal_RUS_kamenev_bol_rebuild_factory_cells
+		cost = 2
+
+		relative_position_id = RUS_syndicalists
+		x = -9
+		y = 5
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_bol_register_returning_members }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
 		completion_reward = {
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_RKP_relation = yes
@@ -11956,74 +11958,16 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_bol_railway_telegraph_bureau
-		icon = GFX_goal_generic_railroad
+		icon = GFX_goal_RUS_kamenev_bol_railway_telegraph_bureau
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 12
-		y = 3
+		x = -10
+		y = 6
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_bol_rebuild_factory_cells }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_RKP_relation = yes
-			RUS_stalin_kamenev_bop_move_right_010 = yes
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
-
-	focus = {
-		id = RUS_kamenev_bol_restore_military_organisations
-		icon = GFX_focus_NORDIC_com_materiel
-		cost = 2
-
-		relative_position_id = RUS_syndicalists
-		x = 12
-		y = 4
-		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_bol_win_vst_majority }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_RKP_relation = yes
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_PSR_relation = yes
-			RUS_stalin_kamenev_bop_move_right_005 = yes
-			country_event = { id = RUS_stalin_kamenev_agendas.5 hours = 6 }
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
-
-	focus = {
-		id = RUS_kamenev_bol_unify_planning_apparatus
-		icon = GFX_goal_state_economy
-		cost = 2
-
-		relative_position_id = RUS_syndicalists
-		x = 10
-		y = 3
-		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_bol_railway_telegraph_bureau }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
+		prerequisite = { focus = RUS_kamenev_bol_restore_pravda }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
 		completion_reward = {
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_RKP_relation = yes
@@ -12034,21 +11978,16 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_bol_win_vst_majority
-		icon = GFX_goal_agrarian_socialism
+		icon = GFX_goal_RUS_kamenev_bol_win_vst_majority
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 10
-		y = 4
+		x = -8
+		y = 6
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_bol_unify_planning_apparatus }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
+		prerequisite = { focus = RUS_kamenev_bol_restore_central_bureau }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
 		completion_reward = {
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_RKP_relation = yes
@@ -12062,21 +12001,19 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_bol_undissolved_central_committee
-		icon = GFX_focus_SOV_the_supreme_soviet
+		icon = GFX_goal_RUS_kamenev_bol_undissolved_central_committee
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
-		x = 14
-		y = 4
+		x = -9
+		y = 7
 		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		prerequisite = { focus = RUS_kamenev_bol_restore_military_organisations }
-		available = {
-			custom_override_tooltip = {
-				tooltip = RUS_kamenev_bol_automatic_focus_tt
-				always = no
-			}
-		}
-		ai_will_do = { factor = 0 }
+		prerequisite = { focus = RUS_kamenev_bol_rebuild_factory_cells }
+		prerequisite = { focus = RUS_kamenev_bol_railway_telegraph_bureau }
+		prerequisite = { focus = RUS_kamenev_bol_unify_planning_apparatus }
+		prerequisite = { focus = RUS_kamenev_bol_win_vst_majority }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 25 }
 		completion_reward = {
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_RKP_relation = yes
@@ -12085,6 +12022,115 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 	}
+
+	### Industrial Foci Transferred into the Kamenev Political Branch ###
+
+	focus = {
+		id = RUS_kamenev_national_economic_line
+		icon = GFX_goal_RUS_kamenev_national_economic_line
+		cost = 3
+
+		relative_position_id = RUS_syndicalists
+		x = -3
+		y = 5
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_first_five_year_plan }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 25 }
+		completion_reward = {
+			add_political_power = 50
+			add_tech_bonus = {
+				name = RUS_kamenev_national_economic_line
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_kamenev_industrialise_urals
+		icon = GFX_goal_RUS_urals_industry
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = -2
+		y = 6
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_national_economic_line }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_transferred_industrial_focus_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_industrialise_urals } }
+					complete_national_focus = RUS_industrialise_urals
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = RUS_kamenev_industrialise_eastern_europe
+		icon = GFX_goal_RUS_european_russia_industry
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = -4
+		y = 6
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_national_economic_line }
+		available = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		ai_will_do = { factor = 20 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_transferred_industrial_focus_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_industrialise_eastern_europe } }
+					complete_national_focus = RUS_industrialise_eastern_europe
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = RUS_kamenev_industrialise_siberia
+		icon = GFX_goal_RUS_siberia_industry
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = -3
+		y = 7
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = { focus = RUS_kamenev_national_economic_line }
+		available = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			custom_override_tooltip = {
+				tooltip = { localization_key = has_completed_decision DECISION = RUS_northern_route }
+				has_country_flag = RUS_northern_route_completed
+			}
+			custom_override_tooltip = {
+				tooltip = { localization_key = has_completed_decision DECISION = RUS_upgrade_the_railroad_vladivostok }
+				has_country_flag = RUS_upgrade_the_railroad_vladivostok_completed
+			}
+		}
+		ai_will_do = { factor = 20 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_transferred_industrial_focus_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_industrialise_siberia } }
+					complete_national_focus = RUS_industrialise_siberia
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
 
 	focus = {
 		id = RUS_socialism_through_democracy
@@ -12338,46 +12384,14 @@ focus_tree = {
 		relative_position_id = RUS_syndicalists
 		x = 4
 		y = 1
-		dynamic = yes
-		offset = {
-			x = -1
-			y = 3
-			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 		prerequisite = {
 			focus = RUS_syndicalists
 		}
-		prerequisite = {
-			focus = RUS_eser_deal
-			focus = RUS_kamenev_no_permanent_creditor
-		}
-		prerequisite = {
-			focus = RUS_invite_sverdlov
-			focus = RUS_kamenev_one_party_card
-		}
-		prerequisite = {
-			focus = RUS_invite_zeller
-			focus = RUS_kamenev_majority_rule
-		}
-		available = {
-			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_mensheviks
-			OR = {
-				has_completed_focus = RUS_eser_deal
-				has_completed_focus = RUS_kamenev_no_permanent_creditor
-			}
-			OR = {
-				has_completed_focus = RUS_invite_sverdlov
-				has_completed_focus = RUS_kamenev_one_party_card
-			}
-			OR = {
-				has_completed_focus = RUS_invite_zeller
-				has_completed_focus = RUS_kamenev_majority_rule
-			}
-		}
+		available = { always = no }
 		ai_will_do = { factor = 15 }
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_internationalists"
@@ -12468,9 +12482,12 @@ focus_tree = {
 		y = 1
 		dynamic = yes
 		offset = {
-			x = 14
-			y = 1
+			x = 1
+			y = 2
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -12484,7 +12501,7 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_kamenev_revolutionary_legality
+					has_completed_focus = RUS_chamber_of_unions
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -12585,15 +12602,28 @@ focus_tree = {
 		relative_position_id = RUS_mensheviks
 		x = 1
 		y = 2
+		dynamic = yes
 		offset = {
-			x = 15
-			y = 1
+			x = 1
+			y = 2
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
 			focus = RUS_4_year_plan
 			focus = RUS_new_russian_socialism
+		}
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_4_year_plan
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
 		}
 		ai_will_do = { factor = 15 }
 		completion_reward = {
@@ -12630,6 +12660,12 @@ focus_tree = {
 		relative_position_id = RUS_mensheviks
 		x = 3
 		y = 0
+		dynamic = yes
+		offset = {
+			x = 7
+			y = 2
+			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -12637,6 +12673,15 @@ focus_tree = {
 
 		prerequisite = {
 			focus = RUS_syndicalists
+		}
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_kamenev_one_party_card
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
 		}
 		ai_will_do = { factor = 20 }
 		completion_reward = {
@@ -12660,10 +12705,14 @@ focus_tree = {
 		relative_position_id = RUS_mensheviks
 		x = 3
 		y = 2
+		dynamic = yes
 		offset = {
-			x = 17
-			y = 0
+			x = 8
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -12706,14 +12755,26 @@ focus_tree = {
 		relative_position_id = RUS_mensheviks
 		x = 2
 		y = 3
+		dynamic = yes
 		offset = {
-			x = 16
-			y = 0
+			x = 7
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
 			focus = RUS_encourage_innovation
+		}
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_science_of_marxism
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
 		}
 		ai_will_do = { factor = 15 }
 		select_effect = {
@@ -12754,14 +12815,27 @@ focus_tree = {
 		relative_position_id = RUS_mensheviks
 		x = 4
 		y = 3
+		dynamic = yes
 		offset = {
-			x = 18
-			y = 0
+			x = 6
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
 			focus = RUS_encourage_innovation
+		}
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_science_of_marxism
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
 		}
 		ai_will_do = { factor = 15 }
 		completion_reward = {
@@ -12907,10 +12981,14 @@ focus_tree = {
 		relative_position_id = RUS_internationalists
 		x = -5
 		y = 1
+		dynamic = yes
 		offset = {
-			x = -1
-			y = -1
+			x = 2
+			y = 2
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -12982,10 +13060,14 @@ focus_tree = {
 		relative_position_id = RUS_internationalists
 		x = -3
 		y = 1
+		dynamic = yes
 		offset = {
-			x = 1
-			y = -1
+			x = -1
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -13000,7 +13082,7 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_kamenev_revolutionary_legality
+					has_completed_focus = RUS_kamenev_no_permanent_creditor
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -13057,10 +13139,13 @@ focus_tree = {
 		relative_position_id = RUS_internationalists
 		x = -4
 		y = 2
+		dynamic = yes
 		offset = {
-			x = 0
-			y = -1
+			y = 2
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -13071,10 +13156,8 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					OR = {
-						has_completed_focus = RUS_agrarian_industrialisation
-						has_completed_focus = RUS_municipalisation_of_farms
-					}
+					has_completed_focus = RUS_agrarian_industrialisation
+					has_completed_focus = RUS_municipalisation_of_farms
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -13172,6 +13255,7 @@ focus_tree = {
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 			has_completed_focus = RUS_syndicalists
 			RUS_is_demrus = no
 			RUS_sulimov = no
@@ -13227,6 +13311,9 @@ focus_tree = {
 			y = -2
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 
 		prerequisite = {
 			focus = RUS_victory_of_socialism
@@ -13268,6 +13355,9 @@ focus_tree = {
 			x = -11
 			y = -3
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -13330,6 +13420,9 @@ focus_tree = {
 			y = -3
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 
 		prerequisite = {
 			focus = RUS_victory_of_socialism
@@ -13383,6 +13476,11 @@ focus_tree = {
 		relative_position_id = RUS_internationalists
 		x = 1
 		y = 1
+		dynamic = yes
+		offset = {
+			x = -8
+			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -13392,9 +13490,14 @@ focus_tree = {
 			focus = RUS_internationalists
 		}
 		available = {
-			set_temp_variable = { RUS_relation_check = 3 }
-			RUS_vst_centre_check = yes
-			NOT = { has_idea = RUS_post-savinkov_economy }
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				AND = {
+					set_temp_variable = { RUS_relation_check = 3 }
+					RUS_vst_centre_check = yes
+					NOT = { has_idea = RUS_post-savinkov_economy }
+				}
+			}
 		}
 		ai_will_do = { factor = 25 }
 		completion_reward = {
@@ -13479,10 +13582,14 @@ focus_tree = {
 		relative_position_id = RUS_internationalists
 		x = 2
 		y = 2
+		dynamic = yes
 		offset = {
-			x = 21
-			y = -2
+			x = -8
+			y = 2
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -13495,10 +13602,18 @@ focus_tree = {
 		}
 		available = {
 			OR = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				RUS_lev_kamenev = { is_second_in_command = yes }
-				RUS_grigory_zinovyev = { is_second_in_command = yes }
-				RUS_sulimov = yes
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_4_year_plan
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					OR = {
+						RUS_lev_kamenev = { is_second_in_command = yes }
+						RUS_grigory_zinovyev = { is_second_in_command = yes }
+						RUS_sulimov = yes
+					}
+				}
 			}
 		}
 		ai_will_do = { factor = 30 }
@@ -13582,6 +13697,9 @@ focus_tree = {
 			x = -9
 			y = -3
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -13875,25 +13993,14 @@ focus_tree = {
 		relative_position_id = RUS_syndicalists
 		x = 11
 		y = 1
-		dynamic = yes
-		offset = {
-			x = -6
-			y = 3
-			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 		prerequisite = {
 			focus = RUS_syndicalists
 		}
-		prerequisite = {
-			focus = RUS_internationalists
-		}
-		available = {
-			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_internationalists
-		}
+		available = { always = no }
 		ai_will_do = { factor = 15 }
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_communists"
@@ -13908,6 +14015,12 @@ focus_tree = {
 		relative_position_id = RUS_communists
 		x = -4
 		y = 1
+		dynamic = yes
+		offset = {
+			x = -15
+			y = 1
+			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -13918,7 +14031,10 @@ focus_tree = {
 			focus = RUS_communists
 		}
 		available = {
-			RUS_VST_right = no
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				RUS_VST_right = no
+			}
 		}
 		ai_will_do = { factor = 20 }
 		completion_reward = {
@@ -14004,9 +14120,12 @@ focus_tree = {
 		y = 1
 		dynamic = yes
 		offset = {
-			x = 4
-			y = -1
+			x = -13
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 		prerequisite = {
 			focus = RUS_communists
@@ -14059,9 +14178,12 @@ focus_tree = {
 		y = 1
 		dynamic = yes
 		offset = {
-			x = 4
-			y = -1
+			x = -17
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 		prerequisite = {
 			focus = RUS_communists
@@ -14114,10 +14236,14 @@ focus_tree = {
 		relative_position_id = RUS_dictatorship_proletariat
 		x = 1
 		y = 1
+		dynamic = yes
 		offset = {
-			x = 0
-			y = 0
+			x = -3
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14128,7 +14254,7 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_kamenev_revolutionary_legality
+					has_completed_focus = RUS_labour_and_defence
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -14161,10 +14287,14 @@ focus_tree = {
 		relative_position_id = RUS_taking_over_vtssps
 		x = 1
 		y = 1
+		dynamic = yes
 		offset = {
-			x = 1
-			y = -1
+			x = 0
+			y = 0
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 		prerequisite = {
 			focus = RUS_taking_over_vtssps
@@ -14256,10 +14386,14 @@ focus_tree = {
 		relative_position_id = RUS_dictatorship_proletariat
 		x = -1
 		y = 1
+		dynamic = yes
 		offset = {
-			x = 5
-			y = -1
+			x = 0
+			y = 0
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14391,10 +14525,14 @@ focus_tree = {
 		relative_position_id = RUS_dictatorship_proletariat
 		x = 0
 		y = 2
+		dynamic = yes
 		offset = {
-			x = 5
-			y = -1
+			x = 7
+			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14404,7 +14542,7 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_kamenev_revolutionary_legality
+					has_completed_focus = RUS_labour_aristocracy
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -14438,6 +14576,12 @@ focus_tree = {
 		relative_position_id = RUS_communists
 		x = 1
 		y = 2
+		dynamic = yes
+		offset = {
+			x = -14
+			y = 4
+			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -14447,8 +14591,17 @@ focus_tree = {
 			focus = RUS_communists
 		}
 		available = {
-			set_temp_variable = { RUS_relation_check = 4 }
-			RUS_vst_left_check = yes
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_war_on_landowners
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					set_temp_variable = { RUS_relation_check = 4 }
+					RUS_vst_left_check = yes
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 15
@@ -14518,10 +14671,14 @@ focus_tree = {
 		relative_position_id = RUS_encourage_collectivisation
 		x = 1
 		y = 1
+		dynamic = yes
 		offset = {
-			x = 6
+			x = -5
 			y = -1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14537,14 +14694,6 @@ focus_tree = {
 		}
 		available = {
 			NOT = { has_country_flag = RUS_cancel_bolshevik_gamble_focus }
-			OR = {
-				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-				AND = {
-					has_completed_focus = RUS_law_on_unions
-					has_completed_focus = RUS_red_intelligentsia
-					has_completed_focus = RUS_charter_of_russian_totalism
-				}
-			}
 			OR = {
 				focus_progress = { focus = RUS_bolshevik_gamble progress > 0 }
 				AND = {
@@ -14638,10 +14787,14 @@ focus_tree = {
 		relative_position_id = RUS_communists
 		x = 2
 		y = 1
+		dynamic = yes
 		offset = {
-			x = 7
-			y = 0
+			x = -20
+			y = 4
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14652,7 +14805,7 @@ focus_tree = {
 				RUS_VST_left = yes
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_kamenev_revolutionary_legality
+					has_completed_focus = RUS_taking_over_vtssps
 				}
 			}
 		}
@@ -14682,6 +14835,9 @@ focus_tree = {
 			x = -3
 			y = 0
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14765,10 +14921,14 @@ focus_tree = {
 		relative_position_id = RUS_bolshevik_gamble
 		x = 0
 		y = 1
+		dynamic = yes
 		offset = {
-			x = 3
-			y = -1
+			x = -1
+			y = 0
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14781,11 +14941,16 @@ focus_tree = {
 			focus = RUS_technocratic_syndicalism
 		}
 		available = {
-			has_country_leader = { character = RUS_grigory_zinovyev }
-			has_war_with = GER
-			if = {
-				limit = { is_ai = no }
-				totalist > 0.5
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				AND = {
+					has_country_leader = { character = RUS_grigory_zinovyev }
+					has_war_with = GER
+					if = {
+						limit = { is_ai = no }
+						totalist > 0.5
+					}
+				}
 			}
 		}
 		ai_will_do = { factor = 100 }
@@ -14851,9 +15016,11 @@ focus_tree = {
 		y = 1
 		dynamic = yes
 		offset = {
-			x = -6
-			y = -2
+			x = -20
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -14861,14 +15028,11 @@ focus_tree = {
 			focus = RUS_communists
 			focus = RUS_mensheviks
 		}
-		mutually_exclusive = {
-			focus = RUS_kamenev_one_party_card
-		}
 		available = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_mensheviks
+					has_completed_focus = RUS_syndicalists
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -14931,6 +15095,12 @@ focus_tree = {
 		relative_position_id = RUS_invite_sverdlov
 		x = 1
 		y = 1
+		dynamic = yes
+		offset = {
+			x = -3
+			y = 1
+			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -14940,9 +15110,18 @@ focus_tree = {
 			focus = RUS_invite_sverdlov
 		}
 		available = {
-			has_completed_focus = RUS_state_surveillance
-			set_temp_variable = { RUS_relation_check = 5 }
-			RUS_bolshevik_check = yes
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_state_surveillance
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					has_completed_focus = RUS_state_surveillance
+					set_temp_variable = { RUS_relation_check = 5 }
+					RUS_bolshevik_check = yes
+				}
+			}
 		}
 		ai_will_do = { factor = 15 }
 		completion_reward = {
@@ -14987,9 +15166,12 @@ focus_tree = {
 		y = 1
 		dynamic = yes
 		offset = {
-			x = 3
+			x = 5
 			y = 1
 			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 		}
 
 		prerequisite = {
@@ -15000,8 +15182,7 @@ focus_tree = {
 			OR = {
 				AND = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_kamenev_revolutionary_legality
-					has_completed_focus = RUS_worker_and_peasant
+					has_completed_focus = RUS_kamenev_three_accounts
 				}
 				AND = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -15051,6 +15232,12 @@ focus_tree = {
 		relative_position_id = RUS_invite_sverdlov
 		x = 0
 		y = 2
+		dynamic = yes
+		offset = {
+			x = 7
+			y = 1
+			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		}
 		allow_branch = {
 			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
@@ -15061,8 +15248,17 @@ focus_tree = {
 		}
 		available = {
 			NOT = { has_country_flag = RUS_stalin_has_defeated_zinoviev }
-			set_temp_variable = { RUS_relation_check = 7 }
-			RUS_bolshevik_check = yes
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_labour_aristocracy
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					set_temp_variable = { RUS_relation_check = 7 }
+					RUS_bolshevik_check = yes
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 15
@@ -17763,6 +17959,7 @@ focus_tree = {
 		relative_position_id = RUS_modernise_transsiberian
 		x = 1
 		y = 1
+		allow_branch = { NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path } }
 
 		prerequisite = {
 			focus = RUS_modernise_transsiberian
@@ -17806,6 +18003,7 @@ focus_tree = {
 		relative_position_id = RUS_modernise_transsiberian
 		x = -1
 		y = 1
+		allow_branch = { NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path } }
 
 		prerequisite = {
 			focus = RUS_modernise_transsiberian
@@ -17845,6 +18043,7 @@ focus_tree = {
 		relative_position_id = RUS_modernise_transsiberian
 		x = 0
 		y = 2
+		allow_branch = { NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path } }
 
 		available = {
 			custom_override_tooltip = {
@@ -29077,8 +29276,6 @@ focus_tree = {
 		y = 4
 		allow_branch = {
 			NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		}
-		allow_branch = {
 			has_completed_focus = RUS_triple_flip
 		}
 		completion_reward = {
@@ -30561,6 +30758,1211 @@ focus_tree = {
 			country_event = { id = RUS_fr_military_reform.90 hours = 1 }
 		}
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_BONUS }
+	}
+
+
+
+	### Kamenev Route Mirrors of Original VST Foci ###
+
+	focus = {
+		id = RUS_kamenev_return_to_leninism
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		cost = 3
+
+		relative_position_id = RUS_syndicalists
+		x = -5
+		y = 1
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_syndicalists
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_syndicalists
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					OR = {
+						has_completed_focus = RUS_internationalists
+						has_completed_focus = RUS_communists
+					}
+					OR = {
+						set_temp_variable = { RUS_relation_check = 4 }
+						RUS_bolshevik_check = yes
+						RUS_VST_left = yes
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 0
+				has_country_flag = RUS_abramovich_ai
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_invite_sverdlov } }
+					complete_national_focus = RUS_invite_sverdlov
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_congress_of_unions
+		icon = GFX_goal_syndicalist_workers
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -3
+		y = 1
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_syndicalists
+		}
+
+
+		available = {
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				AND = {
+					set_temp_variable = { RUS_relation_check = 3 }
+					RUS_vst_centre_check = yes
+					NOT = { has_idea = RUS_post-savinkov_economy }
+				}
+			}
+		}
+		ai_will_do = { factor = 25 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_chamber_of_unions } }
+					complete_national_focus = RUS_chamber_of_unions
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_acknowledge_eser_contribution
+		icon = GFX_goal_RUS_radsocs
+		cost = 3
+
+		relative_position_id = RUS_syndicalists
+		x = 1
+		y = 1
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_syndicalists
+		}
+		mutually_exclusive = {
+			focus = RUS_kamenev_no_permanent_creditor
+		}
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_syndicalists
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					RUS_VST = yes
+					is_in_coalition_with_radical_socialist = yes
+				}
+			}
+		}
+		ai_will_do = { factor = 1 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_eser_deal } }
+					complete_national_focus = RUS_eser_deal
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_expand_vgpu
+		icon = GFX_goal_generic_police_state
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -8
+		y = 2
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_return_to_leninism
+		}
+
+
+		available = {
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				RUS_VST_right = no
+			}
+		}
+		ai_will_do = { factor = 20 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_state_surveillance } }
+					complete_national_focus = RUS_state_surveillance
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_kamenev_democratic_dictatorship
+		icon = GFX_focus_SOV_zinovyevists
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -6
+		y = 2
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_return_to_leninism
+		}
+		mutually_exclusive = {
+			focus = RUS_kamenev_collective_state
+		}
+
+		available = {
+			OR = {
+				RUS_VST_left = yes
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+			}
+		}
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 2
+				has_country_leader = { character = RUS_lev_kamenev }
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_democratic_dictatorship } }
+					complete_national_focus = RUS_democratic_dictatorship
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+	}
+
+	focus = {
+		id = RUS_kamenev_collective_state
+		icon = GFX_goal_revolution_tools
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -4
+		y = 2
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_return_to_leninism
+		}
+		mutually_exclusive = {
+			focus = RUS_kamenev_democratic_dictatorship
+		}
+
+		available = {
+			OR = {
+				RUS_VST_left = yes
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+			}
+		}
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 2
+				has_country_leader = { character = RUS_lev_kamenev }
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_dictatorship_proletariat } }
+					complete_national_focus = RUS_dictatorship_proletariat
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = RUS_kamenev_agrarian_industrialisation
+		icon = GFX_goal_generic_agriculture2
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = 0
+		y = 2
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_no_permanent_creditor
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_kamenev_no_permanent_creditor
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					OR = {
+						set_temp_variable = { RUS_relation_check = 4 }
+						RUS_sr_check = yes
+						RUS_VST_left = yes
+					}
+				}
+			}
+			custom_override_tooltip = {
+				tooltip = RUS_mayorov_ministry_NOT
+				NOT = { has_country_flag = RUS_mayorov_ministry }
+			}
+		}
+		ai_will_do = { factor = 15 }
+		select_effect = {
+			log = "[GetLogRoot]: Select Focus RUS_agrarian_industrialisation"
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_agrarian_industrialisation } }
+					complete_national_focus = RUS_agrarian_industrialisation
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = RUS_kamenev_marxist_education
+		icon = GFX_focus_NOR_moscows_education_centers
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = 4
+		y = 2
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_one_party_card
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_kamenev_one_party_card
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
+		}
+		ai_will_do = { factor = 20 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_science_of_marxism } }
+					complete_national_focus = RUS_science_of_marxism
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL_CHARACTER FOCUS_FILTER_PRODUCTION FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_kamenev_expand_political_administration
+		icon = GFX_goal_generic_imprison_people
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = -7
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_expand_vgpu
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_state_surveillance
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					has_completed_focus = RUS_state_surveillance
+					set_temp_variable = { RUS_relation_check = 5 }
+					RUS_bolshevik_check = yes
+				}
+			}
+		}
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_cheka_state } }
+					complete_national_focus = RUS_cheka_state
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = RUS_kamenev_supreme_economic_council
+		icon = GFX_goal_generic_workers_democracy
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -5
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_democratic_dictatorship
+			focus = RUS_kamenev_collective_state
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					OR = {
+						has_completed_focus = RUS_dictatorship_proletariat
+						has_completed_focus = RUS_democratic_dictatorship
+					}
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					if = {
+						limit = { is_ai = no }
+						OR = {
+							set_temp_variable = { RUS_relation_check = 7 }
+							RUS_vst_left_check = yes
+							RUS_VST_left = yes
+						}
+					}
+					NOT = { has_completed_focus = RUS_new_russian_socialism }
+				}
+			}
+		}
+		ai_will_do = { factor = 35 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_labour_and_defence } }
+					complete_national_focus = RUS_labour_and_defence
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_first_five_year_plan
+		icon = GFX_focus_SOV_merge_plants
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = -3
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_congress_of_unions
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_chamber_of_unions
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					has_completed_focus = RUS_chamber_of_unions
+					RUS_fpc_heavy_industry_tier_4 = yes
+					custom_override_tooltip = {
+						tooltip = RUS_yenotayevsky_ministry_NOT
+						NOT = { has_country_flag = RUS_yenotayevsky_ministry }
+					}
+				}
+			}
+		}
+		ai_will_do = { factor = 25 }
+		select_effect = {
+			log = "[GetLogRoot]: Select Focus RUS_4_year_plan"
+			country_event = { id = russia_socialist_events.62 days = 10 } #Towards Planned Economy
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_4_year_plan } }
+					complete_national_focus = RUS_4_year_plan
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_end_agricultural_transition
+		icon = GFX_goal_RUS_war_on_peasants
+		cost = 4
+
+		relative_position_id = RUS_syndicalists
+		x = -1
+		y = 5
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_central_economic_directory
+		}
+		prerequisite = {
+			focus = RUS_kamenev_encourage_collectivisation
+		}
+
+
+		available = {
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					set_temp_variable = { RUS_relation_check = 5 }
+					RUS_bolshevik_check = yes
+					custom_trigger_tooltip = {
+						tooltip = RUS_maximalist_land_reform_success_focus_requirement
+						has_country_flag = RUS_maximalist_land_reform_success
+					}
+				}
+			}
+		}
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_war_on_landowners } }
+					complete_national_focus = RUS_war_on_landowners
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_municipalise_farms
+		icon = GFX_focus_generic_farmland
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = 1
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_acknowledge_eser_contribution
+		}
+
+
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				add = -5
+				set_temp_variable = { RUS_relation_check < 4 }
+				RUS_sr_check = yes
+			}
+			modifier = {
+				add = 5
+				set_temp_variable = { RUS_relation_check = 6 }
+				RUS_sr_check = yes
+			}
+			modifier = {
+				add = 5
+				set_temp_variable = { RUS_relation_check > 6 }
+				RUS_sr_check = yes
+			}
+		}
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_kamenev_revolutionary_legality
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					NOT = { has_completed_focus = RUS_war_on_landowners }
+					custom_override_tooltip = {
+						tooltip = RUS_dubrovsky_ministry_NOT
+						NOT = { has_country_flag = RUS_dubrovsky_ministry }
+					}
+				}
+			}
+		}
+		select_effect = {
+			log = "[GetLogRoot]: Select Focus RUS_municipalisation_of_farms"
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_municipalisation_of_farms } }
+					complete_national_focus = RUS_municipalisation_of_farms
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = RUS_kamenev_socialist_culture
+		icon = GFX_GBR_fate_of_unions
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = 3
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_marxist_education
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_science_of_marxism
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
+		}
+		ai_will_do = { factor = 15 }
+		select_effect = {
+			country_event = { id = rus_stalin_new_culture_events.1 hours = 1 }
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_labour_aristocracy } }
+					complete_national_focus = RUS_labour_aristocracy
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_socialism_through_innovation
+		icon = GFX_focus_NORDIC_com_research
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = 5
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_marxist_education
+		}
+
+
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_encourage_innovation } }
+					complete_national_focus = RUS_encourage_innovation
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL_CHARACTER FOCUS_FILTER_PRODUCTION FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = RUS_kamenev_tackle_union_opposition
+		icon = GFX_focus_SOV_the_supreme_soviet
+		cost = 7
+
+		relative_position_id = RUS_syndicalists
+		x = -6
+		y = 4
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_supreme_economic_council
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_labour_and_defence
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					has_idea = RUS_unions_fury
+					RUS_VST_left = yes
+				}
+			}
+		}
+		bypass = {
+			has_country_leader = { character = RUS_grigory_zinovyev }
+		}
+		ai_will_do = { factor = 40 }
+		continue_if_invalid = yes
+		select_effect = {
+			log = "[GetLogRoot]: Select Focus RUS_taking_over_vtssps"
+			country_event = russia_socialist_events.363
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_taking_over_vtssps } }
+					complete_national_focus = RUS_taking_over_vtssps
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_arsenal_of_revolution
+		icon = GFX_goal_generic_improve_industry
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = -4
+		y = 4
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_first_five_year_plan
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_4_year_plan
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
+		}
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_arsenal_of_revolution } }
+					complete_national_focus = RUS_arsenal_of_revolution
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = RUS_kamenev_central_economic_directory
+		icon = GFX_goal_state_economy
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -2
+		y = 4
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_first_five_year_plan
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_4_year_plan
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					OR = {
+						RUS_lev_kamenev = { is_second_in_command = yes }
+						RUS_grigory_zinovyev = { is_second_in_command = yes }
+						RUS_sulimov = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { factor = 30 }
+		select_effect = {
+			log = "[GetLogRoot]: Select Focus RUS_planning_directory"
+			country_event = { id = russia_socialist_events.62 days = 10 } #Towards Planned Economy
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_planning_directory } }
+					complete_national_focus = RUS_planning_directory
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = RUS_kamenev_worker_peasant_union
+		icon = GFX_focus_ITA_il_sol_dell_avvenire #GFX_goal_Workers_Paradise
+		cost = 5
+
+		relative_position_id = RUS_syndicalists
+		x = 0
+		y = 4
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_agrarian_industrialisation
+			focus = RUS_kamenev_municipalise_farms
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_agrarian_industrialisation
+					has_completed_focus = RUS_municipalisation_of_farms
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					if = {
+						limit = { is_ai = no }
+						set_temp_variable = { RUS_relation_check = 4 }
+						RUS_sr_check = yes
+					}
+					OR = {
+						custom_override_tooltip = {
+							tooltip = RUS_has_completed_agricultural_industry_decisions
+							check_variable = { RUS_agricultural_industry_var = 3 }
+						}
+						has_completed_focus = RUS_municipalisation_of_farms
+					}
+				}
+			}
+		}
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_worker_and_peasant } }
+					complete_national_focus = RUS_worker_and_peasant
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_proletarian_consciousness
+		icon = GFX_goal_generic_radar_instillation
+		cost = 4
+
+		relative_position_id = RUS_syndicalists
+		x = 2
+		y = 4
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_socialist_culture
+		}
+
+
+		available = {
+			NOT = { has_country_flag = RUS_stalin_has_defeated_zinoviev }
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_labour_aristocracy
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					set_temp_variable = { RUS_relation_check = 7 }
+					RUS_bolshevik_check = yes
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 0
+				has_country_flag = RUS_zinovyev_ai
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_proletarian_consciousness } }
+					complete_national_focus = RUS_proletarian_consciousness
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT }
+	}
+
+	focus = {
+		id = RUS_kamenev_eradicate_disease
+		icon = GFX_focus_generic_field_hostpital
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = 4
+		y = 4
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_marxist_education
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_science_of_marxism
+				}
+				NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+			}
+		}
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_healthcare_reform } }
+					complete_national_focus = RUS_healthcare_reform
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = RUS_kamenev_totalism_debate
+		icon = GFX_goal_ideology_totalist
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -7
+		y = 5
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_tackle_union_opposition
+		}
+
+
+		available = {
+			OR = {
+				RUS_VST_left = yes
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_taking_over_vtssps
+				}
+			}
+		}
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_charter_of_russian_totalism } }
+					complete_national_focus = RUS_charter_of_russian_totalism
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = RUS_kamenev_centralise_unions
+		icon = GFX_focus_GER_proletarian_dictatorship #GFX_focus_ITA_corpo_volontari_della_liberta
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -5
+		y = 5
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_tackle_union_opposition
+		}
+
+		available = {
+			OR = {
+				RUS_VST_left = yes
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+			}
+		}
+		ai_will_do = { factor = 50 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_law_on_unions } }
+					complete_national_focus = RUS_law_on_unions
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_red_cultural_front
+		icon = GFX_goal_generic_culture2
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = 3
+		y = 5
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_socialist_culture
+		}
+
+
+		available = {
+			OR = {
+				AND = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_labour_aristocracy
+				}
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					if = {
+						limit = { is_ai = no }
+						set_temp_variable = { RUS_relation_check = 5 }
+						RUS_vst_left_check = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_red_intelligentsia } }
+					complete_national_focus = RUS_red_intelligentsia
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
+	}
+
+	focus = {
+		id = RUS_kamenev_bolshevik_gamble
+		icon = GFX_focus_SOV_the_last_purge
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -6
+		y = 6
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_centralise_unions
+		}
+		prerequisite = {
+			focus = RUS_kamenev_encourage_collectivisation
+		}
+		prerequisite = {
+			focus = RUS_kamenev_proletarian_consciousness
+		}
+
+
+		available = {
+			NOT = { has_country_flag = RUS_cancel_bolshevik_gamble_focus }
+			OR = {
+				focus_progress = { focus = RUS_kamenev_bolshevik_gamble progress > 0 }
+				AND = {
+					NOT = { has_country_flag = RUS_stalin_has_defeated_zinoviev }
+					OR = {
+						RUS_VST_left = yes
+						has_country_flag = RUS_auto_kamenev_vst_left_path
+					}
+					if = {
+						limit = { has_country_leader = { character = RUS_lev_kamenev } }
+						set_temp_variable = { RUS_left_radicalism_check = 7 }
+						RUS_vst_left_radicalism_check = yes
+						set_temp_variable = { current_vst_left_radicalism = vst_left_radicalism }
+						multiply_temp_variable = { current_vst_left_radicalism = 10 }
+						custom_override_tooltip = {
+							tooltip = RUS_bolshevik_gamble_trigger_tt
+							OR = {
+								has_political_power > current_vst_left_radicalism
+								is_ai = no
+							}
+						}
+					}
+					else_if = {
+						limit = { has_country_leader = { character = RUS_grigory_zinovyev } }
+						has_political_power > 50
+					}
+				}
+			}
+		}
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 0
+				has_country_flag = RUS_stalin_ai
+				NOT = { has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }
+			}
+		}
+		select_effect = {
+			set_country_flag = RUS_kamenev_party_agendas_closed
+			country_event = {
+				id = stalin_form_sov.1
+				days = 7
+			}
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_bolshevik_gamble } }
+					complete_national_focus = RUS_bolshevik_gamble
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = RUS_kamenev_encourage_collectivisation
+		icon = GFX_goal_RUS_collective_farms
+		cost = 4
+
+		relative_position_id = RUS_syndicalists
+		x = -1
+		y = 3
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_three_accounts
+		}
+		prerequisite = {
+			focus = RUS_kamenev_agrarian_industrialisation
+		}
+
+
+		available = {
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				AND = {
+					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					set_temp_variable = { RUS_relation_check = 4 }
+					RUS_vst_left_check = yes
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 0
+				NOT = { has_country_flag = RUS_zinovyev_ai }
+				OR = {
+					has_idea = RUS_anti_socialist_resistance_2
+					has_idea = RUS_anti_socialist_resistance_3
+					has_idea = RUS_anti_socialist_resistance_4
+					has_idea = RUS_anti_socialist_resistance_5
+					has_idea = RUS_anti_socialist_resistance_6
+				}
+			}
+			modifier = {
+				factor = 15
+				has_country_flag = RUS_zinovyev_ai
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_encourage_collectivisation } }
+					complete_national_focus = RUS_encourage_collectivisation
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = RUS_kamenev_red_helmsman_returns
+		icon = GFX_focus_FIN_finnish_federation_of_trade_unions
+		cost = 6
+
+		relative_position_id = RUS_syndicalists
+		x = -7
+		y = 7
+		allow_branch = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+		prerequisite = {
+			focus = RUS_kamenev_bolshevik_gamble
+		}
+
+
+		available = {
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				AND = {
+					has_country_leader = { character = RUS_grigory_zinovyev }
+					has_war_with = GER
+					if = {
+						limit = { is_ai = no }
+						totalist > 0.5
+					}
+				}
+			}
+		}
+		ai_will_do = { factor = 100 }
+		completion_reward = {
+			custom_effect_tooltip = RUS_kamenev_mirrored_focus_effect_tt
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_preserve_revolution_within } }
+					complete_national_focus = RUS_preserve_revolution_within
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY }
 	}
 
 	# Hidden legacy IDs retained only for existing script checks and inherited effects.

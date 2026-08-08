@@ -2,23 +2,16 @@ RUS_stalin_kamenev_ensure_party_agendas = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_mensheviks
+			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_kamenev_party_agendas_closed }
 			NOT = { has_completed_focus = RUS_bolshevik_gamble }
 		}
 		if = {
 			limit = {
 				NOT = { has_country_flag = RUS_kamenev_psr_agenda_project_active }
-				NOT = { has_completed_focus = RUS_kamenev_psr_final_party_congress }
+				NOT = { has_completed_focus = RUS_kamenev_psr_agrarian_socialism }
 			}
 			RUS_stalin_kamenev_dispatch_psr_agenda = yes
-		}
-		if = {
-			limit = {
-				NOT = { has_country_flag = RUS_kamenev_bol_agenda_project_active }
-				NOT = { has_completed_focus = RUS_kamenev_bol_undissolved_central_committee }
-			}
-			RUS_stalin_kamenev_dispatch_bol_agenda = yes
 		}
 	}
 }
@@ -39,120 +32,66 @@ RUS_stalin_kamenev_dispatch_psr_agenda = {
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill } }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_3_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_land_socialisation_bill
-		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_local_self_government } }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_4_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_local_self_government
-		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
-	}
-	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_claim_internal_affairs } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_5_in_progress days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_3_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_claim_internal_affairs
-		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices } }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_6_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices
-		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress } }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_7_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_peasant_congress
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_defend_revolutionary_democracy } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_8_in_progress days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_4_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_defend_revolutionary_democracy
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_5_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_land_socialisation_bill
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_6_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_peasant_congress
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_final_party_congress } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_9_in_progress days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_7_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_final_party_congress
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_8_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_local_self_government } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_9_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_local_self_government
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_agrarian_socialism } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_10_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_agrarian_socialism
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 }
 
+# Kept as a compatibility sink for saves with an already scheduled Bolshevik agenda event.
 RUS_stalin_kamenev_dispatch_bol_agenda = {
-	if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_register_returning_members } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_1_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_register_returning_members
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_central_bureau } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_2_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_restore_central_bureau
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_pravda } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_3_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_restore_pravda
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_rebuild_factory_cells } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_4_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_rebuild_factory_cells
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_railway_telegraph_bureau } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_5_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_railway_telegraph_bureau
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_unify_planning_apparatus } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_6_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_unify_planning_apparatus
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_win_vst_majority } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_7_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_win_vst_majority
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_military_organisations } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_8_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_restore_military_organisations
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_undissolved_central_committee } }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_9_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_undissolved_central_committee
-		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
-	}
+	RUS_stalin_kamenev_clear_bol_agenda_runtime = yes
 }
 
 RUS_stalin_kamenev_clear_psr_agenda_runtime = {
@@ -166,6 +105,7 @@ RUS_stalin_kamenev_clear_psr_agenda_runtime = {
 	clr_country_flag = RUS_kamenev_psr_agenda_7_in_progress
 	clr_country_flag = RUS_kamenev_psr_agenda_8_in_progress
 	clr_country_flag = RUS_kamenev_psr_agenda_9_in_progress
+	clr_country_flag = RUS_kamenev_psr_agenda_10_in_progress
 }
 
 RUS_stalin_kamenev_clear_bol_agenda_runtime = {
@@ -179,4 +119,314 @@ RUS_stalin_kamenev_clear_bol_agenda_runtime = {
 	clr_country_flag = RUS_kamenev_bol_agenda_7_in_progress
 	clr_country_flag = RUS_kamenev_bol_agenda_8_in_progress
 	clr_country_flag = RUS_kamenev_bol_agenda_9_in_progress
+}
+
+RUS_stalin_kamenev_sync_transferred_industry = {
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			OR = {
+				has_completed_focus = RUS_industrialise_urals
+				has_completed_focus = RUS_industrialise_eastern_europe
+				has_completed_focus = RUS_industrialise_siberia
+			}
+			NOT = { has_completed_focus = RUS_kamenev_national_economic_line }
+		}
+		complete_national_focus = RUS_kamenev_national_economic_line
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_industrialise_urals
+			NOT = { has_completed_focus = RUS_kamenev_industrialise_urals }
+		}
+		complete_national_focus = RUS_kamenev_industrialise_urals
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_industrialise_eastern_europe
+			NOT = { has_completed_focus = RUS_kamenev_industrialise_eastern_europe }
+		}
+		complete_national_focus = RUS_kamenev_industrialise_eastern_europe
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_industrialise_siberia
+			NOT = { has_completed_focus = RUS_kamenev_industrialise_siberia }
+		}
+		complete_national_focus = RUS_kamenev_industrialise_siberia
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_kamenev_industrialise_urals
+			NOT = { has_completed_focus = RUS_industrialise_urals }
+		}
+		complete_national_focus = RUS_industrialise_urals
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
+			NOT = { has_completed_focus = RUS_industrialise_eastern_europe }
+		}
+		complete_national_focus = RUS_industrialise_eastern_europe
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_kamenev_industrialise_siberia
+			NOT = { has_completed_focus = RUS_industrialise_siberia }
+		}
+		complete_national_focus = RUS_industrialise_siberia
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_invite_sverdlov
+			NOT = { has_completed_focus = RUS_kamenev_return_to_leninism }
+		}
+		complete_national_focus = RUS_kamenev_return_to_leninism
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_chamber_of_unions
+			NOT = { has_completed_focus = RUS_kamenev_congress_of_unions }
+		}
+		complete_national_focus = RUS_kamenev_congress_of_unions
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_eser_deal
+			NOT = { has_completed_focus = RUS_kamenev_acknowledge_eser_contribution }
+		}
+		complete_national_focus = RUS_kamenev_acknowledge_eser_contribution
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_state_surveillance
+			NOT = { has_completed_focus = RUS_kamenev_expand_vgpu }
+		}
+		complete_national_focus = RUS_kamenev_expand_vgpu
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_democratic_dictatorship
+			NOT = { has_completed_focus = RUS_kamenev_democratic_dictatorship }
+		}
+		complete_national_focus = RUS_kamenev_democratic_dictatorship
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_dictatorship_proletariat
+			NOT = { has_completed_focus = RUS_kamenev_collective_state }
+		}
+		complete_national_focus = RUS_kamenev_collective_state
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_agrarian_industrialisation
+			NOT = { has_completed_focus = RUS_kamenev_agrarian_industrialisation }
+		}
+		complete_national_focus = RUS_kamenev_agrarian_industrialisation
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_science_of_marxism
+			NOT = { has_completed_focus = RUS_kamenev_marxist_education }
+		}
+		complete_national_focus = RUS_kamenev_marxist_education
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_cheka_state
+			NOT = { has_completed_focus = RUS_kamenev_expand_political_administration }
+		}
+		complete_national_focus = RUS_kamenev_expand_political_administration
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_labour_and_defence
+			NOT = { has_completed_focus = RUS_kamenev_supreme_economic_council }
+		}
+		complete_national_focus = RUS_kamenev_supreme_economic_council
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_4_year_plan
+			NOT = { has_completed_focus = RUS_kamenev_first_five_year_plan }
+		}
+		complete_national_focus = RUS_kamenev_first_five_year_plan
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_war_on_landowners
+			NOT = { has_completed_focus = RUS_kamenev_end_agricultural_transition }
+		}
+		complete_national_focus = RUS_kamenev_end_agricultural_transition
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_municipalisation_of_farms
+			NOT = { has_completed_focus = RUS_kamenev_municipalise_farms }
+		}
+		complete_national_focus = RUS_kamenev_municipalise_farms
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_labour_aristocracy
+			NOT = { has_completed_focus = RUS_kamenev_socialist_culture }
+		}
+		complete_national_focus = RUS_kamenev_socialist_culture
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_encourage_innovation
+			NOT = { has_completed_focus = RUS_kamenev_socialism_through_innovation }
+		}
+		complete_national_focus = RUS_kamenev_socialism_through_innovation
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_taking_over_vtssps
+			NOT = { has_completed_focus = RUS_kamenev_tackle_union_opposition }
+		}
+		complete_national_focus = RUS_kamenev_tackle_union_opposition
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_arsenal_of_revolution
+			NOT = { has_completed_focus = RUS_kamenev_arsenal_of_revolution }
+		}
+		complete_national_focus = RUS_kamenev_arsenal_of_revolution
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_planning_directory
+			NOT = { has_completed_focus = RUS_kamenev_central_economic_directory }
+		}
+		complete_national_focus = RUS_kamenev_central_economic_directory
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_worker_and_peasant
+			NOT = { has_completed_focus = RUS_kamenev_worker_peasant_union }
+		}
+		complete_national_focus = RUS_kamenev_worker_peasant_union
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_proletarian_consciousness
+			NOT = { has_completed_focus = RUS_kamenev_proletarian_consciousness }
+		}
+		complete_national_focus = RUS_kamenev_proletarian_consciousness
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_healthcare_reform
+			NOT = { has_completed_focus = RUS_kamenev_eradicate_disease }
+		}
+		complete_national_focus = RUS_kamenev_eradicate_disease
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_charter_of_russian_totalism
+			NOT = { has_completed_focus = RUS_kamenev_totalism_debate }
+		}
+		complete_national_focus = RUS_kamenev_totalism_debate
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_law_on_unions
+			NOT = { has_completed_focus = RUS_kamenev_centralise_unions }
+		}
+		complete_national_focus = RUS_kamenev_centralise_unions
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_red_intelligentsia
+			NOT = { has_completed_focus = RUS_kamenev_red_cultural_front }
+		}
+		complete_national_focus = RUS_kamenev_red_cultural_front
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_bolshevik_gamble
+			NOT = { has_completed_focus = RUS_kamenev_bolshevik_gamble }
+		}
+		complete_national_focus = RUS_kamenev_bolshevik_gamble
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_encourage_collectivisation
+			NOT = { has_completed_focus = RUS_kamenev_encourage_collectivisation }
+		}
+		complete_national_focus = RUS_kamenev_encourage_collectivisation
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_preserve_revolution_within
+			NOT = { has_completed_focus = RUS_kamenev_red_helmsman_returns }
+		}
+		complete_national_focus = RUS_kamenev_red_helmsman_returns
+		mark_focus_tree_layout_dirty = yes
+	}
 }

@@ -41,16 +41,6 @@ country_event = {
 }
 
 country_event = {
-	id = RUS_stalin_kamenev_agendas.5
-	title = RUS_stalin_kamenev_agendas.5.t
-	desc = RUS_stalin_kamenev_agendas.5.d
-	is_triggered_only = yes
-	picture = GFX_report_event_RUS_meeting
-
-	option = { name = RUS_stalin_kamenev_agendas.5.a }
-}
-
-country_event = {
 	id = RUS_stalin_kamenev_agendas.6
 	title = RUS_stalin_kamenev_agendas.6.t
 	desc = RUS_stalin_kamenev_agendas.6.d
@@ -106,22 +96,6 @@ country_event = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
 				has_country_flag = RUS_kamenev_psr_agenda_3_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill }
-			}
-			complete_national_focus = { focus = RUS_kamenev_psr_land_socialisation_bill use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_4_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_psr_local_self_government }
-			}
-			complete_national_focus = { focus = RUS_kamenev_psr_local_self_government use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_5_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_claim_internal_affairs }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_claim_internal_affairs use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
@@ -129,23 +103,7 @@ country_event = {
 		else_if = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_6_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices }
-			}
-			complete_national_focus = { focus = RUS_kamenev_psr_cooperatives_fair_grain_prices use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_7_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress }
-			}
-			complete_national_focus = { focus = RUS_kamenev_psr_peasant_congress use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_8_in_progress
+				has_country_flag = RUS_kamenev_psr_agenda_4_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_defend_revolutionary_democracy }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_defend_revolutionary_democracy use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
@@ -153,115 +111,73 @@ country_event = {
 		else_if = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_9_in_progress
+				has_country_flag = RUS_kamenev_psr_agenda_5_in_progress
+				NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill }
+			}
+			complete_national_focus = { focus = RUS_kamenev_psr_land_socialisation_bill use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
+		}
+		else_if = {
+			limit = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_kamenev_psr_agenda_6_in_progress
+				NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress }
+			}
+			complete_national_focus = { focus = RUS_kamenev_psr_peasant_congress use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
+		}
+		else_if = {
+			limit = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_kamenev_psr_agenda_7_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_final_party_congress }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_final_party_congress use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
+		}
+		else_if = {
+			limit = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_kamenev_psr_agenda_8_in_progress
+				NOT = { has_completed_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices }
+			}
+			complete_national_focus = { focus = RUS_kamenev_psr_cooperatives_fair_grain_prices use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
+		}
+		else_if = {
+			limit = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_kamenev_psr_agenda_9_in_progress
+				NOT = { has_completed_focus = RUS_kamenev_psr_local_self_government }
+			}
+			complete_national_focus = { focus = RUS_kamenev_psr_local_self_government use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
+		}
+		else_if = {
+			limit = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_kamenev_psr_agenda_10_in_progress
+				NOT = { has_completed_focus = RUS_kamenev_psr_agrarian_socialism }
+			}
+			complete_national_focus = { focus = RUS_kamenev_psr_agrarian_socialism use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
 		}
 
 		RUS_stalin_kamenev_clear_psr_agenda_runtime = yes
 		if = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_completed_focus = RUS_mensheviks
+				has_completed_focus = RUS_syndicalists
 				NOT = { has_country_flag = RUS_kamenev_party_agendas_closed }
 				NOT = { has_completed_focus = RUS_bolshevik_gamble }
-				NOT = { has_completed_focus = RUS_kamenev_psr_final_party_congress }
+				NOT = { has_completed_focus = RUS_kamenev_psr_agrarian_socialism }
 			}
 			RUS_stalin_kamenev_dispatch_psr_agenda = yes
 		}
 	}
 }
 
+# Compatibility sink: Bolshevik organisation focuses are now player-selected.
 country_event = {
 	id = RUS_stalin_kamenev_agendas.101
 	hidden = yes
 	is_triggered_only = yes
 
 	immediate = {
-		if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_1_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_register_returning_members }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_register_returning_members use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_2_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_restore_central_bureau }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_restore_central_bureau use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_3_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_restore_pravda }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_restore_pravda use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_4_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_rebuild_factory_cells }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_rebuild_factory_cells use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_5_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_railway_telegraph_bureau }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_railway_telegraph_bureau use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_6_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_unify_planning_apparatus }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_unify_planning_apparatus use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_7_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_win_vst_majority }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_win_vst_majority use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_8_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_restore_military_organisations }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_restore_military_organisations use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_bol_agenda_9_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_bol_undissolved_central_committee }
-			}
-			complete_national_focus = { focus = RUS_kamenev_bol_undissolved_central_committee use_side_message = yes originator_name = RUS_kamenev_bol_agenda_originator }
-		}
-
 		RUS_stalin_kamenev_clear_bol_agenda_runtime = yes
-		if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_completed_focus = RUS_mensheviks
-				NOT = { has_country_flag = RUS_kamenev_party_agendas_closed }
-				NOT = { has_completed_focus = RUS_bolshevik_gamble }
-				NOT = { has_completed_focus = RUS_kamenev_bol_undissolved_central_committee }
-			}
-			RUS_stalin_kamenev_dispatch_bol_agenda = yes
-		}
 	}
 }
