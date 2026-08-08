@@ -9,14 +9,14 @@ RUS_stalin_kamenev_ensure_party_agendas = {
 		if = {
 			limit = {
 				NOT = { has_country_flag = RUS_kamenev_psr_agenda_project_active }
-				NOT = { has_completed_focus = RUS_kamenev_psr_defend_revolutionary_democracy }
+				NOT = { has_completed_focus = RUS_kamenev_psr_final_party_congress }
 			}
 			RUS_stalin_kamenev_dispatch_psr_agenda = yes
 		}
 		if = {
 			limit = {
 				NOT = { has_country_flag = RUS_kamenev_bol_agenda_project_active }
-				NOT = { has_completed_focus = RUS_kamenev_bol_win_vst_majority }
+				NOT = { has_completed_focus = RUS_kamenev_bol_undissolved_central_committee }
 			}
 			RUS_stalin_kamenev_dispatch_bol_agenda = yes
 		}
@@ -32,24 +32,24 @@ RUS_stalin_kamenev_dispatch_psr_agenda = {
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill } }
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_preserve_land_committees } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_2_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_preserve_land_committees
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_3_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_land_socialisation_bill
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_local_self_government } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_3_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_local_self_government
-		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress } }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_4_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_peasant_congress
+		activate_shine_on_focus = RUS_kamenev_psr_local_self_government
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 	else_if = {
@@ -60,55 +60,97 @@ RUS_stalin_kamenev_dispatch_psr_agenda = {
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_defend_revolutionary_democracy } }
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_6_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_cooperatives_fair_grain_prices
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_7_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_peasant_congress
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_defend_revolutionary_democracy } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_8_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_defend_revolutionary_democracy
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_final_party_congress } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_9_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_final_party_congress
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 24 random_days = 4 }
 	}
 }
 
 RUS_stalin_kamenev_dispatch_bol_agenda = {
 	if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_central_bureau } }
+		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_register_returning_members } }
 		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
 		set_country_flag = { flag = RUS_kamenev_bol_agenda_1_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_bol_register_returning_members
+		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_central_bureau } }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_2_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_bol_restore_central_bureau
 		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
 	}
 	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_register_returning_members } }
+		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_pravda } }
 		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_2_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_register_returning_members
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_3_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_bol_restore_pravda
 		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_rebuild_factory_cells } }
 		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_3_in_progress days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_4_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_bol_rebuild_factory_cells
 		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
 	}
 	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_military_organisations } }
+		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_railway_telegraph_bureau } }
 		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_4_in_progress days = 40 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_bol_restore_military_organisations
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_5_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_bol_railway_telegraph_bureau
 		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_unify_planning_apparatus } }
 		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_5_in_progress days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_6_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_bol_unify_planning_apparatus
 		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_win_vst_majority } }
 		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_bol_agenda_6_in_progress days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_7_in_progress days = 40 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_bol_win_vst_majority
+		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_restore_military_organisations } }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_8_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_bol_restore_military_organisations
+		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_bol_undissolved_central_committee } }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_project_active days = 40 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_bol_agenda_9_in_progress days = 40 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_bol_undissolved_central_committee
 		country_event = { id = RUS_stalin_kamenev_agendas.101 days = 22 random_days = 6 }
 	}
 }
@@ -121,6 +163,9 @@ RUS_stalin_kamenev_clear_psr_agenda_runtime = {
 	clr_country_flag = RUS_kamenev_psr_agenda_4_in_progress
 	clr_country_flag = RUS_kamenev_psr_agenda_5_in_progress
 	clr_country_flag = RUS_kamenev_psr_agenda_6_in_progress
+	clr_country_flag = RUS_kamenev_psr_agenda_7_in_progress
+	clr_country_flag = RUS_kamenev_psr_agenda_8_in_progress
+	clr_country_flag = RUS_kamenev_psr_agenda_9_in_progress
 }
 
 RUS_stalin_kamenev_clear_bol_agenda_runtime = {
@@ -131,4 +176,7 @@ RUS_stalin_kamenev_clear_bol_agenda_runtime = {
 	clr_country_flag = RUS_kamenev_bol_agenda_4_in_progress
 	clr_country_flag = RUS_kamenev_bol_agenda_5_in_progress
 	clr_country_flag = RUS_kamenev_bol_agenda_6_in_progress
+	clr_country_flag = RUS_kamenev_bol_agenda_7_in_progress
+	clr_country_flag = RUS_kamenev_bol_agenda_8_in_progress
+	clr_country_flag = RUS_kamenev_bol_agenda_9_in_progress
 }
