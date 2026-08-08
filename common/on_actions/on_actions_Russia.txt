@@ -581,14 +581,23 @@ on_actions = {
 					has_country_leader = { character = RUS_lev_kamenev }
 					NOT = { check_variable = { vst_left_var < 10 } }
 					NOT = { check_variable = { vst_centre_unity > 2 } }
-					NOT = { has_power_balance = { id = RUS_kamenev_power_balance } }
 				}
 				set_country_flag = RUS_auto_kamenev_vst_left_path
+				set_country_flag = RUS_VST_conference_kamenev
 				RUS_stalin_enable_kamenev_bop = yes
+			}
+			if = {
+				limit = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					NOT = { has_country_flag = RUS_kamenev_party_agenda_layout_v1_refreshed }
+				}
+				set_country_flag = RUS_kamenev_party_agenda_layout_v1_refreshed
+				mark_focus_tree_layout_dirty = yes
 			}
 			if = {
 				limit = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 				RUS_stalin_kamenev_bop_refresh_runtime_effects = yes
+				RUS_stalin_kamenev_ensure_party_agendas = yes
 			}
 			if = {
 				limit = {
