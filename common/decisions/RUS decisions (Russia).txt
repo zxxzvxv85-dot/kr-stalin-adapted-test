@@ -1096,6 +1096,54 @@ RUS_first_five_year_plan_industrial_projects = {
 		fixed_random_seed = no
 	}
 
+	RUS_kamenev_all_russian_electrification = {
+		icon = GFX_decision_generic_electricity
+		allowed = { original_tag = RUS }
+		visible = {
+			has_completed_focus = RUS_kamenev_national_economic_line
+		}
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			custom_trigger_tooltip = {
+				tooltip = RUS_kamenev_all_russian_electrification_available_tt
+				any_owned_state = {
+					is_controlled_by = ROOT
+					is_core_of = ROOT
+					infrastructure < 5
+				}
+			}
+		}
+		cost = 15
+		days_remove = 45
+		fire_only_once = no
+		modifier = { civilian_factory_use = 1 }
+		ai_will_do = { base = 0 }
+		complete_effect = {
+			log = "[GetLogRoot]: Decision activated RUS_kamenev_all_russian_electrification"
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision removed RUS_kamenev_all_russian_electrification"
+			custom_effect_tooltip = RUS_kamenev_all_russian_electrification_complete_tt
+			hidden_effect = {
+				RUS_stalin_ensure_first_five_year_plan = yes
+				random_owned_controlled_state = {
+					limit = {
+						is_core_of = ROOT
+						infrastructure < 5
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+				add_to_variable = { RUS_first_five_year_plan_score = 1 }
+				RUS_stalin_refresh_first_five_year_plan_stage = yes
+			}
+		}
+		fixed_random_seed = no
+	}
+
 RUS_magnitogorsk = {
 		icon = GFX_decision_generic_mountain_fortification
 		allowed = { always = no }
