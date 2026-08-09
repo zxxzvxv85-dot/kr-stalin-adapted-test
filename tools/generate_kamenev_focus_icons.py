@@ -10,6 +10,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFo
 
 WORK_SIZE = 400
 OUTPUT_SIZE = 100
+FINAL_ART_SCALE = 0.91
 TRANSPARENT = (0, 0, 0, 0)
 
 GOLD = (204, 163, 85, 255)
@@ -969,7 +970,14 @@ def finish_icon(canvas: Image.Image, seed_text: str) -> Image.Image:
     graded = graded.filter(ImageFilter.GaussianBlur(0.18))
     graded = graded.filter(ImageFilter.UnsharpMask(radius=1.3, percent=48, threshold=4))
     final = graded.resize((OUTPUT_SIZE, OUTPUT_SIZE), Image.Resampling.LANCZOS)
-    return final.filter(ImageFilter.UnsharpMask(radius=0.6, percent=34, threshold=3))
+    final = final.filter(ImageFilter.UnsharpMask(radius=0.6, percent=34, threshold=3))
+
+    art_size = round(OUTPUT_SIZE * FINAL_ART_SCALE)
+    scaled = final.resize((art_size, art_size), Image.Resampling.LANCZOS)
+    output = Image.new("RGBA", (OUTPUT_SIZE, OUTPUT_SIZE), TRANSPARENT)
+    inset = (OUTPUT_SIZE - art_size) // 2
+    output.alpha_composite(scaled, (inset, inset))
+    return output
 
 
 def paint_national_economic_line(layer: Image.Image) -> None:
