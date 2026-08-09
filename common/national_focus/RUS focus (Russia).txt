@@ -401,6 +401,7 @@ focus_tree = {
 			set_variable = { RUS_voskhod_current_mp = 0 }
 			set_variable = { RUS_voskhod_remaining_mp = 80000 }
 			set_variable = { RUS_completed_voskhod_projects = 0 }
+			unlock_decision_tooltip = { decision = RUS_nationalise_AEG_electrical_facilities }
 			if = {
 				limit = { NOT = { has_country_flag = RUS_BM_solved } }
 				custom_effect_tooltip = RUS_BM_recovery_tt
@@ -29766,11 +29767,6 @@ focus_tree = {
 		relative_position_id = RUS_fr_national_military_reform_program
 		x = 0
 		y = 3
-		offset = {
-			x = -5
-			y = 1
-			trigger = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-		}
 		prerequisite = { focus = RUS_fr_unified_military_leadership }
 		prerequisite = { focus = RUS_fr_frunze_field_regulations }
 		prerequisite = { focus = RUS_fr_unified_training_mobilisation_system }

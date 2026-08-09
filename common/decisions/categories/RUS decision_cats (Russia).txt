@@ -102,7 +102,15 @@ RUS_voskhod_decisions = {
 	picture = GFX_decision_cat_RUS_voskhod
 	priority = 200
 	allowed = { original_tag = RUS }
-	visible = { has_country_flag = RUS_voskhod_active }
+	visible = {
+		OR = {
+			has_country_flag = RUS_voskhod_active
+			AND = {
+				has_completed_focus = RUS_voskhod
+				NOT = { has_country_flag = RUS_aeg_nationalisation_completed }
+			}
+		}
+	}
 }
 
 RUS_USNS_decision_cat = {
