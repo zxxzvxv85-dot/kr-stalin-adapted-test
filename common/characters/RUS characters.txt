@@ -214,8 +214,13 @@ characters = {
 			available = {
 				if = {
 					limit = { RUS_VST = yes }
-					set_temp_variable = { RUS_relation_check = 1 }
-					RUS_vst_right_check = yes
+					OR = {
+						has_completed_focus = RUS_kamenev_majority_rule
+						AND = {
+							set_temp_variable = { RUS_relation_check = 1 }
+							RUS_vst_right_check = yes
+						}
+					}
 				}
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
@@ -4657,6 +4662,7 @@ characters = {
 					has_completed_focus = RUS_invite_zeller
 					has_completed_focus = RUS_democratisation_of_artels
 					has_completed_focus = RSA_enemies_of_vozhd
+					has_completed_focus = RUS_kamenev_majority_rule
 					has_country_flag = RUS_sds_agree
 				}
 			}
