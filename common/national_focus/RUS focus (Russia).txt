@@ -11221,10 +11221,49 @@ focus_tree = {
 		}
 		ai_will_do = { factor = 25 }
 		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_kamenev_three_accounts"
-			add_political_power = 25
-			RUS_stalin_kamenev_bop_ensure_active = yes
-			country_event = { id = RUS_stalin_kamenev_tree.1 hours = 6 }
+			effect_tooltip = {
+				if = {
+					limit = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					RUS_stalin_kamenev_bop_move_left_010 = yes
+				}
+				add_political_power = 50
+				set_temp_variable = { RUS_relation_change = 1 }
+				RUS_PSR_relation = yes
+				if = {
+					limit = { RUS_VST_left = yes }
+					country_event = russia_socialist_events.73 #The Socialist-Revolutionary-Maximalists
+					if = {
+						limit = {
+							NOT = { has_country_flag = RUS_maximalist_land_reform_started }
+							NOT = { has_country_flag = RUS_maximalist_land_reform_intro_chain_started }
+							NOT = { has_country_flag = RUS_maximalist_land_reform_intro_chain_scheduled }
+						}
+						set_country_flag = RUS_maximalist_land_reform_intro_chain_scheduled
+						country_event = { id = rus_maximalist_land_reform_events.4 days = 3 }
+					}
+					custom_effect_tooltip = tooltip_white_line
+					custom_effect_tooltip = available_political_advisor
+					show_ideas_tooltip = RUS_andrey_kolegayev_advisor
+					show_ideas_tooltip = RUS_aleksey_ustinov_advisor
+					hidden_effect = {
+						country_event = { id = russia_socialist_events.387 days = 365 } #Maximalist Takeover of SRs
+					}
+				}
+				else_if = {
+					limit = { check_variable = { sr_var > 1 } }
+					country_event = russia_socialist_events.72 #The Kamkovites
+					custom_effect_tooltip = tooltip_white_line
+					custom_effect_tooltip = available_political_advisor
+					show_ideas_tooltip = RUS_boris_kamkov_advisor
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_completed_focus = RUS_eser_deal } }
+					complete_national_focus = RUS_eser_deal
+				}
+				country_event = { id = RUS_stalin_kamenev_tree.1 hours = 6 }
+			}
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 	}
@@ -11323,7 +11362,7 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_revolutionary_legality
-		icon = GFX_goal_RUS_radsocs
+		icon = GFX_goal_generic_parliament
 		cost = 3
 
 		relative_position_id = RUS_syndicalists
@@ -11777,7 +11816,7 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_psr_cooperatives_fair_grain_prices
-		icon = GFX_goal_RUS_kamenev_psr_cooperatives_fair_grain_prices
+		icon = GFX_focus_generic_industrialists
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
@@ -11801,7 +11840,7 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_psr_local_self_government
-		icon = GFX_goal_RUS_kamenev_psr_local_self_government
+		icon = GFX_goal_HOL_council_communism
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
@@ -12000,7 +12039,7 @@ focus_tree = {
 
 	focus = {
 		id = RUS_kamenev_bol_undissolved_central_committee
-		icon = GFX_goal_RUS_kamenev_bol_undissolved_central_committee
+		icon = GFX_focus_GER_the_peoples_victory
 		cost = 2
 
 		relative_position_id = RUS_syndicalists
@@ -32632,12 +32671,10 @@ focus_tree = {
 		prerequisite = {
 			focus = RUS_kamenev_encourage_collectivisation
 		}
-		prerequisite = {
-			focus = RUS_kamenev_proletarian_consciousness
-		}
 
 
 		available = {
+			has_completed_focus = RUS_kamenev_proletarian_consciousness
 			NOT = { has_country_flag = RUS_cancel_bolshevik_gamble_focus }
 			OR = {
 				focus_progress = { focus = RUS_kamenev_bolshevik_gamble progress > 0 }

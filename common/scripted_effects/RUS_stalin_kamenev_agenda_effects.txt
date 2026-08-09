@@ -208,10 +208,40 @@ RUS_stalin_kamenev_sync_transferred_industry = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
 			has_completed_focus = RUS_eser_deal
+			has_completed_focus = RUS_kamenev_no_permanent_creditor
+			NOT = { has_completed_focus = RUS_kamenev_three_accounts }
+		}
+		complete_national_focus = RUS_kamenev_three_accounts
+		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_eser_deal
+			NOT = { has_completed_focus = RUS_kamenev_no_permanent_creditor }
 			NOT = { has_completed_focus = RUS_kamenev_acknowledge_eser_contribution }
 		}
 		complete_national_focus = RUS_kamenev_acknowledge_eser_contribution
 		mark_focus_tree_layout_dirty = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_kamenev_three_accounts
+			NOT = { has_completed_focus = RUS_eser_deal }
+		}
+		complete_national_focus = RUS_eser_deal
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_kamenev_three_accounts
+			NOT = { has_country_flag = RUS_maximalist_land_reform_started }
+			NOT = { has_country_flag = RUS_maximalist_land_reform_intro_chain_started }
+			NOT = { has_country_flag = RUS_maximalist_land_reform_intro_chain_scheduled }
+		}
+		set_country_flag = RUS_maximalist_land_reform_intro_chain_scheduled
+		country_event = { id = rus_maximalist_land_reform_events.4 days = 1 }
 	}
 	if = {
 		limit = {
