@@ -231,6 +231,22 @@ RUS_stalin_add_first_five_year_plan_score_low = {
 	}
 }
 
+RUS_stalin_add_first_five_year_plan_score_3 = {
+	RUS_stalin_ensure_first_five_year_plan = yes
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_4_year_plan
+			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
+		}
+		custom_effect_tooltip = RUS_first_five_year_plan_score_3_tt
+		hidden_effect = {
+			add_to_variable = { RUS_first_five_year_plan_score = 3 }
+			RUS_stalin_refresh_first_five_year_plan_stage = yes
+		}
+	}
+}
+
 RUS_stalin_add_first_five_year_plan_score_med = {
 	RUS_stalin_ensure_first_five_year_plan = yes
 	if = {
