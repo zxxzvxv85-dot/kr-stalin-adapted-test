@@ -189,6 +189,17 @@ RUS_stalin_kamenev_sync_transferred_industry = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
+			has_completed_focus = RUS_kamenev_industrialise_urals
+			NOT = { has_country_flag = RUS_kamenev_hydroelectric_projects_unlocked }
+		}
+		activate_targeted_decision = { target = 248 decision = RUS_rybinsk_hydroelectric_dam }
+		activate_targeted_decision = { target = 251 decision = RUS_zhiguli_hydroelectric_dam }
+		activate_targeted_decision = { target = 568 decision = RUS_krasnoyarsk_hydroelectric_dam }
+		set_country_flag = RUS_kamenev_hydroelectric_projects_unlocked
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_auto_kamenev_vst_left_path
 			has_completed_focus = RUS_invite_sverdlov
 			NOT = { has_completed_focus = RUS_kamenev_return_to_leninism }
 		}

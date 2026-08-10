@@ -2004,6 +2004,180 @@ RUS_stavropol_hydroelectric_dam = {
 		}
 		fixed_random_seed = no
 	}
+RUS_rybinsk_hydroelectric_dam = {
+		icon = hol_drain_water_lines
+		allowed = { always = no }
+		available = {
+			FROM = { is_owned_and_controlled_by_ROOT_or_subject = yes }
+		}
+		highlight_states = { highlight_state_targets = { state = 248 } } #Yaroslavl
+		cost = RUS_ic_cost_high
+
+		state_target = yes
+		days_remove = 365
+		fire_only_once = yes
+		modifier = { consumer_goods_factor = 0.04 }
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 2
+				has_political_power > 100
+				amount_taken_ideas = {
+					amount > 0
+					slots = { political_advisor }
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_rybinsk_hydroelectric_dam"
+		}
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_rybinsk_hydroelectric_dam"
+			add_tech_bonus = {
+				name = RUS_rybinsk_hydroelectric_dam
+				bonus = 1
+				uses = 1
+				category = industry
+			}
+			248 = {
+				add_extra_state_shared_building_slots = 5
+				add_building_construction = { type = infrastructure level = 2 }
+				add_building_construction = { type = industrial_complex level = 2 }
+				add_victory_points = { province = 6167 value = 3 }
+				custom_effect_tooltip = tooltip_white_line
+				add_building_construction = {
+					type = dam
+					level = 1
+					province = 6167
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = {
+				localization_key = building_state_modifier|dam
+				INDENT = "    "
+			}
+			RUS_decrease_black_monday = yes
+			RUS_stalin_industry_effect = yes
+			RUS_stalin_add_first_five_year_plan_score_high = yes
+		}
+		fixed_random_seed = no
+	}
+RUS_zhiguli_hydroelectric_dam = {
+		icon = hol_drain_water_lines
+		allowed = { always = no }
+		available = {
+			FROM = { is_owned_and_controlled_by_ROOT_or_subject = yes }
+		}
+		highlight_states = { highlight_state_targets = { state = 251 } } #Samara
+		cost = RUS_ic_cost_high
+
+		state_target = yes
+		days_remove = 365
+		fire_only_once = yes
+		modifier = { consumer_goods_factor = 0.04 }
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 2
+				has_political_power > 100
+				amount_taken_ideas = {
+					amount > 0
+					slots = { political_advisor }
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_zhiguli_hydroelectric_dam"
+		}
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_zhiguli_hydroelectric_dam"
+			add_tech_bonus = {
+				name = RUS_zhiguli_hydroelectric_dam
+				bonus = 1
+				uses = 1
+				category = industry
+			}
+			251 = {
+				add_extra_state_shared_building_slots = 5
+				add_building_construction = { type = infrastructure level = 2 }
+				add_building_construction = { type = industrial_complex level = 2 }
+				add_victory_points = { province = 9299 value = 3 }
+				custom_effect_tooltip = tooltip_white_line
+				add_building_construction = {
+					type = dam
+					level = 1
+					province = 9299
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = {
+				localization_key = building_state_modifier|dam
+				INDENT = "    "
+			}
+			RUS_decrease_black_monday = yes
+			RUS_stalin_industry_effect = yes
+			RUS_stalin_add_first_five_year_plan_score_high = yes
+		}
+		fixed_random_seed = no
+	}
+RUS_krasnoyarsk_hydroelectric_dam = {
+		icon = hol_drain_water_lines
+		allowed = { always = no }
+		available = {
+			FROM = { is_owned_and_controlled_by_ROOT_or_subject = yes }
+		}
+		highlight_states = { highlight_state_targets = { state = 568 } } #Krasnoyarsk
+		cost = RUS_ic_cost_high
+
+		state_target = yes
+		days_remove = 365
+		fire_only_once = yes
+		modifier = { consumer_goods_factor = 0.04 }
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 2
+				has_political_power > 100
+				amount_taken_ideas = {
+					amount > 0
+					slots = { political_advisor }
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_krasnoyarsk_hydroelectric_dam"
+		}
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_krasnoyarsk_hydroelectric_dam"
+			add_tech_bonus = {
+				name = RUS_krasnoyarsk_hydroelectric_dam
+				bonus = 1
+				uses = 1
+				category = industry
+			}
+			568 = {
+				add_extra_state_shared_building_slots = 5
+				add_building_construction = { type = infrastructure level = 2 }
+				add_building_construction = { type = industrial_complex level = 2 }
+				add_victory_points = { province = 12691 value = 3 }
+				custom_effect_tooltip = tooltip_white_line
+				add_building_construction = {
+					type = dam
+					level = 1
+					province = 12691
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = {
+				localization_key = building_state_modifier|dam
+				INDENT = "    "
+			}
+			RUS_decrease_black_monday = yes
+			RUS_stalin_industry_effect = yes
+			RUS_stalin_add_first_five_year_plan_score_high = yes
+		}
+		fixed_random_seed = no
+	}
 RUS_lipetsk_metallurgical_plant = {
 		icon = steel
 		allowed = { always = no }
