@@ -38,9 +38,12 @@
 
 ## RHoiScribe 与验证
 
-- RHoiScribe 安装在：
-  `C:\Users\ustc\.codex\mcp\RHoiScribe\rhoiscribe-windows-x86_64.exe`
+- RHoiScribe 是独立 MCP，必须另行从
+  `https://github.com/czxieddan/RHoiScribe/releases` 下载 Windows 二进制文件。建议安装在：
+  `%USERPROFILE%\.codex\mcp\RHoiScribe\rhoiscribe-windows-x86_64.exe`
 - MCP 名称为 `rhoiscribe`。优先用它做环境发现、索引、引用追踪、单文件检查、项目检查和错误日志分类。
+- 自制的 HOI4 社区制作工坊插件源码位于：
+  `https://github.com/zxxzvxv85-dot/hoi4-library-gallery`。新电脑需要同时安装该插件与 RHoiScribe；前者提供教程、美术和案例知识，后者负责工程级语言服务与验证。
 - Kaiserreich 大型覆盖项目会产生大量 CWT 基线误报。不要按红灯数量自动修复，也不要未经人工判断调用写入式修复。
 - `brace_balance` 和 `unclosed_block` 红项是交付阻断项。
 - 文件修改后至少执行：
