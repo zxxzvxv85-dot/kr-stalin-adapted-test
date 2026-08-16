@@ -44,7 +44,10 @@ PixelShader =
 	[[
 		float4 main(VS_OUTPUT v) : PDX_COLOR
 		{
-			if (AnimationTime >= 0.9999f)
+			const float atlasSlots = 2.0f;
+			float nativeFrame = floor(Offset.x * atlasSlots + 0.5f);
+			float overallProgress = (nativeFrame + saturate(AnimationTime)) / atlasSlots;
+			if (overallProgress >= 0.9999f)
 			{
 				return float4(0.0f, 0.0f, 0.0f, 0.0f);
 			}

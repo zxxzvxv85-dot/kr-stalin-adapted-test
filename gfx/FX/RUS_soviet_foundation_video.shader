@@ -49,7 +49,9 @@ PixelShader =
 			const float atlasSlots = 33.0f;
 			const float totalFrames = 1075.0f;
 			const float durationSeconds = 43.0f;
-			float elapsed = saturate(AnimationTime) * durationSeconds;
+			float nativeFrame = floor(Offset.x * atlasSlots + 0.5f);
+			float overallProgress = (nativeFrame + saturate(AnimationTime)) / atlasSlots;
+			float elapsed = overallProgress * durationSeconds;
 			float globalFrame = floor(elapsed * framesPerSecond);
 
 			if (globalFrame >= totalFrames)
