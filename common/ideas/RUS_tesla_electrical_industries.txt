@@ -1,0 +1,19 @@
+ideas = {
+	industrial_concern = {
+		RUS_tesla_electrical_industries = {
+			on_add = {
+				log = "[GetLogRoot]: add idea RUS_tesla_electrical_industries"
+				RUS_tesla_activate_industrial_programme = yes
+			}
+			on_remove = {
+				RUS_tesla_deactivate_industrial_programme = yes
+			}
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			available = { has_country_flag = RUS_tesla_electrical_industries_unlocked }
+			traits = { RUS_tesla_electrical_visionary }
+			cost = 50
+			ai_will_do = { base = 75 }
+		}
+	}
+}
