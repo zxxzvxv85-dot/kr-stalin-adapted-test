@@ -46,7 +46,12 @@ RUS_stalin_calculate_vst_factionalism_relationship_effects = {
 
 RUS_stalin_refresh_vst_factionalism_dynamic_modifier = {
 	if = {
-		limit = { has_idea = RUS_vst_party_factionalism_idea }
+		limit = {
+			OR = {
+				has_idea = RUS_vst_party_unity_idea
+				has_idea = RUS_vst_party_factionalism_idea
+			}
+		}
 		if = {
 			limit = {
 				has_country_flag = RUS_stalin_communist_path
@@ -79,7 +84,10 @@ RUS_stalin_freeze_vst_factionalism_relationship_effects = {
 RUS_stalin_apply_vst_factionalism_monthly_surplus = {
 	if = {
 		limit = {
-			has_idea = RUS_vst_party_factionalism_idea
+			OR = {
+				has_idea = RUS_vst_party_unity_idea
+				has_idea = RUS_vst_party_factionalism_idea
+			}
 			check_variable = { RUS_vst_factionalism_monthly_cic > 0 }
 		}
 		add_cic = RUS_vst_factionalism_monthly_cic
