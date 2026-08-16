@@ -44,32 +44,11 @@ PixelShader =
 	[[
 		float4 main(VS_OUTPUT v) : PDX_COLOR
 		{
-			const float framesPerSecond = 25.0f;
-			const float framesPerAtlas = 32.0f;
-			const float atlasSlots = 33.0f;
-			const float totalFrames = 1075.0f;
-			const float durationSeconds = 43.0f;
-			float elapsed = saturate(AnimationTime) * durationSeconds;
-			float globalFrame = floor(elapsed * framesPerSecond);
-
-			if (globalFrame >= totalFrames)
+			if (AnimationTime >= 0.9999f)
 			{
 				return float4(0.0f, 0.0f, 0.0f, 0.0f);
 			}
-
-			float activeAtlas = floor(globalFrame / framesPerAtlas);
-			float4 atlasMarker = tex2D(MapTexture, float2(0.5f / atlasSlots, 0.5f));
-			float thisAtlas = floor(atlasMarker.r * 31.0f + 0.5f)
-				+ floor(atlasMarker.g + 0.5f) * 32.0f;
-			if (abs(activeAtlas - thisAtlas) > 0.25f)
-			{
-				return float4(0.0f, 0.0f, 0.0f, 0.0f);
-			}
-
-			float localFrame = globalFrame - activeAtlas * framesPerAtlas;
-			float localX = clamp(v.vTexCoord.x * atlasSlots, 0.001f, 0.999f);
-			float2 atlasUV = float2((1.0f + localFrame + localX) / atlasSlots, v.vTexCoord.y);
-			return tex2D(MapTexture, atlasUV);
+			return float4(0.0f, 0.0f, 0.0f, 1.0f);
 		}
 	]]
 }

@@ -46,6 +46,14 @@ def main() -> None:
     atlas_dir.mkdir(parents=True, exist_ok=True)
     audio_dir.mkdir(parents=True, exist_ok=True)
 
+    # Two identical frames let the black screen use a 43-second native GUI
+    # animation timer and become transparent exactly when the film ends.
+    black_strip = Image.new("RGB", (128, 64), "black")
+    try:
+        black_strip.save(atlas_dir / "RUS_soviet_foundation_video_black.png")
+    finally:
+        black_strip.close()
+
     expected_frames = round(args.duration * FPS)
     atlas_count = math.ceil(expected_frames / FRAMES_PER_ATLAS)
 
