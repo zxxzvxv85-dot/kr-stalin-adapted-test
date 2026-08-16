@@ -23,6 +23,7 @@ FRAME_HEIGHT = 360
 FRAMES_PER_ATLAS = 32
 ATLAS_MARKER_SLOTS = 1
 DEFAULT_DURATION = 43.0
+INITIAL_BLACK_FRAMES = 3
 
 
 def run(command: list[str]) -> None:
@@ -88,7 +89,6 @@ def main() -> None:
         if len(frames) < expected_frames:
             raise RuntimeError(f"Expected {expected_frames} frames, found {len(frames)}")
         frames = frames[:expected_frames]
-
         for stale in atlas_dir.glob("RUS_soviet_foundation_video_*.dds"):
             stale.unlink()
 
@@ -115,6 +115,8 @@ def main() -> None:
                     for local_index in range(FRAMES_PER_ATLAS):
                         frame_index = atlas_index * FRAMES_PER_ATLAS + local_index
                         frame_x = (local_index + ATLAS_MARKER_SLOTS) * FRAME_WIDTH
+                        if frame_index < INITIAL_BLACK_FRAMES:
+                            continue
                         if frame_index < len(frames):
                             with Image.open(frames[frame_index]) as frame:
                                 atlas.paste(frame.convert("RGB"), (frame_x, 0))
@@ -156,7 +158,10 @@ def main() -> None:
         )
         shutil.copy2(audio_temp, audio_dir / audio_temp.name)
 
-    print(f"Built {atlas_count} atlases ({expected_frames} frames at {FPS} FPS)")
+    print(
+        f"Built {atlas_count} atlases ({expected_frames} frames at {FPS} FPS, "
+        f"first {INITIAL_BLACK_FRAMES} visual frames replaced with black)"
+    )
 
 
 if __name__ == "__main__":

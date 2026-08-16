@@ -1,0 +1,15 @@
+on_actions = {
+	on_daily_RUS = {
+		effect = {
+			if = {
+				limit = {
+					date > 1938.12.14
+					date < 1938.12.16
+					NOT = { has_country_flag = RUS_beria_novel_event_fired }
+				}
+				set_country_flag = RUS_beria_novel_event_fired
+				country_event = RUS_stalin_flavour_events.1
+			}
+		}
+	}
+}
