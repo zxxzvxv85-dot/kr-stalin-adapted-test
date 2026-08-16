@@ -1,0 +1,94 @@
+# Country scope. Keeps Tesla's advisor-only industrial and state bonuses reversible.
+RUS_tesla_refresh_power_grid_bonuses = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_industrial_programme_active }
+		set_variable = { RUS_tesla_power_grid_network_bonus = 0 }
+		every_owned_state = {
+			limit = {
+				is_controlled_by = ROOT
+				energy_infrastructure > 0
+			}
+			ROOT = { add_to_variable = { RUS_tesla_power_grid_network_bonus = 0.01 } }
+		}
+		every_state = {
+			limit = {
+				has_dynamic_modifier = { modifier = RUS_tesla_electrified_state_bonus }
+				OR = {
+					NOT = { is_owned_by = ROOT }
+					NOT = { is_controlled_by = ROOT }
+					energy_infrastructure < 1
+				}
+			}
+			remove_dynamic_modifier = { modifier = RUS_tesla_electrified_state_bonus }
+			clear_variable = RUS_tesla_power_grid_network_bonus
+		}
+		every_owned_state = {
+			limit = {
+				is_controlled_by = ROOT
+				energy_infrastructure > 0
+			}
+			set_variable = { RUS_tesla_power_grid_network_bonus = ROOT.RUS_tesla_power_grid_network_bonus }
+			if = {
+				limit = { NOT = { has_dynamic_modifier = { modifier = RUS_tesla_electrified_state_bonus } } }
+				add_dynamic_modifier = { modifier = RUS_tesla_electrified_state_bonus }
+			}
+			force_update_dynamic_modifier = yes
+		}
+	}
+	else = {
+		every_state = {
+			limit = { has_dynamic_modifier = { modifier = RUS_tesla_electrified_state_bonus } }
+			remove_dynamic_modifier = { modifier = RUS_tesla_electrified_state_bonus }
+			clear_variable = RUS_tesla_power_grid_network_bonus
+		}
+		clear_variable = RUS_tesla_power_grid_network_bonus
+		force_update_dynamic_modifier = yes
+	}
+}
+
+RUS_tesla_activate_industrial_programme = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_tesla_industrial_programme_active } }
+		if = {
+			limit = { NOT = { has_variable = RUS_ic_time_60 } }
+			set_variable = { RUS_ic_time_60 = 60 }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_ic_time_120 } }
+			set_variable = { RUS_ic_time_120 = 120 }
+		}
+		multiply_variable = { RUS_ic_time_60 = 0.5 }
+		multiply_variable = { RUS_ic_time_120 = 0.5 }
+		set_variable = { RUS_tesla_industry_time_30 = 15 }
+		set_variable = { RUS_tesla_industry_time_45 = 22.5 }
+		set_variable = { RUS_tesla_industry_time_90 = 45 }
+		set_variable = { RUS_tesla_industry_time_120 = 60 }
+		set_variable = { RUS_tesla_industry_time_150 = 75 }
+		set_variable = { RUS_tesla_industry_time_180 = 90 }
+		set_variable = { RUS_tesla_industry_time_365 = 182.5 }
+		set_variable = { RUS_tesla_industry_time_650 = 325 }
+		set_variable = { RUS_tesla_industry_time_720 = 360 }
+		set_country_flag = RUS_tesla_industrial_programme_active
+	}
+	RUS_tesla_refresh_power_grid_bonuses = yes
+}
+
+RUS_tesla_deactivate_industrial_programme = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_industrial_programme_active }
+		multiply_variable = { RUS_ic_time_60 = 2 }
+		multiply_variable = { RUS_ic_time_120 = 2 }
+		clear_variable = RUS_tesla_industry_time_30
+		clear_variable = RUS_tesla_industry_time_45
+		clear_variable = RUS_tesla_industry_time_90
+		clear_variable = RUS_tesla_industry_time_120
+		clear_variable = RUS_tesla_industry_time_150
+		clear_variable = RUS_tesla_industry_time_180
+		clear_variable = RUS_tesla_industry_time_365
+		clear_variable = RUS_tesla_industry_time_650
+		clear_variable = RUS_tesla_industry_time_720
+		clear_variable = RUS_tesla_power_grid_network_bonus
+		clr_country_flag = RUS_tesla_industrial_programme_active
+	}
+	RUS_tesla_refresh_power_grid_bonuses = yes
+}

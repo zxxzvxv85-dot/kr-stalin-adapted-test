@@ -88,7 +88,7 @@ characters = {
 		portraits = {
 			civilian = {
 				large = GFX_portrait_RUS_lev_kamenev_civilian_large
-				small = GFX_portrait_RUS_lev_kamenev_civilian_small
+				small = GFX_portrait_RUS_lev_kamenev_kx_civilian_small
 			}
 		}
 		country_leader = {
@@ -2184,6 +2184,15 @@ characters = {
 				}
 			}
 		}
+		advisor = {
+			slot = second_in_command
+			idea_token = RUS_iosif_stalin_sic
+			desc = RUS_iosif_stalin_sic_desc
+			visible = { has_socialist_government = yes }
+			traits = { RUS_stalin_general_secretary_sic KR_bolshevik_stalin }
+			cost = 0
+			can_be_fired = no
+		}
 	}
 	RUS_lazar_kaganovich = {
 		name = RUS_lazar_kaganovich
@@ -2356,6 +2365,65 @@ characters = {
 			on_remove = {
 				set_temp_variable = { RUS_relation_change = -1 }
 				RUS_RKP_relation = yes
+			}
+			ai_will_do = { base = 50 }
+		}
+	}
+	RUS_nikola_tesla = {
+		name = RUS_nikola_tesla
+		portraits = {
+			civilian = {
+				small = GFX_portrait_RUS_nikola_tesla_civilian_small
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = RUS_nikola_tesla_advisor
+			desc = RUS_nikola_tesla_advisor_desc
+			allowed = { original_tag = RUS }
+			available = {
+				not_already_hired_except_as = political_advisor
+			}
+			traits = { RUS_tesla_electrical_visionary }
+			on_add = {
+				hidden_effect = {
+					owner = { RUS_tesla_activate_industrial_programme = yes }
+				}
+			}
+			on_remove = {
+				hidden_effect = {
+					owner = { RUS_tesla_deactivate_industrial_programme = yes }
+				}
+			}
+			ai_will_do = { base = 75 }
+		}
+	}
+	RUS_mikhail_kalinin = {
+		name = RUS_mikhail_kalinin
+		portraits = {
+			civilian = {
+				small = GFX_portrait_RUS_mikhail_kalinin_civilian_small
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = RUS_mikhail_kalinin_advisor
+			available = {
+				RUS_stalin_can_hire_bolshevik_advisor = yes
+				has_completed_focus = RUS_kamenev_marxist_education
+				not_already_hired_except_as = political_advisor
+			}
+			visible = { has_socialist_government = yes }
+			traits = { RUS_kalinin_engineer_of_human_souls KR_bolshevik_kalinin }
+			on_add = {
+				set_temp_variable = { RUS_relation_change = 1 }
+				RUS_RKP_relation = yes
+				RUS_stalin_refresh_advisor_relationship_effects = yes
+			}
+			on_remove = {
+				set_temp_variable = { RUS_relation_change = -1 }
+				RUS_RKP_relation = yes
+				RUS_stalin_refresh_advisor_relationship_effects = yes
 			}
 			ai_will_do = { base = 50 }
 		}
@@ -5002,6 +5070,7 @@ characters = {
 			available = {
 				RUS_stalin_can_hire_psr_advisor = yes
 				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
 					has_government = radical_socialist
 					has_completed_focus = RUS_worker_and_peasant
 				}
@@ -5207,19 +5276,26 @@ characters = {
 				RUS_stalin_can_hire_psr_advisor = yes
 				not_already_hired_except_as = political_advisor
 				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
 					has_government = radical_socialist
 					has_completed_focus = RUS_eser_deal
 					has_completed_focus = RUS_woo_spiridonova
 				}
 				if = {
-					limit = { RUS_VST = yes }
+					limit = {
+						RUS_VST = yes
+						NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+					}
 					is_in_coalition_with_radical_socialist = yes
 				}
 				is_country_leader = no
 			}
 			visible = {
 				has_socialist_government = yes
-				RUS_VST_left = no
+				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					RUS_VST_left = no
+				}
 			}
 			traits = { KR_socialist_idealist KR_spiridonist_kamkov }
 			on_add = {
@@ -5251,7 +5327,7 @@ characters = {
 			slot = second_in_command
 			idea_token = RUS_sergey_kirov_sic
 			visible = { has_socialist_government = yes }
-			traits = { KR_prince_of_petrograd_sic }
+			traits = { KR_prince_of_petrograd_sic KR_bolshevik_kirov }
 			cost = 0
 			can_be_fired = no
 		}
@@ -5260,23 +5336,14 @@ characters = {
 			idea_token = RUS_sergey_kirov_advisor
 			desc = RUS_sergey_kirov_sic_desc
 			available = {
-				OR = {
-					AND = {
-						has_government = syndicalist
-						has_completed_focus = RUS_4_year_plan
-					}
-					AND = {
-						has_government = radical_socialist
-						has_country_flag = RUS_hired_kirov
-					}
-				}
+				has_completed_focus = RUS_kamenev_first_five_year_plan
 			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_prince_of_petrograd }
+			traits = { KR_prince_of_petrograd KR_bolshevik_kirov }
 			on_add = {
 				owner = {
 					set_temp_variable = { RUS_relation_change = 1 }
-					RUS_VST_right_relation = yes
+					RUS_RKP_relation = yes
 					if = {
 						limit = { NOT = { has_country_flag = RUS_kirov_activated_once } }
 						set_country_flag = RUS_kirov_activated_once
@@ -5307,7 +5374,7 @@ characters = {
 			on_remove = {
 				owner = {
 					set_temp_variable = { RUS_relation_change = -1 }
-					RUS_VST_right_relation = yes
+					RUS_RKP_relation = yes
 				}
 			}
 		}
@@ -5551,17 +5618,22 @@ characters = {
 			available = {
 				RUS_stalin_can_hire_psr_advisor = yes
 				not_already_hired_except_as = political_advisor
-				if = {
-					limit = { RUS_PLSR = yes }
-					has_completed_focus = RUS_our_commitments_to_democracy
-				}
-				else_if = {
-					limit = { RUS_VST = yes }
-					RUS_VST_left = no
-				}
-				else = {
-					has_completed_focus = RUS_woo_spiridonova
-					RUS_purged_social_democrats = no
+				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					AND = {
+						if = {
+							limit = { RUS_PLSR = yes }
+							has_completed_focus = RUS_our_commitments_to_democracy
+						}
+						else_if = {
+							limit = { RUS_VST = yes }
+							RUS_VST_left = no
+						}
+						else = {
+							has_completed_focus = RUS_woo_spiridonova
+							RUS_purged_social_democrats = no
+						}
+					}
 				}
 			}
 			visible = {
@@ -5625,7 +5697,10 @@ characters = {
 			idea_token = RUS_aleksandr_elyashevich_advisor
 			available = {
 				RUS_stalin_can_hire_psr_advisor = yes
-				RUS_VST_left = no
+				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					RUS_VST_left = no
+				}
 			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_industrialiser KR_spiridonist_elyashevich }
@@ -5681,7 +5756,10 @@ characters = {
 			desc = RUS_isaak_steinberg_sic_desc
 			available = {
 				RUS_stalin_can_hire_psr_advisor = yes
-				RUS_PLSR = yes
+				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					RUS_PLSR = yes
+				}
 				not_already_hired_except_as = political_advisor
 			}
 			visible = { has_socialist_government = yes }
@@ -5830,14 +5908,22 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_yakov_blyumkin_advisor
 			allowed = {
-				has_dlc_lar = yes #TODO: make non_lar version sicne he is needed for content
+				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_dlc_lar = yes #TODO: make non_lar version since he is needed for content
+				}
 			}
 			available = {
 				OR = {
-					RUS_is_maximalist = yes
-					RUS_stalin_can_hire_psr_advisor = yes
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					AND = {
+						OR = {
+							RUS_is_maximalist = yes
+							RUS_stalin_can_hire_psr_advisor = yes
+						}
+						has_intelligence_agency = yes
+					}
 				}
-				has_intelligence_agency = yes
 			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_legendary_rogue KR_sr_blyumkin }

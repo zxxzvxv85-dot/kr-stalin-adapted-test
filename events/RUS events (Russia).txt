@@ -23761,66 +23761,6 @@ country_event = { #The Krasnaya Gorka Case
 	trigger = { has_character = RUS_iosif_stalin }
 
 	option = {
-		log = "[GetLogInfo]: event russia_socialist_events.33 option russia_socialist_events.33.a"
-		name = russia_socialist_events.33.a #It would be a shame if something happened to him
-		ai_chance = {
-			base = 100
-			modifier = {
-				factor = 0
-				has_country_flag = RUS_stalin_ai
-			}
-		}
-		add_popularity = { ideology = radical_socialist popularity = 0.04 }
-		add_political_power = -20
-		if = {
-			limit = { RUS_VST = yes }
-			add_command_power = -15
-			add_political_power = -30
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_RKP_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_suspicion_change = -2 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = -3 }
-			RUS_maximalist_influence = yes
-		}
-		set_country_flag = RUS_remove_stalin
-		hidden_effect = { country_event = { id = russia_socialist_events.34 days = 40 } }
-	}
-	option = {
-		log = "[GetLogInfo]: event russia_socialist_events.33 option russia_socialist_events.33.b"
-		name = russia_socialist_events.33.b #Off to Siberia with him
-		ai_chance = {
-			base = 100
-			modifier = {
-				factor = 0
-				has_country_flag = RUS_stalin_ai
-			}
-		}
-		add_popularity = { ideology = radical_socialist popularity = 0.02 }
-		add_political_power = -15
-		retire_character = RUS_iosif_stalin
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			RUS_SDS_relation = yes
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_RKP_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_suspicion_change = -1 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = 1 }
-			RUS_maximalist_influence = yes
-		}
-	}
-	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.33 option russia_socialist_events.33.c"
 		name = russia_socialist_events.33.c #He is right, though
 		ai_chance = {
@@ -25450,12 +25390,6 @@ country_event = { #The Socialist-Revolutionary-Maximalists
 		show_ideas_tooltip = RUS_aleksey_ustinov_advisor
 		name = russia_socialist_events.73.a
 	}
-	option = {
-		log = "[GetLogInfo]: event russia_socialist_events.73 option russia_socialist_events.73.b"
-		name = russia_socialist_events.73.b
-		add_political_power = 20
-		ai_chance = { base = 0 }
-	}
 }
 
 country_event = { #Congress of the Unions
@@ -25743,7 +25677,7 @@ country_event = { #New Premier is chosen
 		}
 		activate_advisor = RUS_sergey_kirov_sic
 		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_right_relation = yes
+		RUS_RKP_relation = yes
 		RUS_VST_left_relation = yes
 	}
 	option = {
@@ -28656,7 +28590,7 @@ country_event = { #Elections to Constituent Assembly
 
 	immediate = {
 		hidden_effect = {
-			country_event = { id = russia_socialist_events.301 days = 3 }
+			country_event = { id = russia_socialist_events.441 days = 3 }
 		}
 	}
 
@@ -28670,12 +28604,33 @@ country_event = { #Elections to Constituent Assembly
 			add_popularity = { ideology = syndicalist popularity = 0.06 }
 		}
 		else = {
-			add_stability = 0.15
+			add_stability = 0.05
 			add_popularity = { ideology = syndicalist popularity = 0.08 }
 			add_popularity = { ideology = radical_socialist popularity = 0.06 }
 			add_popularity = { ideology = social_democrat popularity = 0.02 }
 		}
 		RUS_stalin_add_totalist_or_communist_popularity_004 = yes
+	}
+}
+
+country_event = { # A Workers' Revolutionary Alliance?
+	id = russia_socialist_events.441
+	title = russia_socialist_events.441.t
+	desc = russia_socialist_events.441.d
+	picture = GFX_report_event_RUS_soviet_congress
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = russia_socialist_events.301 days = 3 }
+		}
+	}
+
+	option = {
+		log = "[GetLogInfo]: event russia_socialist_events.441 option russia_socialist_events.441.a"
+		name = russia_socialist_events.441.a
+		set_country_flag = RUS_vst_bolshevik_electoral_alliance
+		custom_effect_tooltip = RUS_vst_bolshevik_electoral_alliance_tt
 	}
 }
 
@@ -28992,7 +28947,7 @@ country_event = { #Choice of Syndie Sub-Path
 	id = russia_socialist_events.304
 	title = russia_socialist_events.304.t
 	desc = russia_socialist_events.304.d
-	picture = GFX_report_event_RUS_levitsky
+	picture = GFX_report_event_RUS_kamenev
 	is_triggered_only = yes
 	immediate = {
 		hidden_effect = {
@@ -29004,7 +28959,7 @@ country_event = { #Choice of Syndie Sub-Path
 		}
 	}
 
-	option = { #Mensheviks
+	option = { #Zinovyev
 		log = "[GetLogInfo]: event russia_socialist_events.304 option russia_socialist_events.304.a"
 		name = russia_socialist_events.304.a
 		ai_chance = {
@@ -29019,21 +28974,23 @@ country_event = { #Choice of Syndie Sub-Path
 				}
 			}
 		}
-		activate_advisor = RUS_fyodor_dan_sic
+		set_country_flag = RUS_kamenev_sic_zinovyev
+		clr_country_flag = RUS_kamenev_sic_levitsky
+		clr_country_flag = RUS_kamenev_sic_stalin
+		custom_effect_tooltip = RUS_kamenev_sic_zinovyev_delayed_tt
 		custom_effect_tooltip = tooltip_white_line
 		set_temp_variable = { RUS_relation_change = 2 }
-		RUS_VST_right_relation = yes
-		set_temp_variable = { RUS_relation_change = -1 }
 		RUS_VST_left_relation = yes
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_SDS_relation = yes
 		set_temp_variable = { RUS_relation_change = -1 }
+		RUS_VST_right_relation = yes
+		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_RKP_relation = yes
+		RUS_SDS_relation = yes
 		add_ideas = RUS_vst_party_unity_idea
 		RUS_VST_party_check = yes
 	}
 
-	option = { #Centre
+	option = { #Levitsky
 		log = "[GetLogInfo]: event russia_socialist_events.304 option russia_socialist_events.304.b"
 		name = russia_socialist_events.304.b
 		ai_chance = {
@@ -29047,13 +29004,11 @@ country_event = { #Choice of Syndie Sub-Path
 				}
 			}
 		}
-		if = {
-			limit = {
-				RUS_daniil_sulimov = { is_second_in_command = no }
-			}
-			activate_advisor = RUS_daniil_sulimov_sic
-			custom_effect_tooltip = tooltip_white_line
-		}
+		set_country_flag = RUS_kamenev_sic_levitsky
+		clr_country_flag = RUS_kamenev_sic_zinovyev
+		clr_country_flag = RUS_kamenev_sic_stalin
+		custom_effect_tooltip = RUS_kamenev_sic_levitsky_delayed_tt
+		custom_effect_tooltip = tooltip_white_line
 		RUS_increase_VST_centre_unity = yes
 		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_VST_right_relation = yes
@@ -29064,7 +29019,7 @@ country_event = { #Choice of Syndie Sub-Path
 		RUS_VST_party_check = yes
 	}
 
-	option = { #Left
+	option = { #Stalin
 		log = "[GetLogInfo]: event russia_socialist_events.304 option russia_socialist_events.304.c"
 		name = russia_socialist_events.304.c
 		ai_chance = {
@@ -29078,14 +29033,15 @@ country_event = { #Choice of Syndie Sub-Path
 				}
 			}
 		}
-		activate_advisor = RUS_lev_kamenev_sic
+		set_country_flag = RUS_kamenev_sic_stalin
+		clr_country_flag = RUS_kamenev_sic_zinovyev
+		clr_country_flag = RUS_kamenev_sic_levitsky
+		custom_effect_tooltip = RUS_kamenev_sic_stalin_delayed_tt
 		custom_effect_tooltip = tooltip_white_line
 		set_temp_variable = { RUS_relation_change = 2 }
-		RUS_VST_left_relation = yes
+		RUS_RKP_relation = yes
 		set_temp_variable = { RUS_relation_change = -1 }
 		RUS_VST_right_relation = yes
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_RKP_relation = yes
 		RUS_SDS_relation = yes
 		add_ideas = RUS_vst_party_unity_idea
 		RUS_VST_party_check = yes
@@ -29933,7 +29889,7 @@ unit_leader_event = { # Zinovyev boots Kamenev due to Radicalism
 	}
 }
 
-country_event = { # Ministry - Finance
+country_event = { # Ministry - Industry and Trade
 	id = russia_socialist_events.330
 	title = russia_socialist_events.330.t
 	desc = russia_socialist_events.330.d
@@ -29997,16 +29953,16 @@ country_event = { # Ministry - Finance
 		set_country_flag = RUS_yenotayevsky_ministry
 	}
 
-	option = { #Kamenev (Left)
+	option = { #Bukharin (Bolshevik)
 		log = "[GetLogInfo]: event russia_socialist_events.330 option russia_socialist_events.330.e"
 		name = russia_socialist_events.330.e
-		trigger = {
-			RUS_lev_kamenev = { is_second_in_command = no }
-		}
+		RUS_decrease_VST_centre_unity = yes
+		set_temp_variable = { RUS_relation_change = 2 }
+		RUS_RKP_relation = yes
 		set_temp_variable = { RUS_relation_change = -1 }
-		RUS_VST_right_relation = yes
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_left_relation = yes
+		RUS_PSR_relation = yes
+		add_popularity = { ideology = totalist popularity = 0.01 }
+		set_country_flag = RUS_bukharin_ministry
 	}
 }
 
@@ -30275,6 +30231,18 @@ country_event = { # Ministry - Culture
 		RUS_PSR_relation = yes
 		add_popularity = {
 			ideology = radical_socialist
+			popularity = 0.01
+		}
+	}
+
+	option = { #Kalinin (Bolshevik)
+		log = "[GetLogInfo]: event russia_socialist_events.335 option russia_socialist_events.335.e"
+		name = russia_socialist_events.335.e
+		RUS_decrease_VST_centre_unity = yes
+		set_temp_variable = { RUS_relation_change = 1 }
+		RUS_RKP_relation = yes
+		add_popularity = {
+			ideology = totalist
 			popularity = 0.01
 		}
 	}

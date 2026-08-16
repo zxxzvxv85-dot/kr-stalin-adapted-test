@@ -17,9 +17,7 @@ RUS_generate_nikolay_bukharin_advisor_compat = {
 					not_already_hired_except_as = political_advisor
 				}
 				visible = { has_socialist_government = yes }
-				# The compatibility character carries the BoP marker from creation so it also works
-				# in saves where the Kamenev balance was enabled before this character existed.
-				traits = { RUS_bukharin_economic_theorist KR_bolshevik_bukharin KR_bolshevik_bukharin_bop }
+				traits = { RUS_relationship_scaled_bukharin KR_bolshevik_bukharin }
 				on_add = {
 					set_temp_variable = { RUS_relation_change = 1 }
 					RUS_RKP_relation = yes

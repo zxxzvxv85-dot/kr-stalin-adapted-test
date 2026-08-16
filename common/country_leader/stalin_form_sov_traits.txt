@@ -65,6 +65,14 @@ leader_traits = {
 		random = no
 	}
 
+	KR_bolshevik_kirov = {
+		random = no
+	}
+
+	KR_bolshevik_kalinin = {
+		random = no
+	}
+
 	RUS_bukharin_economic_theorist = {
 		sprite = 10
 		random = no
@@ -74,6 +82,33 @@ leader_traits = {
 		political_power_factor = -0.15
 
 		ai_will_do = { factor = 1 }
+	}
+
+	RUS_tesla_electrical_visionary = {
+		sprite = 10
+		random = no
+		research_speed_factor = 0.15
+		consumer_goods_expected_value = 0.05
+		production_speed_buildings_powered_factor = 0.075
+		production_cost_energy_infrastructure_factor = -0.50
+		custom_modifier_tooltip = RUS_tesla_industrial_decisions_tt
+		custom_modifier_tooltip = RUS_tesla_electrification_bonus_tt
+		custom_modifier_tooltip = RUS_tesla_power_grid_bonus_tt
+
+		ai_will_do = { factor = 1 }
+	}
+
+	RUS_kalinin_engineer_of_human_souls = {
+		sprite = 14
+		random = no
+		stability_factor = 0.05
+		stability_weekly = 0.005
+		research_speed_factor = 0.05
+		custom_modifier_tooltip = RUS_kalinin_education_time_tt
+		custom_modifier_tooltip = RUS_kalinin_education_repeat_tt
+		custom_modifier_tooltip = RUS_kalinin_education_penalty_tt
+
+		ai_will_do = { factor = 2 }
 	}
 
 	KR_sr_blyumkin = {
@@ -111,6 +146,108 @@ leader_traits = {
 	KR_spiridonist_mayorov = {
 		random = no
 	}
+
+	# These traits display the same relationship-scaled values that are applied by
+	# the country dynamic modifiers. Faction identity remains on a separate trait.
+	RUS_relationship_scaled_sverdlov = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_frunze = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_kaganovich = {
+		sprite = 10
+		random = no
+	}
+
+	RUS_relationship_scaled_zhdanov = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_yezhov = {
+		sprite = 15
+		random = no
+	}
+
+	RUS_relationship_scaled_bukharin = {
+		sprite = 10
+		random = no
+	}
+
+	RUS_relationship_scaled_kirov = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_mayorov = {
+		sprite = 10
+		random = no
+	}
+
+	RUS_relationship_scaled_zdobnov = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_kamkov = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_karelin = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_elyashevich = {
+		sprite = 10
+		random = no
+	}
+
+	RUS_relationship_scaled_steinberg = {
+		sprite = 12
+		random = no
+	}
+
+	RUS_relationship_scaled_sattel = {
+		sprite = 12
+		random = no
+	}
+
+	RUS_relationship_scaled_blyumkin = {
+		sprite = 15
+		random = no
+	}
+
+	RUS_relationship_scaled_ustinov = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_kolegayev = {
+		sprite = 13
+		random = no
+	}
+
+	RUS_relationship_scaled_kakhovskaya = {
+		sprite = 13
+		random = no
+	}
+
+	# Legacy IDs retained without effects so existing saves can remove them cleanly.
+	RUS_psr_advisor_bonus_mayorov = { random = no }
+	RUS_psr_advisor_bonus_zdobnov = { random = no }
+	RUS_psr_advisor_bonus_kamkov = { random = no }
+	RUS_psr_advisor_bonus_karelin = { random = no }
+	RUS_psr_advisor_bonus_elyashevich = { random = no }
+	RUS_psr_advisor_bonus_steinberg = { random = no }
+	RUS_psr_advisor_bonus_sattel = { random = no }
+	RUS_psr_advisor_bonus_blyumkin = { random = no }
 
 	KR_bolshevik_sverdlov_bop = {
 		sprite = 13
@@ -166,6 +303,18 @@ leader_traits = {
 	}
 
 	KR_bolshevik_bukharin_bop = {
+		sprite = 13
+		random = no
+		power_balance_weekly = 0.01
+	}
+
+	KR_bolshevik_kirov_bop = {
+		sprite = 13
+		random = no
+		power_balance_weekly = 0.01
+	}
+
+	KR_bolshevik_kalinin_bop = {
 		sprite = 13
 		random = no
 		power_balance_weekly = 0.01
@@ -436,5 +585,14 @@ leader_traits = {
 		industrial_capacity_dockyard = 0.1
 		army_core_defence_factor = 0.10
 		conscription_factor = 0.15
+	}
+
+	RUS_stalin_general_secretary_sic = {
+		sprite = 13
+		random = no
+		production_cost_industrial_complex_factor = -0.05
+		country_resource_steel = 4
+		political_power_factor = 0.05
+		stability_factor = 0.05
 	}
 }

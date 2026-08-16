@@ -1,0 +1,131 @@
+RUS_stalin_update_advisor_relationship_multipliers = {
+	if = {
+		limit = { NOT = { has_variable = rkp_var } }
+		set_variable = { rkp_var = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = sr_var } }
+		set_variable = { sr_var = 0 }
+	}
+
+	# Once Stalin's line begins, existing tier variables retain the last Kamenev-era values.
+	if = {
+		limit = { NOT = { has_country_flag = RUS_stalin_advisor_relationships_frozen } }
+		set_variable = { RUS_rkp_advisor_trait_tier = rkp_var }
+		set_variable = { RUS_psr_advisor_trait_tier = sr_var }
+		set_variable = { RUS_max_advisor_trait_tier = rkp_var }
+		add_to_variable = { RUS_max_advisor_trait_tier = sr_var }
+	}
+	else = {
+		# Old saves may already be frozen but predate the native trait tiers.
+		if = {
+			limit = { NOT = { has_variable = RUS_rkp_advisor_trait_tier } }
+			set_variable = { RUS_rkp_advisor_trait_tier = rkp_var }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_psr_advisor_trait_tier } }
+			set_variable = { RUS_psr_advisor_trait_tier = sr_var }
+		}
+		if = {
+			limit = { NOT = { has_variable = RUS_max_advisor_trait_tier } }
+			set_variable = { RUS_max_advisor_trait_tier = rkp_var }
+			add_to_variable = { RUS_max_advisor_trait_tier = sr_var }
+		}
+	}
+	clamp_variable = { var = RUS_rkp_advisor_trait_tier min = 0 max = 10 }
+	clamp_variable = { var = RUS_psr_advisor_trait_tier min = 0 max = 10 }
+	clamp_variable = { var = RUS_max_advisor_trait_tier min = 0 max = 20 }
+
+	# Retain these variables for save compatibility; advisor effects no longer read them.
+	if = {
+		limit = {
+			OR = {
+				NOT = { has_country_flag = RUS_stalin_advisor_relationships_frozen }
+				NOT = { has_variable = RUS_rkp_advisor_multiplier }
+			}
+		}
+		set_variable = { RUS_rkp_advisor_multiplier = RUS_rkp_advisor_trait_tier }
+		add_to_variable = { RUS_rkp_advisor_multiplier = 10 }
+		divide_variable = { RUS_rkp_advisor_multiplier = 20 }
+		set_variable = { RUS_psr_advisor_multiplier = RUS_psr_advisor_trait_tier }
+		add_to_variable = { RUS_psr_advisor_multiplier = 10 }
+		divide_variable = { RUS_psr_advisor_multiplier = 20 }
+		set_variable = { RUS_max_advisor_multiplier = RUS_max_advisor_trait_tier }
+		add_to_variable = { RUS_max_advisor_multiplier = 10 }
+		divide_variable = { RUS_max_advisor_multiplier = 30 }
+	}
+}
+
+RUS_stalin_freeze_advisor_relationship_effects = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_stalin_advisor_relationships_frozen } }
+		RUS_stalin_update_advisor_relationship_multipliers = yes
+		set_country_flag = RUS_stalin_advisor_relationships_frozen
+		RUS_stalin_apply_relationship_advisor_trait_tiers = yes
+	}
+}
+
+RUS_stalin_ensure_relationship_scaled_advisor_traits = {
+	if = {
+		limit = {
+			OR = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_stalin_advisor_relationships_frozen
+			}
+		}
+		RUS_stalin_update_advisor_relationship_multipliers = yes
+		RUS_stalin_apply_relationship_advisor_trait_tiers = yes
+	}
+}
+
+RUS_stalin_refresh_kalinin_education_effects = {
+	set_variable = { RUS_kalinin_education_time_75 = 75 }
+	set_variable = { RUS_kalinin_education_time_180 = 180 }
+	set_variable = { RUS_education_reform_repeat_limit = 18 }
+	set_variable = { RUS_kalinin_education_days_reduction = 0 }
+	set_variable = { RUS_kalinin_education_repeat_bonus = 0 }
+	set_variable = { RUS_kalinin_education_penalty_per_decision = -0.01 }
+	if = {
+		limit = { has_idea = RUS_mikhail_kalinin_advisor }
+		set_variable = { RUS_kalinin_education_days_reduction = 30 }
+		subtract_from_variable = { RUS_kalinin_education_time_75 = RUS_kalinin_education_days_reduction }
+		subtract_from_variable = { RUS_kalinin_education_time_180 = RUS_kalinin_education_days_reduction }
+		set_variable = { RUS_kalinin_education_repeat_bonus = 7 }
+		add_to_variable = { RUS_education_reform_repeat_limit = RUS_kalinin_education_repeat_bonus }
+		if = {
+			limit = {
+				has_country_flag = RUS_education_reform_completed
+				check_variable = { RUS_education_reform_repeat_count < RUS_education_reform_repeat_limit }
+			}
+			clr_country_flag = RUS_education_reform_completed
+			set_country_flag = RUS_education_reform_started
+			if = {
+				limit = { has_dynamic_modifier = { modifier = RUS_completed_education_reform } }
+				remove_dynamic_modifier = { modifier = RUS_completed_education_reform }
+			}
+			if = {
+				limit = { NOT = { has_dynamic_modifier = { modifier = RUS_reforming_education_system } } }
+				add_dynamic_modifier = { modifier = RUS_reforming_education_system }
+			}
+		}
+	}
+	RUS_education_reform_check_completion = yes
+}
+
+RUS_stalin_refresh_advisor_relationship_effects = {
+	# Remove the failed variable-backed modifiers from old saves before applying native traits.
+	if = {
+		limit = { has_dynamic_modifier = { modifier = RUS_bolshevik_advisor_relationship_modifier } }
+		remove_dynamic_modifier = { modifier = RUS_bolshevik_advisor_relationship_modifier }
+	}
+	if = {
+		limit = { has_dynamic_modifier = { modifier = RUS_psr_advisor_relationship_modifier } }
+		remove_dynamic_modifier = { modifier = RUS_psr_advisor_relationship_modifier }
+	}
+	if = {
+		limit = { has_dynamic_modifier = { modifier = RUS_maximalist_advisor_relationship_modifier } }
+		remove_dynamic_modifier = { modifier = RUS_maximalist_advisor_relationship_modifier }
+	}
+	RUS_stalin_ensure_relationship_scaled_advisor_traits = yes
+	RUS_stalin_refresh_kalinin_education_effects = yes
+}

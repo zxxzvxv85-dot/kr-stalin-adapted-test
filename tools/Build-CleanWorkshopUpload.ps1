@@ -39,6 +39,7 @@ $excludePatterns = @(
     '^(?:\.gitattributes|\.gitignore)$',
     '^[^/]+\.md$',
     '^tools/',
+    '^tmp/',
     '(?i)(?:^|/)[^/]*(?:_source|_preview(?:_v?\d+)?|_draft)[^/]*\.(?:png|jpe?g|dds|tga|psd)$',
     '(?i)^thumbnail_before_.*$',
     '(?i)^thumbnail_old\.(?:png|jpe?g)$',
@@ -49,6 +50,11 @@ $trackedFiles = @(git -C $source -c core.quotepath=false ls-files)
 if ($LASTEXITCODE -ne 0) {
     throw "Unable to enumerate tracked files."
 }
+$untrackedFiles = @(git -C $source -c core.quotepath=false ls-files --others --exclude-standard)
+if ($LASTEXITCODE -ne 0) {
+    throw "Unable to enumerate untracked files."
+}
+$candidateFiles = @(($trackedFiles + $untrackedFiles) | Sort-Object -Unique)
 $deletedFiles = @(git -C $source -c core.quotepath=false ls-files --deleted)
 $deletedSet = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
 foreach ($deletedFile in $deletedFiles) {
@@ -56,7 +62,7 @@ foreach ($deletedFile in $deletedFiles) {
 }
 
 $publishFiles = @(
-    $trackedFiles | Where-Object {
+    $candidateFiles | Where-Object {
         $relativePath = $_
         -not $deletedSet.Contains($relativePath) -and
         -not ($excludePatterns | Where-Object { $relativePath -match $_ })
@@ -122,6 +128,7 @@ $totalBytes = (Get-ChildItem -LiteralPath $destination -Recurse -File | Measure-
     Source = $source
     Destination = $destination
     CopiedFiles = $copied
-    ExcludedTrackedFiles = $trackedFiles.Count - $publishFiles.Count
+    ExcludedTrackedFiles = $trackedFiles.Count - @($publishFiles | Where-Object { $_ -in $trackedFiles }).Count
+    IncludedUntrackedFiles = @($publishFiles | Where-Object { $_ -in $untrackedFiles }).Count
     SizeMiB = [Math]::Round($totalBytes / 1MB, 3)
 }

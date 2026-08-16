@@ -15,7 +15,10 @@ RUS_stalin_bolshevik_advisors_locked = {
 }
 
 RUS_stalin_can_hire_psr_advisor = {
-	NOT = { RUS_stalin_psr_advisors_locked = yes }
+	OR = {
+		has_country_flag = RUS_auto_kamenev_vst_left_path
+		NOT = { RUS_stalin_psr_advisors_locked = yes }
+	}
 }
 
 RUS_stalin_can_hire_maximalist_advisor = {

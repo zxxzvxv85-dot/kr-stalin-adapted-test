@@ -40,10 +40,12 @@ ICON_PLATE_PALETTES = {
     "RUS_kamenev_no_permanent_creditor": BURGUNDY_PLATE,
     "RUS_kamenev_one_party_card": NAVY_PLATE,
     "RUS_kamenev_majority_rule": OCHRE_PLATE,
+    "RUS_kamenev_idealistic_spark": TEAL_PLATE,
     "RUS_kamenev_psr_rebuild_central_committee": FOREST_PLATE,
+    "RUS_kamenev_psr_absorb_democratic_parties": PLUM_PLATE,
     "RUS_kamenev_psr_preserve_land_committees": OCHRE_PLATE,
     "RUS_kamenev_psr_claim_internal_affairs": TEAL_PLATE,
-    "RUS_kamenev_psr_defend_revolutionary_democracy": FOREST_PLATE,
+    "RUS_kamenev_psr_defend_revolutionary_democracy": OCHRE_PLATE,
     "RUS_kamenev_psr_land_socialisation_bill": OCHRE_PLATE,
     "RUS_kamenev_psr_peasant_congress": NAVY_PLATE,
     "RUS_kamenev_psr_final_party_congress": PLUM_PLATE,
@@ -68,6 +70,45 @@ def get_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFon
         if path.exists():
             return ImageFont.truetype(str(path), size)
     return ImageFont.load_default()
+
+
+def prepare_source_image(source: Image.Image, icon_id: str) -> Image.Image:
+    if icon_id != "RUS_kamenev_psr_claim_internal_affairs":
+        return source
+
+    source = source.copy()
+    width, height = source.size
+    flag_mask = Image.new("L", source.size, 0)
+    ImageDraw.Draw(flag_mask).polygon(
+        [
+            (round(width * 0.36), round(height * 0.09)),
+            (round(width * 0.76), round(height * 0.18)),
+            (round(width * 0.75), round(height * 0.40)),
+            (round(width * 0.39), round(height * 0.28)),
+        ],
+        fill=255,
+    )
+    pixels = source.load()
+    mask_pixels = flag_mask.load()
+    for y in range(height):
+        for x in range(width):
+            if not mask_pixels[x, y]:
+                continue
+            red, green, blue, alpha = pixels[x, y]
+            if alpha == 0:
+                continue
+            luminance = (299 * red + 587 * green + 114 * blue) // 1000
+            if luminance < 24:
+                pixels[x, y] = (45, 8, 14, alpha)
+                continue
+            delta = max(-35, min(35, luminance - 120))
+            pixels[x, y] = (
+                157 + delta // 3,
+                22 + max(0, delta) // 12,
+                31 + max(0, delta) // 10,
+                alpha,
+            )
+    return source
 
 
 def shift_mask(mask: Image.Image, dx: int, dy: int) -> Image.Image:
@@ -327,6 +368,7 @@ def add_source_motif(
     clip: Image.Image,
     source_dir: Path,
     filename: str,
+    icon_id: str,
     max_size: tuple[int, int] = (224, 206),
     center: tuple[int, int] = (200, 185),
     dark: tuple[int, int, int] = (45, 38, 34),
@@ -336,7 +378,7 @@ def add_source_motif(
     path = source_dir / filename
     if not path.exists():
         return
-    source = Image.open(path).convert("RGBA")
+    source = prepare_source_image(Image.open(path).convert("RGBA"), icon_id)
     bbox = source.getchannel("A").getbbox()
     if bbox:
         source = source.crop(bbox)
@@ -603,7 +645,8 @@ def load_source_backplate(source_dir: Path, filename: str, theme: str, icon_id: 
     if not path.exists():
         return None
 
-    source = Image.open(path).convert("RGBA").resize((WORK_SIZE, WORK_SIZE), Image.Resampling.LANCZOS)
+    source = prepare_source_image(Image.open(path).convert("RGBA"), icon_id)
+    source = source.resize((WORK_SIZE, WORK_SIZE), Image.Resampling.LANCZOS)
     alpha = source.getchannel("A")
     rgb = source.convert("RGB")
     rgb = ImageEnhance.Contrast(rgb).enhance(1.18)
@@ -638,11 +681,23 @@ SOURCE_FOREGROUND_SPECS = {
         (258, 206),
         (200, 150),
     ),
+    "RUS_kamenev_idealistic_spark": (
+        "generic_bastion_of_democracy.png",
+        (6, 1, 95, 96),
+        (238, 222),
+        (200, 166),
+    ),
     "RUS_kamenev_psr_rebuild_central_committee": (
         "RUS_rebuild_eser_party.png",
         (23, 10, 78, 66),
         (220, 220),
         (200, 157),
+    ),
+    "RUS_kamenev_psr_absorb_democratic_parties": (
+        "consolidating_coalitionv2.png",
+        (6, 6, 95, 92),
+        (242, 218),
+        (200, 164),
     ),
     "RUS_kamenev_psr_preserve_land_committees": (
         "RUS_values_of_february.png",
@@ -657,10 +712,10 @@ SOURCE_FOREGROUND_SPECS = {
         (200, 157),
     ),
     "RUS_kamenev_psr_defend_revolutionary_democracy": (
-        "card_tricks.png",
-        (16, 5, 74, 62),
-        (222, 216),
-        (200, 155),
+        "agrarian_soldiers.png",
+        (5, 2, 95, 96),
+        (242, 220),
+        (200, 162),
     ),
     "RUS_kamenev_psr_land_socialisation_bill": (
         "generic_land_reform.png",
@@ -704,12 +759,6 @@ SOURCE_FOREGROUND_SPECS = {
         (208, 220),
         (200, 158),
     ),
-    "RUS_kamenev_bol_restore_pravda": (
-        "generic_seize_press.png",
-        (25, 0, 71, 72),
-        (180, 224),
-        (200, 159),
-    ),
     "RUS_kamenev_bol_restore_central_bureau": (
         "generic_secret_documents.png",
         (19, 10, 81, 68),
@@ -748,25 +797,33 @@ SOURCE_FOREGROUND_SPECS = {
     ),
 }
 
+SOURCELESS_ICONS = {
+    "RUS_kamenev_bol_restore_pravda",
+}
+
 SOURCE_FOREGROUND_ON_TOP = set(SOURCE_FOREGROUND_SPECS) - {
     "RUS_kamenev_majority_rule",
+    "RUS_kamenev_idealistic_spark",
+    "RUS_kamenev_psr_absorb_democratic_parties",
+    "RUS_kamenev_psr_defend_revolutionary_democracy",
     "RUS_kamenev_psr_peasant_congress",
 }
 
 PAINTER_OPACITY = {
     "RUS_kamenev_no_permanent_creditor": 165,
     "RUS_kamenev_one_party_card": 145,
+    "RUS_kamenev_idealistic_spark": 150,
     "RUS_kamenev_psr_rebuild_central_committee": 155,
+    "RUS_kamenev_psr_absorb_democratic_parties": 145,
     "RUS_kamenev_psr_preserve_land_committees": 150,
     "RUS_kamenev_psr_claim_internal_affairs": 155,
-    "RUS_kamenev_psr_defend_revolutionary_democracy": 100,
+    "RUS_kamenev_psr_defend_revolutionary_democracy": 145,
     "RUS_kamenev_psr_land_socialisation_bill": 145,
     "RUS_kamenev_psr_final_party_congress": 145,
     "RUS_kamenev_psr_cooperatives_fair_grain_prices": 140,
     "RUS_kamenev_psr_local_self_government": 130,
     "RUS_kamenev_psr_agrarian_socialism": 110,
     "RUS_kamenev_bol_register_returning_members": 140,
-    "RUS_kamenev_bol_restore_pravda": 95,
     "RUS_kamenev_bol_restore_central_bureau": 105,
     "RUS_kamenev_bol_unify_planning_apparatus": 145,
     "RUS_kamenev_bol_rebuild_factory_cells": 140,
@@ -786,7 +843,7 @@ def add_source_foreground(canvas: Image.Image, source_dir: Path, icon_id: str, c
     if not path.exists():
         return
 
-    source = Image.open(path).convert("RGBA").crop(crop_box)
+    source = prepare_source_image(Image.open(path).convert("RGBA"), icon_id).crop(crop_box)
     bbox = source.getchannel("A").getbbox()
     if bbox:
         source = source.crop(bbox)
@@ -830,12 +887,12 @@ def add_source_foreground(canvas: Image.Image, source_dir: Path, icon_id: str, c
     )
 
 
-def apply_source_surface(canvas: Image.Image, source_dir: Path, filename: str) -> Image.Image:
+def apply_source_surface(canvas: Image.Image, source_dir: Path, filename: str, icon_id: str) -> Image.Image:
     path = source_dir / filename
     if not path.exists():
         return canvas
 
-    source = Image.open(path).convert("RGBA")
+    source = prepare_source_image(Image.open(path).convert("RGBA"), icon_id)
     bbox = source.getchannel("A").getbbox()
     if bbox:
         source = source.crop(bbox)
@@ -856,7 +913,8 @@ def apply_source_surface(canvas: Image.Image, source_dir: Path, filename: str) -
 
 def build_icon(icon_id: str, theme: str, source_dir: Path, source: str, painter) -> Image.Image:
     canvas = Image.new("RGBA", (WORK_SIZE, WORK_SIZE), TRANSPARENT)
-    source_backplate = load_source_backplate(source_dir, source, theme, icon_id)
+    uses_source = icon_id not in SOURCELESS_ICONS
+    source_backplate = load_source_backplate(source_dir, source, theme, icon_id) if uses_source else None
     if source_backplate is not None:
         add_relief_layer(
             canvas,
@@ -870,8 +928,9 @@ def build_icon(icon_id: str, theme: str, source_dir: Path, source: str, painter)
 
     medal, clip = build_base(theme, icon_id)
     canvas.alpha_composite(medal)
-    add_source_motif(canvas, clip, source_dir, source)
-    if icon_id not in SOURCE_FOREGROUND_ON_TOP:
+    if uses_source:
+        add_source_motif(canvas, clip, source_dir, source, icon_id)
+    if uses_source and icon_id not in SOURCE_FOREGROUND_ON_TOP:
         add_source_foreground(canvas, source_dir, icon_id, clip)
     layer = icon_layer()
     painter(layer)
@@ -886,9 +945,10 @@ def build_icon(icon_id: str, theme: str, source_dir: Path, source: str, painter)
         shadow_offset=(9, 12),
         shadow_opacity=220,
     )
-    if icon_id in SOURCE_FOREGROUND_ON_TOP:
+    if uses_source and icon_id in SOURCE_FOREGROUND_ON_TOP:
         add_source_foreground(canvas, source_dir, icon_id, clip)
-    canvas = apply_source_surface(canvas, source_dir, source)
+    if uses_source:
+        canvas = apply_source_surface(canvas, source_dir, source, icon_id)
     return finish_icon(canvas, icon_id)
 
 
@@ -1026,6 +1086,14 @@ def paint_more_friends(layer: Image.Image) -> None:
     draw_handshake(layer, (201, 256), 0.78, RED, GREEN)
 
 
+def paint_idealistic_spark(layer: Image.Image) -> None:
+    draw = ImageDraw.Draw(layer)
+    for endpoint in ((106, 92), (151, 69), (200, 61), (249, 69), (294, 92)):
+        draw.line(((200, 164), endpoint), fill=LIGHT_GOLD, width=8)
+        draw.line(((200, 164), endpoint), fill=(235, 202, 118, 255), width=3)
+    draw_book(layer, (200, 269), 0.58)
+
+
 def paint_kamkov_talks(layer: Image.Image) -> None:
     draw_document(layer, (85, 105, 191, 246), angle=-12, seal=False)
     draw_document(layer, (209, 105, 315, 246), angle=12, seal=False)
@@ -1045,6 +1113,14 @@ def paint_psr_rebuild(layer: Image.Image) -> None:
         draw.ellipse((216, y - 11, 229, y + 2), fill=DARK_GOLD)
     draw_wheat_stalk(layer, (129, 240), 125, -18)
     draw_wheat_stalk(layer, (271, 240), 125, 18)
+
+
+def paint_psr_absorb_democrats(layer: Image.Image) -> None:
+    draw = ImageDraw.Draw(layer)
+    draw.rounded_rectangle((105, 236, 295, 286), 18, fill=(95, 67, 73, 255), outline=DARK_GOLD, width=7)
+    for x, colour in ((145, RED), (200, (83, 104, 91, 255)), (255, (128, 92, 55, 255))):
+        draw.ellipse((x - 17, 247, x + 17, 281), fill=colour, outline=LIGHT_GOLD, width=4)
+    draw_rose(layer, (200, 102), 27)
 
 
 def paint_psr_right_union(layer: Image.Image) -> None:
@@ -1067,12 +1143,13 @@ def paint_psr_militia(layer: Image.Image) -> None:
     paste_center(layer, shield, (201, 198))
 
 
-def paint_psr_no_dual_cards(layer: Image.Image) -> None:
-    draw_card(layer, (157, 181), (126, 169), -13, GREEN, "rose")
-    draw_card(layer, (244, 181), (126, 169), 13, RED, "star")
+def paint_psr_peasant_status(layer: Image.Image) -> None:
+    draw_wheat_stalk(layer, (115, 224), 138, -20)
+    draw_wheat_stalk(layer, (285, 224), 138, 20)
     draw = ImageDraw.Draw(layer)
-    draw.line((112, 275, 292, 88), fill=LIGHT_STEEL, width=18)
-    draw.line((112, 275, 292, 88), fill=DARK_RED, width=8)
+    draw.rounded_rectangle((104, 239, 296, 292), 18, fill=(112, 77, 48, 255), outline=DARK_GOLD, width=8)
+    draw.line((130, 265, 270, 265), fill=LIGHT_GOLD, width=7)
+    draw_rose(layer, (200, 264), 24)
 
 
 def paint_psr_land_bill(layer: Image.Image) -> None:
@@ -1210,10 +1287,12 @@ ICON_SPECS = [
     ("RUS_kamenev_no_permanent_creditor", "main", "RUS_oppression.png", paint_curb_srs),
     ("RUS_kamenev_one_party_card", "main", "generic_political_purge.png", paint_purity),
     ("RUS_kamenev_majority_rule", "main", "RUS_coalition_of_idealists.png", paint_more_friends),
+    ("RUS_kamenev_idealistic_spark", "main", "generic_bastion_of_democracy.png", paint_idealistic_spark),
     ("RUS_kamenev_psr_rebuild_central_committee", "psr", "RUS_rebuild_eser_party.png", paint_psr_rebuild),
+    ("RUS_kamenev_psr_absorb_democratic_parties", "psr", "consolidating_coalitionv2.png", paint_psr_absorb_democrats),
     ("RUS_kamenev_psr_preserve_land_committees", "psr", "RUS_values_of_february.png", paint_psr_right_union),
     ("RUS_kamenev_psr_claim_internal_affairs", "psr", "integrate_workers_militia.png", paint_psr_militia),
-    ("RUS_kamenev_psr_defend_revolutionary_democracy", "psr", "card_tricks.png", paint_psr_no_dual_cards),
+    ("RUS_kamenev_psr_defend_revolutionary_democracy", "psr", "agrarian_soldiers.png", paint_psr_peasant_status),
     ("RUS_kamenev_psr_land_socialisation_bill", "psr", "generic_land_reform.png", paint_psr_land_bill),
     ("RUS_kamenev_psr_peasant_congress", "psr", "generic_council.png", paint_psr_peasant_rep),
     ("RUS_kamenev_psr_final_party_congress", "psr", "RUS_maximalist.png", paint_psr_placate_maximalists),

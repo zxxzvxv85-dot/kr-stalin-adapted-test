@@ -1,8 +1,29 @@
 RUS_stalin_kamenev_ensure_party_agendas = {
 	if = {
 		limit = {
+			has_country_flag = RUS_kamenev_psr_agenda_project_active
+			has_country_flag = RUS_stalin_has_defeated_zinoviev
+		}
+		RUS_stalin_kamenev_clear_psr_agenda_runtime = yes
+	}
+	else_if = {
+		limit = { has_country_flag = RUS_kamenev_psr_agenda_project_active }
+		if = {
+			limit = { NOT = { has_active_mission = RUS_kamenev_psr_agenda_in_progress } }
+			activate_mission = RUS_kamenev_psr_agenda_in_progress
+		}
+		if = {
+			limit = {
+				NOT = { has_dynamic_modifier = { modifier = RUS_kamenev_psr_agenda_bop_modifier } }
+			}
+			add_dynamic_modifier = { modifier = RUS_kamenev_psr_agenda_bop_modifier }
+		}
+	}
+	if = {
+		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
 			has_completed_focus = RUS_syndicalists
+			NOT = { has_country_flag = RUS_stalin_has_defeated_zinoviev }
 			NOT = { has_country_flag = RUS_kamenev_party_agendas_closed }
 			NOT = { has_completed_focus = RUS_bolshevik_gamble }
 		}
@@ -25,38 +46,38 @@ RUS_stalin_kamenev_dispatch_psr_agenda = {
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
 	}
 	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_preserve_land_committees } }
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_absorb_democratic_parties } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_2_in_progress days = 49 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_absorb_democratic_parties
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_preserve_land_committees } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_3_in_progress days = 49 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_preserve_land_committees
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_claim_internal_affairs } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_3_in_progress days = 49 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_4_in_progress days = 49 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_claim_internal_affairs
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_defend_revolutionary_democracy } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_4_in_progress days = 49 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_5_in_progress days = 49 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_defend_revolutionary_democracy
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
 	}
 	else_if = {
 		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_5_in_progress days = 49 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_land_socialisation_bill
-		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
-	}
-	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress } }
-		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_6_in_progress days = 49 value = 1 }
-		activate_shine_on_focus = RUS_kamenev_psr_peasant_congress
+		activate_shine_on_focus = RUS_kamenev_psr_land_socialisation_bill
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
 	}
 	else_if = {
@@ -81,11 +102,32 @@ RUS_stalin_kamenev_dispatch_psr_agenda = {
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
 	}
 	else_if = {
-		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_agrarian_socialism } }
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress } }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
 		set_country_flag = { flag = RUS_kamenev_psr_agenda_10_in_progress days = 49 value = 1 }
+		activate_shine_on_focus = RUS_kamenev_psr_peasant_congress
+		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
+	}
+	else_if = {
+		limit = { NOT = { has_completed_focus = RUS_kamenev_psr_agrarian_socialism } }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_project_active days = 49 value = 1 }
+		set_country_flag = { flag = RUS_kamenev_psr_agenda_11_in_progress days = 49 value = 1 }
 		activate_shine_on_focus = RUS_kamenev_psr_agrarian_socialism
 		country_event = { id = RUS_stalin_kamenev_agendas.100 days = 42 }
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_kamenev_psr_agenda_project_active
+			NOT = { has_active_mission = RUS_kamenev_psr_agenda_in_progress }
+		}
+		activate_mission = RUS_kamenev_psr_agenda_in_progress
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_kamenev_psr_agenda_project_active
+			NOT = { has_dynamic_modifier = { modifier = RUS_kamenev_psr_agenda_bop_modifier } }
+		}
+		add_dynamic_modifier = { modifier = RUS_kamenev_psr_agenda_bop_modifier }
 	}
 }
 
@@ -95,6 +137,14 @@ RUS_stalin_kamenev_dispatch_bol_agenda = {
 }
 
 RUS_stalin_kamenev_clear_psr_agenda_runtime = {
+	if = {
+		limit = { has_active_mission = RUS_kamenev_psr_agenda_in_progress }
+		remove_mission = RUS_kamenev_psr_agenda_in_progress
+	}
+	if = {
+		limit = { has_dynamic_modifier = { modifier = RUS_kamenev_psr_agenda_bop_modifier } }
+		remove_dynamic_modifier = { modifier = RUS_kamenev_psr_agenda_bop_modifier }
+	}
 	clr_country_flag = RUS_kamenev_psr_agenda_project_active
 	clr_country_flag = RUS_kamenev_psr_agenda_1_in_progress
 	clr_country_flag = RUS_kamenev_psr_agenda_2_in_progress
@@ -106,6 +156,7 @@ RUS_stalin_kamenev_clear_psr_agenda_runtime = {
 	clr_country_flag = RUS_kamenev_psr_agenda_8_in_progress
 	clr_country_flag = RUS_kamenev_psr_agenda_9_in_progress
 	clr_country_flag = RUS_kamenev_psr_agenda_10_in_progress
+	clr_country_flag = RUS_kamenev_psr_agenda_11_in_progress
 }
 
 RUS_stalin_kamenev_clear_bol_agenda_runtime = {

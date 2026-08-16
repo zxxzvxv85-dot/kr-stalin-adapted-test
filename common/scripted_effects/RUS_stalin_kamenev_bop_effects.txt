@@ -11,8 +11,33 @@ RUS_stalin_enable_kamenev_bop = {
 			right_side = RUS_kamenev_bolshevik_side
 			set_value = -0.45
 		}
-		RUS_stalin_kamenev_bop_refresh_runtime_effects = yes
 		country_event = { id = stalin_form_sov.24 hours = 1 }
+	}
+	if = {
+		limit = { has_power_balance = { id = RUS_kamenev_power_balance } }
+		RUS_stalin_kamenev_bop_refresh_runtime_effects = yes
+	}
+}
+
+RUS_stalin_ensure_stalin_sic_role = {
+	if = {
+		limit = {
+			has_character = RUS_iosif_stalin
+			RUS_iosif_stalin = {
+				NOT = { has_advisor_role = second_in_command }
+			}
+		}
+		add_advisor_role = {
+			character = RUS_iosif_stalin
+			advisor = {
+				slot = second_in_command
+				idea_token = RUS_iosif_stalin_sic
+				desc = RUS_iosif_stalin_sic_desc
+				traits = { RUS_stalin_general_secretary_sic KR_bolshevik_stalin }
+				cost = 0
+				can_be_fired = no
+			}
+		}
 	}
 }
 
@@ -37,11 +62,38 @@ RUS_stalin_kamenev_bop_ensure_active = {
 }
 
 RUS_stalin_kamenev_bop_refresh_runtime_effects = {
+	RUS_stalin_fix_kirov_bolshevik_faction = yes
 	RUS_stalin_sverdlov_refresh_sic_trait = yes
 	RUS_stalin_kamenev_bop_refresh_vst_idea_modifier = yes
 	if = {
 		limit = { has_power_balance = { id = RUS_kamenev_power_balance } }
 		RUS_stalin_kamenev_bop_swap_character_traits = yes
+	}
+	RUS_stalin_refresh_advisor_relationship_effects = yes
+}
+
+# Old saves retain the VST-right trait that KR added when the character was instantiated.
+RUS_stalin_fix_kirov_bolshevik_faction = {
+	if = {
+		limit = {
+			has_character = RUS_sergey_kirov
+			RUS_sergey_kirov = { has_trait = KR_vst_right_kirov }
+		}
+		remove_trait = { character = RUS_sergey_kirov trait = KR_vst_right_kirov slot = political_advisor }
+		remove_trait = { character = RUS_sergey_kirov trait = KR_vst_right_kirov slot = second_in_command }
+		remove_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov slot = political_advisor }
+		remove_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov slot = second_in_command }
+		remove_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov_bop slot = political_advisor }
+		remove_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov_bop slot = second_in_command }
+		if = {
+			limit = { has_power_balance = { id = RUS_kamenev_power_balance } }
+			add_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov_bop slot = political_advisor }
+			add_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov_bop slot = second_in_command }
+		}
+		else = {
+			add_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov slot = political_advisor }
+			add_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov slot = second_in_command }
+		}
 	}
 }
 
@@ -222,6 +274,20 @@ RUS_stalin_kamenev_bop_swap_character_traits = {
 		}
 	}
 	if = {
+		limit = { RUS_sergey_kirov = { has_trait = KR_bolshevik_kirov } }
+		remove_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov slot = political_advisor }
+		remove_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov slot = second_in_command }
+		add_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov_bop slot = political_advisor }
+		add_trait = { character = RUS_sergey_kirov trait = KR_bolshevik_kirov_bop slot = second_in_command }
+	}
+	if = {
+		limit = { RUS_mikhail_kalinin = { has_trait = KR_bolshevik_kalinin } }
+		RUS_mikhail_kalinin = {
+			remove_trait = { trait = KR_bolshevik_kalinin slot = political_advisor }
+			add_trait = { trait = KR_bolshevik_kalinin_bop slot = political_advisor }
+		}
+	}
+	if = {
 		limit = { RUS_ilya_mayorov = { has_trait = KR_spiridonist_mayorov } }
 		RUS_ilya_mayorov = {
 			remove_trait = { trait = KR_spiridonist_mayorov slot = political_advisor }
@@ -308,6 +374,12 @@ RUS_stalin_kamenev_bop_swap_character_traits = {
 			add_trait = { trait = KR_sr_blyumkin_bop slot = political_advisor }
 		}
 	}
+	# Relationship-scaled political advisors receive their balance effect through
+	# their native relationship tier, so immediately remove any fixed political-
+	# advisor BOP trait restored by the legacy Kamenev refresh above.
+	clr_country_flag = RUS_native_relationship_advisor_traits_migrated
+	clr_country_flag = RUS_native_relationship_advisor_traits_migrated_v2
+	RUS_stalin_ensure_relationship_scaled_advisor_traits = yes
 }
 
 RUS_stalin_kamenev_bop_move_left_005 = {

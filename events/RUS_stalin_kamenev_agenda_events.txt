@@ -61,13 +61,23 @@ country_event = {
 }
 
 country_event = {
-	id = RUS_stalin_kamenev_agendas.8
-	title = RUS_stalin_kamenev_agendas.8.t
-	desc = RUS_stalin_kamenev_agendas.8.d
+	id = RUS_stalin_kamenev_agendas.9
+	title = RUS_stalin_kamenev_agendas.9.t
+	desc = RUS_stalin_kamenev_agendas.9.d
 	is_triggered_only = yes
-	picture = GFX_report_event_RUS_sverdlov
+	picture = GFX_report_event_RUS_meeting
 
-	option = { name = RUS_stalin_kamenev_agendas.8.a }
+	option = { name = RUS_stalin_kamenev_agendas.9.a }
+}
+
+country_event = {
+	id = RUS_stalin_kamenev_agendas.10
+	title = RUS_stalin_kamenev_agendas.10.t
+	desc = RUS_stalin_kamenev_agendas.10.d
+	is_triggered_only = yes
+	picture = GFX_report_event_RUS_soviet_congress
+
+	option = { name = RUS_stalin_kamenev_agendas.10.a }
 }
 
 country_event = {
@@ -88,6 +98,14 @@ country_event = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
 				has_country_flag = RUS_kamenev_psr_agenda_2_in_progress
+				NOT = { has_completed_focus = RUS_kamenev_psr_absorb_democratic_parties }
+			}
+			complete_national_focus = { focus = RUS_kamenev_psr_absorb_democratic_parties use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
+		}
+		else_if = {
+			limit = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_kamenev_psr_agenda_3_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_preserve_land_committees }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_preserve_land_committees use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
@@ -95,7 +113,7 @@ country_event = {
 		else_if = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_3_in_progress
+				has_country_flag = RUS_kamenev_psr_agenda_4_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_claim_internal_affairs }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_claim_internal_affairs use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
@@ -103,7 +121,7 @@ country_event = {
 		else_if = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_4_in_progress
+				has_country_flag = RUS_kamenev_psr_agenda_5_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_defend_revolutionary_democracy }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_defend_revolutionary_democracy use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
@@ -111,18 +129,10 @@ country_event = {
 		else_if = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_5_in_progress
+				has_country_flag = RUS_kamenev_psr_agenda_6_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_land_socialisation_bill }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_land_socialisation_bill use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
-		}
-		else_if = {
-			limit = {
-				has_country_flag = RUS_auto_kamenev_vst_left_path
-				has_country_flag = RUS_kamenev_psr_agenda_6_in_progress
-				NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress }
-			}
-			complete_national_focus = { focus = RUS_kamenev_psr_peasant_congress use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
 		}
 		else_if = {
 			limit = {
@@ -152,6 +162,14 @@ country_event = {
 			limit = {
 				has_country_flag = RUS_auto_kamenev_vst_left_path
 				has_country_flag = RUS_kamenev_psr_agenda_10_in_progress
+				NOT = { has_completed_focus = RUS_kamenev_psr_peasant_congress }
+			}
+			complete_national_focus = { focus = RUS_kamenev_psr_peasant_congress use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }
+		}
+		else_if = {
+			limit = {
+				has_country_flag = RUS_auto_kamenev_vst_left_path
+				has_country_flag = RUS_kamenev_psr_agenda_11_in_progress
 				NOT = { has_completed_focus = RUS_kamenev_psr_agrarian_socialism }
 			}
 			complete_national_focus = { focus = RUS_kamenev_psr_agrarian_socialism use_side_message = yes originator_name = RUS_kamenev_psr_agenda_originator }

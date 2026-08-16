@@ -1,0 +1,67 @@
+add_namespace = russia_socialist_events
+
+country_event = { # Kamenev Takes Office
+	id = russia_socialist_events.442
+	title = russia_socialist_events.442.t
+	desc = russia_socialist_events.442.d
+	is_triggered_only = yes
+	picture = GFX_report_event_RUS_kamenev
+
+	option = {
+		log = "[GetLogInfo]: event russia_socialist_events.442 option russia_socialist_events.442.a"
+		name = russia_socialist_events.442.a
+		promote_character = {
+			character = RUS_lev_kamenev
+			ideology = syndicalist_subtype
+		}
+		RUS_stalin_ensure_stalin_sic_role = yes
+		if = {
+			limit = { RUS_fyodor_dan = { is_second_in_command = yes } }
+			deactivate_advisor = RUS_fyodor_dan_sic
+		}
+		if = {
+			limit = { RUS_daniil_sulimov = { is_second_in_command = yes } }
+			deactivate_advisor = RUS_daniil_sulimov_sic
+		}
+		if = {
+			limit = { RUS_lev_kamenev = { is_second_in_command = yes } }
+			deactivate_advisor = RUS_lev_kamenev_sic
+		}
+		if = {
+			limit = { RUS_grigory_zinovyev = { is_second_in_command = yes } }
+			deactivate_advisor = RUS_grigory_zinovyev_sic
+		}
+		if = {
+			limit = { RUS_vladimir_levitsky = { is_second_in_command = yes } }
+			deactivate_advisor = RUS_vladimir_levitsky_sic
+		}
+		if = {
+			limit = { RUS_iosif_stalin = { is_second_in_command = yes } }
+			deactivate_advisor = RUS_iosif_stalin_sic
+		}
+		if = {
+			limit = { has_country_flag = RUS_kamenev_sic_zinovyev }
+			activate_advisor = RUS_grigory_zinovyev_sic
+			country_event = russia_socialist_events.328 # Dvoika formed
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_kamenev_sic_stalin }
+			activate_advisor = RUS_iosif_stalin_sic
+		}
+		else = {
+			activate_advisor = RUS_vladimir_levitsky_sic
+		}
+		set_temp_variable = { RUS_relation_change = -5 }
+		RUS_VST_right_relation = yes
+		RUS_SDS_relation = yes
+		set_country_flag = RUS_VST_right_revolt
+		clr_country_flag = socrus340_fired
+		clr_country_flag = RUS_kamenev_sic_zinovyev
+		clr_country_flag = RUS_kamenev_sic_levitsky
+		clr_country_flag = RUS_kamenev_sic_stalin
+		hidden_effect = {
+			RUS_stalin_enable_kamenev_bop = yes
+			country_event = { id = russia_socialist_events.307 days = 60 } # Centralisation of Power
+		}
+	}
+}

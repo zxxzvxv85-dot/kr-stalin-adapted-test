@@ -3,8 +3,10 @@ RUS_education_reform_category = {
 		icon = GFX_decision_generic_research
 		fire_only_once = yes
 		cost = 35
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -35,7 +37,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_compulsory_education"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_compulsory = yes
 			country_event = { id = rus_stalin_education_events.2 }
 		}
@@ -48,8 +50,10 @@ RUS_education_reform_category = {
 		fire_only_once = no
 		days_re_enable = 7
 		cost = 20
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -62,7 +66,7 @@ RUS_education_reform_category = {
 			}
 			custom_override_tooltip = {
 				tooltip = RUS_education_reform_repeat_limit_tt
-				check_variable = { RUS_education_reform_repeat_count < 18 }
+				check_variable = { RUS_education_reform_repeat_count < RUS_education_reform_repeat_limit }
 			}
 		}
 		cancel_trigger = {
@@ -84,7 +88,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_build_rural_schools"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_rural_school = yes
 			if = {
 				limit = { NOT = { has_country_flag = RUS_edu_rural_school_event_seen } }
@@ -100,8 +104,10 @@ RUS_education_reform_category = {
 		icon = GFX_decision_generic_research
 		fire_only_once = yes
 		cost = 35
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -132,7 +138,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_higher_education"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_higher_education = yes
 		}
 		ai_will_do = { base = 100 }
@@ -144,8 +150,10 @@ RUS_education_reform_category = {
 		fire_only_once = no
 		days_re_enable = 7
 		cost = 20
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -158,7 +166,7 @@ RUS_education_reform_category = {
 			}
 			custom_override_tooltip = {
 				tooltip = RUS_education_reform_repeat_limit_tt
-				check_variable = { RUS_education_reform_repeat_count < 18 }
+				check_variable = { RUS_education_reform_repeat_count < RUS_education_reform_repeat_limit }
 			}
 		}
 		cancel_trigger = {
@@ -180,7 +188,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_worker_peasant_courses"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_worker_peasant_course = yes
 			if = {
 				limit = { NOT = { has_country_flag = RUS_edu_worker_peasant_courses_event_seen } }
@@ -196,8 +204,10 @@ RUS_education_reform_category = {
 		icon = GFX_decision_generic_political_rally
 		fire_only_once = yes
 		cost = 35
-		days_remove = 180
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_180?180
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -227,7 +237,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_grassroots_cadres"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_grassroots_cadres = yes
 			country_event = { id = rus_stalin_education_events.6 }
 		}
@@ -239,8 +249,10 @@ RUS_education_reform_category = {
 		icon = GFX_decision_generic_political_discourse
 		fire_only_once = yes
 		cost = 35
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -271,7 +283,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_cadre_rotation"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_cadre_rotation = yes
 			country_event = { id = rus_stalin_education_events.7 }
 		}
@@ -283,8 +295,10 @@ RUS_education_reform_category = {
 		icon = GFX_decision_eng_propaganda_campaigns
 		fire_only_once = yes
 		cost = 35
-		days_remove = 180
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_180?180
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -314,7 +328,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_cultural_propaganda"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_cultural_propaganda = yes
 			country_event = { id = rus_stalin_education_events.8 }
 		}
@@ -326,8 +340,10 @@ RUS_education_reform_category = {
 		icon = GFX_decision_generic_industry
 		fire_only_once = yes
 		cost = 35
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -357,7 +373,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_production_technology"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_production_technology = yes
 			country_event = { id = rus_stalin_education_events.11 }
 		}
@@ -370,8 +386,10 @@ RUS_education_reform_category = {
 		fire_only_once = no
 		days_re_enable = 7
 		cost = 20
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -384,7 +402,7 @@ RUS_education_reform_category = {
 			}
 			custom_override_tooltip = {
 				tooltip = RUS_education_reform_repeat_limit_tt
-				check_variable = { RUS_education_reform_repeat_count < 18 }
+				check_variable = { RUS_education_reform_repeat_count < RUS_education_reform_repeat_limit }
 			}
 		}
 		cancel_trigger = {
@@ -406,7 +424,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_streamlined_workshops"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_streamlined_workshops = yes
 			if = {
 				limit = { NOT = { has_country_flag = RUS_edu_streamlined_workshops_event_seen } }
@@ -423,8 +441,10 @@ RUS_education_reform_category = {
 		fire_only_once = no
 		days_re_enable = 7
 		cost = 20
-		days_remove = 75
-		modifier = { consumer_goods_factor = 0.02 }
+		days_remove = RUS_kalinin_education_time_75?75
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
 		visible = {
 			has_country_flag = RUS_education_reform_started
 			NOT = { has_country_flag = RUS_education_reform_completed }
@@ -437,7 +457,7 @@ RUS_education_reform_category = {
 			}
 			custom_override_tooltip = {
 				tooltip = RUS_education_reform_repeat_limit_tt
-				check_variable = { RUS_education_reform_repeat_count < 18 }
+				check_variable = { RUS_education_reform_repeat_count < RUS_education_reform_repeat_limit }
 			}
 		}
 		cancel_trigger = {
@@ -459,7 +479,7 @@ RUS_education_reform_category = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_edu_standardized_lines"
-			RUS_education_reform_finish_decision = yes
+			RUS_education_reform_complete_decision = yes
 			RUS_education_reform_effect_standardized_lines = yes
 			if = {
 				limit = { NOT = { has_country_flag = RUS_edu_standardized_lines_event_seen } }
