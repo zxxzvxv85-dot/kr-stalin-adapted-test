@@ -1171,6 +1171,183 @@ RUS_first_five_year_plan_industrial_projects = {
 		fixed_random_seed = no
 	}
 
+	RUS_stalin_ffyp_priority_industry = {
+		allowed = { always = no }
+		available = {
+			num_of_civilian_factories > RUS_stalin_ffyp_priority_industry_civ_target
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_industry
+		days_mission_timeout = 180
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_priority_industry"
+			set_country_flag = RUS_stalin_ffyp_priority_industry_completed
+			add_one_random_civilian_factory = yes
+			RUS_stalin_add_first_five_year_plan_score_med = yes
+			RUS_stalin_start_ffyp_electrification_machinery = yes
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_priority_industry"
+			set_country_flag = RUS_stalin_ffyp_priority_industry_failed
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_electrification_machinery = {
+		allowed = { always = no }
+		available = {
+			num_of_civilian_factories > RUS_stalin_ffyp_electrification_machinery_civ_target
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_electricity
+		days_mission_timeout = 240
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_electrification_machinery"
+			set_country_flag = RUS_stalin_ffyp_electrification_machinery_completed
+			add_one_random_civilian_factory = yes
+			custom_effect_tooltip = RUS_stalin_ffyp_electrification_infrastructure_reward_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						any_owned_state = {
+							is_controlled_by = ROOT
+							is_core_of = ROOT
+							infrastructure < 5
+						}
+					}
+					random_owned_controlled_state = {
+						limit = {
+							is_core_of = ROOT
+							infrastructure < 5
+						}
+						add_building_construction = {
+							type = infrastructure
+							level = 1
+							instant_build = yes
+						}
+					}
+				}
+			}
+			add_tech_bonus = {
+				name = RUS_stalin_ffyp_electrification_machinery_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+			RUS_stalin_add_first_five_year_plan_score_high = yes
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_electrification_machinery"
+			set_country_flag = RUS_stalin_ffyp_electrification_machinery_failed
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_urals_arsenal = {
+		allowed = { always = no }
+		available = {
+			num_of_military_factories > RUS_stalin_ffyp_urals_arsenal_mil_target
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_merge_plant_materiel
+		days_mission_timeout = 180
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_urals_arsenal"
+			set_country_flag = RUS_stalin_ffyp_urals_arsenal_completed
+			add_one_random_military_factory = yes
+			RUS_stalin_add_first_five_year_plan_score_med = yes
+			RUS_stalin_start_ffyp_eastern_industrial_depth = yes
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_urals_arsenal"
+			set_country_flag = RUS_stalin_ffyp_urals_arsenal_failed
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_eastern_industrial_depth = {
+		allowed = { always = no }
+		available = {
+			num_of_military_factories > RUS_stalin_ffyp_eastern_industrial_depth_mil_target
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_factory
+		days_mission_timeout = 270
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_eastern_industrial_depth"
+			set_country_flag = RUS_stalin_ffyp_eastern_industrial_depth_completed
+			add_one_random_military_factory = yes
+			add_one_random_military_factory = yes
+			army_experience = 25
+			RUS_stalin_add_first_five_year_plan_score_high = yes
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_eastern_industrial_depth"
+			set_country_flag = RUS_stalin_ffyp_eastern_industrial_depth_failed
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_balanced_construction = {
+		allowed = { always = no }
+		available = {
+			num_of_civilian_factories > RUS_stalin_ffyp_balanced_construction_civ_target
+			num_of_military_factories > RUS_stalin_ffyp_balanced_construction_mil_target
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_construction
+		days_mission_timeout = 210
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_balanced_construction"
+			set_country_flag = RUS_stalin_ffyp_balanced_construction_completed
+			add_one_random_civilian_factory = yes
+			add_stability = 0.02
+			RUS_stalin_add_first_five_year_plan_score_med = yes
+			RUS_stalin_start_ffyp_integrated_review = yes
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_balanced_construction"
+			set_country_flag = RUS_stalin_ffyp_balanced_construction_failed
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_integrated_review = {
+		allowed = { always = no }
+		available = {
+			num_of_civilian_factories > RUS_stalin_ffyp_integrated_review_civ_target
+			num_of_military_factories > RUS_stalin_ffyp_integrated_review_mil_target
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_factory
+		days_mission_timeout = 300
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_integrated_review"
+			set_country_flag = RUS_stalin_ffyp_integrated_review_completed
+			add_one_random_civilian_factory = yes
+			add_one_random_military_factory = yes
+			add_political_power = 50
+			RUS_stalin_add_first_five_year_plan_score_high = yes
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_integrated_review"
+			set_country_flag = RUS_stalin_ffyp_integrated_review_failed
+		}
+		fixed_random_seed = no
+	}
+
 	RUS_kamenev_all_russian_electrification = {
 		icon = GFX_decision_generic_electricity
 		allowed = { original_tag = RUS }
