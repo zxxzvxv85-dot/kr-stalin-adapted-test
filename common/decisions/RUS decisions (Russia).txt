@@ -1145,6 +1145,195 @@ RUS_savinkov_eco_cat = {
 }
 
 RUS_first_five_year_plan_industrial_projects = {
+	RUS_stalin_ffyp_expand_coal_prospecting = {
+		icon = GFX_decision_generic_industry
+		allowed = { original_tag = RUS }
+		visible = {
+			has_completed_focus = RUS_kamenev_national_economic_line
+			NOT = { has_country_flag = RUS_stalin_ffyp_expand_coal_prospecting_started }
+		}
+		cost = 0
+		days_remove = 1
+		fire_only_once = yes
+		ai_will_do = { base = 0 }
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_expand_coal_prospecting"
+			set_country_flag = RUS_stalin_ffyp_expand_coal_prospecting_started
+			activate_mission = RUS_stalin_ffyp_expand_coal_prospecting_mission
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_expand_coal_prospecting_mission = {
+		allowed = { always = no }
+		available = {
+			569 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 1
+			}
+			578 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 1
+			}
+			572 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 1
+			}
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_industry
+		days_mission_timeout = 270
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_expand_coal_prospecting_mission"
+			add_stability = 0.05
+			569 = { add_resource = { type = coal amount = 9 } }
+			578 = { add_resource = { type = coal amount = 9 } }
+			572 = { add_resource = { type = coal amount = 9 } }
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_expand_coal_prospecting_mission"
+			add_stability = -0.05
+			569 = { add_resource = { type = coal amount = -9 } }
+			578 = { add_resource = { type = coal amount = -9 } }
+			572 = { add_resource = { type = coal amount = -9 } }
+			custom_effect_tooltip = RUS_stalin_ffyp_score_loss_10_tt
+			hidden_effect = {
+				RUS_stalin_ensure_first_five_year_plan = yes
+				add_to_variable = { RUS_first_five_year_plan_score = -10 }
+				RUS_stalin_refresh_first_five_year_plan_stage = yes
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_accelerate_urban_development = {
+		icon = GFX_decision_generic_industry
+		allowed = { original_tag = RUS }
+		visible = {
+			has_completed_focus = RUS_kamenev_arsenal_of_revolution
+			NOT = { has_country_flag = RUS_stalin_ffyp_accelerate_urban_development_started }
+		}
+		cost = 0
+		days_remove = 1
+		fire_only_once = yes
+		ai_will_do = { base = 0 }
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_accelerate_urban_development"
+			set_country_flag = RUS_stalin_ffyp_accelerate_urban_development_started
+			activate_mission = RUS_stalin_ffyp_accelerate_urban_development_mission
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_stalin_ffyp_accelerate_urban_development_mission = {
+		allowed = { always = no }
+		available = {
+			263 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 3
+			}
+			242 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 3
+			}
+			224 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 3
+			}
+			220 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 3
+			}
+			240 = {
+				is_owned_and_controlled_by = ROOT
+				infrastructure > 4
+				industrial_complex > 3
+			}
+		}
+		selectable_mission = no
+		fire_only_once = yes
+		icon = GFX_decision_generic_industry
+		days_mission_timeout = 500
+		is_good = yes
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_accelerate_urban_development_mission"
+			custom_effect_tooltip = RUS_stalin_ffyp_accelerate_urban_development_reward_tt
+			hidden_effect = {
+				263 = {
+					add_resource = { type = coal amount = 2 }
+					add_resource = { type = rubber amount = 4 }
+					add_resource = { type = oil amount = 4 }
+					if = {
+						limit = { energy_infrastructure < 1 }
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+					}
+				}
+				242 = {
+					add_resource = { type = coal amount = 2 }
+					add_resource = { type = rubber amount = 4 }
+					add_resource = { type = oil amount = 4 }
+					if = {
+						limit = { energy_infrastructure < 1 }
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+					}
+				}
+				224 = {
+					add_resource = { type = coal amount = 2 }
+					add_resource = { type = rubber amount = 4 }
+					add_resource = { type = oil amount = 4 }
+					if = {
+						limit = { energy_infrastructure < 1 }
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+					}
+				}
+				220 = {
+					add_resource = { type = coal amount = 2 }
+					add_resource = { type = rubber amount = 4 }
+					add_resource = { type = oil amount = 4 }
+					if = {
+						limit = { energy_infrastructure < 1 }
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+					}
+				}
+				240 = {
+					add_resource = { type = coal amount = 2 }
+					add_resource = { type = rubber amount = 4 }
+					add_resource = { type = oil amount = 4 }
+					if = {
+						limit = { energy_infrastructure < 1 }
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+					}
+				}
+				RUS_tesla_refresh_power_grid_bonuses = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_accelerate_urban_development_mission"
+			add_stability = -0.10
+			custom_effect_tooltip = RUS_stalin_ffyp_score_loss_10_tt
+			hidden_effect = {
+				RUS_stalin_ensure_first_five_year_plan = yes
+				add_to_variable = { RUS_first_five_year_plan_score = -10 }
+				RUS_stalin_refresh_first_five_year_plan_stage = yes
+			}
+		}
+		fixed_random_seed = no
+	}
+
 	RUS_first_five_year_plan_mission = {
 		allowed = { always = no }
 		available = {
@@ -1372,6 +1561,7 @@ RUS_first_five_year_plan_industrial_projects = {
 		ai_will_do = { base = 0 }
 		complete_effect = {
 			log = "[GetLogRoot]: Decision activated RUS_kamenev_all_russian_electrification"
+			set_country_flag = RUS_kamenev_all_russian_electrification_in_progress
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision removed RUS_kamenev_all_russian_electrification"
@@ -1382,6 +1572,7 @@ RUS_first_five_year_plan_industrial_projects = {
 			}
 			hidden_effect = {
 				RUS_stalin_ensure_first_five_year_plan = yes
+				clr_country_flag = RUS_kamenev_all_russian_electrification_in_progress
 				random_owned_controlled_state = {
 					limit = {
 						is_core_of = ROOT
@@ -1421,6 +1612,75 @@ RUS_first_five_year_plan_industrial_projects = {
 					limit = { has_country_flag = RUS_tesla_industrial_programme_active }
 					RUS_tesla_refresh_power_grid_bonuses = yes
 				}
+				if = {
+					limit = { has_country_flag = RUS_kamenev_all_russian_electrification_automatic_enabled }
+					activate_mission = RUS_kamenev_all_russian_electrification_automatic_mission
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_kamenev_all_russian_electrification_automatic = {
+		icon = GFX_decision_generic_electricity
+		allowed = { original_tag = RUS }
+		visible = { has_completed_focus = RUS_kamenev_national_economic_line }
+		cost = 0
+		days_re_enable = 1
+		ai_will_do = { base = 0 }
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_kamenev_all_russian_electrification_automatic"
+			if = {
+				limit = { has_country_flag = RUS_kamenev_all_russian_electrification_automatic_enabled }
+				custom_effect_tooltip = RUS_kamenev_all_russian_electrification_automatic_disable_tt
+				hidden_effect = {
+					clr_country_flag = RUS_kamenev_all_russian_electrification_automatic_enabled
+					if = {
+						limit = { has_active_mission = RUS_kamenev_all_russian_electrification_automatic_mission }
+						remove_mission = RUS_kamenev_all_russian_electrification_automatic_mission
+					}
+				}
+			}
+			else = {
+				custom_effect_tooltip = RUS_kamenev_all_russian_electrification_automatic_enable_tt
+				hidden_effect = {
+					set_country_flag = RUS_kamenev_all_russian_electrification_automatic_enabled
+					if = {
+						limit = { NOT = { has_country_flag = RUS_kamenev_all_russian_electrification_in_progress } }
+						activate_mission = RUS_kamenev_all_russian_electrification_automatic_mission
+					}
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	RUS_kamenev_all_russian_electrification_automatic_mission = {
+		icon = GFX_decision_generic_electricity
+		allowed = { always = no }
+		available = { hidden_trigger = { always = no } }
+		selectable_mission = no
+		days_mission_timeout = 1
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout RUS_kamenev_all_russian_electrification_automatic_mission"
+			if = {
+				limit = {
+					has_country_flag = RUS_kamenev_all_russian_electrification_automatic_enabled
+					NOT = { has_country_flag = RUS_kamenev_all_russian_electrification_in_progress }
+					political_power > 14
+					num_of_civilian_factories_available_for_projects > 0
+					any_owned_state = {
+						is_controlled_by = ROOT
+						is_core_of = ROOT
+						infrastructure < 5
+					}
+				}
+				add_political_power = -15
+				activate_decision = RUS_kamenev_all_russian_electrification
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_kamenev_all_russian_electrification_automatic_enabled }
+				hidden_effect = { activate_mission = RUS_kamenev_all_russian_electrification_automatic_mission }
 			}
 		}
 		fixed_random_seed = no
