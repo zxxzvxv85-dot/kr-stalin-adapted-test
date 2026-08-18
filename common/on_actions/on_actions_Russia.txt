@@ -457,7 +457,10 @@ on_actions = {
 						has_idea = RUS_nikola_tesla_advisor
 						has_idea = RUS_tesla_electrical_industries
 					}
-					NOT = { has_country_flag = RUS_tesla_industrial_programme_active }
+					OR = {
+						NOT = { has_country_flag = RUS_tesla_industrial_programme_active }
+						NOT = { has_variable = RUS_tesla_industry_time_300 }
+					}
 				}
 				RUS_tesla_activate_industrial_programme = yes
 			}

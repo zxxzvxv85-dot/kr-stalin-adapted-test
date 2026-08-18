@@ -70,6 +70,17 @@ RUS_tesla_activate_industrial_programme = {
 		set_variable = { RUS_tesla_industry_time_720 = 360 }
 		set_country_flag = RUS_tesla_industrial_programme_active
 	}
+	# Keep the new 300-day AEG decision compatible with saves where Tesla's
+	# industrial programme was already active before this duration was added.
+	if = {
+		limit = {
+			OR = {
+				has_idea = RUS_nikola_tesla_advisor
+				has_idea = RUS_tesla_electrical_industries
+			}
+		}
+		set_variable = { RUS_tesla_industry_time_300 = 150 }
+	}
 	RUS_tesla_refresh_power_grid_bonuses = yes
 }
 
@@ -92,6 +103,7 @@ RUS_tesla_deactivate_industrial_programme = {
 		clear_variable = RUS_tesla_industry_time_120
 		clear_variable = RUS_tesla_industry_time_150
 		clear_variable = RUS_tesla_industry_time_180
+		clear_variable = RUS_tesla_industry_time_300
 		clear_variable = RUS_tesla_industry_time_365
 		clear_variable = RUS_tesla_industry_time_650
 		clear_variable = RUS_tesla_industry_time_720
