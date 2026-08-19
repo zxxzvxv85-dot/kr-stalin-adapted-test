@@ -683,7 +683,7 @@ on_actions = {
 				limit = {
 					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
 					has_completed_focus = RUS_syndicalists
-					has_country_leader = { character = RUS_lev_kamenev }
+					RUS_VST_left = no
 					check_variable = { vst_left_var > 7 }
 					NOT = { check_variable = { vst_centre_unity > 3 } }
 				}
@@ -693,6 +693,10 @@ on_actions = {
 				mark_focus_tree_layout_dirty = yes
 				RUS_stalin_kamenev_sync_transferred_industry = yes
 				RUS_stalin_kamenev_dispatch_psr_agenda = yes
+				if = {
+					limit = { NOT = { has_country_leader = { character = RUS_lev_kamenev } } }
+					country_event = { id = russia_socialist_events.442 days = 1 }
+				}
 			}
 			if = {
 				limit = {
