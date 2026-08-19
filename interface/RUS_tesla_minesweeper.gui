@@ -1,0 +1,1828 @@
+guiTypes = {
+	containerWindowType = {
+		name = "RUS_tesla_minesweeper_entry_window"
+		position = { x = 422 y = 397 }
+		size = { width = 77 height = 77 }
+		clipping = no
+		background = { name = "BackgroundSteel" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }
+		background = { name = "BackgroundPaper" quadTextureSprite = "GFX_tiled_research_bg" }
+		buttonType = {
+			name = "RUS_tesla_minesweeper_entry_locked"
+			position = { x = 7 y = 6 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_entry_locked"
+			pdx_tooltip = RUS_tesla_minesweeper_title
+			pdx_tooltip_delayed = RUS_tesla_minesweeper_locked_desc
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_entry_button"
+			position = { x = 7 y = 6 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_entry_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_title
+			pdx_tooltip_delayed = RUS_tesla_minesweeper_entry_desc
+		}
+	}
+
+	containerWindowType = {
+		name = "RUS_tesla_minesweeper_window"
+		position = { x = 0 y = 0 }
+		size = { width = 540 height = 500 }
+		orientation = center
+		origo = center
+		clipping = no
+		moveable = yes
+		click_to_front = yes
+		show_sound = menu_open_window
+		hide_sound = menu_close_window
+		background = { name = "PanelSteel" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }
+		background = { name = "PanelPaper" quadTextureSprite = "GFX_tiled_research_bg" }
+		buttonType = {
+			name = "RUS_tesla_minesweeper_close"
+			position = { x = -42 y = 12 }
+			orientation = UPPER_RIGHT
+			quadTextureSprite = "GFX_closebutton"
+			clicksound = click_close
+			shortcut = "ESCAPE"
+			pdx_tooltip = "CLOSE"
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_title_text"
+			position = { x = 0 y = 18 }
+			font = "hoi_24header"
+			text = RUS_tesla_minesweeper_title
+			format = center
+			maxWidth = 540
+			maxHeight = 32
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_tesla_mark"
+			position = { x = 62 y = 86 }
+			spriteType = "GFX_idea_RUS_tesla_electrical_industries"
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_status_ready"
+			position = { x = 18 y = 176 }
+			font = "hoi_18mbs"
+			text = RUS_tesla_minesweeper_status_ready
+			format = center
+			maxWidth = 150
+			maxHeight = 48
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_status_active"
+			position = { x = 18 y = 176 }
+			font = "hoi_18mbs"
+			text = RUS_tesla_minesweeper_status_active
+			format = center
+			maxWidth = 150
+			maxHeight = 48
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_status_won"
+			position = { x = 18 y = 176 }
+			font = "hoi_18mbs"
+			text = RUS_tesla_minesweeper_status_won
+			format = center
+			maxWidth = 150
+			maxHeight = 48
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_status_won_no_reward"
+			position = { x = 18 y = 176 }
+			font = "hoi_18mbs"
+			text = RUS_tesla_minesweeper_status_won_no_reward
+			format = center
+			maxWidth = 150
+			maxHeight = 48
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_status_lost"
+			position = { x = 18 y = 176 }
+			font = "hoi_18mbs"
+			text = RUS_tesla_minesweeper_status_lost
+			format = center
+			maxWidth = 150
+			maxHeight = 48
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_reward_text"
+			position = { x = 18 y = 245 }
+			font = "hoi_16mbs"
+			text = RUS_tesla_minesweeper_reward
+			format = center
+			maxWidth = 150
+			maxHeight = 92
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_flags_text"
+			position = { x = 18 y = 350 }
+			font = "hoi_18mbs"
+			text = RUS_tesla_minesweeper_flags
+			format = center
+			maxWidth = 150
+			maxHeight = 28
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_cooldown_text"
+			position = { x = 18 y = 382 }
+			font = "hoi_16mbs"
+			text = RUS_tesla_minesweeper_cooldown
+			format = center
+			maxWidth = 150
+			maxHeight = 24
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_start"
+			position = { x = 20 y = 430 }
+			quadTextureSprite = "GFX_button_148x34"
+			buttonText = RUS_tesla_minesweeper_start
+			buttonFont = "hoi_18mbs"
+			clicksound = click_ok
+			pdx_tooltip = RUS_tesla_minesweeper_start_tooltip
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_00_hidden"
+			position = { x = 225 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_00_revealed"
+			position = { x = 225 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_00_mine"
+			position = { x = 225 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_00_flag"
+			position = { x = 225 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_01_hidden"
+			position = { x = 259 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_01_revealed"
+			position = { x = 259 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_01_mine"
+			position = { x = 259 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_01_flag"
+			position = { x = 259 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_02_hidden"
+			position = { x = 293 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_02_revealed"
+			position = { x = 293 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_02_mine"
+			position = { x = 293 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_02_flag"
+			position = { x = 293 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_03_hidden"
+			position = { x = 327 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_03_revealed"
+			position = { x = 327 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_03_mine"
+			position = { x = 327 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_03_flag"
+			position = { x = 327 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_04_hidden"
+			position = { x = 361 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_04_revealed"
+			position = { x = 361 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_04_mine"
+			position = { x = 361 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_04_flag"
+			position = { x = 361 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_05_hidden"
+			position = { x = 395 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_05_revealed"
+			position = { x = 395 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_05_mine"
+			position = { x = 395 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_05_flag"
+			position = { x = 395 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_06_hidden"
+			position = { x = 429 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_06_revealed"
+			position = { x = 429 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_06_mine"
+			position = { x = 429 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_06_flag"
+			position = { x = 429 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_07_hidden"
+			position = { x = 463 y = 92 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_07_revealed"
+			position = { x = 463 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_07_mine"
+			position = { x = 463 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_07_flag"
+			position = { x = 463 y = 92 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_08_hidden"
+			position = { x = 225 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_08_revealed"
+			position = { x = 225 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_08_mine"
+			position = { x = 225 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_08_flag"
+			position = { x = 225 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_09_hidden"
+			position = { x = 259 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_09_revealed"
+			position = { x = 259 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_09_mine"
+			position = { x = 259 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_09_flag"
+			position = { x = 259 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_10_hidden"
+			position = { x = 293 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_10_revealed"
+			position = { x = 293 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_10_mine"
+			position = { x = 293 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_10_flag"
+			position = { x = 293 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_11_hidden"
+			position = { x = 327 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_11_revealed"
+			position = { x = 327 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_11_mine"
+			position = { x = 327 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_11_flag"
+			position = { x = 327 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_12_hidden"
+			position = { x = 361 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_12_revealed"
+			position = { x = 361 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_12_mine"
+			position = { x = 361 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_12_flag"
+			position = { x = 361 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_13_hidden"
+			position = { x = 395 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_13_revealed"
+			position = { x = 395 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_13_mine"
+			position = { x = 395 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_13_flag"
+			position = { x = 395 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_14_hidden"
+			position = { x = 429 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_14_revealed"
+			position = { x = 429 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_14_mine"
+			position = { x = 429 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_14_flag"
+			position = { x = 429 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_15_hidden"
+			position = { x = 463 y = 126 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_15_revealed"
+			position = { x = 463 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_15_mine"
+			position = { x = 463 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_15_flag"
+			position = { x = 463 y = 126 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_16_hidden"
+			position = { x = 225 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_16_revealed"
+			position = { x = 225 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_16_mine"
+			position = { x = 225 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_16_flag"
+			position = { x = 225 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_17_hidden"
+			position = { x = 259 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_17_revealed"
+			position = { x = 259 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_17_mine"
+			position = { x = 259 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_17_flag"
+			position = { x = 259 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_18_hidden"
+			position = { x = 293 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_18_revealed"
+			position = { x = 293 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_18_mine"
+			position = { x = 293 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_18_flag"
+			position = { x = 293 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_19_hidden"
+			position = { x = 327 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_19_revealed"
+			position = { x = 327 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_19_mine"
+			position = { x = 327 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_19_flag"
+			position = { x = 327 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_20_hidden"
+			position = { x = 361 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_20_revealed"
+			position = { x = 361 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_20_mine"
+			position = { x = 361 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_20_flag"
+			position = { x = 361 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_21_hidden"
+			position = { x = 395 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_21_revealed"
+			position = { x = 395 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_21_mine"
+			position = { x = 395 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_21_flag"
+			position = { x = 395 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_22_hidden"
+			position = { x = 429 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_22_revealed"
+			position = { x = 429 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_22_mine"
+			position = { x = 429 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_22_flag"
+			position = { x = 429 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_23_hidden"
+			position = { x = 463 y = 160 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_23_revealed"
+			position = { x = 463 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_23_mine"
+			position = { x = 463 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_23_flag"
+			position = { x = 463 y = 160 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_24_hidden"
+			position = { x = 225 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_24_revealed"
+			position = { x = 225 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_24_mine"
+			position = { x = 225 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_24_flag"
+			position = { x = 225 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_25_hidden"
+			position = { x = 259 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_25_revealed"
+			position = { x = 259 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_25_mine"
+			position = { x = 259 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_25_flag"
+			position = { x = 259 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_26_hidden"
+			position = { x = 293 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_26_revealed"
+			position = { x = 293 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_26_mine"
+			position = { x = 293 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_26_flag"
+			position = { x = 293 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_27_hidden"
+			position = { x = 327 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_27_revealed"
+			position = { x = 327 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_27_mine"
+			position = { x = 327 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_27_flag"
+			position = { x = 327 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_28_hidden"
+			position = { x = 361 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_28_revealed"
+			position = { x = 361 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_28_mine"
+			position = { x = 361 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_28_flag"
+			position = { x = 361 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_29_hidden"
+			position = { x = 395 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_29_revealed"
+			position = { x = 395 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_29_mine"
+			position = { x = 395 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_29_flag"
+			position = { x = 395 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_30_hidden"
+			position = { x = 429 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_30_revealed"
+			position = { x = 429 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_30_mine"
+			position = { x = 429 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_30_flag"
+			position = { x = 429 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_31_hidden"
+			position = { x = 463 y = 194 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_31_revealed"
+			position = { x = 463 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_31_mine"
+			position = { x = 463 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_31_flag"
+			position = { x = 463 y = 194 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_32_hidden"
+			position = { x = 225 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_32_revealed"
+			position = { x = 225 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_32_mine"
+			position = { x = 225 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_32_flag"
+			position = { x = 225 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_33_hidden"
+			position = { x = 259 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_33_revealed"
+			position = { x = 259 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_33_mine"
+			position = { x = 259 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_33_flag"
+			position = { x = 259 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_34_hidden"
+			position = { x = 293 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_34_revealed"
+			position = { x = 293 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_34_mine"
+			position = { x = 293 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_34_flag"
+			position = { x = 293 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_35_hidden"
+			position = { x = 327 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_35_revealed"
+			position = { x = 327 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_35_mine"
+			position = { x = 327 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_35_flag"
+			position = { x = 327 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_36_hidden"
+			position = { x = 361 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_36_revealed"
+			position = { x = 361 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_36_mine"
+			position = { x = 361 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_36_flag"
+			position = { x = 361 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_37_hidden"
+			position = { x = 395 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_37_revealed"
+			position = { x = 395 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_37_mine"
+			position = { x = 395 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_37_flag"
+			position = { x = 395 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_38_hidden"
+			position = { x = 429 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_38_revealed"
+			position = { x = 429 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_38_mine"
+			position = { x = 429 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_38_flag"
+			position = { x = 429 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_39_hidden"
+			position = { x = 463 y = 228 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_39_revealed"
+			position = { x = 463 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_39_mine"
+			position = { x = 463 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_39_flag"
+			position = { x = 463 y = 228 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_40_hidden"
+			position = { x = 225 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_40_revealed"
+			position = { x = 225 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_40_mine"
+			position = { x = 225 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_40_flag"
+			position = { x = 225 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_41_hidden"
+			position = { x = 259 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_41_revealed"
+			position = { x = 259 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_41_mine"
+			position = { x = 259 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_41_flag"
+			position = { x = 259 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_42_hidden"
+			position = { x = 293 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_42_revealed"
+			position = { x = 293 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_42_mine"
+			position = { x = 293 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_42_flag"
+			position = { x = 293 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_43_hidden"
+			position = { x = 327 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_43_revealed"
+			position = { x = 327 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_43_mine"
+			position = { x = 327 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_43_flag"
+			position = { x = 327 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_44_hidden"
+			position = { x = 361 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_44_revealed"
+			position = { x = 361 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_44_mine"
+			position = { x = 361 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_44_flag"
+			position = { x = 361 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_45_hidden"
+			position = { x = 395 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_45_revealed"
+			position = { x = 395 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_45_mine"
+			position = { x = 395 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_45_flag"
+			position = { x = 395 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_46_hidden"
+			position = { x = 429 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_46_revealed"
+			position = { x = 429 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_46_mine"
+			position = { x = 429 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_46_flag"
+			position = { x = 429 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_47_hidden"
+			position = { x = 463 y = 262 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_47_revealed"
+			position = { x = 463 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_47_mine"
+			position = { x = 463 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_47_flag"
+			position = { x = 463 y = 262 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_48_hidden"
+			position = { x = 225 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_48_revealed"
+			position = { x = 225 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_48_mine"
+			position = { x = 225 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_48_flag"
+			position = { x = 225 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_49_hidden"
+			position = { x = 259 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_49_revealed"
+			position = { x = 259 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_49_mine"
+			position = { x = 259 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_49_flag"
+			position = { x = 259 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_50_hidden"
+			position = { x = 293 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_50_revealed"
+			position = { x = 293 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_50_mine"
+			position = { x = 293 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_50_flag"
+			position = { x = 293 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_51_hidden"
+			position = { x = 327 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_51_revealed"
+			position = { x = 327 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_51_mine"
+			position = { x = 327 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_51_flag"
+			position = { x = 327 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_52_hidden"
+			position = { x = 361 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_52_revealed"
+			position = { x = 361 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_52_mine"
+			position = { x = 361 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_52_flag"
+			position = { x = 361 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_53_hidden"
+			position = { x = 395 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_53_revealed"
+			position = { x = 395 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_53_mine"
+			position = { x = 395 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_53_flag"
+			position = { x = 395 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_54_hidden"
+			position = { x = 429 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_54_revealed"
+			position = { x = 429 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_54_mine"
+			position = { x = 429 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_54_flag"
+			position = { x = 429 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_55_hidden"
+			position = { x = 463 y = 296 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_55_revealed"
+			position = { x = 463 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_55_mine"
+			position = { x = 463 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_55_flag"
+			position = { x = 463 y = 296 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_56_hidden"
+			position = { x = 225 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_56_revealed"
+			position = { x = 225 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_56_mine"
+			position = { x = 225 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_56_flag"
+			position = { x = 225 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_57_hidden"
+			position = { x = 259 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_57_revealed"
+			position = { x = 259 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_57_mine"
+			position = { x = 259 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_57_flag"
+			position = { x = 259 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_58_hidden"
+			position = { x = 293 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_58_revealed"
+			position = { x = 293 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_58_mine"
+			position = { x = 293 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_58_flag"
+			position = { x = 293 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_59_hidden"
+			position = { x = 327 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_59_revealed"
+			position = { x = 327 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_59_mine"
+			position = { x = 327 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_59_flag"
+			position = { x = 327 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_60_hidden"
+			position = { x = 361 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_60_revealed"
+			position = { x = 361 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_60_mine"
+			position = { x = 361 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_60_flag"
+			position = { x = 361 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_61_hidden"
+			position = { x = 395 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_61_revealed"
+			position = { x = 395 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_61_mine"
+			position = { x = 395 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_61_flag"
+			position = { x = 395 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_62_hidden"
+			position = { x = 429 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_62_revealed"
+			position = { x = 429 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_62_mine"
+			position = { x = 429 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_62_flag"
+			position = { x = 429 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "RUS_tesla_minesweeper_cell_63_hidden"
+			position = { x = 463 y = 330 }
+			quadTextureSprite = "GFX_RUS_tesla_minesweeper_cell_button"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = RUS_tesla_minesweeper_cell_tooltip
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_63_revealed"
+			position = { x = 463 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_cell_revealed"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_63_mine"
+			position = { x = 463 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_mine"
+			alwaystransparent = yes
+		}
+		iconType = {
+			name = "RUS_tesla_minesweeper_cell_63_flag"
+			position = { x = 463 y = 330 }
+			spriteType = "GFX_RUS_tesla_minesweeper_flag"
+			alwaystransparent = yes
+		}
+	}
+}
