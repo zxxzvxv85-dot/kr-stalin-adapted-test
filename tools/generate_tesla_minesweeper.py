@@ -50,6 +50,50 @@ def make_layouts() -> list[tuple[int, ...]]:
     return result
 
 
+def validate_classic_reveal(layouts: list[tuple[int, ...]]) -> int:
+    checked_empty_cells = 0
+    for layout in layouts:
+        mines = set(layout)
+        if len(mines) != MINE_COUNT:
+            raise RuntimeError(f"Layout does not contain exactly {MINE_COUNT} mines: {layout}")
+
+        counts = {
+            index: sum(neighbor in mines for neighbor in neighbors(index))
+            for index in range(BOARD_SIZE * BOARD_SIZE)
+        }
+        for start in range(BOARD_SIZE * BOARD_SIZE):
+            if start in mines or counts[start] != 0:
+                continue
+
+            expected = {start}
+            frontier = [start]
+            while frontier:
+                current = frontier.pop()
+                for neighbor in neighbors(current):
+                    if neighbor in mines or neighbor in expected:
+                        continue
+                    expected.add(neighbor)
+                    if counts[neighbor] == 0:
+                        frontier.append(neighbor)
+
+            scripted_result = {start}
+            for _ in range(16):
+                for index in range(BOARD_SIZE * BOARD_SIZE):
+                    if index in mines or index in scripted_result:
+                        continue
+                    if any(
+                        neighbor in scripted_result and counts[neighbor] == 0
+                        for neighbor in neighbors(index)
+                    ):
+                        scripted_result.add(index)
+
+            if scripted_result != expected or scripted_result & mines:
+                raise RuntimeError(f"Classic empty-cell reveal failed for layout {layout}, cell {start}")
+            checked_empty_cells += 1
+
+    return checked_empty_cells
+
+
 def draw_assets() -> None:
     output = ROOT / "gfx/interface/tesla_minesweeper"
     output.mkdir(parents=True, exist_ok=True)
@@ -283,7 +327,7 @@ def build_gui() -> str:
         "\t\t}",
         "\t\tinstantTextBoxType = {",
         f'\t\t\tname = "{PREFIX}_flags_text"',
-        "\t\t\tposition = { x = 18 y = 350 }",
+        "\t\t\tposition = { x = 18 y = 344 }",
         "\t\t\tfont = \"hoi_18mbs\"",
         f"\t\t\ttext = {PREFIX}_flags",
         "\t\t\tformat = center",
@@ -293,8 +337,19 @@ def build_gui() -> str:
         "\t\t\talwaystransparent = yes",
         "\t\t}",
         "\t\tinstantTextBoxType = {",
+        f'\t\t\tname = "{PREFIX}_elapsed_text"',
+        "\t\t\tposition = { x = 18 y = 374 }",
+        "\t\t\tfont = \"hoi_18mbs\"",
+        f"\t\t\ttext = {PREFIX}_elapsed",
+        "\t\t\tformat = center",
+        "\t\t\tmaxWidth = 150",
+        "\t\t\tmaxHeight = 28",
+        "\t\t\tfixedsize = yes",
+        "\t\t\talwaystransparent = yes",
+        "\t\t}",
+        "\t\tinstantTextBoxType = {",
         f'\t\t\tname = "{PREFIX}_cooldown_text"',
-        "\t\t\tposition = { x = 18 y = 382 }",
+        "\t\t\tposition = { x = 18 y = 404 }",
         "\t\t\tfont = \"hoi_16mbs\"",
         f"\t\t\ttext = {PREFIX}_cooldown",
         "\t\t\tformat = center",
@@ -305,7 +360,7 @@ def build_gui() -> str:
         "\t\t}",
         "\t\tbuttonType = {",
         f'\t\t\tname = "{PREFIX}_start"',
-        "\t\t\tposition = { x = 20 y = 430 }",
+        "\t\t\tposition = { x = 20 y = 448 }",
         "\t\t\tquadTextureSprite = \"GFX_button_148x34\"",
         f"\t\t\tbuttonText = {PREFIX}_start",
         "\t\t\tbuttonFont = \"hoi_18mbs\"",
@@ -466,6 +521,21 @@ country_event = {{
 \t\tclr_country_flag = {PREFIX}_cooldown
 \t\tRUS_tesla_minesweeper_refresh_gui = yes
 \t}}
+}}
+
+country_event = {{
+\tid = RUS_tesla_minesweeper.2
+\thidden = yes
+\tis_triggered_only = yes
+
+\timmediate = {{
+\t\tif = {{
+\t\t\tlimit = {{ has_country_flag = {PREFIX}_active }}
+\t\t\tadd_to_variable = {{ {PREFIX}_elapsed_hours = 1 }}
+\t\t\tRUS_tesla_minesweeper_refresh_gui = yes
+\t\t\tcountry_event = {{ id = RUS_tesla_minesweeper.2 hours = 1 }}
+\t\t}}
+\t}}
 }}'''
 
 
@@ -492,6 +562,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         f"\tclr_country_flag = {PREFIX}_lost",
         f"\tclr_country_flag = {PREFIX}_no_reward",
         f"\tset_variable = {{ {PREFIX}_flags = 0 }}",
+        f"\tset_variable = {{ {PREFIX}_elapsed_hours = 0 }}",
         f"\tclear_variable = {PREFIX}_first_cell",
     ]
     for index in range(BOARD_SIZE * BOARD_SIZE):
@@ -508,6 +579,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         "RUS_tesla_minesweeper_start = {",
         "\tRUS_tesla_minesweeper_reset_board = yes",
         f"\tset_country_flag = {PREFIX}_active",
+        "\tcountry_event = { id = RUS_tesla_minesweeper.2 hours = 1 }",
         "\tRUS_tesla_minesweeper_refresh_gui = yes",
         "}",
         "",
@@ -673,7 +745,8 @@ LOCALISATIONS = {
         "status_won_no_reward": "§G演算成功§!\n§L合格地区均已覆盖强化电网。§!",
         "status_lost": "§R电网短路§!\n§L本局没有惩罚。§!",
         "reward": "§Y胜利奖励§!\n在随机一处合格的俄罗斯核心地区建成§G1座强化电网§!。",
-        "flags": "线路标记：[?RUS_tesla_minesweeper_flags|0]/10",
+        "flags": "故障节点：10  标记：[?RUS_tesla_minesweeper_flags|0]/10",
+        "elapsed": "用时：[?RUS_tesla_minesweeper_elapsed_hours|0]小时",
         "cooldown": "§Y设备检修：60日冷却中§!",
         "start": "开始新一轮演算",
         "start_tooltip": "建立一张新的8×8模拟电网。每局结束后需检修60日。",
@@ -689,7 +762,8 @@ LOCALISATIONS = {
         "status_won_no_reward": "§GSimulation Successful§!\n§LEvery eligible state already has a Reinforced Electrical Grid.§!",
         "status_lost": "§RGrid Shorted§!\n§LThere is no penalty for defeat.§!",
         "reward": "§YVictory Reward§!\nConstruct §G1 Reinforced Electrical Grid§! in a random eligible Russian core state.",
-        "flags": "Marked Nodes: [?RUS_tesla_minesweeper_flags|0]/10",
+        "flags": "Faults: 10  Marked: [?RUS_tesla_minesweeper_flags|0]/10",
+        "elapsed": "Time: [?RUS_tesla_minesweeper_elapsed_hours|0] h",
         "cooldown": "§YEquipment Maintenance: 60-day cooldown§!",
         "start": "Begin New Simulation",
         "start_tooltip": "Create a new 8x8 simulated grid. A 60-day maintenance period follows each game.",
@@ -705,7 +779,8 @@ LOCALISATIONS = {
         "status_won_no_reward": "§GМоделирование успешно§!\n§LВо всех подходящих областях уже есть усиленная энергосеть.§!",
         "status_lost": "§RКороткое замыкание§!\n§LПоражение не влечёт наказания.§!",
         "reward": "§YНаграда за победу§!\nПостроить §G1 усиленную энергосеть§! в случайной подходящей национальной области России.",
-        "flags": "Отмечено узлов: [?RUS_tesla_minesweeper_flags|0]/10",
+        "flags": "Аварий: 10  Отмечено: [?RUS_tesla_minesweeper_flags|0]/10",
+        "elapsed": "Время: [?RUS_tesla_minesweeper_elapsed_hours|0] ч",
         "cooldown": "§YОбслуживание оборудования: 60 дней§!",
         "start": "Начать новое моделирование",
         "start_tooltip": "Создать новую имитационную сеть 8x8. После каждой партии оборудование обслуживается 60 дней.",
@@ -727,6 +802,7 @@ def build_localisation(language: str, values: dict[str, str]) -> str:
 
 def main() -> None:
     layouts = make_layouts()
+    checked_empty_cells = validate_classic_reveal(layouts)
     draw_assets()
     write_text(ROOT / f"interface/{PREFIX}.gfx", build_gfx())
     write_text(ROOT / f"interface/{PREFIX}.gui", build_gui())
@@ -740,7 +816,10 @@ def main() -> None:
             build_localisation(language, values),
             bom=True,
         )
-    print(f"Generated Tesla Minesweeper with {len(layouts)} synchronized layouts.")
+    print(
+        f"Generated Tesla Minesweeper with {len(layouts)} synchronized layouts; "
+        f"validated {checked_empty_cells} classic empty-cell reveals."
+    )
 
 
 if __name__ == "__main__":

@@ -19,6 +19,7 @@ RUS_tesla_minesweeper_reset_board = {
 	clr_country_flag = RUS_tesla_minesweeper_lost
 	clr_country_flag = RUS_tesla_minesweeper_no_reward
 	set_variable = { RUS_tesla_minesweeper_flags = 0 }
+	set_variable = { RUS_tesla_minesweeper_elapsed_hours = 0 }
 	clear_variable = RUS_tesla_minesweeper_first_cell
 	clr_country_flag = RUS_tesla_minesweeper_mine_00
 	clr_country_flag = RUS_tesla_minesweeper_revealed_00
@@ -281,6 +282,7 @@ RUS_tesla_minesweeper_reset_board = {
 RUS_tesla_minesweeper_start = {
 	RUS_tesla_minesweeper_reset_board = yes
 	set_country_flag = RUS_tesla_minesweeper_active
+	country_event = { id = RUS_tesla_minesweeper.2 hours = 1 }
 	RUS_tesla_minesweeper_refresh_gui = yes
 }
 
