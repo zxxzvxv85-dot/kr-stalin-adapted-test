@@ -37,11 +37,12 @@ scripted_gui = {
 			}
 			RUS_tesla_minesweeper_cell_00_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_00 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_00 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_00 } }
 			}
 			RUS_tesla_minesweeper_cell_00_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_00 }
 			RUS_tesla_minesweeper_cell_00_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_00 }
-			RUS_tesla_minesweeper_cell_00_flag_visible = {
+			RUS_tesla_minesweeper_cell_00_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_00
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -53,7 +54,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_00_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_00 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_00 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_00_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_00
+			}
+			RUS_tesla_minesweeper_cell_00_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_00
 			}
 			RUS_tesla_minesweeper_cell_00_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_00 has_country_flag = RUS_tesla_minesweeper_count_00_1 }
 			RUS_tesla_minesweeper_cell_00_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_00 has_country_flag = RUS_tesla_minesweeper_count_00_2 }
@@ -65,11 +74,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_00_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_00 has_country_flag = RUS_tesla_minesweeper_count_00_8 }
 			RUS_tesla_minesweeper_cell_01_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_01 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_01 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_01 } }
 			}
 			RUS_tesla_minesweeper_cell_01_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_01 }
 			RUS_tesla_minesweeper_cell_01_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_01 }
-			RUS_tesla_minesweeper_cell_01_flag_visible = {
+			RUS_tesla_minesweeper_cell_01_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_01
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -81,7 +91,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_01_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_01 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_01 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_01_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_01
+			}
+			RUS_tesla_minesweeper_cell_01_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_01
 			}
 			RUS_tesla_minesweeper_cell_01_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_01 has_country_flag = RUS_tesla_minesweeper_count_01_1 }
 			RUS_tesla_minesweeper_cell_01_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_01 has_country_flag = RUS_tesla_minesweeper_count_01_2 }
@@ -93,11 +111,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_01_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_01 has_country_flag = RUS_tesla_minesweeper_count_01_8 }
 			RUS_tesla_minesweeper_cell_02_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_02 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_02 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_02 } }
 			}
 			RUS_tesla_minesweeper_cell_02_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_02 }
 			RUS_tesla_minesweeper_cell_02_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_02 }
-			RUS_tesla_minesweeper_cell_02_flag_visible = {
+			RUS_tesla_minesweeper_cell_02_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_02
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -109,7 +128,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_02_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_02 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_02 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_02_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_02
+			}
+			RUS_tesla_minesweeper_cell_02_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_02
 			}
 			RUS_tesla_minesweeper_cell_02_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_02 has_country_flag = RUS_tesla_minesweeper_count_02_1 }
 			RUS_tesla_minesweeper_cell_02_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_02 has_country_flag = RUS_tesla_minesweeper_count_02_2 }
@@ -121,11 +148,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_02_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_02 has_country_flag = RUS_tesla_minesweeper_count_02_8 }
 			RUS_tesla_minesweeper_cell_03_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_03 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_03 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_03 } }
 			}
 			RUS_tesla_minesweeper_cell_03_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_03 }
 			RUS_tesla_minesweeper_cell_03_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_03 }
-			RUS_tesla_minesweeper_cell_03_flag_visible = {
+			RUS_tesla_minesweeper_cell_03_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_03
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -137,7 +165,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_03_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_03 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_03 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_03_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_03
+			}
+			RUS_tesla_minesweeper_cell_03_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_03
 			}
 			RUS_tesla_minesweeper_cell_03_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_03 has_country_flag = RUS_tesla_minesweeper_count_03_1 }
 			RUS_tesla_minesweeper_cell_03_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_03 has_country_flag = RUS_tesla_minesweeper_count_03_2 }
@@ -149,11 +185,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_03_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_03 has_country_flag = RUS_tesla_minesweeper_count_03_8 }
 			RUS_tesla_minesweeper_cell_04_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_04 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_04 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_04 } }
 			}
 			RUS_tesla_minesweeper_cell_04_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_04 }
 			RUS_tesla_minesweeper_cell_04_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_04 }
-			RUS_tesla_minesweeper_cell_04_flag_visible = {
+			RUS_tesla_minesweeper_cell_04_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_04
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -165,7 +202,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_04_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_04 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_04 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_04_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_04
+			}
+			RUS_tesla_minesweeper_cell_04_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_04
 			}
 			RUS_tesla_minesweeper_cell_04_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_04 has_country_flag = RUS_tesla_minesweeper_count_04_1 }
 			RUS_tesla_minesweeper_cell_04_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_04 has_country_flag = RUS_tesla_minesweeper_count_04_2 }
@@ -177,11 +222,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_04_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_04 has_country_flag = RUS_tesla_minesweeper_count_04_8 }
 			RUS_tesla_minesweeper_cell_05_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_05 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_05 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_05 } }
 			}
 			RUS_tesla_minesweeper_cell_05_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_05 }
 			RUS_tesla_minesweeper_cell_05_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_05 }
-			RUS_tesla_minesweeper_cell_05_flag_visible = {
+			RUS_tesla_minesweeper_cell_05_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_05
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -193,7 +239,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_05_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_05 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_05 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_05_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_05
+			}
+			RUS_tesla_minesweeper_cell_05_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_05
 			}
 			RUS_tesla_minesweeper_cell_05_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_05 has_country_flag = RUS_tesla_minesweeper_count_05_1 }
 			RUS_tesla_minesweeper_cell_05_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_05 has_country_flag = RUS_tesla_minesweeper_count_05_2 }
@@ -205,11 +259,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_05_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_05 has_country_flag = RUS_tesla_minesweeper_count_05_8 }
 			RUS_tesla_minesweeper_cell_06_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_06 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_06 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_06 } }
 			}
 			RUS_tesla_minesweeper_cell_06_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_06 }
 			RUS_tesla_minesweeper_cell_06_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_06 }
-			RUS_tesla_minesweeper_cell_06_flag_visible = {
+			RUS_tesla_minesweeper_cell_06_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_06
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -221,7 +276,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_06_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_06 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_06 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_06_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_06
+			}
+			RUS_tesla_minesweeper_cell_06_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_06
 			}
 			RUS_tesla_minesweeper_cell_06_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_06 has_country_flag = RUS_tesla_minesweeper_count_06_1 }
 			RUS_tesla_minesweeper_cell_06_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_06 has_country_flag = RUS_tesla_minesweeper_count_06_2 }
@@ -233,11 +296,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_06_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_06 has_country_flag = RUS_tesla_minesweeper_count_06_8 }
 			RUS_tesla_minesweeper_cell_07_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_07 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_07 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_07 } }
 			}
 			RUS_tesla_minesweeper_cell_07_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_07 }
 			RUS_tesla_minesweeper_cell_07_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_07 }
-			RUS_tesla_minesweeper_cell_07_flag_visible = {
+			RUS_tesla_minesweeper_cell_07_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_07
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -249,7 +313,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_07_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_07 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_07 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_07_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_07
+			}
+			RUS_tesla_minesweeper_cell_07_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_07
 			}
 			RUS_tesla_minesweeper_cell_07_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_07 has_country_flag = RUS_tesla_minesweeper_count_07_1 }
 			RUS_tesla_minesweeper_cell_07_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_07 has_country_flag = RUS_tesla_minesweeper_count_07_2 }
@@ -261,11 +333,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_07_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_07 has_country_flag = RUS_tesla_minesweeper_count_07_8 }
 			RUS_tesla_minesweeper_cell_08_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_08 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_08 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_08 } }
 			}
 			RUS_tesla_minesweeper_cell_08_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_08 }
 			RUS_tesla_minesweeper_cell_08_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_08 }
-			RUS_tesla_minesweeper_cell_08_flag_visible = {
+			RUS_tesla_minesweeper_cell_08_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_08
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -277,7 +350,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_08_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_08 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_08 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_08_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_08
+			}
+			RUS_tesla_minesweeper_cell_08_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_08
 			}
 			RUS_tesla_minesweeper_cell_08_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_08 has_country_flag = RUS_tesla_minesweeper_count_08_1 }
 			RUS_tesla_minesweeper_cell_08_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_08 has_country_flag = RUS_tesla_minesweeper_count_08_2 }
@@ -289,11 +370,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_08_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_08 has_country_flag = RUS_tesla_minesweeper_count_08_8 }
 			RUS_tesla_minesweeper_cell_09_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_09 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_09 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_09 } }
 			}
 			RUS_tesla_minesweeper_cell_09_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_09 }
 			RUS_tesla_minesweeper_cell_09_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_09 }
-			RUS_tesla_minesweeper_cell_09_flag_visible = {
+			RUS_tesla_minesweeper_cell_09_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_09
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -305,7 +387,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_09_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_09 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_09 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_09_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_09
+			}
+			RUS_tesla_minesweeper_cell_09_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_09
 			}
 			RUS_tesla_minesweeper_cell_09_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_09 has_country_flag = RUS_tesla_minesweeper_count_09_1 }
 			RUS_tesla_minesweeper_cell_09_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_09 has_country_flag = RUS_tesla_minesweeper_count_09_2 }
@@ -317,11 +407,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_09_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_09 has_country_flag = RUS_tesla_minesweeper_count_09_8 }
 			RUS_tesla_minesweeper_cell_10_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_10 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_10 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_10 } }
 			}
 			RUS_tesla_minesweeper_cell_10_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_10 }
 			RUS_tesla_minesweeper_cell_10_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_10 }
-			RUS_tesla_minesweeper_cell_10_flag_visible = {
+			RUS_tesla_minesweeper_cell_10_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_10
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -333,7 +424,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_10_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_10 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_10 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_10_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_10
+			}
+			RUS_tesla_minesweeper_cell_10_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_10
 			}
 			RUS_tesla_minesweeper_cell_10_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_10 has_country_flag = RUS_tesla_minesweeper_count_10_1 }
 			RUS_tesla_minesweeper_cell_10_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_10 has_country_flag = RUS_tesla_minesweeper_count_10_2 }
@@ -345,11 +444,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_10_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_10 has_country_flag = RUS_tesla_minesweeper_count_10_8 }
 			RUS_tesla_minesweeper_cell_11_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_11 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_11 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_11 } }
 			}
 			RUS_tesla_minesweeper_cell_11_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_11 }
 			RUS_tesla_minesweeper_cell_11_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_11 }
-			RUS_tesla_minesweeper_cell_11_flag_visible = {
+			RUS_tesla_minesweeper_cell_11_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_11
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -361,7 +461,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_11_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_11 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_11 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_11_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_11
+			}
+			RUS_tesla_minesweeper_cell_11_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_11
 			}
 			RUS_tesla_minesweeper_cell_11_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_11 has_country_flag = RUS_tesla_minesweeper_count_11_1 }
 			RUS_tesla_minesweeper_cell_11_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_11 has_country_flag = RUS_tesla_minesweeper_count_11_2 }
@@ -373,11 +481,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_11_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_11 has_country_flag = RUS_tesla_minesweeper_count_11_8 }
 			RUS_tesla_minesweeper_cell_12_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_12 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_12 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_12 } }
 			}
 			RUS_tesla_minesweeper_cell_12_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_12 }
 			RUS_tesla_minesweeper_cell_12_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_12 }
-			RUS_tesla_minesweeper_cell_12_flag_visible = {
+			RUS_tesla_minesweeper_cell_12_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_12
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -389,7 +498,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_12_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_12 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_12 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_12_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_12
+			}
+			RUS_tesla_minesweeper_cell_12_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_12
 			}
 			RUS_tesla_minesweeper_cell_12_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_12 has_country_flag = RUS_tesla_minesweeper_count_12_1 }
 			RUS_tesla_minesweeper_cell_12_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_12 has_country_flag = RUS_tesla_minesweeper_count_12_2 }
@@ -401,11 +518,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_12_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_12 has_country_flag = RUS_tesla_minesweeper_count_12_8 }
 			RUS_tesla_minesweeper_cell_13_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_13 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_13 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_13 } }
 			}
 			RUS_tesla_minesweeper_cell_13_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_13 }
 			RUS_tesla_minesweeper_cell_13_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_13 }
-			RUS_tesla_minesweeper_cell_13_flag_visible = {
+			RUS_tesla_minesweeper_cell_13_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_13
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -417,7 +535,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_13_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_13 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_13 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_13_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_13
+			}
+			RUS_tesla_minesweeper_cell_13_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_13
 			}
 			RUS_tesla_minesweeper_cell_13_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_13 has_country_flag = RUS_tesla_minesweeper_count_13_1 }
 			RUS_tesla_minesweeper_cell_13_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_13 has_country_flag = RUS_tesla_minesweeper_count_13_2 }
@@ -429,11 +555,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_13_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_13 has_country_flag = RUS_tesla_minesweeper_count_13_8 }
 			RUS_tesla_minesweeper_cell_14_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_14 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_14 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_14 } }
 			}
 			RUS_tesla_minesweeper_cell_14_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_14 }
 			RUS_tesla_minesweeper_cell_14_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_14 }
-			RUS_tesla_minesweeper_cell_14_flag_visible = {
+			RUS_tesla_minesweeper_cell_14_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_14
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -445,7 +572,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_14_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_14 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_14 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_14_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_14
+			}
+			RUS_tesla_minesweeper_cell_14_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_14
 			}
 			RUS_tesla_minesweeper_cell_14_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_14 has_country_flag = RUS_tesla_minesweeper_count_14_1 }
 			RUS_tesla_minesweeper_cell_14_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_14 has_country_flag = RUS_tesla_minesweeper_count_14_2 }
@@ -457,11 +592,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_14_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_14 has_country_flag = RUS_tesla_minesweeper_count_14_8 }
 			RUS_tesla_minesweeper_cell_15_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_15 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_15 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_15 } }
 			}
 			RUS_tesla_minesweeper_cell_15_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_15 }
 			RUS_tesla_minesweeper_cell_15_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_15 }
-			RUS_tesla_minesweeper_cell_15_flag_visible = {
+			RUS_tesla_minesweeper_cell_15_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_15
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -473,7 +609,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_15_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_15 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_15 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_15_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_15
+			}
+			RUS_tesla_minesweeper_cell_15_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_15
 			}
 			RUS_tesla_minesweeper_cell_15_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_15 has_country_flag = RUS_tesla_minesweeper_count_15_1 }
 			RUS_tesla_minesweeper_cell_15_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_15 has_country_flag = RUS_tesla_minesweeper_count_15_2 }
@@ -485,11 +629,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_15_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_15 has_country_flag = RUS_tesla_minesweeper_count_15_8 }
 			RUS_tesla_minesweeper_cell_16_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_16 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_16 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_16 } }
 			}
 			RUS_tesla_minesweeper_cell_16_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_16 }
 			RUS_tesla_minesweeper_cell_16_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_16 }
-			RUS_tesla_minesweeper_cell_16_flag_visible = {
+			RUS_tesla_minesweeper_cell_16_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_16
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -501,7 +646,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_16_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_16 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_16 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_16_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_16
+			}
+			RUS_tesla_minesweeper_cell_16_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_16
 			}
 			RUS_tesla_minesweeper_cell_16_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_16 has_country_flag = RUS_tesla_minesweeper_count_16_1 }
 			RUS_tesla_minesweeper_cell_16_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_16 has_country_flag = RUS_tesla_minesweeper_count_16_2 }
@@ -513,11 +666,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_16_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_16 has_country_flag = RUS_tesla_minesweeper_count_16_8 }
 			RUS_tesla_minesweeper_cell_17_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_17 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_17 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_17 } }
 			}
 			RUS_tesla_minesweeper_cell_17_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_17 }
 			RUS_tesla_minesweeper_cell_17_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_17 }
-			RUS_tesla_minesweeper_cell_17_flag_visible = {
+			RUS_tesla_minesweeper_cell_17_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_17
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -529,7 +683,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_17_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_17 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_17 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_17_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_17
+			}
+			RUS_tesla_minesweeper_cell_17_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_17
 			}
 			RUS_tesla_minesweeper_cell_17_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_17 has_country_flag = RUS_tesla_minesweeper_count_17_1 }
 			RUS_tesla_minesweeper_cell_17_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_17 has_country_flag = RUS_tesla_minesweeper_count_17_2 }
@@ -541,11 +703,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_17_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_17 has_country_flag = RUS_tesla_minesweeper_count_17_8 }
 			RUS_tesla_minesweeper_cell_18_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_18 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_18 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_18 } }
 			}
 			RUS_tesla_minesweeper_cell_18_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_18 }
 			RUS_tesla_minesweeper_cell_18_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_18 }
-			RUS_tesla_minesweeper_cell_18_flag_visible = {
+			RUS_tesla_minesweeper_cell_18_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_18
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -557,7 +720,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_18_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_18 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_18 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_18_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_18
+			}
+			RUS_tesla_minesweeper_cell_18_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_18
 			}
 			RUS_tesla_minesweeper_cell_18_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_18 has_country_flag = RUS_tesla_minesweeper_count_18_1 }
 			RUS_tesla_minesweeper_cell_18_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_18 has_country_flag = RUS_tesla_minesweeper_count_18_2 }
@@ -569,11 +740,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_18_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_18 has_country_flag = RUS_tesla_minesweeper_count_18_8 }
 			RUS_tesla_minesweeper_cell_19_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_19 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_19 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_19 } }
 			}
 			RUS_tesla_minesweeper_cell_19_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_19 }
 			RUS_tesla_minesweeper_cell_19_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_19 }
-			RUS_tesla_minesweeper_cell_19_flag_visible = {
+			RUS_tesla_minesweeper_cell_19_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_19
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -585,7 +757,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_19_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_19 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_19 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_19_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_19
+			}
+			RUS_tesla_minesweeper_cell_19_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_19
 			}
 			RUS_tesla_minesweeper_cell_19_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_19 has_country_flag = RUS_tesla_minesweeper_count_19_1 }
 			RUS_tesla_minesweeper_cell_19_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_19 has_country_flag = RUS_tesla_minesweeper_count_19_2 }
@@ -597,11 +777,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_19_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_19 has_country_flag = RUS_tesla_minesweeper_count_19_8 }
 			RUS_tesla_minesweeper_cell_20_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_20 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_20 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_20 } }
 			}
 			RUS_tesla_minesweeper_cell_20_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_20 }
 			RUS_tesla_minesweeper_cell_20_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_20 }
-			RUS_tesla_minesweeper_cell_20_flag_visible = {
+			RUS_tesla_minesweeper_cell_20_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_20
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -613,7 +794,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_20_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_20 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_20 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_20_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_20
+			}
+			RUS_tesla_minesweeper_cell_20_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_20
 			}
 			RUS_tesla_minesweeper_cell_20_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_20 has_country_flag = RUS_tesla_minesweeper_count_20_1 }
 			RUS_tesla_minesweeper_cell_20_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_20 has_country_flag = RUS_tesla_minesweeper_count_20_2 }
@@ -625,11 +814,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_20_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_20 has_country_flag = RUS_tesla_minesweeper_count_20_8 }
 			RUS_tesla_minesweeper_cell_21_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_21 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_21 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_21 } }
 			}
 			RUS_tesla_minesweeper_cell_21_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_21 }
 			RUS_tesla_minesweeper_cell_21_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_21 }
-			RUS_tesla_minesweeper_cell_21_flag_visible = {
+			RUS_tesla_minesweeper_cell_21_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_21
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -641,7 +831,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_21_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_21 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_21 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_21_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_21
+			}
+			RUS_tesla_minesweeper_cell_21_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_21
 			}
 			RUS_tesla_minesweeper_cell_21_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_21 has_country_flag = RUS_tesla_minesweeper_count_21_1 }
 			RUS_tesla_minesweeper_cell_21_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_21 has_country_flag = RUS_tesla_minesweeper_count_21_2 }
@@ -653,11 +851,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_21_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_21 has_country_flag = RUS_tesla_minesweeper_count_21_8 }
 			RUS_tesla_minesweeper_cell_22_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_22 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_22 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_22 } }
 			}
 			RUS_tesla_minesweeper_cell_22_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_22 }
 			RUS_tesla_minesweeper_cell_22_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_22 }
-			RUS_tesla_minesweeper_cell_22_flag_visible = {
+			RUS_tesla_minesweeper_cell_22_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_22
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -669,7 +868,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_22_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_22 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_22 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_22_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_22
+			}
+			RUS_tesla_minesweeper_cell_22_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_22
 			}
 			RUS_tesla_minesweeper_cell_22_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_22 has_country_flag = RUS_tesla_minesweeper_count_22_1 }
 			RUS_tesla_minesweeper_cell_22_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_22 has_country_flag = RUS_tesla_minesweeper_count_22_2 }
@@ -681,11 +888,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_22_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_22 has_country_flag = RUS_tesla_minesweeper_count_22_8 }
 			RUS_tesla_minesweeper_cell_23_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_23 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_23 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_23 } }
 			}
 			RUS_tesla_minesweeper_cell_23_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_23 }
 			RUS_tesla_minesweeper_cell_23_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_23 }
-			RUS_tesla_minesweeper_cell_23_flag_visible = {
+			RUS_tesla_minesweeper_cell_23_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_23
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -697,7 +905,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_23_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_23 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_23 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_23_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_23
+			}
+			RUS_tesla_minesweeper_cell_23_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_23
 			}
 			RUS_tesla_minesweeper_cell_23_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_23 has_country_flag = RUS_tesla_minesweeper_count_23_1 }
 			RUS_tesla_minesweeper_cell_23_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_23 has_country_flag = RUS_tesla_minesweeper_count_23_2 }
@@ -709,11 +925,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_23_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_23 has_country_flag = RUS_tesla_minesweeper_count_23_8 }
 			RUS_tesla_minesweeper_cell_24_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_24 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_24 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_24 } }
 			}
 			RUS_tesla_minesweeper_cell_24_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_24 }
 			RUS_tesla_minesweeper_cell_24_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_24 }
-			RUS_tesla_minesweeper_cell_24_flag_visible = {
+			RUS_tesla_minesweeper_cell_24_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_24
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -725,7 +942,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_24_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_24 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_24 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_24_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_24
+			}
+			RUS_tesla_minesweeper_cell_24_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_24
 			}
 			RUS_tesla_minesweeper_cell_24_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_24 has_country_flag = RUS_tesla_minesweeper_count_24_1 }
 			RUS_tesla_minesweeper_cell_24_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_24 has_country_flag = RUS_tesla_minesweeper_count_24_2 }
@@ -737,11 +962,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_24_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_24 has_country_flag = RUS_tesla_minesweeper_count_24_8 }
 			RUS_tesla_minesweeper_cell_25_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_25 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_25 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_25 } }
 			}
 			RUS_tesla_minesweeper_cell_25_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_25 }
 			RUS_tesla_minesweeper_cell_25_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_25 }
-			RUS_tesla_minesweeper_cell_25_flag_visible = {
+			RUS_tesla_minesweeper_cell_25_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_25
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -753,7 +979,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_25_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_25 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_25 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_25_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_25
+			}
+			RUS_tesla_minesweeper_cell_25_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_25
 			}
 			RUS_tesla_minesweeper_cell_25_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_25 has_country_flag = RUS_tesla_minesweeper_count_25_1 }
 			RUS_tesla_minesweeper_cell_25_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_25 has_country_flag = RUS_tesla_minesweeper_count_25_2 }
@@ -765,11 +999,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_25_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_25 has_country_flag = RUS_tesla_minesweeper_count_25_8 }
 			RUS_tesla_minesweeper_cell_26_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_26 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_26 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_26 } }
 			}
 			RUS_tesla_minesweeper_cell_26_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_26 }
 			RUS_tesla_minesweeper_cell_26_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_26 }
-			RUS_tesla_minesweeper_cell_26_flag_visible = {
+			RUS_tesla_minesweeper_cell_26_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_26
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -781,7 +1016,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_26_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_26 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_26 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_26_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_26
+			}
+			RUS_tesla_minesweeper_cell_26_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_26
 			}
 			RUS_tesla_minesweeper_cell_26_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_26 has_country_flag = RUS_tesla_minesweeper_count_26_1 }
 			RUS_tesla_minesweeper_cell_26_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_26 has_country_flag = RUS_tesla_minesweeper_count_26_2 }
@@ -793,11 +1036,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_26_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_26 has_country_flag = RUS_tesla_minesweeper_count_26_8 }
 			RUS_tesla_minesweeper_cell_27_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_27 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_27 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_27 } }
 			}
 			RUS_tesla_minesweeper_cell_27_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_27 }
 			RUS_tesla_minesweeper_cell_27_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_27 }
-			RUS_tesla_minesweeper_cell_27_flag_visible = {
+			RUS_tesla_minesweeper_cell_27_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_27
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -809,7 +1053,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_27_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_27 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_27 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_27_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_27
+			}
+			RUS_tesla_minesweeper_cell_27_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_27
 			}
 			RUS_tesla_minesweeper_cell_27_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_27 has_country_flag = RUS_tesla_minesweeper_count_27_1 }
 			RUS_tesla_minesweeper_cell_27_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_27 has_country_flag = RUS_tesla_minesweeper_count_27_2 }
@@ -821,11 +1073,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_27_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_27 has_country_flag = RUS_tesla_minesweeper_count_27_8 }
 			RUS_tesla_minesweeper_cell_28_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_28 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_28 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_28 } }
 			}
 			RUS_tesla_minesweeper_cell_28_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_28 }
 			RUS_tesla_minesweeper_cell_28_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_28 }
-			RUS_tesla_minesweeper_cell_28_flag_visible = {
+			RUS_tesla_minesweeper_cell_28_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_28
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -837,7 +1090,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_28_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_28 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_28 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_28_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_28
+			}
+			RUS_tesla_minesweeper_cell_28_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_28
 			}
 			RUS_tesla_minesweeper_cell_28_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_28 has_country_flag = RUS_tesla_minesweeper_count_28_1 }
 			RUS_tesla_minesweeper_cell_28_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_28 has_country_flag = RUS_tesla_minesweeper_count_28_2 }
@@ -849,11 +1110,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_28_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_28 has_country_flag = RUS_tesla_minesweeper_count_28_8 }
 			RUS_tesla_minesweeper_cell_29_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_29 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_29 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_29 } }
 			}
 			RUS_tesla_minesweeper_cell_29_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_29 }
 			RUS_tesla_minesweeper_cell_29_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_29 }
-			RUS_tesla_minesweeper_cell_29_flag_visible = {
+			RUS_tesla_minesweeper_cell_29_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_29
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -865,7 +1127,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_29_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_29 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_29 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_29_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_29
+			}
+			RUS_tesla_minesweeper_cell_29_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_29
 			}
 			RUS_tesla_minesweeper_cell_29_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_29 has_country_flag = RUS_tesla_minesweeper_count_29_1 }
 			RUS_tesla_minesweeper_cell_29_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_29 has_country_flag = RUS_tesla_minesweeper_count_29_2 }
@@ -877,11 +1147,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_29_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_29 has_country_flag = RUS_tesla_minesweeper_count_29_8 }
 			RUS_tesla_minesweeper_cell_30_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_30 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_30 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_30 } }
 			}
 			RUS_tesla_minesweeper_cell_30_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_30 }
 			RUS_tesla_minesweeper_cell_30_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_30 }
-			RUS_tesla_minesweeper_cell_30_flag_visible = {
+			RUS_tesla_minesweeper_cell_30_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_30
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -893,7 +1164,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_30_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_30 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_30 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_30_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_30
+			}
+			RUS_tesla_minesweeper_cell_30_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_30
 			}
 			RUS_tesla_minesweeper_cell_30_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_30 has_country_flag = RUS_tesla_minesweeper_count_30_1 }
 			RUS_tesla_minesweeper_cell_30_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_30 has_country_flag = RUS_tesla_minesweeper_count_30_2 }
@@ -905,11 +1184,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_30_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_30 has_country_flag = RUS_tesla_minesweeper_count_30_8 }
 			RUS_tesla_minesweeper_cell_31_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_31 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_31 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_31 } }
 			}
 			RUS_tesla_minesweeper_cell_31_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_31 }
 			RUS_tesla_minesweeper_cell_31_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_31 }
-			RUS_tesla_minesweeper_cell_31_flag_visible = {
+			RUS_tesla_minesweeper_cell_31_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_31
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -921,7 +1201,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_31_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_31 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_31 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_31_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_31
+			}
+			RUS_tesla_minesweeper_cell_31_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_31
 			}
 			RUS_tesla_minesweeper_cell_31_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_31 has_country_flag = RUS_tesla_minesweeper_count_31_1 }
 			RUS_tesla_minesweeper_cell_31_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_31 has_country_flag = RUS_tesla_minesweeper_count_31_2 }
@@ -933,11 +1221,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_31_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_31 has_country_flag = RUS_tesla_minesweeper_count_31_8 }
 			RUS_tesla_minesweeper_cell_32_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_32 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_32 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_32 } }
 			}
 			RUS_tesla_minesweeper_cell_32_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_32 }
 			RUS_tesla_minesweeper_cell_32_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_32 }
-			RUS_tesla_minesweeper_cell_32_flag_visible = {
+			RUS_tesla_minesweeper_cell_32_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_32
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -949,7 +1238,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_32_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_32 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_32 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_32_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_32
+			}
+			RUS_tesla_minesweeper_cell_32_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_32
 			}
 			RUS_tesla_minesweeper_cell_32_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_32 has_country_flag = RUS_tesla_minesweeper_count_32_1 }
 			RUS_tesla_minesweeper_cell_32_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_32 has_country_flag = RUS_tesla_minesweeper_count_32_2 }
@@ -961,11 +1258,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_32_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_32 has_country_flag = RUS_tesla_minesweeper_count_32_8 }
 			RUS_tesla_minesweeper_cell_33_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_33 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_33 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_33 } }
 			}
 			RUS_tesla_minesweeper_cell_33_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_33 }
 			RUS_tesla_minesweeper_cell_33_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_33 }
-			RUS_tesla_minesweeper_cell_33_flag_visible = {
+			RUS_tesla_minesweeper_cell_33_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_33
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -977,7 +1275,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_33_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_33 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_33 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_33_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_33
+			}
+			RUS_tesla_minesweeper_cell_33_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_33
 			}
 			RUS_tesla_minesweeper_cell_33_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_33 has_country_flag = RUS_tesla_minesweeper_count_33_1 }
 			RUS_tesla_minesweeper_cell_33_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_33 has_country_flag = RUS_tesla_minesweeper_count_33_2 }
@@ -989,11 +1295,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_33_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_33 has_country_flag = RUS_tesla_minesweeper_count_33_8 }
 			RUS_tesla_minesweeper_cell_34_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_34 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_34 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_34 } }
 			}
 			RUS_tesla_minesweeper_cell_34_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_34 }
 			RUS_tesla_minesweeper_cell_34_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_34 }
-			RUS_tesla_minesweeper_cell_34_flag_visible = {
+			RUS_tesla_minesweeper_cell_34_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_34
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1005,7 +1312,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_34_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_34 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_34 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_34_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_34
+			}
+			RUS_tesla_minesweeper_cell_34_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_34
 			}
 			RUS_tesla_minesweeper_cell_34_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_34 has_country_flag = RUS_tesla_minesweeper_count_34_1 }
 			RUS_tesla_minesweeper_cell_34_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_34 has_country_flag = RUS_tesla_minesweeper_count_34_2 }
@@ -1017,11 +1332,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_34_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_34 has_country_flag = RUS_tesla_minesweeper_count_34_8 }
 			RUS_tesla_minesweeper_cell_35_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_35 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_35 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_35 } }
 			}
 			RUS_tesla_minesweeper_cell_35_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_35 }
 			RUS_tesla_minesweeper_cell_35_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_35 }
-			RUS_tesla_minesweeper_cell_35_flag_visible = {
+			RUS_tesla_minesweeper_cell_35_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_35
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1033,7 +1349,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_35_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_35 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_35 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_35_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_35
+			}
+			RUS_tesla_minesweeper_cell_35_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_35
 			}
 			RUS_tesla_minesweeper_cell_35_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_35 has_country_flag = RUS_tesla_minesweeper_count_35_1 }
 			RUS_tesla_minesweeper_cell_35_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_35 has_country_flag = RUS_tesla_minesweeper_count_35_2 }
@@ -1045,11 +1369,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_35_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_35 has_country_flag = RUS_tesla_minesweeper_count_35_8 }
 			RUS_tesla_minesweeper_cell_36_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_36 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_36 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_36 } }
 			}
 			RUS_tesla_minesweeper_cell_36_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_36 }
 			RUS_tesla_minesweeper_cell_36_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_36 }
-			RUS_tesla_minesweeper_cell_36_flag_visible = {
+			RUS_tesla_minesweeper_cell_36_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_36
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1061,7 +1386,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_36_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_36 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_36 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_36_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_36
+			}
+			RUS_tesla_minesweeper_cell_36_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_36
 			}
 			RUS_tesla_minesweeper_cell_36_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_36 has_country_flag = RUS_tesla_minesweeper_count_36_1 }
 			RUS_tesla_minesweeper_cell_36_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_36 has_country_flag = RUS_tesla_minesweeper_count_36_2 }
@@ -1073,11 +1406,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_36_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_36 has_country_flag = RUS_tesla_minesweeper_count_36_8 }
 			RUS_tesla_minesweeper_cell_37_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_37 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_37 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_37 } }
 			}
 			RUS_tesla_minesweeper_cell_37_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_37 }
 			RUS_tesla_minesweeper_cell_37_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_37 }
-			RUS_tesla_minesweeper_cell_37_flag_visible = {
+			RUS_tesla_minesweeper_cell_37_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_37
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1089,7 +1423,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_37_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_37 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_37 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_37_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_37
+			}
+			RUS_tesla_minesweeper_cell_37_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_37
 			}
 			RUS_tesla_minesweeper_cell_37_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_37 has_country_flag = RUS_tesla_minesweeper_count_37_1 }
 			RUS_tesla_minesweeper_cell_37_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_37 has_country_flag = RUS_tesla_minesweeper_count_37_2 }
@@ -1101,11 +1443,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_37_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_37 has_country_flag = RUS_tesla_minesweeper_count_37_8 }
 			RUS_tesla_minesweeper_cell_38_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_38 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_38 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_38 } }
 			}
 			RUS_tesla_minesweeper_cell_38_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_38 }
 			RUS_tesla_minesweeper_cell_38_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_38 }
-			RUS_tesla_minesweeper_cell_38_flag_visible = {
+			RUS_tesla_minesweeper_cell_38_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_38
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1117,7 +1460,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_38_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_38 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_38 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_38_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_38
+			}
+			RUS_tesla_minesweeper_cell_38_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_38
 			}
 			RUS_tesla_minesweeper_cell_38_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_38 has_country_flag = RUS_tesla_minesweeper_count_38_1 }
 			RUS_tesla_minesweeper_cell_38_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_38 has_country_flag = RUS_tesla_minesweeper_count_38_2 }
@@ -1129,11 +1480,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_38_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_38 has_country_flag = RUS_tesla_minesweeper_count_38_8 }
 			RUS_tesla_minesweeper_cell_39_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_39 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_39 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_39 } }
 			}
 			RUS_tesla_minesweeper_cell_39_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_39 }
 			RUS_tesla_minesweeper_cell_39_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_39 }
-			RUS_tesla_minesweeper_cell_39_flag_visible = {
+			RUS_tesla_minesweeper_cell_39_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_39
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1145,7 +1497,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_39_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_39 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_39 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_39_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_39
+			}
+			RUS_tesla_minesweeper_cell_39_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_39
 			}
 			RUS_tesla_minesweeper_cell_39_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_39 has_country_flag = RUS_tesla_minesweeper_count_39_1 }
 			RUS_tesla_minesweeper_cell_39_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_39 has_country_flag = RUS_tesla_minesweeper_count_39_2 }
@@ -1157,11 +1517,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_39_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_39 has_country_flag = RUS_tesla_minesweeper_count_39_8 }
 			RUS_tesla_minesweeper_cell_40_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_40 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_40 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_40 } }
 			}
 			RUS_tesla_minesweeper_cell_40_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_40 }
 			RUS_tesla_minesweeper_cell_40_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_40 }
-			RUS_tesla_minesweeper_cell_40_flag_visible = {
+			RUS_tesla_minesweeper_cell_40_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_40
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1173,7 +1534,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_40_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_40 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_40 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_40_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_40
+			}
+			RUS_tesla_minesweeper_cell_40_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_40
 			}
 			RUS_tesla_minesweeper_cell_40_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_40 has_country_flag = RUS_tesla_minesweeper_count_40_1 }
 			RUS_tesla_minesweeper_cell_40_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_40 has_country_flag = RUS_tesla_minesweeper_count_40_2 }
@@ -1185,11 +1554,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_40_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_40 has_country_flag = RUS_tesla_minesweeper_count_40_8 }
 			RUS_tesla_minesweeper_cell_41_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_41 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_41 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_41 } }
 			}
 			RUS_tesla_minesweeper_cell_41_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_41 }
 			RUS_tesla_minesweeper_cell_41_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_41 }
-			RUS_tesla_minesweeper_cell_41_flag_visible = {
+			RUS_tesla_minesweeper_cell_41_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_41
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1201,7 +1571,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_41_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_41 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_41 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_41_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_41
+			}
+			RUS_tesla_minesweeper_cell_41_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_41
 			}
 			RUS_tesla_minesweeper_cell_41_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_41 has_country_flag = RUS_tesla_minesweeper_count_41_1 }
 			RUS_tesla_minesweeper_cell_41_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_41 has_country_flag = RUS_tesla_minesweeper_count_41_2 }
@@ -1213,11 +1591,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_41_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_41 has_country_flag = RUS_tesla_minesweeper_count_41_8 }
 			RUS_tesla_minesweeper_cell_42_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_42 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_42 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_42 } }
 			}
 			RUS_tesla_minesweeper_cell_42_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_42 }
 			RUS_tesla_minesweeper_cell_42_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_42 }
-			RUS_tesla_minesweeper_cell_42_flag_visible = {
+			RUS_tesla_minesweeper_cell_42_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_42
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1229,7 +1608,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_42_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_42 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_42 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_42_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_42
+			}
+			RUS_tesla_minesweeper_cell_42_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_42
 			}
 			RUS_tesla_minesweeper_cell_42_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_42 has_country_flag = RUS_tesla_minesweeper_count_42_1 }
 			RUS_tesla_minesweeper_cell_42_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_42 has_country_flag = RUS_tesla_minesweeper_count_42_2 }
@@ -1241,11 +1628,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_42_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_42 has_country_flag = RUS_tesla_minesweeper_count_42_8 }
 			RUS_tesla_minesweeper_cell_43_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_43 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_43 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_43 } }
 			}
 			RUS_tesla_minesweeper_cell_43_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_43 }
 			RUS_tesla_minesweeper_cell_43_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_43 }
-			RUS_tesla_minesweeper_cell_43_flag_visible = {
+			RUS_tesla_minesweeper_cell_43_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_43
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1257,7 +1645,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_43_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_43 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_43 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_43_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_43
+			}
+			RUS_tesla_minesweeper_cell_43_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_43
 			}
 			RUS_tesla_minesweeper_cell_43_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_43 has_country_flag = RUS_tesla_minesweeper_count_43_1 }
 			RUS_tesla_minesweeper_cell_43_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_43 has_country_flag = RUS_tesla_minesweeper_count_43_2 }
@@ -1269,11 +1665,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_43_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_43 has_country_flag = RUS_tesla_minesweeper_count_43_8 }
 			RUS_tesla_minesweeper_cell_44_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_44 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_44 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_44 } }
 			}
 			RUS_tesla_minesweeper_cell_44_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_44 }
 			RUS_tesla_minesweeper_cell_44_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_44 }
-			RUS_tesla_minesweeper_cell_44_flag_visible = {
+			RUS_tesla_minesweeper_cell_44_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_44
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1285,7 +1682,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_44_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_44 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_44 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_44_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_44
+			}
+			RUS_tesla_minesweeper_cell_44_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_44
 			}
 			RUS_tesla_minesweeper_cell_44_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_44 has_country_flag = RUS_tesla_minesweeper_count_44_1 }
 			RUS_tesla_minesweeper_cell_44_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_44 has_country_flag = RUS_tesla_minesweeper_count_44_2 }
@@ -1297,11 +1702,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_44_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_44 has_country_flag = RUS_tesla_minesweeper_count_44_8 }
 			RUS_tesla_minesweeper_cell_45_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_45 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_45 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_45 } }
 			}
 			RUS_tesla_minesweeper_cell_45_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_45 }
 			RUS_tesla_minesweeper_cell_45_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_45 }
-			RUS_tesla_minesweeper_cell_45_flag_visible = {
+			RUS_tesla_minesweeper_cell_45_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_45
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1313,7 +1719,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_45_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_45 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_45 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_45_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_45
+			}
+			RUS_tesla_minesweeper_cell_45_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_45
 			}
 			RUS_tesla_minesweeper_cell_45_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_45 has_country_flag = RUS_tesla_minesweeper_count_45_1 }
 			RUS_tesla_minesweeper_cell_45_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_45 has_country_flag = RUS_tesla_minesweeper_count_45_2 }
@@ -1325,11 +1739,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_45_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_45 has_country_flag = RUS_tesla_minesweeper_count_45_8 }
 			RUS_tesla_minesweeper_cell_46_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_46 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_46 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_46 } }
 			}
 			RUS_tesla_minesweeper_cell_46_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_46 }
 			RUS_tesla_minesweeper_cell_46_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_46 }
-			RUS_tesla_minesweeper_cell_46_flag_visible = {
+			RUS_tesla_minesweeper_cell_46_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_46
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1341,7 +1756,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_46_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_46 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_46 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_46_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_46
+			}
+			RUS_tesla_minesweeper_cell_46_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_46
 			}
 			RUS_tesla_minesweeper_cell_46_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_46 has_country_flag = RUS_tesla_minesweeper_count_46_1 }
 			RUS_tesla_minesweeper_cell_46_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_46 has_country_flag = RUS_tesla_minesweeper_count_46_2 }
@@ -1353,11 +1776,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_46_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_46 has_country_flag = RUS_tesla_minesweeper_count_46_8 }
 			RUS_tesla_minesweeper_cell_47_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_47 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_47 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_47 } }
 			}
 			RUS_tesla_minesweeper_cell_47_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_47 }
 			RUS_tesla_minesweeper_cell_47_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_47 }
-			RUS_tesla_minesweeper_cell_47_flag_visible = {
+			RUS_tesla_minesweeper_cell_47_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_47
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1369,7 +1793,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_47_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_47 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_47 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_47_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_47
+			}
+			RUS_tesla_minesweeper_cell_47_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_47
 			}
 			RUS_tesla_minesweeper_cell_47_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_47 has_country_flag = RUS_tesla_minesweeper_count_47_1 }
 			RUS_tesla_minesweeper_cell_47_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_47 has_country_flag = RUS_tesla_minesweeper_count_47_2 }
@@ -1381,11 +1813,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_47_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_47 has_country_flag = RUS_tesla_minesweeper_count_47_8 }
 			RUS_tesla_minesweeper_cell_48_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_48 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_48 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_48 } }
 			}
 			RUS_tesla_minesweeper_cell_48_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_48 }
 			RUS_tesla_minesweeper_cell_48_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_48 }
-			RUS_tesla_minesweeper_cell_48_flag_visible = {
+			RUS_tesla_minesweeper_cell_48_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_48
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1397,7 +1830,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_48_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_48 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_48 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_48_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_48
+			}
+			RUS_tesla_minesweeper_cell_48_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_48
 			}
 			RUS_tesla_minesweeper_cell_48_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_48 has_country_flag = RUS_tesla_minesweeper_count_48_1 }
 			RUS_tesla_minesweeper_cell_48_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_48 has_country_flag = RUS_tesla_minesweeper_count_48_2 }
@@ -1409,11 +1850,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_48_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_48 has_country_flag = RUS_tesla_minesweeper_count_48_8 }
 			RUS_tesla_minesweeper_cell_49_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_49 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_49 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_49 } }
 			}
 			RUS_tesla_minesweeper_cell_49_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_49 }
 			RUS_tesla_minesweeper_cell_49_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_49 }
-			RUS_tesla_minesweeper_cell_49_flag_visible = {
+			RUS_tesla_minesweeper_cell_49_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_49
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1425,7 +1867,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_49_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_49 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_49 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_49_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_49
+			}
+			RUS_tesla_minesweeper_cell_49_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_49
 			}
 			RUS_tesla_minesweeper_cell_49_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_49 has_country_flag = RUS_tesla_minesweeper_count_49_1 }
 			RUS_tesla_minesweeper_cell_49_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_49 has_country_flag = RUS_tesla_minesweeper_count_49_2 }
@@ -1437,11 +1887,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_49_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_49 has_country_flag = RUS_tesla_minesweeper_count_49_8 }
 			RUS_tesla_minesweeper_cell_50_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_50 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_50 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_50 } }
 			}
 			RUS_tesla_minesweeper_cell_50_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_50 }
 			RUS_tesla_minesweeper_cell_50_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_50 }
-			RUS_tesla_minesweeper_cell_50_flag_visible = {
+			RUS_tesla_minesweeper_cell_50_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_50
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1453,7 +1904,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_50_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_50 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_50 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_50_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_50
+			}
+			RUS_tesla_minesweeper_cell_50_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_50
 			}
 			RUS_tesla_minesweeper_cell_50_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_50 has_country_flag = RUS_tesla_minesweeper_count_50_1 }
 			RUS_tesla_minesweeper_cell_50_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_50 has_country_flag = RUS_tesla_minesweeper_count_50_2 }
@@ -1465,11 +1924,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_50_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_50 has_country_flag = RUS_tesla_minesweeper_count_50_8 }
 			RUS_tesla_minesweeper_cell_51_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_51 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_51 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_51 } }
 			}
 			RUS_tesla_minesweeper_cell_51_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_51 }
 			RUS_tesla_minesweeper_cell_51_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_51 }
-			RUS_tesla_minesweeper_cell_51_flag_visible = {
+			RUS_tesla_minesweeper_cell_51_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_51
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1481,7 +1941,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_51_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_51 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_51 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_51_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_51
+			}
+			RUS_tesla_minesweeper_cell_51_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_51
 			}
 			RUS_tesla_minesweeper_cell_51_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_51 has_country_flag = RUS_tesla_minesweeper_count_51_1 }
 			RUS_tesla_minesweeper_cell_51_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_51 has_country_flag = RUS_tesla_minesweeper_count_51_2 }
@@ -1493,11 +1961,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_51_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_51 has_country_flag = RUS_tesla_minesweeper_count_51_8 }
 			RUS_tesla_minesweeper_cell_52_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_52 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_52 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_52 } }
 			}
 			RUS_tesla_minesweeper_cell_52_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_52 }
 			RUS_tesla_minesweeper_cell_52_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_52 }
-			RUS_tesla_minesweeper_cell_52_flag_visible = {
+			RUS_tesla_minesweeper_cell_52_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_52
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1509,7 +1978,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_52_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_52 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_52 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_52_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_52
+			}
+			RUS_tesla_minesweeper_cell_52_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_52
 			}
 			RUS_tesla_minesweeper_cell_52_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_52 has_country_flag = RUS_tesla_minesweeper_count_52_1 }
 			RUS_tesla_minesweeper_cell_52_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_52 has_country_flag = RUS_tesla_minesweeper_count_52_2 }
@@ -1521,11 +1998,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_52_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_52 has_country_flag = RUS_tesla_minesweeper_count_52_8 }
 			RUS_tesla_minesweeper_cell_53_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_53 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_53 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_53 } }
 			}
 			RUS_tesla_minesweeper_cell_53_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_53 }
 			RUS_tesla_minesweeper_cell_53_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_53 }
-			RUS_tesla_minesweeper_cell_53_flag_visible = {
+			RUS_tesla_minesweeper_cell_53_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_53
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1537,7 +2015,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_53_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_53 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_53 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_53_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_53
+			}
+			RUS_tesla_minesweeper_cell_53_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_53
 			}
 			RUS_tesla_minesweeper_cell_53_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_53 has_country_flag = RUS_tesla_minesweeper_count_53_1 }
 			RUS_tesla_minesweeper_cell_53_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_53 has_country_flag = RUS_tesla_minesweeper_count_53_2 }
@@ -1549,11 +2035,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_53_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_53 has_country_flag = RUS_tesla_minesweeper_count_53_8 }
 			RUS_tesla_minesweeper_cell_54_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_54 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_54 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_54 } }
 			}
 			RUS_tesla_minesweeper_cell_54_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_54 }
 			RUS_tesla_minesweeper_cell_54_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_54 }
-			RUS_tesla_minesweeper_cell_54_flag_visible = {
+			RUS_tesla_minesweeper_cell_54_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_54
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1565,7 +2052,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_54_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_54 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_54 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_54_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_54
+			}
+			RUS_tesla_minesweeper_cell_54_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_54
 			}
 			RUS_tesla_minesweeper_cell_54_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_54 has_country_flag = RUS_tesla_minesweeper_count_54_1 }
 			RUS_tesla_minesweeper_cell_54_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_54 has_country_flag = RUS_tesla_minesweeper_count_54_2 }
@@ -1577,11 +2072,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_54_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_54 has_country_flag = RUS_tesla_minesweeper_count_54_8 }
 			RUS_tesla_minesweeper_cell_55_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_55 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_55 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_55 } }
 			}
 			RUS_tesla_minesweeper_cell_55_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_55 }
 			RUS_tesla_minesweeper_cell_55_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_55 }
-			RUS_tesla_minesweeper_cell_55_flag_visible = {
+			RUS_tesla_minesweeper_cell_55_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_55
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1593,7 +2089,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_55_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_55 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_55 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_55_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_55
+			}
+			RUS_tesla_minesweeper_cell_55_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_55
 			}
 			RUS_tesla_minesweeper_cell_55_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_55 has_country_flag = RUS_tesla_minesweeper_count_55_1 }
 			RUS_tesla_minesweeper_cell_55_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_55 has_country_flag = RUS_tesla_minesweeper_count_55_2 }
@@ -1605,11 +2109,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_55_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_55 has_country_flag = RUS_tesla_minesweeper_count_55_8 }
 			RUS_tesla_minesweeper_cell_56_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_56 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_56 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_56 } }
 			}
 			RUS_tesla_minesweeper_cell_56_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_56 }
 			RUS_tesla_minesweeper_cell_56_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_56 }
-			RUS_tesla_minesweeper_cell_56_flag_visible = {
+			RUS_tesla_minesweeper_cell_56_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_56
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1621,7 +2126,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_56_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_56 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_56 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_56_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_56
+			}
+			RUS_tesla_minesweeper_cell_56_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_56
 			}
 			RUS_tesla_minesweeper_cell_56_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_56 has_country_flag = RUS_tesla_minesweeper_count_56_1 }
 			RUS_tesla_minesweeper_cell_56_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_56 has_country_flag = RUS_tesla_minesweeper_count_56_2 }
@@ -1633,11 +2146,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_56_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_56 has_country_flag = RUS_tesla_minesweeper_count_56_8 }
 			RUS_tesla_minesweeper_cell_57_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_57 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_57 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_57 } }
 			}
 			RUS_tesla_minesweeper_cell_57_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_57 }
 			RUS_tesla_minesweeper_cell_57_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_57 }
-			RUS_tesla_minesweeper_cell_57_flag_visible = {
+			RUS_tesla_minesweeper_cell_57_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_57
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1649,7 +2163,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_57_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_57 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_57 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_57_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_57
+			}
+			RUS_tesla_minesweeper_cell_57_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_57
 			}
 			RUS_tesla_minesweeper_cell_57_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_57 has_country_flag = RUS_tesla_minesweeper_count_57_1 }
 			RUS_tesla_minesweeper_cell_57_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_57 has_country_flag = RUS_tesla_minesweeper_count_57_2 }
@@ -1661,11 +2183,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_57_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_57 has_country_flag = RUS_tesla_minesweeper_count_57_8 }
 			RUS_tesla_minesweeper_cell_58_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_58 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_58 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_58 } }
 			}
 			RUS_tesla_minesweeper_cell_58_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_58 }
 			RUS_tesla_minesweeper_cell_58_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_58 }
-			RUS_tesla_minesweeper_cell_58_flag_visible = {
+			RUS_tesla_minesweeper_cell_58_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_58
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1677,7 +2200,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_58_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_58 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_58 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_58_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_58
+			}
+			RUS_tesla_minesweeper_cell_58_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_58
 			}
 			RUS_tesla_minesweeper_cell_58_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_58 has_country_flag = RUS_tesla_minesweeper_count_58_1 }
 			RUS_tesla_minesweeper_cell_58_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_58 has_country_flag = RUS_tesla_minesweeper_count_58_2 }
@@ -1689,11 +2220,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_58_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_58 has_country_flag = RUS_tesla_minesweeper_count_58_8 }
 			RUS_tesla_minesweeper_cell_59_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_59 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_59 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_59 } }
 			}
 			RUS_tesla_minesweeper_cell_59_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_59 }
 			RUS_tesla_minesweeper_cell_59_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_59 }
-			RUS_tesla_minesweeper_cell_59_flag_visible = {
+			RUS_tesla_minesweeper_cell_59_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_59
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1705,7 +2237,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_59_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_59 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_59 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_59_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_59
+			}
+			RUS_tesla_minesweeper_cell_59_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_59
 			}
 			RUS_tesla_minesweeper_cell_59_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_59 has_country_flag = RUS_tesla_minesweeper_count_59_1 }
 			RUS_tesla_minesweeper_cell_59_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_59 has_country_flag = RUS_tesla_minesweeper_count_59_2 }
@@ -1717,11 +2257,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_59_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_59 has_country_flag = RUS_tesla_minesweeper_count_59_8 }
 			RUS_tesla_minesweeper_cell_60_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_60 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_60 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_60 } }
 			}
 			RUS_tesla_minesweeper_cell_60_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_60 }
 			RUS_tesla_minesweeper_cell_60_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_60 }
-			RUS_tesla_minesweeper_cell_60_flag_visible = {
+			RUS_tesla_minesweeper_cell_60_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_60
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1733,7 +2274,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_60_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_60 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_60 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_60_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_60
+			}
+			RUS_tesla_minesweeper_cell_60_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_60
 			}
 			RUS_tesla_minesweeper_cell_60_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_60 has_country_flag = RUS_tesla_minesweeper_count_60_1 }
 			RUS_tesla_minesweeper_cell_60_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_60 has_country_flag = RUS_tesla_minesweeper_count_60_2 }
@@ -1745,11 +2294,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_60_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_60 has_country_flag = RUS_tesla_minesweeper_count_60_8 }
 			RUS_tesla_minesweeper_cell_61_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_61 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_61 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_61 } }
 			}
 			RUS_tesla_minesweeper_cell_61_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_61 }
 			RUS_tesla_minesweeper_cell_61_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_61 }
-			RUS_tesla_minesweeper_cell_61_flag_visible = {
+			RUS_tesla_minesweeper_cell_61_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_61
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1761,7 +2311,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_61_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_61 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_61 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_61_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_61
+			}
+			RUS_tesla_minesweeper_cell_61_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_61
 			}
 			RUS_tesla_minesweeper_cell_61_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_61 has_country_flag = RUS_tesla_minesweeper_count_61_1 }
 			RUS_tesla_minesweeper_cell_61_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_61 has_country_flag = RUS_tesla_minesweeper_count_61_2 }
@@ -1773,11 +2331,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_61_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_61 has_country_flag = RUS_tesla_minesweeper_count_61_8 }
 			RUS_tesla_minesweeper_cell_62_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_62 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_62 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_62 } }
 			}
 			RUS_tesla_minesweeper_cell_62_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_62 }
 			RUS_tesla_minesweeper_cell_62_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_62 }
-			RUS_tesla_minesweeper_cell_62_flag_visible = {
+			RUS_tesla_minesweeper_cell_62_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_62
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1789,7 +2348,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_62_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_62 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_62 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_62_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_62
+			}
+			RUS_tesla_minesweeper_cell_62_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_62
 			}
 			RUS_tesla_minesweeper_cell_62_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_62 has_country_flag = RUS_tesla_minesweeper_count_62_1 }
 			RUS_tesla_minesweeper_cell_62_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_62 has_country_flag = RUS_tesla_minesweeper_count_62_2 }
@@ -1801,11 +2368,12 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_62_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_62 has_country_flag = RUS_tesla_minesweeper_count_62_8 }
 			RUS_tesla_minesweeper_cell_63_hidden_visible = {
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_63 }
+				OR = { NOT = { has_country_flag = RUS_tesla_minesweeper_marked_63 } has_country_flag = RUS_tesla_minesweeper_lost }
 				NOT = { AND = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_63 } }
 			}
 			RUS_tesla_minesweeper_cell_63_revealed_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_63 }
 			RUS_tesla_minesweeper_cell_63_mine_visible = { has_country_flag = RUS_tesla_minesweeper_lost has_country_flag = RUS_tesla_minesweeper_mine_63 }
-			RUS_tesla_minesweeper_cell_63_flag_visible = {
+			RUS_tesla_minesweeper_cell_63_marked_visible = {
 				has_country_flag = RUS_tesla_minesweeper_marked_63
 				NOT = { has_country_flag = RUS_tesla_minesweeper_lost }
 			}
@@ -1817,7 +2385,15 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_63_hidden_right_click_enabled = {
 				has_country_flag = RUS_tesla_minesweeper_active
 				NOT = { has_country_flag = RUS_tesla_minesweeper_revealed_63 }
-				OR = { has_country_flag = RUS_tesla_minesweeper_marked_63 check_variable = { RUS_tesla_minesweeper_flags < 10 } }
+				check_variable = { RUS_tesla_minesweeper_flags < 10 }
+			}
+			RUS_tesla_minesweeper_cell_63_marked_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_63
+			}
+			RUS_tesla_minesweeper_cell_63_marked_right_click_enabled = {
+				has_country_flag = RUS_tesla_minesweeper_active
+				has_country_flag = RUS_tesla_minesweeper_marked_63
 			}
 			RUS_tesla_minesweeper_cell_63_number_1_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_63 has_country_flag = RUS_tesla_minesweeper_count_63_1 }
 			RUS_tesla_minesweeper_cell_63_number_2_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_63 has_country_flag = RUS_tesla_minesweeper_count_63_2 }
@@ -1833,132 +2409,260 @@ scripted_gui = {
 			RUS_tesla_minesweeper_start_click = { RUS_tesla_minesweeper_start = yes }
 			RUS_tesla_minesweeper_cell_00_hidden_click = { RUS_tesla_minesweeper_reveal_00 = yes }
 			RUS_tesla_minesweeper_cell_00_hidden_right_click = { RUS_tesla_minesweeper_mark_00 = yes }
+			RUS_tesla_minesweeper_cell_00_marked_click = { RUS_tesla_minesweeper_unmark_00 = yes }
+			RUS_tesla_minesweeper_cell_00_marked_right_click = { RUS_tesla_minesweeper_unmark_00 = yes }
 			RUS_tesla_minesweeper_cell_01_hidden_click = { RUS_tesla_minesweeper_reveal_01 = yes }
 			RUS_tesla_minesweeper_cell_01_hidden_right_click = { RUS_tesla_minesweeper_mark_01 = yes }
+			RUS_tesla_minesweeper_cell_01_marked_click = { RUS_tesla_minesweeper_unmark_01 = yes }
+			RUS_tesla_minesweeper_cell_01_marked_right_click = { RUS_tesla_minesweeper_unmark_01 = yes }
 			RUS_tesla_minesweeper_cell_02_hidden_click = { RUS_tesla_minesweeper_reveal_02 = yes }
 			RUS_tesla_minesweeper_cell_02_hidden_right_click = { RUS_tesla_minesweeper_mark_02 = yes }
+			RUS_tesla_minesweeper_cell_02_marked_click = { RUS_tesla_minesweeper_unmark_02 = yes }
+			RUS_tesla_minesweeper_cell_02_marked_right_click = { RUS_tesla_minesweeper_unmark_02 = yes }
 			RUS_tesla_minesweeper_cell_03_hidden_click = { RUS_tesla_minesweeper_reveal_03 = yes }
 			RUS_tesla_minesweeper_cell_03_hidden_right_click = { RUS_tesla_minesweeper_mark_03 = yes }
+			RUS_tesla_minesweeper_cell_03_marked_click = { RUS_tesla_minesweeper_unmark_03 = yes }
+			RUS_tesla_minesweeper_cell_03_marked_right_click = { RUS_tesla_minesweeper_unmark_03 = yes }
 			RUS_tesla_minesweeper_cell_04_hidden_click = { RUS_tesla_minesweeper_reveal_04 = yes }
 			RUS_tesla_minesweeper_cell_04_hidden_right_click = { RUS_tesla_minesweeper_mark_04 = yes }
+			RUS_tesla_minesweeper_cell_04_marked_click = { RUS_tesla_minesweeper_unmark_04 = yes }
+			RUS_tesla_minesweeper_cell_04_marked_right_click = { RUS_tesla_minesweeper_unmark_04 = yes }
 			RUS_tesla_minesweeper_cell_05_hidden_click = { RUS_tesla_minesweeper_reveal_05 = yes }
 			RUS_tesla_minesweeper_cell_05_hidden_right_click = { RUS_tesla_minesweeper_mark_05 = yes }
+			RUS_tesla_minesweeper_cell_05_marked_click = { RUS_tesla_minesweeper_unmark_05 = yes }
+			RUS_tesla_minesweeper_cell_05_marked_right_click = { RUS_tesla_minesweeper_unmark_05 = yes }
 			RUS_tesla_minesweeper_cell_06_hidden_click = { RUS_tesla_minesweeper_reveal_06 = yes }
 			RUS_tesla_minesweeper_cell_06_hidden_right_click = { RUS_tesla_minesweeper_mark_06 = yes }
+			RUS_tesla_minesweeper_cell_06_marked_click = { RUS_tesla_minesweeper_unmark_06 = yes }
+			RUS_tesla_minesweeper_cell_06_marked_right_click = { RUS_tesla_minesweeper_unmark_06 = yes }
 			RUS_tesla_minesweeper_cell_07_hidden_click = { RUS_tesla_minesweeper_reveal_07 = yes }
 			RUS_tesla_minesweeper_cell_07_hidden_right_click = { RUS_tesla_minesweeper_mark_07 = yes }
+			RUS_tesla_minesweeper_cell_07_marked_click = { RUS_tesla_minesweeper_unmark_07 = yes }
+			RUS_tesla_minesweeper_cell_07_marked_right_click = { RUS_tesla_minesweeper_unmark_07 = yes }
 			RUS_tesla_minesweeper_cell_08_hidden_click = { RUS_tesla_minesweeper_reveal_08 = yes }
 			RUS_tesla_minesweeper_cell_08_hidden_right_click = { RUS_tesla_minesweeper_mark_08 = yes }
+			RUS_tesla_minesweeper_cell_08_marked_click = { RUS_tesla_minesweeper_unmark_08 = yes }
+			RUS_tesla_minesweeper_cell_08_marked_right_click = { RUS_tesla_minesweeper_unmark_08 = yes }
 			RUS_tesla_minesweeper_cell_09_hidden_click = { RUS_tesla_minesweeper_reveal_09 = yes }
 			RUS_tesla_minesweeper_cell_09_hidden_right_click = { RUS_tesla_minesweeper_mark_09 = yes }
+			RUS_tesla_minesweeper_cell_09_marked_click = { RUS_tesla_minesweeper_unmark_09 = yes }
+			RUS_tesla_minesweeper_cell_09_marked_right_click = { RUS_tesla_minesweeper_unmark_09 = yes }
 			RUS_tesla_minesweeper_cell_10_hidden_click = { RUS_tesla_minesweeper_reveal_10 = yes }
 			RUS_tesla_minesweeper_cell_10_hidden_right_click = { RUS_tesla_minesweeper_mark_10 = yes }
+			RUS_tesla_minesweeper_cell_10_marked_click = { RUS_tesla_minesweeper_unmark_10 = yes }
+			RUS_tesla_minesweeper_cell_10_marked_right_click = { RUS_tesla_minesweeper_unmark_10 = yes }
 			RUS_tesla_minesweeper_cell_11_hidden_click = { RUS_tesla_minesweeper_reveal_11 = yes }
 			RUS_tesla_minesweeper_cell_11_hidden_right_click = { RUS_tesla_minesweeper_mark_11 = yes }
+			RUS_tesla_minesweeper_cell_11_marked_click = { RUS_tesla_minesweeper_unmark_11 = yes }
+			RUS_tesla_minesweeper_cell_11_marked_right_click = { RUS_tesla_minesweeper_unmark_11 = yes }
 			RUS_tesla_minesweeper_cell_12_hidden_click = { RUS_tesla_minesweeper_reveal_12 = yes }
 			RUS_tesla_minesweeper_cell_12_hidden_right_click = { RUS_tesla_minesweeper_mark_12 = yes }
+			RUS_tesla_minesweeper_cell_12_marked_click = { RUS_tesla_minesweeper_unmark_12 = yes }
+			RUS_tesla_minesweeper_cell_12_marked_right_click = { RUS_tesla_minesweeper_unmark_12 = yes }
 			RUS_tesla_minesweeper_cell_13_hidden_click = { RUS_tesla_minesweeper_reveal_13 = yes }
 			RUS_tesla_minesweeper_cell_13_hidden_right_click = { RUS_tesla_minesweeper_mark_13 = yes }
+			RUS_tesla_minesweeper_cell_13_marked_click = { RUS_tesla_minesweeper_unmark_13 = yes }
+			RUS_tesla_minesweeper_cell_13_marked_right_click = { RUS_tesla_minesweeper_unmark_13 = yes }
 			RUS_tesla_minesweeper_cell_14_hidden_click = { RUS_tesla_minesweeper_reveal_14 = yes }
 			RUS_tesla_minesweeper_cell_14_hidden_right_click = { RUS_tesla_minesweeper_mark_14 = yes }
+			RUS_tesla_minesweeper_cell_14_marked_click = { RUS_tesla_minesweeper_unmark_14 = yes }
+			RUS_tesla_minesweeper_cell_14_marked_right_click = { RUS_tesla_minesweeper_unmark_14 = yes }
 			RUS_tesla_minesweeper_cell_15_hidden_click = { RUS_tesla_minesweeper_reveal_15 = yes }
 			RUS_tesla_minesweeper_cell_15_hidden_right_click = { RUS_tesla_minesweeper_mark_15 = yes }
+			RUS_tesla_minesweeper_cell_15_marked_click = { RUS_tesla_minesweeper_unmark_15 = yes }
+			RUS_tesla_minesweeper_cell_15_marked_right_click = { RUS_tesla_minesweeper_unmark_15 = yes }
 			RUS_tesla_minesweeper_cell_16_hidden_click = { RUS_tesla_minesweeper_reveal_16 = yes }
 			RUS_tesla_minesweeper_cell_16_hidden_right_click = { RUS_tesla_minesweeper_mark_16 = yes }
+			RUS_tesla_minesweeper_cell_16_marked_click = { RUS_tesla_minesweeper_unmark_16 = yes }
+			RUS_tesla_minesweeper_cell_16_marked_right_click = { RUS_tesla_minesweeper_unmark_16 = yes }
 			RUS_tesla_minesweeper_cell_17_hidden_click = { RUS_tesla_minesweeper_reveal_17 = yes }
 			RUS_tesla_minesweeper_cell_17_hidden_right_click = { RUS_tesla_minesweeper_mark_17 = yes }
+			RUS_tesla_minesweeper_cell_17_marked_click = { RUS_tesla_minesweeper_unmark_17 = yes }
+			RUS_tesla_minesweeper_cell_17_marked_right_click = { RUS_tesla_minesweeper_unmark_17 = yes }
 			RUS_tesla_minesweeper_cell_18_hidden_click = { RUS_tesla_minesweeper_reveal_18 = yes }
 			RUS_tesla_minesweeper_cell_18_hidden_right_click = { RUS_tesla_minesweeper_mark_18 = yes }
+			RUS_tesla_minesweeper_cell_18_marked_click = { RUS_tesla_minesweeper_unmark_18 = yes }
+			RUS_tesla_minesweeper_cell_18_marked_right_click = { RUS_tesla_minesweeper_unmark_18 = yes }
 			RUS_tesla_minesweeper_cell_19_hidden_click = { RUS_tesla_minesweeper_reveal_19 = yes }
 			RUS_tesla_minesweeper_cell_19_hidden_right_click = { RUS_tesla_minesweeper_mark_19 = yes }
+			RUS_tesla_minesweeper_cell_19_marked_click = { RUS_tesla_minesweeper_unmark_19 = yes }
+			RUS_tesla_minesweeper_cell_19_marked_right_click = { RUS_tesla_minesweeper_unmark_19 = yes }
 			RUS_tesla_minesweeper_cell_20_hidden_click = { RUS_tesla_minesweeper_reveal_20 = yes }
 			RUS_tesla_minesweeper_cell_20_hidden_right_click = { RUS_tesla_minesweeper_mark_20 = yes }
+			RUS_tesla_minesweeper_cell_20_marked_click = { RUS_tesla_minesweeper_unmark_20 = yes }
+			RUS_tesla_minesweeper_cell_20_marked_right_click = { RUS_tesla_minesweeper_unmark_20 = yes }
 			RUS_tesla_minesweeper_cell_21_hidden_click = { RUS_tesla_minesweeper_reveal_21 = yes }
 			RUS_tesla_minesweeper_cell_21_hidden_right_click = { RUS_tesla_minesweeper_mark_21 = yes }
+			RUS_tesla_minesweeper_cell_21_marked_click = { RUS_tesla_minesweeper_unmark_21 = yes }
+			RUS_tesla_minesweeper_cell_21_marked_right_click = { RUS_tesla_minesweeper_unmark_21 = yes }
 			RUS_tesla_minesweeper_cell_22_hidden_click = { RUS_tesla_minesweeper_reveal_22 = yes }
 			RUS_tesla_minesweeper_cell_22_hidden_right_click = { RUS_tesla_minesweeper_mark_22 = yes }
+			RUS_tesla_minesweeper_cell_22_marked_click = { RUS_tesla_minesweeper_unmark_22 = yes }
+			RUS_tesla_minesweeper_cell_22_marked_right_click = { RUS_tesla_minesweeper_unmark_22 = yes }
 			RUS_tesla_minesweeper_cell_23_hidden_click = { RUS_tesla_minesweeper_reveal_23 = yes }
 			RUS_tesla_minesweeper_cell_23_hidden_right_click = { RUS_tesla_minesweeper_mark_23 = yes }
+			RUS_tesla_minesweeper_cell_23_marked_click = { RUS_tesla_minesweeper_unmark_23 = yes }
+			RUS_tesla_minesweeper_cell_23_marked_right_click = { RUS_tesla_minesweeper_unmark_23 = yes }
 			RUS_tesla_minesweeper_cell_24_hidden_click = { RUS_tesla_minesweeper_reveal_24 = yes }
 			RUS_tesla_minesweeper_cell_24_hidden_right_click = { RUS_tesla_minesweeper_mark_24 = yes }
+			RUS_tesla_minesweeper_cell_24_marked_click = { RUS_tesla_minesweeper_unmark_24 = yes }
+			RUS_tesla_minesweeper_cell_24_marked_right_click = { RUS_tesla_minesweeper_unmark_24 = yes }
 			RUS_tesla_minesweeper_cell_25_hidden_click = { RUS_tesla_minesweeper_reveal_25 = yes }
 			RUS_tesla_minesweeper_cell_25_hidden_right_click = { RUS_tesla_minesweeper_mark_25 = yes }
+			RUS_tesla_minesweeper_cell_25_marked_click = { RUS_tesla_minesweeper_unmark_25 = yes }
+			RUS_tesla_minesweeper_cell_25_marked_right_click = { RUS_tesla_minesweeper_unmark_25 = yes }
 			RUS_tesla_minesweeper_cell_26_hidden_click = { RUS_tesla_minesweeper_reveal_26 = yes }
 			RUS_tesla_minesweeper_cell_26_hidden_right_click = { RUS_tesla_minesweeper_mark_26 = yes }
+			RUS_tesla_minesweeper_cell_26_marked_click = { RUS_tesla_minesweeper_unmark_26 = yes }
+			RUS_tesla_minesweeper_cell_26_marked_right_click = { RUS_tesla_minesweeper_unmark_26 = yes }
 			RUS_tesla_minesweeper_cell_27_hidden_click = { RUS_tesla_minesweeper_reveal_27 = yes }
 			RUS_tesla_minesweeper_cell_27_hidden_right_click = { RUS_tesla_minesweeper_mark_27 = yes }
+			RUS_tesla_minesweeper_cell_27_marked_click = { RUS_tesla_minesweeper_unmark_27 = yes }
+			RUS_tesla_minesweeper_cell_27_marked_right_click = { RUS_tesla_minesweeper_unmark_27 = yes }
 			RUS_tesla_minesweeper_cell_28_hidden_click = { RUS_tesla_minesweeper_reveal_28 = yes }
 			RUS_tesla_minesweeper_cell_28_hidden_right_click = { RUS_tesla_minesweeper_mark_28 = yes }
+			RUS_tesla_minesweeper_cell_28_marked_click = { RUS_tesla_minesweeper_unmark_28 = yes }
+			RUS_tesla_minesweeper_cell_28_marked_right_click = { RUS_tesla_minesweeper_unmark_28 = yes }
 			RUS_tesla_minesweeper_cell_29_hidden_click = { RUS_tesla_minesweeper_reveal_29 = yes }
 			RUS_tesla_minesweeper_cell_29_hidden_right_click = { RUS_tesla_minesweeper_mark_29 = yes }
+			RUS_tesla_minesweeper_cell_29_marked_click = { RUS_tesla_minesweeper_unmark_29 = yes }
+			RUS_tesla_minesweeper_cell_29_marked_right_click = { RUS_tesla_minesweeper_unmark_29 = yes }
 			RUS_tesla_minesweeper_cell_30_hidden_click = { RUS_tesla_minesweeper_reveal_30 = yes }
 			RUS_tesla_minesweeper_cell_30_hidden_right_click = { RUS_tesla_minesweeper_mark_30 = yes }
+			RUS_tesla_minesweeper_cell_30_marked_click = { RUS_tesla_minesweeper_unmark_30 = yes }
+			RUS_tesla_minesweeper_cell_30_marked_right_click = { RUS_tesla_minesweeper_unmark_30 = yes }
 			RUS_tesla_minesweeper_cell_31_hidden_click = { RUS_tesla_minesweeper_reveal_31 = yes }
 			RUS_tesla_minesweeper_cell_31_hidden_right_click = { RUS_tesla_minesweeper_mark_31 = yes }
+			RUS_tesla_minesweeper_cell_31_marked_click = { RUS_tesla_minesweeper_unmark_31 = yes }
+			RUS_tesla_minesweeper_cell_31_marked_right_click = { RUS_tesla_minesweeper_unmark_31 = yes }
 			RUS_tesla_minesweeper_cell_32_hidden_click = { RUS_tesla_minesweeper_reveal_32 = yes }
 			RUS_tesla_minesweeper_cell_32_hidden_right_click = { RUS_tesla_minesweeper_mark_32 = yes }
+			RUS_tesla_minesweeper_cell_32_marked_click = { RUS_tesla_minesweeper_unmark_32 = yes }
+			RUS_tesla_minesweeper_cell_32_marked_right_click = { RUS_tesla_minesweeper_unmark_32 = yes }
 			RUS_tesla_minesweeper_cell_33_hidden_click = { RUS_tesla_minesweeper_reveal_33 = yes }
 			RUS_tesla_minesweeper_cell_33_hidden_right_click = { RUS_tesla_minesweeper_mark_33 = yes }
+			RUS_tesla_minesweeper_cell_33_marked_click = { RUS_tesla_minesweeper_unmark_33 = yes }
+			RUS_tesla_minesweeper_cell_33_marked_right_click = { RUS_tesla_minesweeper_unmark_33 = yes }
 			RUS_tesla_minesweeper_cell_34_hidden_click = { RUS_tesla_minesweeper_reveal_34 = yes }
 			RUS_tesla_minesweeper_cell_34_hidden_right_click = { RUS_tesla_minesweeper_mark_34 = yes }
+			RUS_tesla_minesweeper_cell_34_marked_click = { RUS_tesla_minesweeper_unmark_34 = yes }
+			RUS_tesla_minesweeper_cell_34_marked_right_click = { RUS_tesla_minesweeper_unmark_34 = yes }
 			RUS_tesla_minesweeper_cell_35_hidden_click = { RUS_tesla_minesweeper_reveal_35 = yes }
 			RUS_tesla_minesweeper_cell_35_hidden_right_click = { RUS_tesla_minesweeper_mark_35 = yes }
+			RUS_tesla_minesweeper_cell_35_marked_click = { RUS_tesla_minesweeper_unmark_35 = yes }
+			RUS_tesla_minesweeper_cell_35_marked_right_click = { RUS_tesla_minesweeper_unmark_35 = yes }
 			RUS_tesla_minesweeper_cell_36_hidden_click = { RUS_tesla_minesweeper_reveal_36 = yes }
 			RUS_tesla_minesweeper_cell_36_hidden_right_click = { RUS_tesla_minesweeper_mark_36 = yes }
+			RUS_tesla_minesweeper_cell_36_marked_click = { RUS_tesla_minesweeper_unmark_36 = yes }
+			RUS_tesla_minesweeper_cell_36_marked_right_click = { RUS_tesla_minesweeper_unmark_36 = yes }
 			RUS_tesla_minesweeper_cell_37_hidden_click = { RUS_tesla_minesweeper_reveal_37 = yes }
 			RUS_tesla_minesweeper_cell_37_hidden_right_click = { RUS_tesla_minesweeper_mark_37 = yes }
+			RUS_tesla_minesweeper_cell_37_marked_click = { RUS_tesla_minesweeper_unmark_37 = yes }
+			RUS_tesla_minesweeper_cell_37_marked_right_click = { RUS_tesla_minesweeper_unmark_37 = yes }
 			RUS_tesla_minesweeper_cell_38_hidden_click = { RUS_tesla_minesweeper_reveal_38 = yes }
 			RUS_tesla_minesweeper_cell_38_hidden_right_click = { RUS_tesla_minesweeper_mark_38 = yes }
+			RUS_tesla_minesweeper_cell_38_marked_click = { RUS_tesla_minesweeper_unmark_38 = yes }
+			RUS_tesla_minesweeper_cell_38_marked_right_click = { RUS_tesla_minesweeper_unmark_38 = yes }
 			RUS_tesla_minesweeper_cell_39_hidden_click = { RUS_tesla_minesweeper_reveal_39 = yes }
 			RUS_tesla_minesweeper_cell_39_hidden_right_click = { RUS_tesla_minesweeper_mark_39 = yes }
+			RUS_tesla_minesweeper_cell_39_marked_click = { RUS_tesla_minesweeper_unmark_39 = yes }
+			RUS_tesla_minesweeper_cell_39_marked_right_click = { RUS_tesla_minesweeper_unmark_39 = yes }
 			RUS_tesla_minesweeper_cell_40_hidden_click = { RUS_tesla_minesweeper_reveal_40 = yes }
 			RUS_tesla_minesweeper_cell_40_hidden_right_click = { RUS_tesla_minesweeper_mark_40 = yes }
+			RUS_tesla_minesweeper_cell_40_marked_click = { RUS_tesla_minesweeper_unmark_40 = yes }
+			RUS_tesla_minesweeper_cell_40_marked_right_click = { RUS_tesla_minesweeper_unmark_40 = yes }
 			RUS_tesla_minesweeper_cell_41_hidden_click = { RUS_tesla_minesweeper_reveal_41 = yes }
 			RUS_tesla_minesweeper_cell_41_hidden_right_click = { RUS_tesla_minesweeper_mark_41 = yes }
+			RUS_tesla_minesweeper_cell_41_marked_click = { RUS_tesla_minesweeper_unmark_41 = yes }
+			RUS_tesla_minesweeper_cell_41_marked_right_click = { RUS_tesla_minesweeper_unmark_41 = yes }
 			RUS_tesla_minesweeper_cell_42_hidden_click = { RUS_tesla_minesweeper_reveal_42 = yes }
 			RUS_tesla_minesweeper_cell_42_hidden_right_click = { RUS_tesla_minesweeper_mark_42 = yes }
+			RUS_tesla_minesweeper_cell_42_marked_click = { RUS_tesla_minesweeper_unmark_42 = yes }
+			RUS_tesla_minesweeper_cell_42_marked_right_click = { RUS_tesla_minesweeper_unmark_42 = yes }
 			RUS_tesla_minesweeper_cell_43_hidden_click = { RUS_tesla_minesweeper_reveal_43 = yes }
 			RUS_tesla_minesweeper_cell_43_hidden_right_click = { RUS_tesla_minesweeper_mark_43 = yes }
+			RUS_tesla_minesweeper_cell_43_marked_click = { RUS_tesla_minesweeper_unmark_43 = yes }
+			RUS_tesla_minesweeper_cell_43_marked_right_click = { RUS_tesla_minesweeper_unmark_43 = yes }
 			RUS_tesla_minesweeper_cell_44_hidden_click = { RUS_tesla_minesweeper_reveal_44 = yes }
 			RUS_tesla_minesweeper_cell_44_hidden_right_click = { RUS_tesla_minesweeper_mark_44 = yes }
+			RUS_tesla_minesweeper_cell_44_marked_click = { RUS_tesla_minesweeper_unmark_44 = yes }
+			RUS_tesla_minesweeper_cell_44_marked_right_click = { RUS_tesla_minesweeper_unmark_44 = yes }
 			RUS_tesla_minesweeper_cell_45_hidden_click = { RUS_tesla_minesweeper_reveal_45 = yes }
 			RUS_tesla_minesweeper_cell_45_hidden_right_click = { RUS_tesla_minesweeper_mark_45 = yes }
+			RUS_tesla_minesweeper_cell_45_marked_click = { RUS_tesla_minesweeper_unmark_45 = yes }
+			RUS_tesla_minesweeper_cell_45_marked_right_click = { RUS_tesla_minesweeper_unmark_45 = yes }
 			RUS_tesla_minesweeper_cell_46_hidden_click = { RUS_tesla_minesweeper_reveal_46 = yes }
 			RUS_tesla_minesweeper_cell_46_hidden_right_click = { RUS_tesla_minesweeper_mark_46 = yes }
+			RUS_tesla_minesweeper_cell_46_marked_click = { RUS_tesla_minesweeper_unmark_46 = yes }
+			RUS_tesla_minesweeper_cell_46_marked_right_click = { RUS_tesla_minesweeper_unmark_46 = yes }
 			RUS_tesla_minesweeper_cell_47_hidden_click = { RUS_tesla_minesweeper_reveal_47 = yes }
 			RUS_tesla_minesweeper_cell_47_hidden_right_click = { RUS_tesla_minesweeper_mark_47 = yes }
+			RUS_tesla_minesweeper_cell_47_marked_click = { RUS_tesla_minesweeper_unmark_47 = yes }
+			RUS_tesla_minesweeper_cell_47_marked_right_click = { RUS_tesla_minesweeper_unmark_47 = yes }
 			RUS_tesla_minesweeper_cell_48_hidden_click = { RUS_tesla_minesweeper_reveal_48 = yes }
 			RUS_tesla_minesweeper_cell_48_hidden_right_click = { RUS_tesla_minesweeper_mark_48 = yes }
+			RUS_tesla_minesweeper_cell_48_marked_click = { RUS_tesla_minesweeper_unmark_48 = yes }
+			RUS_tesla_minesweeper_cell_48_marked_right_click = { RUS_tesla_minesweeper_unmark_48 = yes }
 			RUS_tesla_minesweeper_cell_49_hidden_click = { RUS_tesla_minesweeper_reveal_49 = yes }
 			RUS_tesla_minesweeper_cell_49_hidden_right_click = { RUS_tesla_minesweeper_mark_49 = yes }
+			RUS_tesla_minesweeper_cell_49_marked_click = { RUS_tesla_minesweeper_unmark_49 = yes }
+			RUS_tesla_minesweeper_cell_49_marked_right_click = { RUS_tesla_minesweeper_unmark_49 = yes }
 			RUS_tesla_minesweeper_cell_50_hidden_click = { RUS_tesla_minesweeper_reveal_50 = yes }
 			RUS_tesla_minesweeper_cell_50_hidden_right_click = { RUS_tesla_minesweeper_mark_50 = yes }
+			RUS_tesla_minesweeper_cell_50_marked_click = { RUS_tesla_minesweeper_unmark_50 = yes }
+			RUS_tesla_minesweeper_cell_50_marked_right_click = { RUS_tesla_minesweeper_unmark_50 = yes }
 			RUS_tesla_minesweeper_cell_51_hidden_click = { RUS_tesla_minesweeper_reveal_51 = yes }
 			RUS_tesla_minesweeper_cell_51_hidden_right_click = { RUS_tesla_minesweeper_mark_51 = yes }
+			RUS_tesla_minesweeper_cell_51_marked_click = { RUS_tesla_minesweeper_unmark_51 = yes }
+			RUS_tesla_minesweeper_cell_51_marked_right_click = { RUS_tesla_minesweeper_unmark_51 = yes }
 			RUS_tesla_minesweeper_cell_52_hidden_click = { RUS_tesla_minesweeper_reveal_52 = yes }
 			RUS_tesla_minesweeper_cell_52_hidden_right_click = { RUS_tesla_minesweeper_mark_52 = yes }
+			RUS_tesla_minesweeper_cell_52_marked_click = { RUS_tesla_minesweeper_unmark_52 = yes }
+			RUS_tesla_minesweeper_cell_52_marked_right_click = { RUS_tesla_minesweeper_unmark_52 = yes }
 			RUS_tesla_minesweeper_cell_53_hidden_click = { RUS_tesla_minesweeper_reveal_53 = yes }
 			RUS_tesla_minesweeper_cell_53_hidden_right_click = { RUS_tesla_minesweeper_mark_53 = yes }
+			RUS_tesla_minesweeper_cell_53_marked_click = { RUS_tesla_minesweeper_unmark_53 = yes }
+			RUS_tesla_minesweeper_cell_53_marked_right_click = { RUS_tesla_minesweeper_unmark_53 = yes }
 			RUS_tesla_minesweeper_cell_54_hidden_click = { RUS_tesla_minesweeper_reveal_54 = yes }
 			RUS_tesla_minesweeper_cell_54_hidden_right_click = { RUS_tesla_minesweeper_mark_54 = yes }
+			RUS_tesla_minesweeper_cell_54_marked_click = { RUS_tesla_minesweeper_unmark_54 = yes }
+			RUS_tesla_minesweeper_cell_54_marked_right_click = { RUS_tesla_minesweeper_unmark_54 = yes }
 			RUS_tesla_minesweeper_cell_55_hidden_click = { RUS_tesla_minesweeper_reveal_55 = yes }
 			RUS_tesla_minesweeper_cell_55_hidden_right_click = { RUS_tesla_minesweeper_mark_55 = yes }
+			RUS_tesla_minesweeper_cell_55_marked_click = { RUS_tesla_minesweeper_unmark_55 = yes }
+			RUS_tesla_minesweeper_cell_55_marked_right_click = { RUS_tesla_minesweeper_unmark_55 = yes }
 			RUS_tesla_minesweeper_cell_56_hidden_click = { RUS_tesla_minesweeper_reveal_56 = yes }
 			RUS_tesla_minesweeper_cell_56_hidden_right_click = { RUS_tesla_minesweeper_mark_56 = yes }
+			RUS_tesla_minesweeper_cell_56_marked_click = { RUS_tesla_minesweeper_unmark_56 = yes }
+			RUS_tesla_minesweeper_cell_56_marked_right_click = { RUS_tesla_minesweeper_unmark_56 = yes }
 			RUS_tesla_minesweeper_cell_57_hidden_click = { RUS_tesla_minesweeper_reveal_57 = yes }
 			RUS_tesla_minesweeper_cell_57_hidden_right_click = { RUS_tesla_minesweeper_mark_57 = yes }
+			RUS_tesla_minesweeper_cell_57_marked_click = { RUS_tesla_minesweeper_unmark_57 = yes }
+			RUS_tesla_minesweeper_cell_57_marked_right_click = { RUS_tesla_minesweeper_unmark_57 = yes }
 			RUS_tesla_minesweeper_cell_58_hidden_click = { RUS_tesla_minesweeper_reveal_58 = yes }
 			RUS_tesla_minesweeper_cell_58_hidden_right_click = { RUS_tesla_minesweeper_mark_58 = yes }
+			RUS_tesla_minesweeper_cell_58_marked_click = { RUS_tesla_minesweeper_unmark_58 = yes }
+			RUS_tesla_minesweeper_cell_58_marked_right_click = { RUS_tesla_minesweeper_unmark_58 = yes }
 			RUS_tesla_minesweeper_cell_59_hidden_click = { RUS_tesla_minesweeper_reveal_59 = yes }
 			RUS_tesla_minesweeper_cell_59_hidden_right_click = { RUS_tesla_minesweeper_mark_59 = yes }
+			RUS_tesla_minesweeper_cell_59_marked_click = { RUS_tesla_minesweeper_unmark_59 = yes }
+			RUS_tesla_minesweeper_cell_59_marked_right_click = { RUS_tesla_minesweeper_unmark_59 = yes }
 			RUS_tesla_minesweeper_cell_60_hidden_click = { RUS_tesla_minesweeper_reveal_60 = yes }
 			RUS_tesla_minesweeper_cell_60_hidden_right_click = { RUS_tesla_minesweeper_mark_60 = yes }
+			RUS_tesla_minesweeper_cell_60_marked_click = { RUS_tesla_minesweeper_unmark_60 = yes }
+			RUS_tesla_minesweeper_cell_60_marked_right_click = { RUS_tesla_minesweeper_unmark_60 = yes }
 			RUS_tesla_minesweeper_cell_61_hidden_click = { RUS_tesla_minesweeper_reveal_61 = yes }
 			RUS_tesla_minesweeper_cell_61_hidden_right_click = { RUS_tesla_minesweeper_mark_61 = yes }
+			RUS_tesla_minesweeper_cell_61_marked_click = { RUS_tesla_minesweeper_unmark_61 = yes }
+			RUS_tesla_minesweeper_cell_61_marked_right_click = { RUS_tesla_minesweeper_unmark_61 = yes }
 			RUS_tesla_minesweeper_cell_62_hidden_click = { RUS_tesla_minesweeper_reveal_62 = yes }
 			RUS_tesla_minesweeper_cell_62_hidden_right_click = { RUS_tesla_minesweeper_mark_62 = yes }
+			RUS_tesla_minesweeper_cell_62_marked_click = { RUS_tesla_minesweeper_unmark_62 = yes }
+			RUS_tesla_minesweeper_cell_62_marked_right_click = { RUS_tesla_minesweeper_unmark_62 = yes }
 			RUS_tesla_minesweeper_cell_63_hidden_click = { RUS_tesla_minesweeper_reveal_63 = yes }
 			RUS_tesla_minesweeper_cell_63_hidden_right_click = { RUS_tesla_minesweeper_mark_63 = yes }
+			RUS_tesla_minesweeper_cell_63_marked_click = { RUS_tesla_minesweeper_unmark_63 = yes }
+			RUS_tesla_minesweeper_cell_63_marked_right_click = { RUS_tesla_minesweeper_unmark_63 = yes }
 		}
 	}
 }

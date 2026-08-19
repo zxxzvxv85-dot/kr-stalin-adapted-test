@@ -158,6 +158,10 @@ def draw_assets() -> None:
     draw.polygon(((13, 8), (27, 12), (13, 17)), fill=(221, 132, 50), outline=(80, 43, 29))
     draw.line((7, 27, 20, 27), fill=(171, 136, 69), width=2)
     flag.save(output / f"{PREFIX}_flag.png")
+    marked_button_strip = button_strip.copy()
+    for frame in range(4):
+        marked_button_strip.alpha_composite(flag, (frame * CELL, 0))
+    marked_button_strip.save(output / f"{PREFIX}_marked_button.png")
 
     source = Image.open(ROOT / "gfx/interface/ideas/RUS_tesla_electrical_industries_source.png").convert("RGBA")
     source.thumbnail((50, 50), Image.Resampling.LANCZOS)
@@ -228,8 +232,10 @@ def build_gfx() -> str:
         f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_mine.png"',
         "\t}",
         "\tspriteType = {",
-        f'\t\tname = "GFX_{PREFIX}_flag"',
-        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_flag.png"',
+        f'\t\tname = "GFX_{PREFIX}_marked_button"',
+        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_marked_button.png"',
+        "\t\tnoOfFrames = 4",
+        '\t\teffectFile = "gfx/FX/buttonstate.lua"',
         "\t}",
         "}",
     ])
@@ -420,11 +426,13 @@ def build_gui() -> str:
             f'\t\t\tspriteType = "GFX_{PREFIX}_mine"',
             "\t\t\talwaystransparent = yes",
             "\t\t}",
-            "\t\ticonType = {",
-            f'\t\t\tname = "{PREFIX}_cell_{ident}_flag"',
+            "\t\tbuttonType = {",
+            f'\t\t\tname = "{PREFIX}_cell_{ident}_marked"',
             f"\t\t\tposition = {{ x = {x} y = {y} }}",
-            f'\t\t\tspriteType = "GFX_{PREFIX}_flag"',
-            "\t\t\talwaystransparent = yes",
+            f'\t\t\tquadTextureSprite = "GFX_{PREFIX}_marked_button"',
+            "\t\t\tclicksound = click_ok",
+            "\t\t\toversound = ui_menu_over",
+            f"\t\t\tpdx_tooltip = {PREFIX}_cell_tooltip",
             "\t\t}",
         ])
     lines.extend(["\t}", "}"])
@@ -482,11 +490,12 @@ def build_scripted_gui() -> str:
         lines.extend([
             f"\t\t\t{PREFIX}_cell_{ident}_hidden_visible = {{",
             f"\t\t\t\tNOT = {{ has_country_flag = {PREFIX}_revealed_{ident} }}",
+            f"\t\t\t\tOR = {{ NOT = {{ has_country_flag = {PREFIX}_marked_{ident} }} has_country_flag = {PREFIX}_lost }}",
             f"\t\t\t\tNOT = {{ AND = {{ has_country_flag = {PREFIX}_lost has_country_flag = {PREFIX}_mine_{ident} }} }}",
             "\t\t\t}",
             f"\t\t\t{PREFIX}_cell_{ident}_revealed_visible = {{ has_country_flag = {PREFIX}_revealed_{ident} }}",
             f"\t\t\t{PREFIX}_cell_{ident}_mine_visible = {{ has_country_flag = {PREFIX}_lost has_country_flag = {PREFIX}_mine_{ident} }}",
-            f"\t\t\t{PREFIX}_cell_{ident}_flag_visible = {{",
+            f"\t\t\t{PREFIX}_cell_{ident}_marked_visible = {{",
             f"\t\t\t\thas_country_flag = {PREFIX}_marked_{ident}",
             f"\t\t\t\tNOT = {{ has_country_flag = {PREFIX}_lost }}",
             "\t\t\t}",
@@ -498,7 +507,15 @@ def build_scripted_gui() -> str:
             f"\t\t\t{PREFIX}_cell_{ident}_hidden_right_click_enabled = {{",
             f"\t\t\t\thas_country_flag = {PREFIX}_active",
             f"\t\t\t\tNOT = {{ has_country_flag = {PREFIX}_revealed_{ident} }}",
-            f"\t\t\t\tOR = {{ has_country_flag = {PREFIX}_marked_{ident} check_variable = {{ {PREFIX}_flags < 10 }} }}",
+            f"\t\t\t\tcheck_variable = {{ {PREFIX}_flags < 10 }}",
+            "\t\t\t}",
+            f"\t\t\t{PREFIX}_cell_{ident}_marked_click_enabled = {{",
+            f"\t\t\t\thas_country_flag = {PREFIX}_active",
+            f"\t\t\t\thas_country_flag = {PREFIX}_marked_{ident}",
+            "\t\t\t}",
+            f"\t\t\t{PREFIX}_cell_{ident}_marked_right_click_enabled = {{",
+            f"\t\t\t\thas_country_flag = {PREFIX}_active",
+            f"\t\t\t\thas_country_flag = {PREFIX}_marked_{ident}",
             "\t\t\t}",
         ])
         for number in range(1, 9):
@@ -517,6 +534,8 @@ def build_scripted_gui() -> str:
         lines.extend([
             f"\t\t\t{PREFIX}_cell_{ident}_hidden_click = {{ RUS_tesla_minesweeper_reveal_{ident} = yes }}",
             f"\t\t\t{PREFIX}_cell_{ident}_hidden_right_click = {{ RUS_tesla_minesweeper_mark_{ident} = yes }}",
+            f"\t\t\t{PREFIX}_cell_{ident}_marked_click = {{ RUS_tesla_minesweeper_unmark_{ident} = yes }}",
+            f"\t\t\t{PREFIX}_cell_{ident}_marked_right_click = {{ RUS_tesla_minesweeper_unmark_{ident} = yes }}",
         ])
     lines.extend(["\t\t}", "\t}", "}"])
     return "\n".join(lines)
@@ -758,17 +777,18 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
             "",
             f"RUS_tesla_minesweeper_mark_{ident} = {{",
             "\tif = {",
-            f"\t\tlimit = {{ has_country_flag = {PREFIX}_active NOT = {{ has_country_flag = {PREFIX}_revealed_{ident} }} }}",
-            "\t\tif = {",
-            f"\t\t\tlimit = {{ has_country_flag = {PREFIX}_marked_{ident} }}",
-            f"\t\t\tclr_country_flag = {PREFIX}_marked_{ident}",
-            f"\t\t\tadd_to_variable = {{ {PREFIX}_flags = -1 }}",
-            "\t\t}",
-            "\t\telse_if = {",
-            f"\t\t\tlimit = {{ check_variable = {{ {PREFIX}_flags < 10 }} }}",
-            f"\t\t\tset_country_flag = {PREFIX}_marked_{ident}",
-            f"\t\t\tadd_to_variable = {{ {PREFIX}_flags = 1 }}",
-            "\t\t}",
+            f"\t\tlimit = {{ has_country_flag = {PREFIX}_active NOT = {{ has_country_flag = {PREFIX}_revealed_{ident} }} NOT = {{ has_country_flag = {PREFIX}_marked_{ident} }} check_variable = {{ {PREFIX}_flags < 10 }} }}",
+            f"\t\tset_country_flag = {PREFIX}_marked_{ident}",
+            f"\t\tadd_to_variable = {{ {PREFIX}_flags = 1 }}",
+            "\t}",
+            "\tRUS_tesla_minesweeper_refresh_gui = yes",
+            "}",
+            "",
+            f"RUS_tesla_minesweeper_unmark_{ident} = {{",
+            "\tif = {",
+            f"\t\tlimit = {{ has_country_flag = {PREFIX}_active has_country_flag = {PREFIX}_marked_{ident} }}",
+            f"\t\tclr_country_flag = {PREFIX}_marked_{ident}",
+            f"\t\tadd_to_variable = {{ {PREFIX}_flags = -1 }}",
             "\t}",
             "\tRUS_tesla_minesweeper_refresh_gui = yes",
             "}",
@@ -793,7 +813,7 @@ LOCALISATIONS = {
         "cooldown": "§Y设备检修：60日冷却中§!",
         "start": "开始新一轮排查",
         "start_tooltip": "划定一片新的8×8电网排查区域。每轮结束后设备需检修60日。",
-        "cell_tooltip": "§Y左键§!排查节点\n§Y右键§!标记或取消危险节点\n§L第一次排查必定安全。§!",
+        "cell_tooltip": "§Y左键§!排查节点\n§Y右键§!标记危险节点\n§Y左键或右键已标记节点§!取消标记\n§L第一次排查必定安全。§!",
     },
     "english": {
         "title": "All-Russian Grid Fault Inspection",
@@ -810,7 +830,7 @@ LOCALISATIONS = {
         "cooldown": "§YEquipment Maintenance: 60-day cooldown§!",
         "start": "Begin New Inspection",
         "start_tooltip": "Designate a new 8x8 grid sector for inspection. Equipment undergoes 60 days of maintenance after each operation.",
-        "cell_tooltip": "§YLeft-click§! to inspect a node\n§YRight-click§! to mark or unmark a dangerous node\n§LThe first inspection is always safe.§!",
+        "cell_tooltip": "§YLeft-click§! to inspect a node\n§YRight-click§! to mark a dangerous node\n§YLeft- or right-click a marked node§! to clear it\n§LThe first inspection is always safe.§!",
     },
     "russian": {
         "title": "Всероссийская проверка электросети",
@@ -827,7 +847,7 @@ LOCALISATIONS = {
         "cooldown": "§YОбслуживание оборудования: 60 дней§!",
         "start": "Начать новую проверку",
         "start_tooltip": "Выделить новый участок электросети 8x8 для проверки. После каждой операции оборудование обслуживается 60 дней.",
-        "cell_tooltip": "§YЛевая кнопка§!: проверить узел\n§YПравая кнопка§!: отметить или снять отметку\n§LПервая проверка всегда безопасна.§!",
+        "cell_tooltip": "§YЛевая кнопка§!: проверить узел\n§YПравая кнопка§!: отметить опасный узел\n§YЛюбая кнопка на отмеченном узле§!: снять отметку\n§LПервая проверка всегда безопасна.§!",
     },
 }
 
