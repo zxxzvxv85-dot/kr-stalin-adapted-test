@@ -140,6 +140,7 @@ def draw_assets() -> None:
             width = box[2] - box[0]
             height = box[3] - box[1]
             draw.text((x + (CELL - width) / 2, (CELL - height) / 2 - 2), text, font=number_font, fill=number_colours[frame])
+            revealed_strip.crop((x, 0, x + CELL, CELL)).save(output / f"{PREFIX}_number_{frame}.png")
     revealed_strip.save(output / f"{PREFIX}_cell_revealed.png")
 
     mine = Image.new("RGBA", (CELL, CELL), (0, 0, 0, 0))
@@ -190,37 +191,49 @@ def draw_assets() -> None:
 
 
 def build_gfx() -> str:
-    return f'''spriteTypes = {{
-\tspriteType = {{
-\t\tname = "GFX_{PREFIX}_entry_button"
-\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_entry_button.png"
-\t\tnoOfFrames = 4
-\t\teffectFile = "gfx/FX/buttonstate.lua"
-\t}}
-\tspriteType = {{
-\t\tname = "GFX_{PREFIX}_entry_locked"
-\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_entry_locked.png"
-\t}}
-\tspriteType = {{
-\t\tname = "GFX_{PREFIX}_cell_button"
-\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_cell_button.png"
-\t\tnoOfFrames = 4
-\t\teffectFile = "gfx/FX/buttonstate.lua"
-\t}}
-\tspriteType = {{
-\t\tname = "GFX_{PREFIX}_cell_revealed"
-\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_cell_revealed.png"
-\t\tnoOfFrames = 9
-\t}}
-\tspriteType = {{
-\t\tname = "GFX_{PREFIX}_mine"
-\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_mine.png"
-\t}}
-\tspriteType = {{
-\t\tname = "GFX_{PREFIX}_flag"
-\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_flag.png"
-\t}}
-}}'''
+    lines = [
+        "spriteTypes = {",
+        "\tspriteType = {",
+        f'\t\tname = "GFX_{PREFIX}_entry_button"',
+        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_entry_button.png"',
+        "\t\tnoOfFrames = 4",
+        '\t\teffectFile = "gfx/FX/buttonstate.lua"',
+        "\t}",
+        "\tspriteType = {",
+        f'\t\tname = "GFX_{PREFIX}_entry_locked"',
+        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_entry_locked.png"',
+        "\t}",
+        "\tspriteType = {",
+        f'\t\tname = "GFX_{PREFIX}_cell_button"',
+        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_cell_button.png"',
+        "\t\tnoOfFrames = 4",
+        '\t\teffectFile = "gfx/FX/buttonstate.lua"',
+        "\t}",
+        "\tspriteType = {",
+        f'\t\tname = "GFX_{PREFIX}_cell_revealed"',
+        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_cell_revealed.png"',
+        "\t\tnoOfFrames = 9",
+        "\t}",
+    ]
+    for number in range(1, 9):
+        lines.extend([
+            "\tspriteType = {",
+            f'\t\tname = "GFX_{PREFIX}_number_{number}"',
+            f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_number_{number}.png"',
+            "\t}",
+        ])
+    lines.extend([
+        "\tspriteType = {",
+        f'\t\tname = "GFX_{PREFIX}_mine"',
+        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_mine.png"',
+        "\t}",
+        "\tspriteType = {",
+        f'\t\tname = "GFX_{PREFIX}_flag"',
+        f'\t\ttexturefile = "gfx/interface/tesla_minesweeper/{PREFIX}_flag.png"',
+        "\t}",
+        "}",
+    ])
+    return "\n".join(lines)
 
 
 def build_gui() -> str:
@@ -390,6 +403,17 @@ def build_gui() -> str:
             f'\t\t\tspriteType = "GFX_{PREFIX}_cell_revealed"',
             "\t\t\talwaystransparent = yes",
             "\t\t}",
+        ])
+        for number in range(1, 9):
+            lines.extend([
+                "\t\ticonType = {",
+                f'\t\t\tname = "{PREFIX}_cell_{ident}_number_{number}"',
+                f"\t\t\tposition = {{ x = {x} y = {y} }}",
+                f'\t\t\tspriteType = "GFX_{PREFIX}_number_{number}"',
+                "\t\t\talwaystransparent = yes",
+                "\t\t}",
+            ])
+        lines.extend([
             "\t\ticonType = {",
             f'\t\t\tname = "{PREFIX}_cell_{ident}_mine"',
             f"\t\t\tposition = {{ x = {x} y = {y} }}",
@@ -435,16 +459,8 @@ def build_scripted_gui() -> str:
         f"\t\tdirty = global.{PREFIX}_update",
         "\t\tai_enabled = { always = no }",
         f"\t\tvisible = {{ RUS_tesla_minesweeper_is_unlocked = yes has_country_flag = {PREFIX}_window_open }}",
-        "\t\tproperties = {",
+        "\t\ttriggers = {",
     ]
-    for index in range(BOARD_SIZE * BOARD_SIZE):
-        ident = cell_id(index)
-        lines.extend([
-            f"\t\t\t{PREFIX}_cell_{ident}_revealed = {{",
-            f"\t\t\t\tframe = {PREFIX}_count_{ident}",
-            "\t\t\t}",
-        ])
-    lines.extend(["\t\t}", "\t\ttriggers = {"])
     status_conditions = {
         "ready": f"NOT = {{ has_country_flag = {PREFIX}_active }} NOT = {{ has_country_flag = {PREFIX}_won }} NOT = {{ has_country_flag = {PREFIX}_lost }}",
         "active": f"has_country_flag = {PREFIX}_active",
@@ -485,6 +501,12 @@ def build_scripted_gui() -> str:
             f"\t\t\t\tOR = {{ has_country_flag = {PREFIX}_marked_{ident} check_variable = {{ {PREFIX}_flags < 10 }} }}",
             "\t\t\t}",
         ])
+        for number in range(1, 9):
+            lines.append(
+                f"\t\t\t{PREFIX}_cell_{ident}_number_{number}_visible = {{ "
+                f"has_country_flag = {PREFIX}_revealed_{ident} "
+                f"has_country_flag = {PREFIX}_count_{ident}_{number} }}"
+            )
     lines.extend(["\t\t}", "\t\teffects = {"])
     lines.extend([
         f"\t\t\t{PREFIX}_close_click = {{ RUS_tesla_minesweeper_close = yes }}",
@@ -572,8 +594,9 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
             f"\tclr_country_flag = {PREFIX}_mine_{ident}",
             f"\tclr_country_flag = {PREFIX}_revealed_{ident}",
             f"\tclr_country_flag = {PREFIX}_marked_{ident}",
-            f"\tset_variable = {{ {PREFIX}_count_{ident} = 0 }}",
         ])
+        for count in range(9):
+            lines.append(f"\tclr_country_flag = {PREFIX}_count_{ident}_{count}")
     lines.extend([
         "}",
         "",
@@ -602,9 +625,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         mine_set = set(layout)
         for index in range(BOARD_SIZE * BOARD_SIZE):
             adjacent_mines = sum(neighbor in mine_set for neighbor in neighbors(index))
-            lines.append(
-                f"\t\t\tset_variable = {{ {PREFIX}_count_{cell_id(index)} = {adjacent_mines} }}"
-            )
+            lines.append(f"\t\t\tset_country_flag = {PREFIX}_count_{cell_id(index)}_{adjacent_mines}")
         lines.append("\t\t}")
     lines.extend([
         "\t}",
@@ -613,6 +634,10 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         "",
         "RUS_tesla_minesweeper_repair_counts = {",
     ])
+    for index in range(BOARD_SIZE * BOARD_SIZE):
+        ident = cell_id(index)
+        for count in range(9):
+            lines.append(f"\tclr_country_flag = {PREFIX}_count_{ident}_{count}")
     for layout in layouts:
         mine_set = set(layout)
         lines.extend(["\tif = {", "\t\tlimit = {", "\t\t\tAND = {"])
@@ -621,9 +646,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         lines.extend(["\t\t\t}", "\t\t}"])
         for index in range(BOARD_SIZE * BOARD_SIZE):
             adjacent_mines = sum(neighbor in mine_set for neighbor in neighbors(index))
-            lines.append(
-                f"\t\tset_variable = {{ {PREFIX}_count_{cell_id(index)} = {adjacent_mines} }}"
-            )
+            lines.append(f"\t\tset_country_flag = {PREFIX}_count_{cell_id(index)}_{adjacent_mines}")
         lines.append("\t}")
     lines.append("}")
     lines.extend(["", "RUS_tesla_minesweeper_expand_empty_cells = {", "\tfor_loop_effect = {", "\t\tend = 16"])
@@ -639,7 +662,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         ])
         for neighbor in neighbors(index):
             neighbor_id = cell_id(neighbor)
-            lines.append(f"\t\t\t\t\tAND = {{ has_country_flag = {PREFIX}_revealed_{neighbor_id} check_variable = {{ {PREFIX}_count_{neighbor_id} = 0 }} }}")
+            lines.append(f"\t\t\t\t\tAND = {{ has_country_flag = {PREFIX}_revealed_{neighbor_id} has_country_flag = {PREFIX}_count_{neighbor_id}_0 }}")
         lines.extend([
             "\t\t\t\t}",
             "\t\t\t}",
@@ -724,7 +747,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
             "\t\telse = {",
             f"\t\t\tset_country_flag = {PREFIX}_revealed_{ident}",
             "\t\t\tif = {",
-            f"\t\t\t\tlimit = {{ check_variable = {{ {PREFIX}_count_{ident} = 0 }} }}",
+            f"\t\t\t\tlimit = {{ has_country_flag = {PREFIX}_count_{ident}_0 }}",
             "\t\t\t\tRUS_tesla_minesweeper_expand_empty_cells = yes",
             "\t\t\t}",
             "\t\t\tRUS_tesla_minesweeper_check_victory = yes",
