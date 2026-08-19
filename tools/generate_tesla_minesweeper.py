@@ -547,6 +547,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         "",
         "RUS_tesla_minesweeper_open = {",
         f"\tset_country_flag = {PREFIX}_window_open",
+        f"\tif = {{ limit = {{ has_country_flag = {PREFIX}_initialised }} RUS_tesla_minesweeper_repair_counts = yes }}",
         "\tRUS_tesla_minesweeper_refresh_gui = yes",
         "}",
         "",
@@ -598,26 +599,34 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         lines.extend(["\t\t\t\t}", "\t\t\t}"])
         for mine in layout:
             lines.append(f"\t\t\tset_country_flag = {PREFIX}_mine_{cell_id(mine)}")
+        mine_set = set(layout)
+        for index in range(BOARD_SIZE * BOARD_SIZE):
+            adjacent_mines = sum(neighbor in mine_set for neighbor in neighbors(index))
+            lines.append(
+                f"\t\t\tset_variable = {{ {PREFIX}_count_{cell_id(index)} = {adjacent_mines} }}"
+            )
         lines.append("\t\t}")
     lines.extend([
         "\t}",
         f"\tset_country_flag = {PREFIX}_initialised",
-        "\tRUS_tesla_minesweeper_compute_counts = yes",
         "}",
         "",
-        "RUS_tesla_minesweeper_compute_counts = {",
+        "RUS_tesla_minesweeper_repair_counts = {",
     ])
-    for index in range(BOARD_SIZE * BOARD_SIZE):
-        ident = cell_id(index)
-        lines.append(f"\tset_variable = {{ {PREFIX}_count_{ident} = 0 }}")
-        for neighbor in neighbors(index):
-            lines.extend([
-                "\tif = {",
-                f"\t\tlimit = {{ has_country_flag = {PREFIX}_mine_{cell_id(neighbor)} }}",
-                f"\t\tadd_to_variable = {{ {PREFIX}_count_{ident} = 1 }}",
-                "\t}",
-            ])
-    lines.extend(["}", "", "RUS_tesla_minesweeper_expand_empty_cells = {", "\tfor_loop_effect = {", "\t\tend = 16"])
+    for layout in layouts:
+        mine_set = set(layout)
+        lines.extend(["\tif = {", "\t\tlimit = {", "\t\t\tAND = {"])
+        for mine in layout:
+            lines.append(f"\t\t\t\thas_country_flag = {PREFIX}_mine_{cell_id(mine)}")
+        lines.extend(["\t\t\t}", "\t\t}"])
+        for index in range(BOARD_SIZE * BOARD_SIZE):
+            adjacent_mines = sum(neighbor in mine_set for neighbor in neighbors(index))
+            lines.append(
+                f"\t\tset_variable = {{ {PREFIX}_count_{cell_id(index)} = {adjacent_mines} }}"
+            )
+        lines.append("\t}")
+    lines.append("}")
+    lines.extend(["", "RUS_tesla_minesweeper_expand_empty_cells = {", "\tfor_loop_effect = {", "\t\tend = 16"])
     for index in range(BOARD_SIZE * BOARD_SIZE):
         ident = cell_id(index)
         lines.extend([
@@ -648,9 +657,13 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         f"\tclr_country_flag = {PREFIX}_active",
         f"\tset_country_flag = {PREFIX}_won",
         f"\tset_country_flag = {PREFIX}_cooldown",
+        f"\tadd_to_variable = {{ {PREFIX}_win_streak = 1 }}",
+        f"\tset_variable = {{ {PREFIX}_reward_grids = 0 }}",
+        f"\tset_temp_variable = {{ {PREFIX}_rewards_remaining = {PREFIX}_win_streak }}",
         "\tcountry_event = { id = RUS_tesla_minesweeper.1 days = 60 }",
-        "\tif = {",
+        "\twhile_loop_effect = {",
         "\t\tlimit = {",
+        f"\t\t\tcheck_variable = {{ {PREFIX}_rewards_remaining > 0 }}",
         "\t\t\tany_owned_state = {",
         "\t\t\t\tis_controlled_by = ROOT",
         "\t\t\t\tis_core_of = ROOT",
@@ -669,6 +682,11 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         "\t\t\tadd_extra_state_shared_building_slots = 1",
         "\t\t\tadd_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }",
         "\t\t}",
+        f"\t\tadd_to_variable = {{ {PREFIX}_reward_grids = 1 }}",
+        f"\t\tadd_to_temp_variable = {{ {PREFIX}_rewards_remaining = -1 }}",
+        "\t}",
+        "\tif = {",
+        f"\t\tlimit = {{ check_variable = {{ {PREFIX}_reward_grids > 0 }} }}",
         "\t\tRUS_tesla_refresh_power_grid_bonuses = yes",
         "\t}",
         "\telse = {",
@@ -681,6 +699,8 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         f"\tclr_country_flag = {PREFIX}_active",
         f"\tset_country_flag = {PREFIX}_lost",
         f"\tset_country_flag = {PREFIX}_cooldown",
+        f"\tset_variable = {{ {PREFIX}_win_streak = 0 }}",
+        f"\tset_variable = {{ {PREFIX}_reward_grids = 0 }}",
         "\tcountry_event = { id = RUS_tesla_minesweeper.1 days = 60 }",
         "\tRUS_tesla_minesweeper_refresh_gui = yes",
         "}",
@@ -741,10 +761,10 @@ LOCALISATIONS = {
         "entry_desc": "打开全俄罗斯电网故障排查。\n\n§L工程师们用一套布满故障节点的模拟电网训练线路排查与风险隔离。§!",
         "status_ready": "§Y演算台待命§!",
         "status_active": "§G电网演算进行中§!",
-        "status_won": "§G演算成功§!",
-        "status_won_no_reward": "§G演算成功§!\n§L合格地区均已覆盖强化电网。§!",
-        "status_lost": "§R电网短路§!\n§L本局没有惩罚。§!",
-        "reward": "§Y胜利奖励§!\n在随机一处合格的俄罗斯核心地区建成§G1座强化电网§!。",
+        "status_won": "§G演算成功§!\n§L连胜[?RUS_tesla_minesweeper_win_streak|0]次 · 新增[?RUS_tesla_minesweeper_reward_grids|0]座§!",
+        "status_won_no_reward": "§G演算成功§!\n§L连胜[?RUS_tesla_minesweeper_win_streak|0]次 · 已全部覆盖§!",
+        "status_lost": "§R电网短路§!",
+        "reward": "§Y连胜奖励§!\n第几次连续胜利，便会随机建设几座强化电网。",
         "flags": "故障节点：10  标记：[?RUS_tesla_minesweeper_flags|0]/10",
         "elapsed": "用时：[?RUS_tesla_minesweeper_elapsed_hours|0]小时",
         "cooldown": "§Y设备检修：60日冷却中§!",
@@ -758,10 +778,10 @@ LOCALISATIONS = {
         "entry_desc": "Open the All-Russian Grid Fault Inspection.\n\n§LEngineers train to isolate faults across a simulated electrical network.§!",
         "status_ready": "§YSimulator Standing By§!",
         "status_active": "§GGrid Simulation in Progress§!",
-        "status_won": "§GSimulation Successful§!",
-        "status_won_no_reward": "§GSimulation Successful§!\n§LEvery eligible state already has a Reinforced Electrical Grid.§!",
-        "status_lost": "§RGrid Shorted§!\n§LThere is no penalty for defeat.§!",
-        "reward": "§YVictory Reward§!\nConstruct §G1 Reinforced Electrical Grid§! in a random eligible Russian core state.",
+        "status_won": "§GSimulation Successful§!\n§LStreak [?RUS_tesla_minesweeper_win_streak|0] · Built [?RUS_tesla_minesweeper_reward_grids|0] grid(s)§!",
+        "status_won_no_reward": "§GSimulation Successful§!\n§LStreak [?RUS_tesla_minesweeper_win_streak|0] · Full coverage§!",
+        "status_lost": "§RGrid Shorted§!",
+        "reward": "§YWin Streak Reward§!\nThe nth consecutive victory constructs up to n Reinforced Electrical Grids in random eligible states.",
         "flags": "Faults: 10  Marked: [?RUS_tesla_minesweeper_flags|0]/10",
         "elapsed": "Time: [?RUS_tesla_minesweeper_elapsed_hours|0] h",
         "cooldown": "§YEquipment Maintenance: 60-day cooldown§!",
@@ -775,10 +795,10 @@ LOCALISATIONS = {
         "entry_desc": "Открыть всероссийскую проверку электросети.\n\n§LИнженеры учатся выявлять и изолировать аварийные узлы в имитационной электросети.§!",
         "status_ready": "§YСимулятор готов§!",
         "status_active": "§GМоделирование сети§!",
-        "status_won": "§GМоделирование успешно§!",
-        "status_won_no_reward": "§GМоделирование успешно§!\n§LВо всех подходящих областях уже есть усиленная энергосеть.§!",
-        "status_lost": "§RКороткое замыкание§!\n§LПоражение не влечёт наказания.§!",
-        "reward": "§YНаграда за победу§!\nПостроить §G1 усиленную энергосеть§! в случайной подходящей национальной области России.",
+        "status_won": "§GМоделирование успешно§!\n§LСерия [?RUS_tesla_minesweeper_win_streak|0] · Построено [?RUS_tesla_minesweeper_reward_grids|0]§!",
+        "status_won_no_reward": "§GМоделирование успешно§!\n§LСерия [?RUS_tesla_minesweeper_win_streak|0] · Всё охвачено§!",
+        "status_lost": "§RКороткое замыкание§!",
+        "reward": "§YНаграда за серию побед§!\nЗа n-ю победу подряд строится до n усиленных энергосетей в случайных подходящих областях.",
         "flags": "Аварий: 10  Отмечено: [?RUS_tesla_minesweeper_flags|0]/10",
         "elapsed": "Время: [?RUS_tesla_minesweeper_elapsed_hours|0] ч",
         "cooldown": "§YОбслуживание оборудования: 60 дней§!",
