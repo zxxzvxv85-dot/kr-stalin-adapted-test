@@ -664,9 +664,9 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
 
 LOCALISATIONS = {
     "simp_chinese": {
-        "title": "特斯拉电网演算台",
+        "title": "全俄罗斯电网故障排查",
         "locked_desc": "§Y任命尼古拉·特斯拉为顾问§!或选择§Y特斯拉电气§!作为工业企业后解锁。",
-        "entry_desc": "打开特斯拉电网演算台。\n\n§L工程师们用一套布满故障节点的模拟电网训练线路排查与风险隔离。§!",
+        "entry_desc": "打开全俄罗斯电网故障排查。\n\n§L工程师们用一套布满故障节点的模拟电网训练线路排查与风险隔离。§!",
         "status_ready": "§Y演算台待命§!",
         "status_active": "§G电网演算进行中§!",
         "status_won": "§G演算成功§!",
@@ -680,9 +680,9 @@ LOCALISATIONS = {
         "cell_tooltip": "§Y左键§!排查节点\n§Y右键§!标记或取消危险节点\n§L第一次排查必定安全。§!",
     },
     "english": {
-        "title": "Tesla Grid Simulator",
+        "title": "All-Russian Grid Fault Inspection",
         "locked_desc": "Unlocked by appointing §YNikola Tesla§! as an advisor or retaining §YTesla Electric§! as the industrial concern.",
-        "entry_desc": "Open the Tesla Grid Simulator.\n\n§LEngineers train to isolate faults across a simulated electrical network.§!",
+        "entry_desc": "Open the All-Russian Grid Fault Inspection.\n\n§LEngineers train to isolate faults across a simulated electrical network.§!",
         "status_ready": "§YSimulator Standing By§!",
         "status_active": "§GGrid Simulation in Progress§!",
         "status_won": "§GSimulation Successful§!",
@@ -696,9 +696,9 @@ LOCALISATIONS = {
         "cell_tooltip": "§YLeft-click§! to inspect a node\n§YRight-click§! to mark or unmark a dangerous node\n§LThe first inspection is always safe.§!",
     },
     "russian": {
-        "title": "Симулятор электросети Теслы",
+        "title": "Всероссийская проверка электросети",
         "locked_desc": "Открывается после назначения §YНиколы Теслы§! советником или выбора §Y«Тесла Электрик»§! промышленным концерном.",
-        "entry_desc": "Открыть симулятор электросети Теслы.\n\n§LИнженеры учатся выявлять и изолировать аварийные узлы в имитационной электросети.§!",
+        "entry_desc": "Открыть всероссийскую проверку электросети.\n\n§LИнженеры учатся выявлять и изолировать аварийные узлы в имитационной электросети.§!",
         "status_ready": "§YСимулятор готов§!",
         "status_active": "§GМоделирование сети§!",
         "status_won": "§GМоделирование успешно§!",
