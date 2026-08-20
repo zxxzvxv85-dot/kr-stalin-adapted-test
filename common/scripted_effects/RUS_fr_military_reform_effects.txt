@@ -372,8 +372,12 @@ RUS_fr_show_mechanisation_legacy_rewards = {
 
 RUS_fr_show_logistics_legacy_rewards = {
 	effect_tooltip = {
-		enable_tech_improved_logistics = yes
-		enable_tech_winter_logistics_support = yes
+		if = {
+			limit = { has_country_flag = RUS_fr_specialise_mobility }
+			enable_tech_improved_logistics = yes
+			enable_tech_winter_logistics_support = yes
+		}
+		else = { custom_effect_tooltip = RUS_fr_mechanised_logistics_non_mobility_bonus_tt }
 	}
 }
 
@@ -544,13 +548,26 @@ RUS_fr_apply_mechanisation_legacy_rewards = {
 
 RUS_fr_apply_logistics_legacy_rewards = {
 	if = {
-		limit = { NOT = { has_country_flag = RUS_fr_logistics_legacy_rewards_applied } }
+		limit = {
+			has_country_flag = RUS_fr_specialise_mobility
+			NOT = { has_country_flag = RUS_fr_logistics_legacy_rewards_applied }
+		}
 		if = {
 			limit = { NOT = { has_completed_focus = RUS_roads_of_courage } }
 			enable_tech_improved_logistics = yes
 			enable_tech_winter_logistics_support = yes
 		}
 		set_country_flag = RUS_fr_logistics_legacy_rewards_applied
+	}
+	else_if = {
+		limit = {
+			NOT = { has_country_flag = RUS_fr_specialise_mobility }
+			NOT = { has_country_flag = RUS_fr_logistics_legacy_rewards_applied }
+			NOT = { has_country_flag = RUS_fr_mechanised_logistics_non_mobility_bonus_applied }
+		}
+		add_to_variable = { RUS_fr_unified_supply_consumption = -0.10 }
+		set_country_flag = RUS_fr_mechanised_logistics_non_mobility_bonus_applied
+		force_update_dynamic_modifier = yes
 	}
 }
 
