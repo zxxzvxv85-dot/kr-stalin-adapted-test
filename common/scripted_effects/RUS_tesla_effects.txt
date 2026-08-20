@@ -1,4 +1,68 @@
 # Country scope. Keeps Tesla's advisor-only industrial and state bonuses reversible.
+RUS_tesla_preserve_transition_advisor = {
+	# Only Tesla is exempt from cabinet resets, and only when he is serving now.
+	if = {
+		limit = {
+			OR = {
+				has_idea = RUS_nikola_tesla_advisor
+				has_idea = RUS_nikola_tesla_advisor_restored
+			}
+		}
+		set_country_flag = RUS_nikola_tesla_transition_preserve_pending
+		# Keep the daily fallback out of the same tick. This also expires if
+		# a save/load interrupts the delayed restoration event.
+		set_country_flag = { flag = RUS_nikola_tesla_transition_restore_delay days = 1 }
+	}
+}
+
+RUS_tesla_restore_transition_advisor = {
+	if = {
+		limit = {
+			has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+			has_country_flag = RUS_nikola_tesla_retired
+		}
+		clr_country_flag = RUS_nikola_tesla_transition_preserve_pending
+	}
+	else_if = {
+		limit = {
+			has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+			NOT = {
+				OR = {
+					has_idea = RUS_nikola_tesla_advisor
+					has_idea = RUS_nikola_tesla_advisor_restored
+				}
+			}
+		}
+		if = {
+			limit = { has_country_flag = RUS_tesla_original_strength_restored }
+			if = {
+				limit = { NOT = { has_character = RUS_nikola_tesla_restored } }
+				recruit_character = RUS_nikola_tesla_restored
+			}
+			log = "[GetLogInfo]: restoring the enhanced Tesla advisor after a cabinet transition"
+			activate_advisor = RUS_nikola_tesla_advisor_restored
+		}
+		else = {
+			if = {
+				limit = { NOT = { has_character = RUS_nikola_tesla } }
+				recruit_character = RUS_nikola_tesla
+			}
+			log = "[GetLogInfo]: restoring the Tesla advisor after a cabinet transition"
+			activate_advisor = RUS_nikola_tesla_advisor
+		}
+	}
+	if = {
+		limit = {
+			has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+			OR = {
+				has_idea = RUS_nikola_tesla_advisor
+				has_idea = RUS_nikola_tesla_advisor_restored
+			}
+		}
+		clr_country_flag = RUS_nikola_tesla_transition_preserve_pending
+	}
+}
+
 RUS_tesla_refresh_power_grid_bonuses = {
 	if = {
 		limit = { has_country_flag = RUS_tesla_industrial_programme_active }
@@ -8,7 +72,15 @@ RUS_tesla_refresh_power_grid_bonuses = {
 				is_controlled_by = ROOT
 				energy_infrastructure > 0
 			}
-			ROOT = { add_to_variable = { RUS_tesla_power_grid_network_bonus = 0.01 } }
+			ROOT = {
+				if = {
+					limit = { has_country_flag = RUS_tesla_original_strength_restored }
+					add_to_variable = { RUS_tesla_power_grid_network_bonus = 0.01 }
+				}
+				else = {
+					add_to_variable = { RUS_tesla_power_grid_network_bonus = 0.005 }
+				}
+			}
 		}
 		every_state = {
 			limit = {
@@ -76,7 +148,9 @@ RUS_tesla_activate_industrial_programme = {
 		limit = {
 			OR = {
 				has_idea = RUS_nikola_tesla_advisor
+				has_idea = RUS_nikola_tesla_advisor_restored
 				has_idea = RUS_tesla_electrical_industries
+				has_idea = RUS_tesla_electrical_industries_restored
 			}
 		}
 		set_variable = { RUS_tesla_industry_time_300 = 150 }
@@ -91,7 +165,9 @@ RUS_tesla_deactivate_industrial_programme = {
 			NOT = {
 				OR = {
 					has_idea = RUS_nikola_tesla_advisor
+					has_idea = RUS_nikola_tesla_advisor_restored
 					has_idea = RUS_tesla_electrical_industries
+					has_idea = RUS_tesla_electrical_industries_restored
 				}
 			}
 		}

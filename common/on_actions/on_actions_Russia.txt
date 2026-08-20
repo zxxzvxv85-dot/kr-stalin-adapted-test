@@ -442,6 +442,47 @@ on_actions = {
 				}
 				recruit_character = RUS_nikola_tesla
 			}
+			# Migrate saves that completed War in Heaven before Tesla received a separate enhanced role.
+			if = {
+				limit = {
+					original_tag = RUS
+					has_country_flag = RUS_tesla_original_strength_restored
+					NOT = { has_country_flag = RUS_tesla_restored_roles_migrated }
+				}
+				if = {
+					limit = {
+						NOT = { has_country_flag = RUS_nikola_tesla_retired }
+						NOT = { has_character = RUS_nikola_tesla_restored }
+					}
+					recruit_character = RUS_nikola_tesla_restored
+				}
+				if = {
+					limit = { has_idea = RUS_nikola_tesla_advisor }
+					remove_ideas = RUS_nikola_tesla_advisor
+					activate_advisor = RUS_nikola_tesla_advisor_restored
+				}
+				if = {
+					limit = { has_idea = RUS_tesla_electrical_industries }
+					swap_ideas = {
+						remove_idea = RUS_tesla_electrical_industries
+						add_idea = RUS_tesla_electrical_industries_restored
+					}
+				}
+				if = {
+					limit = { has_dynamic_modifier = { modifier = RUS_tesla_original_strength_bonus } }
+					remove_dynamic_modifier = { modifier = RUS_tesla_original_strength_bonus }
+				}
+				set_country_flag = RUS_tesla_restored_roles_migrated
+			}
+			# Retry only a Tesla appointment interrupted by one of the scripted cabinet transitions.
+			# The short delay keeps this out of the same tick as the government-change slot cleanup.
+			if = {
+				limit = {
+					has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+					NOT = { has_country_flag = RUS_nikola_tesla_transition_restore_delay }
+				}
+				RUS_tesla_restore_transition_advisor = yes
+			}
 			# Add Kalinin to saves created before his advisor role was introduced.
 			if = {
 				limit = {
@@ -455,7 +496,9 @@ on_actions = {
 				limit = {
 					OR = {
 						has_idea = RUS_nikola_tesla_advisor
+						has_idea = RUS_nikola_tesla_advisor_restored
 						has_idea = RUS_tesla_electrical_industries
+						has_idea = RUS_tesla_electrical_industries_restored
 					}
 					OR = {
 						NOT = { has_country_flag = RUS_tesla_industrial_programme_active }
@@ -470,7 +513,9 @@ on_actions = {
 					NOT = {
 						OR = {
 							has_idea = RUS_nikola_tesla_advisor
+							has_idea = RUS_nikola_tesla_advisor_restored
 							has_idea = RUS_tesla_electrical_industries
+							has_idea = RUS_tesla_electrical_industries_restored
 						}
 					}
 				}
