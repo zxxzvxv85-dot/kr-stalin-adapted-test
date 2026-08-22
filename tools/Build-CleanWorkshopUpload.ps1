@@ -39,6 +39,7 @@ $excludePatterns = @(
     '^(?:\.gitattributes|\.gitignore)$',
     '^[^/]+\.md$',
     '^tools/',
+    '^output/',
     '^tmp/',
     '(?i)(?:^|/)[^/]*(?:_source|_preview(?:_v?\d+)?|_draft)[^/]*\.(?:png|jpe?g|dds|tga|psd)$',
     '(?i)^thumbnail_before_.*$',
