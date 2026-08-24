@@ -8848,7 +8848,7 @@ country_event = { #Unrest of the Amur-Ussuri Cossacks
 			OR = {
 				has_completed_focus = RUS_expand_okhrana
 				has_completed_focus = RUS_gosstrazha
-				has_completed_focus = RUS_state_surveillance
+				RUS_completed_focus_state_surveillance = yes
 				RUS_flegont_klepikov = { is_hired_as_advisor = yes }
 				RUS_yakov_blyumkin = { is_hired_as_advisor = yes }
 			}
@@ -10040,6 +10040,7 @@ country_event = { #Popular Anger 10 - Savinkov Assassinated
 	option = {
 		log = "[GetLogInfo]: event russia_events.924 option russia_events.924.a"
 		name = russia_events.924.a
+		hidden_effect = { RUS_tesla_preserve_transition_advisor = yes }
 		add_stability = -0.1
 		add_war_support = -0.15
 		kill_country_leader = yes
@@ -10052,6 +10053,7 @@ country_event = { #Popular Anger 10 - Savinkov Assassinated
 		hidden_effect = {
 			add_ideas = RUS_post-savinkov_economy #Replaces Savinkov economic ideas
 			RUS_remove_savinkov = yes
+			RUS_tesla_restore_transition_advisor = yes
 			country_event = { id = russia_events.925 days = 1 }
 		}
 	}
@@ -23446,6 +23448,7 @@ country_event = { #Law on Workers' Representation (through DemRus)
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.1 option russia_socialist_events.1.a"
 		name = russia_socialist_events.1.a
+		hidden_effect = { RUS_tesla_preserve_transition_advisor = yes }
 		add_stability = 0.2
 		add_political_power = 150
 		set_politics = {
@@ -23461,7 +23464,9 @@ country_event = { #Law on Workers' Representation (through DemRus)
 		add_popularity = { ideology = social_democrat popularity = 0.1 }
 		complete_national_focus = RUS_revolution_from_above
 		RUS_initialise_socrus = yes
+		RUS_tesla_restore_transition_advisor = yes
 		RUS_maximalist_land_reform_add_initial_stage = yes
+		hidden_effect = { country_event = { id = stalin_form_sov.500 hours = 1 } }
 	}
 }
 
@@ -23824,7 +23829,7 @@ country_event = { #The Great Bolshevik Trial #fired by focus
 	picture = GFX_report_event_RUS_trial_2
 	is_triggered_only = yes
 	trigger = {
-		NOT = { has_completed_focus = RUS_invite_sverdlov }
+		NOT = { RUS_completed_focus_invite_sverdlov = yes }
 	}
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.35 option russia_socialist_events.35.a"
@@ -27278,7 +27283,7 @@ country_event = { #The Rebellion Spreads to Kuban
 		trigger = {
 			OR = {
 				has_completed_focus = RUS_future_for_the_rural_regions
-				has_completed_focus = RUS_healthcare_reform
+				RUS_completed_focus_healthcare_reform = yes
 				has_completed_focus = RUS_countryside_concession
 			}
 		}
@@ -33506,7 +33511,7 @@ country_event = { #Industrial Situation
 	picture = GFX_report_event_RUS_first_five_year_plan
 	trigger = {
 		has_country_flag = RUS_auto_kamenev_vst_left_path
-		has_completed_focus = RUS_4_year_plan
+		RUS_completed_focus_4_year_plan = yes
 		NOT = { has_country_flag = RUS_rkp_b_first_five_year_plan_event_seen }
 	}
 
@@ -33527,7 +33532,7 @@ country_event = { #RKP(b) and the First Five-Year Plan
 	picture = GFX_report_event_RUS_first_five_year_plan
 	trigger = {
 		has_country_flag = RUS_auto_kamenev_vst_left_path
-		has_completed_focus = RUS_4_year_plan
+		RUS_completed_focus_4_year_plan = yes
 	}
 
 	immediate = {
@@ -42885,7 +42890,7 @@ country_event = { #Wave of White Sabotage
 		if = {
 			limit = {
 				OR = {
-					has_completed_focus = RUS_state_surveillance
+					RUS_completed_focus_state_surveillance = yes
 					has_completed_focus = RUS_triumph_of_the_idea
 				}
 			}

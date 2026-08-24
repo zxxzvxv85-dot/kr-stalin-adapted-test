@@ -306,9 +306,31 @@ on_actions = {
 		effect = {
 			RUS_stalin_fix_kirov_bolshevik_faction = yes
 			RUS_stalin_refresh_vst_factionalism_dynamic_modifier = yes
+			RUS_stalin_enforce_kamenev_advisor_locks = yes
 			# Advisor appointments and faction relations can change outside the focus-tree refresh.
 			# Refresh native advisor trait tiers daily, including migration for existing saves.
 			RUS_stalin_refresh_advisor_relationship_effects = yes
+			# Recover the AEG state list for saves made after Voskhod but before this list existed.
+			if = {
+				limit = {
+					has_completed_focus = RUS_voskhod
+					NOT = { has_country_flag = RUS_aeg_nationalisation_completed }
+					OR = {
+						NOT = { has_country_flag = RUS_aeg_nationalisation_states_selected }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_1 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_2 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_3 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_4 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_5 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_6 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_7 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_8 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_9 }
+						NOT = { has_variable = RUS_aeg_nationalisation_state_10 }
+					}
+				}
+				RUS_select_AEG_nationalisation_states = yes
+			}
 			# Retire the Kamenev transition tree after Stalin's victory, including in older saves.
 			if = {
 				limit = {
@@ -433,14 +455,24 @@ on_actions = {
 				}
 				RUS_generate_nikolay_bukharin_advisor_compat = yes
 			}
-			# Add Tesla to older Russian saves regardless of the ruling party.
+			# Keep Tesla's neutral technical-advisor role visible after scripted
+			# cabinet initialisation. This does not appoint him to a cabinet slot.
 			if = {
 				limit = {
 					original_tag = RUS
 					NOT = { has_country_flag = RUS_nikola_tesla_retired }
-					NOT = { has_character = RUS_nikola_tesla }
 				}
-				recruit_character = RUS_nikola_tesla
+				if = {
+					limit = { has_character = RUS_nikola_tesla }
+					activate_advisor = RUS_nikola_tesla_advisor
+				}
+				if = {
+					limit = {
+						has_country_flag = RUS_tesla_original_strength_restored
+						has_character = RUS_nikola_tesla_restored
+					}
+					activate_advisor = RUS_nikola_tesla_advisor_restored
+				}
 			}
 			# Migrate saves that completed War in Heaven before Tesla received a separate enhanced role.
 			if = {
@@ -452,14 +484,15 @@ on_actions = {
 				if = {
 					limit = {
 						NOT = { has_country_flag = RUS_nikola_tesla_retired }
-						NOT = { has_character = RUS_nikola_tesla_restored }
+						has_character = RUS_nikola_tesla_restored
 					}
-					recruit_character = RUS_nikola_tesla_restored
+					activate_advisor = RUS_nikola_tesla_advisor_restored
 				}
 				if = {
 					limit = { has_idea = RUS_nikola_tesla_advisor }
 					remove_ideas = RUS_nikola_tesla_advisor
 					activate_advisor = RUS_nikola_tesla_advisor_restored
+					add_ideas = RUS_nikola_tesla_advisor_restored
 				}
 				if = {
 					limit = { has_idea = RUS_tesla_electrical_industries }
@@ -478,7 +511,10 @@ on_actions = {
 			# The short delay keeps this out of the same tick as the government-change slot cleanup.
 			if = {
 				limit = {
-					has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+					OR = {
+						has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+						has_country_flag = RUS_nikola_tesla_transition_restore_window
+					}
 					NOT = { has_country_flag = RUS_nikola_tesla_transition_restore_delay }
 				}
 				RUS_tesla_restore_transition_advisor = yes
@@ -622,7 +658,7 @@ on_actions = {
 			if = {
 				limit = {
 					original_tag = RUS
-					has_completed_focus = RUS_science_of_marxism
+					RUS_completed_focus_science_of_marxism = yes
 					NOT = { has_country_flag = RUS_education_reform_completed }
 					OR = {
 						NOT = { has_country_flag = RUS_education_reform_started }
@@ -759,6 +795,14 @@ on_actions = {
 					NOT = { has_country_flag = RUS_kamenev_party_agenda_layout_v3_refreshed }
 				}
 				set_country_flag = RUS_kamenev_party_agenda_layout_v3_refreshed
+				mark_focus_tree_layout_dirty = yes
+			}
+			if = {
+				limit = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					NOT = { has_country_flag = RUS_kamenev_legacy_right_branch_layout_v1_refreshed }
+				}
+				set_country_flag = RUS_kamenev_legacy_right_branch_layout_v1_refreshed
 				mark_focus_tree_layout_dirty = yes
 			}
 			if = {

@@ -9,10 +9,82 @@ RUS_tesla_preserve_transition_advisor = {
 			}
 		}
 		set_country_flag = RUS_nikola_tesla_transition_preserve_pending
+		# Keep enforcing the one-person exception while the socialist cabinet
+		# initialisation and its follow-up events finish their own slot cleanup.
+		set_country_flag = { flag = RUS_nikola_tesla_transition_restore_window days = 7 }
 		# Keep the daily fallback out of the same tick. This also expires if
 		# a save/load interrupts the delayed restoration event.
 		set_country_flag = { flag = RUS_nikola_tesla_transition_restore_delay days = 1 }
+		# RUS_remove_savinkov permanently retires every hired political advisor.
+		# Vacate Tesla's slot first so the generic cabinet purge skips his character.
+		if = {
+			limit = { has_idea = RUS_nikola_tesla_advisor }
+			remove_ideas = RUS_nikola_tesla_advisor
+		}
+		else_if = {
+			limit = { has_idea = RUS_nikola_tesla_advisor_restored }
+			remove_ideas = RUS_nikola_tesla_advisor_restored
+		}
 	}
+}
+
+# Runtime fallback for saves in which an earlier version already allowed the
+# Savinkov cabinet purge to destroy Tesla's predefined character.
+RUS_tesla_generate_transition_replacement = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_original_strength_restored }
+		generate_character = {
+			token_base = nikola_tesla_restored_transition_compat
+			advisor = {
+				name = RUS_nikola_tesla
+				slot = political_advisor
+				idea_token = RUS_nikola_tesla_advisor_restored
+				desc = RUS_nikola_tesla_advisor_desc
+				allowed = { original_tag = RUS }
+				visible = {
+					NOT = { has_country_flag = RUS_nikola_tesla_retired }
+					has_country_flag = RUS_tesla_original_strength_restored
+				}
+				available = {
+					NOT = { has_country_flag = RUS_nikola_tesla_retired }
+					has_country_flag = RUS_tesla_original_strength_restored
+					not_already_hired_except_as = political_advisor
+				}
+				traits = { RUS_tesla_electrical_visionary_restored }
+				on_add = { hidden_effect = { owner = { RUS_tesla_activate_industrial_programme = yes } } }
+				on_remove = { hidden_effect = { owner = { RUS_tesla_deactivate_industrial_programme = yes } } }
+				ai_will_do = { base = 75 }
+			}
+			portraits = { army = { small = GFX_portrait_RUS_nikola_tesla_civilian_small } }
+		}
+	}
+	else = {
+		generate_character = {
+			token_base = nikola_tesla_transition_compat
+			advisor = {
+				name = RUS_nikola_tesla
+				slot = political_advisor
+				idea_token = RUS_nikola_tesla_advisor
+				desc = RUS_nikola_tesla_advisor_desc
+				allowed = { original_tag = RUS }
+				visible = {
+					NOT = { has_country_flag = RUS_nikola_tesla_retired }
+					NOT = { has_country_flag = RUS_tesla_original_strength_restored }
+				}
+				available = {
+					NOT = { has_country_flag = RUS_nikola_tesla_retired }
+					NOT = { has_country_flag = RUS_tesla_original_strength_restored }
+					not_already_hired_except_as = political_advisor
+				}
+				traits = { RUS_tesla_electrical_visionary }
+				on_add = { hidden_effect = { owner = { RUS_tesla_activate_industrial_programme = yes } } }
+				on_remove = { hidden_effect = { owner = { RUS_tesla_deactivate_industrial_programme = yes } } }
+				ai_will_do = { base = 75 }
+			}
+			portraits = { army = { small = GFX_portrait_RUS_nikola_tesla_civilian_small } }
+		}
+	}
+	set_country_flag = RUS_nikola_tesla_transition_replacement_generated
 }
 
 RUS_tesla_restore_transition_advisor = {
@@ -25,7 +97,10 @@ RUS_tesla_restore_transition_advisor = {
 	}
 	else_if = {
 		limit = {
-			has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+			OR = {
+				has_country_flag = RUS_nikola_tesla_transition_preserve_pending
+				has_country_flag = RUS_nikola_tesla_transition_restore_window
+			}
 			NOT = {
 				OR = {
 					has_idea = RUS_nikola_tesla_advisor
@@ -36,19 +111,27 @@ RUS_tesla_restore_transition_advisor = {
 		if = {
 			limit = { has_country_flag = RUS_tesla_original_strength_restored }
 			if = {
-				limit = { NOT = { has_character = RUS_nikola_tesla_restored } }
-				recruit_character = RUS_nikola_tesla_restored
+				limit = {
+					NOT = { has_character = RUS_nikola_tesla_restored }
+					NOT = { has_country_flag = RUS_nikola_tesla_transition_replacement_generated }
+				}
+				RUS_tesla_generate_transition_replacement = yes
 			}
 			log = "[GetLogInfo]: restoring the enhanced Tesla advisor after a cabinet transition"
 			activate_advisor = RUS_nikola_tesla_advisor_restored
+			add_ideas = RUS_nikola_tesla_advisor_restored
 		}
 		else = {
 			if = {
-				limit = { NOT = { has_character = RUS_nikola_tesla } }
-				recruit_character = RUS_nikola_tesla
+				limit = {
+					NOT = { has_character = RUS_nikola_tesla }
+					NOT = { has_country_flag = RUS_nikola_tesla_transition_replacement_generated }
+				}
+				RUS_tesla_generate_transition_replacement = yes
 			}
 			log = "[GetLogInfo]: restoring the Tesla advisor after a cabinet transition"
 			activate_advisor = RUS_nikola_tesla_advisor
+			add_ideas = RUS_nikola_tesla_advisor
 		}
 	}
 	if = {
