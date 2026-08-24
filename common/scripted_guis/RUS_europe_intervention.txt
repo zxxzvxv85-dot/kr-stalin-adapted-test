@@ -1,7 +1,8 @@
 scripted_gui = {
-	RUS_europe_intervention_gui = {
-		context_type = decision_category
-		window_name = "RUS_europe_intervention_window"
+	RUS_europe_intervention_entry_gui = {
+		context_type = player_context
+		parent_window_name = "countrypoliticsview"
+		window_name = "RUS_europe_intervention_entry_window"
 		ai_enabled = { always = no }
 		visible = {
 			original_tag = RUS
@@ -9,6 +10,32 @@ scripted_gui = {
 			has_completed_focus = RUS_self_determination
 		}
 		triggers = {
+			RUS_europe_intervention_open_button_click_enabled = { always = yes }
+		}
+		effects = {
+			RUS_europe_intervention_open_button_click = {
+				if = {
+					limit = { has_country_flag = RUS_europe_intervention_window_open }
+					clr_country_flag = RUS_europe_intervention_window_open
+				}
+				else = { set_country_flag = RUS_europe_intervention_window_open }
+			}
+		}
+	}
+
+	RUS_europe_intervention_gui = {
+		context_type = player_context
+		parent_window_name = "countrypoliticsview"
+		window_name = "RUS_europe_intervention_window"
+		ai_enabled = { always = no }
+		visible = {
+			original_tag = RUS
+			has_socialist_government = yes
+			has_completed_focus = RUS_self_determination
+			has_country_flag = RUS_europe_intervention_window_open
+		}
+		triggers = {
+			RUS_europe_intervention_close_button_click_enabled = { always = yes }
 			RUS_europe_intervention_no_selection_visible = { NOT = { has_country_flag = RUS_europe_intervention_filter_active } }
 			RUS_europe_intervention_overview_button_click_enabled = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_ICE_button_visible = { ICE = { exists = yes } }
@@ -269,6 +296,7 @@ scripted_gui = {
 			RUS_europe_intervention_AZR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_AZR }
 		}
 		effects = {
+			RUS_europe_intervention_close_button_click = { clr_country_flag = RUS_europe_intervention_window_open }
 			RUS_europe_intervention_overview_button_click = { RUS_clear_europe_intervention_selection = yes }
 			RUS_europe_intervention_ICE_button_click = {
 				RUS_clear_europe_intervention_selection = yes
