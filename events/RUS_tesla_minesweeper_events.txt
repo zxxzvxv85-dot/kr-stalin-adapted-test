@@ -16,12 +16,6 @@ country_event = {
 	hidden = yes
 	is_triggered_only = yes
 
-	immediate = {
-		if = {
-			limit = { has_country_flag = RUS_tesla_minesweeper_active }
-			add_to_variable = { RUS_tesla_minesweeper_elapsed_hours = 1 }
-			RUS_tesla_minesweeper_refresh_gui = yes
-			country_event = { id = RUS_tesla_minesweeper.2 hours = 1 }
-		}
-	}
+	# Drain timers queued by earlier builds without scheduling another refresh.
+	immediate = { }
 }
