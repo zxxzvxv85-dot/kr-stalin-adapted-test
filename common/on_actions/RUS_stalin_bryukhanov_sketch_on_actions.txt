@@ -1,0 +1,15 @@
+on_actions = {
+	on_daily_RUS = {
+		effect = {
+			if = {
+				limit = {
+					date > 1942.4.4
+					date < 1942.4.6
+					NOT = { has_country_flag = RUS_bryukhanov_sketch_event_fired }
+				}
+				set_country_flag = RUS_bryukhanov_sketch_event_fired
+				country_event = RUS_stalin_bryukhanov_sketch_events.1
+			}
+		}
+	}
+}
