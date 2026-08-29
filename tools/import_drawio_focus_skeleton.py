@@ -19,7 +19,8 @@ from pathlib import Path
 REFERENCE_BEGIN = "\t# BEGIN RUS future foreign-policy skeleton"
 REFERENCE_END = "\t# END RUS future foreign-policy skeleton"
 EXPECTED_VERTEX_COUNT = 63
-X_ORIGIN = 200
+X_ORIGIN = 0
+Y_ORIGIN = 17
 DRAWIO_X_STEP = 120.0
 DRAWIO_Y_STEP = 120.0
 
@@ -73,7 +74,7 @@ def parse_layout(path: Path) -> tuple[list[dict[str, object]], list[tuple[str, s
         vertex["x"] = X_ORIGIN + round_grid(
             (float(vertex["raw_x"]) - min_x) / DRAWIO_X_STEP
         )
-        vertex["y"] = round_grid(
+        vertex["y"] = Y_ORIGIN + round_grid(
             (float(vertex["raw_y"]) - min_y) / DRAWIO_Y_STEP
         )
 
@@ -193,7 +194,10 @@ def main() -> int:
     mod_root = args.mod_root.resolve()
     vertices, edges = parse_layout(args.drawio.resolve())
     shared_path = (
-        mod_root / "common" / "national_focus" / "RUS_future_foreign_policy_skeleton.txt"
+        mod_root
+        / "common"
+        / "national_focus"
+        / "00_RUS_future_foreign_policy_skeleton.txt"
     )
     tree_path = mod_root / "common" / "national_focus" / "RUS focus (Russia).txt"
     loc_path = (
