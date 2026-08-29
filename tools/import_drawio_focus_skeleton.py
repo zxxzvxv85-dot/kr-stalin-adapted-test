@@ -23,6 +23,28 @@ X_ORIGIN = 0
 Y_ORIGIN = 17
 DRAWIO_X_STEP = 120.0
 DRAWIO_Y_STEP = 120.0
+EXTRA_EDGES = (
+    ("炽阳黄沙", "次大陆黎明"),
+    ("炽阳黄沙", "扎格罗斯低吟"),
+    ("炽阳黄沙", "喀布尔钟声响"),
+)
+REMOVED_EDGES = {
+    ("团结万岁", "共产主义灯塔"),
+    ("世界革命倒计时", "红色欧罗巴"),
+    ("红色欧罗巴", "和平之路"),
+}
+ANY_OF_PREREQUISITES = {
+    "世界革命倒计时": ("团结万岁", "共产主义灯塔"),
+    "红色欧罗巴": ("团结万岁", "共产主义灯塔"),
+    "和平之路": ("团结万岁", "共产主义灯塔"),
+}
+MUTUALLY_EXCLUSIVE_PAIRS = (
+    ("分工合作", "苏维埃民族愿景"),
+    ("团结万岁", "共产主义灯塔"),
+    ("世界革命倒计时", "红色欧罗巴"),
+    ("世界革命倒计时", "和平之路"),
+    ("红色欧罗巴", "和平之路"),
+)
 
 
 def clean_label(value: str | None) -> str:
@@ -67,6 +89,7 @@ def parse_layout(path: Path) -> tuple[list[dict[str, object]], list[tuple[str, s
     labels = [str(vertex["label"]) for vertex in vertices]
     if len(labels) != len(set(labels)):
         raise RuntimeError("draw.io layout contains duplicate named vertices")
+    by_label = {str(vertex["label"]): vertex for vertex in vertices}
 
     min_x = min(float(vertex["raw_x"]) for vertex in vertices)
     min_y = min(float(vertex["raw_y"]) for vertex in vertices)
@@ -91,6 +114,20 @@ def parse_layout(path: Path) -> tuple[list[dict[str, object]], list[tuple[str, s
         target = by_cell_id.get(cell.get("target", ""))
         if source is None or target is None or source is target:
             continue
+        label_edge = (str(source["label"]), str(target["label"]))
+        if label_edge in REMOVED_EDGES:
+            continue
+        edge = (str(source["focus_id"]), str(target["focus_id"]))
+        if edge not in seen_edges:
+            seen_edges.add(edge)
+            incoming.append(edge)
+
+    for source_label, target_label in EXTRA_EDGES:
+        try:
+            source = by_label[source_label]
+            target = by_label[target_label]
+        except KeyError as exc:
+            raise RuntimeError(f"extra edge references an unknown focus: {exc}") from exc
         edge = (str(source["focus_id"]), str(target["focus_id"]))
         if edge not in seen_edges:
             seen_edges.add(edge)
@@ -116,6 +153,29 @@ def render_shared_focuses(
     }
     for source, target in edges:
         prerequisites[target].append(source)
+    focus_id_by_label = {
+        str(vertex["label"]): str(vertex["focus_id"]) for vertex in vertices
+    }
+    mutually_exclusive: dict[str, list[str]] = {
+        str(vertex["focus_id"]): [] for vertex in vertices
+    }
+    any_of_prerequisites: dict[str, list[str]] = {}
+    for target_label, source_labels in ANY_OF_PREREQUISITES.items():
+        try:
+            target = focus_id_by_label[target_label]
+            any_of_prerequisites[target] = [
+                focus_id_by_label[source_label] for source_label in source_labels
+            ]
+        except KeyError as exc:
+            raise RuntimeError(f"OR prerequisite references an unknown focus: {exc}") from exc
+    for left_label, right_label in MUTUALLY_EXCLUSIVE_PAIRS:
+        try:
+            left = focus_id_by_label[left_label]
+            right = focus_id_by_label[right_label]
+        except KeyError as exc:
+            raise RuntimeError(f"mutual exclusion references an unknown focus: {exc}") from exc
+        mutually_exclusive[left].append(right)
+        mutually_exclusive[right].append(left)
 
     lines = [
         "############################################################################################################",
@@ -142,6 +202,14 @@ def render_shared_focuses(
         )
         for prerequisite in prerequisites[focus_id]:
             lines.append(f"\tprerequisite = {{ focus = {prerequisite} }}")
+        if focus_id in any_of_prerequisites:
+            alternatives = " ".join(
+                f"focus = {prerequisite}"
+                for prerequisite in any_of_prerequisites[focus_id]
+            )
+            lines.append(f"\tprerequisite = {{ {alternatives} }}")
+        for excluded_focus in mutually_exclusive[focus_id]:
+            lines.append(f"\tmutually_exclusive = {{ focus = {excluded_focus} }}")
         lines.extend(["\tai_will_do = { factor = 0 }", "}", ""])
     return "\n".join(lines)
 
