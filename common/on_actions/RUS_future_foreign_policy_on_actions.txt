@@ -2,6 +2,11 @@ on_actions = {
 	on_daily_RUS = {
 		effect = {
 			if = {
+				limit = { has_country_flag = RUS_future_foreign_refresh_borderland_readiness_debuff }
+				clr_country_flag = RUS_future_foreign_refresh_borderland_readiness_debuff
+				RUS_future_foreign_apply_borderland_readiness_debuff = yes
+			}
+			if = {
 				limit = { has_completed_focus = RUS_future_foreign_001 }
 				RUS_future_foreign_refresh_completed_focus_count = yes
 			}
@@ -25,6 +30,14 @@ on_actions = {
 					ROOT = {
 						original_tag = RUS
 						has_completed_focus = RUS_future_foreign_004
+					}
+					FROM = {
+						OR = {
+							has_government = radical_socialist
+							has_government = totalist
+							has_government = syndicalist
+							has_government = communist
+						}
 					}
 				}
 				FROM = { set_country_flag = RUS_future_foreign_received_volunteers }

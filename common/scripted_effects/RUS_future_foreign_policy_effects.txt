@@ -53,7 +53,7 @@ RUS_future_foreign_refresh_red_country_count = {
 	set_variable = {
 		RUS_soviets_and_phalanstere_mio_surplus = RUS_soviets_and_phalanstere_red_country_count
 	}
-	multiply_variable = { RUS_soviets_and_phalanstere_mio_surplus = 50 }
+	multiply_variable = { RUS_soviets_and_phalanstere_mio_surplus = 25 }
 
 	if = {
 		limit = {
@@ -61,6 +61,147 @@ RUS_future_foreign_refresh_red_country_count = {
 			NOT = { has_dynamic_modifier = { modifier = RUS_soviets_and_phalanstere } }
 		}
 		add_dynamic_modifier = { modifier = RUS_soviets_and_phalanstere }
+	}
+}
+
+# 刷新指定边疆国家及波罗的联合公国解体继承国当前控制地区的修正。
+RUS_future_foreign_apply_borderland_readiness_debuff = {
+	every_state = {
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_low_3 } }
+			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_low_3 }
+		}
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_low_2 } }
+			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_low_2 }
+		}
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_low_1 } }
+			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_low_1 }
+		}
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_balanced } }
+			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_balanced }
+		}
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_1 } }
+			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_1 }
+		}
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_2 } }
+			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_2 }
+		}
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_3 } }
+			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_3 }
+		}
+	}
+	every_country = {
+		limit = {
+			exists = yes
+			OR = {
+				original_tag = BAT
+				original_tag = EST
+				original_tag = LAT
+				original_tag = LIT
+				original_tag = BLR
+				original_tag = UKR
+				original_tag = GEO
+				original_tag = AZR
+			}
+		}
+		every_controlled_state = {
+			if = {
+				limit = {
+					RUS = {
+						power_balance_value = {
+							id = RUS_europe_intervention_power_balance
+							value < -0.75
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = RUS_future_foreign_borderland_readiness_low_3
+					days = 365
+				}
+			}
+			else_if = {
+				limit = {
+					RUS = {
+						power_balance_value = {
+							id = RUS_europe_intervention_power_balance
+							value < -0.50
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = RUS_future_foreign_borderland_readiness_low_2
+					days = 300
+				}
+			}
+			else_if = {
+				limit = {
+					RUS = {
+						power_balance_value = {
+							id = RUS_europe_intervention_power_balance
+							value < -0.25
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = RUS_future_foreign_borderland_readiness_low_1
+					days = 240
+				}
+			}
+			else_if = {
+				limit = {
+					RUS = {
+						power_balance_value = {
+							id = RUS_europe_intervention_power_balance
+							value < 0.25
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = RUS_future_foreign_borderland_readiness_balanced
+					days = 180
+				}
+			}
+			else_if = {
+				limit = {
+					RUS = {
+						power_balance_value = {
+							id = RUS_europe_intervention_power_balance
+							value < 0.50
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = RUS_future_foreign_borderland_readiness_high_1
+					days = 120
+				}
+			}
+			else_if = {
+				limit = {
+					RUS = {
+						power_balance_value = {
+							id = RUS_europe_intervention_power_balance
+							value < 0.75
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = RUS_future_foreign_borderland_readiness_high_2
+					days = 60
+				}
+			}
+			else = {
+				add_dynamic_modifier = {
+					modifier = RUS_future_foreign_borderland_readiness_high_3
+					days = 30
+				}
+			}
+		}
 	}
 }
 
@@ -177,7 +318,15 @@ RUS_future_foreign_resolve_intervention_victory = {
 		limit = { has_country_flag = RUS_future_foreign_received_volunteers }
 		clr_country_flag = RUS_future_foreign_received_volunteers
 		if = {
-			limit = { NOT = { has_country_flag = RUS_future_foreign_victory_counted } }
+			limit = {
+				OR = {
+					has_government = radical_socialist
+					has_government = totalist
+					has_government = syndicalist
+					has_government = communist
+				}
+				NOT = { has_country_flag = RUS_future_foreign_victory_counted }
+			}
 			set_country_flag = RUS_future_foreign_victory_counted
 			RUS = {
 				if = {
@@ -202,15 +351,25 @@ RUS_future_foreign_resolve_intervention_defeat = {
 	if = {
 		limit = { has_country_flag = RUS_future_foreign_received_volunteers }
 		clr_country_flag = RUS_future_foreign_received_volunteers
-		RUS = {
-			if = {
-				limit = {
-					has_completed_focus = RUS_future_foreign_004
-					has_power_balance = { id = RUS_europe_intervention_power_balance }
+		if = {
+			limit = {
+				OR = {
+					has_government = radical_socialist
+					has_government = totalist
+					has_government = syndicalist
+					has_government = communist
 				}
-				add_power_balance_value = {
-					id = RUS_europe_intervention_power_balance
-					value = -0.05
+			}
+			RUS = {
+				if = {
+					limit = {
+						has_completed_focus = RUS_future_foreign_004
+						has_power_balance = { id = RUS_europe_intervention_power_balance }
+					}
+					add_power_balance_value = {
+						id = RUS_europe_intervention_power_balance
+						value = -0.05
+					}
 				}
 			}
 		}
