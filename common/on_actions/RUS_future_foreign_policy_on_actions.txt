@@ -2,8 +2,12 @@ on_actions = {
 	on_daily_RUS = {
 		effect = {
 			if = {
-				limit = { has_country_flag = RUS_future_foreign_refresh_borderland_readiness_debuff }
-				clr_country_flag = RUS_future_foreign_refresh_borderland_readiness_debuff
+				limit = {
+					has_global_flag = second_weltkrieg_has_started
+					has_power_balance = { id = RUS_europe_intervention_power_balance }
+					NOT = { has_country_flag = RUS_future_foreign_borderland_readiness_applied }
+				}
+				set_country_flag = RUS_future_foreign_borderland_readiness_applied
 				RUS_future_foreign_apply_borderland_readiness_debuff = yes
 			}
 			if = {

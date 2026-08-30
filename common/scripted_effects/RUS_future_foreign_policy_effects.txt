@@ -68,7 +68,7 @@ RUS_future_foreign_refresh_red_country_count = {
 	}
 }
 
-# 刷新指定边疆国家及波罗的联合公国解体继承国当前控制地区的修正。
+# 第二次世界大战爆发时锁定准备度，并标记指定边疆国家当前控制的地区。
 RUS_future_foreign_apply_borderland_readiness_debuff = {
 	every_state = {
 		if = {
@@ -98,6 +98,91 @@ RUS_future_foreign_apply_borderland_readiness_debuff = {
 		if = {
 			limit = { has_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_3 } }
 			remove_dynamic_modifier = { modifier = RUS_future_foreign_borderland_readiness_high_3 }
+		}
+	}
+	remove_ideas = RUS_future_foreign_borderland_readiness_low_3_rus_penalty
+	remove_ideas = RUS_future_foreign_borderland_readiness_low_2_rus_penalty
+	remove_ideas = RUS_future_foreign_borderland_readiness_low_1_rus_penalty
+	remove_ideas = RUS_future_foreign_borderland_readiness_balanced_rus_penalty
+	remove_ideas = RUS_future_foreign_borderland_readiness_high_1_rus_penalty
+	remove_ideas = RUS_future_foreign_borderland_readiness_high_2_rus_penalty
+	remove_ideas = RUS_future_foreign_borderland_readiness_high_3_rus_penalty
+	if = {
+		limit = {
+			power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value < -0.75
+			}
+		}
+		add_timed_idea = {
+			idea = RUS_future_foreign_borderland_readiness_low_3_rus_penalty
+			days = 365
+		}
+	}
+	else_if = {
+		limit = {
+			power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value < -0.50
+			}
+		}
+		add_timed_idea = {
+			idea = RUS_future_foreign_borderland_readiness_low_2_rus_penalty
+			days = 300
+		}
+	}
+	else_if = {
+		limit = {
+			power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value < -0.25
+			}
+		}
+		add_timed_idea = {
+			idea = RUS_future_foreign_borderland_readiness_low_1_rus_penalty
+			days = 240
+		}
+	}
+	else_if = {
+		limit = {
+			power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value < 0.25
+			}
+		}
+		add_timed_idea = {
+			idea = RUS_future_foreign_borderland_readiness_balanced_rus_penalty
+			days = 180
+		}
+	}
+	else_if = {
+		limit = {
+			power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value < 0.50
+			}
+		}
+		add_timed_idea = {
+			idea = RUS_future_foreign_borderland_readiness_high_1_rus_penalty
+			days = 120
+		}
+	}
+	else_if = {
+		limit = {
+			power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value < 0.75
+			}
+		}
+		add_timed_idea = {
+			idea = RUS_future_foreign_borderland_readiness_high_2_rus_penalty
+			days = 60
+		}
+	}
+	else = {
+		add_timed_idea = {
+			idea = RUS_future_foreign_borderland_readiness_high_3_rus_penalty
+			days = 30
 		}
 	}
 	every_country = {
