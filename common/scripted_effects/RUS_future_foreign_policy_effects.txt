@@ -1,0 +1,218 @@
+RUS_future_foreign_refresh_third_international_gendarme = {
+	set_variable = { RUS_third_international_gendarme_volunteer_limit = 1 }
+	add_to_variable = {
+		RUS_third_international_gendarme_volunteer_limit = RUS_third_international_gendarme_victories
+	}
+	if = {
+		limit = { check_variable = { RUS_third_international_gendarme_volunteer_limit > 5 } }
+		set_variable = { RUS_third_international_gendarme_volunteer_limit = 5 }
+	}
+
+	set_variable = { RUS_third_international_gendarme_experience_steps = 1 }
+	add_to_variable = {
+		RUS_third_international_gendarme_experience_steps = RUS_third_international_gendarme_victories
+	}
+	if = {
+		limit = { check_variable = { RUS_third_international_gendarme_experience_steps > 10 } }
+		set_variable = { RUS_third_international_gendarme_experience_steps = 10 }
+	}
+	set_variable = {
+		RUS_third_international_gendarme_volunteer_experience = RUS_third_international_gendarme_experience_steps
+	}
+	multiply_variable = { RUS_third_international_gendarme_volunteer_experience = 0.05 }
+
+	if = {
+		limit = {
+			has_completed_focus = RUS_future_foreign_004
+			NOT = { has_dynamic_modifier = { modifier = RUS_third_international_gendarme } }
+		}
+		add_dynamic_modifier = { modifier = RUS_third_international_gendarme }
+	}
+}
+
+RUS_future_foreign_refresh_red_country_count = {
+	set_variable = { RUS_soviets_and_phalanstere_red_country_count = 0 }
+	every_country = {
+		limit = {
+			exists = yes
+			OR = {
+				has_government = radical_socialist
+				has_government = totalist
+				has_government = syndicalist
+				has_government = communist
+			}
+		}
+		PREV = { add_to_variable = { RUS_soviets_and_phalanstere_red_country_count = 1 } }
+	}
+
+	set_variable = {
+		RUS_soviets_and_phalanstere_research_sharing_bonus = RUS_soviets_and_phalanstere_red_country_count
+	}
+	multiply_variable = { RUS_soviets_and_phalanstere_research_sharing_bonus = 0.005 }
+
+	set_variable = {
+		RUS_soviets_and_phalanstere_mio_surplus = RUS_soviets_and_phalanstere_red_country_count
+	}
+	multiply_variable = { RUS_soviets_and_phalanstere_mio_surplus = 50 }
+
+	if = {
+		limit = {
+			has_completed_focus = RUS_future_foreign_016
+			NOT = { has_dynamic_modifier = { modifier = RUS_soviets_and_phalanstere } }
+		}
+		add_dynamic_modifier = { modifier = RUS_soviets_and_phalanstere }
+	}
+}
+
+RUS_future_foreign_refresh_completed_focus_count = {
+	set_temp_variable = { RUS_future_foreign_current_completed_focus_count = 0 }
+	if = { limit = { has_completed_focus = RUS_future_foreign_001 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_002 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_003 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_004 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_005 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_006 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_007 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_008 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_009 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_010 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_011 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_012 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_013 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_014 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_015 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_016 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_017 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_018 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_019 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_020 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_021 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_022 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_023 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_024 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_025 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_026 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_027 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_028 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_029 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_030 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_031 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_032 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_033 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_034 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_035 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_036 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_037 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_038 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_039 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_040 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_041 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_042 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_043 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_044 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_045 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_046 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_047 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_048 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_049 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_050 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_051 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_052 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_053 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_054 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_055 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_056 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_057 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_058 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_059 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_060 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_061 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_062 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+	if = { limit = { has_completed_focus = RUS_future_foreign_063 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
+
+	if = {
+		limit = { NOT = { has_variable = RUS_future_foreign_completed_focus_count } }
+		set_variable = { RUS_future_foreign_completed_focus_count = 0 }
+	}
+	if = {
+		limit = { check_variable = { RUS_future_foreign_current_completed_focus_count > RUS_future_foreign_completed_focus_count } }
+		if = {
+			limit = { NOT = { has_power_balance = { id = RUS_europe_intervention_power_balance } } }
+			set_power_balance = { id = RUS_europe_intervention_power_balance }
+		}
+		set_temp_variable = {
+			RUS_future_foreign_new_completed_focus_count = RUS_future_foreign_current_completed_focus_count
+		}
+		subtract_from_temp_variable = {
+			RUS_future_foreign_new_completed_focus_count = RUS_future_foreign_completed_focus_count
+		}
+		for_loop_effect = {
+			value = RUS_future_foreign_new_completed_focus_count
+			add_power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value = 0.01
+			}
+		}
+		set_variable = {
+			RUS_future_foreign_completed_focus_count = RUS_future_foreign_current_completed_focus_count
+		}
+	}
+
+	set_variable = { RUS_future_foreign_policy_consumer_goods_factor = RUS_future_foreign_completed_focus_count }
+	multiply_variable = { RUS_future_foreign_policy_consumer_goods_factor = 0.01 }
+
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_004 }
+		RUS_future_foreign_refresh_third_international_gendarme = yes
+	}
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_016 }
+		RUS_future_foreign_refresh_red_country_count = yes
+	}
+}
+
+# Run in the country scope that received Russian volunteers and won.
+RUS_future_foreign_resolve_intervention_victory = {
+	if = {
+		limit = { has_country_flag = RUS_future_foreign_received_volunteers }
+		clr_country_flag = RUS_future_foreign_received_volunteers
+		if = {
+			limit = { NOT = { has_country_flag = RUS_future_foreign_victory_counted } }
+			set_country_flag = RUS_future_foreign_victory_counted
+			RUS = {
+				if = {
+					limit = { has_completed_focus = RUS_future_foreign_004 }
+					add_to_variable = { RUS_third_international_gendarme_victories = 1 }
+					RUS_future_foreign_refresh_third_international_gendarme = yes
+					if = {
+						limit = { has_power_balance = { id = RUS_europe_intervention_power_balance } }
+						add_power_balance_value = {
+							id = RUS_europe_intervention_power_balance
+							value = 0.05
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Run in the country scope that received Russian volunteers and lost.
+RUS_future_foreign_resolve_intervention_defeat = {
+	if = {
+		limit = { has_country_flag = RUS_future_foreign_received_volunteers }
+		clr_country_flag = RUS_future_foreign_received_volunteers
+		RUS = {
+			if = {
+				limit = {
+					has_completed_focus = RUS_future_foreign_004
+					has_power_balance = { id = RUS_europe_intervention_power_balance }
+				}
+				add_power_balance_value = {
+					id = RUS_europe_intervention_power_balance
+					value = -0.05
+				}
+			}
+		}
+	}
+}

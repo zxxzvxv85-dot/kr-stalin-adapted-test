@@ -1,0 +1,31 @@
+RUS_Spreading_the_Revolution_decisions = {
+	RUS_future_foreign_exchange_five_year_plan_score = {
+		icon = GFX_decision_factories
+		visible = {
+			has_completed_focus = RUS_future_foreign_004
+			has_power_balance = { id = RUS_europe_intervention_power_balance }
+		}
+		available = {
+			check_variable = { RUS_first_five_year_plan_score > 0.9 }
+			power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value < 0.995
+			}
+		}
+		cost = 0
+		fire_only_once = no
+		complete_effect = {
+			custom_effect_tooltip = RUS_future_foreign_exchange_five_year_plan_score_effect_tt
+			hidden_effect = {
+				add_to_variable = { RUS_first_five_year_plan_score = -1 }
+				RUS_stalin_refresh_first_five_year_plan_stage = yes
+				add_power_balance_value = {
+					id = RUS_europe_intervention_power_balance
+					value = 0.01
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+		fixed_random_seed = no
+	}
+}

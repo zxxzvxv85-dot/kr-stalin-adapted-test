@@ -1,0 +1,71 @@
+on_actions = {
+	on_daily_RUS = {
+		effect = {
+			if = {
+				limit = { has_completed_focus = RUS_future_foreign_001 }
+				RUS_future_foreign_refresh_completed_focus_count = yes
+			}
+		}
+	}
+
+	on_weekly_RUS = {
+		effect = {
+			if = {
+				limit = { has_completed_focus = RUS_future_foreign_016 }
+				RUS_future_foreign_refresh_red_country_count = yes
+			}
+		}
+	}
+
+	# ROOT is the sender and FROM is the receiving country.
+	on_send_volunteers = {
+		effect = {
+			if = {
+				limit = {
+					ROOT = {
+						original_tag = RUS
+						has_completed_focus = RUS_future_foreign_004
+					}
+				}
+				FROM = { set_country_flag = RUS_future_foreign_received_volunteers }
+			}
+		}
+	}
+
+	# ROOT is the civil-war winner and FROM is annexed immediately afterwards.
+	on_civil_war_end_before_annexation = {
+		effect = {
+			ROOT = { RUS_future_foreign_resolve_intervention_victory = yes }
+			FROM = { RUS_future_foreign_resolve_intervention_defeat = yes }
+		}
+	}
+
+	# ROOT is the winner and FROM is the loser.
+	on_peaceconference_ended = {
+		effect = {
+			ROOT = { RUS_future_foreign_resolve_intervention_victory = yes }
+			FROM = { RUS_future_foreign_resolve_intervention_defeat = yes }
+		}
+	}
+
+	# ROOT is the MIO and FROM is the country that used it for the completed technology.
+	on_mio_tech_research_completed = {
+		effect = {
+			if = {
+				limit = {
+					FROM = {
+						original_tag = RUS
+						has_completed_focus = RUS_future_foreign_016
+					}
+				}
+				FROM = {
+					RUS_future_foreign_refresh_red_country_count = yes
+					add_cic = RUS_soviets_and_phalanstere_mio_surplus
+					add_to_variable = {
+						RUS_soviets_and_phalanstere_total_mio_surplus = RUS_soviets_and_phalanstere_mio_surplus
+					}
+				}
+			}
+		}
+	}
+}

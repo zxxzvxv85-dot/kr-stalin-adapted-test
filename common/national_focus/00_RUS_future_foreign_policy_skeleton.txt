@@ -1,6 +1,6 @@
 ############################################################################################################
 # Future Socialist Foreign Policy - layout skeleton imported from draw.io
-# Placeholder focuses intentionally have no icon, description, or completion reward.
+# Placeholder focuses intentionally have no icon or description; implemented nodes may now carry rewards.
 ############################################################################################################
 
 # 民族自决
@@ -56,6 +56,10 @@ shared_focus = {
 	available = { always = no }
 	prerequisite = { focus = RUS_future_foreign_003 }
 	prerequisite = { focus = RUS_future_foreign_002 }
+	completion_reward = {
+		custom_effect_tooltip = RUS_future_foreign_004_effect_tt
+		hidden_effect = { RUS_future_foreign_refresh_completed_focus_count = yes }
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -223,6 +227,10 @@ shared_focus = {
 	allow_branch = { has_socialist_government = yes }
 	available = { always = no }
 	prerequisite = { focus = RUS_future_foreign_006 }
+	completion_reward = {
+		custom_effect_tooltip = RUS_future_foreign_016_effect_tt
+		hidden_effect = { RUS_future_foreign_refresh_completed_focus_count = yes }
+	}
 	ai_will_do = { factor = 0 }
 }
 
