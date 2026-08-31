@@ -543,10 +543,7 @@ def build_scripted_gui() -> str:
 
 def build_triggers() -> str:
     return '''RUS_tesla_minesweeper_is_unlocked = {
-\tOR = {
-\t\thas_idea = RUS_nikola_tesla_advisor
-\t\thas_idea = RUS_tesla_electrical_industries
-\t}
+\thas_country_flag = RUS_tesla_company_hired
 }'''
 
 
@@ -569,14 +566,8 @@ country_event = {{
 \thidden = yes
 \tis_triggered_only = yes
 
-\timmediate = {{
-\t\tif = {{
-\t\t\tlimit = {{ has_country_flag = {PREFIX}_active }}
-\t\t\tadd_to_variable = {{ {PREFIX}_elapsed_hours = 1 }}
-\t\t\tRUS_tesla_minesweeper_refresh_gui = yes
-\t\t\tcountry_event = {{ id = RUS_tesla_minesweeper.2 hours = 1 }}
-\t\t}}
-\t}}
+\t# Drain timers queued by earlier builds without scheduling another refresh.
+\timmediate = {{ }}
 }}'''
 
 
@@ -622,7 +613,6 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         "RUS_tesla_minesweeper_start = {",
         "\tRUS_tesla_minesweeper_reset_board = yes",
         f"\tset_country_flag = {PREFIX}_active",
-        "\tcountry_event = { id = RUS_tesla_minesweeper.2 hours = 1 }",
         "\tRUS_tesla_minesweeper_refresh_gui = yes",
         "}",
         "",

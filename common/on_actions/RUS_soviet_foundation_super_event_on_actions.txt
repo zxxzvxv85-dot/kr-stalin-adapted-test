@@ -4,42 +4,26 @@ on_actions = {
 			every_country = {
 				limit = {
 					original_tag = RUS
-					has_country_flag = RUS_soviet_foundation_video_visible
 				}
-				clr_country_flag = RUS_soviet_foundation_video_visible
-			}
-			every_country = {
-				limit = {
-					original_tag = RUS
-					is_ai = no
-					has_country_flag = RUS_soviet_foundation_super_event_visible
+				if = {
+					limit = { has_completed_focus = RUS_found_sov_union }
+					set_country_flag = RUS_soviet_foundation_super_event_seen
+					clr_country_flag = RUS_soviet_foundation_super_event_armed
+					clr_country_flag = RUS_soviet_foundation_playback_authorized
+					clr_country_flag = RUS_soviet_foundation_playback_session_v2
+					clr_country_flag = RUS_soviet_foundation_super_event_visible
+					clr_country_flag = RUS_soviet_foundation_video_visible
 				}
-				set_variable_to_random = RUS_soviet_foundation_super_event_refresh
-			}
-			every_country = {
-				limit = {
-					original_tag = RUS
-					is_ai = no
-					has_completed_focus = RUS_found_sov_union
-					NOT = { has_country_flag = RUS_soviet_foundation_super_event_seen }
-					NOT = { has_country_flag = RUS_soviet_foundation_super_event_visible }
+				else_if = {
+					limit = { has_country_flag = RUS_soviet_foundation_video_visible }
+					clr_country_flag = RUS_soviet_foundation_playback_authorized
+					clr_country_flag = RUS_soviet_foundation_playback_session_v2
+					clr_country_flag = RUS_soviet_foundation_video_visible
 				}
-				country_event = { id = RUS_soviet_foundation_super_event.1 hours = 1 }
-			}
-		}
-	}
-
-	on_daily = {
-		effect = {
-			if = {
-				limit = {
-					tag = RUS
-					is_ai = no
-					has_completed_focus = RUS_found_sov_union
-					NOT = { has_country_flag = RUS_soviet_foundation_super_event_seen }
-					NOT = { has_country_flag = RUS_soviet_foundation_super_event_visible }
+				if = {
+					limit = { is_ai = no }
+					set_variable_to_random = RUS_soviet_foundation_super_event_refresh
 				}
-				country_event = { id = RUS_soviet_foundation_super_event.1 hours = 1 }
 			}
 		}
 	}

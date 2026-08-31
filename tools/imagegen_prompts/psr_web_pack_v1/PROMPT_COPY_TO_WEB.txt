@@ -1,0 +1,86 @@
+First unpack the attached ZIP and inspect every numbered PNG before generating anything.
+
+Use case: precise image edit
+Asset type: eleven complete native-size Kaiserreich-style Hearts of Iron IV national focus icons, including their frames
+Faction: Russian Socialist-Revolutionary Party (PSR / SRs)
+
+Input image roles:
+- 01_EDIT_TARGET_exact_100px_slots_3344x1888.png is the mandatory edit target and absolute geometry authority.
+- 02_SUBJECT_REFERENCE_current_11_icons.png contains the eleven current mod icons in exact row-major order. Preserve their meanings, but redesign and simplify the subjects. Do not copy their frames, sharpness, detail density, or any malformed generated details.
+- 03_STYLE_REFERENCE_official_KR_icons.png is the official Kaiserreich style authority. Match its aged pigment, broad tonal masses, soft photographic-collage rendering, strong value separation, native-thumbnail readability, and convincing metal material.
+- 04_FRAME_STRUCTURE_REFERENCE_RUS_ESER.png is the closest official Russian radical-socialist frame and material reference. Learn how its physical frame surrounds and overlaps the art, but design a coherent new Socialist-Revolutionary frame family rather than tracing it pixel for pixel.
+- 05_OFFICIAL_KR_RUSSIAN_ESER_AND_SOCIALIST_REFERENCE_SHEET.png controls Russian revolutionary palette, agrarian-socialist atmosphere, worn materials, and subject-to-frame scale.
+- 06_OFFICIAL_KR_LAND_RURAL_AND_COOPERATIVE_REFERENCE_SHEET.png controls how land, peasants, cooperatives, communes, wheat, and rural institutions are simplified at tiny size.
+- 07_OFFICIAL_KR_PARTY_DEMOCRACY_AND_MILITIA_REFERENCE_SHEET.png controls party congress, democratic organisation, agreement, rural militia, and revolutionary political compositions.
+- 08_OFFICIAL_KR_ROUNDED_FRAME_AND_MATERIAL_REFERENCE_SHEET.png controls authentic rounded KR frame construction, metal depth, foreground frame lips, wear, and upper-left lighting.
+- REFERENCE_INDEX.txt identifies every official source icon and states what each sheet may influence.
+
+Reference priority and discipline:
+1. Image 01 controls the exact 3344x1888 canvas, all eleven slot positions, and every 100x100 bounding box.
+2. Image 02 and the assignment below control the eleven subjects and their row-major order.
+3. Images 03-08 control style, material, lighting, visual density, and compositional discipline only.
+4. Do not collage, trace, average, or literally merge reference icons. Do not import foreign flags, coats of arms, inscriptions, party seals, or unrelated national colours.
+5. The result must be eleven newly authored Russian Socialist-Revolutionary icons from one coherent faction family.
+
+Critical pixel geometry:
+- Preserve the complete output canvas at exactly 3344 x 1888 pixels.
+- This does not mean each icon is 3344 x 1888. The large canvas contains exactly eleven tiny circular editable slots.
+- Every existing dark circle in Image 01 has an exact 100 x 100 pixel bounding box.
+- Replace each circle with one complete framed focus icon whose entire outer bounding box remains exactly 100 x 100 pixels.
+- Do not enlarge, move, regroup, reconnect, or replace the circles. Do not add a twelfth circle.
+- Paint only inside the eleven existing 100 x 100 slot boxes.
+- Preserve every pixel outside those slot boxes as uniform chroma green RGB 0,255,0 (#00FF00).
+- Return one PNG at exactly 3344 x 1888. Do not crop, rescale, or change aspect ratio.
+
+Mandatory Socialist-Revolutionary frame family:
+- Every slot must contain a complete national-focus icon: interior subject plus its outer frame. Do not return unframed paintings.
+- All eleven frames must share one visibly related SR frame skeleton. They may have restrained tier variations, but must not look like eleven unrelated borders.
+- Make the overall silhouette rounded, medallion-like, compact, and slightly organic rather than angular or gear-shaped.
+- Use aged silver and warm oxidised copper as the principal frame metals, with restrained dull-brass highlights, small muted-red enamel details, and very limited dark moss-green enamel accents.
+- Fixed SR identity should come from paired wheat tips, a shallow earth-furrow motif, and a small folded revolutionary ribbon. These ornaments must remain subordinate to the central subject.
+- Do not use the Bolshevik hard gear-tooth skeleton, large red star crown, straight industrial fins, or severe black-steel geometry.
+- Apply one consistent upper-left key light. Upper-left metal edges are lighter; lower-right edges are darker and more oxidised.
+- Frame surfaces must feel cast, stamped, rubbed, and slightly worn, with a narrow foreground lip overlapping the artwork by a few pixels.
+- Keep the frame narrow enough that the subject remains readable at actual 100x100 size.
+- Slot 1 is an important branch-root icon: reinforce the upper frame slightly, without making it larger than 100x100.
+- Slots 2-10 use the ordinary frame variant.
+- Slot 11 is the agrarian-socialist capstone: use a slightly stronger wheat crown and warm sunrise accent while preserving the same frame skeleton and exact size.
+
+Exact 4 + 4 + 3 row-major subject assignment:
+1. Top-left, "Struggle Wins Rights": three broad revolutionary-delegate silhouettes seated behind one semicircular committee table, with one central muted-red party folder and one broad hanging red banner; no text, no detailed faces, no crowd.
+2. Top-second, "Absorb the Democratic Parties": three broad political ribbon shapes converging into one central clasped-hands emblem above a simple ballot box; no party initials, no flags, no writing.
+3. Top-third, "Reunite with the Right": two separated halves of one worn party medallion being joined by two broad hands, with one wheat stem on each side; no extra symbols.
+4. Top-right, "Form the Rural Militia": one Russian peasant partisan in a heavy coat holding one rifle diagonally, with one small village watch-post silhouette behind him; no extra soldiers, no modern equipment.
+5. Middle-left, "Defend the Peasants' Standing": one sturdy peasant silhouette holding a broad shield embossed only with a wheat sheaf, with low field furrows behind; no lettering, no scales, no crowd.
+6. Middle-second, "Draft Law on Land Socialisation": one broad cream legal document laid over a dark ploughshare and three simple field furrows, with one muted-red wax seal; no writing or pseudo-writing.
+7. Middle-third, "Increase Peasant Representation": three simplified peasant-delegate busts in an assembly hall, the central figure raising one broad voting card; no more than three people, no facial detail, no text on the card.
+8. Middle-right, "Placate the Maximalists": two broad hands clasping across a deliberate divide, with one wheat sheaf on the SR side and one restrained red torch flame on the Maximalist side; no star, no extra emblems.
+9. Bottom-left, "Expand the Cooperatives": two broad hands exchanging one grain sack and one simple farm tool beneath a compact cooperative storehouse silhouette; no currency, no arrows, no writing.
+10. Bottom-centre, "Charter of Rural Soviet Autonomy": one timber village council house with a small muted-red flag, flanked by two simplified elected-delegate silhouettes and low field lines; no city skyline, no writing.
+11. Bottom-right, "Agrarian Socialism": one strong peasant worker raising a broad red-and-dark-green revolutionary banner above wheat fields, with one distant factory silhouette and a warm rising sun; no extra people, no slogan, no large star.
+
+Mandatory native-100px rendering:
+- Treat every complete framed 100x100 icon as final-size art viewed at actual size. Do not design large illustrations intended for later reduction.
+- Use only five to nine large visual masses in each icon and only two or three broad highlights on the main subject.
+- Human faces are only cap or hair silhouette, brow shadow, nose plane, and one cheek highlight. No eyes, lips, teeth, wrinkles, pores, or individual hair.
+- Hands are palm masses with fused finger groups. No nails, knuckles, tendons, or separated fingers.
+- Buildings and tools retain only the largest silhouette and one or two structural divisions. No windows grids, nails, boards, bolts, small weapon parts, or decorative hardware.
+- Paper is one broad cream mass, one shadow fold, and one muted-red seal only. No lines, columns, letters, or pseudo-writing.
+- Wheat is represented by a few broad heads and stems, not dozens of individual grains.
+- Use soft aged raster edges, slightly uneven 1920s-1930s printed pigment, restrained photographic-collage softness, and mild material wear.
+- Use strong large-scale contrast: dark olive-charcoal or umber background, readable earth-toned subject, warm upper-left highlight, restrained muted red, and small dark-green accents.
+- Do not make the set monochrome red, monochrome brown, bright green, or modern polished gold.
+
+Do not add:
+- No wreath enclosing the whole icon, oversized laurel, crown, glossy chrome, neon, glow, particles, labels, guide lines, shadows outside slot boxes, or twelfth icon.
+- No text, numbers, pseudo-writing, watermark, modern logo, app-icon finish, comic-book ink, cel shading, clean vector contour, glossy 3D render, photoreal faces, sharp microtexture, or decorative clutter.
+- No merged circles, missing circles, rectangular panels, focus-tree layout, or objects crossing a slot boundary.
+- No copied Bolshevik gear frame, no copied foreign national emblem, and no generic green farm-game icon style.
+
+Before returning the result, verify and explicitly report:
+1. Output dimensions are exactly 3344 x 1888.
+2. There are exactly eleven complete framed icons in the prescribed 4 + 4 + 3 order.
+3. Every complete icon, including its frame, fits inside its exact 100 x 100 bounding box.
+4. All pixels outside the eleven slot bounding boxes remain #00FF00.
+5. The output is PNG and has not been cropped or rescaled.
+6. Slots 1 and 11 remain visibly related to the ordinary frame family while carrying important-root and capstone weight.

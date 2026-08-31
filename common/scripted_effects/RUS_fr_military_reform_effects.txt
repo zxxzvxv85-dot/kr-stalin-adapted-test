@@ -909,6 +909,17 @@ RUS_fr_apply_invincible_legendary_final_bonus = {
 	}
 }
 
+RUS_fr_repair_light_infantry_special_forces_bonus = {
+	if = {
+		limit = {
+			has_country_flag = RUS_fr_specialise_armaments
+			has_completed_focus = RUS_fr_soldier_load_lightening_program
+			NOT = { has_idea = RUS_fr_hidden_light_infantry_special_forces_bonus }
+		}
+		add_ideas = RUS_fr_hidden_light_infantry_special_forces_bonus
+	}
+}
+
 RUS_fr_consolidate_armaments_construction_results = {
 		remove_dynamic_modifier = { modifier = RUS_fr_armaments_specialisation }
 		remove_dynamic_modifier = { modifier = RUS_fr_mobility_specialisation }

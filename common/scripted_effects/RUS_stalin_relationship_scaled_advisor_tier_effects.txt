@@ -14,7 +14,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_bolshevik_sverdlov_bop }
 			remove_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = KR_bolshevik_sverdlov_bop }
 		}
-		add_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = KR_bolshevik_sverdlov }
+		if = {
+			limit = { NOT = { has_trait = KR_bolshevik_sverdlov } }
+			add_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = KR_bolshevik_sverdlov }
+		}
 	}
 	RUS_mikhail_frunze = {
 		if = {
@@ -29,7 +32,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_bolshevik_frunze_bop }
 			remove_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = KR_bolshevik_frunze_bop }
 		}
-		add_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = KR_bolshevik_frunze }
+		if = {
+			limit = { NOT = { has_trait = KR_bolshevik_frunze } }
+			add_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = KR_bolshevik_frunze }
+		}
 	}
 	RUS_lazar_kaganovich = {
 		if = {
@@ -44,7 +50,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_bolshevik_kaganovich_bop }
 			remove_trait = { character = RUS_lazar_kaganovich slot = political_advisor trait = KR_bolshevik_kaganovich_bop }
 		}
-		add_trait = { character = RUS_lazar_kaganovich slot = political_advisor trait = KR_bolshevik_kaganovich }
+		if = {
+			limit = { NOT = { has_trait = KR_bolshevik_kaganovich } }
+			add_trait = { character = RUS_lazar_kaganovich slot = political_advisor trait = KR_bolshevik_kaganovich }
+		}
 	}
 	RUS_andrei_zhdanov = {
 		if = {
@@ -59,7 +68,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_bolshevik_zhdanov_bop }
 			remove_trait = { character = RUS_andrei_zhdanov slot = political_advisor trait = KR_bolshevik_zhdanov_bop }
 		}
-		add_trait = { character = RUS_andrei_zhdanov slot = political_advisor trait = KR_bolshevik_zhdanov }
+		if = {
+			limit = { NOT = { has_trait = KR_bolshevik_zhdanov } }
+			add_trait = { character = RUS_andrei_zhdanov slot = political_advisor trait = KR_bolshevik_zhdanov }
+		}
 	}
 	RUS_nikolay_yezhov = {
 		if = {
@@ -74,7 +86,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_bolshevik_yezhov_bop }
 			remove_trait = { character = RUS_nikolay_yezhov slot = political_advisor trait = KR_bolshevik_yezhov_bop }
 		}
-		add_trait = { character = RUS_nikolay_yezhov slot = political_advisor trait = KR_bolshevik_yezhov }
+		if = {
+			limit = { NOT = { has_trait = KR_bolshevik_yezhov } }
+			add_trait = { character = RUS_nikolay_yezhov slot = political_advisor trait = KR_bolshevik_yezhov }
+		}
 	}
 	RUS_nikolay_bukharin = {
 		if = {
@@ -89,7 +104,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_bolshevik_bukharin_bop }
 			remove_trait = { character = RUS_nikolay_bukharin slot = political_advisor trait = KR_bolshevik_bukharin_bop }
 		}
-		add_trait = { character = RUS_nikolay_bukharin slot = political_advisor trait = KR_bolshevik_bukharin }
+		if = {
+			limit = { NOT = { has_trait = KR_bolshevik_bukharin } }
+			add_trait = { character = RUS_nikolay_bukharin slot = political_advisor trait = KR_bolshevik_bukharin }
+		}
 	}
 	RUS_sergey_kirov = {
 		if = {
@@ -104,7 +122,14 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_bolshevik_kirov_bop }
 			remove_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_bolshevik_kirov_bop }
 		}
-		add_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_bolshevik_kirov }
+		if = {
+			limit = { has_trait = KR_vst_right_kirov }
+			remove_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_vst_right_kirov }
+		}
+		if = {
+			limit = { NOT = { has_trait = KR_bolshevik_kirov } }
+			add_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_bolshevik_kirov }
+		}
 	}
 	RUS_ilya_mayorov = {
 		if = {
@@ -123,7 +148,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_spiridonist_mayorov_bop }
 			remove_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_spiridonist_mayorov_bop }
 		}
-		add_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_spiridonist_mayorov }
+		if = {
+			limit = { NOT = { has_trait = KR_spiridonist_mayorov } }
+			add_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_spiridonist_mayorov }
+		}
 	}
 	RUS_nikolay_zdobnov = {
 		if = {
@@ -142,7 +170,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_spiridonist_zdobnov_bop }
 			remove_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = KR_spiridonist_zdobnov_bop }
 		}
-		add_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = KR_spiridonist_zdobnov }
+		if = {
+			limit = { NOT = { has_trait = KR_spiridonist_zdobnov } }
+			add_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = KR_spiridonist_zdobnov }
+		}
 	}
 	RUS_boris_kamkov = {
 		if = {
@@ -161,7 +192,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_spiridonist_kamkov_bop }
 			remove_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_spiridonist_kamkov_bop }
 		}
-		add_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_spiridonist_kamkov }
+		if = {
+			limit = { NOT = { has_trait = KR_spiridonist_kamkov } }
+			add_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_spiridonist_kamkov }
+		}
 	}
 	RUS_vladimir_karelin = {
 		if = {
@@ -180,7 +214,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_spiridonist_karelin_bop }
 			remove_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = KR_spiridonist_karelin_bop }
 		}
-		add_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = KR_spiridonist_karelin }
+		if = {
+			limit = { NOT = { has_trait = KR_spiridonist_karelin } }
+			add_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = KR_spiridonist_karelin }
+		}
 	}
 	RUS_aleksandr_elyashevich = {
 		if = {
@@ -199,7 +236,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_spiridonist_elyashevich_bop }
 			remove_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = KR_spiridonist_elyashevich_bop }
 		}
-		add_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = KR_spiridonist_elyashevich }
+		if = {
+			limit = { NOT = { has_trait = KR_spiridonist_elyashevich } }
+			add_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = KR_spiridonist_elyashevich }
+		}
 	}
 	RUS_isaak_steinberg = {
 		if = {
@@ -218,7 +258,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_sr_steinberg_bop }
 			remove_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_sr_steinberg_bop }
 		}
-		add_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_sr_steinberg }
+		if = {
+			limit = { NOT = { has_trait = KR_sr_steinberg } }
+			add_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_sr_steinberg }
+		}
 	}
 	RUS_yevgeny_sattel = {
 		if = {
@@ -237,7 +280,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_sr_sattel_bop }
 			remove_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = KR_sr_sattel_bop }
 		}
-		add_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = KR_sr_sattel }
+		if = {
+			limit = { NOT = { has_trait = KR_sr_sattel } }
+			add_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = KR_sr_sattel }
+		}
 	}
 	RUS_yakov_blyumkin = {
 		if = {
@@ -256,7 +302,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_sr_blyumkin_bop }
 			remove_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = KR_sr_blyumkin_bop }
 		}
-		add_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = KR_sr_blyumkin }
+		if = {
+			limit = { NOT = { has_trait = KR_sr_blyumkin } }
+			add_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = KR_sr_blyumkin }
+		}
 	}
 	RUS_aleksey_ustinov = {
 		if = {
@@ -267,7 +316,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = RUS_muromets }
 			remove_trait = { character = RUS_aleksey_ustinov slot = political_advisor trait = RUS_muromets }
 		}
-		add_trait = { character = RUS_aleksey_ustinov slot = political_advisor trait = KR_maximalist_ustinov }
+		if = {
+			limit = { NOT = { has_trait = KR_maximalist_ustinov } }
+			add_trait = { character = RUS_aleksey_ustinov slot = political_advisor trait = KR_maximalist_ustinov }
+		}
 	}
 	RUS_andrey_kolegayev = {
 		if = {
@@ -278,6 +330,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { has_trait = KR_peasant_populist_3 }
 			remove_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = KR_peasant_populist_3 }
 		}
+		if = {
+			limit = { NOT = { has_trait = KR_maximalist_kolegayev } }
+			add_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = KR_maximalist_kolegayev }
+		}
 	}
 	RUS_irina_kakhovskaya = {
 		if = {
@@ -287,6 +343,10 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 		if = {
 			limit = { has_trait = KR_princess_of_terror }
 			remove_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = KR_princess_of_terror }
+		}
+		if = {
+			limit = { NOT = { has_trait = KR_maximalist_kakhovskaya } }
+			add_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = KR_maximalist_kakhovskaya }
 		}
 	}
 }
@@ -3139,10 +3199,55 @@ RUS_stalin_apply_max_advisor_trait_tier = {
 
 RUS_stalin_apply_relationship_advisor_trait_tiers = {
 	if = {
-		limit = { NOT = { has_country_flag = RUS_native_relationship_advisor_traits_migrated_v2 } }
+		limit = { NOT = { has_country_flag = RUS_relationship_advisor_traits_initialised } }
 		RUS_stalin_clear_legacy_relationship_advisor_traits = yes
-		set_country_flag = RUS_native_relationship_advisor_traits_migrated
-		set_country_flag = RUS_native_relationship_advisor_traits_migrated_v2
+		RUS_stalin_clear_rkp_advisor_trait_tiers = yes
+		RUS_stalin_clear_psr_advisor_trait_tiers = yes
+		RUS_stalin_clear_max_advisor_trait_tiers = yes
+		clr_country_flag = RUS_rkp_advisor_trait_tier_0_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_1_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_2_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_3_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_4_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_5_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_6_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_7_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_8_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_9_active
+		clr_country_flag = RUS_rkp_advisor_trait_tier_10_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_0_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_1_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_2_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_3_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_4_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_5_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_6_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_7_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_8_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_9_active
+		clr_country_flag = RUS_psr_advisor_trait_tier_10_active
+		clr_country_flag = RUS_max_advisor_trait_tier_0_active
+		clr_country_flag = RUS_max_advisor_trait_tier_1_active
+		clr_country_flag = RUS_max_advisor_trait_tier_2_active
+		clr_country_flag = RUS_max_advisor_trait_tier_3_active
+		clr_country_flag = RUS_max_advisor_trait_tier_4_active
+		clr_country_flag = RUS_max_advisor_trait_tier_5_active
+		clr_country_flag = RUS_max_advisor_trait_tier_6_active
+		clr_country_flag = RUS_max_advisor_trait_tier_7_active
+		clr_country_flag = RUS_max_advisor_trait_tier_8_active
+		clr_country_flag = RUS_max_advisor_trait_tier_9_active
+		clr_country_flag = RUS_max_advisor_trait_tier_10_active
+		clr_country_flag = RUS_max_advisor_trait_tier_11_active
+		clr_country_flag = RUS_max_advisor_trait_tier_12_active
+		clr_country_flag = RUS_max_advisor_trait_tier_13_active
+		clr_country_flag = RUS_max_advisor_trait_tier_14_active
+		clr_country_flag = RUS_max_advisor_trait_tier_15_active
+		clr_country_flag = RUS_max_advisor_trait_tier_16_active
+		clr_country_flag = RUS_max_advisor_trait_tier_17_active
+		clr_country_flag = RUS_max_advisor_trait_tier_18_active
+		clr_country_flag = RUS_max_advisor_trait_tier_19_active
+		clr_country_flag = RUS_max_advisor_trait_tier_20_active
+		set_country_flag = RUS_relationship_advisor_traits_initialised
 	}
 	RUS_stalin_apply_rkp_advisor_trait_tier = yes
 	RUS_stalin_apply_psr_advisor_trait_tier = yes

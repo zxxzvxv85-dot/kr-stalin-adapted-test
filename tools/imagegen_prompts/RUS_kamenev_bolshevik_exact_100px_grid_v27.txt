@@ -1,0 +1,42 @@
+Use case: precise-object-edit
+Asset type: native-size artwork plates for eight 100x100 Kaiserreich HOI4 focus icons
+
+Input images and roles:
+- Image 1 is the edit target and exact layout authority. Its 3344x1888 chroma-green canvas contains exactly eight dark circular editable slots. Each slot is exactly 100 pixels in diameter. Paint only inside these existing circles.
+- Image 2 is the subject reference. Recreate its eight subjects in the same 4x2 row-major order, but simplify them drastically for the tiny slots in Image 1. Do not copy Image 2's circle size, spacing, green background, or sharp detail.
+- Image 3 is the official Kaiserreich style authority. Match its aged pigment, broad tonal masses, strong light-dark separation, soft photographic-collage character, and native-thumbnail readability. Do not copy its layout.
+
+Primary request:
+Fill the eight existing 100-pixel circular slots in Image 1 with eight complete, distinct focus-icon subjects. The slots must remain exactly where they are and exactly 100 pixels in diameter. This is native 100x100 artwork: do not enlarge a slot, create a larger replacement circle, move a subject outside its circle, or add any content elsewhere on the canvas.
+
+Exact row-major subject assignment:
+1. Top-left: two Russian industrial workers beneath one broad red flag, with one simple raised fist silhouette; no extra people.
+2. Top-second: a heavy 1920s printing press feeding one cream newspaper sheet with one muted-red rectangle; no writing.
+3. Top-third: two overlapping red Communist Party membership cards, each with one broad worn gold seal; no text.
+4. Top-right: an open political-school book beneath one industrial desk lamp, with one very simple drafting compass silhouette behind the book; no writing.
+5. Bottom-left: one factory worker in front of one large pale gear, with only a faint factory silhouette behind him; no extra people.
+6. Bottom-second: one steam locomotive in three-quarter view with one simple telegraph pole silhouette; no tiny railway hardware.
+7. Bottom-third: two broad hands clasped beneath one red torch flame and one simple red star shape; no extra emblems.
+8. Bottom-right: one worker holding one broad red flag with a distant factory silhouette; no extra people.
+
+Mandatory native-thumbnail rendering:
+- Treat every circle as the complete final 100x100 raster plate, viewed at actual size.
+- Use only five to nine large visual masses per circle and two or three broad highlights per subject.
+- Faces are silhouettes with a brow shadow, nose plane, and cheek highlight only. No eyes, lips, teeth, wrinkles, pores, or individual hair.
+- Hands are palm masses with fused finger groups. No nails, knuckles, tendons, or separated finger joints.
+- Machinery is reduced to its largest body, wheel or platen, and one or two major shadows. No bolts, rivets, valves, spokes, pipes, seams, or controls.
+- Use soft aged raster edges and slightly uneven painted pigment. No sharpening and no tiny texture.
+- Strong large-scale contrast: dark charcoal background, readable midtone subject, restrained warm upper-left highlight, muted red focal mass.
+
+Production invariants:
+- Preserve the 3344x1888 canvas exactly.
+- Preserve all eight circle positions and 100-pixel diameters exactly.
+- Preserve the pure chroma-green RGB 0,255,0 background outside the circles exactly.
+- Do not paint, shadow, glow, outline, label, or place objects outside the circles.
+- Keep every subject fully inside its own circle with clear green separation between all circles.
+- Do not draw an outer focus frame, wreath, laurel, crown, ribbon, ornamental rim, or border; the fixed official frame is added locally afterward.
+
+Avoid:
+- No text, numbers, pseudo-writing, watermark, logo, cell border, guide line, or ninth icon.
+- No comic-book ink, cel shading, vector contour, glossy 3D render, photoreal face, high-definition texture, pin-sharp edge, microdetail, or decorative clutter.
+- No merged circles, enlarged circles, missing circles, rectangular panels, focus-tree layout, or objects crossing the circle edge.

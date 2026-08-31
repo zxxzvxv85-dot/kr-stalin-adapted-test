@@ -1,7 +1,7 @@
 scripted_gui = {
 	RUS_europe_intervention_entry_gui = {
 		context_type = player_context
-		parent_window_name = "countrypoliticsview"
+		parent_window_name = power_balance_button
 		window_name = "RUS_europe_intervention_entry_window"
 		ai_enabled = { always = no }
 		visible = {
@@ -9,299 +9,261 @@ scripted_gui = {
 			has_socialist_government = yes
 			has_completed_focus = RUS_self_determination
 		}
-		triggers = {
-			RUS_europe_intervention_open_button_click_enabled = { always = yes }
+	}
+
+	RUS_europe_intervention_header_gui = {
+		context_type = player_context
+		parent_window_name = powerbalanceview
+		window_name = "RUS_europe_intervention_header_window"
+		ai_enabled = { always = no }
+		visible = {
+			original_tag = RUS
+			has_socialist_government = yes
+			has_completed_focus = RUS_self_determination
 		}
-		effects = {
-			RUS_europe_intervention_open_button_click = {
-				if = {
-					limit = { has_country_flag = RUS_europe_intervention_window_open }
-					clr_country_flag = RUS_europe_intervention_window_open
-				}
-				else = { set_country_flag = RUS_europe_intervention_window_open }
-			}
+	}
+
+	RUS_europe_intervention_portrait_gui = {
+		context_type = player_context
+		parent_window_name = powerbalanceview
+		window_name = "RUS_europe_intervention_portrait_window"
+		ai_enabled = { always = no }
+		visible = {
+			original_tag = RUS
+			has_socialist_government = yes
+			has_completed_focus = RUS_self_determination
 		}
 	}
 
 	RUS_europe_intervention_gui = {
 		context_type = player_context
-		parent_window_name = "countrypoliticsview"
+		parent_window_name = powerbalanceview
 		window_name = "RUS_europe_intervention_window"
 		ai_enabled = { always = no }
 		visible = {
 			original_tag = RUS
 			has_socialist_government = yes
 			has_completed_focus = RUS_self_determination
-			has_country_flag = RUS_europe_intervention_window_open
 		}
 		triggers = {
-			RUS_europe_intervention_close_button_click_enabled = { always = yes }
 			RUS_europe_intervention_no_selection_visible = { NOT = { has_country_flag = RUS_europe_intervention_filter_active } }
 			RUS_europe_intervention_overview_button_click_enabled = { has_country_flag = RUS_europe_intervention_filter_active }
-			RUS_europe_intervention_ICE_button_visible = { ICE = { exists = yes } }
-			RUS_europe_intervention_ICE_button_click_enabled = { ICE = { exists = yes } }
-			RUS_europe_intervention_ICE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ICE }
-			RUS_europe_intervention_ICE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ICE }
-			RUS_europe_intervention_IRE_button_visible = { IRE = { exists = yes } }
-			RUS_europe_intervention_IRE_button_click_enabled = { IRE = { exists = yes } }
+			RUS_europe_intervention_NORDICS_ICE_button_visible = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_ICE_button_click_enabled = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_ICE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NORDICS }
+			RUS_europe_intervention_NORDICS_NOR_button_visible = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_NOR_button_click_enabled = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_NOR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NORDICS }
+			RUS_europe_intervention_NORDICS_SWE_button_visible = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_SWE_button_click_enabled = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_SWE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NORDICS }
+			RUS_europe_intervention_NORDICS_FIN_button_visible = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_FIN_button_click_enabled = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_FIN_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NORDICS }
+			RUS_europe_intervention_NORDICS_DEN_button_visible = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_DEN_button_click_enabled = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
+			RUS_europe_intervention_NORDICS_DEN_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NORDICS }
+			RUS_europe_intervention_IRE_button_visible = { OR = { IRE = { exists = yes } } }
+			RUS_europe_intervention_IRE_button_click_enabled = { OR = { IRE = { exists = yes } } }
 			RUS_europe_intervention_IRE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_IRE }
-			RUS_europe_intervention_IRE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_IRE }
-			RUS_europe_intervention_NIR_button_visible = { NIR = { exists = yes } }
-			RUS_europe_intervention_NIR_button_click_enabled = { NIR = { exists = yes } }
+			RUS_europe_intervention_NIR_button_visible = { OR = { NIR = { exists = yes } } }
+			RUS_europe_intervention_NIR_button_click_enabled = { OR = { NIR = { exists = yes } } }
 			RUS_europe_intervention_NIR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NIR }
-			RUS_europe_intervention_NIR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_NIR }
-			RUS_europe_intervention_ENG_button_visible = { ENG = { exists = yes } }
-			RUS_europe_intervention_ENG_button_click_enabled = { ENG = { exists = yes } }
+			RUS_europe_intervention_ENG_button_visible = { OR = { ENG = { exists = yes } } }
+			RUS_europe_intervention_ENG_button_click_enabled = { OR = { ENG = { exists = yes } } }
 			RUS_europe_intervention_ENG_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ENG }
-			RUS_europe_intervention_ENG_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ENG }
-			RUS_europe_intervention_WLS_button_visible = { WLS = { exists = yes } }
-			RUS_europe_intervention_WLS_button_click_enabled = { WLS = { exists = yes } }
+			RUS_europe_intervention_WLS_button_visible = { OR = { WLS = { exists = yes } } }
+			RUS_europe_intervention_WLS_button_click_enabled = { OR = { WLS = { exists = yes } } }
 			RUS_europe_intervention_WLS_selected_visible = { has_country_flag = RUS_europe_intervention_selected_WLS }
-			RUS_europe_intervention_WLS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_WLS }
-			RUS_europe_intervention_SCO_button_visible = { SCO = { exists = yes } }
-			RUS_europe_intervention_SCO_button_click_enabled = { SCO = { exists = yes } }
+			RUS_europe_intervention_SCO_button_visible = { OR = { SCO = { exists = yes } } }
+			RUS_europe_intervention_SCO_button_click_enabled = { OR = { SCO = { exists = yes } } }
 			RUS_europe_intervention_SCO_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SCO }
-			RUS_europe_intervention_SCO_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SCO }
-			RUS_europe_intervention_NOR_button_visible = { NOR = { exists = yes } }
-			RUS_europe_intervention_NOR_button_click_enabled = { NOR = { exists = yes } }
-			RUS_europe_intervention_NOR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NOR }
-			RUS_europe_intervention_NOR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_NOR }
-			RUS_europe_intervention_SWE_button_visible = { SWE = { exists = yes } }
-			RUS_europe_intervention_SWE_button_click_enabled = { SWE = { exists = yes } }
-			RUS_europe_intervention_SWE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SWE }
-			RUS_europe_intervention_SWE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SWE }
-			RUS_europe_intervention_FIN_button_visible = { FIN = { exists = yes } }
-			RUS_europe_intervention_FIN_button_click_enabled = { FIN = { exists = yes } }
-			RUS_europe_intervention_FIN_selected_visible = { has_country_flag = RUS_europe_intervention_selected_FIN }
-			RUS_europe_intervention_FIN_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_FIN }
-			RUS_europe_intervention_DEN_button_visible = { DEN = { exists = yes } }
-			RUS_europe_intervention_DEN_button_click_enabled = { DEN = { exists = yes } }
-			RUS_europe_intervention_DEN_selected_visible = { has_country_flag = RUS_europe_intervention_selected_DEN }
-			RUS_europe_intervention_DEN_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_DEN }
-			RUS_europe_intervention_HOL_button_visible = { HOL = { exists = yes } }
-			RUS_europe_intervention_HOL_button_click_enabled = { HOL = { exists = yes } }
-			RUS_europe_intervention_HOL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_HOL }
-			RUS_europe_intervention_HOL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_HOL }
-			RUS_europe_intervention_BEL_button_visible = { BEL = { exists = yes } }
-			RUS_europe_intervention_BEL_button_click_enabled = { BEL = { exists = yes } }
-			RUS_europe_intervention_BEL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BEL }
-			RUS_europe_intervention_BEL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BEL }
-			RUS_europe_intervention_FLA_button_visible = { FLA = { exists = yes } }
-			RUS_europe_intervention_FLA_button_click_enabled = { FLA = { exists = yes } }
-			RUS_europe_intervention_FLA_selected_visible = { has_country_flag = RUS_europe_intervention_selected_FLA }
-			RUS_europe_intervention_FLA_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_FLA }
-			RUS_europe_intervention_WAL_button_visible = { WAL = { exists = yes } }
-			RUS_europe_intervention_WAL_button_click_enabled = { WAL = { exists = yes } }
-			RUS_europe_intervention_WAL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_WAL }
-			RUS_europe_intervention_WAL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_WAL }
-			RUS_europe_intervention_FRA_button_visible = { FRA = { exists = yes } }
-			RUS_europe_intervention_FRA_button_click_enabled = { FRA = { exists = yes } }
+			RUS_europe_intervention_CENTRAL_EUROPE_HOL_button_visible = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_HOL_button_click_enabled = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_HOL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE }
+			RUS_europe_intervention_CENTRAL_EUROPE_BEL_button_visible = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_BEL_button_click_enabled = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_BEL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE }
+			RUS_europe_intervention_CENTRAL_EUROPE_GER_button_visible = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_GER_button_click_enabled = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_GER_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE }
+			RUS_europe_intervention_CENTRAL_EUROPE_SWI_button_visible = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_SWI_button_click_enabled = { OR = { HOL = { exists = yes } BEL = { exists = yes } FLA = { exists = yes } WAL = { exists = yes } GER = { exists = yes } SWI = { exists = yes } PRE = { exists = yes } NGF = { exists = yes } RHI = { exists = yes } BAY = { exists = yes } } }
+			RUS_europe_intervention_CENTRAL_EUROPE_SWI_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE }
+			RUS_europe_intervention_FRA_button_visible = { OR = { FRA = { exists = yes } } }
+			RUS_europe_intervention_FRA_button_click_enabled = { OR = { FRA = { exists = yes } } }
 			RUS_europe_intervention_FRA_selected_visible = { has_country_flag = RUS_europe_intervention_selected_FRA }
-			RUS_europe_intervention_FRA_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_FRA }
-			RUS_europe_intervention_BRI_button_visible = { BRI = { exists = yes } }
-			RUS_europe_intervention_BRI_button_click_enabled = { BRI = { exists = yes } }
+			RUS_europe_intervention_BRI_button_visible = { OR = { BRI = { exists = yes } } }
+			RUS_europe_intervention_BRI_button_click_enabled = { OR = { BRI = { exists = yes } } }
 			RUS_europe_intervention_BRI_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BRI }
-			RUS_europe_intervention_BRI_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BRI }
-			RUS_europe_intervention_LIL_button_visible = { LIL = { exists = yes } }
-			RUS_europe_intervention_LIL_button_click_enabled = { LIL = { exists = yes } }
+			RUS_europe_intervention_LIL_button_visible = { OR = { LIL = { exists = yes } } }
+			RUS_europe_intervention_LIL_button_click_enabled = { OR = { LIL = { exists = yes } } }
 			RUS_europe_intervention_LIL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_LIL }
-			RUS_europe_intervention_LIL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_LIL }
-			RUS_europe_intervention_SWI_button_visible = { SWI = { exists = yes } }
-			RUS_europe_intervention_SWI_button_click_enabled = { SWI = { exists = yes } }
-			RUS_europe_intervention_SWI_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SWI }
-			RUS_europe_intervention_SWI_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SWI }
-			RUS_europe_intervention_SPA_button_visible = { SPA = { exists = yes } }
-			RUS_europe_intervention_SPA_button_click_enabled = { SPA = { exists = yes } }
+			RUS_europe_intervention_SPA_button_visible = { OR = { SPA = { exists = yes } } }
+			RUS_europe_intervention_SPA_button_click_enabled = { OR = { SPA = { exists = yes } } }
 			RUS_europe_intervention_SPA_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SPA }
-			RUS_europe_intervention_SPA_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SPA }
-			RUS_europe_intervention_CAT_button_visible = { CAT = { exists = yes } }
-			RUS_europe_intervention_CAT_button_click_enabled = { CAT = { exists = yes } }
+			RUS_europe_intervention_CAT_button_visible = { OR = { CAT = { exists = yes } } }
+			RUS_europe_intervention_CAT_button_click_enabled = { OR = { CAT = { exists = yes } } }
 			RUS_europe_intervention_CAT_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CAT }
-			RUS_europe_intervention_CAT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_CAT }
-			RUS_europe_intervention_BAS_button_visible = { BAS = { exists = yes } }
-			RUS_europe_intervention_BAS_button_click_enabled = { BAS = { exists = yes } }
+			RUS_europe_intervention_BAS_button_visible = { OR = { BAS = { exists = yes } } }
+			RUS_europe_intervention_BAS_button_click_enabled = { OR = { BAS = { exists = yes } } }
 			RUS_europe_intervention_BAS_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BAS }
-			RUS_europe_intervention_BAS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BAS }
-			RUS_europe_intervention_POR_button_visible = { POR = { exists = yes } }
-			RUS_europe_intervention_POR_button_click_enabled = { POR = { exists = yes } }
+			RUS_europe_intervention_POR_button_visible = { OR = { POR = { exists = yes } } }
+			RUS_europe_intervention_POR_button_click_enabled = { OR = { POR = { exists = yes } } }
 			RUS_europe_intervention_POR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_POR }
-			RUS_europe_intervention_POR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_POR }
-			RUS_europe_intervention_GER_button_visible = { GER = { exists = yes } }
-			RUS_europe_intervention_GER_button_click_enabled = { GER = { exists = yes } }
-			RUS_europe_intervention_GER_selected_visible = { has_country_flag = RUS_europe_intervention_selected_GER }
-			RUS_europe_intervention_GER_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_GER }
-			RUS_europe_intervention_PRE_button_visible = { PRE = { exists = yes } }
-			RUS_europe_intervention_PRE_button_click_enabled = { PRE = { exists = yes } }
-			RUS_europe_intervention_PRE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_PRE }
-			RUS_europe_intervention_PRE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_PRE }
-			RUS_europe_intervention_NGF_button_visible = { NGF = { exists = yes } }
-			RUS_europe_intervention_NGF_button_click_enabled = { NGF = { exists = yes } }
-			RUS_europe_intervention_NGF_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NGF }
-			RUS_europe_intervention_NGF_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_NGF }
-			RUS_europe_intervention_RHI_button_visible = { RHI = { exists = yes } }
-			RUS_europe_intervention_RHI_button_click_enabled = { RHI = { exists = yes } }
-			RUS_europe_intervention_RHI_selected_visible = { has_country_flag = RUS_europe_intervention_selected_RHI }
-			RUS_europe_intervention_RHI_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_RHI }
-			RUS_europe_intervention_BAY_button_visible = { BAY = { exists = yes } }
-			RUS_europe_intervention_BAY_button_click_enabled = { BAY = { exists = yes } }
-			RUS_europe_intervention_BAY_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BAY }
-			RUS_europe_intervention_BAY_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BAY }
-			RUS_europe_intervention_AUS_button_visible = { AUS = { exists = yes } }
-			RUS_europe_intervention_AUS_button_click_enabled = { AUS = { exists = yes } }
-			RUS_europe_intervention_AUS_selected_visible = { has_country_flag = RUS_europe_intervention_selected_AUS }
-			RUS_europe_intervention_AUS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_AUS }
-			RUS_europe_intervention_HUN_button_visible = { HUN = { exists = yes } }
-			RUS_europe_intervention_HUN_button_click_enabled = { HUN = { exists = yes } }
-			RUS_europe_intervention_HUN_selected_visible = { has_country_flag = RUS_europe_intervention_selected_HUN }
-			RUS_europe_intervention_HUN_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_HUN }
-			RUS_europe_intervention_CZE_button_visible = { CZE = { exists = yes } }
-			RUS_europe_intervention_CZE_button_click_enabled = { CZE = { exists = yes } }
-			RUS_europe_intervention_CZE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CZE }
-			RUS_europe_intervention_CZE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_CZE }
-			RUS_europe_intervention_SLO_button_visible = { SLO = { exists = yes } }
-			RUS_europe_intervention_SLO_button_click_enabled = { SLO = { exists = yes } }
-			RUS_europe_intervention_SLO_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SLO }
-			RUS_europe_intervention_SLO_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SLO }
-			RUS_europe_intervention_GAL_button_visible = { GAL = { exists = yes } }
-			RUS_europe_intervention_GAL_button_click_enabled = { GAL = { exists = yes } }
-			RUS_europe_intervention_GAL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_GAL }
-			RUS_europe_intervention_GAL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_GAL }
-			RUS_europe_intervention_POL_button_visible = { POL = { exists = yes } }
-			RUS_europe_intervention_POL_button_click_enabled = { POL = { exists = yes } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_button_visible = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_button_click_enabled = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_selected_visible = { has_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_button_visible = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_button_click_enabled = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_selected_visible = { has_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_button_visible = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_button_click_enabled = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_button_visible = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_button_click_enabled = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_button_visible = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_button_click_enabled = { OR = { AUS = { exists = yes } HUN = { exists = yes } CZE = { exists = yes } GAL = { exists = yes } CRO = { exists = yes } SLO = { exists = yes } BOS = { exists = yes } } }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_selected_visible = { has_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY }
+			RUS_europe_intervention_POL_button_visible = { OR = { POL = { exists = yes } } }
+			RUS_europe_intervention_POL_button_click_enabled = { OR = { POL = { exists = yes } } }
 			RUS_europe_intervention_POL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_POL }
-			RUS_europe_intervention_POL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_POL }
-			RUS_europe_intervention_BAT_button_visible = { BAT = { exists = yes } }
-			RUS_europe_intervention_BAT_button_click_enabled = { BAT = { exists = yes } }
+			RUS_europe_intervention_BAT_button_visible = { OR = { BAT = { exists = yes } } }
+			RUS_europe_intervention_BAT_button_click_enabled = { OR = { BAT = { exists = yes } } }
 			RUS_europe_intervention_BAT_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BAT }
-			RUS_europe_intervention_BAT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BAT }
-			RUS_europe_intervention_LIT_button_visible = { LIT = { exists = yes } }
-			RUS_europe_intervention_LIT_button_click_enabled = { LIT = { exists = yes } }
+			RUS_europe_intervention_LIT_button_visible = { OR = { LIT = { exists = yes } } }
+			RUS_europe_intervention_LIT_button_click_enabled = { OR = { LIT = { exists = yes } } }
 			RUS_europe_intervention_LIT_selected_visible = { has_country_flag = RUS_europe_intervention_selected_LIT }
-			RUS_europe_intervention_LIT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_LIT }
-			RUS_europe_intervention_LAT_button_visible = { LAT = { exists = yes } }
-			RUS_europe_intervention_LAT_button_click_enabled = { LAT = { exists = yes } }
+			RUS_europe_intervention_LAT_button_visible = { OR = { LAT = { exists = yes } } }
+			RUS_europe_intervention_LAT_button_click_enabled = { OR = { LAT = { exists = yes } } }
 			RUS_europe_intervention_LAT_selected_visible = { has_country_flag = RUS_europe_intervention_selected_LAT }
-			RUS_europe_intervention_LAT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_LAT }
-			RUS_europe_intervention_EST_button_visible = { EST = { exists = yes } }
-			RUS_europe_intervention_EST_button_click_enabled = { EST = { exists = yes } }
+			RUS_europe_intervention_EST_button_visible = { OR = { EST = { exists = yes } } }
+			RUS_europe_intervention_EST_button_click_enabled = { OR = { EST = { exists = yes } } }
 			RUS_europe_intervention_EST_selected_visible = { has_country_flag = RUS_europe_intervention_selected_EST }
-			RUS_europe_intervention_EST_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_EST }
-			RUS_europe_intervention_BLR_button_visible = { BLR = { exists = yes } }
-			RUS_europe_intervention_BLR_button_click_enabled = { BLR = { exists = yes } }
+			RUS_europe_intervention_BLR_button_visible = { OR = { BLR = { exists = yes } } }
+			RUS_europe_intervention_BLR_button_click_enabled = { OR = { BLR = { exists = yes } } }
 			RUS_europe_intervention_BLR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BLR }
-			RUS_europe_intervention_BLR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BLR }
-			RUS_europe_intervention_UKR_button_visible = { UKR = { exists = yes } }
-			RUS_europe_intervention_UKR_button_click_enabled = { UKR = { exists = yes } }
+			RUS_europe_intervention_UKR_button_visible = { OR = { UKR = { exists = yes } } }
+			RUS_europe_intervention_UKR_button_click_enabled = { OR = { UKR = { exists = yes } } }
 			RUS_europe_intervention_UKR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_UKR }
-			RUS_europe_intervention_UKR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_UKR }
-			RUS_europe_intervention_ROM_button_visible = { ROM = { exists = yes } }
-			RUS_europe_intervention_ROM_button_click_enabled = { ROM = { exists = yes } }
-			RUS_europe_intervention_ROM_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ROM }
-			RUS_europe_intervention_ROM_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ROM }
-			RUS_europe_intervention_SER_button_visible = { SER = { exists = yes } }
-			RUS_europe_intervention_SER_button_click_enabled = { SER = { exists = yes } }
-			RUS_europe_intervention_SER_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SER }
-			RUS_europe_intervention_SER_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SER }
-			RUS_europe_intervention_CRO_button_visible = { CRO = { exists = yes } }
-			RUS_europe_intervention_CRO_button_click_enabled = { CRO = { exists = yes } }
-			RUS_europe_intervention_CRO_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CRO }
-			RUS_europe_intervention_CRO_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_CRO }
-			RUS_europe_intervention_BOS_button_visible = { BOS = { exists = yes } }
-			RUS_europe_intervention_BOS_button_click_enabled = { BOS = { exists = yes } }
-			RUS_europe_intervention_BOS_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BOS }
-			RUS_europe_intervention_BOS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BOS }
-			RUS_europe_intervention_MNT_button_visible = { MNT = { exists = yes } }
-			RUS_europe_intervention_MNT_button_click_enabled = { MNT = { exists = yes } }
+			RUS_europe_intervention_BALKANS_SER_button_visible = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_SER_button_click_enabled = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_SER_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BALKANS }
+			RUS_europe_intervention_BALKANS_ROM_button_visible = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_ROM_button_click_enabled = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_ROM_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BALKANS }
+			RUS_europe_intervention_BALKANS_GRE_button_visible = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_GRE_button_click_enabled = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_GRE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BALKANS }
+			RUS_europe_intervention_BALKANS_ALB_button_visible = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_ALB_button_click_enabled = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_ALB_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BALKANS }
+			RUS_europe_intervention_BALKANS_BUL_button_visible = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_BUL_button_click_enabled = { OR = { SER = { exists = yes } ROM = { exists = yes } GRE = { exists = yes } ALB = { exists = yes } BUL = { exists = yes } } }
+			RUS_europe_intervention_BALKANS_BUL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BALKANS }
+			RUS_europe_intervention_MNT_button_visible = { OR = { MNT = { exists = yes } } }
+			RUS_europe_intervention_MNT_button_click_enabled = { OR = { MNT = { exists = yes } } }
 			RUS_europe_intervention_MNT_selected_visible = { has_country_flag = RUS_europe_intervention_selected_MNT }
-			RUS_europe_intervention_MNT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_MNT }
-			RUS_europe_intervention_ALB_button_visible = { ALB = { exists = yes } }
-			RUS_europe_intervention_ALB_button_click_enabled = { ALB = { exists = yes } }
-			RUS_europe_intervention_ALB_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ALB }
-			RUS_europe_intervention_ALB_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ALB }
-			RUS_europe_intervention_BUL_button_visible = { BUL = { exists = yes } }
-			RUS_europe_intervention_BUL_button_click_enabled = { BUL = { exists = yes } }
-			RUS_europe_intervention_BUL_selected_visible = { has_country_flag = RUS_europe_intervention_selected_BUL }
-			RUS_europe_intervention_BUL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BUL }
-			RUS_europe_intervention_GRE_button_visible = { GRE = { exists = yes } }
-			RUS_europe_intervention_GRE_button_click_enabled = { GRE = { exists = yes } }
-			RUS_europe_intervention_GRE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_GRE }
-			RUS_europe_intervention_GRE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_GRE }
-			RUS_europe_intervention_MAC_button_visible = { MAC = { exists = yes } }
-			RUS_europe_intervention_MAC_button_click_enabled = { MAC = { exists = yes } }
+			RUS_europe_intervention_MAC_button_visible = { OR = { MAC = { exists = yes } } }
+			RUS_europe_intervention_MAC_button_click_enabled = { OR = { MAC = { exists = yes } } }
 			RUS_europe_intervention_MAC_selected_visible = { has_country_flag = RUS_europe_intervention_selected_MAC }
-			RUS_europe_intervention_MAC_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_MAC }
-			RUS_europe_intervention_TRS_button_visible = { TRS = { exists = yes } }
-			RUS_europe_intervention_TRS_button_click_enabled = { TRS = { exists = yes } }
-			RUS_europe_intervention_TRS_selected_visible = { has_country_flag = RUS_europe_intervention_selected_TRS }
-			RUS_europe_intervention_TRS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_TRS }
-			RUS_europe_intervention_ITA_button_visible = { ITA = { exists = yes } }
-			RUS_europe_intervention_ITA_button_click_enabled = { ITA = { exists = yes } }
-			RUS_europe_intervention_ITA_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ITA }
-			RUS_europe_intervention_ITA_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ITA }
-			RUS_europe_intervention_SRI_button_visible = { SRI = { exists = yes } }
-			RUS_europe_intervention_SRI_button_click_enabled = { SRI = { exists = yes } }
-			RUS_europe_intervention_SRI_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SRI }
-			RUS_europe_intervention_SRI_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SRI }
-			RUS_europe_intervention_SIC_button_visible = { SIC = { exists = yes } }
-			RUS_europe_intervention_SIC_button_click_enabled = { SIC = { exists = yes } }
-			RUS_europe_intervention_SIC_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SIC }
-			RUS_europe_intervention_SIC_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SIC }
-			RUS_europe_intervention_PAP_button_visible = { PAP = { exists = yes } }
-			RUS_europe_intervention_PAP_button_click_enabled = { PAP = { exists = yes } }
-			RUS_europe_intervention_PAP_selected_visible = { has_country_flag = RUS_europe_intervention_selected_PAP }
-			RUS_europe_intervention_PAP_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_PAP }
-			RUS_europe_intervention_SRD_button_visible = { SRD = { exists = yes } }
-			RUS_europe_intervention_SRD_button_click_enabled = { SRD = { exists = yes } }
-			RUS_europe_intervention_SRD_selected_visible = { has_country_flag = RUS_europe_intervention_selected_SRD }
-			RUS_europe_intervention_SRD_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SRD }
-			RUS_europe_intervention_VNC_button_visible = { VNC = { exists = yes } }
-			RUS_europe_intervention_VNC_button_click_enabled = { VNC = { exists = yes } }
-			RUS_europe_intervention_VNC_selected_visible = { has_country_flag = RUS_europe_intervention_selected_VNC }
-			RUS_europe_intervention_VNC_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_VNC }
-			RUS_europe_intervention_LOM_button_visible = { LOM = { exists = yes } }
-			RUS_europe_intervention_LOM_button_click_enabled = { LOM = { exists = yes } }
-			RUS_europe_intervention_LOM_selected_visible = { has_country_flag = RUS_europe_intervention_selected_LOM }
-			RUS_europe_intervention_LOM_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_LOM }
-			RUS_europe_intervention_EMI_button_visible = { EMI = { exists = yes } }
-			RUS_europe_intervention_EMI_button_click_enabled = { EMI = { exists = yes } }
-			RUS_europe_intervention_EMI_selected_visible = { has_country_flag = RUS_europe_intervention_selected_EMI }
-			RUS_europe_intervention_EMI_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_EMI }
-			RUS_europe_intervention_TUS_button_visible = { TUS = { exists = yes } }
-			RUS_europe_intervention_TUS_button_click_enabled = { TUS = { exists = yes } }
-			RUS_europe_intervention_TUS_selected_visible = { has_country_flag = RUS_europe_intervention_selected_TUS }
-			RUS_europe_intervention_TUS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_TUS }
-			RUS_europe_intervention_MLT_button_visible = { MLT = { exists = yes } }
-			RUS_europe_intervention_MLT_button_click_enabled = { MLT = { exists = yes } }
+			RUS_europe_intervention_ITALY_ITA_button_visible = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_ITA_button_click_enabled = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_ITA_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ITALY }
+			RUS_europe_intervention_ITALY_SRI_button_visible = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_SRI_button_click_enabled = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_SRI_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ITALY }
+			RUS_europe_intervention_ITALY_SIC_button_visible = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_SIC_button_click_enabled = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_SIC_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ITALY }
+			RUS_europe_intervention_ITALY_PAP_button_visible = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_PAP_button_click_enabled = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_PAP_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ITALY }
+			RUS_europe_intervention_ITALY_SRD_button_visible = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_SRD_button_click_enabled = { OR = { ITA = { exists = yes } SRI = { exists = yes } SIC = { exists = yes } PAP = { exists = yes } SRD = { exists = yes } VNC = { exists = yes } LOM = { exists = yes } EMI = { exists = yes } TUS = { exists = yes } TRS = { exists = yes } } }
+			RUS_europe_intervention_ITALY_SRD_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ITALY }
+			RUS_europe_intervention_MLT_button_visible = { OR = { MLT = { exists = yes } } }
+			RUS_europe_intervention_MLT_button_click_enabled = { OR = { MLT = { exists = yes } } }
 			RUS_europe_intervention_MLT_selected_visible = { has_country_flag = RUS_europe_intervention_selected_MLT }
-			RUS_europe_intervention_MLT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_MLT }
-			RUS_europe_intervention_CYP_button_visible = { CYP = { exists = yes } }
-			RUS_europe_intervention_CYP_button_click_enabled = { CYP = { exists = yes } }
+			RUS_europe_intervention_CYP_button_visible = { OR = { CYP = { exists = yes } } }
+			RUS_europe_intervention_CYP_button_click_enabled = { OR = { CYP = { exists = yes } } }
 			RUS_europe_intervention_CYP_selected_visible = { has_country_flag = RUS_europe_intervention_selected_CYP }
-			RUS_europe_intervention_CYP_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_CYP }
-			RUS_europe_intervention_TUR_button_visible = { TUR = { exists = yes } }
-			RUS_europe_intervention_TUR_button_click_enabled = { TUR = { exists = yes } }
+			RUS_europe_intervention_TUR_button_visible = { OR = { TUR = { exists = yes } } }
+			RUS_europe_intervention_TUR_button_click_enabled = { OR = { TUR = { exists = yes } } }
 			RUS_europe_intervention_TUR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_TUR }
-			RUS_europe_intervention_TUR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_TUR }
-			RUS_europe_intervention_GEO_button_visible = { GEO = { exists = yes } }
-			RUS_europe_intervention_GEO_button_click_enabled = { GEO = { exists = yes } }
+			RUS_europe_intervention_GEO_button_visible = { OR = { GEO = { exists = yes } } }
+			RUS_europe_intervention_GEO_button_click_enabled = { OR = { GEO = { exists = yes } } }
 			RUS_europe_intervention_GEO_selected_visible = { has_country_flag = RUS_europe_intervention_selected_GEO }
-			RUS_europe_intervention_GEO_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_GEO }
-			RUS_europe_intervention_ARM_button_visible = { ARM = { exists = yes } }
-			RUS_europe_intervention_ARM_button_click_enabled = { ARM = { exists = yes } }
+			RUS_europe_intervention_ARM_button_visible = { OR = { ARM = { exists = yes } } }
+			RUS_europe_intervention_ARM_button_click_enabled = { OR = { ARM = { exists = yes } } }
 			RUS_europe_intervention_ARM_selected_visible = { has_country_flag = RUS_europe_intervention_selected_ARM }
-			RUS_europe_intervention_ARM_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ARM }
-			RUS_europe_intervention_AZR_button_visible = { AZR = { exists = yes } }
-			RUS_europe_intervention_AZR_button_click_enabled = { AZR = { exists = yes } }
+			RUS_europe_intervention_AZR_button_visible = { OR = { AZR = { exists = yes } } }
+			RUS_europe_intervention_AZR_button_click_enabled = { OR = { AZR = { exists = yes } } }
 			RUS_europe_intervention_AZR_selected_visible = { has_country_flag = RUS_europe_intervention_selected_AZR }
+			RUS_europe_intervention_PER_button_visible = { OR = { PER = { exists = yes } } }
+			RUS_europe_intervention_PER_button_click_enabled = { OR = { PER = { exists = yes } } }
+			RUS_europe_intervention_PER_selected_visible = { has_country_flag = RUS_europe_intervention_selected_PER }
+			RUS_europe_intervention_NORDICS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_NORDICS }
+			RUS_europe_intervention_IRE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_IRE }
+			RUS_europe_intervention_NIR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_NIR }
+			RUS_europe_intervention_ENG_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ENG }
+			RUS_europe_intervention_WLS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_WLS }
+			RUS_europe_intervention_SCO_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SCO }
+			RUS_europe_intervention_CENTRAL_EUROPE_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE }
+			RUS_europe_intervention_FRA_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_FRA }
+			RUS_europe_intervention_BRI_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BRI }
+			RUS_europe_intervention_LIL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_LIL }
+			RUS_europe_intervention_SPA_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_SPA }
+			RUS_europe_intervention_CAT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_CAT }
+			RUS_europe_intervention_BAS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BAS }
+			RUS_europe_intervention_POR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_POR }
+			RUS_europe_intervention_AUSTRIA_HUNGARY_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY }
+			RUS_europe_intervention_POL_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_POL }
+			RUS_europe_intervention_BAT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BAT }
+			RUS_europe_intervention_LIT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_LIT }
+			RUS_europe_intervention_LAT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_LAT }
+			RUS_europe_intervention_EST_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_EST }
+			RUS_europe_intervention_BLR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BLR }
+			RUS_europe_intervention_UKR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_UKR }
+			RUS_europe_intervention_BALKANS_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_BALKANS }
+			RUS_europe_intervention_MNT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_MNT }
+			RUS_europe_intervention_MAC_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_MAC }
+			RUS_europe_intervention_ITALY_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ITALY }
+			RUS_europe_intervention_MLT_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_MLT }
+			RUS_europe_intervention_CYP_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_CYP }
+			RUS_europe_intervention_TUR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_TUR }
+			RUS_europe_intervention_GEO_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_GEO }
+			RUS_europe_intervention_ARM_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_ARM }
 			RUS_europe_intervention_AZR_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_AZR }
+			RUS_europe_intervention_PER_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_PER }
 		}
 		effects = {
-			RUS_europe_intervention_close_button_click = { clr_country_flag = RUS_europe_intervention_window_open }
 			RUS_europe_intervention_overview_button_click = { RUS_clear_europe_intervention_selection = yes }
-			RUS_europe_intervention_ICE_button_click = {
+			RUS_europe_intervention_NORDICS_ICE_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_ICE
+				set_country_flag = RUS_europe_intervention_selected_NORDICS
+			}
+			RUS_europe_intervention_NORDICS_NOR_button_click = {
+				RUS_clear_europe_intervention_selection = yes
+				set_country_flag = RUS_europe_intervention_filter_active
+				set_country_flag = RUS_europe_intervention_selected_NORDICS
+			}
+			RUS_europe_intervention_NORDICS_SWE_button_click = {
+				RUS_clear_europe_intervention_selection = yes
+				set_country_flag = RUS_europe_intervention_filter_active
+				set_country_flag = RUS_europe_intervention_selected_NORDICS
+			}
+			RUS_europe_intervention_NORDICS_FIN_button_click = {
+				RUS_clear_europe_intervention_selection = yes
+				set_country_flag = RUS_europe_intervention_filter_active
+				set_country_flag = RUS_europe_intervention_selected_NORDICS
+			}
+			RUS_europe_intervention_NORDICS_DEN_button_click = {
+				RUS_clear_europe_intervention_selection = yes
+				set_country_flag = RUS_europe_intervention_filter_active
+				set_country_flag = RUS_europe_intervention_selected_NORDICS
 			}
 			RUS_europe_intervention_IRE_button_click = {
 				RUS_clear_europe_intervention_selection = yes
@@ -328,45 +290,25 @@ scripted_gui = {
 				set_country_flag = RUS_europe_intervention_filter_active
 				set_country_flag = RUS_europe_intervention_selected_SCO
 			}
-			RUS_europe_intervention_NOR_button_click = {
+			RUS_europe_intervention_CENTRAL_EUROPE_HOL_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_NOR
+				set_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE
 			}
-			RUS_europe_intervention_SWE_button_click = {
+			RUS_europe_intervention_CENTRAL_EUROPE_BEL_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_SWE
+				set_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE
 			}
-			RUS_europe_intervention_FIN_button_click = {
+			RUS_europe_intervention_CENTRAL_EUROPE_GER_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_FIN
+				set_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE
 			}
-			RUS_europe_intervention_DEN_button_click = {
+			RUS_europe_intervention_CENTRAL_EUROPE_SWI_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_DEN
-			}
-			RUS_europe_intervention_HOL_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_HOL
-			}
-			RUS_europe_intervention_BEL_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_BEL
-			}
-			RUS_europe_intervention_FLA_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_FLA
-			}
-			RUS_europe_intervention_WAL_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_WAL
+				set_country_flag = RUS_europe_intervention_selected_CENTRAL_EUROPE
 			}
 			RUS_europe_intervention_FRA_button_click = {
 				RUS_clear_europe_intervention_selection = yes
@@ -382,11 +324,6 @@ scripted_gui = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
 				set_country_flag = RUS_europe_intervention_selected_LIL
-			}
-			RUS_europe_intervention_SWI_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_SWI
 			}
 			RUS_europe_intervention_SPA_button_click = {
 				RUS_clear_europe_intervention_selection = yes
@@ -408,55 +345,30 @@ scripted_gui = {
 				set_country_flag = RUS_europe_intervention_filter_active
 				set_country_flag = RUS_europe_intervention_selected_POR
 			}
-			RUS_europe_intervention_GER_button_click = {
+			RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_GER
+				set_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY
 			}
-			RUS_europe_intervention_PRE_button_click = {
+			RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_PRE
+				set_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY
 			}
-			RUS_europe_intervention_NGF_button_click = {
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_NGF
+				set_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY
 			}
-			RUS_europe_intervention_RHI_button_click = {
+			RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_RHI
+				set_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY
 			}
-			RUS_europe_intervention_BAY_button_click = {
+			RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_BAY
-			}
-			RUS_europe_intervention_AUS_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_AUS
-			}
-			RUS_europe_intervention_HUN_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_HUN
-			}
-			RUS_europe_intervention_CZE_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_CZE
-			}
-			RUS_europe_intervention_SLO_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_SLO
-			}
-			RUS_europe_intervention_GAL_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_GAL
+				set_country_flag = RUS_europe_intervention_selected_AUSTRIA_HUNGARY
 			}
 			RUS_europe_intervention_POL_button_click = {
 				RUS_clear_europe_intervention_selection = yes
@@ -493,100 +405,65 @@ scripted_gui = {
 				set_country_flag = RUS_europe_intervention_filter_active
 				set_country_flag = RUS_europe_intervention_selected_UKR
 			}
-			RUS_europe_intervention_ROM_button_click = {
+			RUS_europe_intervention_BALKANS_SER_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_ROM
+				set_country_flag = RUS_europe_intervention_selected_BALKANS
 			}
-			RUS_europe_intervention_SER_button_click = {
+			RUS_europe_intervention_BALKANS_ROM_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_SER
+				set_country_flag = RUS_europe_intervention_selected_BALKANS
 			}
-			RUS_europe_intervention_CRO_button_click = {
+			RUS_europe_intervention_BALKANS_GRE_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_CRO
+				set_country_flag = RUS_europe_intervention_selected_BALKANS
 			}
-			RUS_europe_intervention_BOS_button_click = {
+			RUS_europe_intervention_BALKANS_ALB_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_BOS
+				set_country_flag = RUS_europe_intervention_selected_BALKANS
+			}
+			RUS_europe_intervention_BALKANS_BUL_button_click = {
+				RUS_clear_europe_intervention_selection = yes
+				set_country_flag = RUS_europe_intervention_filter_active
+				set_country_flag = RUS_europe_intervention_selected_BALKANS
 			}
 			RUS_europe_intervention_MNT_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
 				set_country_flag = RUS_europe_intervention_selected_MNT
 			}
-			RUS_europe_intervention_ALB_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_ALB
-			}
-			RUS_europe_intervention_BUL_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_BUL
-			}
-			RUS_europe_intervention_GRE_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_GRE
-			}
 			RUS_europe_intervention_MAC_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
 				set_country_flag = RUS_europe_intervention_selected_MAC
 			}
-			RUS_europe_intervention_TRS_button_click = {
+			RUS_europe_intervention_ITALY_ITA_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_TRS
+				set_country_flag = RUS_europe_intervention_selected_ITALY
 			}
-			RUS_europe_intervention_ITA_button_click = {
+			RUS_europe_intervention_ITALY_SRI_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_ITA
+				set_country_flag = RUS_europe_intervention_selected_ITALY
 			}
-			RUS_europe_intervention_SRI_button_click = {
+			RUS_europe_intervention_ITALY_SIC_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_SRI
+				set_country_flag = RUS_europe_intervention_selected_ITALY
 			}
-			RUS_europe_intervention_SIC_button_click = {
+			RUS_europe_intervention_ITALY_PAP_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_SIC
+				set_country_flag = RUS_europe_intervention_selected_ITALY
 			}
-			RUS_europe_intervention_PAP_button_click = {
+			RUS_europe_intervention_ITALY_SRD_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_PAP
-			}
-			RUS_europe_intervention_SRD_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_SRD
-			}
-			RUS_europe_intervention_VNC_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_VNC
-			}
-			RUS_europe_intervention_LOM_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_LOM
-			}
-			RUS_europe_intervention_EMI_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_EMI
-			}
-			RUS_europe_intervention_TUS_button_click = {
-				RUS_clear_europe_intervention_selection = yes
-				set_country_flag = RUS_europe_intervention_filter_active
-				set_country_flag = RUS_europe_intervention_selected_TUS
+				set_country_flag = RUS_europe_intervention_selected_ITALY
 			}
 			RUS_europe_intervention_MLT_button_click = {
 				RUS_clear_europe_intervention_selection = yes
@@ -617,6 +494,11 @@ scripted_gui = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active
 				set_country_flag = RUS_europe_intervention_selected_AZR
+			}
+			RUS_europe_intervention_PER_button_click = {
+				RUS_clear_europe_intervention_selection = yes
+				set_country_flag = RUS_europe_intervention_filter_active
+				set_country_flag = RUS_europe_intervention_selected_PER
 			}
 		}
 	}

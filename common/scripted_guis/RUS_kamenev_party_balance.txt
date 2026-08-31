@@ -1,0 +1,66 @@
+scripted_gui = {
+	RUS_kamenev_party_balance_gui = {
+		context_type = decision_category
+		window_name = "RUS_kamenev_party_balance_window"
+		ai_enabled = { always = no }
+		visible = {
+			original_tag = RUS
+			has_country_flag = RUS_kamenev_bop_active
+		}
+
+		properties = {
+			RUS_kamenev_party_balance_marker = {
+				x = RUS_kamenev_balance_gui_x
+			}
+		}
+
+		triggers = {
+			RUS_kamenev_balance_drift_bolshevik_visible = {
+				NOT = { has_country_flag = RUS_kamenev_party_balance_frozen }
+				check_variable = { RUS_kamenev_weekly_balance_drift > 0 }
+			}
+			RUS_kamenev_balance_drift_psr_visible = {
+				NOT = { has_country_flag = RUS_kamenev_party_balance_frozen }
+				check_variable = { RUS_kamenev_weekly_balance_drift < 0 }
+			}
+			RUS_kamenev_balance_drift_neutral_visible = {
+				OR = {
+					has_country_flag = RUS_kamenev_party_balance_frozen
+					check_variable = { RUS_kamenev_weekly_balance_drift = 0 }
+				}
+			}
+			RUS_kamenev_balance_live_visible = {
+				NOT = { has_country_flag = RUS_kamenev_party_balance_frozen }
+			}
+			RUS_kamenev_balance_frozen_visible = {
+				has_country_flag = RUS_kamenev_party_balance_frozen
+			}
+			RUS_kamenev_balance_bol_100_visible = {
+				check_variable = { RUS_kamenev_party_balance > 74 }
+			}
+			RUS_kamenev_balance_bol_75_visible = {
+				check_variable = { RUS_kamenev_party_balance > 49 }
+				check_variable = { RUS_kamenev_party_balance < 75 }
+			}
+			RUS_kamenev_balance_bol_50_visible = {
+				check_variable = { RUS_kamenev_party_balance > 24 }
+				check_variable = { RUS_kamenev_party_balance < 50 }
+			}
+			RUS_kamenev_balance_balanced_visible = {
+				check_variable = { RUS_kamenev_party_balance > -25 }
+				check_variable = { RUS_kamenev_party_balance < 25 }
+			}
+			RUS_kamenev_balance_psr_50_visible = {
+				check_variable = { RUS_kamenev_party_balance > -50 }
+				check_variable = { RUS_kamenev_party_balance < -24 }
+			}
+			RUS_kamenev_balance_psr_75_visible = {
+				check_variable = { RUS_kamenev_party_balance > -75 }
+				check_variable = { RUS_kamenev_party_balance < -49 }
+			}
+			RUS_kamenev_balance_psr_100_visible = {
+				check_variable = { RUS_kamenev_party_balance < -74 }
+			}
+		}
+	}
+}

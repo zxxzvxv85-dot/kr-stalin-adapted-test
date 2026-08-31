@@ -1,0 +1,224 @@
+guiTypes = {
+	containerWindowType = {
+		name = "RUS_kamenev_party_balance_window"
+		position = { x = 0 y = 0 }
+		size = { width = 100% height = 168 }
+		clipping = no
+
+		background = {
+			name = "RUS_kamenev_party_balance_background"
+			spriteType = "GFX_tiled_window2_1b_border"
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_party_balance_title"
+			position = { x = 90 y = 8 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_party_balance_gui_title"
+			format = center
+			maxWidth = 320
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_live"
+			position = { x = 90 y = 30 }
+			font = "hoi_16mbs"
+			text = "RUS_kamenev_party_balance_live"
+			format = center
+			maxWidth = 320
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_frozen"
+			position = { x = 90 y = 30 }
+			font = "hoi_16mbs"
+			text = "RUS_kamenev_party_balance_frozen"
+			format = center
+			maxWidth = 320
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_drift_bolshevik"
+			position = { x = 90 y = 49 }
+			font = "hoi_16mbs"
+			text = "RUS_kamenev_balance_drift_bolshevik"
+			format = center
+			maxWidth = 320
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_drift_psr"
+			position = { x = 90 y = 49 }
+			font = "hoi_16mbs"
+			text = "RUS_kamenev_balance_drift_psr"
+			format = center
+			maxWidth = 320
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_drift_neutral"
+			position = { x = 90 y = 49 }
+			font = "hoi_16mbs"
+			text = "RUS_kamenev_balance_drift_neutral"
+			format = center
+			maxWidth = 320
+			alwaystransparent = yes
+		}
+
+		iconType = {
+			name = "RUS_kamenev_party_balance_psr_icon"
+			position = { x = 8 y = 55 }
+			spriteType = "GFX_bop_RUS_psr_side"
+			scale = 0.62
+			pdx_tooltip = "RUS_kamenev_psr_side"
+			alwaystransparent = yes
+		}
+
+		iconType = {
+			name = "RUS_kamenev_party_balance_bolshevik_icon"
+			position = { x = 447 y = 55 }
+			spriteType = "GFX_bop_RUS_bolshevik_side"
+			scale = 0.62
+			pdx_tooltip = "RUS_kamenev_bolshevik_side"
+			alwaystransparent = yes
+		}
+
+		containerWindowType = {
+			name = "RUS_kamenev_party_balance_psr_bar_clip"
+			position = { x = 66 y = 79 }
+			size = { width = 180 height = 16 }
+			clipping = yes
+			iconType = {
+				name = "RUS_kamenev_party_balance_psr_bar"
+				position = { x = 0 y = 0 }
+				spriteType = "GFX_bop_bar_orange_dark"
+				alwaystransparent = yes
+			}
+		}
+
+		containerWindowType = {
+			name = "RUS_kamenev_party_balance_bolshevik_bar_clip"
+			position = { x = 246 y = 79 }
+			size = { width = 180 height = 16 }
+			clipping = yes
+			iconType = {
+				name = "RUS_kamenev_party_balance_bolshevik_bar"
+				position = { x = -180 y = 0 }
+				spriteType = "GFX_bop_bar_blue_dark"
+				alwaystransparent = yes
+			}
+		}
+
+		iconType = {
+			name = "RUS_kamenev_party_balance_frame"
+			position = { x = 62 y = 75 }
+			spriteType = "GFX_bop_bar_frame"
+			alwaystransparent = yes
+		}
+
+		# Keep these interactive: each marker owns the tooltip for one of the seven ranges.
+		iconType = { name = "RUS_kamenev_range_psr_100" position = { x = 77 y = 72 } spriteType = "GFX_bop_indicator" pdx_tooltip = "RUS_kamenev_range_psr_100_tt" }
+		iconType = { name = "RUS_kamenev_range_psr_75" position = { x = 128 y = 72 } spriteType = "GFX_bop_indicator" pdx_tooltip = "RUS_kamenev_range_psr_75_tt" }
+		iconType = { name = "RUS_kamenev_range_psr_50" position = { x = 180 y = 72 } spriteType = "GFX_bop_indicator" pdx_tooltip = "RUS_kamenev_range_psr_50_tt" }
+		iconType = { name = "RUS_kamenev_range_balanced" position = { x = 231 y = 72 } spriteType = "GFX_bop_indicator" pdx_tooltip = "RUS_kamenev_range_balanced_tt" }
+		iconType = { name = "RUS_kamenev_range_bol_50" position = { x = 283 y = 72 } spriteType = "GFX_bop_indicator" pdx_tooltip = "RUS_kamenev_range_bol_50_tt" }
+		iconType = { name = "RUS_kamenev_range_bol_75" position = { x = 334 y = 72 } spriteType = "GFX_bop_indicator" pdx_tooltip = "RUS_kamenev_range_bol_75_tt" }
+		iconType = { name = "RUS_kamenev_range_bol_100" position = { x = 386 y = 72 } spriteType = "GFX_bop_indicator" pdx_tooltip = "RUS_kamenev_range_bol_100_tt" }
+
+		iconType = {
+			name = "RUS_kamenev_party_balance_marker"
+			position = { x = 236 y = 74 }
+			spriteType = "GFX_bop_needle"
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_psr_label"
+			position = { x = 6 y = 132 }
+			font = "hoi_16mbs"
+			text = "RUS_kamenev_psr_side"
+			format = left
+			maxWidth = 120
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_bolshevik_label"
+			position = { x = 374 y = 132 }
+			font = "hoi_16mbs"
+			text = "RUS_kamenev_bolshevik_side"
+			format = right
+			maxWidth = 120
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_bol_100"
+			position = { x = 125 y = 128 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_balance_bol_100"
+			format = center
+			maxWidth = 250
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_bol_75"
+			position = { x = 125 y = 128 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_balance_bol_75"
+			format = center
+			maxWidth = 250
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_bol_50"
+			position = { x = 125 y = 128 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_balance_bol_50"
+			format = center
+			maxWidth = 250
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_balanced"
+			position = { x = 125 y = 128 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_balance_balanced"
+			format = center
+			maxWidth = 250
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_psr_50"
+			position = { x = 125 y = 128 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_balance_psr_50"
+			format = center
+			maxWidth = 250
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_psr_75"
+			position = { x = 125 y = 128 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_balance_psr_75"
+			format = center
+			maxWidth = 250
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_kamenev_balance_psr_100"
+			position = { x = 125 y = 128 }
+			font = "hoi_18mbs"
+			text = "RUS_kamenev_balance_psr_100"
+			format = center
+			maxWidth = 250
+			alwaystransparent = yes
+		}
+	}
+}

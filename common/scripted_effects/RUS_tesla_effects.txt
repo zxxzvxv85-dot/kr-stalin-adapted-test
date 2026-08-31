@@ -1,169 +1,13 @@
-# Country scope. Keeps Tesla's advisor-only industrial and state bonuses reversible.
-RUS_tesla_preserve_transition_advisor = {
-	# Only Tesla is exempt from cabinet resets, and only when he is serving now.
-	if = {
-		limit = {
-			OR = {
-				has_idea = RUS_nikola_tesla_advisor
-				has_idea = RUS_nikola_tesla_advisor_restored
-			}
-		}
-		set_country_flag = RUS_nikola_tesla_transition_preserve_pending
-		# Keep enforcing the one-person exception while the socialist cabinet
-		# initialisation and its follow-up events finish their own slot cleanup.
-		set_country_flag = { flag = RUS_nikola_tesla_transition_restore_window days = 7 }
-		# Keep the daily fallback out of the same tick. This also expires if
-		# a save/load interrupts the delayed restoration event.
-		set_country_flag = { flag = RUS_nikola_tesla_transition_restore_delay days = 1 }
-		# RUS_remove_savinkov permanently retires every hired political advisor.
-		# Vacate Tesla's slot first so the generic cabinet purge skips his character.
-		if = {
-			limit = { has_idea = RUS_nikola_tesla_advisor }
-			remove_ideas = RUS_nikola_tesla_advisor
-		}
-		else_if = {
-			limit = { has_idea = RUS_nikola_tesla_advisor_restored }
-			remove_ideas = RUS_nikola_tesla_advisor_restored
-		}
-	}
-}
-
-# Runtime fallback for saves in which an earlier version already allowed the
-# Savinkov cabinet purge to destroy Tesla's predefined character.
-RUS_tesla_generate_transition_replacement = {
-	if = {
-		limit = { has_country_flag = RUS_tesla_original_strength_restored }
-		generate_character = {
-			token_base = nikola_tesla_restored_transition_compat
-			advisor = {
-				name = RUS_nikola_tesla
-				slot = political_advisor
-				idea_token = RUS_nikola_tesla_advisor_restored
-				desc = RUS_nikola_tesla_advisor_desc
-				allowed = { original_tag = RUS }
-				visible = {
-					NOT = { has_country_flag = RUS_nikola_tesla_retired }
-					has_country_flag = RUS_tesla_original_strength_restored
-				}
-				available = {
-					NOT = { has_country_flag = RUS_nikola_tesla_retired }
-					has_country_flag = RUS_tesla_original_strength_restored
-					not_already_hired_except_as = political_advisor
-				}
-				traits = { RUS_tesla_electrical_visionary_restored }
-				on_add = { hidden_effect = { owner = { RUS_tesla_activate_industrial_programme = yes } } }
-				on_remove = { hidden_effect = { owner = { RUS_tesla_deactivate_industrial_programme = yes } } }
-				ai_will_do = { base = 75 }
-			}
-			portraits = { army = { small = GFX_portrait_RUS_nikola_tesla_civilian_small } }
-		}
-	}
-	else = {
-		generate_character = {
-			token_base = nikola_tesla_transition_compat
-			advisor = {
-				name = RUS_nikola_tesla
-				slot = political_advisor
-				idea_token = RUS_nikola_tesla_advisor
-				desc = RUS_nikola_tesla_advisor_desc
-				allowed = { original_tag = RUS }
-				visible = {
-					NOT = { has_country_flag = RUS_nikola_tesla_retired }
-					NOT = { has_country_flag = RUS_tesla_original_strength_restored }
-				}
-				available = {
-					NOT = { has_country_flag = RUS_nikola_tesla_retired }
-					NOT = { has_country_flag = RUS_tesla_original_strength_restored }
-					not_already_hired_except_as = political_advisor
-				}
-				traits = { RUS_tesla_electrical_visionary }
-				on_add = { hidden_effect = { owner = { RUS_tesla_activate_industrial_programme = yes } } }
-				on_remove = { hidden_effect = { owner = { RUS_tesla_deactivate_industrial_programme = yes } } }
-				ai_will_do = { base = 75 }
-			}
-			portraits = { army = { small = GFX_portrait_RUS_nikola_tesla_civilian_small } }
-		}
-	}
-	set_country_flag = RUS_nikola_tesla_transition_replacement_generated
-}
-
-RUS_tesla_restore_transition_advisor = {
-	if = {
-		limit = {
-			has_country_flag = RUS_nikola_tesla_transition_preserve_pending
-			has_country_flag = RUS_nikola_tesla_retired
-		}
-		clr_country_flag = RUS_nikola_tesla_transition_preserve_pending
-	}
-	else_if = {
-		limit = {
-			OR = {
-				has_country_flag = RUS_nikola_tesla_transition_preserve_pending
-				has_country_flag = RUS_nikola_tesla_transition_restore_window
-			}
-			NOT = {
-				OR = {
-					has_idea = RUS_nikola_tesla_advisor
-					has_idea = RUS_nikola_tesla_advisor_restored
-				}
-			}
-		}
-		if = {
-			limit = { has_country_flag = RUS_tesla_original_strength_restored }
-			if = {
-				limit = {
-					NOT = { has_character = RUS_nikola_tesla_restored }
-					NOT = { has_country_flag = RUS_nikola_tesla_transition_replacement_generated }
-				}
-				RUS_tesla_generate_transition_replacement = yes
-			}
-			log = "[GetLogInfo]: restoring the enhanced Tesla advisor after a cabinet transition"
-			activate_advisor = RUS_nikola_tesla_advisor_restored
-			add_ideas = RUS_nikola_tesla_advisor_restored
-		}
-		else = {
-			if = {
-				limit = {
-					NOT = { has_character = RUS_nikola_tesla }
-					NOT = { has_country_flag = RUS_nikola_tesla_transition_replacement_generated }
-				}
-				RUS_tesla_generate_transition_replacement = yes
-			}
-			log = "[GetLogInfo]: restoring the Tesla advisor after a cabinet transition"
-			activate_advisor = RUS_nikola_tesla_advisor
-			add_ideas = RUS_nikola_tesla_advisor
-		}
-	}
-	if = {
-		limit = {
-			has_country_flag = RUS_nikola_tesla_transition_preserve_pending
-			OR = {
-				has_idea = RUS_nikola_tesla_advisor
-				has_idea = RUS_nikola_tesla_advisor_restored
-			}
-		}
-		clr_country_flag = RUS_nikola_tesla_transition_preserve_pending
-	}
-}
-
 RUS_tesla_refresh_power_grid_bonuses = {
 	if = {
-		limit = { has_country_flag = RUS_tesla_industrial_programme_active }
+		limit = { has_country_flag = RUS_tesla_network_bonus_active }
 		set_variable = { RUS_tesla_power_grid_network_bonus = 0 }
 		every_owned_state = {
 			limit = {
 				is_controlled_by = ROOT
 				energy_infrastructure > 0
 			}
-			ROOT = {
-				if = {
-					limit = { has_country_flag = RUS_tesla_original_strength_restored }
-					add_to_variable = { RUS_tesla_power_grid_network_bonus = 0.01 }
-				}
-				else = {
-					add_to_variable = { RUS_tesla_power_grid_network_bonus = 0.005 }
-				}
-			}
+			ROOT = { add_to_variable = { RUS_tesla_power_grid_network_bonus = 0.005 } }
 		}
 		every_state = {
 			limit = {
@@ -220,40 +64,17 @@ RUS_tesla_activate_industrial_programme = {
 		set_variable = { RUS_tesla_industry_time_120 = 60 }
 		set_variable = { RUS_tesla_industry_time_150 = 75 }
 		set_variable = { RUS_tesla_industry_time_180 = 90 }
+		set_variable = { RUS_tesla_industry_time_300 = 150 }
 		set_variable = { RUS_tesla_industry_time_365 = 182.5 }
 		set_variable = { RUS_tesla_industry_time_650 = 325 }
 		set_variable = { RUS_tesla_industry_time_720 = 360 }
 		set_country_flag = RUS_tesla_industrial_programme_active
 	}
-	# Keep the new 300-day AEG decision compatible with saves where Tesla's
-	# industrial programme was already active before this duration was added.
-	if = {
-		limit = {
-			OR = {
-				has_idea = RUS_nikola_tesla_advisor
-				has_idea = RUS_nikola_tesla_advisor_restored
-				has_idea = RUS_tesla_electrical_industries
-				has_idea = RUS_tesla_electrical_industries_restored
-			}
-		}
-		set_variable = { RUS_tesla_industry_time_300 = 150 }
-	}
-	RUS_tesla_refresh_power_grid_bonuses = yes
 }
 
 RUS_tesla_deactivate_industrial_programme = {
 	if = {
-		limit = {
-			has_country_flag = RUS_tesla_industrial_programme_active
-			NOT = {
-				OR = {
-					has_idea = RUS_nikola_tesla_advisor
-					has_idea = RUS_nikola_tesla_advisor_restored
-					has_idea = RUS_tesla_electrical_industries
-					has_idea = RUS_tesla_electrical_industries_restored
-				}
-			}
-		}
+		limit = { has_country_flag = RUS_tesla_industrial_programme_active }
 		multiply_variable = { RUS_ic_time_60 = 2 }
 		multiply_variable = { RUS_ic_time_120 = 2 }
 		clear_variable = RUS_tesla_industry_time_30
@@ -266,8 +87,216 @@ RUS_tesla_deactivate_industrial_programme = {
 		clear_variable = RUS_tesla_industry_time_365
 		clear_variable = RUS_tesla_industry_time_650
 		clear_variable = RUS_tesla_industry_time_720
-		clear_variable = RUS_tesla_power_grid_network_bonus
 		clr_country_flag = RUS_tesla_industrial_programme_active
 	}
+}
+
+RUS_tesla_sync_company_programmes = {
+	if = {
+		limit = {
+			has_country_flag = RUS_tesla_company_hired
+			has_country_flag = RUS_tesla_grid_stage_3
+		}
+		RUS_tesla_activate_industrial_programme = yes
+	}
+	else = { RUS_tesla_deactivate_industrial_programme = yes }
+
+	if = {
+		limit = {
+			has_country_flag = RUS_tesla_company_hired
+			has_country_flag = RUS_tesla_research_stage_3
+		}
+		set_country_flag = RUS_tesla_electrification_chance_active
+	}
+	else = { clr_country_flag = RUS_tesla_electrification_chance_active }
+
+	if = {
+		limit = {
+			has_country_flag = RUS_tesla_company_hired
+			has_country_flag = RUS_tesla_final_stage
+		}
+		set_country_flag = RUS_tesla_network_bonus_active
+	}
+	else = { clr_country_flag = RUS_tesla_network_bonus_active }
+
 	RUS_tesla_refresh_power_grid_bonuses = yes
+}
+
+RUS_tesla_company_on_add = {
+	set_country_flag = RUS_tesla_company_hired
+	set_country_flag = RUS_tesla_mio_unlocked
+	if = {
+		limit = { NOT = { has_country_flag = RUS_tesla_minesweeper_unlock_event_fired } }
+		set_country_flag = RUS_tesla_minesweeper_unlock_event_fired
+		country_event = RUS_stalin_flavour_events.3
+	}
+	RUS_tesla_sync_company_programmes = yes
+}
+
+RUS_tesla_company_on_remove = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_tesla_company_refreshing } }
+		clr_country_flag = RUS_tesla_company_hired
+		RUS_tesla_sync_company_programmes = yes
+	}
+}
+
+RUS_tesla_remove_current_company_variant = {
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries }
+		remove_ideas = RUS_tesla_electrical_industries
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g0_r1 }
+		remove_ideas = RUS_tesla_electrical_industries_g0_r1
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g0_r2 }
+		remove_ideas = RUS_tesla_electrical_industries_g0_r2
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g0_r3 }
+		remove_ideas = RUS_tesla_electrical_industries_g0_r3
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g1_r0 }
+		remove_ideas = RUS_tesla_electrical_industries_g1_r0
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g1_r1 }
+		remove_ideas = RUS_tesla_electrical_industries_g1_r1
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g1_r2 }
+		remove_ideas = RUS_tesla_electrical_industries_g1_r2
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g1_r3 }
+		remove_ideas = RUS_tesla_electrical_industries_g1_r3
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g2_r0 }
+		remove_ideas = RUS_tesla_electrical_industries_g2_r0
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g2_r1 }
+		remove_ideas = RUS_tesla_electrical_industries_g2_r1
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g2_r2 }
+		remove_ideas = RUS_tesla_electrical_industries_g2_r2
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g2_r3 }
+		remove_ideas = RUS_tesla_electrical_industries_g2_r3
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g3_r0 }
+		remove_ideas = RUS_tesla_electrical_industries_g3_r0
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g3_r1 }
+		remove_ideas = RUS_tesla_electrical_industries_g3_r1
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g3_r2 }
+		remove_ideas = RUS_tesla_electrical_industries_g3_r2
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_g3_r3 }
+		remove_ideas = RUS_tesla_electrical_industries_g3_r3
+	}
+	if = {
+		limit = { has_idea = RUS_tesla_electrical_industries_final }
+		remove_ideas = RUS_tesla_electrical_industries_final
+	}
+}
+
+RUS_tesla_add_current_company_variant = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_final_stage }
+		add_ideas = RUS_tesla_electrical_industries_final
+	}
+	else_if = {
+		limit = { has_country_flag = RUS_tesla_grid_stage_3 }
+		if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_3 }
+			add_ideas = RUS_tesla_electrical_industries_g3_r3
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_2 }
+			add_ideas = RUS_tesla_electrical_industries_g3_r2
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_1 }
+			add_ideas = RUS_tesla_electrical_industries_g3_r1
+		}
+		else = {
+			add_ideas = RUS_tesla_electrical_industries_g3_r0
+		}
+	}
+	else_if = {
+		limit = { has_country_flag = RUS_tesla_grid_stage_2 }
+		if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_3 }
+			add_ideas = RUS_tesla_electrical_industries_g2_r3
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_2 }
+			add_ideas = RUS_tesla_electrical_industries_g2_r2
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_1 }
+			add_ideas = RUS_tesla_electrical_industries_g2_r1
+		}
+		else = {
+			add_ideas = RUS_tesla_electrical_industries_g2_r0
+		}
+	}
+	else_if = {
+		limit = { has_country_flag = RUS_tesla_grid_stage_1 }
+		if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_3 }
+			add_ideas = RUS_tesla_electrical_industries_g1_r3
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_2 }
+			add_ideas = RUS_tesla_electrical_industries_g1_r2
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_1 }
+			add_ideas = RUS_tesla_electrical_industries_g1_r1
+		}
+		else = {
+			add_ideas = RUS_tesla_electrical_industries_g1_r0
+		}
+	}
+	else = {
+		if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_3 }
+			add_ideas = RUS_tesla_electrical_industries_g0_r3
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_2 }
+			add_ideas = RUS_tesla_electrical_industries_g0_r2
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_research_stage_1 }
+			add_ideas = RUS_tesla_electrical_industries_g0_r1
+		}
+		else = {
+			add_ideas = RUS_tesla_electrical_industries
+		}
+	}
+}
+
+RUS_tesla_refresh_company_variant = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_company_hired }
+		set_country_flag = RUS_tesla_company_refreshing
+		RUS_tesla_remove_current_company_variant = yes
+		RUS_tesla_add_current_company_variant = yes
+		clr_country_flag = RUS_tesla_company_refreshing
+	}
+	RUS_tesla_sync_company_programmes = yes
 }

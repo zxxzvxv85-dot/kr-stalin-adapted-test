@@ -154,11 +154,7 @@ country_event = {
 			}
 		}
 		custom_effect_tooltip = stalin_form_sov.5.a_tt
-		add_power_balance_value = {
-			id = RUS_kamenev_power_balance
-			value = 0.15
-			tooltip_side = RUS_kamenev_bolshevik_side
-		}
+		RUS_stalin_kamenev_bop_move_right_015 = yes
 		hidden_effect = {
 			set_politics = {
 				ruling_party = totalist
@@ -173,14 +169,7 @@ country_event = {
 	}
 	option = {
 		name = stalin_form_sov.5.b
-		hidden_effect = {
-			RUS_tesla_preserve_transition_advisor = yes
-		}
-		add_power_balance_value = {
-			id = RUS_kamenev_power_balance
-			value = 0.15
-			tooltip_side = RUS_kamenev_bolshevik_side
-		}
+		RUS_stalin_kamenev_bop_move_right_015 = yes
 		ai_chance = {
 			base = 0
 			modifier = {
@@ -231,7 +220,6 @@ country_event = {
 		set_cosmetic_tag = RUS_sov
 		hidden_effect = {
 			# Restore only Tesla after the government-change cleanup has finished.
-			country_event = { id = stalin_form_sov.500 hours = 1 }
 			retire_character = RUS_grigory_zinovyev
 			set_party_name = {
 				ideology = communist
@@ -241,6 +229,7 @@ country_event = {
 			RUS_stalin_freeze_advisor_relationship_effects = yes
 			RUS_stalin_freeze_vst_factionalism_relationship_effects = yes
 			set_country_flag = RUS_stalin_communist_path
+			RUS_stalin_kamenev_balance_freeze = yes
 			set_country_flag = RUS_stalin_has_defeated_zinoviev
 			set_country_flag = RUS_stalingrad_tractor_factory
 			RUS_stalin_recalculate_red_army_dynamic_modifier = yes
@@ -257,16 +246,6 @@ country_event = {
 				days = 1
 			}
 		}
-	}
-}
-
-country_event = {
-	id = stalin_form_sov.500
-	hidden = yes
-	is_triggered_only = yes
-
-	immediate = {
-		RUS_tesla_restore_transition_advisor = yes
 	}
 }
 
@@ -832,7 +811,6 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		has_country_flag = RUS_kamenev_bop_active
-		has_power_balance = { id = RUS_kamenev_power_balance }
 		NOT = { has_country_flag = RUS_kamenev_bop_intro_seen }
 	}
 	immediate = {

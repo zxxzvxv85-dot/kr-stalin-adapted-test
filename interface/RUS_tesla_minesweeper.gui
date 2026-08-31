@@ -1,51 +1,11 @@
 guiTypes = {
 	containerWindowType = {
-		name = "RUS_tesla_minesweeper_entry_window"
-		position = { x = 422 y = 397 }
-		size = { width = 77 height = 77 }
-		clipping = no
-		background = { name = "BackgroundSteel" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }
-		background = { name = "BackgroundPaper" quadTextureSprite = "GFX_tiled_research_bg" }
-		buttonType = {
-			name = "RUS_tesla_minesweeper_entry_locked"
-			position = { x = 7 y = 6 }
-			quadTextureSprite = "GFX_RUS_tesla_minesweeper_entry_locked"
-			pdx_tooltip = RUS_tesla_minesweeper_title
-			pdx_tooltip_delayed = RUS_tesla_minesweeper_locked_desc
-		}
-		buttonType = {
-			name = "RUS_tesla_minesweeper_entry_button"
-			position = { x = 7 y = 6 }
-			quadTextureSprite = "GFX_RUS_tesla_minesweeper_entry_button"
-			clicksound = click_ok
-			oversound = ui_menu_over
-			pdx_tooltip = RUS_tesla_minesweeper_title
-			pdx_tooltip_delayed = RUS_tesla_minesweeper_entry_desc
-		}
-	}
-
-	containerWindowType = {
 		name = "RUS_tesla_minesweeper_window"
 		position = { x = 0 y = 0 }
-		size = { width = 540 height = 500 }
-		orientation = center
-		origo = center
+		size = { width = 100% height = 500 }
 		clipping = no
-		moveable = yes
-		click_to_front = yes
-		show_sound = menu_open_window
-		hide_sound = menu_close_window
 		background = { name = "PanelSteel" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }
 		background = { name = "PanelPaper" quadTextureSprite = "GFX_tiled_research_bg" }
-		buttonType = {
-			name = "RUS_tesla_minesweeper_close"
-			position = { x = -42 y = 12 }
-			orientation = UPPER_RIGHT
-			quadTextureSprite = "GFX_closebutton"
-			clicksound = click_close
-			shortcut = "ESCAPE"
-			pdx_tooltip = "CLOSE"
-		}
 		instantTextBoxType = {
 			name = "RUS_tesla_minesweeper_title_text"
 			position = { x = 0 y = 18 }
@@ -53,6 +13,17 @@ guiTypes = {
 			text = RUS_tesla_minesweeper_title
 			format = center
 			maxWidth = 540
+			maxHeight = 32
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_tesla_minesweeper_board_desc_text"
+			position = { x = 18 y = 52 }
+			font = "hoi_16mbs"
+			text = RUS_tesla_minesweeper_board_desc
+			format = center
+			maxWidth = 504
 			maxHeight = 32
 			fixedsize = yes
 			alwaystransparent = yes

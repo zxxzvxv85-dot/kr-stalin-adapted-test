@@ -1,18 +1,271 @@
 ideas = {
 	industrial_concern = {
 		RUS_tesla_electrical_industries = {
-			on_add = {
-				log = "[GetLogRoot]: add idea RUS_tesla_electrical_industries"
-				RUS_tesla_activate_industrial_programme = yes
-			}
-			on_remove = {
-				RUS_tesla_deactivate_industrial_programme = yes
-			}
+			name = RUS_tesla_electrical_industries
 			picture = RUS_tesla_electrical_industries
 			allowed = { original_tag = RUS }
-			visible = { has_country_flag = RUS_tesla_electrical_industries_unlocked }
-			traits = { RUS_tesla_electrical_company }
+			visible = {
+				NOT = { has_country_flag = RUS_tesla_grid_stage_1 }
+				NOT = { has_country_flag = RUS_tesla_research_stage_1 }
+			}
+			traits = { RUS_tesla_company_base }
 			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g0_r1 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				NOT = { has_country_flag = RUS_tesla_grid_stage_1 }
+				has_country_flag = RUS_tesla_research_stage_1
+				NOT = { has_country_flag = RUS_tesla_research_stage_2 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_research_1 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g0_r2 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				NOT = { has_country_flag = RUS_tesla_grid_stage_1 }
+				has_country_flag = RUS_tesla_research_stage_2
+				NOT = { has_country_flag = RUS_tesla_research_stage_3 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_research_1 RUS_tesla_company_research_2 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g0_r3 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				NOT = { has_country_flag = RUS_tesla_grid_stage_1 }
+				has_country_flag = RUS_tesla_research_stage_3
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_research_1 RUS_tesla_company_research_2 RUS_tesla_company_electrification_chance }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g1_r0 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_1
+				NOT = { has_country_flag = RUS_tesla_grid_stage_2 }
+				NOT = { has_country_flag = RUS_tesla_research_stage_1 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g1_r1 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_1
+				NOT = { has_country_flag = RUS_tesla_grid_stage_2 }
+				has_country_flag = RUS_tesla_research_stage_1
+				NOT = { has_country_flag = RUS_tesla_research_stage_2 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_research_1 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g1_r2 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_1
+				NOT = { has_country_flag = RUS_tesla_grid_stage_2 }
+				has_country_flag = RUS_tesla_research_stage_2
+				NOT = { has_country_flag = RUS_tesla_research_stage_3 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_research_1 RUS_tesla_company_research_2 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g1_r3 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_1
+				NOT = { has_country_flag = RUS_tesla_grid_stage_2 }
+				has_country_flag = RUS_tesla_research_stage_3
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_research_1 RUS_tesla_company_research_2 RUS_tesla_company_electrification_chance }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g2_r0 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_2
+				NOT = { has_country_flag = RUS_tesla_grid_stage_3 }
+				NOT = { has_country_flag = RUS_tesla_research_stage_1 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g2_r1 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_2
+				NOT = { has_country_flag = RUS_tesla_grid_stage_3 }
+				has_country_flag = RUS_tesla_research_stage_1
+				NOT = { has_country_flag = RUS_tesla_research_stage_2 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_research_1 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g2_r2 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_2
+				NOT = { has_country_flag = RUS_tesla_grid_stage_3 }
+				has_country_flag = RUS_tesla_research_stage_2
+				NOT = { has_country_flag = RUS_tesla_research_stage_3 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_research_1 RUS_tesla_company_research_2 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g2_r3 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_2
+				NOT = { has_country_flag = RUS_tesla_grid_stage_3 }
+				has_country_flag = RUS_tesla_research_stage_3
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_research_1 RUS_tesla_company_research_2 RUS_tesla_company_electrification_chance }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g3_r0 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_3
+				NOT = { has_country_flag = RUS_tesla_research_stage_1 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_industrial_decisions }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g3_r1 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_3
+				has_country_flag = RUS_tesla_research_stage_1
+				NOT = { has_country_flag = RUS_tesla_research_stage_2 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_industrial_decisions RUS_tesla_company_research_1 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g3_r2 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_3
+				has_country_flag = RUS_tesla_research_stage_2
+				NOT = { has_country_flag = RUS_tesla_research_stage_3 }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_industrial_decisions RUS_tesla_company_research_1 RUS_tesla_company_research_2 }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_g3_r3 = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = {
+				has_country_flag = RUS_tesla_grid_stage_3
+				has_country_flag = RUS_tesla_research_stage_3
+				NOT = { has_country_flag = RUS_tesla_final_stage }
+			}
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_industrial_decisions RUS_tesla_company_research_1 RUS_tesla_company_research_2 RUS_tesla_company_electrification_chance }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
+			ai_will_do = { base = 75 }
+		}
+
+		RUS_tesla_electrical_industries_final = {
+			name = RUS_tesla_electrical_industries
+			picture = RUS_tesla_electrical_industries
+			allowed = { original_tag = RUS }
+			visible = { has_country_flag = RUS_tesla_final_stage }
+			traits = { RUS_tesla_company_base RUS_tesla_company_powered_construction RUS_tesla_company_grid_cost RUS_tesla_company_industrial_decisions RUS_tesla_company_research_1 RUS_tesla_company_research_2 RUS_tesla_company_electrification_chance RUS_tesla_company_power_grid_network }
+			cost = 50
+			on_add = { RUS_tesla_company_on_add = yes }
+			on_remove = { RUS_tesla_company_on_remove = yes }
 			ai_will_do = { base = 75 }
 		}
 	}

@@ -1,0 +1,165 @@
+RUS_tesla_electrical_organisation = {
+	name = RUS_tesla_electrical_organisation
+	icon = GFX_idea_RUS_tesla_electrical_industries
+
+	allowed = { original_tag = RUS }
+	available = { FROM = { has_country_flag = RUS_tesla_mio_unlocked } }
+
+	equipment_type = {
+		support_equipment
+		motorized_equipment
+		train_equipment
+	}
+
+	research_categories = {
+		support_tech
+		mio_cat_tech_all_motorized_mechanized
+		train_tech
+		electronics
+		radar_tech
+		cat_production
+		concentrated_industry_category
+		dispersed_industry_category
+		construction_tech
+	}
+
+	tree_header_text = {
+		text = RUS_tesla_mio_tree_header
+		x = 2
+	}
+
+	initial_trait = {
+		name = RUS_tesla_mio_initial_trait
+		organization_modifier = {
+			military_industrial_organization_research_bonus = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_unified_three_phase_standard
+		name = RUS_tesla_unified_three_phase_standard
+		icon = GFX_generic_mio_trait_icon_production_capacity
+		position = { x = 1 y = 0 }
+		on_complete = {
+			custom_effect_tooltip = RUS_tesla_unified_three_phase_standard_tt
+			FROM = {
+				hidden_effect = {
+					set_country_flag = RUS_tesla_grid_stage_1
+					RUS_tesla_refresh_company_variant = yes
+				}
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_reinforced_grid_engineering
+		name = RUS_tesla_reinforced_grid_engineering
+		icon = GFX_generic_mio_trait_icon_resources
+		position = { x = 0 y = 1 }
+		relative_position_id = RUS_tesla_unified_three_phase_standard
+		any_parent = { RUS_tesla_unified_three_phase_standard }
+		on_complete = {
+			custom_effect_tooltip = RUS_tesla_reinforced_grid_engineering_tt
+			FROM = {
+				hidden_effect = {
+					set_country_flag = RUS_tesla_grid_stage_2
+					RUS_tesla_refresh_company_variant = yes
+				}
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_national_industrial_projects_office
+		name = RUS_tesla_national_industrial_projects_office
+		icon = GFX_generic_mio_department_icon_facilities
+		position = { x = 0 y = 1 }
+		relative_position_id = RUS_tesla_reinforced_grid_engineering
+		any_parent = { RUS_tesla_reinforced_grid_engineering }
+		on_complete = {
+			custom_effect_tooltip = RUS_tesla_national_industrial_projects_office_tt
+			FROM = {
+				hidden_effect = {
+					set_country_flag = RUS_tesla_grid_stage_3
+					RUS_tesla_refresh_company_variant = yes
+				}
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_all_russian_electrotechnical_institute
+		name = RUS_tesla_all_russian_electrotechnical_institute
+		icon = GFX_generic_mio_department_icon_plane_general_technology
+		position = { x = 3 y = 0 }
+		on_complete = {
+			custom_effect_tooltip = RUS_tesla_all_russian_electrotechnical_institute_tt
+			FROM = {
+				hidden_effect = {
+					set_country_flag = RUS_tesla_research_stage_1
+					RUS_tesla_refresh_company_variant = yes
+				}
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_industrial_automation_laboratory
+		name = RUS_tesla_industrial_automation_laboratory
+		icon = GFX_generic_mio_trait_icon_efficiency_gain
+		position = { x = 0 y = 1 }
+		relative_position_id = RUS_tesla_all_russian_electrotechnical_institute
+		any_parent = { RUS_tesla_all_russian_electrotechnical_institute }
+		on_complete = {
+			custom_effect_tooltip = RUS_tesla_industrial_automation_laboratory_tt
+			FROM = {
+				hidden_effect = {
+					set_country_flag = RUS_tesla_research_stage_2
+					RUS_tesla_refresh_company_variant = yes
+				}
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_long_distance_transmission_research
+		name = RUS_tesla_long_distance_transmission_research
+		icon = GFX_generic_mio_trait_icon_detection
+		position = { x = 0 y = 1 }
+		relative_position_id = RUS_tesla_industrial_automation_laboratory
+		any_parent = { RUS_tesla_industrial_automation_laboratory }
+		on_complete = {
+			custom_effect_tooltip = RUS_tesla_long_distance_transmission_research_tt
+			FROM = {
+				hidden_effect = {
+					set_country_flag = RUS_tesla_research_stage_3
+					RUS_tesla_refresh_company_variant = yes
+				}
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_all_russian_electrification_system
+		name = RUS_tesla_all_russian_electrification_system
+		icon = GFX_KR_generic_mio_trait_icon_upgrade
+		special_trait_background = yes
+		position = { x = 1 y = 1 }
+		relative_position_id = RUS_tesla_national_industrial_projects_office
+		all_parents = {
+			RUS_tesla_national_industrial_projects_office
+			RUS_tesla_long_distance_transmission_research
+		}
+		on_complete = {
+			custom_effect_tooltip = RUS_tesla_all_russian_electrification_system_tt
+			FROM = {
+				hidden_effect = {
+					set_country_flag = RUS_tesla_final_stage
+					RUS_tesla_refresh_company_variant = yes
+				}
+			}
+		}
+	}
+
+	ai_will_do = { base = 75 }
+}

@@ -49,18 +49,6 @@
 
 ideas = {
 	country = {
-		RUS_first_five_year_plan_tankograd_bonus_hidden = {
-			removal_cost = -1
-			picture = generic_neutrality_drift_bonus
-			allowed = { always = no }
-			equipment_bonus = {
-				armor = {
-					build_cost_ic = -0.05
-					instant = yes
-				}
-			}
-		}
-
 		### German Economic Influence ###
 		RUS_german_economic_influence_1 = {
 			on_add = {
@@ -2739,7 +2727,10 @@ ideas = {
 				log = "[GetLogRoot]: add idea RUS_vst_party_unity_idea"
 				add_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
 				if = {
-					limit = { has_power_balance = { id = RUS_kamenev_power_balance } }
+					limit = {
+						has_country_flag = RUS_kamenev_bop_active
+						NOT = { has_country_flag = RUS_kamenev_party_balance_frozen }
+					}
 					add_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier }
 				}
 			}
@@ -2763,12 +2754,24 @@ ideas = {
 			on_add = {
 				log = "[GetLogRoot]: add idea RUS_vst_party_streamlined_idea"
 				set_variable = { RUS.coalition_stability = 0.5 }
+				if = {
+					limit = { NOT = { has_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier } } }
+					add_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
+				}
+				RUS_stalin_freeze_vst_factionalism_relationship_effects = yes
+			}
+			on_remove = {
+				if = {
+					limit = { has_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier } }
+					remove_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
+				}
 			}
 			picture = FRA_idea_revenge
 			modifier = {
 				political_power_gain = 0.1
 				party_popularity_stability_factor = 0.1
 				war_support_factor = -0.05
+				custom_modifier_tooltip = RUS_vst_party_unity_modifier_tt
 			}
 		}
 		RUS_vst_party_factionalism_idea = {
@@ -2777,7 +2780,10 @@ ideas = {
 				add_dynamic_modifier = { modifier = RUS_vst_party_factionalism_modifier }
 				RUS_stalin_refresh_vst_factionalism_dynamic_modifier = yes
 				if = {
-					limit = { has_power_balance = { id = RUS_kamenev_power_balance } }
+					limit = {
+						has_country_flag = RUS_kamenev_bop_active
+						NOT = { has_country_flag = RUS_kamenev_party_balance_frozen }
+					}
 					add_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier }
 				}
 			}
@@ -10078,6 +10084,15 @@ ideas = {
 	}
 
 	hidden_ideas = {
+		RUS_first_five_year_plan_tankograd_bonus_hidden = {
+			equipment_bonus = {
+				armor = {
+					build_cost_ic = -0.05
+					instant = yes
+				}
+			}
+		}
+
 		### Russian Faction Ideas ###
 		RUS_surrender_limit_idea = { #this is so RUS doesn't cap before Scripted Peace, removed by `on_peace`
 			on_add = { log = "[GetLogRoot]: add idea RUS_surrender_limit_idea" }

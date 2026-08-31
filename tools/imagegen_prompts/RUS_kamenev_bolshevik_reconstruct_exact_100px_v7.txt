@@ -1,0 +1,39 @@
+Use case: precise-object-edit
+Asset type: exact-size reconstruction atlas for eight Hearts of Iron IV Kaiserreich national-focus icons
+
+Input images:
+- Image 1 is the edit target and hard measurement guide. It contains eight source crops inside eight separately framed cells. Every editable cell is exactly 100x100 pixels. The visible white outer borders, coordinate ticks, labels, canvas dimensions, and cell locations must remain fixed.
+- Image 2 is the uncropped full-tree source. Use it only to recover the complete outer silhouettes and missing edge details of the eight corresponding icons.
+- Image 3 is the exact 400x200 contact sheet of the current 100x100 crops. Preserve each icon's identity, subject, colour balance, and relative order.
+- Image 4 is the user's whole-tree scale reference. Follow its small-node discipline, not its rural subjects or wreaths.
+- Images 5-8 are official Kaiserreich style references. Preserve the current draft's successful aged metal relief while keeping Kaiserreich miniature-badge readability.
+
+Primary request:
+Reconstruct the eight existing finished icons inside the eight masked cells of Image 1. Keep the same subject and design of each current icon, but redraw each one so its complete outer silhouette genuinely fits inside its own exact 100x100 cell. Restore any parts currently cropped by the cell edge. This is a reconstruction at final pixel size, not a resized copy of a larger illustration.
+
+Non-negotiable geometry:
+- Each editable cell is exactly 100 pixels wide and 100 pixels high.
+- Every generated subject, flag, frame, shadow, highlight, decorative ray, leaf, gear tooth, and metal edge must remain between pixel 5 and pixel 94 of its own cell.
+- Leave at least 5 pixels of continuous dark negative space between the outermost icon silhouette and all four cell edges.
+- No generated pixel belonging to an icon may touch or cross a cell boundary.
+- Keep each icon centred. Visible badge height should usually be 82-90 pixels and visible width should be 82-90 pixels.
+- Do not move, enlarge, rotate, bend, erase, or redraw the external white borders, ticks, labels, header, or canvas.
+
+Reconstruction method:
+- Do not simply scale down Image 2 or the current crop.
+- Redraw each icon directly for the final 100x100 cell, simplifying minor details where needed.
+- Preserve the broad silhouette, dominant subject, integrated frame, upper-left light, oxidised gunmetal, aged silver, dark-red enamel, worn brass accents, and relief depth of the current version.
+- Preserve the eight identities and order: raised fist and Soviet banner; printing press and newspaper; two red party cards; open party book and classroom lamp; three factory workers and gear; steam locomotive and telegraph equipment; handshake with star and torch; worker raising a red flag.
+- Each icon keeps its own integrated sculpted frame. Do not separate the frame from the subject and do not turn the icon into a square painting.
+- Use fewer, broader details where the original design would not fit. The complete silhouette is more important than microscopic texture.
+
+Style constraints:
+- Maintain the successful Kaiserreich-like 1920s-1930s political badge finish of Image 2.
+- Keep a coherent Bolshevik family across all eight: dark industrial metal, disciplined geometry, restrained red enamel, period wear, and strong relief.
+- Keep the bottom red-flag icon slightly more important than the other seven, but it must obey the same 5-pixel safety margin.
+- No new subjects, no subject swaps, no modern objects, no neon, no plastic, no flat vector finish, no pixel-art treatment.
+- No readable text, letters, numbers, slogans, watermarks, or extra labels inside the 100x100 cells.
+- No hard rectangular icon background and no visible square panel inside a cell.
+
+Preservation rule:
+Change only the eight masked 100x100 cells. Preserve every other pixel of Image 1 exactly. If the service cannot preserve the external atlas, prioritise keeping all eight reconstructed icon silhouettes completely inside the visible white 100x100 measurement borders.

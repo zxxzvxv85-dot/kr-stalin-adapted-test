@@ -1,0 +1,195 @@
+# Country scope. Selects and persists the ten states used by the AEG decision.
+RUS_select_AEG_nationalisation_states = {
+	if = {
+		limit = {
+			OR = {
+				NOT = { has_country_flag = RUS_aeg_nationalisation_states_selected }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_1 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_2 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_3 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_4 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_5 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_6 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_7 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_8 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_9 }
+				NOT = { has_variable = RUS_aeg_nationalisation_state_10 }
+			}
+		}
+		clr_country_flag = RUS_aeg_nationalisation_states_selected
+		clear_variable = RUS_aeg_nationalisation_state_1
+		clear_variable = RUS_aeg_nationalisation_state_2
+		clear_variable = RUS_aeg_nationalisation_state_3
+		clear_variable = RUS_aeg_nationalisation_state_4
+		clear_variable = RUS_aeg_nationalisation_state_5
+		clear_variable = RUS_aeg_nationalisation_state_6
+		clear_variable = RUS_aeg_nationalisation_state_7
+		clear_variable = RUS_aeg_nationalisation_state_8
+		clear_variable = RUS_aeg_nationalisation_state_9
+		clear_variable = RUS_aeg_nationalisation_state_10
+		every_owned_state = {
+			limit = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			clr_state_flag = RUS_aeg_nationalisation_selected_state
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_1
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_1 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_2
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_2 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_3
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_3 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_4
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_4 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_5
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_5 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_6
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_6 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_7
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_7 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_8
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_8 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_9
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_9 = PREV } }
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				impassable = no
+				infrastructure < 5
+				energy_infrastructure < 1
+				industrial_infrastructure < 1
+				NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
+			}
+			set_state_flag = RUS_aeg_nationalisation_selected_state
+			save_global_event_target_as = RUS_aeg_nationalisation_state_10
+			ROOT = { set_variable = { RUS_aeg_nationalisation_state_10 = PREV } }
+		}
+		if = {
+			limit = {
+				has_variable = RUS_aeg_nationalisation_state_1
+				has_variable = RUS_aeg_nationalisation_state_2
+				has_variable = RUS_aeg_nationalisation_state_3
+				has_variable = RUS_aeg_nationalisation_state_4
+				has_variable = RUS_aeg_nationalisation_state_5
+				has_variable = RUS_aeg_nationalisation_state_6
+				has_variable = RUS_aeg_nationalisation_state_7
+				has_variable = RUS_aeg_nationalisation_state_8
+				has_variable = RUS_aeg_nationalisation_state_9
+				has_variable = RUS_aeg_nationalisation_state_10
+			}
+			set_country_flag = RUS_aeg_nationalisation_states_selected
+		}
+	}
+}
+
+# State scope.
+RUS_grant_AEG_nationalisation_state_reward = {
+	add_extra_state_shared_building_slots = 1
+	add_building_construction = {
+		type = energy_infrastructure
+		level = 1
+		instant_build = yes
+	}
+	add_building_construction = {
+		type = infrastructure
+		level = 1
+		instant_build = yes
+	}
+}

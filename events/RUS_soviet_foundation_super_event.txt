@@ -4,9 +4,16 @@ country_event = {
 	id = RUS_soviet_foundation_super_event.1
 	hidden = yes
 	is_triggered_only = yes
+	trigger = {
+		has_country_flag = RUS_soviet_foundation_super_event_armed
+		NOT = { has_country_flag = RUS_soviet_foundation_super_event_seen }
+	}
 
 	immediate = {
 		log = "[GetLogInfo]: opening the Soviet foundation super event"
+		clr_country_flag = RUS_soviet_foundation_super_event_armed
+		set_country_flag = RUS_soviet_foundation_super_event_seen
+		set_country_flag = RUS_soviet_foundation_playback_session_v2
 		set_country_flag = RUS_soviet_foundation_super_event_visible
 		set_variable_to_random = RUS_soviet_foundation_super_event_refresh
 		hidden_effect = {

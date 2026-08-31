@@ -1,3 +1,11 @@
+RUS_future_foreign_populate_aid_targets = {
+	clear_array = RUS_future_foreign_aid_targets
+	every_possible_country = {
+		limit = { NOT = { tag = ROOT } }
+		add_to_array = { ROOT.RUS_future_foreign_aid_targets = THIS }
+	}
+}
+
 RUS_future_foreign_refresh_third_international_gendarme = {
 	set_variable = { RUS_third_international_gendarme_volunteer_limit = 1 }
 	add_to_variable = {
@@ -36,6 +44,9 @@ RUS_future_foreign_refresh_third_international_gendarme = {
 
 RUS_future_foreign_refresh_red_country_count = {
 	set_variable = { RUS_soviets_and_phalanstere_red_country_count = 0 }
+	set_variable = { RUS_soviets_and_phalanstere_europe_country_count = 0 }
+	set_variable = { RUS_soviets_and_phalanstere_america_country_count = 0 }
+	set_variable = { RUS_soviets_and_phalanstere_afro_asia_oceania_country_count = 0 }
 	every_country = {
 		limit = {
 			exists = yes
@@ -47,12 +58,58 @@ RUS_future_foreign_refresh_red_country_count = {
 			}
 		}
 		PREV = { add_to_variable = { RUS_soviets_and_phalanstere_red_country_count = 1 } }
+		if = {
+			limit = { capital_scope = { is_on_continent = europe } }
+			PREV = { add_to_variable = { RUS_soviets_and_phalanstere_europe_country_count = 1 } }
+		}
+		else_if = {
+			limit = {
+				capital_scope = {
+					OR = {
+						is_on_continent = north_america
+						is_on_continent = south_america
+					}
+				}
+			}
+			PREV = { add_to_variable = { RUS_soviets_and_phalanstere_america_country_count = 1 } }
+		}
+		else_if = {
+			limit = {
+				capital_scope = {
+					OR = {
+						is_on_continent = asia
+						is_on_continent = middle_east
+						is_on_continent = africa
+						is_on_continent = australia
+					}
+				}
+			}
+			PREV = { add_to_variable = { RUS_soviets_and_phalanstere_afro_asia_oceania_country_count = 1 } }
+		}
 	}
 
 	set_variable = {
-		RUS_soviets_and_phalanstere_research_sharing_bonus = RUS_soviets_and_phalanstere_red_country_count
+		RUS_soviets_and_phalanstere_research_sharing_bonus = RUS_soviets_and_phalanstere_europe_country_count
 	}
-	multiply_variable = { RUS_soviets_and_phalanstere_research_sharing_bonus = 0.005 }
+	multiply_variable = { RUS_soviets_and_phalanstere_research_sharing_bonus = 0.01 }
+
+	set_variable = {
+		RUS_soviets_and_phalanstere_trade_opinion_factor = RUS_soviets_and_phalanstere_america_country_count
+	}
+	multiply_variable = { RUS_soviets_and_phalanstere_trade_opinion_factor = 0.01 }
+
+	set_variable = {
+		RUS_soviets_and_phalanstere_consumer_goods_factor = RUS_soviets_and_phalanstere_america_country_count
+	}
+	multiply_variable = { RUS_soviets_and_phalanstere_consumer_goods_factor = -0.005 }
+	add_to_variable = {
+		RUS_soviets_and_phalanstere_consumer_goods_factor = RUS_future_foreign_policy_consumer_goods_factor
+	}
+
+	set_variable = {
+		RUS_soviets_and_phalanstere_infrastructure_construction_speed = RUS_soviets_and_phalanstere_afro_asia_oceania_country_count
+	}
+	multiply_variable = { RUS_soviets_and_phalanstere_infrastructure_construction_speed = 0.01 }
 
 	set_variable = {
 		RUS_soviets_and_phalanstere_mio_surplus = RUS_soviets_and_phalanstere_red_country_count

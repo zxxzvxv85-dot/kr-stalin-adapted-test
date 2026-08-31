@@ -1,0 +1,39 @@
+Use case: precise-object-edit
+Asset type: deliberately low-resolution painted interior plates for 100x100 Kaiserreich HOI4 focus icons
+
+Input images and roles:
+- Image 1 is the edit target. It contains the correct eight subjects and correct 4x2 positions, but the artwork is much too sharp and detailed. Repaint all eight circular plates; do not preserve its high-resolution rendering.
+- Image 2 is the official Kaiserreich style authority for aged pigment, broad tonal masses, soft collage-like rendering, and native-thumbnail readability.
+- Image 3 is the fixed frame that will be added locally. Do not draw any frame, wreath, rim, star crown, ribbon, or outer ornament.
+
+Primary request:
+Repaint the same eight subjects in the same row-major positions as intentionally low-resolution source art for final 100x100 focus icons. Every circular plate must look as though it was originally painted and rasterised at only 64x64 to 72x72 pixels and then enlarged to the current canvas using soft bicubic interpolation. This low information density is mandatory, not an optional blur effect.
+
+Mandatory low-resolution language:
+- Use only large tonal masses and broad soft paint shapes. No crisp fine edge may survive.
+- Faces use only a cap/hair silhouette, brow shadow, nose plane, and one cheek highlight. No eyes, pupils, lips, wrinkles, pores, individual teeth, or anatomical microdetail.
+- Hands use one palm mass and fused finger groups. No individually outlined knuckles, nails, tendons, or finger joints.
+- The newspaper uses one cream sheet and one muted-red block. No article lines, columns, tiny marks, or pseudo-writing.
+- The printing press and locomotive use only their five to eight largest masses. No small bolts, rivets, pipes, valves, wheel spokes, fine type bars, or panel seams.
+- Party cards use two large red rectangles and two broad seals only. No embossing scratches or fine trim.
+- The book, compass, lamp, gear, telegraph pole, torch, flag, and factory use simple silhouettes with two or three broad highlights each.
+- No hard black ink outline, cel-shaded edge, vector contour, comic-book anatomy, glossy 3D edge, or high-definition texture.
+- Keep slightly irregular, faded 1920s-1930s painted pigment and restrained photographic-collage softness like Image 2.
+
+Value and colour:
+- Strong large-scale separation only: dark low-detail background, readable midtone subject, one restrained upper-left highlight group.
+- Muted red, charcoal, dirty cream, dull steel, olive-grey cloth, and natural subdued flesh.
+- Do not compensate for low resolution by increasing sharpness, edge contrast, saturation, or object count.
+
+Production invariants:
+- Preserve exactly eight circular plates and their existing 4x2 row-major positions.
+- Preserve the subject assignment already visible in Image 1; do not swap any two plates.
+- Keep all content inside each circle. No frame or object may cross a circle edge.
+- Outside the circles, preserve a uniform chroma-green background RGB 0,255,0 (#00FF00).
+- Do not use bright green inside the circles.
+- No text, numbers, labels, cell borders, shadows, glow, smoke, particles, or detached objects outside the circles.
+
+Avoid:
+- No readable or fake text, modern logo, watermark, app icon, vector art, pixel art, neon, chrome, or polished 3D render.
+- No statue, bronze person, bas-relief face, wax figure, hyperreal portrait, or modern comic illustration.
+- No newly invented detail, ninth plate, missing plate, merged plate, rectangular artwork, frame, wreath, laurel, crown star, or ribbon.

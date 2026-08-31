@@ -5,13 +5,16 @@ RUS_fr_military_reform_decisions = {
 		days_re_enable = 90
 		available = {
 			OR = {
-				has_completed_focus = RUS_4_year_plan
-				has_completed_focus = RUS_planning_directory
+				RUS_completed_focus_4_year_plan = yes
+				RUS_completed_focus_planning_directory = yes
 				has_completed_focus = SR_stalin_4_industrialization
 				has_completed_focus = RUS_coordinate_development
 			}
 		}
-		complete_effect = { add_to_variable = { RUS_fr_military_reform_materials = 15 tooltip = RUS_fr_military_reform_materials_change_tt } }
+		complete_effect = {
+			add_to_variable = { RUS_fr_military_reform_materials = 15 tooltip = RUS_fr_military_reform_materials_change_tt }
+			RUS_fr_refresh_military_reform_materials = yes
+		}
 		ai_will_do = { factor = 5 }
 	}
 
@@ -24,6 +27,7 @@ RUS_fr_military_reform_decisions = {
 		complete_effect = {
 			army_experience = var:RUS_fr_xp_cost_25_negative
 			add_to_variable = { RUS_fr_military_reform_materials = 12 tooltip = RUS_fr_military_reform_materials_change_tt }
+			RUS_fr_refresh_military_reform_materials = yes
 		}
 		ai_will_do = { factor = 3 }
 	}
@@ -36,6 +40,7 @@ RUS_fr_military_reform_decisions = {
 		complete_effect = {
 			add_stability = -0.02
 			add_to_variable = { RUS_fr_military_reform_materials = 30 tooltip = RUS_fr_military_reform_materials_change_tt }
+			RUS_fr_refresh_military_reform_materials = yes
 		}
 		ai_will_do = { factor = 8 }
 	}

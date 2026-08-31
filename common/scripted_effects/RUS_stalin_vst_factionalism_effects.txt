@@ -9,13 +9,15 @@ RUS_stalin_calculate_vst_factionalism_relationship_effects = {
 		limit = { check_variable = { vst_centre_var < 4 } }
 		set_variable = { RUS_vst_factionalism_internationalist_stability = 4 }
 		subtract_from_variable = { RUS_vst_factionalism_internationalist_stability = vst_centre_var }
-		multiply_variable = { RUS_vst_factionalism_internationalist_stability = -0.001 }
+		multiply_variable = { RUS_vst_factionalism_internationalist_stability = -0.0001 }
 		add_to_variable = { RUS_vst_factionalism_weekly_stability = RUS_vst_factionalism_internationalist_stability }
 	}
-	else = {
+	else_if = {
+		limit = { check_variable = { vst_centre_var > 4 } }
 		set_variable = { RUS_vst_factionalism_monthly_cic = vst_centre_var }
-		subtract_from_variable = { RUS_vst_factionalism_monthly_cic = 4 }
-		multiply_variable = { RUS_vst_factionalism_monthly_cic = 5000 }
+		subtract_from_variable = { RUS_vst_factionalism_monthly_cic = 5 }
+		multiply_variable = { RUS_vst_factionalism_monthly_cic = 500 }
+		add_to_variable = { RUS_vst_factionalism_monthly_cic = 5000 }
 	}
 
 	if = {
@@ -27,7 +29,7 @@ RUS_stalin_calculate_vst_factionalism_relationship_effects = {
 	else = {
 		set_variable = { RUS_vst_factionalism_sr_stability = sr_var }
 		subtract_from_variable = { RUS_vst_factionalism_sr_stability = 4 }
-		multiply_variable = { RUS_vst_factionalism_sr_stability = 0.001 }
+		multiply_variable = { RUS_vst_factionalism_sr_stability = 0.0001 }
 		add_to_variable = { RUS_vst_factionalism_weekly_stability = RUS_vst_factionalism_sr_stability }
 	}
 
@@ -42,6 +44,7 @@ RUS_stalin_calculate_vst_factionalism_relationship_effects = {
 		subtract_from_variable = { RUS_vst_factionalism_extra_pp_gain = 4 }
 		divide_variable = { RUS_vst_factionalism_extra_pp_gain = 25 }
 	}
+	set_country_flag = RUS_vst_relationship_balance_v2_migrated
 }
 
 RUS_stalin_refresh_vst_factionalism_dynamic_modifier = {
@@ -49,12 +52,43 @@ RUS_stalin_refresh_vst_factionalism_dynamic_modifier = {
 		limit = {
 			OR = {
 				has_idea = RUS_vst_party_unity_idea
+				has_idea = RUS_vst_party_streamlined_idea
 				has_idea = RUS_vst_party_factionalism_idea
 			}
 		}
 		if = {
 			limit = {
-				has_country_flag = RUS_stalin_communist_path
+				has_idea = RUS_vst_party_streamlined_idea
+				NOT = { has_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier } }
+			}
+			add_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
+		}
+		if = {
+			limit = { NOT = { has_country_flag = RUS_vst_monthly_cic_500_step_migrated } }
+			if = {
+				limit = {
+					has_country_flag = RUS_stalin_vst_factionalism_effects_frozen
+					check_variable = { RUS_vst_factionalism_monthly_cic > 0 }
+				}
+				divide_variable = { RUS_vst_factionalism_monthly_cic = 10 }
+				add_to_variable = { RUS_vst_factionalism_monthly_cic = 4500 }
+			}
+			set_country_flag = RUS_vst_monthly_cic_500_step_migrated
+		}
+		if = {
+			limit = { NOT = { has_country_flag = RUS_vst_relationship_balance_v2_migrated } }
+			if = {
+				limit = { has_country_flag = RUS_stalin_vst_factionalism_effects_frozen }
+				divide_variable = { RUS_vst_factionalism_weekly_stability = 10 }
+			}
+			set_country_flag = RUS_vst_relationship_balance_v2_migrated
+		}
+		if = {
+			limit = {
+				OR = {
+					has_country_flag = RUS_stalin_communist_path
+					has_idea = RUS_vst_party_streamlined_idea
+				}
 				NOT = { has_country_flag = RUS_stalin_vst_factionalism_effects_frozen }
 			}
 			RUS_stalin_freeze_vst_factionalism_relationship_effects = yes
@@ -66,6 +100,7 @@ RUS_stalin_refresh_vst_factionalism_dynamic_modifier = {
 
 		set_variable = { RUS_vst_factionalism_total_pp_gain = vst_popularity_var }
 		add_to_variable = { RUS_vst_factionalism_total_pp_gain = RUS_vst_factionalism_extra_pp_gain }
+		divide_variable = { RUS_vst_factionalism_total_pp_gain = 2 }
 		force_update_dynamic_modifier = yes
 	}
 }
@@ -78,6 +113,7 @@ RUS_stalin_freeze_vst_factionalism_relationship_effects = {
 	}
 	set_variable = { RUS_vst_factionalism_total_pp_gain = vst_popularity_var }
 	add_to_variable = { RUS_vst_factionalism_total_pp_gain = RUS_vst_factionalism_extra_pp_gain }
+	divide_variable = { RUS_vst_factionalism_total_pp_gain = 2 }
 	force_update_dynamic_modifier = yes
 }
 
@@ -86,6 +122,7 @@ RUS_stalin_apply_vst_factionalism_monthly_surplus = {
 		limit = {
 			OR = {
 				has_idea = RUS_vst_party_unity_idea
+				has_idea = RUS_vst_party_streamlined_idea
 				has_idea = RUS_vst_party_factionalism_idea
 			}
 			check_variable = { RUS_vst_factionalism_monthly_cic > 0 }

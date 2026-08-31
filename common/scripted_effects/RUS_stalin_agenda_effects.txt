@@ -206,7 +206,7 @@ RUS_kamenev_update_agenda_traits = {
 	if = {
 		limit = {
 			RUS_lev_kamenev = { has_trait = RUS_kamenev_political_maneuver_agenda_off }
-			power_balance_value = { id = RUS_kamenev_power_balance value > 0.75 }
+			check_variable = { RUS_kamenev_party_balance > 75 }
 			set_temp_variable = { RUS_relation_check = 5 }
 			RUS_sr_check = yes
 		}

@@ -1,4 +1,121 @@
 RUS_Spreading_the_Revolution_decisions = {
+	RUS_future_foreign_military_aid = {
+		icon = GFX_decision_generic_army_support
+		target_array = ROOT.RUS_future_foreign_aid_targets
+		target_root_trigger = { has_completed_focus = RUS_future_foreign_002 }
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			FROM = {
+				exists = yes
+				NOT = { tag = ROOT }
+				OR = {
+					has_government = radical_socialist
+					has_government = totalist
+					has_government = syndicalist
+					has_government = communist
+				}
+			}
+		}
+		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+		custom_cost_text = RUS_future_foreign_military_aid_cost
+		custom_cost_trigger = {
+			NOT = { has_political_power < 30 }
+			check_variable = { RUS_fr_military_reform_materials > 19.9 }
+		}
+		fire_only_once = yes
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -30
+				add_to_variable = { RUS_fr_military_reform_materials = -20 }
+				RUS_fr_refresh_military_reform_materials = yes
+			}
+			if = {
+				limit = { FROM = { has_war = yes } }
+				FROM = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 5000
+						producer = ROOT
+				}
+					add_equipment_to_stockpile = {
+						type = artillery_equipment
+						amount = 500
+						producer = ROOT
+					}
+				}
+				army_experience = 5
+			}
+			else = {
+				FROM = { add_offsite_building = { type = arms_factory level = 1 } }
+				hidden_effect = {
+					if = {
+						limit = { NOT = { has_power_balance = { id = RUS_europe_intervention_power_balance } } }
+						set_power_balance = { id = RUS_europe_intervention_power_balance }
+					}
+				}
+				add_power_balance_value = {
+					id = RUS_europe_intervention_power_balance
+					value = 0.01
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+		fixed_random_seed = no
+	}
+
+	RUS_future_foreign_civil_aid = {
+		icon = GFX_decision_generic_civil_support
+		target_array = ROOT.RUS_future_foreign_aid_targets
+		target_root_trigger = { has_completed_focus = RUS_future_foreign_003 }
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			FROM = {
+				exists = yes
+				NOT = { tag = ROOT }
+				OR = {
+					has_government = radical_socialist
+					has_government = totalist
+					has_government = syndicalist
+					has_government = communist
+				}
+			}
+		}
+		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+		custom_cost_text = RUS_future_foreign_civil_aid_cost
+		custom_cost_trigger = {
+			NOT = { has_political_power < 30 }
+			check_variable = { RUS_first_five_year_plan_score > 0.9 }
+		}
+		days_remove = 60
+		fire_only_once = yes
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -30
+				add_to_variable = { RUS_first_five_year_plan_score = -1 }
+				RUS_stalin_refresh_first_five_year_plan_stage = yes
+			}
+		}
+		remove_effect = {
+			FROM = { add_offsite_building = { type = industrial_complex level = 2 } }
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_power_balance = { id = RUS_europe_intervention_power_balance } } }
+					set_power_balance = { id = RUS_europe_intervention_power_balance }
+				}
+			}
+			add_power_balance_value = {
+				id = RUS_europe_intervention_power_balance
+				value = 0.01
+			}
+		}
+		ai_will_do = { base = 0 }
+		fixed_random_seed = no
+	}
+
 	RUS_future_foreign_exchange_five_year_plan_score = {
 		icon = GFX_decision_factories
 		visible = {

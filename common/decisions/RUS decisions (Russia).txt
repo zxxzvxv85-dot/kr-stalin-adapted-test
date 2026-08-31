@@ -212,6 +212,7 @@ RUS_voskhod_decisions = {
 			log = "[GetLogRoot]: Decision complete RUS_nationalise_AEG_electrical_facilities"
 			set_country_flag = RUS_aeg_nationalisation_in_progress
 			hidden_effect = {
+				RUS_select_AEG_nationalisation_states = yes
 				add_popularity = { ideology = national_populist popularity = -0.05 }
 				country_event = RUS_stalin_voskhod.1
 			}
@@ -230,39 +231,24 @@ RUS_voskhod_decisions = {
 			custom_effect_tooltip = RUS_nationalise_AEG_electrical_facilities_complete_tt
 			hidden_effect = {
 				add_popularity = { ideology = syndicalist popularity = 0.05 }
-				for_loop_effect = {
-					end = 10
-					random_owned_controlled_state = {
-						limit = {
-							is_core_of = ROOT
-							impassable = no
-							infrastructure < 5
-							energy_infrastructure < 1
-							industrial_infrastructure < 1
-							NOT = { has_state_flag = RUS_aeg_nationalisation_selected_state }
-						}
-						add_extra_state_shared_building_slots = 1
-						add_building_construction = {
-							type = energy_infrastructure
-							level = 1
-							instant_build = yes
-						}
-						add_building_construction = {
-							type = infrastructure
-							level = 1
-							instant_build = yes
-						}
-						set_state_flag = RUS_aeg_nationalisation_selected_state
-					}
-				}
+				event_target:RUS_aeg_nationalisation_state_1 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_2 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_3 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_4 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_5 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_6 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_7 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_8 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_9 = { RUS_grant_AEG_nationalisation_state_reward = yes }
+				event_target:RUS_aeg_nationalisation_state_10 = { RUS_grant_AEG_nationalisation_state_reward = yes }
 				every_owned_state = {
 					limit = { has_state_flag = RUS_aeg_nationalisation_selected_state }
 					clr_state_flag = RUS_aeg_nationalisation_selected_state
 				}
-				if = {
-					limit = { has_country_flag = RUS_tesla_industrial_programme_active }
-					RUS_tesla_refresh_power_grid_bonuses = yes
-				}
+			if = {
+				limit = { has_country_flag = RUS_tesla_network_bonus_active }
+				RUS_tesla_refresh_power_grid_bonuses = yes
+			}
 			}
 		}
 		fixed_random_seed = no
@@ -1146,6 +1132,22 @@ RUS_savinkov_eco_cat = {
 	}
 }
 
+RUS_tesla_minesweeper_category = {
+	RUS_tesla_state_funding = {
+		icon = GFX_decision_generic_electricity
+		allowed = { original_tag = RUS }
+		visible = { has_country_flag = RUS_tesla_company_hired }
+		available = { has_country_flag = RUS_tesla_company_hired }
+		cost = 50
+		days_re_enable = 90
+		ai_will_do = { base = 10 }
+		complete_effect = {
+			mio:RUS_tesla_electrical_organisation = { add_mio_funds = 500 }
+		}
+		fixed_random_seed = no
+	}
+}
+
 RUS_first_five_year_plan_industrial_projects = {
 	RUS_stalin_ffyp_expand_coal_prospecting = {
 		icon = GFX_decision_generic_industry
@@ -1344,7 +1346,7 @@ RUS_first_five_year_plan_industrial_projects = {
 				has_tech = concentrated_industry5
 				has_tech = dispersed_industry5
 			}
-			check_variable = { RUS_first_five_year_plan_score > 109.9 }
+			check_variable = { RUS_first_five_year_plan_score > 149.9 }
 		}
 		visible = { has_country_flag = RUS_first_five_year_plan_mission_started }
 		selectable_mission = no
@@ -1392,7 +1394,7 @@ RUS_first_five_year_plan_industrial_projects = {
 			log = "[GetLogRoot]: Decision removed RUS_kamenev_all_russian_electrification"
 			custom_effect_tooltip = RUS_kamenev_all_russian_electrification_complete_tt
 			if = {
-				limit = { has_country_flag = RUS_tesla_industrial_programme_active }
+				limit = { has_country_flag = RUS_tesla_electrification_chance_active }
 				custom_effect_tooltip = RUS_tesla_all_russian_electrification_chance_tt
 			}
 			hidden_effect = {
@@ -1410,7 +1412,7 @@ RUS_first_five_year_plan_industrial_projects = {
 					}
 					add_extra_state_shared_building_slots = 1
 					if = {
-						limit = { ROOT = { has_country_flag = RUS_tesla_industrial_programme_active } }
+						limit = { ROOT = { has_country_flag = RUS_tesla_electrification_chance_active } }
 						random_list = {
 							25 = {
 								if = {
@@ -1434,7 +1436,7 @@ RUS_first_five_year_plan_industrial_projects = {
 				add_to_variable = { RUS_first_five_year_plan_score = 1 }
 				RUS_stalin_refresh_first_five_year_plan_stage = yes
 				if = {
-					limit = { has_country_flag = RUS_tesla_industrial_programme_active }
+					limit = { has_country_flag = RUS_tesla_network_bonus_active }
 					RUS_tesla_refresh_power_grid_bonuses = yes
 				}
 				if = {
@@ -1755,7 +1757,7 @@ RUS_modernisation_of_AMO = {
 			if = {
 				limit = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_4_year_plan
+					RUS_completed_focus_4_year_plan = yes
 					has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 				}
 				country_event = { id = russia_socialist_events.439 }
@@ -1821,7 +1823,7 @@ RUS_izhevsk_mechanical_plant = {
 			if = {
 				limit = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_4_year_plan
+					RUS_completed_focus_4_year_plan = yes
 					has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 				}
 				country_event = { id = russia_socialist_events.438 }
@@ -1953,7 +1955,7 @@ RUS_create_tankograd = {
 			if = {
 				limit = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_4_year_plan
+					RUS_completed_focus_4_year_plan = yes
 					has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 				}
 				country_event = { id = russia_socialist_events.440 }
@@ -2097,7 +2099,7 @@ RUS_tsaritsyn_tractor_plant = {
 			if = {
 				limit = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_completed_focus = RUS_4_year_plan
+					RUS_completed_focus_4_year_plan = yes
 					has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 				}
 				country_event = { id = russia_socialist_events.437 }
@@ -7857,9 +7859,9 @@ RUS_monarchy_decisions = {
 			OR = {
 				num_of_owned_factories > 150
 				AND = {
-					has_completed_focus = RUS_industrialise_eastern_europe
-					has_completed_focus = RUS_industrialise_urals
-					has_completed_focus = RUS_industrialise_siberia
+					RUS_completed_focus_industrialise_eastern_europe = yes
+					RUS_completed_focus_industrialise_urals = yes
+					RUS_completed_focus_industrialise_siberia = yes
 				}
 			}
 		}
@@ -14448,6 +14450,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			OR = {
 				NOT = {
 					country_exists = GER
@@ -14542,6 +14545,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		available = {
 		}
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			OR = {
 				NOT = {
 					country_exists = GER
@@ -14634,6 +14638,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			NOT = {
 				AND = {
 					has_completed_focus = RUS_what_a_childish_fantasy
@@ -14815,6 +14820,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			RUS_europe_intervention_BLR_selected_or_overview = yes
 			has_socialist_government = yes
 			is_in_faction = yes
@@ -14853,6 +14859,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			has_completed_focus = RUS_peoples_union
 			OR = {
 				has_socialist_government = yes
@@ -14923,6 +14930,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			OR = {
 				has_completed_focus = RUS_expansion_of_union
 				has_completed_focus = RUS_extend_our_union
@@ -15142,6 +15150,10 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
+		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+
 		targets = { EST LAT FIN }
 		target_root_trigger = {
 			has_completed_focus = RUS_eastern_vanguard
@@ -15329,6 +15341,10 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
+		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+
 		targets = { LIT BLR UKR GEO ARM AZR ROM SER BUL GRE ALB POL SLO MNT }
 		target_root_trigger = {
 			has_completed_focus = RUS_anti_capitalist_warfare
@@ -15415,6 +15431,10 @@ RUS_Spreading_the_Revolution_decisions = {
 				has_non_aggression_pact_with = FROM
 				has_guaranteed = FROM
 			}
+		}
+
+		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 		}
 
 		targets = { TUR PER AFG }
@@ -15505,6 +15525,10 @@ RUS_Spreading_the_Revolution_decisions = {
 				has_non_aggression_pact_with = FROM
 				has_guaranteed = FROM
 			}
+		}
+
+		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 		}
 
 		targets = { JAP CHN RAJ HND PRF }
@@ -15776,6 +15800,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			can_declare_war_on = FROM
 			NOT = { has_non_aggression_pact_with = FROM }
 			NOT = { FROM = { is_guaranteed_by = ROOT } }
@@ -15998,6 +16023,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			has_socialist_government = yes
 			country_exists = FROM
 			FROM = {
@@ -16064,6 +16090,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 
 		visible = {
+			RUS_europe_intervention_target_selected_or_overview = yes
 			country_exists = FROM
 			FROM = {
 				china_is_potential_government = yes
@@ -16134,11 +16161,11 @@ RUS_socrus_coalition_mechanic_decisions = {
 				RUS_vst_left_check = yes
 				count_triggers = {
 					amount = 4
-					has_completed_focus = RUS_encourage_collectivisation
-					has_completed_focus = RUS_war_on_landowners
-					has_completed_focus = RUS_red_intelligentsia
-					has_completed_focus = RUS_planning_directory
-					has_completed_focus = RUS_4_year_plan
+					RUS_completed_focus_encourage_collectivisation = yes
+					RUS_completed_focus_war_on_landowners = yes
+					RUS_completed_focus_red_intelligentsia = yes
+					RUS_completed_focus_planning_directory = yes
+					RUS_completed_focus_4_year_plan = yes
 					has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 					has_completed_focus = RUS_commissars
 				}
@@ -16317,7 +16344,8 @@ RUS_socrus_coalition_mechanic_decisions = {
 			}
 			else_if = {
 				limit = {
-					has_completed_focus = RUS_invite_sverdlov
+					RUS_stalin_can_hire_bolshevik_advisor = yes
+					RUS_completed_focus_invite_sverdlov = yes
 					amount_taken_ideas = {
 						amount < 3
 						slots = { political_advisor }
@@ -16533,11 +16561,9 @@ RUS_socrus_coalition_mechanic_decisions = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision removed RUS_kamenev_concessions_to_bolsheviks"
-			add_power_balance_value = {
-				id = RUS_kamenev_power_balance
-				value = 0.05
-				tooltip_side = RUS_kamenev_bolshevik_side
-			}
+			RUS_stalin_kamenev_bop_move_right_005 = yes
+			set_temp_variable = { RUS_relation_change = 1 }
+			RUS_RKP_relation = yes
 		}
 		fixed_random_seed = no
 	}
@@ -16560,11 +16586,7 @@ RUS_socrus_coalition_mechanic_decisions = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot]: Decision removed RUS_kamenev_concessions_to_esers"
-			add_power_balance_value = {
-				id = RUS_kamenev_power_balance
-				value = -0.05
-				tooltip_side = RUS_kamenev_psr_side
-			}
+			RUS_stalin_kamenev_bop_move_left_005 = yes
 		}
 		fixed_random_seed = no
 	}
@@ -16593,7 +16615,7 @@ RUS_socrus_coalition_mechanic_decisions = {
 		available = {
 			OR = {
 				RUS_yakov_blyumkin = { is_political_advisor = yes }
-				has_completed_focus = RUS_state_surveillance
+				RUS_completed_focus_state_surveillance = yes
 				has_completed_focus = RUS_socrus_spies
 			}
 		}
@@ -17122,7 +17144,7 @@ RUS_sr_parliamentarian_decision_cat = {
 				}
 			}
 			else = {
-				has_completed_focus = RUS_industrialise_siberia
+				RUS_completed_focus_industrialise_siberia = yes
 				custom_override_tooltip = {
 					tooltip = { localization_key = RUS_sponsored_two_siberian_regions DECISION = RUS_Rural_Development_name }
 					has_country_flag = RUS_sponsored_noko_nikolayevsk
@@ -17507,20 +17529,12 @@ RUS_sr_parliamentarian_decision_cat = {
 					slot = political_advisor
 					trait = KR_head_of_the_romanticists
 				}
-				hidden_effect = {
-					remove_trait = {
-						slot = political_advisor
-						trait = KR_cooperatives_proponent_steinberg
+					hidden_effect = {
+						remove_trait = {
+							slot = political_advisor
+							trait = KR_cooperatives_proponent_steinberg
+						}
 					}
-					remove_trait = { #Realign this trait at the bottom
-						slot = political_advisor
-						trait = KR_sr_steinberg
-					}
-					add_trait = {
-						slot = political_advisor
-						trait = KR_sr_steinberg
-					}
-				}
 			}
 			custom_effect_tooltip = tooltip_white_line
 			custom_effect_tooltip = RUS_kamkov_requirements

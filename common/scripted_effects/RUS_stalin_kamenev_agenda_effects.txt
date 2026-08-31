@@ -25,7 +25,7 @@ RUS_stalin_kamenev_ensure_party_agendas = {
 			has_completed_focus = RUS_syndicalists
 			NOT = { has_country_flag = RUS_stalin_has_defeated_zinoviev }
 			NOT = { has_country_flag = RUS_kamenev_party_agendas_closed }
-			NOT = { has_completed_focus = RUS_bolshevik_gamble }
+			NOT = { RUS_completed_focus_bolshevik_gamble = yes }
 		}
 		if = {
 			limit = {
@@ -173,6 +173,7 @@ RUS_stalin_kamenev_clear_bol_agenda_runtime = {
 }
 
 RUS_stalin_kamenev_sync_transferred_industry = {
+	set_country_flag = RUS_kamenev_focus_state_migration
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
@@ -212,30 +213,6 @@ RUS_stalin_kamenev_sync_transferred_industry = {
 		}
 		complete_national_focus = { focus = RUS_kamenev_industrialise_siberia use_side_message = no }
 		mark_focus_tree_layout_dirty = yes
-	}
-	if = {
-		limit = {
-			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_kamenev_industrialise_urals
-			NOT = { has_completed_focus = RUS_industrialise_urals }
-		}
-		complete_national_focus = { focus = RUS_industrialise_urals use_side_message = no }
-	}
-	if = {
-		limit = {
-			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
-			NOT = { has_completed_focus = RUS_industrialise_eastern_europe }
-		}
-		complete_national_focus = { focus = RUS_industrialise_eastern_europe use_side_message = no }
-	}
-	if = {
-		limit = {
-			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_kamenev_industrialise_siberia
-			NOT = { has_completed_focus = RUS_industrialise_siberia }
-		}
-		complete_national_focus = { focus = RUS_industrialise_siberia use_side_message = no }
 	}
 	if = {
 		limit = {
@@ -285,14 +262,6 @@ RUS_stalin_kamenev_sync_transferred_industry = {
 		}
 		complete_national_focus = { focus = RUS_kamenev_acknowledge_eser_contribution use_side_message = no }
 		mark_focus_tree_layout_dirty = yes
-	}
-	if = {
-		limit = {
-			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_kamenev_three_accounts
-			NOT = { has_completed_focus = RUS_eser_deal }
-		}
-		complete_national_focus = { focus = RUS_eser_deal use_side_message = no }
 	}
 	if = {
 		limit = {
@@ -531,4 +500,5 @@ RUS_stalin_kamenev_sync_transferred_industry = {
 		complete_national_focus = { focus = RUS_kamenev_technocratic_syndicalism use_side_message = no }
 		mark_focus_tree_layout_dirty = yes
 	}
+	clr_country_flag = RUS_kamenev_focus_state_migration
 }

@@ -1,0 +1,40 @@
+Use case: precise-object-edit
+Asset type: eight native-size Kaiserreich Bolshevik national-focus icons embedded in one focus-tree canvas
+
+Input image:
+- Image 1 is both the edit target and the authoritative geometry/style reference.
+- It contains eight different official Kaiserreich focus icons pasted at their untouched native pixel dimensions into eight 100x100 focus-tree nodes.
+- Each exposed mask rectangle is exactly the original icon's exterior bounding rectangle. Replace the subject inside each rectangle, but preserve that rectangle's position, width, height, scale, and spacing.
+
+Primary request:
+Replace the eight existing icon subjects with the eight new Bolshevik subjects listed below. Imitate the official Kaiserreich icons already present in Image 1: compact near-circular badge silhouettes, restrained aged metal framing, hand-painted 1920s-1930s political illustration, broad readable shapes, controlled contrast, and sparse detail designed for native HOI4 UI size.
+
+Hard geometry invariants:
+- Keep every icon entirely inside its own exposed native-size rectangle.
+- Preserve the exact outer bounding rectangle and visual scale of each existing icon; do not enlarge, shrink, move, crop, or merge any badge.
+- Preserve all pixels outside the eight exposed rectangles exactly: canvas, labels, tree lines, node borders, rulers, and background.
+- Keep each badge visually close to circular or rounded-medallion form, like its official placeholder.
+- Each result must read clearly at the current displayed native size. Do not design a large illustration intended for later downscaling.
+
+Subjects in tree-node order:
+1. A raised worker's fist with one folded red banner and two simplified worker silhouettes.
+2. A compact printing press with one cream newspaper sheet carrying one solid red title block; no letters.
+3. Two overlapping red party membership cards, one with a star seal and one with a gear-and-handshake seal.
+4. An open red political textbook, one broad drafting compass, and one simple lamp silhouette; no people.
+5. One dominant factory worker silhouette with two darker supporting silhouettes behind one large gear.
+6. A frontal steam locomotive and one telegraph pole with two large insulators.
+7. One large handshake beneath a torch and a red star; no faces.
+8. One worker in a strong three-quarter pose raising one red flag above a minimal factory silhouette.
+
+Style and material:
+- Match the official Kaiserreich examples in Image 1 rather than inventing a new frame family.
+- Use a restrained Bolshevik palette: dark steel, muted red enamel, charcoal cloth, warm flesh paint, cream paper, and small dull-gold accents.
+- Human faces and hands use two or three broad painted value planes with minimal features, never photorealistic anatomy.
+- One dominant subject per icon; at most two supporting objects; large silhouettes and broad highlights only.
+- The frame may adapt to the subject but must remain subordinate, compact, weathered, and consistent with official KR focus-icon rendering.
+
+Avoid:
+- No oversized icons, subject overflow, square picture cards, hard rectangular crops, missing frames, or floating unframed artwork.
+- No metal or bronze human skin, statues, sculpted busts, bas-relief portraits, commemorative medals, 3D renders, or wax figures.
+- No microdetail, bolt rows, tiny gears, fine wires, repeated scratches, decorative clutter, crowds, extra tools, extra papers, or architecture.
+- No readable text, letters, numbers, slogans, watermarks, modern logos, app-icon finish, neon, chrome, flat vector art, or pixel art.

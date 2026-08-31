@@ -49,7 +49,7 @@ RUS_stalin_ensure_first_five_year_plan = {
 		}
 		if = {
 			limit = {
-				has_completed_focus = RUS_4_year_plan
+				RUS_completed_focus_4_year_plan = yes
 				NOT = { has_country_flag = RUS_first_five_year_plan_mission_started }
 				NOT = { has_country_flag = RUS_first_five_year_plan_success }
 				NOT = { has_country_flag = RUS_first_five_year_plan_failure }
@@ -148,27 +148,27 @@ RUS_stalin_refresh_first_five_year_plan_stage = {
 		hidden_effect = {
 			RUS_stalin_reset_first_five_year_plan_stage_values = yes
 			if = {
-				limit = { check_variable = { RUS_first_five_year_plan_score > 19.9 } }
+				limit = { check_variable = { RUS_first_five_year_plan_score > 24.9 } }
 				RUS_stalin_set_first_five_year_plan_stage_1 = yes
 			}
 			if = {
-				limit = { check_variable = { RUS_first_five_year_plan_score > 39.9 } }
+				limit = { check_variable = { RUS_first_five_year_plan_score > 49.9 } }
 				RUS_stalin_set_first_five_year_plan_stage_2 = yes
 			}
 			if = {
-				limit = { check_variable = { RUS_first_five_year_plan_score > 59.9 } }
+				limit = { check_variable = { RUS_first_five_year_plan_score > 74.9 } }
 				RUS_stalin_set_first_five_year_plan_stage_3 = yes
 			}
 			if = {
-				limit = { check_variable = { RUS_first_five_year_plan_score > 79.9 } }
+				limit = { check_variable = { RUS_first_five_year_plan_score > 99.9 } }
 				RUS_stalin_set_first_five_year_plan_stage_4 = yes
 			}
 			if = {
-				limit = { check_variable = { RUS_first_five_year_plan_score > 99.9 } }
+				limit = { check_variable = { RUS_first_five_year_plan_score > 124.9 } }
 				RUS_stalin_set_first_five_year_plan_stage_5 = yes
 			}
 			if = {
-				limit = { check_variable = { RUS_first_five_year_plan_score > 119.9 } }
+				limit = { check_variable = { RUS_first_five_year_plan_score > 149.9 } }
 				RUS_stalin_set_first_five_year_plan_stage_6 = yes
 			}
 			if = {
@@ -205,7 +205,7 @@ RUS_stalin_refresh_first_five_year_plan_stage = {
 			if = {
 				limit = {
 					has_country_flag = RUS_first_five_year_plan_tankograd_completed
-					check_variable = { RUS_first_five_year_plan_score > 79.9 }
+					check_variable = { RUS_first_five_year_plan_score > 99.9 }
 					NOT = { has_country_flag = RUS_first_five_year_plan_tankograd_bonus }
 				}
 				set_country_flag = RUS_first_five_year_plan_tankograd_bonus
@@ -220,7 +220,7 @@ RUS_stalin_add_first_five_year_plan_score_low = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_4_year_plan
+			RUS_completed_focus_4_year_plan = yes
 			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 		}
 		custom_effect_tooltip = RUS_first_five_year_plan_score_low_tt
@@ -236,7 +236,7 @@ RUS_stalin_add_first_five_year_plan_score_3 = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_4_year_plan
+			RUS_completed_focus_4_year_plan = yes
 			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 		}
 		custom_effect_tooltip = RUS_first_five_year_plan_score_3_tt
@@ -252,7 +252,7 @@ RUS_stalin_add_first_five_year_plan_score_med = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_4_year_plan
+			RUS_completed_focus_4_year_plan = yes
 			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 		}
 		custom_effect_tooltip = RUS_first_five_year_plan_score_med_tt
@@ -268,7 +268,7 @@ RUS_stalin_add_first_five_year_plan_score_high = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_4_year_plan
+			RUS_completed_focus_4_year_plan = yes
 			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 		}
 		custom_effect_tooltip = RUS_first_five_year_plan_score_high_tt
@@ -284,7 +284,7 @@ RUS_stalin_add_first_five_year_plan_score_75 = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_4_year_plan
+			RUS_completed_focus_4_year_plan = yes
 			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 		}
 		custom_effect_tooltip = RUS_first_five_year_plan_score_75_tt
@@ -300,7 +300,7 @@ RUS_stalin_add_first_five_year_plan_tankograd_bonus = {
 	if = {
 		limit = {
 			has_country_flag = RUS_auto_kamenev_vst_left_path
-			has_completed_focus = RUS_4_year_plan
+			RUS_completed_focus_4_year_plan = yes
 			has_dynamic_modifier = { modifier = RUS_first_five_year_plan }
 		}
 		custom_effect_tooltip = RUS_first_five_year_plan_tankograd_score_tt
@@ -362,8 +362,8 @@ RUS_stalin_industry_effect = {
 	else_if = {
 		limit = {
 			OR = {
-				has_completed_focus = RUS_4_year_plan
-				has_completed_focus = RUS_planning_directory
+				RUS_completed_focus_4_year_plan = yes
+				RUS_completed_focus_planning_directory = yes
 			}
 		}
 		add_stability = -0.005
@@ -373,7 +373,7 @@ RUS_stalin_industry_effect = {
 		add_stability = 0.005
 	}
 	if = {
-		limit = { has_completed_focus = RUS_4_year_plan }
+		limit = { RUS_completed_focus_4_year_plan = yes }
 		RUS_stalin_ensure_first_five_year_plan = yes
 	}
 }

@@ -7,6 +7,11 @@ on_actions = {
 				RUS_fr_update_dashboard_reform_progress = yes
 				RUS_fr_repair_comrades_abroad_army_reform_bonus = yes
 				RUS_fr_repair_revolutionary_collectivism_conscription_bonus = yes
+				RUS_fr_repair_light_infantry_special_forces_bonus = yes
+				if = {
+					limit = { has_country_flag = RUS_fr_military_reform_unlocked }
+					RUS_fr_refresh_military_reform_materials = yes
+				}
 				country_event = { id = RUS_fr_military_reform.900 hours = 1 }
 			}
 		}
@@ -21,23 +26,10 @@ on_actions = {
 				RUS_fr_update_okmo_half_xp_cost = yes
 				RUS_fr_repair_comrades_abroad_army_reform_bonus = yes
 				RUS_fr_repair_revolutionary_collectivism_conscription_bonus = yes
+				RUS_fr_repair_light_infantry_special_forces_bonus = yes
 				if = {
-					limit = {
-						is_ai = no
-						has_country_flag = RUS_fr_military_reform_unlocked
-						NOT = { has_completed_focus = RUS_fr_armaments_construction_stage_summary }
-						check_variable = { RUS_fr_military_reform_materials < 8 }
-						NOT = { has_country_flag = RUS_fr_material_shortage_alert_active }
-					}
-					set_country_flag = RUS_fr_material_shortage_alert_active
-					country_event = { id = RUS_fr_military_reform.402 hours = 1 }
-				}
-				else_if = {
-					limit = {
-						has_country_flag = RUS_fr_material_shortage_alert_active
-						NOT = { check_variable = { RUS_fr_military_reform_materials < 8 } }
-					}
-					clr_country_flag = RUS_fr_material_shortage_alert_active
+					limit = { has_country_flag = RUS_fr_military_reform_unlocked }
+					RUS_fr_add_daily_military_reform_materials = yes
 				}
 			}
 		}

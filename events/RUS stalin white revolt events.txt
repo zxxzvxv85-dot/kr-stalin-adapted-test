@@ -353,11 +353,8 @@ country_event = {
 		name = rus_stalin_white_revolt_events.8.a
 		custom_effect_tooltip = RUS_white_revolt_failure_tt
 		hidden_effect = {
-			RUS_tesla_preserve_transition_advisor = yes
 			RUS_military_restore_republic = yes
-			RUS_tesla_restore_transition_advisor = yes
 			clr_global_flag = RUS_socrus_happened
-			country_event = { id = stalin_form_sov.500 hours = 1 }
 		}
 	}
 }
@@ -393,7 +390,6 @@ country_event = {
 		name = rus_stalin_white_revolt_events.9.a
 		custom_effect_tooltip = RUS_white_revolt_victory_tt
 			hidden_effect = {
-				RUS_tesla_preserve_transition_advisor = yes
 				clear_variable = RUS_military_anger
 				if = {
 					limit = {
@@ -418,10 +414,8 @@ country_event = {
 				else = {
 					log = "[GetLogInfo]: skipped duplicate RUS_initialise_socrus after the white revolt"
 				}
-				RUS_tesla_restore_transition_advisor = yes
 				RUS_fpc_start = yes
 				RUS_maximalist_land_reform_add_initial_stage = yes
-				country_event = { id = stalin_form_sov.500 hours = 1 }
 			}
 	}
 }

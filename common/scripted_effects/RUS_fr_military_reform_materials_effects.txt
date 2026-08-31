@@ -1,0 +1,37 @@
+RUS_fr_refresh_military_reform_materials = {
+	if = {
+		limit = { NOT = { has_variable = RUS_fr_military_reform_materials } }
+		set_variable = { RUS_fr_military_reform_materials = 0 }
+	}
+	set_variable = { RUS_fr_military_reform_materials_limit = 60 }
+	if = {
+		limit = { has_completed_focus = RUS_fr_reorganise_general_staff_districts }
+		add_to_variable = { RUS_fr_military_reform_materials_limit = 10 }
+	}
+	if = {
+		limit = { has_completed_focus = RUS_fr_people_and_revolutionary_army }
+		add_to_variable = { RUS_fr_military_reform_materials_limit = 10 }
+	}
+	set_variable = { RUS_fr_military_reform_materials_daily_growth = 1 }
+	if = {
+		limit = { has_variable = RUS_first_five_year_plan_stage }
+		set_temp_variable = { RUS_fr_five_year_plan_materials_growth = RUS_first_five_year_plan_stage }
+		multiply_variable = { RUS_fr_five_year_plan_materials_growth = 0.05 }
+		add_to_variable = { RUS_fr_military_reform_materials_daily_growth = RUS_fr_five_year_plan_materials_growth }
+	}
+	clamp_variable = {
+		var = RUS_fr_military_reform_materials
+		min = 0
+		max = RUS_fr_military_reform_materials_limit
+	}
+}
+
+RUS_fr_add_daily_military_reform_materials = {
+	RUS_fr_refresh_military_reform_materials = yes
+	add_to_variable = { RUS_fr_military_reform_materials = RUS_fr_military_reform_materials_daily_growth }
+	clamp_variable = {
+		var = RUS_fr_military_reform_materials
+		min = 0
+		max = RUS_fr_military_reform_materials_limit
+	}
+}

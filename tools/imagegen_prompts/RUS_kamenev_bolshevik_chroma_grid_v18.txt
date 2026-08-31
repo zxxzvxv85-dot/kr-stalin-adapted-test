@@ -1,0 +1,47 @@
+Use case: precise-object-edit
+Asset type: production sprite sheet containing eight isolated, complete Kaiserreich-style HOI4 national-focus badges
+
+Input image:
+- Image 1 is the edit target and official Kaiserreich style reference.
+- It contains exactly eight official KR focus icons arranged in a simple four-column by two-row grid on a flat pure chroma-green background.
+- Read the positions strictly in row-major order: top row left to right, then bottom row left to right.
+
+Primary request:
+Replace the eight existing reference badges with eight finished Bolshevik focus badges. Preserve the simple 4x2 grid, the center point of every badge, generous separation, compact near-circular silhouette, restrained detail density, and native HOI4 focus-icon readability demonstrated by the official references.
+
+Production-background requirement:
+- Every pixel outside the eight complete badge silhouettes must remain one uniform flat chroma key green, exactly RGB 0,255,0 (#00FF00).
+- Do not put green inside any badge or subject.
+- No shadows, glow, smoke, particles, texture, gradient, floor, vignette, labels, captions, numbers, cell borders, guide marks, or decoration outside the badges.
+- Each badge must be completely isolated from every other badge, with at least 150 pixels of uninterrupted green between their outermost pixels.
+- Do not let any badge touch or cross an edit-region edge.
+
+Exact position-to-subject mapping:
+- Row 1, column 1: one raised worker's fist, one folded red banner, and two simple worker silhouettes.
+- Row 1, column 2: one compact printing press and one cream newspaper sheet with a solid red title block; no letters.
+- Row 1, column 3: exactly two overlapping red party membership cards, one star seal and one gear-and-handshake seal.
+- Row 1, column 4: one open red political textbook, one broad drafting compass, and one simple desk-lamp silhouette; no people.
+- Row 2, column 1: one dominant factory worker with two darker supporting silhouettes behind one large gear.
+- Row 2, column 2: one frontal steam locomotive and one telegraph pole with exactly two large insulators; no people.
+- Row 2, column 3: one large handshake beneath one torch and one red star; no faces.
+- Row 2, column 4: one worker in a strong three-quarter pose raising one red flag above a minimal factory silhouette.
+
+Badge construction:
+- Every result is one complete, self-contained, finished focus badge, not an illustration fragment.
+- Keep the entire outer frame, crown, laurels, flags, and ornaments inside a compact near-circular or rounded-medallion silhouette.
+- Each badge has one continuous readable outer boundary suitable for automatic background removal.
+- No detached ornament, loose particle, separate shadow, or floating object outside that boundary.
+- Use the official KR reference scale and sparse detail density. Design directly for final 100x100 display rather than a large illustration intended to show microscopic detail.
+
+KR/Bolshevik style:
+- Hand-painted 1920s-1930s political illustration with controlled highlights and simplified shapes.
+- Hard-edged dark steel Bolshevik frame with restrained muted-red enamel accents and one small red star where appropriate.
+- Warm painted skin, matte charcoal/grey/olive cloth, cream paper, dark machinery, and small dull-gold highlights.
+- Faces and hands use broad painted planes and minimal anatomy; never metallic people or miniature statues.
+- One dominant subject and no more than two supporting objects per badge.
+
+Avoid:
+- No readable text, letters, numbers, slogans, watermark, modern logo, app-icon finish, flat vector art, pixel art, neon, or chrome.
+- No metallic or bronze skin, statue, sculpted bust, bas-relief portrait, commemorative-medal face, wax figure, or photorealistic face.
+- No microdetail, bolt rows, tiny gears, fine wires, repeated scratches, crowds, extra tools, extra papers, extra architecture, or ornamental clutter.
+- No square picture card, rectangular crop, missing frame, cut-off frame, cut-off subject, merged badges, swapped subjects, or ninth icon.

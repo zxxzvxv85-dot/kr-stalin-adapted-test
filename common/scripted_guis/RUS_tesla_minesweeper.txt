@@ -1,29 +1,13 @@
 scripted_gui = {
-	RUS_tesla_minesweeper_entry = {
-		context_type = player_context
-		parent_window_token = politics_tab
-		window_name = "RUS_tesla_minesweeper_entry_window"
-		ai_enabled = { always = no }
-		visible = { original_tag = RUS }
-		triggers = {
-			RUS_tesla_minesweeper_entry_button_visible = { RUS_tesla_minesweeper_is_unlocked = yes }
-			RUS_tesla_minesweeper_entry_locked_visible = { NOT = { RUS_tesla_minesweeper_is_unlocked = yes } }
-			RUS_tesla_minesweeper_entry_button_click_enabled = { RUS_tesla_minesweeper_is_unlocked = yes }
-		}
-		effects = {
-			RUS_tesla_minesweeper_entry_button_click = {
-				if = { limit = { NOT = { has_country_flag = RUS_tesla_minesweeper_window_open } } RUS_tesla_minesweeper_open = yes }
-				else = { RUS_tesla_minesweeper_close = yes }
-			}
-		}
-	}
-
 	RUS_tesla_minesweeper_game = {
-		context_type = player_context
+		context_type = decision_category
 		window_name = "RUS_tesla_minesweeper_window"
 		dirty = global.RUS_tesla_minesweeper_update
 		ai_enabled = { always = no }
-		visible = { RUS_tesla_minesweeper_is_unlocked = yes has_country_flag = RUS_tesla_minesweeper_window_open }
+		visible = {
+			original_tag = RUS
+			RUS_tesla_minesweeper_is_unlocked = yes
+		}
 		triggers = {
 			RUS_tesla_minesweeper_status_ready_visible = { NOT = { has_country_flag = RUS_tesla_minesweeper_active } NOT = { has_country_flag = RUS_tesla_minesweeper_won } NOT = { has_country_flag = RUS_tesla_minesweeper_lost } }
 			RUS_tesla_minesweeper_status_active_visible = { has_country_flag = RUS_tesla_minesweeper_active }
@@ -2405,7 +2389,6 @@ scripted_gui = {
 			RUS_tesla_minesweeper_cell_63_number_8_visible = { has_country_flag = RUS_tesla_minesweeper_revealed_63 has_country_flag = RUS_tesla_minesweeper_count_63_8 }
 		}
 		effects = {
-			RUS_tesla_minesweeper_close_click = { RUS_tesla_minesweeper_close = yes }
 			RUS_tesla_minesweeper_start_click = { RUS_tesla_minesweeper_start = yes }
 			RUS_tesla_minesweeper_cell_00_hidden_click = { RUS_tesla_minesweeper_reveal_00 = yes }
 			RUS_tesla_minesweeper_cell_00_hidden_right_click = { RUS_tesla_minesweeper_mark_00 = yes }

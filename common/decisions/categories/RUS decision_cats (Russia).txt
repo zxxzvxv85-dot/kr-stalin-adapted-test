@@ -73,6 +73,7 @@ RUS_socrus_coalition_mechanic_decisions = {
 	allowed = { original_tag = RUS }
 	visible = { RUS_VST = yes }
 	visible_when_empty = yes
+	scripted_gui = RUS_kamenev_party_balance_gui
 }
 
 RUS_sr_parliamentarian_decision_cat = {
@@ -229,7 +230,7 @@ RUS_stavka_cat_decisions = {
 }
 
 RUS_Spreading_the_Revolution_decisions = {
-	icon = GFX_decision_category_russia
+	icon = GFX_RUS_europe_intervention_category_icon
 	priority = 91
 	allowed = { original_tag = RUS }
 	visible_when_empty = yes
@@ -309,6 +310,18 @@ RUS_first_five_year_plan_industrial_projects = {
 	priority = 81
 	visible_when_empty = no
 	allowed = { original_tag = RUS }
+}
+
+RUS_tesla_minesweeper_category = {
+	icon = generic_industry
+	picture = GFX_decision_cat_RUS_economy
+	priority = 80.5
+	visible_when_empty = yes
+	allowed = { original_tag = RUS }
+	visible = {
+		RUS_tesla_minesweeper_is_unlocked = yes
+	}
+	scripted_gui = RUS_tesla_minesweeper_game
 }
 
 RUS_education_reform_category = {

@@ -1,84 +1,152 @@
 guiTypes = {
 	containerWindowType = {
 		name = "RUS_europe_intervention_entry_window"
-		position = { x = 367 y = 432 }
-		size = { width = 168 height = 48 }
+		position = { x = 0 y = 0 }
+		size = { width = 52 height = 57 }
 		clipping = no
 
-		buttonType = {
-			name = "RUS_europe_intervention_open_button"
-			position = { x = 0 y = 0 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_entry_button"
-			buttonText = "RUS_europe_intervention_entry_button"
-			buttonFont = "hoi_16mbs"
-			pdx_tooltip = "RUS_europe_intervention_entry_tt"
-			clicksound = "menu_open_window"
+		iconType = {
+			name = "RUS_europe_intervention_entry_icon"
+			position = { x = 12 y = 4 }
+			spriteType = "GFX_RUS_europe_intervention_readiness_icon"
+			scale = 0.55
+			alwaystransparent = yes
+		}
+	}
+
+	containerWindowType = {
+		name = "RUS_europe_intervention_header_window"
+		position = { x = 0 y = 0 }
+		size = { width = 740 height = 44 }
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_tiled_header_1" }
+
+		iconType = {
+			name = "RUS_europe_intervention_header_emblem"
+			position = { x = 9 y = 2 }
+			spriteType = "GFX_RUS_europe_intervention_category_icon"
+			scale = 0.9
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_europe_intervention_header_title"
+			position = { x = 57 y = 8 }
+			font = "hoi_36header"
+			text = "RUS_europe_intervention_title"
+			format = left
+			maxWidth = 646
+			alwaystransparent = yes
 		}
 	}
 
 	containerWindowType = {
 		name = "RUS_europe_intervention_window"
-		position = { x = 550 y = 0 }
-		size = { width = 920 height = 660 }
+		position = { x = 0 y = 200 }
+		size = { width = 740 height = 526 }
 		clipping = no
+		moveable = no
 
-		background = {
-			name = "Background"
-			quadTextureSprite = "GFX_tiled_plain_bg"
-		}
+		background = { name = "Background" quadTextureSprite = "GFX_tiled_window2_1b_border" }
 
-		iconType = {
-			name = "RUS_europe_intervention_header"
-			position = { x = 5 y = 4 }
-			spriteType = "GFX_header_bg"
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_title"
-			position = { x = 100 y = 10 }
-			font = "hoi_28header"
-			text = "RUS_europe_intervention_title"
-			format = center
-			maxWidth = 720
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_close_button"
-			position = { x = -42 y = 8 }
-			quadTextureSprite = "GFX_closebutton"
-			Orientation = "UPPER_RIGHT"
-			clicksound = "click_close"
-			pdx_tooltip = "CLOSE"
+		containerWindowType = {
+			name = "RUS_europe_intervention_map_mount"
+			position = { x = 8 y = 9 }
+			size = { width = 714 height = 428 }
+			clipping = no
+			background = { name = "Background" quadTextureSprite = "GFX_tiled_window2_1b_border" }
 		}
 
 		iconType = {
 			name = "RUS_europe_intervention_map"
-			position = { x = 20 y = 55 }
+			position = { x = 15 y = 16 }
 			spriteType = "GFX_RUS_europe_intervention_map_panel"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_ICE_button"
-			position = { x = 95 y = 71 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_ICE_button"
+			name = "RUS_europe_intervention_NORDICS_ICE_button"
+			position = { x = 74 y = 28 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_NORDICS_ICE_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_ICE_tt"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_ICE_selected"
-			position = { x = 95 y = 71 }
-			spriteType = "GFX_RUS_europe_intervention_ICE_selected"
-			pdx_tooltip = "RUS_europe_intervention_ICE_tt"
+			name = "RUS_europe_intervention_NORDICS_ICE_selected"
+			position = { x = 74 y = 28 }
+			spriteType = "GFX_RUS_europe_intervention_NORDICS_ICE_selected"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+			alwaystransparent = yes
+		}
+
+		buttonType = {
+			name = "RUS_europe_intervention_NORDICS_NOR_button"
+			position = { x = 286 y = 16 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_NORDICS_NOR_button"
+			clicksound = "click_default"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+		}
+
+		iconType = {
+			name = "RUS_europe_intervention_NORDICS_NOR_selected"
+			position = { x = 286 y = 16 }
+			spriteType = "GFX_RUS_europe_intervention_NORDICS_NOR_selected"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+			alwaystransparent = yes
+		}
+
+		buttonType = {
+			name = "RUS_europe_intervention_NORDICS_SWE_button"
+			position = { x = 332 y = 16 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_NORDICS_SWE_button"
+			clicksound = "click_default"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+		}
+
+		iconType = {
+			name = "RUS_europe_intervention_NORDICS_SWE_selected"
+			position = { x = 332 y = 16 }
+			spriteType = "GFX_RUS_europe_intervention_NORDICS_SWE_selected"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+			alwaystransparent = yes
+		}
+
+		buttonType = {
+			name = "RUS_europe_intervention_NORDICS_FIN_button"
+			position = { x = 393 y = 16 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_NORDICS_FIN_button"
+			clicksound = "click_default"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+		}
+
+		iconType = {
+			name = "RUS_europe_intervention_NORDICS_FIN_selected"
+			position = { x = 393 y = 16 }
+			spriteType = "GFX_RUS_europe_intervention_NORDICS_FIN_selected"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+			alwaystransparent = yes
+		}
+
+		buttonType = {
+			name = "RUS_europe_intervention_NORDICS_DEN_button"
+			position = { x = 192 y = 98 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_NORDICS_DEN_button"
+			clicksound = "click_default"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
+		}
+
+		iconType = {
+			name = "RUS_europe_intervention_NORDICS_DEN_selected"
+			position = { x = 192 y = 98 }
+			spriteType = "GFX_RUS_europe_intervention_NORDICS_DEN_selected"
+			pdx_tooltip = "RUS_europe_intervention_NORDICS_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_europe_intervention_IRE_button"
-			position = { x = 217 y = 266 }
+			position = { x = 171 y = 183 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_IRE_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_IRE_tt"
@@ -86,7 +154,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_IRE_selected"
-			position = { x = 217 y = 266 }
+			position = { x = 171 y = 183 }
 			spriteType = "GFX_RUS_europe_intervention_IRE_selected"
 			pdx_tooltip = "RUS_europe_intervention_IRE_tt"
 			alwaystransparent = yes
@@ -94,7 +162,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_ENG_button"
-			position = { x = 243 y = 183 }
+			position = { x = 192 y = 118 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_ENG_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_ENG_tt"
@@ -102,111 +170,79 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_ENG_selected"
-			position = { x = 243 y = 183 }
+			position = { x = 192 y = 118 }
 			spriteType = "GFX_RUS_europe_intervention_ENG_selected"
 			pdx_tooltip = "RUS_europe_intervention_ENG_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_NOR_button"
-			position = { x = 361 y = 55 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_NOR_button"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_HOL_button"
+			position = { x = 275 y = 211 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_HOL_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_NOR_tt"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_NOR_selected"
-			position = { x = 361 y = 55 }
-			spriteType = "GFX_RUS_europe_intervention_NOR_selected"
-			pdx_tooltip = "RUS_europe_intervention_NOR_tt"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_HOL_selected"
+			position = { x = 275 y = 211 }
+			spriteType = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_HOL_selected"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_SWE_button"
-			position = { x = 419 y = 55 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_SWE_button"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_BEL_button"
+			position = { x = 266 y = 233 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_BEL_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_SWE_tt"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_SWE_selected"
-			position = { x = 419 y = 55 }
-			spriteType = "GFX_RUS_europe_intervention_SWE_selected"
-			pdx_tooltip = "RUS_europe_intervention_SWE_tt"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_BEL_selected"
+			position = { x = 266 y = 233 }
+			spriteType = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_BEL_selected"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_FIN_button"
-			position = { x = 496 y = 55 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_FIN_button"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_GER_button"
+			position = { x = 292 y = 184 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_GER_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_FIN_tt"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_FIN_selected"
-			position = { x = 496 y = 55 }
-			spriteType = "GFX_RUS_europe_intervention_FIN_selected"
-			pdx_tooltip = "RUS_europe_intervention_FIN_tt"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_GER_selected"
+			position = { x = 292 y = 184 }
+			spriteType = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_GER_selected"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_DEN_button"
-			position = { x = 243 y = 159 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_DEN_button"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_SWI_button"
+			position = { x = 293 y = 275 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_SWI_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_DEN_tt"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_DEN_selected"
-			position = { x = 243 y = 159 }
-			spriteType = "GFX_RUS_europe_intervention_DEN_selected"
-			pdx_tooltip = "RUS_europe_intervention_DEN_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_HOL_button"
-			position = { x = 347 y = 301 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_HOL_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_HOL_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_HOL_selected"
-			position = { x = 347 y = 301 }
-			spriteType = "GFX_RUS_europe_intervention_HOL_selected"
-			pdx_tooltip = "RUS_europe_intervention_HOL_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_BEL_button"
-			position = { x = 337 y = 328 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_BEL_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_BEL_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_BEL_selected"
-			position = { x = 337 y = 328 }
-			spriteType = "GFX_RUS_europe_intervention_BEL_selected"
-			pdx_tooltip = "RUS_europe_intervention_BEL_tt"
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_SWI_selected"
+			position = { x = 293 y = 275 }
+			spriteType = "GFX_RUS_europe_intervention_CENTRAL_EUROPE_SWI_selected"
+			pdx_tooltip = "RUS_europe_intervention_CENTRAL_EUROPE_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_europe_intervention_FRA_button"
-			position = { x = 274 y = 335 }
+			position = { x = 217 y = 238 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_FRA_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_FRA_tt"
@@ -214,31 +250,15 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_FRA_selected"
-			position = { x = 274 y = 335 }
+			position = { x = 217 y = 238 }
 			spriteType = "GFX_RUS_europe_intervention_FRA_selected"
 			pdx_tooltip = "RUS_europe_intervention_FRA_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_SWI_button"
-			position = { x = 370 y = 381 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_SWI_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_SWI_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_SWI_selected"
-			position = { x = 370 y = 381 }
-			spriteType = "GFX_RUS_europe_intervention_SWI_selected"
-			pdx_tooltip = "RUS_europe_intervention_SWI_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
 			name = "RUS_europe_intervention_SPA_button"
-			position = { x = 233 y = 429 }
+			position = { x = 184 y = 313 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_SPA_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_SPA_tt"
@@ -246,7 +266,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_SPA_selected"
-			position = { x = 233 y = 429 }
+			position = { x = 184 y = 313 }
 			spriteType = "GFX_RUS_europe_intervention_SPA_selected"
 			pdx_tooltip = "RUS_europe_intervention_SPA_tt"
 			alwaystransparent = yes
@@ -254,7 +274,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_POR_button"
-			position = { x = 55 y = 450 }
+			position = { x = 42 y = 330 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_POR_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_POR_tt"
@@ -262,95 +282,95 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_POR_selected"
-			position = { x = 55 y = 450 }
+			position = { x = 42 y = 330 }
 			spriteType = "GFX_RUS_europe_intervention_POR_selected"
 			pdx_tooltip = "RUS_europe_intervention_POR_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_GER_button"
-			position = { x = 369 y = 266 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_GER_button"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_button"
+			position = { x = 319 y = 259 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_GER_tt"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_GER_selected"
-			position = { x = 369 y = 266 }
-			spriteType = "GFX_RUS_europe_intervention_GER_selected"
-			pdx_tooltip = "RUS_europe_intervention_GER_tt"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_selected"
+			position = { x = 319 y = 259 }
+			spriteType = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_AUS_selected"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_AUS_button"
-			position = { x = 403 y = 361 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_AUS_button"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_button"
+			position = { x = 367 y = 253 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_AUS_tt"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_AUS_selected"
-			position = { x = 403 y = 361 }
-			spriteType = "GFX_RUS_europe_intervention_AUS_selected"
-			pdx_tooltip = "RUS_europe_intervention_AUS_tt"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_selected"
+			position = { x = 367 y = 253 }
+			spriteType = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_HUN_selected"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_HUN_button"
-			position = { x = 463 y = 354 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_HUN_button"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_button"
+			position = { x = 339 y = 238 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_HUN_tt"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_HUN_selected"
-			position = { x = 463 y = 354 }
-			spriteType = "GFX_RUS_europe_intervention_HUN_selected"
-			pdx_tooltip = "RUS_europe_intervention_HUN_tt"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_selected"
+			position = { x = 339 y = 238 }
+			spriteType = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_CZE_selected"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_CZE_button"
-			position = { x = 428 y = 334 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_CZE_button"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_button"
+			position = { x = 388 y = 241 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_CZE_tt"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_CZE_selected"
-			position = { x = 428 y = 334 }
-			spriteType = "GFX_RUS_europe_intervention_CZE_selected"
-			pdx_tooltip = "RUS_europe_intervention_CZE_tt"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_selected"
+			position = { x = 388 y = 241 }
+			spriteType = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_GAL_selected"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_GAL_button"
-			position = { x = 490 y = 338 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_GAL_button"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_button"
+			position = { x = 354 y = 287 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_GAL_tt"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_GAL_selected"
-			position = { x = 490 y = 338 }
-			spriteType = "GFX_RUS_europe_intervention_GAL_selected"
-			pdx_tooltip = "RUS_europe_intervention_GAL_tt"
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_selected"
+			position = { x = 354 y = 287 }
+			spriteType = "GFX_RUS_europe_intervention_AUSTRIA_HUNGARY_CRO_selected"
+			pdx_tooltip = "RUS_europe_intervention_AUSTRIA_HUNGARY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_europe_intervention_POL_button"
-			position = { x = 478 y = 297 }
+			position = { x = 379 y = 208 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_POL_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_POL_tt"
@@ -358,7 +378,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_POL_selected"
-			position = { x = 478 y = 297 }
+			position = { x = 379 y = 208 }
 			spriteType = "GFX_RUS_europe_intervention_POL_selected"
 			pdx_tooltip = "RUS_europe_intervention_POL_tt"
 			alwaystransparent = yes
@@ -366,7 +386,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_BAT_button"
-			position = { x = 508 y = 210 }
+			position = { x = 403 y = 139 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_BAT_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_BAT_tt"
@@ -374,7 +394,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_BAT_selected"
-			position = { x = 508 y = 210 }
+			position = { x = 403 y = 139 }
 			spriteType = "GFX_RUS_europe_intervention_BAT_selected"
 			pdx_tooltip = "RUS_europe_intervention_BAT_tt"
 			alwaystransparent = yes
@@ -382,7 +402,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_LIT_button"
-			position = { x = 509 y = 258 }
+			position = { x = 404 y = 177 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_LIT_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_LIT_tt"
@@ -390,7 +410,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_LIT_selected"
-			position = { x = 509 y = 258 }
+			position = { x = 404 y = 177 }
 			spriteType = "GFX_RUS_europe_intervention_LIT_selected"
 			pdx_tooltip = "RUS_europe_intervention_LIT_tt"
 			alwaystransparent = yes
@@ -398,7 +418,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_BLR_button"
-			position = { x = 544 y = 268 }
+			position = { x = 431 y = 185 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_BLR_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_BLR_tt"
@@ -406,7 +426,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_BLR_selected"
-			position = { x = 544 y = 268 }
+			position = { x = 431 y = 185 }
 			spriteType = "GFX_RUS_europe_intervention_BLR_selected"
 			pdx_tooltip = "RUS_europe_intervention_BLR_tt"
 			alwaystransparent = yes
@@ -414,7 +434,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_UKR_button"
-			position = { x = 532 y = 306 }
+			position = { x = 422 y = 215 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_UKR_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_UKR_tt"
@@ -422,191 +442,175 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_UKR_selected"
-			position = { x = 532 y = 306 }
+			position = { x = 422 y = 215 }
 			spriteType = "GFX_RUS_europe_intervention_UKR_selected"
 			pdx_tooltip = "RUS_europe_intervention_UKR_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_ROM_button"
-			position = { x = 522 y = 368 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_ROM_button"
+			name = "RUS_europe_intervention_BALKANS_SER_button"
+			position = { x = 385 y = 302 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_BALKANS_SER_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_ROM_tt"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_ROM_selected"
-			position = { x = 522 y = 368 }
-			spriteType = "GFX_RUS_europe_intervention_ROM_selected"
-			pdx_tooltip = "RUS_europe_intervention_ROM_tt"
+			name = "RUS_europe_intervention_BALKANS_SER_selected"
+			position = { x = 385 y = 302 }
+			spriteType = "GFX_RUS_europe_intervention_BALKANS_SER_selected"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_SER_button"
-			position = { x = 486 y = 414 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_SER_button"
+			name = "RUS_europe_intervention_BALKANS_ROM_button"
+			position = { x = 414 y = 264 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_BALKANS_ROM_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_SER_tt"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_SER_selected"
-			position = { x = 486 y = 414 }
-			spriteType = "GFX_RUS_europe_intervention_SER_selected"
-			pdx_tooltip = "RUS_europe_intervention_SER_tt"
+			name = "RUS_europe_intervention_BALKANS_ROM_selected"
+			position = { x = 414 y = 264 }
+			spriteType = "GFX_RUS_europe_intervention_BALKANS_ROM_selected"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_CRO_button"
-			position = { x = 447 y = 397 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_CRO_button"
+			name = "RUS_europe_intervention_BALKANS_GRE_button"
+			position = { x = 392 y = 340 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_BALKANS_GRE_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_CRO_tt"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_CRO_selected"
-			position = { x = 447 y = 397 }
-			spriteType = "GFX_RUS_europe_intervention_CRO_selected"
-			pdx_tooltip = "RUS_europe_intervention_CRO_tt"
+			name = "RUS_europe_intervention_BALKANS_GRE_selected"
+			position = { x = 392 y = 340 }
+			spriteType = "GFX_RUS_europe_intervention_BALKANS_GRE_selected"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_ALB_button"
-			position = { x = 492 y = 443 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_ALB_button"
+			name = "RUS_europe_intervention_BALKANS_ALB_button"
+			position = { x = 390 y = 325 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_BALKANS_ALB_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_ALB_tt"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_ALB_selected"
-			position = { x = 492 y = 443 }
-			spriteType = "GFX_RUS_europe_intervention_ALB_selected"
-			pdx_tooltip = "RUS_europe_intervention_ALB_tt"
+			name = "RUS_europe_intervention_BALKANS_ALB_selected"
+			position = { x = 390 y = 325 }
+			spriteType = "GFX_RUS_europe_intervention_BALKANS_ALB_selected"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_BUL_button"
-			position = { x = 505 y = 409 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_BUL_button"
+			name = "RUS_europe_intervention_BALKANS_BUL_button"
+			position = { x = 400 y = 297 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_BALKANS_BUL_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_BUL_tt"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_BUL_selected"
-			position = { x = 505 y = 409 }
-			spriteType = "GFX_RUS_europe_intervention_BUL_selected"
-			pdx_tooltip = "RUS_europe_intervention_BUL_tt"
+			name = "RUS_europe_intervention_BALKANS_BUL_selected"
+			position = { x = 400 y = 297 }
+			spriteType = "GFX_RUS_europe_intervention_BALKANS_BUL_selected"
+			pdx_tooltip = "RUS_europe_intervention_BALKANS_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_GRE_button"
-			position = { x = 495 y = 462 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_GRE_button"
+			name = "RUS_europe_intervention_ITALY_ITA_button"
+			position = { x = 314 y = 284 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_ITALY_ITA_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_GRE_tt"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_GRE_selected"
-			position = { x = 495 y = 462 }
-			spriteType = "GFX_RUS_europe_intervention_GRE_selected"
-			pdx_tooltip = "RUS_europe_intervention_GRE_tt"
+			name = "RUS_europe_intervention_ITALY_ITA_selected"
+			position = { x = 314 y = 284 }
+			spriteType = "GFX_RUS_europe_intervention_ITALY_ITA_selected"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_ITA_button"
-			position = { x = 396 y = 393 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_ITA_button"
+			name = "RUS_europe_intervention_ITALY_SRI_button"
+			position = { x = 299 y = 286 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_ITALY_SRI_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_ITA_tt"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_ITA_selected"
-			position = { x = 396 y = 393 }
-			spriteType = "GFX_RUS_europe_intervention_ITA_selected"
-			pdx_tooltip = "RUS_europe_intervention_ITA_tt"
+			name = "RUS_europe_intervention_ITALY_SRI_selected"
+			position = { x = 299 y = 286 }
+			spriteType = "GFX_RUS_europe_intervention_ITALY_SRI_selected"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_SRI_button"
-			position = { x = 377 y = 395 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_SRI_button"
+			name = "RUS_europe_intervention_ITALY_SIC_button"
+			position = { x = 341 y = 322 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_ITALY_SIC_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_SRI_tt"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_SRI_selected"
-			position = { x = 377 y = 395 }
-			spriteType = "GFX_RUS_europe_intervention_SRI_selected"
-			pdx_tooltip = "RUS_europe_intervention_SRI_tt"
+			name = "RUS_europe_intervention_ITALY_SIC_selected"
+			position = { x = 341 y = 322 }
+			spriteType = "GFX_RUS_europe_intervention_ITALY_SIC_selected"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_SIC_button"
-			position = { x = 431 y = 439 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_SIC_button"
+			name = "RUS_europe_intervention_ITALY_PAP_button"
+			position = { x = 337 y = 325 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_ITALY_PAP_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_SIC_tt"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_SIC_selected"
-			position = { x = 431 y = 439 }
-			spriteType = "GFX_RUS_europe_intervention_SIC_selected"
-			pdx_tooltip = "RUS_europe_intervention_SIC_tt"
+			name = "RUS_europe_intervention_ITALY_PAP_selected"
+			position = { x = 337 y = 325 }
+			spriteType = "GFX_RUS_europe_intervention_ITALY_PAP_selected"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_PAP_button"
-			position = { x = 425 y = 444 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_PAP_button"
+			name = "RUS_europe_intervention_ITALY_SRD_button"
+			position = { x = 310 y = 338 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_ITALY_SRD_button"
 			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_PAP_tt"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 		}
 
 		iconType = {
-			name = "RUS_europe_intervention_PAP_selected"
-			position = { x = 425 y = 444 }
-			spriteType = "GFX_RUS_europe_intervention_PAP_selected"
-			pdx_tooltip = "RUS_europe_intervention_PAP_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_SRD_button"
-			position = { x = 391 y = 460 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_SRD_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_SRD_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_SRD_selected"
-			position = { x = 391 y = 460 }
-			spriteType = "GFX_RUS_europe_intervention_SRD_selected"
-			pdx_tooltip = "RUS_europe_intervention_SRD_tt"
+			name = "RUS_europe_intervention_ITALY_SRD_selected"
+			position = { x = 310 y = 338 }
+			spriteType = "GFX_RUS_europe_intervention_ITALY_SRD_selected"
+			pdx_tooltip = "RUS_europe_intervention_ITALY_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_europe_intervention_TUR_button"
-			position = { x = 416 y = 450 }
+			position = { x = 330 y = 330 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_TUR_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_TUR_tt"
@@ -614,7 +618,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_TUR_selected"
-			position = { x = 416 y = 450 }
+			position = { x = 330 y = 330 }
 			spriteType = "GFX_RUS_europe_intervention_TUR_selected"
 			pdx_tooltip = "RUS_europe_intervention_TUR_tt"
 			alwaystransparent = yes
@@ -622,7 +626,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_GEO_button"
-			position = { x = 680 y = 430 }
+			position = { x = 540 y = 314 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_GEO_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_GEO_tt"
@@ -630,7 +634,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_GEO_selected"
-			position = { x = 680 y = 430 }
+			position = { x = 540 y = 314 }
 			spriteType = "GFX_RUS_europe_intervention_GEO_selected"
 			pdx_tooltip = "RUS_europe_intervention_GEO_tt"
 			alwaystransparent = yes
@@ -638,7 +642,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_AZR_button"
-			position = { x = 723 y = 453 }
+			position = { x = 573 y = 333 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_AZR_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_AZR_tt"
@@ -646,15 +650,31 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_AZR_selected"
-			position = { x = 723 y = 453 }
+			position = { x = 573 y = 333 }
 			spriteType = "GFX_RUS_europe_intervention_AZR_selected"
 			pdx_tooltip = "RUS_europe_intervention_AZR_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
+			name = "RUS_europe_intervention_PER_button"
+			position = { x = 570 y = 352 }
+			quadTextureSprite = "GFX_RUS_europe_intervention_PER_button"
+			clicksound = "click_default"
+			pdx_tooltip = "RUS_europe_intervention_PER_tt"
+		}
+
+		iconType = {
+			name = "RUS_europe_intervention_PER_selected"
+			position = { x = 570 y = 352 }
+			spriteType = "GFX_RUS_europe_intervention_PER_selected"
+			pdx_tooltip = "RUS_europe_intervention_PER_tt"
+			alwaystransparent = yes
+		}
+
+		buttonType = {
 			name = "RUS_europe_intervention_NIR_button"
-			position = { x = 262 y = 254 }
+			position = { x = 205 y = 173 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_NIR_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_NIR_tt"
@@ -662,7 +682,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_NIR_selected"
-			position = { x = 262 y = 254 }
+			position = { x = 205 y = 173 }
 			spriteType = "GFX_RUS_europe_intervention_NIR_selected"
 			pdx_tooltip = "RUS_europe_intervention_NIR_tt"
 			alwaystransparent = yes
@@ -670,7 +690,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_WLS_button"
-			position = { x = 280 y = 277 }
+			position = { x = 220 y = 191 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_WLS_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_WLS_tt"
@@ -678,7 +698,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_WLS_selected"
-			position = { x = 280 y = 277 }
+			position = { x = 220 y = 191 }
 			spriteType = "GFX_RUS_europe_intervention_WLS_selected"
 			pdx_tooltip = "RUS_europe_intervention_WLS_tt"
 			alwaystransparent = yes
@@ -686,7 +706,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_SCO_button"
-			position = { x = 280 y = 232 }
+			position = { x = 220 y = 155 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_SCO_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_SCO_tt"
@@ -694,47 +714,15 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_SCO_selected"
-			position = { x = 280 y = 232 }
+			position = { x = 220 y = 155 }
 			spriteType = "GFX_RUS_europe_intervention_SCO_selected"
 			pdx_tooltip = "RUS_europe_intervention_SCO_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_FLA_button"
-			position = { x = 356 y = 283 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_FLA_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_FLA_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_FLA_selected"
-			position = { x = 356 y = 283 }
-			spriteType = "GFX_RUS_europe_intervention_FLA_selected"
-			pdx_tooltip = "RUS_europe_intervention_FLA_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_WAL_button"
-			position = { x = 360 y = 290 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_WAL_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_WAL_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_WAL_selected"
-			position = { x = 360 y = 290 }
-			spriteType = "GFX_RUS_europe_intervention_WAL_selected"
-			pdx_tooltip = "RUS_europe_intervention_WAL_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
 			name = "RUS_europe_intervention_BRI_button"
-			position = { x = 289 y = 305 }
+			position = { x = 227 y = 213 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_BRI_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_BRI_tt"
@@ -742,7 +730,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_BRI_selected"
-			position = { x = 289 y = 305 }
+			position = { x = 227 y = 213 }
 			spriteType = "GFX_RUS_europe_intervention_BRI_selected"
 			pdx_tooltip = "RUS_europe_intervention_BRI_tt"
 			alwaystransparent = yes
@@ -750,7 +738,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_LIL_button"
-			position = { x = 341 y = 289 }
+			position = { x = 268 y = 200 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_LIL_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_LIL_tt"
@@ -758,7 +746,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_LIL_selected"
-			position = { x = 341 y = 289 }
+			position = { x = 268 y = 200 }
 			spriteType = "GFX_RUS_europe_intervention_LIL_selected"
 			pdx_tooltip = "RUS_europe_intervention_LIL_tt"
 			alwaystransparent = yes
@@ -766,7 +754,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_CAT_button"
-			position = { x = 304 y = 440 }
+			position = { x = 240 y = 322 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_CAT_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_CAT_tt"
@@ -774,7 +762,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_CAT_selected"
-			position = { x = 304 y = 440 }
+			position = { x = 240 y = 322 }
 			spriteType = "GFX_RUS_europe_intervention_CAT_selected"
 			pdx_tooltip = "RUS_europe_intervention_CAT_tt"
 			alwaystransparent = yes
@@ -782,7 +770,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_BAS_button"
-			position = { x = 287 y = 431 }
+			position = { x = 227 y = 315 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_BAS_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_BAS_tt"
@@ -790,95 +778,15 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_BAS_selected"
-			position = { x = 287 y = 431 }
+			position = { x = 227 y = 315 }
 			spriteType = "GFX_RUS_europe_intervention_BAS_selected"
 			pdx_tooltip = "RUS_europe_intervention_BAS_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_PRE_button"
-			position = { x = 472 y = 266 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_PRE_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_PRE_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_PRE_selected"
-			position = { x = 472 y = 266 }
-			spriteType = "GFX_RUS_europe_intervention_PRE_selected"
-			pdx_tooltip = "RUS_europe_intervention_PRE_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_NGF_button"
-			position = { x = 403 y = 262 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_NGF_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_NGF_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_NGF_selected"
-			position = { x = 403 y = 262 }
-			spriteType = "GFX_RUS_europe_intervention_NGF_selected"
-			pdx_tooltip = "RUS_europe_intervention_NGF_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_RHI_button"
-			position = { x = 380 y = 292 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_RHI_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_RHI_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_RHI_selected"
-			position = { x = 380 y = 292 }
-			spriteType = "GFX_RUS_europe_intervention_RHI_selected"
-			pdx_tooltip = "RUS_europe_intervention_RHI_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_BAY_button"
-			position = { x = 426 y = 303 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_BAY_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_BAY_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_BAY_selected"
-			position = { x = 426 y = 303 }
-			spriteType = "GFX_RUS_europe_intervention_BAY_selected"
-			pdx_tooltip = "RUS_europe_intervention_BAY_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_SLO_button"
-			position = { x = 471 y = 354 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_SLO_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_SLO_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_SLO_selected"
-			position = { x = 471 y = 354 }
-			spriteType = "GFX_RUS_europe_intervention_SLO_selected"
-			pdx_tooltip = "RUS_europe_intervention_SLO_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
 			name = "RUS_europe_intervention_LAT_button"
-			position = { x = 508 y = 234 }
+			position = { x = 403 y = 158 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_LAT_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_LAT_tt"
@@ -886,7 +794,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_LAT_selected"
-			position = { x = 508 y = 234 }
+			position = { x = 403 y = 158 }
 			spriteType = "GFX_RUS_europe_intervention_LAT_selected"
 			pdx_tooltip = "RUS_europe_intervention_LAT_tt"
 			alwaystransparent = yes
@@ -894,7 +802,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_EST_button"
-			position = { x = 517 y = 210 }
+			position = { x = 410 y = 139 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_EST_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_EST_tt"
@@ -902,31 +810,15 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_EST_selected"
-			position = { x = 517 y = 210 }
+			position = { x = 410 y = 139 }
 			spriteType = "GFX_RUS_europe_intervention_EST_selected"
 			pdx_tooltip = "RUS_europe_intervention_EST_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_BOS_button"
-			position = { x = 461 y = 411 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_BOS_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_BOS_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_BOS_selected"
-			position = { x = 461 y = 411 }
-			spriteType = "GFX_RUS_europe_intervention_BOS_selected"
-			pdx_tooltip = "RUS_europe_intervention_BOS_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
 			name = "RUS_europe_intervention_MNT_button"
-			position = { x = 485 y = 432 }
+			position = { x = 385 y = 316 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_MNT_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_MNT_tt"
@@ -934,7 +826,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_MNT_selected"
-			position = { x = 485 y = 432 }
+			position = { x = 385 y = 316 }
 			spriteType = "GFX_RUS_europe_intervention_MNT_selected"
 			pdx_tooltip = "RUS_europe_intervention_MNT_tt"
 			alwaystransparent = yes
@@ -942,7 +834,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_MAC_button"
-			position = { x = 514 y = 357 }
+			position = { x = 406 y = 254 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_MAC_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_MAC_tt"
@@ -950,95 +842,15 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_MAC_selected"
-			position = { x = 514 y = 357 }
+			position = { x = 406 y = 254 }
 			spriteType = "GFX_RUS_europe_intervention_MAC_selected"
 			pdx_tooltip = "RUS_europe_intervention_MAC_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
-			name = "RUS_europe_intervention_TRS_button"
-			position = { x = 500 y = 374 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_TRS_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_TRS_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_TRS_selected"
-			position = { x = 500 y = 374 }
-			spriteType = "GFX_RUS_europe_intervention_TRS_selected"
-			pdx_tooltip = "RUS_europe_intervention_TRS_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_VNC_button"
-			position = { x = 429 y = 326 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_VNC_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_VNC_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_VNC_selected"
-			position = { x = 429 y = 326 }
-			spriteType = "GFX_RUS_europe_intervention_VNC_selected"
-			pdx_tooltip = "RUS_europe_intervention_VNC_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_LOM_button"
-			position = { x = 404 y = 319 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_LOM_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_LOM_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_LOM_selected"
-			position = { x = 404 y = 319 }
-			spriteType = "GFX_RUS_europe_intervention_LOM_selected"
-			pdx_tooltip = "RUS_europe_intervention_LOM_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_EMI_button"
-			position = { x = 419 y = 333 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_EMI_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_EMI_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_EMI_selected"
-			position = { x = 419 y = 333 }
-			spriteType = "GFX_RUS_europe_intervention_EMI_selected"
-			pdx_tooltip = "RUS_europe_intervention_EMI_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
-			name = "RUS_europe_intervention_TUS_button"
-			position = { x = 417 y = 344 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_TUS_button"
-			clicksound = "click_default"
-			pdx_tooltip = "RUS_europe_intervention_TUS_tt"
-		}
-
-		iconType = {
-			name = "RUS_europe_intervention_TUS_selected"
-			position = { x = 417 y = 344 }
-			spriteType = "GFX_RUS_europe_intervention_TUS_selected"
-			pdx_tooltip = "RUS_europe_intervention_TUS_tt"
-			alwaystransparent = yes
-		}
-
-		buttonType = {
 			name = "RUS_europe_intervention_MLT_button"
-			position = { x = 445 y = 522 }
+			position = { x = 353 y = 388 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_MLT_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_MLT_tt"
@@ -1046,7 +858,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_MLT_selected"
-			position = { x = 445 y = 522 }
+			position = { x = 353 y = 388 }
 			spriteType = "GFX_RUS_europe_intervention_MLT_selected"
 			pdx_tooltip = "RUS_europe_intervention_MLT_tt"
 			alwaystransparent = yes
@@ -1054,7 +866,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_CYP_button"
-			position = { x = 611 y = 528 }
+			position = { x = 484 y = 392 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_CYP_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_CYP_tt"
@@ -1062,7 +874,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_CYP_selected"
-			position = { x = 611 y = 528 }
+			position = { x = 484 y = 392 }
 			spriteType = "GFX_RUS_europe_intervention_CYP_selected"
 			pdx_tooltip = "RUS_europe_intervention_CYP_tt"
 			alwaystransparent = yes
@@ -1070,7 +882,7 @@ guiTypes = {
 
 		buttonType = {
 			name = "RUS_europe_intervention_ARM_button"
-			position = { x = 697 y = 460 }
+			position = { x = 553 y = 338 }
 			quadTextureSprite = "GFX_RUS_europe_intervention_ARM_button"
 			clicksound = "click_default"
 			pdx_tooltip = "RUS_europe_intervention_ARM_tt"
@@ -1078,7 +890,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_europe_intervention_ARM_selected"
-			position = { x = 697 y = 460 }
+			position = { x = 553 y = 338 }
 			spriteType = "GFX_RUS_europe_intervention_ARM_selected"
 			pdx_tooltip = "RUS_europe_intervention_ARM_tt"
 			alwaystransparent = yes
@@ -1086,658 +898,348 @@ guiTypes = {
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_no_selection"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_no_selection"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
-			name = "RUS_europe_intervention_ICE_selected_name"
-			position = { x = 20 y = 586 }
+			name = "RUS_europe_intervention_NORDICS_selected_name"
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_ICE_selected_name"
+			text = "RUS_europe_intervention_NORDICS_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_IRE_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_IRE_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_NIR_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_NIR_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_ENG_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_ENG_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_WLS_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_WLS_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_SCO_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_SCO_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
-			name = "RUS_europe_intervention_NOR_selected_name"
-			position = { x = 20 y = 586 }
+			name = "RUS_europe_intervention_CENTRAL_EUROPE_selected_name"
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_NOR_selected_name"
+			text = "RUS_europe_intervention_CENTRAL_EUROPE_selected_name"
 			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_SWE_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_SWE_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_FIN_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_FIN_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_DEN_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_DEN_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_HOL_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_HOL_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_BEL_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_BEL_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_FLA_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_FLA_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_WAL_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_WAL_selected_name"
-			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_FRA_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_FRA_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_BRI_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_BRI_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_LIL_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_LIL_selected_name"
 			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_SWI_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_SWI_selected_name"
-			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_SPA_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_SPA_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_CAT_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_CAT_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_BAS_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_BAS_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_POR_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_POR_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
-			name = "RUS_europe_intervention_GER_selected_name"
-			position = { x = 20 y = 586 }
+			name = "RUS_europe_intervention_AUSTRIA_HUNGARY_selected_name"
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_GER_selected_name"
+			text = "RUS_europe_intervention_AUSTRIA_HUNGARY_selected_name"
 			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_PRE_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_PRE_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_NGF_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_NGF_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_RHI_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_RHI_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_BAY_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_BAY_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_AUS_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_AUS_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_HUN_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_HUN_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_CZE_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_CZE_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_SLO_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_SLO_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_GAL_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_GAL_selected_name"
-			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_POL_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_POL_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_BAT_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_BAT_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_LIT_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_LIT_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_LAT_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_LAT_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_EST_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_EST_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_BLR_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_BLR_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_UKR_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_UKR_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
-			name = "RUS_europe_intervention_ROM_selected_name"
-			position = { x = 20 y = 586 }
+			name = "RUS_europe_intervention_BALKANS_selected_name"
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_ROM_selected_name"
+			text = "RUS_europe_intervention_BALKANS_selected_name"
 			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_SER_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_SER_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_CRO_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_CRO_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_BOS_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_BOS_selected_name"
-			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_MNT_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_MNT_selected_name"
 			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_ALB_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_ALB_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_BUL_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_BUL_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_GRE_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_GRE_selected_name"
-			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_MAC_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_MAC_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
-			name = "RUS_europe_intervention_TRS_selected_name"
-			position = { x = 20 y = 586 }
+			name = "RUS_europe_intervention_ITALY_selected_name"
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_TRS_selected_name"
+			text = "RUS_europe_intervention_ITALY_selected_name"
 			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_ITA_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_ITA_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_SRI_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_SRI_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_SIC_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_SIC_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_PAP_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_PAP_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_SRD_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_SRD_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_VNC_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_VNC_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_LOM_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_LOM_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_EMI_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_EMI_selected_name"
-			format = left
-			maxWidth = 740
-			alwaystransparent = yes
-		}
-
-		instantTextBoxType = {
-			name = "RUS_europe_intervention_TUS_selected_name"
-			position = { x = 20 y = 586 }
-			font = "hoi_18mbs"
-			text = "RUS_europe_intervention_TUS_selected_name"
-			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_MLT_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_MLT_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_CYP_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_CYP_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_TUR_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_TUR_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_GEO_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_GEO_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_ARM_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_ARM_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_AZR_selected_name"
-			position = { x = 20 y = 586 }
+			position = { x = 15 y = 448 }
 			font = "hoi_18mbs"
 			text = "RUS_europe_intervention_AZR_selected_name"
 			format = left
-			maxWidth = 740
+			maxWidth = 365
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_europe_intervention_PER_selected_name"
+			position = { x = 15 y = 448 }
+			font = "hoi_18mbs"
+			text = "RUS_europe_intervention_PER_selected_name"
+			format = left
+			maxWidth = 365
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_europe_intervention_overview_button"
-			position = { x = 804 y = 580 }
-			quadTextureSprite = "GFX_RUS_europe_intervention_overview_button"
+			position = { x = 627 y = 442 }
+			quadTextureSprite = "GFX_standard_button_88"
 			buttonText = "RUS_europe_intervention_overview_button"
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RUS_europe_intervention_overview_tt"
@@ -1745,12 +1247,26 @@ guiTypes = {
 
 		instantTextBoxType = {
 			name = "RUS_europe_intervention_help"
-			position = { x = 20 y = 626 }
+			position = { x = 15 y = 488 }
 			font = "hoi_16mbs"
 			text = "RUS_europe_intervention_help"
 			format = left
-			maxWidth = 878
+			maxWidth = 710
 			alwaystransparent = yes
+		}
+	}
+
+	containerWindowType = {
+		name = "RUS_europe_intervention_portrait_window"
+		position = { x = 525 y = 740 }
+		size = { width = 180 height = 202 }
+		clipping = yes
+
+		iconType = {
+			name = "RUS_europe_intervention_decision_portrait"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_RUS_europe_intervention_decision_portrait"
+			pdx_tooltip = "RUS_europe_intervention_dzerzhinsky_tt"
 		}
 	}
 }

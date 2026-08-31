@@ -1,21 +1,26 @@
 leader_traits = {
 	KR_vst_left_kaganovich = {
+		sprite = 10
 		random = no
 	}
 
 	KR_bolshevik_sverdlov = {
+		sprite = 13
 		random = no
 	}
 
 	KR_bolshevik_kamenev = {
+		sprite = 13
 		random = no
 	}
 
 	KR_bolshevik_zinovyev = {
+		sprite = 13
 		random = no
 	}
 
 	KR_bolshevik_frunze = {
+		sprite = 13
 		random = no
 	}
 
@@ -32,14 +37,17 @@ leader_traits = {
 	}
 
 	KR_bolshevik_stalin = {
+		sprite = 13
 		random = no
 	}
 
 	KR_bolshevik_supreme_soviet = {
+		sprite = 13
 		random = no
 	}
 
 	KR_bolshevik_kaganovich = {
+		sprite = 10
 		random = no
 	}
 
@@ -54,22 +62,27 @@ leader_traits = {
 	}
 
 	KR_bolshevik_zhdanov = {
+		sprite = 13
 		random = no
 	}
 
 	KR_bolshevik_yezhov = {
+		sprite = 15
 		random = no
 	}
 
 	KR_bolshevik_bukharin = {
+		sprite = 10
 		random = no
 	}
 
 	KR_bolshevik_kirov = {
+		sprite = 13
 		random = no
 	}
 
 	KR_bolshevik_kalinin = {
+		sprite = 14
 		random = no
 	}
 
@@ -84,36 +97,50 @@ leader_traits = {
 		ai_will_do = { factor = 1 }
 	}
 
-	RUS_tesla_electrical_visionary = {
-		sprite = 10
+	RUS_tesla_company_base = {
 		random = no
-		research_speed_factor = 0.15
 		consumer_goods_expected_value = 0.05
-		production_speed_buildings_powered_factor = 0.075
-		production_cost_energy_infrastructure_factor = -0.50
-		custom_modifier_tooltip = RUS_tesla_industrial_decisions_tt
-		custom_modifier_tooltip = RUS_tesla_electrification_bonus_tt
-		custom_modifier_tooltip = RUS_tesla_power_grid_bonus_tt
-
-		ai_will_do = { factor = 1 }
 	}
 
-	RUS_tesla_electrical_company = {
+	RUS_tesla_company_powered_construction = {
 		random = no
-		research_speed_factor = 0.15
-		consumer_goods_expected_value = 0.05
 		production_speed_buildings_powered_factor = 0.075
-		production_cost_energy_infrastructure_factor = -0.50
-		custom_modifier_tooltip = RUS_tesla_company_industrial_decisions_tt
-		custom_modifier_tooltip = RUS_tesla_company_electrification_bonus_tt
-		custom_modifier_tooltip = RUS_tesla_company_power_grid_bonus_tt
+	}
 
-		ai_will_do = { factor = 1 }
+	RUS_tesla_company_grid_cost = {
+		random = no
+		production_cost_energy_infrastructure_factor = -0.25
+	}
+
+	RUS_tesla_company_industrial_decisions = {
+		random = no
+		custom_modifier_tooltip = RUS_tesla_company_industrial_decisions_tt
+	}
+
+	RUS_tesla_company_research_1 = {
+		random = no
+		research_speed_factor = 0.075
+	}
+
+	RUS_tesla_company_research_2 = {
+		random = no
+		research_speed_factor = 0.075
+	}
+
+	RUS_tesla_company_electrification_chance = {
+		random = no
+		custom_modifier_tooltip = RUS_tesla_company_electrification_bonus_tt
+	}
+
+	RUS_tesla_company_power_grid_network = {
+		random = no
+		custom_modifier_tooltip = RUS_tesla_company_power_grid_bonus_tt
 	}
 
 	RUS_kalinin_engineer_of_human_souls = {
 		sprite = 14
 		random = no
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 		stability_factor = 0.05
 		stability_weekly = 0.005
 		research_speed_factor = 0.05
@@ -125,38 +152,57 @@ leader_traits = {
 	}
 
 	KR_sr_blyumkin = {
+		sprite = 15
 		random = no
 	}
 
 	KR_sr_sattel = {
+		sprite = 12
 		random = no
 	}
 
 	KR_sr_steinberg = {
+		sprite = 12
 		random = no
 	}
 
 	KR_maximalist_ustinov = {
+		sprite = 13
+		random = no
+	}
+
+	KR_maximalist_kolegayev = {
+		sprite = 13
+		random = no
+	}
+
+	KR_maximalist_kakhovskaya = {
+		sprite = 13
 		random = no
 	}
 
 	KR_spiridonist_kamkov = {
+		sprite = 13
 		random = no
 	}
 
 	KR_spiridonist_karelin = {
+		sprite = 13
 		random = no
 	}
 
 	KR_spiridonist_elyashevich = {
+		sprite = 10
 		random = no
 	}
 
 	KR_spiridonist_zdobnov = {
+		sprite = 13
 		random = no
 	}
 
 	KR_spiridonist_mayorov = {
+		sprite = 10
 		random = no
 	}
 
@@ -265,13 +311,13 @@ leader_traits = {
 	KR_bolshevik_sverdlov_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_kamenev_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_zinovyev_bop = {
@@ -282,103 +328,103 @@ leader_traits = {
 	KR_bolshevik_frunze_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_stalin_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_supreme_soviet_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_kaganovich_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_zhdanov_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_yezhov_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_bukharin_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_kirov_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_bolshevik_kalinin_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = 0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt
 	}
 
 	KR_sr_blyumkin_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	KR_sr_sattel_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	KR_sr_steinberg_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	KR_spiridonist_kamkov_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	KR_spiridonist_karelin_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	KR_spiridonist_elyashevich_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	KR_spiridonist_zdobnov_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	KR_spiridonist_mayorov_bop = {
 		sprite = 13
 		random = no
-		power_balance_weekly = -0.01
+		custom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt
 	}
 
 	RUS_red_eminence_sverdlov = {

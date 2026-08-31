@@ -1,7 +1,7 @@
 add_namespace = RUS_fr_military_reform
 
 # First session of the Federal Armaments and Defence Industry Commission.
-# The selected priority starts after seven days; the other two programmes start after 42 days.
+# The selected priority changes rewards; all projects are chosen manually.
 country_event = {
 	id = RUS_fr_military_reform.10
 	title = RUS_fr_military_reform.10.t
@@ -20,9 +20,6 @@ country_event = {
 		clr_country_flag = RUS_fr_specialise_armour
 		set_country_flag = RUS_fr_specialise_armaments
 		RUS_fr_apply_timoshenko_armaments_specialisation_trait = yes
-		set_country_flag = RUS_fr_armaments_program_started
-		set_country_flag = RUS_fr_auto_dispatch_scheduled
-		country_event = { id = RUS_fr_military_reform.100 days = 7 }
 	}
 	option = {
 		name = RUS_fr_military_reform.10.b
@@ -30,9 +27,6 @@ country_event = {
 		clr_country_flag = RUS_fr_specialise_armaments
 		clr_country_flag = RUS_fr_specialise_armour
 		set_country_flag = RUS_fr_specialise_mobility
-		set_country_flag = RUS_fr_armaments_program_started
-		set_country_flag = RUS_fr_auto_dispatch_scheduled
-		country_event = { id = RUS_fr_military_reform.100 days = 7 }
 	}
 	option = {
 		name = RUS_fr_military_reform.10.c
@@ -40,9 +34,6 @@ country_event = {
 		clr_country_flag = RUS_fr_specialise_armaments
 		clr_country_flag = RUS_fr_specialise_mobility
 		set_country_flag = RUS_fr_specialise_armour
-		set_country_flag = RUS_fr_armaments_program_started
-		set_country_flag = RUS_fr_auto_dispatch_scheduled
-		country_event = { id = RUS_fr_military_reform.100 days = 7 }
 	}
 }
 
@@ -225,7 +216,7 @@ country_event = {
 	}
 }
 
-### Armaments Automatic Focus Controller ###
+### Retired Armaments Automatic Focus Controller ###
 # The opening conference fixes the first programme. Afterwards one eligible
 # armaments, mobility or armour project is drawn at random, while event-selected
 # routes remain binding. The rectification tree uses its own controller below,
@@ -235,6 +226,7 @@ country_event = {
 	hidden = yes
 	is_triggered_only = yes
 	trigger = {
+		always = no
 		has_country_flag = RUS_fr_armaments_program_started
 		NOT = { has_country_flag = RUS_fr_auto_project_active }
 		NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
@@ -447,12 +439,13 @@ country_event = {
 	}
 }
 
-# Final visible focus controller.
+# Retired final automatic focus controller.
 country_event = {
 	id = RUS_fr_military_reform.400
 	hidden = yes
 	is_triggered_only = yes
 	trigger = {
+		always = no
 		has_completed_focus = RUS_fr_revolutionary_military_system_finalised
 		has_country_flag = RUS_fr_rectification_line_finished
 		has_country_flag = RUS_fr_armaments_line_finished
@@ -786,32 +779,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_country_flag = { flag = RUS_fr_auto_project_active days > 63 }
-				NOT = { has_country_flag = RUS_fr_armaments_construction_stage_summary_in_progress }
-			}
-			country_event = { id = RUS_fr_military_reform.101 hours = 1 }
-		}
-		if = {
-			limit = {
 				has_country_flag = { flag = RUS_fr_rectification_auto_project_active days > 63 }
 			}
 			country_event = { id = RUS_fr_military_reform.103 hours = 1 }
 		}
-		if = {
-			limit = { has_country_flag = { flag = RUS_fr_armaments_construction_stage_summary_in_progress days > 63 } }
-			country_event = { id = RUS_fr_military_reform.401 hours = 1 }
-		}
 		if = { limit = { has_completed_focus = RUS_fr_federal_armaments_defence_industry_commission NOT = { has_country_flag = RUS_fr_armaments_meeting_called } } country_event = { id = RUS_fr_military_reform.10 hours = 1 } }
-		if = {
-			limit = {
-				has_country_flag = RUS_fr_armaments_program_started
-				NOT = { has_country_flag = RUS_fr_auto_project_active }
-				NOT = { has_country_flag = RUS_fr_auto_dispatch_scheduled }
-				NOT = { has_country_flag = RUS_fr_armaments_summary_complete }
-			}
-			set_country_flag = RUS_fr_auto_dispatch_scheduled
-			country_event = { id = RUS_fr_military_reform.100 hours = 1 }
-		}
 		if = {
 			limit = {
 				has_country_flag = RUS_fr_rectification_program_started
@@ -822,7 +794,6 @@ country_event = {
 			set_country_flag = RUS_fr_rectification_auto_dispatch_scheduled
 			country_event = { id = RUS_fr_military_reform.102 hours = 1 }
 		}
-		if = { limit = { has_completed_focus = RUS_fr_revolutionary_military_system_finalised has_country_flag = RUS_fr_rectification_line_finished has_country_flag = RUS_fr_armaments_line_finished has_country_flag = RUS_fr_mobility_line_finished has_country_flag = RUS_fr_armour_line_finished NOT = { has_completed_focus = RUS_fr_armaments_construction_stage_summary } NOT = { has_shine_effect_on_focus = RUS_fr_armaments_construction_stage_summary } OR = { NOT = { has_country_flag = RUS_fr_summary_controller_started } has_country_flag = RUS_fr_summary_waiting_for_materials } } country_event = { id = RUS_fr_military_reform.400 hours = 1 } }
 		if = { limit = { has_completed_focus = RUS_fr_armaments_construction_stage_summary NOT = { has_country_flag = RUS_fr_armaments_summary_event_opened } NOT = { has_country_flag = RUS_fr_armaments_summary_complete } } country_event = { id = RUS_fr_military_reform.90 hours = 1 } }
 	}
 }

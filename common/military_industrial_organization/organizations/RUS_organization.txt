@@ -475,10 +475,11 @@ RUS_okmo_kr_organisation = {
 		FROM = {
 			if = {
 				limit = { original_tag = RUS }
-				OR = {
-					has_completed_focus = RUS_motorisation
+				if = {
+					limit = { has_socialist_government = yes }
 					has_completed_focus = RUS_fr_emphasise_armour_design
 				}
+				else = { has_completed_focus = RUS_motorisation }
 			}
 			else_if = {
 				limit = { original_tag = FER }
@@ -7834,6 +7835,55 @@ RUS_gamayun_organisation = {
 			defense = 0.15
 		}
 	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_production
+		name = RUS_air_mio_trait_integrated_production
+		icon = GFX_generic_mio_trait_icon_build_cost_ic
+		special_trait_background = yes
+		position = { x = 9 y = 2 }
+		available = { FROM = { has_completed_focus = RUS_state_aviation_bureau hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_production_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_integrated_production_taken } }
+		production_bonus = { production_cost_factor = -0.05 }
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_advanced_flight_design
+		name = RUS_air_mio_trait_advanced_flight_design
+		icon = GFX_generic_mio_trait_icon_air_agility
+		special_trait_background = yes
+		position = { x = 9 y = 3 }
+		available = { FROM = { has_completed_focus = RUS_army_of_air hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_advanced_flight_design_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_advanced_flight_design_taken } }
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_agility = 0.1
+			maximum_speed = 0.1
+			air_range = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_avionics
+		name = RUS_air_mio_trait_integrated_avionics
+		icon = GFX_generic_mio_trait_icon_detection
+		special_trait_background = yes
+		position = { x = 9 y = 4 }
+		available = { FROM = { has_completed_focus = RUS_total_avitational_mobilisation hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_avionics_taken } } } }
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = {
+				set_country_flag = RUS_air_mio_integrated_avionics_taken
+				add_tech_bonus = { name = RUS_air_mio_trait_integrated_avionics bonus = 1 uses = 1 category = radar_tech }
+			}
+		}
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_defence = 0.1
+			surface_detection = 0.15
+			sub_detection = 0.15
+		}
+	}
 }
 RUS_duks_organisation = {
 	name = duks
@@ -8158,6 +8208,105 @@ RUS_duks_organisation = {
 
 		equipment_bonus = {
 			maximum_speed = 0.05
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_production
+		name = RUS_air_mio_trait_integrated_production
+		icon = GFX_generic_mio_trait_icon_build_cost_ic
+		special_trait_background = yes
+
+		position = { x = 9 y = 2 }
+
+		available = {
+			FROM = {
+				has_completed_focus = RUS_state_aviation_bureau
+				hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_production_taken } }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_air_mio_integrated_production_taken }
+		}
+
+		production_bonus = {
+			production_cost_factor = -0.05
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_advanced_flight_design
+		name = RUS_air_mio_trait_advanced_flight_design
+		icon = GFX_generic_mio_trait_icon_air_agility
+		special_trait_background = yes
+
+		position = { x = 9 y = 3 }
+
+		available = {
+			FROM = {
+				has_completed_focus = RUS_army_of_air
+				hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_advanced_flight_design_taken } }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_air_mio_advanced_flight_design_taken }
+		}
+
+		limit_to_equipment_type = {
+			mio_cat_eq_all_small_plane
+			mio_cat_eq_all_medium_plane
+			mio_cat_eq_all_large_plane
+		}
+
+		equipment_bonus = {
+			air_agility = 0.1
+			maximum_speed = 0.1
+			air_range = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_avionics
+		name = RUS_air_mio_trait_integrated_avionics
+		icon = GFX_generic_mio_trait_icon_detection
+		special_trait_background = yes
+
+		position = { x = 9 y = 4 }
+
+		available = {
+			FROM = {
+				has_completed_focus = RUS_total_avitational_mobilisation
+				hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_avionics_taken } }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = {
+				set_country_flag = RUS_air_mio_integrated_avionics_taken
+				add_tech_bonus = {
+					name = RUS_air_mio_trait_integrated_avionics
+					bonus = 1
+					uses = 1
+					category = radar_tech
+				}
+			}
+		}
+
+		limit_to_equipment_type = {
+			mio_cat_eq_all_small_plane
+			mio_cat_eq_all_medium_plane
+			mio_cat_eq_all_large_plane
+		}
+
+		equipment_bonus = {
+			air_defence = 0.1
+			surface_detection = 0.15
+			sub_detection = 0.15
 		}
 	}
 }
@@ -8961,6 +9110,55 @@ RUS_tsagi_organisation = {
 			maximum_speed = 0.1
 		}
 	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_production
+		name = RUS_air_mio_trait_integrated_production
+		icon = GFX_generic_mio_trait_icon_build_cost_ic
+		special_trait_background = yes
+		position = { x = 9 y = 2 }
+		available = { FROM = { has_completed_focus = RUS_state_aviation_bureau hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_production_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_integrated_production_taken } }
+		production_bonus = { production_cost_factor = -0.05 }
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_advanced_flight_design
+		name = RUS_air_mio_trait_advanced_flight_design
+		icon = GFX_generic_mio_trait_icon_air_agility
+		special_trait_background = yes
+		position = { x = 9 y = 3 }
+		available = { FROM = { has_completed_focus = RUS_army_of_air hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_advanced_flight_design_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_advanced_flight_design_taken } }
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_agility = 0.1
+			maximum_speed = 0.1
+			air_range = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_avionics
+		name = RUS_air_mio_trait_integrated_avionics
+		icon = GFX_generic_mio_trait_icon_detection
+		special_trait_background = yes
+		position = { x = 9 y = 4 }
+		available = { FROM = { has_completed_focus = RUS_total_avitational_mobilisation hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_avionics_taken } } } }
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = {
+				set_country_flag = RUS_air_mio_integrated_avionics_taken
+				add_tech_bonus = { name = RUS_air_mio_trait_integrated_avionics bonus = 1 uses = 1 category = radar_tech }
+			}
+		}
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_defence = 0.1
+			surface_detection = 0.15
+			sub_detection = 0.15
+		}
+	}
 }
 RUS_osoavia_organisation = {
 	name = osoavia
@@ -9242,6 +9440,55 @@ RUS_osoavia_organisation = {
 
 		equipment_bonus = {
 			air_ground_attack = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_production
+		name = RUS_air_mio_trait_integrated_production
+		icon = GFX_generic_mio_trait_icon_build_cost_ic
+		special_trait_background = yes
+		position = { x = 9 y = 2 }
+		available = { FROM = { has_completed_focus = RUS_state_aviation_bureau hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_production_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_integrated_production_taken } }
+		production_bonus = { production_cost_factor = -0.05 }
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_advanced_flight_design
+		name = RUS_air_mio_trait_advanced_flight_design
+		icon = GFX_generic_mio_trait_icon_air_agility
+		special_trait_background = yes
+		position = { x = 9 y = 3 }
+		available = { FROM = { has_completed_focus = RUS_army_of_air hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_advanced_flight_design_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_advanced_flight_design_taken } }
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_agility = 0.1
+			maximum_speed = 0.1
+			air_range = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_avionics
+		name = RUS_air_mio_trait_integrated_avionics
+		icon = GFX_generic_mio_trait_icon_detection
+		special_trait_background = yes
+		position = { x = 9 y = 4 }
+		available = { FROM = { has_completed_focus = RUS_total_avitational_mobilisation hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_avionics_taken } } } }
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = {
+				set_country_flag = RUS_air_mio_integrated_avionics_taken
+				add_tech_bonus = { name = RUS_air_mio_trait_integrated_avionics bonus = 1 uses = 1 category = radar_tech }
+			}
+		}
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_defence = 0.1
+			surface_detection = 0.15
+			sub_detection = 0.15
 		}
 	}
 }
@@ -9603,6 +9850,55 @@ RUS_skorost_organisation = {
 			production_conversion_speed_factor = 0.2
 		}
 	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_production
+		name = RUS_air_mio_trait_integrated_production
+		icon = GFX_generic_mio_trait_icon_build_cost_ic
+		special_trait_background = yes
+		position = { x = 9 y = 2 }
+		available = { FROM = { has_completed_focus = RUS_state_aviation_bureau hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_production_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_integrated_production_taken } }
+		production_bonus = { production_cost_factor = -0.05 }
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_advanced_flight_design
+		name = RUS_air_mio_trait_advanced_flight_design
+		icon = GFX_generic_mio_trait_icon_air_agility
+		special_trait_background = yes
+		position = { x = 9 y = 3 }
+		available = { FROM = { has_completed_focus = RUS_army_of_air hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_advanced_flight_design_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_advanced_flight_design_taken } }
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_agility = 0.1
+			maximum_speed = 0.1
+			air_range = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_avionics
+		name = RUS_air_mio_trait_integrated_avionics
+		icon = GFX_generic_mio_trait_icon_detection
+		special_trait_background = yes
+		position = { x = 9 y = 4 }
+		available = { FROM = { has_completed_focus = RUS_total_avitational_mobilisation hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_avionics_taken } } } }
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = {
+				set_country_flag = RUS_air_mio_integrated_avionics_taken
+				add_tech_bonus = { name = RUS_air_mio_trait_integrated_avionics bonus = 1 uses = 1 category = radar_tech }
+			}
+		}
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_defence = 0.1
+			surface_detection = 0.15
+			sub_detection = 0.15
+		}
+	}
 }
 RUS_sokol_organisation = {
 	name = sokol
@@ -9714,7 +10010,18 @@ RUS_sokol_organisation = {
 		name = KR_MIO_Trait_cheaper_materials
 		icon = GFX_generic_mio_trait_icon_build_cost_ic
 
-		any_parent = { sokol_upgrade_1 sokol_upgrade_2 }
+		available = {
+			hidden_trigger = {
+				FROM = {
+					mio:RUS_sokol_organisation = {
+						OR = {
+							is_mio_trait_completed = sokol_upgrade_1
+							is_mio_trait_completed = sokol_upgrade_2
+						}
+					}
+				}
+			}
+		}
 
 		position = { x = 3 y = 1 }
 
@@ -9730,7 +10037,18 @@ RUS_sokol_organisation = {
 		name = KR_MIO_Trait_oversimplify_fighter_design
 		icon = GFX_generic_mio_trait_icon_resources
 
-		any_parent = { sokol_upgrade_1 sokol_upgrade_2 }
+		available = {
+			hidden_trigger = {
+				FROM = {
+					mio:RUS_sokol_organisation = {
+						OR = {
+							is_mio_trait_completed = sokol_upgrade_1
+							is_mio_trait_completed = sokol_upgrade_2
+						}
+					}
+				}
+			}
+		}
 
 		position = { x = 5 y = 1 }
 
@@ -9949,6 +10267,55 @@ RUS_sokol_organisation = {
 		equipment_bonus = {
 			build_cost_ic = -0.025
 			air_agility = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_production
+		name = RUS_air_mio_trait_integrated_production
+		icon = GFX_generic_mio_trait_icon_build_cost_ic
+		special_trait_background = yes
+		position = { x = 9 y = 2 }
+		available = { FROM = { has_completed_focus = RUS_state_aviation_bureau hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_production_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_integrated_production_taken } }
+		production_bonus = { production_cost_factor = -0.05 }
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_advanced_flight_design
+		name = RUS_air_mio_trait_advanced_flight_design
+		icon = GFX_generic_mio_trait_icon_air_agility
+		special_trait_background = yes
+		position = { x = 9 y = 3 }
+		available = { FROM = { has_completed_focus = RUS_army_of_air hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_advanced_flight_design_taken } } } }
+		on_complete = { custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations FROM = { set_country_flag = RUS_air_mio_advanced_flight_design_taken } }
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_agility = 0.1
+			maximum_speed = 0.1
+			air_range = 0.1
+		}
+	}
+
+	add_trait = {
+		token = RUS_air_mio_trait_integrated_avionics
+		name = RUS_air_mio_trait_integrated_avionics
+		icon = GFX_generic_mio_trait_icon_detection
+		special_trait_background = yes
+		position = { x = 9 y = 4 }
+		available = { FROM = { has_completed_focus = RUS_total_avitational_mobilisation hidden_trigger = { NOT = { has_country_flag = RUS_air_mio_integrated_avionics_taken } } } }
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = {
+				set_country_flag = RUS_air_mio_integrated_avionics_taken
+				add_tech_bonus = { name = RUS_air_mio_trait_integrated_avionics bonus = 1 uses = 1 category = radar_tech }
+			}
+		}
+		limit_to_equipment_type = { mio_cat_eq_all_small_plane mio_cat_eq_all_medium_plane mio_cat_eq_all_large_plane }
+		equipment_bonus = {
+			air_defence = 0.1
+			surface_detection = 0.15
+			sub_detection = 0.15
 		}
 	}
 }
@@ -10471,10 +10838,11 @@ RUS_vpoz_organisation = {
 		FROM = {
 			if = {
 				limit = { original_tag = RUS }
-				OR = {
-					has_completed_focus = RUS_military_production
+				if = {
+					limit = { has_socialist_government = yes }
 					has_completed_focus = RUS_fr_light_weapons_artillery_design
 				}
+				else = { has_completed_focus = RUS_military_production }
 			}
 			else_if = {
 				limit = { original_tag = FER }
@@ -12986,10 +13354,11 @@ RUS_naz_organisation = {
 			FROM = {
 				if = {
 					limit = { original_tag = RUS }
-					OR = {
-						has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus
+					if = {
+						limit = { has_socialist_government = yes }
 						has_completed_focus = RUS_fr_mechanisation_wave
 					}
+					else = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus }
 				}
 				else_if = {
 					limit = { original_tag = FER }
@@ -13024,7 +13393,7 @@ RUS_naz_organisation = {
 		}
 
 		available = {
-			FROM = { OR = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus has_completed_focus = RUS_fr_mechanisation_wave } }
+			FROM = { has_completed_focus = RUS_fr_mechanisation_wave }
 		}
 
 		any_parent = { naz_upgrade_3_1 naz_upgrade_3_2 naz_upgrade_3_3 }
@@ -13666,10 +14035,11 @@ RUS_laz_organisation = {
 
 		available = {
 			FROM = {
-				OR = {
-					has_completed_focus = RUS_update_equipment
+				if = {
+					limit = { original_tag = RUS has_socialist_government = yes }
 					has_completed_focus = RUS_fr_small_arms_standardisation_committee
 				}
+				else = { has_completed_focus = RUS_update_equipment }
 			}
 		}
 
@@ -13695,10 +14065,11 @@ RUS_laz_organisation = {
 
 		available = {
 			FROM = {
-				OR = {
-					has_completed_focus = RUS_update_equipment
+				if = {
+					limit = { original_tag = RUS has_socialist_government = yes }
 					has_completed_focus = RUS_fr_small_arms_standardisation_committee
 				}
+				else = { has_completed_focus = RUS_update_equipment }
 			}
 		}
 

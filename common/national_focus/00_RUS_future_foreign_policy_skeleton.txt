@@ -13,6 +13,33 @@ shared_focus = {
 
 	allow_branch = { has_socialist_government = yes }
 	available = { always = no }
+	select_effect = {
+		log = "[GetLogRoot]: Select Focus RUS_future_foreign_001"
+		country_event = { id = russia_socialist_events.410 days = 10 }
+	}
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_001"
+		add_political_power = 50
+		RUS_stalin_kamenev_migrate_legacy_balance = yes
+		set_power_balance = {
+			id = RUS_europe_intervention_power_balance
+		}
+		country_event = russia_socialist_events.411
+		add_to_array = { array = RUS_SSTR_tags value = UKR }
+		add_to_array = { array = RUS_SSTR_tags value = BLR }
+		add_to_array = { array = RUS_SSTR_tags value = LIT }
+		add_to_array = { array = RUS_SSTR_tags value = LAT }
+		add_to_array = { array = RUS_SSTR_tags value = BAT }
+		add_to_array = { array = RUS_SSTR_tags value = EST }
+		add_to_array = { array = RUS_SSTR_tags value = GEO }
+		add_to_array = { array = RUS_SSTR_tags value = AZR }
+		add_to_array = { array = RUS_SSTR_tags value = ARM }
+		add_to_array = { array = RUS_SSTR_tags value = MNR }
+		add_to_array = { array = RUS_SSTR_tags value = TRK }
+		add_to_array = { array = RUS_SSTR_tags value = KAZ }
+		add_to_array = { array = RUS_SSTR_tags value = KHI }
+		add_to_array = { array = RUS_SSTR_tags value = BUK }
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -27,6 +54,10 @@ shared_focus = {
 	allow_branch = { has_socialist_government = yes }
 	available = { always = no }
 	prerequisite = { focus = RUS_future_foreign_001 }
+	completion_reward = {
+		custom_effect_tooltip = RUS_future_foreign_002_effect_tt
+		hidden_effect = { RUS_future_foreign_populate_aid_targets = yes }
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -41,6 +72,10 @@ shared_focus = {
 	allow_branch = { has_socialist_government = yes }
 	available = { always = no }
 	prerequisite = { focus = RUS_future_foreign_001 }
+	completion_reward = {
+		custom_effect_tooltip = RUS_future_foreign_003_effect_tt
+		hidden_effect = { RUS_future_foreign_populate_aid_targets = yes }
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -59,6 +94,96 @@ shared_focus = {
 	completion_reward = {
 		custom_effect_tooltip = RUS_future_foreign_004_effect_tt
 		hidden_effect = { RUS_future_foreign_refresh_completed_focus_count = yes }
+		if = {
+			limit = { NOT = { country_exists = INT } }
+			save_global_event_target_as = KR_internationale_leader
+			create_faction_from_template = { template = faction_template_internationale name = faction_fourth_internationale }
+		}
+		else = {
+			set_country_flag = world_tension_joined_radical_faction
+			create_faction_from_template = { template = faction_template_moscow_accord name = faction_eastern_front_of_the_internationale icon = GFX_faction_logo_generic_14 }
+			hidden_effect = { set_faction_rule = joining_rule_socialist_only }
+			if = {
+				limit = { NOT = { has_global_flag = MIE_intermarium_formed } }
+				add_named_threat = {
+					threat = 6
+					name = RUS_spreading_the_revolution_threat
+				}
+			}
+			if = {
+				limit = { has_global_flag = FRA_created_phalanstere }
+				FRA_add_to_phalanstere = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			INT = {
+				diplomatic_relation = {
+					country = ROOT
+					relation = non_aggression_pact
+				}
+			}
+			custom_effect_tooltip = tooltip_white_line
+			every_other_country = {
+				limit = {
+					is_subject = no
+					is_in_faction_with = INT
+					NOT = {
+						tag = INT
+						tag = FIN
+						tag = EST
+						tag = LAT
+						tag = LIT
+						tag = BLR
+						tag = UKR
+						tag = POL
+					}
+				}
+				diplomatic_relation = {
+					country = ROOT
+					relation = non_aggression_pact
+				}
+			}
+			if = {
+				limit = {
+					INT = {
+						any_allied_country = {
+							OR = {
+								tag = FIN
+								tag = EST
+								tag = LAT
+								tag = LIT
+								tag = BLR
+								tag = UKR
+								tag = POL
+							}
+							is_subject = no
+						}
+					}
+				}
+				custom_effect_tooltip = tooltip_white_line
+				every_other_country = {
+					limit = {
+						is_subject = no
+						is_in_faction_with = INT
+						OR = {
+							tag = FIN
+							tag = LAT
+						}
+					}
+					country_event = russia_socialist_events.114
+				}
+			}
+		}
+		custom_effect_tooltip = tooltip_white_line
+		unlock_decision_category_tooltip = RUS_Spreading_The_Revolution_decisions
+		hidden_effect = {
+			MIE_form_intermarium = yes
+			activate_targeted_decision = { target = FIN decision = RUS_Socialist_Protect_Baltics }
+			activate_targeted_decision = { target = EST decision = RUS_Socialist_Protect_Baltics }
+			activate_targeted_decision = { target = LIT decision = RUS_Socialist_Protect_Baltics }
+			activate_targeted_decision = { target = LAT decision = RUS_Socialist_Protect_Baltics }
+			activate_targeted_decision = { target = UKR decision = RUS_Socialist_Protect_Ukraine }
+			activate_targeted_decision = { target = MON decision = RUS_invade_mongolia_soc }
+		}
 	}
 	ai_will_do = { factor = 0 }
 }
