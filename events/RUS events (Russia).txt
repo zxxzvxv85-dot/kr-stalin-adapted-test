@@ -26332,12 +26332,13 @@ country_event = { #Appointment of the Interior Minister
 		log = "[GetLogInfo]: event russia_socialist_events.130 option russia_socialist_events.130.a"
 		name = russia_socialist_events.130.a
 		country_event = { id = russia_socialist_events.134 days = 14 random_days = 7 }
+		set_country_flag = RUS_appointed_kolegayev
 		if = {
 			limit = {
+				RUS_kamenev_post_election_advisors_unlocked = yes
 				has_free_political_advisor_slot = yes
 				NOT = { RUS_andrey_kolegayev = { is_hired_as_advisor = yes } }
 			}
-			set_country_flag = RUS_appointed_kolegayev
 			activate_advisor = RUS_andrey_kolegayev_advisor
 		}
 		else = {
