@@ -207,7 +207,43 @@ ADVISORS = [
         "character": "RUS_aleksey_ustinov",
         "sprite": 13,
         "name": "RUS_relationship_scaled_ustinov",
-        "effects": {"stability_factor": -0.15, "production_speed_buildings_factor": 0.15, "consumer_goods_factor": 0.15, "army_attack_factor": 0.025},
+        "stage_effects": [
+            {
+                "consumer_goods_expected_value": -0.03,
+                "stability_factor": -0.05,
+                "production_speed_buildings_factor": 0.05,
+            },
+            {
+                "consumer_goods_expected_value": -0.01,
+                "stability_factor": -0.03,
+                "production_speed_buildings_factor": 0.07,
+                "production_cost_infrastructure_factor": -0.04,
+            },
+            {
+                "consumer_goods_expected_value": 0.01,
+                "stability_factor": -0.01,
+                "production_speed_buildings_factor": 0.09,
+                "production_cost_infrastructure_factor": -0.08,
+            },
+            {
+                "consumer_goods_expected_value": 0.02,
+                "stability_factor": 0.01,
+                "production_speed_buildings_factor": 0.11,
+                "production_cost_infrastructure_factor": -0.12,
+            },
+            {
+                "consumer_goods_expected_value": 0.04,
+                "stability_factor": 0.03,
+                "production_speed_buildings_factor": 0.13,
+                "production_cost_infrastructure_factor": -0.16,
+            },
+            {
+                "consumer_goods_expected_value": 0.05,
+                "stability_factor": 0.05,
+                "production_speed_buildings_factor": 0.15,
+                "production_cost_infrastructure_factor": -0.20,
+            },
+        ],
         "legacy": ["RUS_relationship_scaled_ustinov", "RUS_muromets"],
     },
     {
@@ -231,7 +267,7 @@ ADVISORS = [
 ]
 
 
-GROUP_TIERS = {"rkp": range(11), "psr": range(11), "max": range(21)}
+GROUP_TIERS = {"rkp": range(11), "psr": range(11), "max": range(6)}
 GROUP_VARIABLES = {"rkp": "RUS_rkp_advisor_trait_tier", "psr": "RUS_psr_advisor_trait_tier", "max": "RUS_max_advisor_trait_tier"}
 IDENTITY_TRAITS = {
     "sverdlov": "KR_bolshevik_sverdlov",
@@ -273,7 +309,8 @@ def effect_factor(group: str, tier: int) -> float:
         return (tier + 10) / 20
     if group == "psr":
         return 1.5 * (tier + 10) / 20
-    return (tier + 10) / 30
+    # Maximalist advisers grow from the old minimum to 150% of the old maximum.
+    return (7 * tier + 10) / 30
 
 
 def render_traits() -> str:
@@ -293,13 +330,22 @@ def render_traits() -> str:
                 "\t\trandom = no",
                 f"\t\tsprite = {advisor['sprite']}",
             ])
-            factor = effect_factor(advisor["group"], tier)
-            for modifier, base in advisor["effects"].items():
-                lines.append(f"\t\t{modifier} = {number(base * factor)}")
+            if "stage_effects" in advisor:
+                effects = advisor["stage_effects"][tier]
+                for modifier, value in effects.items():
+                    lines.append(f"\t\t{modifier} = {number(value)}")
+            else:
+                factor = effect_factor(advisor["group"], tier)
+                for modifier, base in advisor["effects"].items():
+                    lines.append(f"\t\t{modifier} = {number(base * factor)}")
             if advisor.get("bop", 0) > 0:
                 lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt")
             elif advisor.get("bop", 0) < 0:
                 lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt")
+            if advisor["group"] == "max":
+                lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_maximalist_advisor_weekly_tt")
+                if tier < 5:
+                    lines.append("\t\tcustom_modifier_tooltip = RUS_maximalist_advisor_land_reform_monthly_tt")
             lines.extend(["\t}", ""])
     lines.append("}")
     return "\n".join(lines) + "\n"
@@ -429,6 +475,22 @@ def render_localisation(language: str) -> str:
         lines.append(f"  {display_trait_id(advisor)}: \"${advisor['name']}$\"")
         for tier in GROUP_TIERS[advisor["group"]]:
             lines.append(f"  {trait_id(advisor, tier)}: \"\"")
+    translations = {
+        "english": {
+            "centre": "Weekly balance of power: §Y1 point toward the centre§!",
+            "land": "While land reform is underway, monthly land reform score: §G+1§!",
+        },
+        "russian": {
+            "centre": "Еженедельный баланс сил: §Y1 пункт к центру§!",
+            "land": "Пока идет земельная реформа, ежемесячные очки земельной реформы: §G+1§!",
+        },
+        "simp_chinese": {
+            "centre": "每周权力平衡：§Y向中央移动1点§!",
+            "land": "土地改革进行期间，每月土地改革分数：§G+1§!",
+        },
+    }[language]
+    lines.append(f"  RUS_kamenev_bop_maximalist_advisor_weekly_tt: \"{translations['centre']}\"")
+    lines.append(f"  RUS_maximalist_advisor_land_reform_monthly_tt: \"{translations['land']}\"")
     return "\n".join(lines) + "\n"
 
 

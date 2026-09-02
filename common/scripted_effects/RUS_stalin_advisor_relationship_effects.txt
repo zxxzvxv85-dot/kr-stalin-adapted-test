@@ -13,8 +13,6 @@ RUS_stalin_update_advisor_relationship_multipliers = {
 		limit = { NOT = { has_country_flag = RUS_stalin_advisor_relationships_frozen } }
 		set_variable = { RUS_rkp_advisor_trait_tier = rkp_var }
 		set_variable = { RUS_psr_advisor_trait_tier = sr_var }
-		set_variable = { RUS_max_advisor_trait_tier = rkp_var }
-		add_to_variable = { RUS_max_advisor_trait_tier = sr_var }
 	}
 	else = {
 		# Old saves may already be frozen but predate the native trait tiers.
@@ -26,15 +24,19 @@ RUS_stalin_update_advisor_relationship_multipliers = {
 			limit = { NOT = { has_variable = RUS_psr_advisor_trait_tier } }
 			set_variable = { RUS_psr_advisor_trait_tier = sr_var }
 		}
-		if = {
-			limit = { NOT = { has_variable = RUS_max_advisor_trait_tier } }
-			set_variable = { RUS_max_advisor_trait_tier = rkp_var }
-			add_to_variable = { RUS_max_advisor_trait_tier = sr_var }
-		}
+	}
+	# Maximalist political-advisor strength follows the six land-reform stages,
+	# independently of party relations and of Stalin's frozen relation values.
+	if = {
+		limit = { has_variable = RUS_maximalist_land_reform_stage }
+		set_variable = { RUS_max_advisor_trait_tier = RUS_maximalist_land_reform_stage }
+	}
+	else = {
+		set_variable = { RUS_max_advisor_trait_tier = 0 }
 	}
 	clamp_variable = { var = RUS_rkp_advisor_trait_tier min = 0 max = 10 }
 	clamp_variable = { var = RUS_psr_advisor_trait_tier min = 0 max = 10 }
-	clamp_variable = { var = RUS_max_advisor_trait_tier min = 0 max = 20 }
+	clamp_variable = { var = RUS_max_advisor_trait_tier min = 0 max = 5 }
 
 	# Retain these variables for save compatibility; advisor effects no longer read them.
 	if = {
@@ -51,6 +53,7 @@ RUS_stalin_update_advisor_relationship_multipliers = {
 		add_to_variable = { RUS_psr_advisor_multiplier = 10 }
 		divide_variable = { RUS_psr_advisor_multiplier = 20 }
 		set_variable = { RUS_max_advisor_multiplier = RUS_max_advisor_trait_tier }
+		multiply_variable = { RUS_max_advisor_multiplier = 7 }
 		add_to_variable = { RUS_max_advisor_multiplier = 10 }
 		divide_variable = { RUS_max_advisor_multiplier = 30 }
 	}

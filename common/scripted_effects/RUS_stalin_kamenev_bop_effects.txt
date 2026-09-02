@@ -315,6 +315,30 @@ RUS_stalin_kamenev_calculate_weekly_drift = {
 	if = { limit = { has_idea = RUS_yevgeny_sattel_advisor } add_to_variable = { RUS_kamenev_weekly_balance_drift = -1 } }
 	if = { limit = { has_idea = RUS_yakov_blyumkin_advisor } add_to_variable = { RUS_kamenev_weekly_balance_drift = -1 } }
 
+	# Maximalist advisors counter whichever faction currently dominates.
+	set_variable = { RUS_maximalist_advisor_centre_drift = 0 }
+	if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_to_variable = { RUS_maximalist_advisor_centre_drift = 1 } }
+	if = { limit = { has_idea = RUS_andrey_kolegayev_advisor } add_to_variable = { RUS_maximalist_advisor_centre_drift = 1 } }
+	if = { limit = { has_idea = RUS_irina_kakhovskaya_advisor } add_to_variable = { RUS_maximalist_advisor_centre_drift = 1 } }
+	set_variable = { RUS_kamenev_party_balance_abs = RUS_kamenev_party_balance }
+	if = {
+		limit = { check_variable = { RUS_kamenev_party_balance_abs < 0 } }
+		multiply_variable = { RUS_kamenev_party_balance_abs = -1 }
+	}
+	if = {
+		limit = { check_variable = { RUS_maximalist_advisor_centre_drift > RUS_kamenev_party_balance_abs } }
+		set_variable = { RUS_maximalist_advisor_centre_drift = RUS_kamenev_party_balance_abs }
+	}
+	if = {
+		limit = { check_variable = { RUS_kamenev_party_balance < 0 } }
+		add_to_variable = { RUS_kamenev_weekly_balance_drift = RUS_maximalist_advisor_centre_drift }
+	}
+	else_if = {
+		limit = { check_variable = { RUS_kamenev_party_balance > 0 } }
+		multiply_variable = { RUS_maximalist_advisor_centre_drift = -1 }
+		add_to_variable = { RUS_kamenev_weekly_balance_drift = RUS_maximalist_advisor_centre_drift }
+	}
+
 	if = { limit = { has_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier } } add_to_variable = { RUS_kamenev_weekly_balance_drift = -2 } }
 	if = { limit = { has_dynamic_modifier = { modifier = RUS_kamenev_psr_agenda_bop_modifier } } add_to_variable = { RUS_kamenev_weekly_balance_drift = -2 } }
 

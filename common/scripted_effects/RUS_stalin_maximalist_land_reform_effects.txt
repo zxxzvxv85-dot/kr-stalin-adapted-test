@@ -68,6 +68,38 @@ RUS_maximalist_land_reform_update_stage_idea = {
 			add_ideas = RUS_maximalist_land_reform_stage_5
 		}
 	}
+	# Keep advisor effects in lockstep with the newly selected reform stage.
+	RUS_stalin_update_advisor_relationship_multipliers = yes
+	RUS_stalin_apply_max_advisor_trait_tier = yes
+}
+
+RUS_maximalist_land_reform_apply_monthly_advisor_score = {
+	if = {
+		limit = {
+			has_country_flag = RUS_maximalist_land_reform_in_progress
+			check_variable = { RUS_maximalist_land_reform_score < 100 }
+		}
+		if = {
+			limit = { has_idea = RUS_aleksey_ustinov_advisor }
+			add_to_variable = { RUS_maximalist_land_reform_score = 1 }
+		}
+		if = {
+			limit = {
+				has_idea = RUS_andrey_kolegayev_advisor
+				check_variable = { RUS_maximalist_land_reform_score < 100 }
+			}
+			add_to_variable = { RUS_maximalist_land_reform_score = 1 }
+		}
+		if = {
+			limit = {
+				has_idea = RUS_irina_kakhovskaya_advisor
+				check_variable = { RUS_maximalist_land_reform_score < 100 }
+			}
+			add_to_variable = { RUS_maximalist_land_reform_score = 1 }
+		}
+		clamp_variable = { var = RUS_maximalist_land_reform_score min = 0 max = 100 }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
 }
 
 RUS_maximalist_land_reform_start_decision = {
