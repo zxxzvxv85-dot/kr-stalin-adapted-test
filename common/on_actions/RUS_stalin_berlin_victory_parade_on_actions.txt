@@ -1,0 +1,20 @@
+on_actions = {
+	on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+					tag = RUS
+					has_war_with = FROM
+					NOT = { has_country_flag = RUS_stalin_zhukov_victory_parade_played }
+					FROM.FROM = {
+						state = 64
+						is_owned_by = FROM
+					}
+					var:global.province_controllers^6521 = { tag = RUS }
+				}
+				set_country_flag = RUS_stalin_zhukov_victory_parade_played
+				play_victory_parade_effect = yes
+			}
+		}
+	}
+}
