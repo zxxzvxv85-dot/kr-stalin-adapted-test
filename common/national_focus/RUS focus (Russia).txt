@@ -20577,7 +20577,7 @@ focus_tree = {
 		id = RUS_desperate_measures
 		icon = GFX_goal_generic_more_territorial_claims
 		cost = 2
-		allow_branch = { always = no }
+		allow_branch = { has_socialist_government = no }
 
 		relative_position_id = RUS_address_the_army
 		x = 6
@@ -27542,11 +27542,36 @@ focus_tree = {
 				category = marine_tech
 				category = tp_tech
 			}
-			add_doctrine_cost_reduction = {
-				name = RUS_naval_infantry
-				cost_reduction = 0.5
-				uses = 2
-				category = cat_marines_doctrine
+			if = {
+				limit = { has_dlc_aat = yes }
+				if = {
+					limit = {
+						OR = {
+							has_doctrine = marines_1
+							has_doctrine = marines_2
+						}
+					}
+					add_mastery_bonus = {
+						name = RUS_naval_infantry
+						bonus = 0.1
+						days = 365
+						sub_doctrine = marines_1
+					}
+					add_mastery_bonus = {
+						name = RUS_naval_infantry
+						bonus = 0.1
+						days = 365
+						sub_doctrine = marines_2
+					}
+				}
+				else = {
+					add_doctrine_cost_reduction = {
+						name = RUS_naval_infantry
+						cost_reduction = 0.5
+						uses = 1
+						category = special_forces_doctrine
+					}
+				}
 			}
 			custom_override_tooltip = {
 				tooltip = {
