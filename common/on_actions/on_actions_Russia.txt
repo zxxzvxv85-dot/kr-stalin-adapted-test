@@ -538,23 +538,13 @@ on_actions = {
 			if = {
 				limit = {
 					tag = RUS
-					has_completed_focus = RUS_fr_helicopter_pilot_program
+					has_completed_focus = RUS_fr_air_assault_brigades
 					is_special_project_completed = sp:sp_air_helicopter
-					NOT = { has_tech = RUS_stalin_air_assault_infantry }
 					NOT = { has_tech = RUS_stalin_air_assault_special_forces_infantry }
 				}
-				if = {
-					limit = { has_country_flag = RUS_fr_specialise_mobility }
-					set_technology = {
-						RUS_stalin_air_assault_special_forces_infantry = 1
-						popup = no
-					}
-				}
-				else = {
-					set_technology = {
-						RUS_stalin_air_assault_infantry = 1
-						popup = no
-					}
+				set_technology = {
+					RUS_stalin_air_assault_special_forces_infantry = 1
+					popup = no
 				}
 			}
 			if = {
