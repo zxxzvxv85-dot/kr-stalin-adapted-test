@@ -219,6 +219,18 @@ shared_focus = {
 	available = { always = no }
 	prerequisite = { focus = RUS_future_foreign_004 }
 	completion_reward = {
+		if = {
+			limit = { country_exists = FRA }
+			add_opinion_modifier = { target = FRA modifier = KR_trade_agreement }
+			FRA = { add_opinion_modifier = { target = ROOT modifier = KR_trade_agreement } }
+		}
+		add_cic = 5000
+		add_tech_bonus = {
+			name = RUS_future_foreign_006
+			bonus = 0.5
+			uses = 1
+			category = excavation_tech
+		}
 		country_event = { id = RUS_future_foreign_policy_events.2 }
 	}
 	ai_will_do = { factor = 0 }
@@ -391,6 +403,12 @@ shared_focus = {
 	allow_branch = { has_socialist_government = yes }
 	available = { always = no }
 	prerequisite = { focus = RUS_future_foreign_006 }
+	completion_reward = {
+		add_timed_idea = {
+			idea = RUS_franco_russian_industrial_cooperation
+			days = 365
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 
