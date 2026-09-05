@@ -119,6 +119,41 @@ RUS_Spreading_the_Revolution_decisions = {
 		fixed_random_seed = no
 	}
 
+	RUS_future_foreign_joint_develop_pokrovsk_tungsten = {
+		icon = GFX_decision_tungsten
+		visible = {
+			has_completed_focus = RUS_future_foreign_017
+			has_country_flag = RUS_europe_intervention_molotov_selected
+			country_exists = FRA
+		}
+		available = {
+			num_of_civilian_factories_available_for_projects > 3
+			401 = { is_owned_and_controlled_by = ROOT }
+			FRA = { NOT = { has_war_with = ROOT } }
+		}
+		cost = 40
+		days_remove = 60
+		fire_only_once = yes
+		modifier = {
+			civilian_factory_use = 4
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_future_foreign_joint_develop_pokrovsk_tungsten"
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_future_foreign_joint_develop_pokrovsk_tungsten"
+			401 = {
+				add_resource = {
+					type = tungsten
+					amount = 9
+				}
+			}
+			FRA = { add_ideas = RUS_pokrovsk_tungsten_concession }
+		}
+		ai_will_do = { base = 0 }
+		fixed_random_seed = no
+	}
+
 	RUS_future_foreign_exchange_five_year_plan_score = {
 		icon = GFX_decision_factories
 		visible = {
