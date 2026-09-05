@@ -1,0 +1,15 @@
+on_actions = {
+	on_daily_RUS = {
+		effect = {
+			if = {
+				limit = {
+					has_country_flag = RUS_white_revolt_finished
+					NOT = { has_country_flag = RUS_post_white_revolt_kazan_seen }
+					NOT = { has_country_flag = RUS_post_white_revolt_kazan_scheduled }
+				}
+				set_country_flag = RUS_post_white_revolt_kazan_scheduled
+				country_event = { id = RUS_stalin_post_white_revolt_events.1 days = 7 }
+			}
+		}
+	}
+}

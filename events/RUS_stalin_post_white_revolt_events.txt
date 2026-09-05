@@ -1,4 +1,4 @@
-namespace = RUS_stalin_post_white_revolt_events
+add_namespace = RUS_stalin_post_white_revolt_events
 
 country_event = {
 	id = RUS_stalin_post_white_revolt_events.1
@@ -6,6 +6,10 @@ country_event = {
 	desc = RUS_stalin_post_white_revolt_events.1.d
 	picture = GFX_report_event_generic_farming
 	is_triggered_only = yes
+	immediate = {
+		set_country_flag = RUS_post_white_revolt_kazan_seen
+		clr_country_flag = RUS_post_white_revolt_kazan_scheduled
+	}
 
 	option = {
 		name = RUS_stalin_post_white_revolt_events.1.a
