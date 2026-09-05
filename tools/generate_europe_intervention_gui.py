@@ -825,7 +825,7 @@ def build_scripted_gui() -> None:
     visible = [
         "\t\t\toriginal_tag = RUS",
         "\t\t\thas_socialist_government = yes",
-        "\t\t\thas_completed_focus = RUS_self_determination",
+        "\t\t\thas_country_flag = RUS_europe_intervention_gui_unlocked",
     ]
     lines = [
         "scripted_gui = {",
