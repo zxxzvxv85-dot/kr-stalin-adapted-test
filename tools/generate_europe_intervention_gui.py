@@ -688,8 +688,8 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         "",
         "\t\tinstantTextBoxType = {",
         '\t\t\tname = "RUS_europe_intervention_header_title"',
-        "\t\t\tposition = { x = 57 y = 8 }",
-        '\t\t\tfont = "hoi_36header"',
+        "\t\t\tposition = { x = 57 y = 12 }",
+        '\t\t\tfont = "hoi_24header"',
         '\t\t\ttext = "RUS_europe_intervention_title"',
         "\t\t\tformat = left",
         f"\t\t\tmaxWidth = {WINDOW_WIDTH - 94}",
@@ -1042,9 +1042,9 @@ READINESS_LOCALISATION = {
 def build_localisation() -> None:
     languages = {
         "simp_chinese": {
-            "title": "欧洲革命事务局",
+            "title": "欧洲革命委员会对外联络与侦察处",
             "entry": "传播革命",
-            "entry_tt": "打开§Y欧洲革命事务局§!，选择需要处理的国家并直接执行相关决议。",
+            "entry_tt": "打开§Y欧洲革命委员会对外联络与侦察处§!，选择需要处理的国家并直接执行相关决议。",
             "none": "§Y欧洲总览§!：显示当前全部可用的革命外交与干涉决议",
             "help": "点击国家领土选择目标；随后打开决议栏查看对应国家的事务。点击“总览”恢复全部决议。",
             "overview": "总览",
@@ -1068,9 +1068,9 @@ def build_localisation() -> None:
             },
         },
         "english": {
-            "title": "Bureau of European Revolutionary Affairs",
+            "title": "Foreign Liaison and Intelligence Office of the European Revolutionary Committee",
             "entry": "Spread the Revolution",
-            "entry_tt": "Open the §YBureau of European Revolutionary Affairs§!, select a country, and execute its matching decisions directly.",
+            "entry_tt": "Open the §YForeign Liaison and Intelligence Office of the European Revolutionary Committee§!, select a country, and execute its matching decisions directly.",
             "none": "§YEuropean overview§!: show all currently available revolutionary and intervention decisions",
             "help": "Select a country, then open Decisions to see its matching actions. Overview restores the full list.",
             "overview": "Overview",
@@ -1094,9 +1094,9 @@ def build_localisation() -> None:
             },
         },
         "russian": {
-            "title": "Бюро европейских революционных дел",
+            "title": "Отдел внешних связей и разведки Европейского революционного комитета",
             "entry": "Распространить революцию",
-            "entry_tt": "Открыть §YБюро европейских революционных дел§!, выбрать страну и выполнить связанные с ней решения.",
+            "entry_tt": "Открыть §YОтдел внешних связей и разведки Европейского революционного комитета§!, выбрать страну и выполнить связанные с ней решения.",
             "none": "§YОбзор Европы§!: показать все доступные решения по революционной дипломатии и вмешательству",
             "help": "Выберите страну, затем откройте решения, чтобы увидеть соответствующие действия. «Обзор» вернёт полный список.",
             "overview": "Обзор",
