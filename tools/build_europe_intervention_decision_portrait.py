@@ -8,10 +8,12 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSET_DIR = ROOT / "gfx" / "interface" / "RUS_europe_intervention"
-SOURCE = ASSET_DIR / "decision_portrait_source.png"
-OUTPUT = ASSET_DIR / "decision_portrait.png"
 SCALE = 4
 FINAL_SIZE = (180, 202)
+PORTRAITS = {
+    "decision_portrait.png": "decision_portrait_source.png",
+    "molotov_portrait.png": "molotov_portrait_source.png",
+}
 
 
 def scaled_polygon(points: list[tuple[int, int]]) -> list[tuple[int, int]]:
@@ -24,7 +26,7 @@ def polygon_mask(size: tuple[int, int], points: list[tuple[int, int]]) -> Image.
     return mask
 
 
-def build_portrait() -> Image.Image:
+def build_portrait(source_path: Path) -> Image.Image:
     work_size = (FINAL_SIZE[0] * SCALE, FINAL_SIZE[1] * SCALE)
     outer = [(10, 6), (157, 1), (171, 188), (24, 201)]
     metal = [(14, 9), (154, 4), (167, 185), (28, 197)]
@@ -68,7 +70,7 @@ def build_portrait() -> Image.Image:
     draw = ImageDraw.Draw(result)
     draw.polygon(scaled_polygon(recess), fill=(34, 36, 34, 255))
 
-    with Image.open(SOURCE) as image:
+    with Image.open(source_path) as image:
         source = ImageOps.fit(
             image.convert("RGB"),
             (127 * SCALE, 171 * SCALE),
@@ -102,6 +104,8 @@ def build_portrait() -> Image.Image:
 
 
 if __name__ == "__main__":
-    final = build_portrait()
-    final.save(OUTPUT, optimize=True)
-    print(f"Wrote {OUTPUT} ({final.width}x{final.height}, {final.mode})")
+    for output_name, source_name in PORTRAITS.items():
+        output = ASSET_DIR / output_name
+        final = build_portrait(ASSET_DIR / source_name)
+        final.save(output, optimize=True)
+        print(f"Wrote {output} ({final.width}x{final.height}, {final.mode})")

@@ -29,9 +29,9 @@ MAP_Y = 16
 WINDOW_WIDTH = 740
 WINDOW_HEIGHT = 526
 TITLE_HEIGHT = 44
-MAP_WINDOW_Y = TITLE_HEIGHT
+MAP_WINDOW_Y = 200
 PORTRAIT_X = 525
-PORTRAIT_Y = 584
+PORTRAIT_Y = 740
 PORTRAIT_WIDTH = 180
 PORTRAIT_HEIGHT = 202
 
@@ -596,6 +596,16 @@ def build_gfx(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         "\t}",
         "",
         "\tspriteType = {",
+        '\t\tname = "GFX_RUS_europe_intervention_readiness_icon"',
+        '\t\ttexturefile = "gfx/interface/RUS_europe_intervention/readiness_icon.png"',
+        "\t}",
+        "",
+        "\tspriteType = {",
+        '\t\tname = "GFX_RUS_europe_intervention_bop_background_wide"',
+        '\t\ttexturefile = "gfx/interface/RUS_europe_intervention/bop_background_wide.png"',
+        "\t}",
+        "",
+        "\tspriteType = {",
         '\t\tname = "GFX_RUS_europe_intervention_entry_button"',
         '\t\ttexturefile = "gfx/interface/RUS_europe_intervention/entry_button.png"',
         "\t\tnoOfFrames = 4",
@@ -608,8 +618,13 @@ def build_gfx(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         "\t}",
         "",
         "\tspriteType = {",
-        '\t\tname = "GFX_RUS_europe_intervention_decision_portrait"',
+        '\t\tname = "GFX_RUS_europe_intervention_dzerzhinsky_portrait"',
         '\t\ttexturefile = "gfx/interface/RUS_europe_intervention/decision_portrait.png"',
+        "\t}",
+        "",
+        "\tspriteType = {",
+        '\t\tname = "GFX_RUS_europe_intervention_molotov_portrait"',
+        '\t\ttexturefile = "gfx/interface/RUS_europe_intervention/molotov_portrait.png"',
         "\t}",
         "",
         "\tspriteType = {",
@@ -644,25 +659,14 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         "\tcontainerWindowType = {",
         '\t\tname = "RUS_europe_intervention_entry_window"',
         "\t\tposition = { x = 0 y = 0 }",
-        "\t\tsize = { width = 129 height = 57 }",
+        "\t\tsize = { width = 52 height = 57 }",
         "\t\tclipping = no",
         "",
         "\t\ticonType = {",
         '\t\t\tname = "RUS_europe_intervention_entry_icon"',
-        "\t\t\tposition = { x = 0 y = 0 }",
-        '\t\t\tspriteType = "GFX_RUS_europe_intervention_entry_button"',
-        "\t\t\talwaystransparent = yes",
-        "\t\t}",
-        "",
-        "\t\tinstantTextBoxType = {",
-        '\t\t\tname = "RUS_europe_intervention_entry_label_text"',
-        "\t\t\tposition = { x = 63 y = 18 }",
-        '\t\t\tfont = "hoi_16mbs"',
-        '\t\t\ttext = "RUS_europe_intervention_entry_button"',
-        "\t\t\tformat = center",
-        "\t\t\tfixedsize = yes",
-        "\t\t\tmaxWidth = 62",
-        "\t\t\tmaxHeight = 20",
+        "\t\t\tposition = { x = 12 y = 4 }",
+        '\t\t\tspriteType = "GFX_RUS_europe_intervention_readiness_icon"',
+        "\t\t\tscale = 0.55",
         "\t\t\talwaystransparent = yes",
         "\t\t}",
         "\t}",
@@ -792,11 +796,20 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         f"\t\tsize = {{ width = {PORTRAIT_WIDTH} height = {PORTRAIT_HEIGHT} }}",
         "\t\tclipping = yes",
         "",
-        "\t\ticonType = {",
-        '\t\t\tname = "RUS_europe_intervention_decision_portrait"',
+        "\t\tbuttonType = {",
+        '\t\t\tname = "RUS_europe_intervention_dzerzhinsky_portrait"',
         "\t\t\tposition = { x = 0 y = 0 }",
-        '\t\t\tspriteType = "GFX_RUS_europe_intervention_decision_portrait"',
+        '\t\t\tquadTextureSprite = "GFX_RUS_europe_intervention_dzerzhinsky_portrait"',
         '\t\t\tpdx_tooltip = "RUS_europe_intervention_dzerzhinsky_tt"',
+        '\t\t\tclicksound = "click_default"',
+        "\t\t}",
+        "",
+        "\t\tbuttonType = {",
+        '\t\t\tname = "RUS_europe_intervention_molotov_portrait"',
+        "\t\t\tposition = { x = 0 y = 0 }",
+        '\t\t\tquadTextureSprite = "GFX_RUS_europe_intervention_molotov_portrait"',
+        '\t\t\tpdx_tooltip = "RUS_europe_intervention_molotov_tt"',
+        '\t\t\tclicksound = "click_default"',
         "\t\t}",
         "\t}",
         "}",
@@ -821,12 +834,6 @@ def build_scripted_gui() -> None:
         "\t\tparent_window_name = power_balance_button",
         '\t\twindow_name = "RUS_europe_intervention_entry_window"',
         "\t\tai_enabled = { always = no }",
-        "\t\ttriggers = {",
-        "\t\t\tshow_power_balance_glow_visible = { always = no }",
-        "\t\t\tpower_balance_percentage_visible = { always = no }",
-        "\t\t\tpower_balance_levels_visible = { always = no }",
-        "\t\t\tpower_balance_ICON_visible = { always = no }",
-        "\t\t}",
         "\t\tvisible = {",
         *visible,
         "\t\t}",
@@ -849,6 +856,16 @@ def build_scripted_gui() -> None:
         "\t\tai_enabled = { always = no }",
         "\t\tvisible = {",
         *visible,
+        "\t\t}",
+        "\t\ttriggers = {",
+        "\t\t\tRUS_europe_intervention_dzerzhinsky_portrait_visible = { NOT = { has_country_flag = RUS_europe_intervention_molotov_selected } }",
+        "\t\t\tRUS_europe_intervention_dzerzhinsky_portrait_click_enabled = { always = yes }",
+        "\t\t\tRUS_europe_intervention_molotov_portrait_visible = { has_country_flag = RUS_europe_intervention_molotov_selected }",
+        "\t\t\tRUS_europe_intervention_molotov_portrait_click_enabled = { always = yes }",
+        "\t\t}",
+        "\t\teffects = {",
+        "\t\t\tRUS_europe_intervention_dzerzhinsky_portrait_click = { set_country_flag = RUS_europe_intervention_molotov_selected }",
+        "\t\t\tRUS_europe_intervention_molotov_portrait_click = { clr_country_flag = RUS_europe_intervention_molotov_selected }",
         "\t\t}",
         "\t}",
         "",
@@ -915,8 +932,6 @@ def build_scripted_effect_and_trigger() -> None:
         "RUS_europe_intervention_target_selected_or_overview = {",
         "\tOR = {",
         "\t\tNOT = { has_country_flag = RUS_europe_intervention_filter_active }",
-        "\t\tNOT = { has_socialist_government = yes }",
-        "\t\tNOT = { has_completed_focus = RUS_self_determination }",
     ]
     for selector in SELECTORS:
         trigger_lines.extend([
@@ -945,8 +960,6 @@ def build_scripted_effect_and_trigger() -> None:
             f"RUS_europe_intervention_{name}_selected_or_overview = {{",
             "\tOR = {",
             "\t\tNOT = { has_country_flag = RUS_europe_intervention_filter_active }",
-            "\t\tNOT = { has_socialist_government = yes }",
-            "\t\tNOT = { has_completed_focus = RUS_self_determination }",
         ])
         selector_keys = dict.fromkeys(SELECTOR_BY_MEMBER[tag].key for tag in tags)
         trigger_lines.extend(
@@ -963,6 +976,66 @@ DZERZHINSKY_TOOLTIPS = {
     "simp_chinese": "§Y费利克斯·埃德蒙多维奇·捷尔任斯基§!\\n§Y生于：§! §L1877年9月11日；俄罗斯帝国属波兰、维尔诺省§!\\n§Y背景：§! §L费利克斯·埃德蒙多维奇·捷尔任斯基生于俄属波兰维尔诺省奥什米扬内县捷尔任诺沃庄园，一个波兰小地主贵族家庭。童年并未在庄园的安宁中度过太久——母亲早逝，父亲也在他十岁时离世，此后家道中落，少年时期的捷尔任斯基便已开始目睹阶级分化的残酷现实。1895年，他在维尔诺中学就读期间接触到马克思主义小组，次年便决心辍学，投身革命活动。1897年，他参与组织维尔诺社会民主工党，同年被捕，首次尝到牢狱滋味。\\n\\n1905年革命席卷波兰时，捷尔任斯基已是波兰王国和立陶宛社会民主工党的核心组织者之一。他在华沙和罗兹领导大规模罢工，参与武装斗争的准备，并负责地下刊物的编辑与分发。此后数年间，他辗转于维尔纽斯、华沙、基辅等地，先后五次被捕、三次流放，累计在监牢与流放地度过近十一年光阴——几乎占去他成年后将近一半的岁月。这段经历为他日后主持全俄肃反委员会的工作积累了深厚的地下斗争经验与心理承受力。\\n\\n1917年二月革命后，流放中的捷尔任斯基获释，随即奔赴彼得格勒。十月武装起义期间，他是军事革命委员会委员，负责斯莫尔尼宫的通讯与保卫工作，确保起义指挥中枢的畅通。起义成功后，根据列宁提议，他受命组建全俄肃反委员会，以应对白军与间谍活动的威胁。在内战最严峻的岁月里，他以极其严厉甚至冷酷的作风主持肃反工作——对叛徒与间谍从不留情，对组织内的动摇分子亦毫不姑息。白军和敌对势力闻之色变，党内同志则既敬畏又信赖，他因此赢得了“钢铁的费利克斯”的称号。\\n\\n然而，内战的走向最终未如革命者所愿。红色政权在多方围攻下倾覆，流亡成为唯一的出路。在撤离的混乱中，捷尔任斯基与中央失去联络。为掩人耳目，他销毁了一切能表明身份的文件，伪装成一名普通的波兰裔铁路工人，混入向西撤退的难民潮中——这一决定如此果断而彻底，以至于绝大多数同志都以为他已在白军的围剿中丧生——他的名字甚至一度出现在流亡者内部流传的牺牲者名单上。\\n\\n穿越战火与边境线的重重关卡后，捷尔任斯基辗转抵达华沙。在这座他年轻时便已熟悉的城市里，他以“海燕”为化名重新扎根。初期举步维艰——没有文件、没有联系人、没有资金，仅靠记忆中的几个旧地址和地下工作的本能，他开始逐一联络残存的波兰工党。凭借其惊人的记忆力与对地下工作的高度敏感，他很快在华沙、罗兹、克拉科夫等工业城市的工人社区中建立起可靠的情报节点。事到如今，这张以华沙为基地的网络已悄然延伸至东欧各国……§!",
     "english": "§YFelix Edmundovich Dzerzhinsky§!\\n§YBorn:§! §LSeptember 11th, 1877; Vilna Governorate, Russian Poland§!\\n§YBackground:§! §LA veteran Polish revolutionary and organiser of the All-Russian Extraordinary Commission, Dzerzhinsky vanished during the White victory and was presumed dead. Under the alias 'Petrel', he rebuilt an underground network from Warsaw that now reaches across Eastern Europe.§!",
     "russian": "§YФеликс Эдмундович Дзержинский§!\\n§YРодился:§! §L11 сентября 1877 года; Виленская губерния, Царство Польское, Российская империя§!\\n§YБиография:§! §LОпытный польский революционер и организатор Всероссийской чрезвычайной комиссии исчез во время победы белых и долго считался погибшим. Под псевдонимом «Буревестник» он восстановил в Варшаве подпольную сеть, которая теперь охватывает всю Восточную Европу.§!",
+}
+
+MOLOTOV_TOOLTIPS = {
+    "simp_chinese": "§Y维亚切斯拉夫·莫洛托夫§!\n§Y生于：§! §L1890年3月9日；俄罗斯帝国维亚特卡省库卡尔卡镇§!\n§Y背景：§! §L维亚切斯拉夫·米哈伊洛维奇·莫洛托夫（原名维亚切斯拉夫·米哈伊洛维奇·斯克里亚宾）出身于一个乡村教师家庭，幼年家境尚可，但父亲早逝后家道中落。他在喀山中学就读期间接触到地下革命报刊，迅速为马克思主义所吸引。1906年，十六岁的莫洛托夫加入俄国社会民主工党，旋即投身于地下工作——组织学生集会、散发传单、联络铁路工人，在警察的监视下学会了谨慎与沉默。\n\n1917年二月革命爆发时，莫洛托夫正在彼得格勒。他是最早一批抵达塔夫利达宫的布尔什维克活动分子之一，在此后数月间迅速成长为核心联络人。十月武装起义期间，他负责斯莫尔尼宫与各工厂之间的通讯协调——尽管不参与街垒战斗，但每一道指令都经由他的手传向前线。其效率和组织能力引起了列宁的注意，后者曾在一份内部文件中将他列为“值得培养的年轻干部”。\n\n内战爆发后，莫洛托夫被派往前线负责政治动员工作。他在察里津与斯大林共事，在南方方面军与伏罗希洛夫并肩协调补给线。他并不以军事才能著称，但在组织文书、起草命令、整理报告方面的能力无人能及。这段经历使他形成了对“秩序”和“文件”近乎偏执的重视——他相信革命的持久性取决于行政链条的可靠性。\n\n红色政权倾覆后，莫洛托夫随流亡者一同撤往欧洲。在巴黎流亡期间，他逐渐从一名党务组织者转型为外交事务的参与者。他自学法语，系统研究欧洲各国的政治格局，并多次以非官方身份与法国工农共产党、工团主义政党进行接触。斯维尔德洛夫曾评价他“每句话都经过了计算”。\n\n随着社会主义俄罗斯重建工作的启动，莫洛托夫在布尔什维克党的推荐下，开始承担越来越重要的对外联络任务。他先后参与与第三国际的贸易谈判、与德国社会主义党的意识形态协调会议，以及多场关于“国际革命协调机制”的多边磋商。他并不擅长公开演说，但在闭门谈判中表现出罕见的耐性与精确度——他习惯于让对方先亮出全部底牌，然后逐条拆解、重新组合，最终拿出一份对方几乎无法拒绝的修正案。\n\n在外交场合，莫洛托夫总是身着深色西装，领带系得一丝不苟，说话时习惯将双手平放在桌面上，仿佛随时准备在纸上签字或划掉某一行。在大多数同志看来，他的一举一动都与其“铁锤”的绰号相称——不张扬，不偏移，每一次落下都精准而有力。§!\n\n§Y“老一辈布尔什维克从不让步于压力，这一点永远不会改变。”§!",
+    "english": "§YVyacheslav Molotov§!\n§YBorn:§! §LMarch 9th, 1890; Kukarka, Vyatka Governorate, Russian Empire§!\n§YBackground:§! §LVyacheslav Mikhailovich Molotov, born Vyacheslav Mikhailovich Skryabin, came from the family of a village schoolteacher. His childhood was reasonably comfortable until his father's early death left the family in reduced circumstances. While studying at a secondary school in Kazan, he encountered the underground revolutionary press and was quickly drawn to Marxism. In 1906, at the age of sixteen, Molotov joined the Russian Social Democratic Labour Party and threw himself into underground work, organising student meetings, distributing leaflets, and maintaining contact with railway workers. Under constant police surveillance, he learned caution and silence.\n\nWhen the February Revolution broke out in 1917, Molotov was in Petrograd. He was among the first Bolshevik activists to reach the Tauride Palace and, over the following months, quickly became a central liaison. During the October uprising he coordinated communications between the Smolny Institute and the factories. Though he did not fight at the barricades, every order passed through his hands on its way to the front. His efficiency and organisational ability attracted Lenin's attention, who named him in an internal document as a 'young cadre worth cultivating'.\n\nAfter the Civil War began, Molotov was sent to the front to direct political mobilisation. He worked with Stalin at Tsaritsyn and coordinated supply lines alongside Voroshilov on the Southern Front. He was not renowned for military talent, but few could equal his ability to organise paperwork, draft orders, and systematise reports. The experience gave him an almost obsessive regard for 'order' and 'documents'; he came to believe that the revolution's endurance depended upon the reliability of its administrative chain.\n\nFollowing the collapse of the Red government, Molotov withdrew to Europe with the other exiles. In Paris, he gradually transformed from a party organiser into a participant in foreign affairs. He taught himself French, systematically studied the politics of the European states, and repeatedly made unofficial contact with the French workers' and peasants' communists and with syndicalist parties. Sverdlov once remarked that 'every one of his words has been calculated'.\n\nAs the reconstruction of socialist Russia began, the Bolshevik Party entrusted Molotov with increasingly important foreign contacts. He took part in trade negotiations with the Third International, ideological coordination meetings with the German socialists, and multilateral talks on an 'international mechanism for revolutionary coordination'. He is no gifted public speaker, but in closed negotiations displays rare patience and precision: he lets the other side reveal its whole hand, dismantles it point by point, and then assembles a revised proposal they can scarcely refuse.\n\nAt diplomatic functions Molotov invariably wears a dark suit and an immaculate tie. He keeps both hands flat upon the table as though always ready to sign a paper or strike out a line. To most comrades, every gesture suits the sobriquet 'the Hammer': never ostentatious, never deflected, and exact whenever it falls.§!\n\n§Y‘The old generation of Bolsheviks never yields to pressure. That will never change.’§!",
+    "russian": "§YВячеслав Молотов§!\n§YРодился:§! §L9 марта 1890 года; Кукарка, Вятская губерния, Российская империя§!\n§YБиография:§! §LВячеслав Михайлович Молотов, урождённый Скрябин, происходил из семьи сельского учителя. После ранней смерти отца семья обеднела. Во время учёбы в Казанском реальном училище он познакомился с подпольной революционной печатью и быстро увлёкся марксизмом. В 1906 году шестнадцатилетний Молотов вступил в Российскую социал-демократическую рабочую партию и занялся подпольной работой: организовывал студенческие собрания, распространял листовки и поддерживал связь с железнодорожниками. Полицейская слежка научила его осторожности и молчанию.\n\nВо время Февральской революции 1917 года Молотов находился в Петрограде. Он был среди первых большевиков, прибывших в Таврический дворец, и вскоре стал одним из главных связных партии. В дни Октябрьского восстания он координировал связь между Смольным и заводами. Сам он не сражался на баррикадах, однако через его руки проходили все распоряжения, направлявшиеся на передовую. Его исполнительность и организаторские способности привлекли внимание Ленина, назвавшего его во внутреннем документе «молодым кадром, заслуживающим подготовки».\n\nС началом Гражданской войны Молотова направили на фронт для ведения политической работы. В Царицыне он работал со Сталиным, а на Южном фронте вместе с Ворошиловым координировал снабжение. Военными талантами он не славился, зато почти не имел равных в организации делопроизводства, составлении приказов и систематизации донесений. Именно тогда у него возникло почти навязчивое уважение к «порядку» и «документу»: долговечность революции он связывал с надёжностью административной цепи.\n\nПосле падения красной власти Молотов вместе с другими изгнанниками перебрался в Европу. В Париже он постепенно превратился из партийного организатора в участника внешнеполитической работы. Он самостоятельно выучил французский язык, систематически изучал политическое устройство европейских стран и неоднократно неофициально встречался с французскими коммунистами и синдикалистскими партиями. Свердлов однажды заметил, что «каждое его слово заранее рассчитано».\n\nС началом восстановления социалистической России партия стала поручать Молотову всё более важные внешние контакты. Он участвовал в торговых переговорах с Третьим Интернационалом, идеологических совещаниях с германскими социалистами и многосторонних консультациях о «международном механизме координации революции». Он не блистает публичным красноречием, зато в закрытых переговорах проявляет редкие терпение и точность: сначала позволяет собеседнику раскрыть все карты, затем разбирает их по пунктам и в конце предлагает такую редакцию соглашения, от которой почти невозможно отказаться.\n\nНа дипломатических встречах Молотов неизменно появляется в тёмном костюме с безупречно завязанным галстуком. Он держит ладони на столе, словно готов в любую секунду подписать документ или вычеркнуть из него строку. Для большинства товарищей каждое его движение соответствует прозвищу «Молот»: без показной эффектности, без отклонения, но всякий удар точен.§!\n\n§Y«Старое поколение большевиков никогда не уступает давлению. Это не изменится.»§!",
+}
+
+PORTRAIT_SWITCH_HINTS = {
+    "simp_chinese": {
+        "to_molotov": "§Y点击头像切换至莫洛托夫：民用援助§!",
+        "to_dzerzhinsky": "§Y点击头像切换至捷尔任斯基：军事援助§!",
+    },
+    "english": {
+        "to_molotov": "§YClick the portrait to switch to Molotov: Civilian Aid§!",
+        "to_dzerzhinsky": "§YClick the portrait to switch to Dzerzhinsky: Military Aid§!",
+    },
+    "russian": {
+        "to_molotov": "§YНажмите на портрет, чтобы выбрать Молотова: гражданская помощь§!",
+        "to_dzerzhinsky": "§YНажмите на портрет, чтобы выбрать Дзержинского: военная помощь§!",
+    },
+}
+
+READINESS_LOCALISATION = {
+    "simp_chinese": {
+        "power_balance": "革命准备度",
+        "low_readiness_side": "低准备度",
+        "high_readiness_side": "高准备度",
+        "readiness_balanced": "准备工作稳步推进",
+        "readiness_low_1": "准备不足",
+        "readiness_low_2": "准备严重不足",
+        "readiness_low_3": "毫无准备",
+        "readiness_high_1": "准备较为充分",
+        "readiness_high_2": "高度准备",
+        "readiness_high_3": "万事俱备",
+    },
+    "english": {
+        "power_balance": "Revolutionary Readiness",
+        "low_readiness_side": "Low Readiness",
+        "high_readiness_side": "High Readiness",
+        "readiness_balanced": "Preparations Proceeding Steadily",
+        "readiness_low_1": "Insufficient Preparation",
+        "readiness_low_2": "Severely Underprepared",
+        "readiness_low_3": "Wholly Unprepared",
+        "readiness_high_1": "Adequate Preparation",
+        "readiness_high_2": "High Readiness",
+        "readiness_high_3": "Fully Prepared",
+    },
+    "russian": {
+        "power_balance": "Готовность к революции",
+        "low_readiness_side": "Низкая готовность",
+        "high_readiness_side": "Высокая готовность",
+        "readiness_balanced": "Подготовка идёт своим чередом",
+        "readiness_low_1": "Недостаточная подготовка",
+        "readiness_low_2": "Крайне низкая готовность",
+        "readiness_low_3": "Полная неготовность",
+        "readiness_high_1": "Достаточная подготовка",
+        "readiness_high_2": "Высокая степень готовности",
+        "readiness_high_3": "Полная готовность",
+    },
 }
 
 
@@ -1051,9 +1124,14 @@ def build_localisation() -> None:
         lines = [
             f"l_{language}:",
             f' RUS_europe_intervention_title:0 "{loc["title"]}"',
+            *[
+                f' RUS_europe_intervention_{key}:0 "{value}"'
+                for key, value in READINESS_LOCALISATION[language].items()
+            ],
             f' RUS_europe_intervention_entry_button:0 "{loc["entry"]}"',
             f' RUS_europe_intervention_entry_tt:0 "{loc["entry_tt"]}"',
-            f' RUS_europe_intervention_dzerzhinsky_tt:0 "{DZERZHINSKY_TOOLTIPS[language]}"',
+            f' RUS_europe_intervention_dzerzhinsky_tt:0 "{DZERZHINSKY_TOOLTIPS[language]}\\n\\n{PORTRAIT_SWITCH_HINTS[language]["to_molotov"]}"',
+            f' RUS_europe_intervention_molotov_tt:0 "{MOLOTOV_TOOLTIPS[language]}\\n\\n{PORTRAIT_SWITCH_HINTS[language]["to_dzerzhinsky"]}"',
             ' RUS_europe_intervention_empty_tt:0 ""',
             f' RUS_europe_intervention_no_selection:0 "{loc["none"]}"',
             f' RUS_europe_intervention_help:0 "{loc["help"]}"',

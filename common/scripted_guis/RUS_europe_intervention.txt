@@ -33,6 +33,16 @@ scripted_gui = {
 			has_socialist_government = yes
 			has_completed_focus = RUS_self_determination
 		}
+		triggers = {
+			RUS_europe_intervention_dzerzhinsky_portrait_visible = { NOT = { has_country_flag = RUS_europe_intervention_molotov_selected } }
+			RUS_europe_intervention_dzerzhinsky_portrait_click_enabled = { always = yes }
+			RUS_europe_intervention_molotov_portrait_visible = { has_country_flag = RUS_europe_intervention_molotov_selected }
+			RUS_europe_intervention_molotov_portrait_click_enabled = { always = yes }
+		}
+		effects = {
+			RUS_europe_intervention_dzerzhinsky_portrait_click = { set_country_flag = RUS_europe_intervention_molotov_selected }
+			RUS_europe_intervention_molotov_portrait_click = { clr_country_flag = RUS_europe_intervention_molotov_selected }
+		}
 	}
 
 	RUS_europe_intervention_gui = {
