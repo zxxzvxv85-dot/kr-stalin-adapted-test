@@ -1039,6 +1039,10 @@ READINESS_LOCALISATION = {
 }
 
 
+def escape_localisation_value(value: str) -> str:
+    return value.replace("\r\n", "\n").replace("\r", "\n").replace("\n", r"\n")
+
+
 def build_localisation() -> None:
     languages = {
         "simp_chinese": {
@@ -1121,6 +1125,8 @@ def build_localisation() -> None:
         },
     }
     for language, loc in languages.items():
+        dzerzhinsky_tooltip = escape_localisation_value(DZERZHINSKY_TOOLTIPS[language])
+        molotov_tooltip = escape_localisation_value(MOLOTOV_TOOLTIPS[language])
         lines = [
             f"l_{language}:",
             f' RUS_europe_intervention_title:0 "{loc["title"]}"',
@@ -1130,8 +1136,8 @@ def build_localisation() -> None:
             ],
             f' RUS_europe_intervention_entry_button:0 "{loc["entry"]}"',
             f' RUS_europe_intervention_entry_tt:0 "{loc["entry_tt"]}"',
-            f' RUS_europe_intervention_dzerzhinsky_tt:0 "{DZERZHINSKY_TOOLTIPS[language]}\\n\\n{PORTRAIT_SWITCH_HINTS[language]["to_molotov"]}"',
-            f' RUS_europe_intervention_molotov_tt:0 "{MOLOTOV_TOOLTIPS[language]}\\n\\n{PORTRAIT_SWITCH_HINTS[language]["to_dzerzhinsky"]}"',
+            f' RUS_europe_intervention_dzerzhinsky_tt:0 "{dzerzhinsky_tooltip}\\n\\n{PORTRAIT_SWITCH_HINTS[language]["to_molotov"]}"',
+            f' RUS_europe_intervention_molotov_tt:0 "{molotov_tooltip}\\n\\n{PORTRAIT_SWITCH_HINTS[language]["to_dzerzhinsky"]}"',
             ' RUS_europe_intervention_empty_tt:0 ""',
             f' RUS_europe_intervention_no_selection:0 "{loc["none"]}"',
             f' RUS_europe_intervention_help:0 "{loc["help"]}"',
