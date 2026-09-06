@@ -220,6 +220,44 @@ RUS_agri_start_new_year = {
 	RUS_agri_start_quarter = yes
 }
 
+RUS_agri_start_initial_year = {
+	clr_country_flag = RUS_agri_emergency_advance_used
+	clr_country_flag = RUS_agri_previous_dominant_wheat
+	clr_country_flag = RUS_agri_previous_dominant_rye
+	clr_country_flag = RUS_agri_previous_dominant_beet
+	clr_country_flag = RUS_agri_previous_dominant_flax
+	clr_country_flag = RUS_agri_previous_dominant_cotton
+	set_variable = { RUS_agri_capital = 10 }
+	set_variable = { RUS_agri_season = 4 }
+	meta_effect = {
+		text = {
+			if = {
+				limit = {
+					date > [YEAR].2.28
+					date < [YEAR].6.1
+				}
+				set_variable = { RUS_agri_season = 1 }
+			}
+			else_if = {
+				limit = {
+					date > [YEAR].5.31
+					date < [YEAR].9.1
+				}
+				set_variable = { RUS_agri_season = 2 }
+			}
+			else_if = {
+				limit = {
+					date > [YEAR].8.31
+					date < [YEAR].12.1
+				}
+				set_variable = { RUS_agri_season = 3 }
+			}
+		}
+		YEAR = "[GetYear]"
+	}
+	RUS_agri_start_quarter = yes
+}
+
 RUS_agri_clear_allocation = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
@@ -434,7 +472,7 @@ RUS_agri_settle_quarter = {
 RUS_agri_daily_update = {
 	if = {
 		limit = { NOT = { has_variable = RUS_agri_days_remaining } }
-		RUS_agri_start_new_year = yes
+		RUS_agri_start_initial_year = yes
 	}
 	else_if = {
 		limit = { has_country_flag = RUS_agri_quarter_active }
