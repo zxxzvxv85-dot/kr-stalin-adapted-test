@@ -1,0 +1,84 @@
+scripted_gui = {
+	RUS_agricultural_quarterly_management_gui = {
+		context_type = decision_category
+		window_name = "RUS_agricultural_quarterly_management_window"
+		dirty = global.RUS_agri_management_update
+		ai_enabled = { always = no }
+		visible = {
+			original_tag = RUS
+			has_country_flag = RUS_agri_management_unlocked
+		}
+
+		triggers = {
+			RUS_agri_season_spring_visible = { check_variable = { RUS_agri_season = 1 } }
+			RUS_agri_season_summer_visible = { check_variable = { RUS_agri_season = 2 } }
+			RUS_agri_season_autumn_visible = { check_variable = { RUS_agri_season = 3 } }
+			RUS_agri_season_winter_visible = { check_variable = { RUS_agri_season = 4 } }
+
+			RUS_agri_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong }
+			RUS_agri_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable }
+			RUS_agri_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak }
+			RUS_agri_treaty_bonus_visible = { has_completed_focus = RUS_future_foreign_017 }
+			RUS_agri_no_previous_result_visible = { NOT = { has_country_flag = RUS_agri_has_previous_result } }
+			RUS_agri_previous_result_visible = { has_country_flag = RUS_agri_has_previous_result }
+			RUS_agri_allocation_open_visible = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+			RUS_agri_allocation_locked_visible = { has_country_flag = RUS_agri_allocation_locked }
+
+			RUS_agri_wheat_saturation_visible = { has_country_flag = RUS_agri_saturation_wheat }
+			RUS_agri_rye_saturation_visible = { has_country_flag = RUS_agri_saturation_rye }
+			RUS_agri_beet_saturation_visible = { has_country_flag = RUS_agri_saturation_beet }
+			RUS_agri_flax_saturation_visible = { has_country_flag = RUS_agri_saturation_flax }
+			RUS_agri_cotton_saturation_visible = { has_country_flag = RUS_agri_saturation_cotton }
+			RUS_agri_wheat_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_wheat } }
+			RUS_agri_wheat_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_wheat } }
+			RUS_agri_wheat_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_wheat } }
+			RUS_agri_rye_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_rye } }
+			RUS_agri_rye_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_rye } }
+			RUS_agri_rye_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_rye } }
+			RUS_agri_beet_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_beet } }
+			RUS_agri_beet_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_beet } }
+			RUS_agri_beet_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_beet } }
+			RUS_agri_flax_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_flax } }
+			RUS_agri_flax_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_flax } }
+			RUS_agri_flax_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_flax } }
+			RUS_agri_cotton_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_cotton } }
+			RUS_agri_cotton_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_cotton } }
+			RUS_agri_cotton_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_cotton } }
+
+			RUS_agri_wheat_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment > 0 } }
+			RUS_agri_wheat_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } }
+			RUS_agri_rye_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment > 0 } }
+			RUS_agri_rye_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } }
+			RUS_agri_beet_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment > 0 } }
+			RUS_agri_beet_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } }
+			RUS_agri_flax_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment > 0 } }
+			RUS_agri_flax_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } }
+			RUS_agri_cotton_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment > 0 } }
+			RUS_agri_cotton_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } }
+
+			RUS_agri_balance_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+			RUS_agri_clear_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+			RUS_agri_confirm_visible = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+			RUS_agri_confirm_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+			RUS_agri_reopen_visible = { has_country_flag = RUS_agri_allocation_locked }
+			RUS_agri_reopen_click_enabled = { has_country_flag = RUS_agri_allocation_locked }
+		}
+
+		effects = {
+			RUS_agri_wheat_minus_click = { RUS_agri_decrease_wheat = yes }
+			RUS_agri_wheat_plus_click = { RUS_agri_increase_wheat = yes }
+			RUS_agri_rye_minus_click = { RUS_agri_decrease_rye = yes }
+			RUS_agri_rye_plus_click = { RUS_agri_increase_rye = yes }
+			RUS_agri_beet_minus_click = { RUS_agri_decrease_beet = yes }
+			RUS_agri_beet_plus_click = { RUS_agri_increase_beet = yes }
+			RUS_agri_flax_minus_click = { RUS_agri_decrease_flax = yes }
+			RUS_agri_flax_plus_click = { RUS_agri_increase_flax = yes }
+			RUS_agri_cotton_minus_click = { RUS_agri_decrease_cotton = yes }
+			RUS_agri_cotton_plus_click = { RUS_agri_increase_cotton = yes }
+			RUS_agri_balance_click = { RUS_agri_balance_allocation = yes }
+			RUS_agri_clear_click = { RUS_agri_clear_allocation = yes }
+			RUS_agri_confirm_click = { RUS_agri_confirm_allocation = yes }
+			RUS_agri_reopen_click = { RUS_agri_reopen_allocation = yes }
+		}
+	}
+}

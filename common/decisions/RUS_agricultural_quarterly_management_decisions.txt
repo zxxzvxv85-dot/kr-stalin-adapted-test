@@ -1,0 +1,21 @@
+RUS_agricultural_quarterly_management_start_category = {
+	RUS_start_agricultural_quarterly_management = {
+		icon = GFX_decision_generic_agriculture
+		allowed = { original_tag = RUS }
+		visible = {
+			has_completed_focus = RUS_future_foreign_002
+			NOT = { has_country_flag = RUS_agri_management_unlocked }
+		}
+		available = { is_ai = no }
+		cost = 0
+		days_remove = 1
+		fire_only_once = yes
+		ai_will_do = { base = 0 }
+		complete_effect = {
+			set_country_flag = RUS_agri_management_unlocked
+			set_variable = { RUS_agri_year = 1 }
+			RUS_agri_start_new_year = yes
+		}
+		fixed_random_seed = no
+	}
+}

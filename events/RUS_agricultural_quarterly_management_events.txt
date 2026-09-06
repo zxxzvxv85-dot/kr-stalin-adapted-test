@@ -1,0 +1,34 @@
+add_namespace = RUS_agricultural_management
+
+country_event = {
+	id = RUS_agricultural_management.1
+	title = RUS_agricultural_management.1.t
+	desc = {
+		text = RUS_agricultural_management.1.d.shortfall
+		trigger = { has_country_flag = RUS_agri_annual_tier_shortfall }
+	}
+	desc = {
+		text = RUS_agricultural_management.1.d.balanced
+		trigger = { has_country_flag = RUS_agri_annual_tier_balanced }
+	}
+	desc = {
+		text = RUS_agricultural_management.1.d.surplus
+		trigger = { has_country_flag = RUS_agri_annual_tier_surplus }
+	}
+	desc = {
+		text = RUS_agricultural_management.1.d.bumper
+		trigger = { has_country_flag = RUS_agri_annual_tier_bumper }
+	}
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+
+	option = {
+		name = RUS_agricultural_management.1.a
+		if = {
+			limit = { has_country_flag = RUS_agri_last_year_emergency }
+			custom_effect_tooltip = RUS_agri_emergency_annual_cap_tt
+		}
+		add_to_variable = { RUS_agri_year = 1 }
+		RUS_agri_start_new_year = yes
+	}
+}
