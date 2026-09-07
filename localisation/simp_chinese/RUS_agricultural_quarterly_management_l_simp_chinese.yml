@@ -58,7 +58,7 @@
  RUS_agri_clear:0 "清空方案"
  RUS_agri_clear_tt:0 "撤回所有尚未锁定的本季投入。"
  RUS_agri_confirm:0 "确认方案"
- RUS_agri_confirm_tt:0 "锁定当前投入方案。季度截止时，未确认的方案会被自动替换为均衡分配。"
+ RUS_agri_confirm_tt:0 "锁定当前投入方案。季度截止时，未确认的方案会被自动替换为均衡分配。\n\n$RUS_agri_business_rules_tt$"
  RUS_agri_reopen:0 "重新调整"
  RUS_agri_reopen_tt:0 "在本季度结束前解除锁定并重新调整投入。"
 
@@ -83,5 +83,5 @@
  RUS_agri_ledger:0 "季度账簿"
  RUS_agri_ledger_tt:0 "查看上季实际天气、各作物行情及最终倍率。天气与行情预测均可能落空；实际修正通常为±0.10或±0.20，少见极端情况为±0.40，亦可能为0。实际结果仅在季度结算后公开。"
  RUS_agricultural_management.2.t:0 "季度农业经营账簿"
- RUS_agricultural_management.2.d:0 "第[?RUS_agri_last_year|0]经营年度，第[?RUS_agri_last_season|0]季\n\n实际天气修正（全部作物）：[?RUS_agri_last_weather|2]\n\n各作物实际行情修正 / 最终实收倍率：\n小麦: [?RUS_agri_last_wheat_market|2] / x[?RUS_agri_last_wheat_final|2]\n黑麦: [?RUS_agri_last_rye_market|2] / x[?RUS_agri_last_rye_final|2]\n甜菜: [?RUS_agri_last_beet_market|2] / x[?RUS_agri_last_beet_final|2]\n亚麻: [?RUS_agri_last_flax_market|2] / x[?RUS_agri_last_flax_final|2]\n棉花: [?RUS_agri_last_cotton_market|2] / x[?RUS_agri_last_cotton_final|2]\n\n结算后本金：[?RUS_agri_last_capital|1]\n最终倍率含天气、行情、条约、投入与市场饱和，范围为0.40至1.50。"
+ RUS_agricultural_management.2.d:0 "第[?RUS_agri_last_year|0]经营年度，第[?RUS_agri_last_season|0]季\n\n实际天气修正（全部作物）：[?RUS_agri_last_weather|2]\n\n作物：行情修正 / 实收倍率 / 容量 / 地力扣减\n$RUS_agri_wheat$: [?RUS_agri_last_wheat_market|2] / x[?RUS_agri_last_wheat_final|2] / [?RUS_agri_last_wheat_capacity|0] / -[?RUS_agri_last_wheat_rotation_penalty|2]\n$RUS_agri_rye$: [?RUS_agri_last_rye_market|2] / x[?RUS_agri_last_rye_final|2] / [?RUS_agri_last_rye_capacity|0] / -[?RUS_agri_last_rye_rotation_penalty|2]\n$RUS_agri_beet$: [?RUS_agri_last_beet_market|2] / x[?RUS_agri_last_beet_final|2] / [?RUS_agri_last_beet_capacity|0] / -[?RUS_agri_last_beet_rotation_penalty|2]\n$RUS_agri_flax$: [?RUS_agri_last_flax_market|2] / x[?RUS_agri_last_flax_final|2] / [?RUS_agri_last_flax_capacity|0] / -[?RUS_agri_last_flax_rotation_penalty|2]\n$RUS_agri_cotton$: [?RUS_agri_last_cotton_market|2] / x[?RUS_agri_last_cotton_final|2] / [?RUS_agri_last_cotton_capacity|0] / -[?RUS_agri_last_cotton_rotation_penalty|2]\n\n订单完成：[?RUS_agri_last_orders_completed|0]；奖金：[?RUS_agri_last_order_cash|2]；土改分：[?RUS_agri_last_order_score|0]。\n结算后本金：[?RUS_agri_last_capital|1]\n\n实收包含天气、行情、条约、投入、饱和、地力及分档收购价；倍率范围0.40至1.50。"
  RUS_agricultural_management.2.a:0 "核阅账目。"

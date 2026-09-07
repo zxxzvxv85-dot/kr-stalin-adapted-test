@@ -1,0 +1,57 @@
+defined_text = {
+	name = RUSAgriOrder1Crop
+	text = { trigger = { check_variable = { RUS_agri_order_1_crop = 1 } } localization_key = RUS_agri_wheat }
+	text = { trigger = { check_variable = { RUS_agri_order_1_crop = 2 } } localization_key = RUS_agri_rye }
+	text = { trigger = { check_variable = { RUS_agri_order_1_crop = 3 } } localization_key = RUS_agri_beet }
+	text = { trigger = { check_variable = { RUS_agri_order_1_crop = 4 } } localization_key = RUS_agri_flax }
+	text = { trigger = { check_variable = { RUS_agri_order_1_crop = 5 } } localization_key = RUS_agri_cotton }
+	text = { localization_key = RUS_agri_order_none }
+}
+defined_text = {
+	name = RUSAgriOrder1Status
+	text = {
+		trigger = {
+			check_variable = { RUS_agri_order_1_crop > 0 }
+			check_variable = { RUS_agri_order_1_quantity > 0 }
+			NOT = { check_variable = { RUS_agri_order_1_progress < RUS_agri_order_1_quantity } }
+		}
+		localization_key = RUS_agri_order_ready
+	}
+	text = { localization_key = RUS_agri_order_pending }
+}
+
+defined_text = {
+	name = RUSAgriOrderScoreReward
+	text = {
+		trigger = {
+			NOT = { has_country_flag = RUS_maximalist_land_reform_failure }
+			OR = {
+				has_country_flag = RUS_maximalist_land_reform_in_progress
+				has_country_flag = RUS_maximalist_land_reform_success
+			}
+		}
+		localization_key = RUS_agri_order_point_reward
+	}
+	text = { localization_key = RUS_agri_order_no_point_reward }
+}
+defined_text = {
+	name = RUSAgriOrder2Crop
+	text = { trigger = { check_variable = { RUS_agri_order_2_crop = 1 } } localization_key = RUS_agri_wheat }
+	text = { trigger = { check_variable = { RUS_agri_order_2_crop = 2 } } localization_key = RUS_agri_rye }
+	text = { trigger = { check_variable = { RUS_agri_order_2_crop = 3 } } localization_key = RUS_agri_beet }
+	text = { trigger = { check_variable = { RUS_agri_order_2_crop = 4 } } localization_key = RUS_agri_flax }
+	text = { trigger = { check_variable = { RUS_agri_order_2_crop = 5 } } localization_key = RUS_agri_cotton }
+	text = { localization_key = RUS_agri_order_none }
+}
+defined_text = {
+	name = RUSAgriOrder2Status
+	text = {
+		trigger = {
+			check_variable = { RUS_agri_order_2_crop > 0 }
+			check_variable = { RUS_agri_order_2_quantity > 0 }
+			NOT = { check_variable = { RUS_agri_order_2_progress < RUS_agri_order_2_quantity } }
+		}
+		localization_key = RUS_agri_order_ready
+	}
+	text = { localization_key = RUS_agri_order_pending }
+}

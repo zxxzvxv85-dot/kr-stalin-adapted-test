@@ -36,6 +36,7 @@ const effects = new Map();
 for (const file of [
   "common/scripted_effects/RUS_agricultural_quarterly_management_effects.txt",
   "common/scripted_effects/RUS_agri_development_effects.txt",
+  "common/scripted_effects/RUS_agri_business_effects.txt",
   "common/scripted_effects/RUS_stalin_maximalist_land_reform_effects.txt"
 ]) for (const n of parse(read(file))) {
   assert.ok(!effects.has(n.key), "Duplicate effect " + n.key);
@@ -329,6 +330,8 @@ test("settlement pre-cap rewards, manual and auto, no duplicate settlement", () 
   for (const manual of [true, false]) {
     const c = completed(); set(c, "capital", 30); set(c, "season", 2); run("start_quarter", c);
     set(c, "weather", 0);
+    set(c, "order_1_crop", 0); set(c, "order_2_crop", 0);
+    crops.forEach(x => set(c, x + "_capacity", 10));
     run("balance_allocation", c);
     if (manual) run("confirm_allocation", c);
     crops.forEach(x => set(c, x + "_market", .1));
@@ -435,7 +438,7 @@ test("event declarations are unique and new keys do not duplicate a language", (
     }
   }
   for (const lang of ["simp_chinese", "english", "russian"]) {
-    const ours = ["RUS_agri_development", "RUS_agricultural_quarterly_management"]
+    const ours = ["RUS_agri_development", "RUS_agricultural_quarterly_management", "RUS_agri_business"]
       .map(stem => read("localisation/" + lang + "/" + stem + "_l_" + lang + ".yml")).join("\n");
     const keys = new Set([...ours.matchAll(/^ ([\w.]+):/gm)].map(m => m[1]));
     let count = 0;
@@ -567,6 +570,227 @@ test("weather UI and ledger localization are complete, bounded and hide live act
     set(c, "weather_forecast", forecast);
     ["weak", "stable", "strong"].forEach((s, i) =>
       assert.equal(check(get(visibility, ag("weather_" + s + "_visible")), c), forecast === i - 1));
+  }
+});
+test("capacity tiers price only surplus units and preserve exact receipts", () => {
+  for (const [units, expected] of [[0, 0], [3, 3.75], [4, 4.7], [5, 5.65], [6, 6.2], [10, 8.4]]) {
+    const c = country(); set(c, "wheat_capacity", 3); set(c, "wheat_investment", units); set(c, "wheat_final", 1.25);
+    run("apply_capacity_rates", c); run("compute_crop_returns", c);
+    assert.equal(value(c, "wheat_return"), expected);
+    assert.ok(value(c, "wheat_final") >= .4 && value(c, "wheat_final") <= 1.5);
+  }
+  const c = country(); set(c, "wheat_capacity", 3); set(c, "wheat_investment", 10); set(c, "wheat_final", 1.25);
+  flag(c, "active_storage"); run("apply_capacity_rates", c); run("apply_storage", c); run("compute_crop_returns", c);
+  assert.equal(value(c, "wheat_return"), 9.9);
+  assert.equal(value(c, "wheat_final"), .99);
+});
+test("public capacity and distinct feasible orders draw once and favour off-season crops", () => {
+  const capacityValues = new Set(), orderCounts = new Set();
+  for (let season = 1; season <= 4; season++) for (let capital = 1; capital <= 30; capital++) {
+    const c = completed(); c.seed = season * 997 + capital * 79;
+    set(c, "capital", capital); set(c, "season", season); run("start_quarter", c);
+    crops.forEach(x => { const cap = value(c, x + "_capacity"); capacityValues.add(cap); assert.ok(cap >= 3 && cap <= 5); });
+    const one = value(c, "order_1_crop"), two = value(c, "order_2_crop");
+    assert.ok(one >= 1 && one <= 5); assert.notEqual(one, two);
+    assert.ok(value(c, "order_1_quantity") + value(c, "order_2_quantity") <= Math.min(capital, 20));
+    orderCounts.add(two > 0 ? 2 : 1);
+    if (season === 1) assert.ok([3, 4, 5].includes(one));
+    if (season === 3) assert.ok([1, 2].includes(one));
+    if (season === 4) assert.equal(one, 3);
+    for (const slot of [1, 2]) {
+      const q = value(c, "order_" + slot + "_quantity");
+      assert.ok(q <= 4); assert.ok(q > 0 || slot === 2 && !two);
+      assert.ok(Math.abs(value(c, "order_" + slot + "_cash") - q * .65) < 1e-6);
+    }
+    const conditions = () => [c.seed, ...crops.map(x => value(c, x + "_capacity")),
+      ...[1, 2].flatMap(s => ["crop", "quantity", "cash"].map(k => value(c, "order_" + s + "_" + k)))];
+    const saved = conditions();
+    for (const action of ["balance_allocation", "clear_allocation", "confirm_allocation", "reopen_allocation", "daily_update"])
+      run(action, c);
+    assert.deepEqual(conditions(), saved);
+    const loaded = JSON.parse(JSON.stringify(c));
+    assert.deepEqual(loaded.vars, c.vars);
+  }
+  assert.deepEqual([...capacityValues].sort(), [3, 4, 5]); assert.equal(orderCounts.size, 2);
+});
+test("rotation increases only next-quarter fatigue, restores with reduced planting and survives years", () => {
+  const c = completed(); set(c, "capital", 20); set(c, "season", 2); run("start_quarter", c);
+  set(c, "wheat_investment", 6); set(c, "rye_investment", 4); run("refresh_totals", c);
+  for (let i = 0; i < 5; i++) { run("refresh_totals", c); assert.equal(value(c, "wheat_fatigue"), 0); }
+  for (let i = 1; i <= 5; i++) {
+    run("update_rotation", c); run("refresh_business_display", c);
+    assert.equal(value(c, "wheat_fatigue"), Math.min(i, 3)); assert.equal(value(c, "rye_fatigue"), 0);
+  }
+  run("start_new_year", c);
+  assert.equal(value(c, "wheat_fatigue"), 3); assert.equal(value(c, "wheat_rotation_penalty"), .45);
+  set(c, "wheat_investment", 2); set(c, "rye_investment", 2); run("refresh_totals", c);
+  run("update_rotation", c); assert.equal(value(c, "wheat_fatigue"), 2);
+  set(c, "rye_investment", 0); run("refresh_totals", c);
+  run("update_rotation", c); assert.equal(value(c, "wheat_fatigue"), 3, "Small but concentrated investment still tires the crop");
+  set(c, "wheat_investment", 0); run("refresh_totals", c);
+  for (let i = 0; i < 5; i++) run("update_rotation", c);
+  assert.equal(value(c, "wheat_fatigue"), 0);
+});
+test("orders pay at settlement only and obey reform eligibility without affecting crop yield", () => {
+  for (const mode of ["not_started", "in_progress", "success", "failure"]) {
+    const c = unlocked(); set(c, "capital", 10); set(c, "season", 2); run("start_quarter", c);
+    if (mode === "in_progress") c.flags[lr("in_progress")] = true;
+    if (mode === "success") { c.flags[lr("success")] = true; c.vars[lr("score")] = 100; }
+    if (mode === "failure") { c.flags[lr("in_progress")] = true; c.flags[lr("failure")] = true; }
+    set(c, "order_1_crop", 1); set(c, "order_1_quantity", 3); set(c, "order_1_cash", 2.4);
+    set(c, "order_2_crop", 2); set(c, "order_2_quantity", 2); set(c, "order_2_cash", 1.6);
+    set(c, "wheat_investment", 3); set(c, "rye_investment", 1); run("refresh_totals", c);
+    assert.equal(value(c, "preview_order_cash"), 2.4);
+    assert.equal(value(c, "spendable_score"), 0);
+    assert.equal(c.vars[lr("score")] || 0, mode === "success" ? 100 : 0);
+    set(c, "weather", -.4); crops.forEach(x => set(c, x + "_market", -.4));
+    run("confirm_allocation", c); set(c, "days_remaining", 0); run("settle_quarter", c);
+    assert.equal(value(c, "last_orders_completed"), 1); assert.equal(value(c, "last_order_cash"), 2.4);
+    assert.equal(value(c, "last_order_score"), ["in_progress", "success"].includes(mode) ? 1 : 0);
+    assert.equal(value(c, "last_quarter_score"), value(c, "last_order_score"), "Losing crops must not score from order bonuses");
+    const before = JSON.stringify(c); run("settle_quarter", c); assert.equal(JSON.stringify(c), before);
+  }
+});
+test("zero confirmed investment cannot claim orders; auto-allocation uses its actual quantities", () => {
+  const c = completed(); set(c, "capital", 10); set(c, "season", 2); run("start_quarter", c);
+  run("clear_allocation", c); run("confirm_allocation", c); set(c, "days_remaining", 0); run("settle_quarter", c);
+  assert.equal(value(c, "last_orders_completed"), 0); assert.equal(value(c, "last_order_score"), 0);
+  assert.equal(value(c, "last_capital"), 10);
+  set(c, "order_1_crop", 1); set(c, "order_1_quantity", 2); set(c, "order_1_cash", 1.6);
+  set(c, "order_2_crop", 0); set(c, "wheat_investment", 9); run("refresh_totals", c);
+  set(c, "days_remaining", 0); run("settle_quarter", c);
+  assert.equal(value(c, "last_orders_completed"), 1);
+  assert.equal(value(c, "last_order_cash"), 1.6);
+});
+test("baseline preview is weather-independent, includes reserves once and matches neutral settlement", () => {
+  for (const season of [1, 2, 3, 4]) for (const support of ["none", "machinery", "storage"]) {
+    const c = completed(); set(c, "capital", 20); set(c, "season", season); run("start_quarter", c);
+    c.focuses.push("RUS_future_foreign_017");
+    if (support !== "none") flag(c, "active_" + support);
+    set(c, "wheat_fatigue", 2); flag(c, "previous_dominant_wheat");
+    set(c, "wheat_investment", 8); set(c, "rye_investment", 2); set(c, "beet_investment", 3);
+    set(c, "order_1_crop", 3); set(c, "order_1_quantity", 3); set(c, "order_1_cash", 2.4); set(c, "order_2_crop", 0);
+    run("set_base_rates", c); run("refresh_totals", c);
+    const baseline = () => ["preview_receipts", "preview_capital", "preview_profit", "preview_order_cash",
+      ...crops.map(x => x + "_preview_return")].map(k => value(c, k));
+    const before = baseline(), seed = c.seed;
+    for (const weather of [-.4, .4]) {
+      set(c, "weather", weather); crops.forEach(x => set(c, x + "_market", weather));
+      run("refresh_totals", c); assert.deepEqual(baseline(), before); assert.equal(c.seed, seed);
+    }
+    assert.equal(value(c, "unallocated_funds"), 7);
+    const expected = value(c, "preview_capital"), receipts = value(c, "preview_crop_returns");
+    set(c, "weather", 0); crops.forEach(x => set(c, x + "_market", 0));
+    run("confirm_allocation", c); set(c, "days_remaining", 0); run("settle_quarter", c);
+    assert.equal(value(c, "last_capital"), expected);
+    assert.equal(value(c, "crop_returns"), receipts);
+  }
+});
+test("preview respects the capital ceiling and all public rows fit the existing panel", () => {
+  const c = completed(); set(c, "capital", 30); set(c, "season", 2); run("start_quarter", c);
+  set(c, "cotton_investment", 3); set(c, "order_1_crop", 5); set(c, "order_1_quantity", 3); set(c, "order_1_cash", 2.4);
+  set(c, "order_2_crop", 0); run("refresh_totals", c);
+  assert.equal(value(c, "preview_capital"), 30); assert.equal(value(c, "preview_profit"), 0);
+  run("clear_allocation", c); assert.equal(value(c, "preview_receipts"), 0); assert.equal(value(c, "preview_capital"), 30);
+  const layout = parse(read("interface/RUS_agricultural_quarterly_management.gui"));
+  const panel = get(get(layout, "guiTypes"), "containerWindowType");
+  assert.equal(get(get(panel, "size"), "height"), "570");
+  for (const name of ["RUS_agri_preview_summary", "RUS_agri_order_1_line", "RUS_agri_order_2_line", ...crops.map(x => ag(x + "_business_value"))]) {
+    const box = panel.find(x => Array.isArray(x.value) && get(x.value, "name") === name).value;
+    const p = get(box, "position");
+    assert.ok(Number(get(p, "x")) + Number(get(box, "maxWidth")) <= 540);
+    assert.ok(Number(get(p, "y")) + Number(get(box, "maxHeight")) <= 570);
+  }
+});
+test("business localisation and dynamic crop names resolve in all three languages", () => {
+  const keysets = [];
+  const definitions = parse(read("common/scripted_localisation/RUS_agri_business_scripted_loc.txt"));
+  for (const lang of ["simp_chinese", "english", "russian"]) {
+    const p = "localisation/" + lang + "/RUS_agri_business_l_" + lang + ".yml";
+    assert.equal(fs.readFileSync(path.join(root, p)).subarray(0, 3).toString("hex"), "efbbbf");
+    const lines = read(p).trimEnd().split(/\r?\n/).slice(1);
+    lines.forEach(l => assert.match(l, /^ [\w.]+:0 "(?:[^"\\]|\\.)*"$/));
+    const keys = lines.map(l => l.trim().split(":")[0]).sort(); keysets.push(keys);
+    assert.equal(new Set(keys).size, keys.length);
+    const all = new Set([...read("localisation/" + lang + "/RUS_agricultural_quarterly_management_l_" + lang + ".yml").matchAll(/^ ([\w.]+):/gm)].map(m => m[1]).concat(keys));
+    for (const def of definitions) for (const text of def.value.filter(n => n.key === "text"))
+      assert.ok(all.has(get(text.value, "localization_key")));
+  }
+  assert.deepEqual(keysets[0], keysets[1]); assert.deepEqual(keysets[1], keysets[2]);
+});
+function baselineReceipts(c, allocation) {
+  const total = allocation.reduce((a, b) => a + b, 0);
+  let receipts = 0;
+  crops.forEach((crop, i) => {
+    const qty = allocation[i], cap = value(c, crop + "_capacity") || 10;
+    const saturation = c.flags[ag("previous_dominant_" + crop)] && qty * 2 > total ? .15 : 0;
+    const rate = Math.max(.4, Math.min(1.5, value(c, crop + "_base") - value(c, crop + "_rotation_penalty") - saturation));
+    const middle = Math.min(2, Math.max(0, qty - cap)), excess = Math.max(0, qty - cap - 2);
+    let ret = Math.min(qty, cap) * rate + middle * Math.max(.4, rate - .3) + excess * Math.max(.4, rate - .7);
+    if (c.flags[ag("active_storage")] && ret < qty) ret = Math.min(qty, ret + qty * .15);
+    receipts += ret;
+  });
+  for (const slot of [1, 2]) {
+    const crop = value(c, "order_" + slot + "_crop"), qty = value(c, "order_" + slot + "_quantity");
+    if (crop && qty && allocation[crop - 1] >= qty) receipts += value(c, "order_" + slot + "_cash");
+  }
+  return receipts;
+}
+function businessStrategy(c, strategy) {
+  const limit = value(c, "investment_limit"), allocation = [0, 0, 0, 0, 0];
+  if (strategy === "balanced") { for (let i = 0; i < limit; i++) allocation[i % 5]++; return allocation; }
+  if (strategy === "concentrated") {
+    const ranking = crops.map((crop, i) => [i, value(c, crop + "_base")]).sort((a, b) => b[1] - a[1]);
+    allocation[ranking[0][0]] = Math.min(10, limit); allocation[ranking[1][0]] = Math.max(0, limit - 10); return allocation;
+  }
+  let best = allocation, bestProfit = 0;
+  // Enumerate taking neither, either, or both orders, then invest only at positive marginal return.
+  for (let mask = 0; mask < 4; mask++) {
+    const trial = [0, 0, 0, 0, 0];
+    for (const slot of [1, 2]) {
+      const crop = value(c, "order_" + slot + "_crop");
+      if (crop && mask & (1 << (slot - 1))) trial[crop - 1] = value(c, "order_" + slot + "_quantity");
+    }
+    if (trial.reduce((a, b) => a + b) > limit) continue;
+    while (trial.reduce((a, b) => a + b) < limit) {
+      let candidate = -1, gain = 0;
+      const before = baselineReceipts(c, trial);
+      for (let i = 0; i < 5; i++) if (trial[i] < 10) {
+        trial[i]++; const marginal = baselineReceipts(c, trial) - before - 1; trial[i]--;
+        if (marginal > gain + 1e-8) { gain = marginal; candidate = i; }
+      }
+      if (candidate < 0) break;
+      trial[candidate]++;
+    }
+    const profit = baselineReceipts(c, trial) - trial.reduce((a, b) => a + b);
+    if (profit > bestProfit) { bestProfit = profit; best = trial; }
+  }
+  return best;
+}
+test("multi-year public-information policies have bounded non-compounding capital", () => {
+  for (const strategy of ["balanced", "concentrated", "public_baseline"]) {
+    let sum = 0, capped = 0, max = 0, count = 0;
+    for (let seed = 1; seed <= 240; seed++) {
+      const c = completed(); c.seed = seed * 7919;
+      for (let year = 0; year < 5; year++) {
+        run("start_new_year", c); assert.equal(value(c, "capital"), 10);
+        for (let quarter = 0; quarter < 4; quarter++) {
+          const allocation = businessStrategy(c, strategy);
+          crops.forEach((crop, i) => set(c, crop + "_investment", allocation[i]));
+          run("refresh_totals", c);
+          assert.ok(Math.abs(value(c, "preview_receipts") - baselineReceipts(c, allocation)) < .001);
+          run("confirm_allocation", c); set(c, "days_remaining", 0); run("settle_quarter", c);
+          assert.ok(value(c, "capital") >= 0 && value(c, "capital") <= 30);
+        }
+        const ending = value(c, "capital"); sum += ending; max = Math.max(max, ending);
+        if (ending >= 30) capped++; count++;
+      }
+    }
+    console.log(JSON.stringify({strategy, years: count, meanEndingCapital: +(sum / count).toFixed(2), capRate: +(capped / count).toFixed(3), max}));
+    if (strategy === "public_baseline") {
+      assert.ok(sum / count < 24, "Routine baseline strategy should not make the ceiling the normal result");
+      assert.ok(capped / count < .1, "Do not rely on the capital cap to suppress runaway ordinary returns");
+    }
   }
 });
 console.log(tests + " scripted regression groups passed. HOI4 runtime, rendering and native save loading still require live QA.");

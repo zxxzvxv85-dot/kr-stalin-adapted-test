@@ -10,6 +10,9 @@ scripted_gui = {
 		}
 
 		triggers = {
+			RUS_agri_order_1_line_visible = { check_variable = { RUS_agri_order_1_crop > 0 } }
+			RUS_agri_order_2_line_visible = { check_variable = { RUS_agri_order_2_crop > 0 } }
+			RUS_agri_no_second_order_visible = { check_variable = { RUS_agri_order_2_crop = 0 } }
 			RUS_agri_ledger_visible = { has_country_flag = RUS_agri_has_previous_result }
 			RUS_agri_ledger_click_enabled = { has_country_flag = RUS_agri_has_previous_result }
 			RUS_agri_season_spring_visible = { check_variable = { RUS_agri_season = 1 } }
@@ -20,11 +23,6 @@ scripted_gui = {
 			RUS_agri_weather_strong_visible = { check_variable = { RUS_agri_weather_forecast = 1 } }
 			RUS_agri_weather_stable_visible = { check_variable = { RUS_agri_weather_forecast = 0 } }
 			RUS_agri_weather_weak_visible = { check_variable = { RUS_agri_weather_forecast = -1 } }
-			RUS_agri_treaty_bonus_visible = { has_completed_focus = RUS_future_foreign_017 }
-			RUS_agri_no_previous_result_visible = { NOT = { has_country_flag = RUS_agri_has_previous_result } }
-			RUS_agri_previous_result_visible = { has_country_flag = RUS_agri_has_previous_result }
-			RUS_agri_allocation_open_visible = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
-			RUS_agri_allocation_locked_visible = { has_country_flag = RUS_agri_allocation_locked }
 
 			RUS_agri_wheat_saturation_visible = { has_country_flag = RUS_agri_saturation_wheat }
 			RUS_agri_rye_saturation_visible = { has_country_flag = RUS_agri_saturation_rye }
