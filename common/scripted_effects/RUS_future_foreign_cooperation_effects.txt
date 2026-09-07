@@ -1,0 +1,49 @@
+RUS_future_foreign_joint_deterrence = {
+	if = {
+		limit = {
+			FRA = {
+				exists = yes
+				has_socialist_government = yes
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		give_guarantee = FRA
+		add_opinion_modifier = { target = FRA modifier = RUS_future_foreign_joint_deterrence_opinion }
+		FRA = {
+			give_guarantee = ROOT
+			add_opinion_modifier = { target = ROOT modifier = RUS_future_foreign_joint_deterrence_opinion }
+		}
+		if = {
+			limit = {
+				has_war_with = GER
+				FRA = { has_war_with = GER }
+			}
+			add_timed_idea = { idea = RUS_franco_russian_joint_deterrence days = 365 }
+			FRA = { add_timed_idea = { idea = RUS_franco_russian_joint_deterrence days = 365 } }
+		}
+		else = {
+			add_timed_idea = { idea = RUS_franco_russian_joint_deterrence days = 180 }
+			FRA = { add_timed_idea = { idea = RUS_franco_russian_joint_deterrence days = 180 } }
+		}
+	}
+}
+
+RUS_future_foreign_refresh_red_flags = {
+	set_variable = { RUS_soviets_and_phalanstere_political_power = 0 }
+	set_variable = { RUS_soviets_and_phalanstere_relations_cost = 0 }
+	set_variable = { RUS_soviets_and_phalanstere_volunteers = 0 }
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_056 }
+		set_variable = { RUS_soviets_and_phalanstere_political_power = 0.05 }
+		set_variable = { RUS_soviets_and_phalanstere_relations_cost = -0.25 }
+		set_variable = { RUS_soviets_and_phalanstere_volunteers = 2 }
+	}
+}
+
+RUS_future_foreign_pay_aid_pp = {
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_056 }
+		add_political_power = -24
+	}
+	else = { add_political_power = -30 }
+}

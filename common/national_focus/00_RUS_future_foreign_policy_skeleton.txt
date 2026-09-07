@@ -841,7 +841,7 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 联合威慑？
+# 联合威慑
 shared_focus = {
 	id = RUS_future_foreign_046
 	cost = 7
@@ -850,10 +850,20 @@ shared_focus = {
 	y = 23
 
 	allow_branch = { has_socialist_government = yes }
-	available = { always = no }
+	available = {
+		FRA = {
+			exists = yes
+			has_socialist_government = yes
+			NOT = { has_war_with = ROOT }
+		}
+	}
 	prerequisite = { focus = RUS_future_foreign_016 }
 	prerequisite = { focus = RUS_future_foreign_032 }
-	ai_will_do = { factor = 0 }
+	completion_reward = {
+		custom_effect_tooltip = RUS_future_foreign_joint_deterrence_tt
+		hidden_effect = { RUS_future_foreign_joint_deterrence = yes }
+	}
+	ai_will_do = { factor = 10 }
 }
 
 # 各尽其能
@@ -992,10 +1002,13 @@ shared_focus = {
 	y = 24
 
 	allow_branch = { has_socialist_government = yes }
-	available = { always = no }
 	prerequisite = { focus = RUS_future_foreign_047 }
 	prerequisite = { focus = RUS_future_foreign_046 }
-	ai_will_do = { factor = 0 }
+	completion_reward = {
+		custom_effect_tooltip = RUS_future_foreign_red_flags_merge_tt
+		hidden_effect = { RUS_future_foreign_refresh_red_country_count = yes }
+	}
+	ai_will_do = { factor = 10 }
 }
 
 # 北境联合

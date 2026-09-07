@@ -20,15 +20,15 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
 			RUS_europe_intervention_target_selected_or_overview = yes
 		}
-		custom_cost_text = RUS_future_foreign_military_aid_cost
+		custom_cost_text = RUS_future_foreign_military_aid_scaled_cost
 		custom_cost_trigger = {
-			NOT = { has_political_power < 30 }
+			RUS_future_foreign_can_pay_aid_pp = yes
 			check_variable = { RUS_fr_military_reform_materials > 19.9 }
 		}
 		fire_only_once = yes
 		complete_effect = {
 			hidden_effect = {
-				add_political_power = -30
+				RUS_future_foreign_pay_aid_pp = yes
 				add_to_variable = { RUS_fr_military_reform_materials = -20 }
 				RUS_fr_refresh_military_reform_materials = yes
 			}
@@ -88,16 +88,16 @@ RUS_Spreading_the_Revolution_decisions = {
 			has_country_flag = RUS_europe_intervention_molotov_selected
 			RUS_europe_intervention_target_selected_or_overview = yes
 		}
-		custom_cost_text = RUS_future_foreign_civil_aid_cost
+		custom_cost_text = RUS_future_foreign_civil_aid_scaled_cost
 		custom_cost_trigger = {
-			NOT = { has_political_power < 30 }
+			RUS_future_foreign_can_pay_aid_pp = yes
 			check_variable = { RUS_first_five_year_plan_score > 0.9 }
 		}
 		days_remove = 60
 		fire_only_once = yes
 		complete_effect = {
 			hidden_effect = {
-				add_political_power = -30
+				RUS_future_foreign_pay_aid_pp = yes
 				add_to_variable = { RUS_first_five_year_plan_score = -1 }
 				RUS_stalin_refresh_first_five_year_plan_stage = yes
 			}
