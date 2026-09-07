@@ -30,6 +30,13 @@ if (-not $destinationName.EndsWith("_upload", [System.StringComparison]::Ordinal
     throw "For safety, the upload directory name must end with _upload."
 }
 
+function Assert-GameStopped {
+    if (Get-Process -Name hoi4 -ErrorAction SilentlyContinue) {
+        throw "Hearts of Iron IV is running. Exit the game before rebuilding the upload directory. No upload files were changed."
+    }
+}
+Assert-GameStopped
+
 $insideWorkTree = git -C $source rev-parse --is-inside-work-tree
 if ($LASTEXITCODE -ne 0 -or $insideWorkTree -ne "true") {
     throw "Source directory is not a Git worktree: $source"
@@ -70,46 +77,23 @@ $publishFiles = @(
     }
 )
 
-if (Test-Path -LiteralPath $destination) {
-    $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-    $backup = "$destination.previous.$timestamp"
-    $resolvedDestination = (Resolve-Path -LiteralPath $destination).Path
-    if (-not $resolvedDestination.Equals($destination, [System.StringComparison]::OrdinalIgnoreCase)) {
-        throw "Resolved upload directory differs from the verified destination: $resolvedDestination"
-    }
-    Move-Item -LiteralPath $destination -Destination $backup
-    Write-Host "Previous upload directory moved to: $backup"
+if ($publishFiles.Count -eq 0 -or 'descriptor.mod' -notin $publishFiles) {
+    throw "Refusing to publish an empty or descriptor-less mod."
 }
 
-# Retain only the newest safety backup so repeated builds do not accumulate
-# large .previous.* directories indefinitely.
-$previousDirectories = @(
-    Get-ChildItem -LiteralPath $destinationParent -Directory -Filter "$destinationName.previous.*" |
-        Sort-Object Name -Descending
-)
-foreach ($oldPreviousDirectory in ($previousDirectories | Select-Object -Skip 1)) {
-    $oldPreviousPath = [System.IO.Path]::GetFullPath($oldPreviousDirectory.FullName).TrimEnd([System.IO.Path]::DirectorySeparatorChar)
-    $oldPreviousParent = [System.IO.Path]::GetFullPath((Split-Path -Parent $oldPreviousPath)).TrimEnd([System.IO.Path]::DirectorySeparatorChar)
-    $oldPreviousName = Split-Path -Leaf $oldPreviousPath
-    if (-not $oldPreviousParent.Equals($destinationParent, [System.StringComparison]::OrdinalIgnoreCase) -or
-        -not $oldPreviousName.StartsWith("$destinationName.previous.", [System.StringComparison]::OrdinalIgnoreCase)) {
-        throw "Refusing to remove an unverified previous upload directory: $oldPreviousPath"
-    }
-    Remove-Item -LiteralPath $oldPreviousPath -Recurse -Force
-    Write-Host "Removed older upload backup: $oldPreviousPath"
-}
-
-New-Item -ItemType Directory -Path $destination -Force | Out-Null
+# Finish and verify a sibling staging directory before touching the active upload.
+$staging = "$destination.staging.$([Guid]::NewGuid().ToString('N'))"
+New-Item -ItemType Directory -Path $staging -ErrorAction Stop | Out-Null
 
 $copied = 0
 foreach ($relativePath in $publishFiles) {
     $sourceFile = [System.IO.Path]::GetFullPath((Join-Path $source $relativePath))
-    $destinationFile = [System.IO.Path]::GetFullPath((Join-Path $destination $relativePath))
+    $destinationFile = [System.IO.Path]::GetFullPath((Join-Path $staging $relativePath))
 
-    if (-not $sourceFile.StartsWith($source, [System.StringComparison]::OrdinalIgnoreCase)) {
+    if (-not $sourceFile.StartsWith($source + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
         throw "Tracked source path escaped the source root: $relativePath"
     }
-    if (-not $destinationFile.StartsWith($destination, [System.StringComparison]::OrdinalIgnoreCase)) {
+    if (-not $destinationFile.StartsWith($staging + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
         throw "Generated destination path escaped the upload root: $relativePath"
     }
     if (-not (Test-Path -LiteralPath $sourceFile -PathType Leaf)) {
@@ -121,8 +105,40 @@ foreach ($relativePath in $publishFiles) {
         New-Item -ItemType Directory -Path $parent -Force | Out-Null
     }
     Copy-Item -LiteralPath $sourceFile -Destination $destinationFile -Force
+    if ((Get-FileHash -LiteralPath $sourceFile -Algorithm SHA256).Hash -ne
+        (Get-FileHash -LiteralPath $destinationFile -Algorithm SHA256).Hash) {
+        throw "Staging checksum mismatch: $relativePath. The active upload is unchanged."
+    }
     $copied++
 }
+
+Assert-GameStopped
+$backup = $null
+if (Test-Path -LiteralPath $destination) {
+    $resolvedDestination = (Resolve-Path -LiteralPath $destination).Path
+    if (-not $resolvedDestination.Equals($destination, [System.StringComparison]::OrdinalIgnoreCase) -or
+        ((Get-Item -LiteralPath $destination).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+        throw "Refusing to replace a redirected upload directory: $destination"
+    }
+    $timestamp = Get-Date -Format "yyyyMMdd-HHmmss-fff"
+    $backup = "$destination.previous.$timestamp"
+    # Directory.Move performs a same-volume rename. Move-Item can partially move
+    # a locked directory's children before throwing, leaving an unusable mod.
+    [System.IO.Directory]::Move($destination, $backup)
+}
+try {
+    [System.IO.Directory]::Move($staging, $destination)
+}
+catch {
+    if ($null -ne $backup -and -not (Test-Path -LiteralPath $destination)) {
+        [System.IO.Directory]::Move($backup, $destination)
+    }
+    throw
+}
+if ($null -ne $backup) {
+    Write-Host "Previous upload retained at: $backup"
+}
+# Backups are retained; a failed build must never destroy the recovery source.
 
 $totalBytes = (Get-ChildItem -LiteralPath $destination -Recurse -File | Measure-Object -Property Length -Sum).Sum
 [pscustomobject]@{
