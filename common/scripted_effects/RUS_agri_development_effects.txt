@@ -1,0 +1,182 @@
+# Keep completed reform progress separate from spendable agricultural proceeds.
+RUS_agri_refresh_score_account = {
+	set_variable = { RUS_agri_domestic_active_count = 0 }
+	if = { limit = { has_idea = RUS_agri_development_rations } add_to_variable = { RUS_agri_domestic_active_count = 1 } }
+	if = { limit = { has_idea = RUS_agri_development_mechanisation } add_to_variable = { RUS_agri_domestic_active_count = 1 } }
+	if = { limit = { has_idea = RUS_agri_development_reserves } add_to_variable = { RUS_agri_domestic_active_count = 1 } }
+	if = { limit = { has_idea = RUS_agri_development_materials } add_to_variable = { RUS_agri_domestic_active_count = 1 } }
+	if = {
+		limit = { has_country_flag = RUS_maximalist_land_reform_success }
+		if = {
+			limit = { check_variable = { RUS_maximalist_land_reform_score > 100 } }
+			set_temp_variable = { RUS_agri_excess = RUS_maximalist_land_reform_score }
+			subtract_from_temp_variable = { RUS_agri_excess = 100 }
+			add_to_variable = { RUS_agri_spendable_score = RUS_agri_excess }
+		}
+		set_variable = { RUS_maximalist_land_reform_score = 100 }
+		set_variable = { RUS_agri_display_score = 100 }
+		add_to_variable = { RUS_agri_display_score = RUS_agri_spendable_score }
+	}
+	else = { set_variable = { RUS_agri_display_score = RUS_maximalist_land_reform_score } }
+}
+
+# The caller supplies RUS_agri_score_award; return the actual credited amount.
+RUS_agri_credit_score = {
+	RUS_agri_refresh_score_account = yes
+	if = {
+		limit = {
+			has_country_flag = RUS_agri_management_unlocked
+			NOT = { has_country_flag = RUS_maximalist_land_reform_failure }
+			has_country_flag = RUS_maximalist_land_reform_success
+		}
+		add_to_variable = { RUS_agri_spendable_score = RUS_agri_score_award }
+	}
+	else_if = {
+		limit = {
+			has_country_flag = RUS_agri_management_unlocked
+			has_country_flag = RUS_maximalist_land_reform_in_progress
+			NOT = { has_country_flag = RUS_maximalist_land_reform_failure }
+		}
+		add_to_variable = { RUS_maximalist_land_reform_score = RUS_agri_score_award }
+		RUS_maximalist_land_reform_update_stage_idea = yes
+	}
+	else = { set_variable = { RUS_agri_score_award = 0 } }
+	RUS_agri_refresh_score_account = yes
+}
+
+RUS_agri_spend_score = {
+	clr_country_flag = RUS_agri_purchase_paid
+	if = {
+		limit = {
+			RUS_agri_exchange_unlocked = yes
+			NOT = { check_variable = { RUS_agri_spendable_score < $COST$ } }
+		}
+		subtract_from_variable = { RUS_agri_spendable_score = $COST$ }
+		set_country_flag = RUS_agri_purchase_paid
+		RUS_agri_refresh_gui = yes
+	}
+}
+
+RUS_agri_award_quarter_score = {
+	set_variable = { RUS_agri_score_award = 0 }
+	set_temp_variable = { RUS_agri_invested_twice = RUS_agri_total_investment }
+	multiply_temp_variable = { RUS_agri_invested_twice = 2 }
+	if = {
+		limit = {
+			check_variable = { RUS_agri_total_investment > 0 }
+			NOT = { check_variable = { RUS_agri_invested_twice < RUS_agri_quarter_investment_limit } }
+		}
+		set_temp_variable = { RUS_agri_high_threshold = RUS_agri_total_investment }
+		multiply_temp_variable = { RUS_agri_high_threshold = 1.20 }
+		set_temp_variable = { RUS_agri_mid_threshold = RUS_agri_total_investment }
+		multiply_temp_variable = { RUS_agri_mid_threshold = 1.05 }
+		if = {
+			limit = { NOT = { check_variable = { RUS_agri_crop_returns < RUS_agri_high_threshold } } }
+			set_variable = { RUS_agri_score_award = 3 }
+		}
+		else_if = {
+			limit = { NOT = { check_variable = { RUS_agri_crop_returns < RUS_agri_mid_threshold } } }
+			set_variable = { RUS_agri_score_award = 2 }
+		}
+		else_if = {
+			limit = { NOT = { check_variable = { RUS_agri_crop_returns < RUS_agri_total_investment } } }
+			set_variable = { RUS_agri_score_award = 1 }
+		}
+	}
+	RUS_agri_credit_score = yes
+	set_variable = { RUS_agri_last_quarter_score = RUS_agri_score_award }
+	add_to_variable = { RUS_agri_year_quarters = 1 }
+}
+
+RUS_agri_award_annual_score = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_agri_annual_score_paid } }
+		set_country_flag = RUS_agri_annual_score_paid
+		set_variable = { RUS_agri_score_award = 0 }
+		if = { limit = { has_country_flag = RUS_agri_annual_tier_balanced } set_variable = { RUS_agri_score_award = 2 } }
+		if = { limit = { has_country_flag = RUS_agri_annual_tier_surplus } set_variable = { RUS_agri_score_award = 4 } }
+		if = { limit = { has_country_flag = RUS_agri_annual_tier_bumper } set_variable = { RUS_agri_score_award = 6 } }
+		if = {
+			limit = { has_country_flag = RUS_agri_last_year_emergency check_variable = { RUS_agri_score_award > 4 } }
+			set_variable = { RUS_agri_score_award = 4 }
+		}
+		set_temp_variable = { RUS_agri_counted_quarters = RUS_agri_year_quarters }
+		clamp_temp_variable = { var = RUS_agri_counted_quarters min = 0 max = 4 }
+		multiply_variable = { RUS_agri_score_award = RUS_agri_counted_quarters }
+		divide_variable = { RUS_agri_score_award = 4 }
+		set_temp_variable = { RUS_agri_fractional_award = RUS_agri_score_award }
+		set_variable = { RUS_agri_score_award = { value = RUS_agri_score_award round = yes } }
+		if = {
+			limit = { check_variable = { RUS_agri_score_award > RUS_agri_fractional_award } }
+			subtract_from_variable = { RUS_agri_score_award = 1 }
+		}
+		RUS_agri_credit_score = yes
+		set_variable = { RUS_agri_last_annual_score = RUS_agri_score_award }
+	}
+}
+
+RUS_agri_activate_next_investment = {
+	clr_country_flag = RUS_agri_active_machinery
+	clr_country_flag = RUS_agri_active_storage
+	if = {
+		limit = { has_country_flag = RUS_agri_next_machinery }
+		set_country_flag = RUS_agri_active_machinery
+	}
+	if = {
+		limit = { has_country_flag = RUS_agri_next_storage }
+		set_country_flag = RUS_agri_active_storage
+	}
+	clr_country_flag = RUS_agri_next_machinery
+	clr_country_flag = RUS_agri_next_storage
+}
+
+RUS_agri_apply_machinery = {
+	if = {
+		limit = { has_country_flag = RUS_agri_active_machinery }
+		add_to_variable = { RUS_agri_wheat_base = 0.10 }
+		add_to_variable = { RUS_agri_rye_base = 0.10 }
+		add_to_variable = { RUS_agri_beet_base = 0.10 }
+		add_to_variable = { RUS_agri_flax_base = 0.10 }
+		add_to_variable = { RUS_agri_cotton_base = 0.10 }
+	}
+}
+
+RUS_agri_apply_storage = {
+	if = {
+		limit = { has_country_flag = RUS_agri_active_storage }
+		if = {
+			limit = { check_variable = { RUS_agri_wheat_final < 1 } }
+			add_to_variable = { RUS_agri_wheat_final = 0.15 }
+			clamp_variable = { var = RUS_agri_wheat_final min = 0.40 max = 1.00 }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_rye_final < 1 } }
+			add_to_variable = { RUS_agri_rye_final = 0.15 }
+			clamp_variable = { var = RUS_agri_rye_final min = 0.40 max = 1.00 }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_beet_final < 1 } }
+			add_to_variable = { RUS_agri_beet_final = 0.15 }
+			clamp_variable = { var = RUS_agri_beet_final min = 0.40 max = 1.00 }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_flax_final < 1 } }
+			add_to_variable = { RUS_agri_flax_final = 0.15 }
+			clamp_variable = { var = RUS_agri_flax_final min = 0.40 max = 1.00 }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_cotton_final < 1 } }
+			add_to_variable = { RUS_agri_cotton_final = 0.15 }
+			clamp_variable = { var = RUS_agri_cotton_final min = 0.40 max = 1.00 }
+		}
+	}
+}
+
+# Lock the completed quarter before advancing, including automatic allocation.
+RUS_agri_settle_quarter = {
+	if = {
+		limit = { has_country_flag = RUS_agri_quarter_active check_variable = { RUS_agri_days_remaining < 1 } }
+		clr_country_flag = RUS_agri_quarter_active
+		RUS_agri_settle_quarter_impl = yes
+	}
+}

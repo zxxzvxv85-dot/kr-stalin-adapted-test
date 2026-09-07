@@ -29,21 +29,21 @@ scripted_gui = {
 			RUS_agri_beet_saturation_visible = { has_country_flag = RUS_agri_saturation_beet }
 			RUS_agri_flax_saturation_visible = { has_country_flag = RUS_agri_saturation_flax }
 			RUS_agri_cotton_saturation_visible = { has_country_flag = RUS_agri_saturation_cotton }
-			RUS_agri_wheat_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_wheat } }
-			RUS_agri_wheat_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_wheat } }
-			RUS_agri_wheat_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_wheat } }
-			RUS_agri_rye_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_rye } }
-			RUS_agri_rye_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_rye } }
-			RUS_agri_rye_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_rye } }
-			RUS_agri_beet_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_beet } }
-			RUS_agri_beet_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_beet } }
-			RUS_agri_beet_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_beet } }
-			RUS_agri_flax_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_flax } }
-			RUS_agri_flax_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_flax } }
-			RUS_agri_flax_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_flax } }
-			RUS_agri_cotton_forecast_strong_visible = { has_country_flag = RUS_agri_forecast_strong NOT = { has_country_flag = RUS_agri_saturation_cotton } }
-			RUS_agri_cotton_forecast_stable_visible = { has_country_flag = RUS_agri_forecast_stable NOT = { has_country_flag = RUS_agri_saturation_cotton } }
-			RUS_agri_cotton_forecast_weak_visible = { has_country_flag = RUS_agri_forecast_weak NOT = { has_country_flag = RUS_agri_saturation_cotton } }
+			RUS_agri_wheat_forecast_strong_visible = { check_variable = { RUS_agri_wheat_forecast > 0 } NOT = { has_country_flag = RUS_agri_saturation_wheat } }
+			RUS_agri_wheat_forecast_stable_visible = { check_variable = { RUS_agri_wheat_forecast = 0 } NOT = { has_country_flag = RUS_agri_saturation_wheat } }
+			RUS_agri_wheat_forecast_weak_visible = { check_variable = { RUS_agri_wheat_forecast < 0 } NOT = { has_country_flag = RUS_agri_saturation_wheat } }
+			RUS_agri_rye_forecast_strong_visible = { check_variable = { RUS_agri_rye_forecast > 0 } NOT = { has_country_flag = RUS_agri_saturation_rye } }
+			RUS_agri_rye_forecast_stable_visible = { check_variable = { RUS_agri_rye_forecast = 0 } NOT = { has_country_flag = RUS_agri_saturation_rye } }
+			RUS_agri_rye_forecast_weak_visible = { check_variable = { RUS_agri_rye_forecast < 0 } NOT = { has_country_flag = RUS_agri_saturation_rye } }
+			RUS_agri_beet_forecast_strong_visible = { check_variable = { RUS_agri_beet_forecast > 0 } NOT = { has_country_flag = RUS_agri_saturation_beet } }
+			RUS_agri_beet_forecast_stable_visible = { check_variable = { RUS_agri_beet_forecast = 0 } NOT = { has_country_flag = RUS_agri_saturation_beet } }
+			RUS_agri_beet_forecast_weak_visible = { check_variable = { RUS_agri_beet_forecast < 0 } NOT = { has_country_flag = RUS_agri_saturation_beet } }
+			RUS_agri_flax_forecast_strong_visible = { check_variable = { RUS_agri_flax_forecast > 0 } NOT = { has_country_flag = RUS_agri_saturation_flax } }
+			RUS_agri_flax_forecast_stable_visible = { check_variable = { RUS_agri_flax_forecast = 0 } NOT = { has_country_flag = RUS_agri_saturation_flax } }
+			RUS_agri_flax_forecast_weak_visible = { check_variable = { RUS_agri_flax_forecast < 0 } NOT = { has_country_flag = RUS_agri_saturation_flax } }
+			RUS_agri_cotton_forecast_strong_visible = { check_variable = { RUS_agri_cotton_forecast > 0 } NOT = { has_country_flag = RUS_agri_saturation_cotton } }
+			RUS_agri_cotton_forecast_stable_visible = { check_variable = { RUS_agri_cotton_forecast = 0 } NOT = { has_country_flag = RUS_agri_saturation_cotton } }
+			RUS_agri_cotton_forecast_weak_visible = { check_variable = { RUS_agri_cotton_forecast < 0 } NOT = { has_country_flag = RUS_agri_saturation_cotton } }
 
 			RUS_agri_wheat_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment > 0 } }
 			RUS_agri_wheat_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } }

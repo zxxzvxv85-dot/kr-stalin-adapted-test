@@ -24,11 +24,21 @@ country_event = {
 
 	option = {
 		name = RUS_agricultural_management.1.a
+		custom_effect_tooltip = RUS_agri_annual_score_report_tt
 		if = {
 			limit = { has_country_flag = RUS_agri_last_year_emergency }
 			custom_effect_tooltip = RUS_agri_emergency_annual_cap_tt
 		}
-		add_to_variable = { RUS_agri_year = 1 }
-		RUS_agri_start_new_year = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = RUS_agri_management_unlocked
+					has_country_flag = RUS_agri_annual_score_paid
+					NOT = { has_country_flag = RUS_agri_quarter_active }
+				}
+				add_to_variable = { RUS_agri_year = 1 }
+				RUS_agri_start_new_year = yes
+			}
+		}
 	}
 }

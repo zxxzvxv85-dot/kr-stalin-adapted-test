@@ -1,0 +1,42 @@
+RUS_agri_exchange_unlocked = {
+	has_country_flag = RUS_agri_management_unlocked
+	has_country_flag = RUS_maximalist_land_reform_success
+	NOT = { has_country_flag = RUS_maximalist_land_reform_failure }
+}
+RUS_agri_domestic_slot_available = {
+	NOT = {
+		OR = {
+			AND = { has_idea = RUS_agri_development_rations has_idea = RUS_agri_development_mechanisation }
+			AND = { has_idea = RUS_agri_development_rations has_idea = RUS_agri_development_reserves }
+			AND = { has_idea = RUS_agri_development_rations has_idea = RUS_agri_development_materials }
+			AND = { has_idea = RUS_agri_development_mechanisation has_idea = RUS_agri_development_reserves }
+			AND = { has_idea = RUS_agri_development_mechanisation has_idea = RUS_agri_development_materials }
+			AND = { has_idea = RUS_agri_development_reserves has_idea = RUS_agri_development_materials }
+		}
+	}
+}
+RUS_agri_aid_recipient_eligible = {
+	FROM = {
+		exists = yes
+		NOT = { tag = ROOT }
+		NOT = { has_war_with = ROOT }
+		OR = {
+			has_government = radical_socialist
+			has_government = totalist
+			has_government = syndicalist
+			has_government = communist
+		}
+	}
+}
+RUS_agri_aid_slot_available = {
+	FROM = {
+		NOT = { has_idea = RUS_agri_development_aid_food }
+		NOT = { has_idea = RUS_agri_development_aid_technicians }
+		NOT = { has_idea = RUS_agri_development_aid_front }
+	}
+}
+RUS_agri_next_investment_available = {
+	has_country_flag = RUS_agri_quarter_active
+	NOT = { has_country_flag = RUS_agri_next_machinery }
+	NOT = { has_country_flag = RUS_agri_next_storage }
+}

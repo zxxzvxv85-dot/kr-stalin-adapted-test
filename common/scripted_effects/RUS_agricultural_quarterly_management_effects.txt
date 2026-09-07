@@ -1,4 +1,5 @@
 RUS_agri_refresh_gui = {
+	RUS_agri_refresh_score_account = yes
 	set_variable_to_random = global.RUS_agri_management_update
 }
 
@@ -41,6 +42,7 @@ RUS_agri_set_base_rates = {
 		add_to_variable = { RUS_agri_flax_base = 0.10 }
 		add_to_variable = { RUS_agri_cotton_base = 0.10 }
 	}
+	RUS_agri_apply_machinery = yes
 }
 
 RUS_agri_refresh_totals = {
@@ -131,65 +133,193 @@ RUS_agri_refresh_totals = {
 }
 
 RUS_agri_draw_market = {
+	# Draw each forecast separately, then its hidden outcome. Forecasts are not guarantees.
+	random_list = {
+		1 = { set_variable = { RUS_agri_wheat_forecast = 1 } }
+		1 = { set_variable = { RUS_agri_wheat_forecast = 0 } }
+		1 = { set_variable = { RUS_agri_wheat_forecast = -1 } }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_wheat_forecast = 1 } }
+		random_list = {
+			70 = { set_variable = { RUS_agri_wheat_market = 0.10 } }
+			20 = { set_variable = { RUS_agri_wheat_market = 0 } }
+			5 = { set_variable = { RUS_agri_wheat_market = -0.10 } }
+			5 = { set_variable = { RUS_agri_wheat_market = -0.20 } }
+		}
+	}
+	else_if = {
+		limit = { check_variable = { RUS_agri_wheat_forecast = 0 } }
+		random_list = {
+			20 = { set_variable = { RUS_agri_wheat_market = 0.10 } }
+			60 = { set_variable = { RUS_agri_wheat_market = 0 } }
+			10 = { set_variable = { RUS_agri_wheat_market = -0.10 } }
+			10 = { set_variable = { RUS_agri_wheat_market = -0.20 } }
+		}
+	}
+	else = {
+		random_list = {
+			10 = { set_variable = { RUS_agri_wheat_market = 0.10 } }
+			20 = { set_variable = { RUS_agri_wheat_market = 0 } }
+			35 = { set_variable = { RUS_agri_wheat_market = -0.10 } }
+			35 = { set_variable = { RUS_agri_wheat_market = -0.20 } }
+		}
+	}
+	random_list = {
+		1 = { set_variable = { RUS_agri_rye_forecast = 1 } }
+		1 = { set_variable = { RUS_agri_rye_forecast = 0 } }
+		1 = { set_variable = { RUS_agri_rye_forecast = -1 } }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_rye_forecast = 1 } }
+		random_list = {
+			70 = { set_variable = { RUS_agri_rye_market = 0.10 } }
+			20 = { set_variable = { RUS_agri_rye_market = 0 } }
+			5 = { set_variable = { RUS_agri_rye_market = -0.10 } }
+			5 = { set_variable = { RUS_agri_rye_market = -0.20 } }
+		}
+	}
+	else_if = {
+		limit = { check_variable = { RUS_agri_rye_forecast = 0 } }
+		random_list = {
+			20 = { set_variable = { RUS_agri_rye_market = 0.10 } }
+			60 = { set_variable = { RUS_agri_rye_market = 0 } }
+			10 = { set_variable = { RUS_agri_rye_market = -0.10 } }
+			10 = { set_variable = { RUS_agri_rye_market = -0.20 } }
+		}
+	}
+	else = {
+		random_list = {
+			10 = { set_variable = { RUS_agri_rye_market = 0.10 } }
+			20 = { set_variable = { RUS_agri_rye_market = 0 } }
+			35 = { set_variable = { RUS_agri_rye_market = -0.10 } }
+			35 = { set_variable = { RUS_agri_rye_market = -0.20 } }
+		}
+	}
+	random_list = {
+		1 = { set_variable = { RUS_agri_beet_forecast = 1 } }
+		1 = { set_variable = { RUS_agri_beet_forecast = 0 } }
+		1 = { set_variable = { RUS_agri_beet_forecast = -1 } }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_beet_forecast = 1 } }
+		random_list = {
+			35 = { set_variable = { RUS_agri_beet_market = 0.10 } }
+			35 = { set_variable = { RUS_agri_beet_market = 0.15 } }
+			20 = { set_variable = { RUS_agri_beet_market = 0 } }
+			5 = { set_variable = { RUS_agri_beet_market = -0.10 } }
+			5 = { set_variable = { RUS_agri_beet_market = -0.20 } }
+		}
+	}
+	else_if = {
+		limit = { check_variable = { RUS_agri_beet_forecast = 0 } }
+		random_list = {
+			10 = { set_variable = { RUS_agri_beet_market = 0.10 } }
+			10 = { set_variable = { RUS_agri_beet_market = 0.15 } }
+			60 = { set_variable = { RUS_agri_beet_market = 0 } }
+			10 = { set_variable = { RUS_agri_beet_market = -0.10 } }
+			10 = { set_variable = { RUS_agri_beet_market = -0.20 } }
+		}
+	}
+	else = {
+		random_list = {
+			5 = { set_variable = { RUS_agri_beet_market = 0.10 } }
+			5 = { set_variable = { RUS_agri_beet_market = 0.15 } }
+			20 = { set_variable = { RUS_agri_beet_market = 0 } }
+			35 = { set_variable = { RUS_agri_beet_market = -0.10 } }
+			35 = { set_variable = { RUS_agri_beet_market = -0.20 } }
+		}
+	}
+	random_list = {
+		1 = { set_variable = { RUS_agri_flax_forecast = 1 } }
+		1 = { set_variable = { RUS_agri_flax_forecast = 0 } }
+		1 = { set_variable = { RUS_agri_flax_forecast = -1 } }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_flax_forecast = 1 } }
+		random_list = {
+			35 = { set_variable = { RUS_agri_flax_market = 0.10 } }
+			35 = { set_variable = { RUS_agri_flax_market = 0.15 } }
+			20 = { set_variable = { RUS_agri_flax_market = 0 } }
+			5 = { set_variable = { RUS_agri_flax_market = -0.10 } }
+			5 = { set_variable = { RUS_agri_flax_market = -0.20 } }
+		}
+	}
+	else_if = {
+		limit = { check_variable = { RUS_agri_flax_forecast = 0 } }
+		random_list = {
+			10 = { set_variable = { RUS_agri_flax_market = 0.10 } }
+			10 = { set_variable = { RUS_agri_flax_market = 0.15 } }
+			60 = { set_variable = { RUS_agri_flax_market = 0 } }
+			10 = { set_variable = { RUS_agri_flax_market = -0.10 } }
+			10 = { set_variable = { RUS_agri_flax_market = -0.20 } }
+		}
+	}
+	else = {
+		random_list = {
+			5 = { set_variable = { RUS_agri_flax_market = 0.10 } }
+			5 = { set_variable = { RUS_agri_flax_market = 0.15 } }
+			20 = { set_variable = { RUS_agri_flax_market = 0 } }
+			35 = { set_variable = { RUS_agri_flax_market = -0.10 } }
+			35 = { set_variable = { RUS_agri_flax_market = -0.20 } }
+		}
+	}
+	random_list = {
+		1 = { set_variable = { RUS_agri_cotton_forecast = 1 } }
+		1 = { set_variable = { RUS_agri_cotton_forecast = 0 } }
+		1 = { set_variable = { RUS_agri_cotton_forecast = -1 } }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_cotton_forecast = 1 } }
+		random_list = {
+			35 = { set_variable = { RUS_agri_cotton_market = 0.10 } }
+			35 = { set_variable = { RUS_agri_cotton_market = 0.15 } }
+			20 = { set_variable = { RUS_agri_cotton_market = 0 } }
+			5 = { set_variable = { RUS_agri_cotton_market = -0.10 } }
+			5 = { set_variable = { RUS_agri_cotton_market = -0.20 } }
+		}
+	}
+	else_if = {
+		limit = { check_variable = { RUS_agri_cotton_forecast = 0 } }
+		random_list = {
+			10 = { set_variable = { RUS_agri_cotton_market = 0.10 } }
+			10 = { set_variable = { RUS_agri_cotton_market = 0.15 } }
+			60 = { set_variable = { RUS_agri_cotton_market = 0 } }
+			10 = { set_variable = { RUS_agri_cotton_market = -0.10 } }
+			10 = { set_variable = { RUS_agri_cotton_market = -0.20 } }
+		}
+	}
+	else = {
+		random_list = {
+			5 = { set_variable = { RUS_agri_cotton_market = 0.10 } }
+			5 = { set_variable = { RUS_agri_cotton_market = 0.15 } }
+			20 = { set_variable = { RUS_agri_cotton_market = 0 } }
+			35 = { set_variable = { RUS_agri_cotton_market = -0.10 } }
+			35 = { set_variable = { RUS_agri_cotton_market = -0.20 } }
+		}
+	}
 	clr_country_flag = RUS_agri_forecast_strong
 	clr_country_flag = RUS_agri_forecast_stable
 	clr_country_flag = RUS_agri_forecast_weak
-	set_variable = { RUS_agri_wheat_market = 0 }
-	set_variable = { RUS_agri_rye_market = 0 }
-	set_variable = { RUS_agri_beet_market = 0 }
-	set_variable = { RUS_agri_flax_market = 0 }
-	set_variable = { RUS_agri_cotton_market = 0 }
-
-	random_list = {
-		1 = {
-			set_country_flag = RUS_agri_forecast_strong
-			set_variable = { RUS_agri_wheat_market = 0.10 }
-			set_variable = { RUS_agri_rye_market = 0.10 }
-			set_variable = { RUS_agri_beet_market = 0.10 }
-			set_variable = { RUS_agri_flax_market = 0.10 }
-			set_variable = { RUS_agri_cotton_market = 0.10 }
-		}
-		1 = {
-			set_country_flag = RUS_agri_forecast_strong
-			random_list = {
-				1 = { set_variable = { RUS_agri_beet_market = 0.15 } }
-				1 = { set_variable = { RUS_agri_flax_market = 0.15 } }
-				1 = { set_variable = { RUS_agri_cotton_market = 0.15 } }
-			}
-		}
-		1 = { set_country_flag = RUS_agri_forecast_stable }
-		1 = {
-			set_country_flag = RUS_agri_forecast_stable
-			random_list = {
-				1 = { set_variable = { RUS_agri_wheat_market = 0.10 } set_variable = { RUS_agri_rye_market = -0.10 } }
-				1 = { set_variable = { RUS_agri_rye_market = 0.10 } set_variable = { RUS_agri_beet_market = -0.10 } }
-				1 = { set_variable = { RUS_agri_beet_market = 0.10 } set_variable = { RUS_agri_flax_market = -0.10 } }
-				1 = { set_variable = { RUS_agri_flax_market = 0.10 } set_variable = { RUS_agri_cotton_market = -0.10 } }
-				1 = { set_variable = { RUS_agri_cotton_market = 0.10 } set_variable = { RUS_agri_wheat_market = -0.10 } }
-			}
-		}
-		1 = {
-			set_country_flag = RUS_agri_forecast_weak
-			set_variable = { RUS_agri_wheat_market = -0.10 }
-			set_variable = { RUS_agri_rye_market = -0.10 }
-			set_variable = { RUS_agri_beet_market = -0.10 }
-			set_variable = { RUS_agri_flax_market = -0.10 }
-			set_variable = { RUS_agri_cotton_market = -0.10 }
-		}
-		1 = {
-			set_country_flag = RUS_agri_forecast_weak
-			random_list = {
-				1 = { set_variable = { RUS_agri_wheat_market = -0.20 } }
-				1 = { set_variable = { RUS_agri_rye_market = -0.20 } }
-				1 = { set_variable = { RUS_agri_beet_market = -0.20 } }
-				1 = { set_variable = { RUS_agri_flax_market = -0.20 } }
-				1 = { set_variable = { RUS_agri_cotton_market = -0.20 } }
-			}
-		}
+	set_temp_variable = { RUS_agri_market_total = 0 }
+	add_to_temp_variable = { RUS_agri_market_total = RUS_agri_wheat_forecast }
+	add_to_temp_variable = { RUS_agri_market_total = RUS_agri_rye_forecast }
+	add_to_temp_variable = { RUS_agri_market_total = RUS_agri_beet_forecast }
+	add_to_temp_variable = { RUS_agri_market_total = RUS_agri_flax_forecast }
+	add_to_temp_variable = { RUS_agri_market_total = RUS_agri_cotton_forecast }
+	if = {
+		limit = { check_variable = { RUS_agri_market_total > 0 } }
+		set_country_flag = RUS_agri_forecast_strong
 	}
+	else_if = {
+		limit = { check_variable = { RUS_agri_market_total < 0 } }
+		set_country_flag = RUS_agri_forecast_weak
+	}
+	else = { set_country_flag = RUS_agri_forecast_stable }
 }
 
 RUS_agri_start_quarter = {
+	RUS_agri_activate_next_investment = yes
 	if = {
 		limit = { check_variable = { RUS_agri_capital < 1 } }
 		set_variable = { RUS_agri_capital = 1 }
@@ -206,9 +336,12 @@ RUS_agri_start_quarter = {
 	RUS_agri_set_base_rates = yes
 	RUS_agri_draw_market = yes
 	RUS_agri_refresh_totals = yes
+	set_variable = { RUS_agri_quarter_investment_limit = RUS_agri_investment_limit }
 }
 
 RUS_agri_start_new_year = {
+	set_variable = { RUS_agri_year_quarters = 0 }
+	clr_country_flag = RUS_agri_annual_score_paid
 	clr_country_flag = RUS_agri_emergency_advance_used
 	clr_country_flag = RUS_agri_previous_dominant_wheat
 	clr_country_flag = RUS_agri_previous_dominant_rye
@@ -221,6 +354,8 @@ RUS_agri_start_new_year = {
 }
 
 RUS_agri_start_initial_year = {
+	set_variable = { RUS_agri_year_quarters = 0 }
+	clr_country_flag = RUS_agri_annual_score_paid
 	clr_country_flag = RUS_agri_emergency_advance_used
 	clr_country_flag = RUS_agri_previous_dominant_wheat
 	clr_country_flag = RUS_agri_previous_dominant_rye
@@ -416,7 +551,7 @@ RUS_agri_apply_annual_result = {
 	}
 }
 
-RUS_agri_settle_quarter = {
+RUS_agri_settle_quarter_impl = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
 		RUS_agri_balance_allocation = yes
@@ -425,6 +560,7 @@ RUS_agri_settle_quarter = {
 	RUS_agri_set_base_rates = yes
 	RUS_agri_refresh_totals = yes
 	RUS_agri_calculate_final_rates = yes
+	RUS_agri_apply_storage = yes
 
 	set_variable = { RUS_agri_wheat_return = RUS_agri_wheat_investment }
 	multiply_variable = { RUS_agri_wheat_return = RUS_agri_wheat_final }
@@ -436,6 +572,15 @@ RUS_agri_settle_quarter = {
 	multiply_variable = { RUS_agri_flax_return = RUS_agri_flax_final }
 	set_variable = { RUS_agri_cotton_return = RUS_agri_cotton_investment }
 	multiply_variable = { RUS_agri_cotton_return = RUS_agri_cotton_final }
+
+	set_variable = { RUS_agri_crop_returns = RUS_agri_wheat_return }
+	add_to_variable = { RUS_agri_crop_returns = RUS_agri_rye_return }
+	add_to_variable = { RUS_agri_crop_returns = RUS_agri_beet_return }
+	add_to_variable = { RUS_agri_crop_returns = RUS_agri_flax_return }
+	add_to_variable = { RUS_agri_crop_returns = RUS_agri_cotton_return }
+	RUS_agri_award_quarter_score = yes
+	clr_country_flag = RUS_agri_active_machinery
+	clr_country_flag = RUS_agri_active_storage
 
 	set_variable = { RUS_agri_next_capital = RUS_agri_unallocated_funds }
 	add_to_variable = { RUS_agri_next_capital = RUS_agri_wheat_return }
@@ -465,11 +610,13 @@ RUS_agri_settle_quarter = {
 	else = {
 		clr_country_flag = RUS_agri_quarter_active
 		RUS_agri_apply_annual_result = yes
+		RUS_agri_award_annual_score = yes
 		country_event = RUS_agricultural_management.1
 	}
 }
 
 RUS_agri_daily_update = {
+	RUS_agri_refresh_score_account = yes
 	if = {
 		limit = { NOT = { has_variable = RUS_agri_days_remaining } }
 		RUS_agri_start_initial_year = yes

@@ -1,0 +1,417 @@
+RUS_agricultural_quarterly_management_category = {
+	RUS_agri_exchange_rations = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_rations_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_rations }
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_8
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_rations_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_rations }
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					RUS_agri_spend_score = { COST = 8 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_rations days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_mechanisation = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_mechanisation_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_mechanisation }
+				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_10
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_mechanisation_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_mechanisation }
+						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+					}
+					RUS_agri_spend_score = { COST = 10 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_mechanisation days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_reserves = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_reserves_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_reserves }
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_8
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_reserves_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_reserves }
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					RUS_agri_spend_score = { COST = 8 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_reserves days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_materials = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_materials_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_materials }
+				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_10
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_materials_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_materials }
+						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+					}
+					RUS_agri_spend_score = { COST = 10 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_materials days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_export = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_export_available_tt
+				RUS_agri_exchange_unlocked = yes
+				NOT = { has_country_flag = RUS_agri_export_cooldown }
+				NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_6
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 6 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_export_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						NOT = { has_country_flag = RUS_agri_export_cooldown }
+						NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+					}
+					RUS_agri_spend_score = { COST = 6 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_cic = 15000
+						set_country_flag = { flag = RUS_agri_export_cooldown days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_machinery = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_machinery_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_next_investment_available = yes
+				NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_4
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 4 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_machinery_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_next_investment_available = yes
+						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+					}
+					RUS_agri_spend_score = { COST = 4 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						set_country_flag = RUS_agri_next_machinery
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_storage = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_storage_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_next_investment_available = yes
+				NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_4
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 4 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_storage_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_next_investment_available = yes
+						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+					}
+					RUS_agri_spend_score = { COST = 4 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						set_country_flag = RUS_agri_next_storage
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+}
+RUS_Spreading_the_Revolution_decisions = {
+	RUS_agri_exchange_aid_food = {
+		icon = GFX_decision_generic_agriculture
+		target_array = ROOT.RUS_future_foreign_aid_targets
+		target_root_trigger = { has_completed_focus = RUS_future_foreign_003 }
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			RUS_agri_aid_recipient_eligible = yes
+		}
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+			has_completed_focus = RUS_future_foreign_003
+			has_country_flag = RUS_europe_intervention_molotov_selected
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_aid_food_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_aid_recipient_eligible = yes
+				RUS_agri_aid_slot_available = yes
+				has_completed_focus = RUS_future_foreign_003
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_8
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_aid_food_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_aid_recipient_eligible = yes
+						RUS_agri_aid_slot_available = yes
+						has_completed_focus = RUS_future_foreign_003
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					RUS_agri_spend_score = { COST = 8 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						FROM = {
+							add_timed_idea = { idea = RUS_agri_development_aid_food days = 180 }
+							add_manpower = 10000
+						}
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_aid_technicians = {
+		icon = GFX_decision_generic_agriculture
+		target_array = ROOT.RUS_future_foreign_aid_targets
+		target_root_trigger = { has_completed_focus = RUS_future_foreign_003 }
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			RUS_agri_aid_recipient_eligible = yes
+		}
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+			has_completed_focus = RUS_future_foreign_003
+			has_country_flag = RUS_europe_intervention_molotov_selected
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_aid_technicians_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_aid_recipient_eligible = yes
+				RUS_agri_aid_slot_available = yes
+				has_completed_focus = RUS_future_foreign_003
+				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_10
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_aid_technicians_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_aid_recipient_eligible = yes
+						RUS_agri_aid_slot_available = yes
+						has_completed_focus = RUS_future_foreign_003
+						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+					}
+					RUS_agri_spend_score = { COST = 10 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_technicians days = 180 } }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+	RUS_agri_exchange_aid_front = {
+		icon = GFX_decision_generic_agriculture
+		target_array = ROOT.RUS_future_foreign_aid_targets
+		target_root_trigger = { has_completed_focus = RUS_future_foreign_003 }
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			RUS_agri_aid_recipient_eligible = yes
+		}
+		visible = {
+			RUS_agri_exchange_unlocked = yes
+			has_completed_focus = RUS_future_foreign_003
+			has_country_flag = RUS_europe_intervention_molotov_selected
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_aid_front_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_aid_recipient_eligible = yes
+				RUS_agri_aid_slot_available = yes
+				has_completed_focus = RUS_future_foreign_003
+				FROM = { has_war = yes }
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+		}
+		custom_cost_text = RUS_agri_cost_8
+		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
+		complete_effect = {
+			custom_effect_tooltip = RUS_agri_exchange_aid_front_effect_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_aid_recipient_eligible = yes
+						RUS_agri_aid_slot_available = yes
+						has_completed_focus = RUS_future_foreign_003
+						FROM = { has_war = yes }
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					RUS_agri_spend_score = { COST = 8 }
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_front days = 180 } }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+}
