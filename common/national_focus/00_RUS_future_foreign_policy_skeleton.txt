@@ -99,10 +99,12 @@ shared_focus = {
 			limit = { NOT = { country_exists = INT } }
 			save_global_event_target_as = KR_internationale_leader
 			create_faction_from_template = { template = faction_template_internationale name = faction_fourth_internationale }
+			set_faction_manifest = faction_manifest_world_revolution
 		}
 		else = {
 			set_country_flag = world_tension_joined_radical_faction
-			create_faction_from_template = { template = faction_template_moscow_accord name = faction_eastern_front_of_the_internationale icon = GFX_faction_logo_generic_14 }
+			create_faction_from_template = { template = faction_template_internationale name = faction_eastern_front_of_the_internationale icon = GFX_faction_logo_generic_14 }
+			set_faction_manifest = faction_manifest_world_revolution
 			hidden_effect = { set_faction_rule = joining_rule_socialist_only }
 			if = {
 				limit = { NOT = { has_global_flag = MIE_intermarium_formed } }
@@ -860,8 +862,7 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_foreign_016 }
 	prerequisite = { focus = RUS_future_foreign_032 }
 	completion_reward = {
-		custom_effect_tooltip = RUS_future_foreign_joint_deterrence_tt
-		hidden_effect = { RUS_future_foreign_joint_deterrence = yes }
+		RUS_future_foreign_joint_deterrence = yes
 	}
 	ai_will_do = { factor = 10 }
 }
@@ -1006,6 +1007,7 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_foreign_046 }
 	completion_reward = {
 		custom_effect_tooltip = RUS_future_foreign_red_flags_merge_tt
+		custom_effect_tooltip = RUS_future_foreign_aid_discount_tt
 		hidden_effect = { RUS_future_foreign_refresh_red_country_count = yes }
 	}
 	ai_will_do = { factor = 10 }

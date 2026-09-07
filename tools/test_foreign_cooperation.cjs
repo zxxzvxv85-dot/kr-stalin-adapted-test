@@ -131,6 +131,19 @@ for (const id of ['046', '056']) {
   assert.ok(get(focus, 'completion_reward'));
   assert.equal(get(get(focus, 'ai_will_do'), 'factor'), '10');
   assert.notEqual(get(focus, 'available')?.find(n => n.key === 'always')?.value, 'no');
+  if (id === '046') {
+    assert.equal(get(get(focus, 'completion_reward'), 'RUS_future_foreign_joint_deterrence'), 'yes');
+    assert.equal(get(get(focus, 'completion_reward'), 'custom_effect_tooltip'), undefined);
+  } else {
+    assert.ok(get(focus, 'completion_reward').some(n => n.value === 'RUS_future_foreign_aid_discount_tt'));
+  }
+}
+for (const file of ['common/national_focus/00_RUS_future_foreign_policy_skeleton.txt', 'common/national_focus/RUS focus (Russia).txt']) {
+  const source = read(file);
+  for (const name of ['faction_fourth_internationale', 'faction_eastern_front_of_the_internationale']) {
+    const expression = new RegExp('create_faction_from_template = \\{ template = faction_template_internationale name = ' + name + '[^\\n]*\\n\\s*set_faction_manifest = faction_manifest_world_revolution');
+    assert.match(source, expression);
+  }
 }
 const modifier = get(load('common/dynamic_modifiers/RUS_future_foreign_policy_dynamic_modifiers.txt'), 'RUS_soviets_and_phalanstere');
 assert.equal(get(modifier, 'political_power_factor'), 'RUS_soviets_and_phalanstere_political_power');
