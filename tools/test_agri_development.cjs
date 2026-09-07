@@ -316,6 +316,7 @@ test("storage only rescues losses and clamps at break-even", () => {
 });
 test("seasonal 0.40 losses, treaty, saturation and 1.50 maximum", () => {
   const c = completed(); set(c, "capital", 20); set(c, "season", 3); run("start_quarter", c);
+  set(c, "weather", 0);
   c.focuses.push("RUS_future_foreign_017"); flag(c, "active_machinery"); run("set_base_rates", c);
   assert.equal(value(c, "cotton_base"), 1.45);
   set(c, "cotton_market", .15); run("calculate_final_rates", c); assert.equal(value(c, "cotton_final"), 1.5);
@@ -327,6 +328,7 @@ test("seasonal 0.40 losses, treaty, saturation and 1.50 maximum", () => {
 test("settlement pre-cap rewards, manual and auto, no duplicate settlement", () => {
   for (const manual of [true, false]) {
     const c = completed(); set(c, "capital", 30); set(c, "season", 2); run("start_quarter", c);
+    set(c, "weather", 0);
     run("balance_allocation", c);
     if (manual) run("confirm_allocation", c);
     crops.forEach(x => set(c, x + "_market", .1));
@@ -433,8 +435,9 @@ test("event declarations are unique and new keys do not duplicate a language", (
     }
   }
   for (const lang of ["simp_chinese", "english", "russian"]) {
-    const ours = read("localisation/" + lang + "/RUS_agri_development_l_" + lang + ".yml");
-    const keys = new Set([...ours.matchAll(/^ (\w+):/gm)].map(m => m[1]));
+    const ours = ["RUS_agri_development", "RUS_agricultural_quarterly_management"]
+      .map(stem => read("localisation/" + lang + "/" + stem + "_l_" + lang + ".yml")).join("\n");
+    const keys = new Set([...ours.matchAll(/^ ([\w.]+):/gm)].map(m => m[1]));
     let count = 0;
     function scan(dir) {
       for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -442,12 +445,128 @@ test("event declarations are unique and new keys do not duplicate a language", (
         if (ent.isDirectory()) scan(file);
         else if (ent.name.endsWith("_l_" + lang + ".yml")) {
           const text = fs.readFileSync(file, "utf8");
-          for (const m of text.matchAll(/^ (\w+):/gm)) if (keys.has(m[1])) count++;
+          for (const m of text.matchAll(/^ ([\w.]+):/gm)) if (keys.has(m[1])) count++;
         }
       }
     }
     scan(path.join(root, "localisation"));
     assert.equal(count, keys.size, "Duplicate new key in " + lang);
+  }
+});
+test("weather forecasts are fallible and extreme weather/markets remain uncommon", () => {
+  const c = country(), counts = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  let extremeWeather = 0, extremeMarkets = 0;
+  const weatherValues = new Set(), marketValues = new Set();
+  for (let i = 0; i < 6000; i++) {
+    run("draw_weather", c); run("draw_market", c);
+    const forecast = value(c, "weather_forecast"), actual = value(c, "weather");
+    counts[forecast + 1][Math.sign(actual) + 1]++;
+    weatherValues.add(actual);
+    if (Math.abs(actual) === .4) extremeWeather++;
+    for (const crop of crops) {
+      const market = value(c, crop + "_market"); marketValues.add(market);
+      if (Math.abs(market) === .4) extremeMarkets++;
+    }
+  }
+  for (let i = 0; i < 3; i++) {
+    const total = counts[i].reduce((a, b) => a + b, 0);
+    assert.ok(total > 1700 && total < 2300);
+    const expected = [[.7, .2, .1], [.2, .6, .2], [.1, .2, .7]][i];
+    counts[i].forEach((n, j) => assert.ok(Math.abs(n / total - expected[j]) < .04));
+  }
+  for (const values of [weatherValues, marketValues])
+    assert.deepEqual([...values].sort(), [-.4, -.2, -.1, 0, .1, .2, .4].sort());
+  assert.ok(extremeWeather / 6000 > .07 && extremeWeather / 6000 < .13);
+  assert.ok(extremeMarkets / 30000 > .07 && extremeMarkets / 30000 < .13);
+});
+test("shared weather reverses seasonal winners and losers without bypassing bounds", () => {
+  const c = country();
+  for (const [base, weather, market, final] of [
+    [.4, .4, .4, 1.2], [1.25, -.4, -.4, .45],
+    [1.25, .4, .4, 1.5], [.4, -.4, -.4, .4], [1, .2, 0, 1.2]
+  ]) {
+    set(c, "weather", weather);
+    crops.forEach(crop => { set(c, crop + "_base", base); set(c, crop + "_market", market); });
+    run("calculate_final_rates", c);
+    crops.forEach(crop => assert.equal(value(c, crop + "_final"), final));
+  }
+  set(c, "season", 1); c.focuses.push("RUS_future_foreign_017");
+  flag(c, "active_machinery"); flag(c, "saturation_beet"); flag(c, "active_storage");
+  run("set_base_rates", c); set(c, "weather", .4); set(c, "beet_market", .4);
+  run("calculate_final_rates", c); assert.equal(value(c, "beet_final"), 1.25);
+  set(c, "weather", -.4); set(c, "beet_market", -.4);
+  run("calculate_final_rates", c); run("apply_storage", c);
+  assert.equal(value(c, "beet_final"), .55);
+});
+test("allocation edits, daily refresh and serialized saves never reroll hidden conditions", () => {
+  let c = completed(); set(c, "capital", 10); set(c, "season", 2); run("start_quarter", c);
+  const conditions = c => ["weather", "weather_forecast", ...crops.flatMap(x => [x + "_forecast", x + "_market"])]
+    .map(x => value(c, x));
+  const initial = conditions(c), seed = c.seed;
+  for (const action of ["balance_allocation", "increase_wheat", "decrease_wheat", "clear_allocation",
+    "confirm_allocation", "reopen_allocation", "refresh_totals", "set_base_rates", "daily_update"]) {
+    run(action, c); assert.deepEqual(conditions(c), initial); assert.equal(c.seed, seed);
+  }
+  c = JSON.parse(JSON.stringify(c));
+  run("daily_update", c); assert.deepEqual(conditions(c), initial); assert.equal(c.seed, seed);
+  const daily = JSON.stringify(effects.get(ag("daily_update")));
+  assert.ok(!daily.includes(ag("draw_weather")));
+});
+test("settlement snapshots survive a new quarter/year and ledger is read-only", () => {
+  const gui = get(parse(read("common/scripted_guis/RUS_agricultural_quarterly_management.txt")), "scripted_gui")[0].value;
+  const visibility = get(gui, "triggers"), clicks = get(gui, "effects");
+  const ledger = get(clicks, ag("ledger_click"));
+  const event = parse(read("events/RUS_agricultural_quarterly_management_events.txt"))
+    .find(n => n.key === "country_event" && get(n.value, "id") === "RUS_agricultural_management.2").value;
+  for (const season of [2, 4]) {
+    const c = completed(); set(c, "season", season); set(c, "year", 3); set(c, "capital", 10);
+    run("start_quarter", c);
+    assert.equal(check(get(visibility, ag("ledger_visible")), c), false);
+    exec(ledger, c); assert.equal(c.events.length, 0);
+    set(c, "weather", -.4);
+    crops.forEach((crop, i) => set(c, crop + "_market", [-.4, -.2, 0, .2, .4][i]));
+    set(c, "days_remaining", 0); run("settle_quarter", c);
+    assert.equal(value(c, "last_weather"), -.4);
+    assert.equal(value(c, "last_season"), season); assert.equal(value(c, "last_year"), 3);
+    crops.forEach((crop, i) => assert.equal(value(c, "last_" + crop + "_market"), [-.4, -.2, 0, .2, .4][i]));
+    const snapshots = () => Object.fromEntries(Object.entries(c.vars).filter(([k]) => k.startsWith("RUS_agri_last_")));
+    const saved = snapshots(), balance = value(c, "spendable_score");
+    if (season === 4) run("start_new_year", c);
+    assert.deepEqual(snapshots(), saved);
+    assert.equal(check(get(visibility, ag("ledger_visible")), c), true);
+    const before = JSON.parse(JSON.stringify(c));
+    exec(ledger, c); exec(get(event, "option"), c);
+    assert.equal(c.events.at(-1), "RUS_agricultural_management.2");
+    assert.deepEqual(c.vars, before.vars); assert.deepEqual(c.flags, before.flags);
+    assert.equal(c.seed, before.seed); assert.equal(value(c, "spendable_score"), balance);
+  }
+});
+test("weather UI and ledger localization are complete, bounded and hide live actuals", () => {
+  const sets = [];
+  for (const lang of ["simp_chinese", "english", "russian"]) {
+    const file = path.join(root, "localisation", lang, "RUS_agricultural_quarterly_management_l_" + lang + ".yml");
+    const bytes = fs.readFileSync(file); assert.equal(bytes.subarray(0, 3).toString("hex"), "efbbbf");
+    const lines = bytes.toString("utf8").trimEnd().split(/\r?\n/).slice(1).filter(x => x.trim());
+    lines.forEach(line => assert.match(line, /^ [\w.]+:0 "(?:[^"\\]|\\.)*"$/));
+    const keys = lines.map(line => line.trim().split(":")[0]).sort();
+    assert.equal(new Set(keys).size, keys.length); sets.push(keys);
+    const report = lines.find(l => l.startsWith(" RUS_agricultural_management.2.d:"));
+    assert.equal([...report.matchAll(/\[\?(RUS_agri_[\w]+)\|/g)].every(m => m[1].startsWith("RUS_agri_last_")), true);
+    for (const state of ["strong", "stable", "weak"]) {
+      const text = lines.find(l => l.startsWith(" RUS_agri_weather_" + state + ":"));
+      assert.ok(text && !text.includes("[?"), "Forecast label cannot disclose actual weather");
+    }
+  }
+  assert.deepEqual(sets[0], sets[1]); assert.deepEqual(sets[1], sets[2]);
+  const layout = read("interface/RUS_agricultural_quarterly_management.gui");
+  assert.ok(layout.includes('name = "RUS_agri_ledger" position = { x = 406 y = 394 }'));
+  assert.ok(406 + 123 <= 540 && 394 + 34 < 436);
+  const gui = get(parse(read("common/scripted_guis/RUS_agricultural_quarterly_management.txt")), "scripted_gui")[0].value;
+  const visibility = get(gui, "triggers"), c = country();
+  for (let forecast = -1; forecast <= 1; forecast++) {
+    set(c, "weather_forecast", forecast);
+    ["weak", "stable", "strong"].forEach((s, i) =>
+      assert.equal(check(get(visibility, ag("weather_" + s + "_visible")), c), forecast === i - 1));
   }
 });
 console.log(tests + " scripted regression groups passed. HOI4 runtime, rendering and native save loading still require live QA.");
