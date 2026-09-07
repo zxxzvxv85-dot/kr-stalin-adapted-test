@@ -44,17 +44,20 @@ RUS_agri_credit_score = {
 	RUS_agri_refresh_score_account = yes
 }
 
+# Callers set a positive RUS_agri_purchase_cost immediately before this effect.
 RUS_agri_spend_score = {
 	clr_country_flag = RUS_agri_purchase_paid
 	if = {
 		limit = {
 			RUS_agri_exchange_unlocked = yes
-			NOT = { check_variable = { RUS_agri_spendable_score < $COST$ } }
+			check_variable = { RUS_agri_purchase_cost > 0 }
+			NOT = { check_variable = { RUS_agri_spendable_score < RUS_agri_purchase_cost } }
 		}
-		subtract_from_variable = { RUS_agri_spendable_score = $COST$ }
+		subtract_from_variable = { RUS_agri_spendable_score = RUS_agri_purchase_cost }
 		set_country_flag = RUS_agri_purchase_paid
 		RUS_agri_refresh_gui = yes
 	}
+	set_temp_variable = { RUS_agri_purchase_cost = 0 }
 }
 
 RUS_agri_award_quarter_score = {

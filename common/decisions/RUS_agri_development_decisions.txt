@@ -25,7 +25,8 @@ RUS_agricultural_quarterly_management_category = {
 						NOT = { has_idea = RUS_agri_development_rations }
 						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
 					}
-					RUS_agri_spend_score = { COST = 8 }
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						add_timed_idea = { idea = RUS_agri_development_rations days = 180 }
@@ -63,7 +64,8 @@ RUS_agricultural_quarterly_management_category = {
 						NOT = { has_idea = RUS_agri_development_mechanisation }
 						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
 					}
-					RUS_agri_spend_score = { COST = 10 }
+					set_temp_variable = { RUS_agri_purchase_cost = 10 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						add_timed_idea = { idea = RUS_agri_development_mechanisation days = 180 }
@@ -101,7 +103,8 @@ RUS_agricultural_quarterly_management_category = {
 						NOT = { has_idea = RUS_agri_development_reserves }
 						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
 					}
-					RUS_agri_spend_score = { COST = 8 }
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						add_timed_idea = { idea = RUS_agri_development_reserves days = 180 }
@@ -139,7 +142,8 @@ RUS_agricultural_quarterly_management_category = {
 						NOT = { has_idea = RUS_agri_development_materials }
 						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
 					}
-					RUS_agri_spend_score = { COST = 10 }
+					set_temp_variable = { RUS_agri_purchase_cost = 10 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						add_timed_idea = { idea = RUS_agri_development_materials days = 180 }
@@ -175,7 +179,8 @@ RUS_agricultural_quarterly_management_category = {
 						NOT = { has_country_flag = RUS_agri_export_cooldown }
 						NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
 					}
-					RUS_agri_spend_score = { COST = 6 }
+					set_temp_variable = { RUS_agri_purchase_cost = 6 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						add_cic = 15000
@@ -212,7 +217,8 @@ RUS_agricultural_quarterly_management_category = {
 						RUS_agri_next_investment_available = yes
 						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
 					}
-					RUS_agri_spend_score = { COST = 4 }
+					set_temp_variable = { RUS_agri_purchase_cost = 4 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						set_country_flag = RUS_agri_next_machinery
@@ -248,7 +254,8 @@ RUS_agricultural_quarterly_management_category = {
 						RUS_agri_next_investment_available = yes
 						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
 					}
-					RUS_agri_spend_score = { COST = 4 }
+					set_temp_variable = { RUS_agri_purchase_cost = 4 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						set_country_flag = RUS_agri_next_storage
@@ -299,7 +306,8 @@ RUS_Spreading_the_Revolution_decisions = {
 						has_completed_focus = RUS_future_foreign_003
 						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
 					}
-					RUS_agri_spend_score = { COST = 8 }
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = {
@@ -351,7 +359,8 @@ RUS_Spreading_the_Revolution_decisions = {
 						has_completed_focus = RUS_future_foreign_003
 						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
 					}
-					RUS_agri_spend_score = { COST = 10 }
+					set_temp_variable = { RUS_agri_purchase_cost = 10 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_technicians days = 180 } }
@@ -402,7 +411,8 @@ RUS_Spreading_the_Revolution_decisions = {
 						FROM = { has_war = yes }
 						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
 					}
-					RUS_agri_spend_score = { COST = 8 }
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_front days = 180 } }

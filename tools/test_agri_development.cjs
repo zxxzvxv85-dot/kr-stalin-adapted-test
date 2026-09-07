@@ -173,6 +173,46 @@ const expire = c => {
 };
 let tests = 0;
 function test(name, fn) { fn(); tests++; console.log("PASS " + name); }
+test("exchange decisions have valid IDs and scalar payment calls with unchanged prices", () => {
+  const prices = {rations: 8, mechanisation: 10, reserves: 8, materials: 10,
+    export: 6, machinery: 4, storage: 4, aid_food: 8, aid_technicians: 10, aid_front: 8};
+  assert.equal(decisions.size, 10);
+  assert.ok(!decisions.has("ai_will_do"));
+  for (const [key, cost] of Object.entries(prices)) {
+    const definition = decisions.get(ag("exchange_" + key));
+    assert.equal(get(get(definition, "ai_will_do"), "base"), "0");
+    let calls = 0;
+    function visit(nodes) {
+      nodes.forEach((node, index) => {
+        if (node.key === ag("spend_score")) {
+          calls++;
+          assert.equal(node.value, "yes", "Payment must not use the failing COST parameter block");
+          assert.equal(nodes[index-1].key, "set_temp_variable");
+          assert.equal(get(nodes[index-1].value, ag("purchase_cost")), String(cost));
+        }
+        if (Array.isArray(node.value)) visit(node.value);
+      });
+    }
+    visit(get(definition, "complete_effect"));
+    assert.equal(calls, 1);
+  }
+  assert.ok(!read("common/scripted_effects/RUS_agri_development_effects.txt").includes("$COST$"));
+});
+test("payment checks funds, rejects missing or nonpositive cost, and consumes it once", () => {
+  for (const cost of [undefined, 0, -8, 4, 6, 8, 10, 11]) {
+    const c = completed(10);
+    if (cost !== undefined) c.temps[ag("purchase_cost")] = cost;
+    run("spend_score", c);
+    const paid = cost > 0 && cost <= 10;
+    assert.equal(value(c, "spendable_score"), paid ? 10-cost : 10);
+    assert.equal(!!c.flags[ag("purchase_paid")], paid);
+    assert.equal(c.temps[ag("purchase_cost")], 0);
+    assert.equal(c.vars[lr("score")], 100);
+    run("spend_score", c);
+    assert.equal(value(c, "spendable_score"), paid ? 10-cost : 10);
+    assert.ok(!c.flags[ag("purchase_paid")]);
+  }
+});
 test("score is locked before reform and after failure", () => {
   for (const mode of ["not_started", "failed"]) {
     const c = unlocked(); set(c, "score_award", 6);
