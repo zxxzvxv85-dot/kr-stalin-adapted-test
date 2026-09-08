@@ -24,6 +24,14 @@ const success = flag('RUS_maximalist_land_reform_success');
 const failure = flag('RUS_maximalist_land_reform_failure');
 const active = flag('RUS_maximalist_land_reform_in_progress');
 
+// Only direct reform-decision awards consume this lifetime allowance.
+for(const amount of [5,10])effect('decision_score_'+amount,iff(mode,
+ `custom_effect_tooltip = ${n('decision_score_'+amount+'_tt')}\nhidden_effect = {\n`+
+ v('decision_award',90)+sub('decision_award',n('decision_score'))+cl('decision_award',0,amount)+
+ `set_variable = { RUS_agri_score_award = ${n('decision_award')} }\nRUS_agri_credit_score = yes\n`+
+ add('decision_score','RUS_agri_score_award')+`RUS_agri_refresh_gui = yes\n}\n`,
+ `RUS_maximalist_land_reform_add_score_${amount} = yes\n`));
+
 // HOI4 has 365-day years; global.num_days is year * 365 on January 1.
 effect('calendar', v('doy', 'global.num_days') + op('modulo', 'doy', 365) + v('season', 4) + v('season_length', 90) + v('remaining', 59) + sub('remaining', n('doy')) +
   iff(ck('doy', '>', 333), v('remaining', 424) + sub('remaining', n('doy'))) +
@@ -188,6 +196,7 @@ const iconNames=['stock','reform','orders','machinery','food','export','income',
 write('interface/RUS_national_agriculture.gfx','spriteTypes = {\n'+iconNames.map(k=>`spriteType = { name = "GFX_RUS_nat_${k}" texturefile = "gfx/interface/RUS_national_agriculture/${k}.png" noOfFrames = 1 }`).join('\n')+'\n}\n');
 label('RUS_nat_title','国家农业委员会','National Agriculture Board','Государственный аграрный комитет');
 text('nat_title',10,8,520,'RUS_nat_title');
+text('nat_decision_score',10,605,482,label(n('decision_score_line'),'决议累计供分：[?RUS_nat_decision_score|1]/90（含最初四项）','Decision points: [?RUS_nat_decision_score|1]/90 (includes initial four)','Очки решений: [?RUS_nat_decision_score|1]/90 (включая первые четыре)'),0,20);
 ['农业生产','农机生产','库存与贸易','季度报告'].forEach((zh,i)=>{let key=label(n('tab_'+i),zh,['Agriculture','Machinery','Stocks & Trade','Quarterly Report'][i],['Земледелие','Техника','Торговля','Отчёт'][i]); button('nat_tab_'+i,5+i*123,38,key,v('page',i+1));});
 label(n('tab_0_tt'),
  '§Y农业生产§!\\n每季配置20点，每种作物最多10点；农机承诺成功、土改成功各永久+2点，总额最多24。\\n实物产量受季节、地力疲劳、实际天气、平均农机覆盖及农业产量修正影响。预估不计隐藏天气与行情，预测不保证准确。行情、市场饱和与销售容量只影响售价。\\n确认后锁定配置，季末前可重新调整；未确认时按内需与储备自动配置。首次及截止日的不足整季时段按实际天数结算。',
@@ -294,6 +303,13 @@ scripted('GetRUSNatTarget',[[mode,n('target150')]],n('target100'));
 scripted('GetRUSNatTractorDays',[[mode,n('days540')]],n('days270'));
 label(n('tractor_requirement'),'\\n还须累计自产农机§Y3000§!单位（当前[?RUS_nat_produced|0]）。','\\nAlso produce §Y3000§! machinery units in total (currently [?RUS_nat_produced|0]).','\\nТакже произвести §Y3000§! ед. техники (сейчас [?RUS_nat_produced|0]).');
 label(n('empty'),'','','');scripted('GetRUSNatTractorRequirement',[[mode,n('tractor_requirement')]],n('empty'));
+label(n('decision_cap_full'),'§R决议供分已达上限，本项不再增加土改分数。§!','§RDecision point cap reached: this decision grants no more reform points.§!','§RПредел очков решений достигнут: это решение больше не даёт очков реформы.§!');
+label(n('decision_cap_open'),'超过额度的部分不发放；农业经营和事件加分不占此额度。','Awards are limited to the remaining allowance. Farming and event points do not use it.','Начисление ограничено остатком лимита. Очки сельского хозяйства и событий в него не входят.');
+scripted('GetRUSNatDecisionCap',[[ck('decision_score','>',89.999),n('decision_cap_full')]],n('decision_cap_open'));
+for(const amount of [5,10])label(n('decision_score_'+amount+'_tt'),
+ `土地改革分数：本次至多§G+${amount}§!。\\n决议累计供分：[?RUS_nat_decision_score|1]/§Y90§!（包括最初四项的40分）。\\n[GetRUSNatDecisionCap]`,
+ `Land reform points: up to §G+${amount}§!.\\nCumulative decision points: [?RUS_nat_decision_score|1]/§Y90§! (including 40 from the initial four).\\n[GetRUSNatDecisionCap]`,
+ `Очки земельной реформы: до §G+${amount}§!.\\nВсего очков решений: [?RUS_nat_decision_score|1]/§Y90§! (включая 40 за первые четыре).\\n[GetRUSNatDecisionCap]`);
 label(n('unlock_tt'),'解锁§Y国家农业系统§!。\\n最高纲领派将开始更加“§4大刀阔斧§!”的改革，请确保您有足够的§R时间与精力§!！！！','Unlock the §YNational Agriculture System§!.\\nThe Maximalists will begin even more §4sweeping§! reforms. Make sure you have enough §Rtime and energy§!!!!','Открывает §Yгосударственную систему сельского хозяйства§!.\\nМаксималисты начнут ещё более §4решительные§! реформы. Убедитесь, что у вас достаточно §Rвремени и сил§!!!!');
 label(n('reform_goal_tt'),'土地改革分数：[?RUS_maximalist_land_reform_score|1]/[GetRUSNatTarget]','Land reform score: [?RUS_maximalist_land_reform_score|1]/[GetRUSNatTarget]','Очки земельной реформы: [?RUS_maximalist_land_reform_score|1]/[GetRUSNatTarget]');
 label(n('tractor_goal_tt'),'完成3次推广拖拉机（当前[?RUS_max_landreform_tractor_promise_count|0]次）。[GetRUSNatTractorRequirement]','Promote tractors three times (currently [?RUS_max_landreform_tractor_promise_count|0]).[GetRUSNatTractorRequirement]','Трижды распространить тракторы (сейчас [?RUS_max_landreform_tractor_promise_count|0]).[GetRUSNatTractorRequirement]');
