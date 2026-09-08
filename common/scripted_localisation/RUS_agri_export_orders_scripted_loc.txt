@@ -1,0 +1,45 @@
+defined_text = {
+	name = RUSAgriFranceOrderCrop
+	text = { trigger = { check_variable = { RUS_agri_export_fra_crop = 1 } } localization_key = RUS_agri_wheat }
+	text = { trigger = { check_variable = { RUS_agri_export_fra_crop = 2 } } localization_key = RUS_agri_rye }
+	text = { trigger = { check_variable = { RUS_agri_export_fra_crop = 3 } } localization_key = RUS_agri_beet }
+	text = { trigger = { check_variable = { RUS_agri_export_fra_crop = 4 } } localization_key = RUS_agri_flax }
+	text = { trigger = { check_variable = { RUS_agri_export_fra_crop = 5 } } localization_key = RUS_agri_cotton }
+	text = { localization_key = RUS_agri_order_none }
+}
+defined_text = {
+	name = RUSAgriFranceOrderStatus
+	text = {
+		trigger = {
+			check_variable = { RUS_agri_export_fra_crop > 0 }
+			check_variable = { RUS_agri_export_fra_quantity > 0 }
+			NOT = { check_variable = { RUS_agri_export_fra_progress < RUS_agri_export_fra_quantity } }
+		}
+		localization_key = RUS_agri_order_ready
+	}
+	text = { trigger = { check_variable = { RUS_agri_export_fra_crop = 0 } } localization_key = RUS_agri_order_none }
+	text = { localization_key = RUS_agri_order_pending }
+}
+
+defined_text = {
+	name = RUSAgriBritainOrderCrop
+	text = { trigger = { check_variable = { RUS_agri_export_eng_crop = 1 } } localization_key = RUS_agri_wheat }
+	text = { trigger = { check_variable = { RUS_agri_export_eng_crop = 2 } } localization_key = RUS_agri_rye }
+	text = { trigger = { check_variable = { RUS_agri_export_eng_crop = 3 } } localization_key = RUS_agri_beet }
+	text = { trigger = { check_variable = { RUS_agri_export_eng_crop = 4 } } localization_key = RUS_agri_flax }
+	text = { trigger = { check_variable = { RUS_agri_export_eng_crop = 5 } } localization_key = RUS_agri_cotton }
+	text = { localization_key = RUS_agri_order_none }
+}
+defined_text = {
+	name = RUSAgriBritainOrderStatus
+	text = {
+		trigger = {
+			check_variable = { RUS_agri_export_eng_crop > 0 }
+			check_variable = { RUS_agri_export_eng_quantity > 0 }
+			NOT = { check_variable = { RUS_agri_export_eng_progress < RUS_agri_export_eng_quantity } }
+		}
+		localization_key = RUS_agri_order_ready
+	}
+	text = { trigger = { check_variable = { RUS_agri_export_eng_crop = 0 } } localization_key = RUS_agri_order_none }
+	text = { localization_key = RUS_agri_order_pending }
+}

@@ -1,0 +1,365 @@
+# Foreign contracts are drawn once per quarter; all pricing refreshes are deterministic.
+RUS_agri_draw_export_orders = {
+	set_variable = { RUS_agri_export_fra_crop = 0 }
+	set_variable = { RUS_agri_export_fra_quantity = 0 }
+	set_variable = { RUS_agri_export_fra_progress = 0 }
+	set_variable = { RUS_agri_export_eng_crop = 0 }
+	set_variable = { RUS_agri_export_eng_quantity = 0 }
+	set_variable = { RUS_agri_export_eng_progress = 0 }
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_017 }
+		if = {
+			limit = { country_exists = FRA }
+			random_list = {
+				1 = { set_variable = { RUS_agri_export_fra_crop = 1 } }
+				1 = { set_variable = { RUS_agri_export_fra_crop = 2 } }
+				1 = { set_variable = { RUS_agri_export_fra_crop = 3 } }
+				1 = { set_variable = { RUS_agri_export_fra_crop = 4 } }
+				1 = { set_variable = { RUS_agri_export_fra_crop = 5 } }
+			}
+			random_list = {
+				1 = { set_variable = { RUS_agri_export_fra_quantity = 2 } }
+				1 = { set_variable = { RUS_agri_export_fra_quantity = 3 } }
+				1 = { set_variable = { RUS_agri_export_fra_quantity = 4 } }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_fra_quantity > RUS_agri_order_limit } }
+				set_variable = { RUS_agri_export_fra_quantity = RUS_agri_order_limit }
+			}
+		}
+		if = {
+			limit = { country_exists = ENG }
+			random_list = {
+				1 = { set_variable = { RUS_agri_export_eng_crop = 1 } }
+				1 = { set_variable = { RUS_agri_export_eng_crop = 2 } }
+				1 = { set_variable = { RUS_agri_export_eng_crop = 3 } }
+				1 = { set_variable = { RUS_agri_export_eng_crop = 4 } }
+				1 = { set_variable = { RUS_agri_export_eng_crop = 5 } }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_fra_crop > 0 } }
+				random_list = {
+					1 = { set_variable = { RUS_agri_export_eng_crop = 1 } }
+					1 = { set_variable = { RUS_agri_export_eng_crop = 2 } }
+					1 = { set_variable = { RUS_agri_export_eng_crop = 3 } }
+					1 = { set_variable = { RUS_agri_export_eng_crop = 4 } }
+				}
+				if = {
+					limit = { NOT = { check_variable = { RUS_agri_export_eng_crop < RUS_agri_export_fra_crop } } }
+					add_to_variable = { RUS_agri_export_eng_crop = 1 }
+				}
+			}
+			random_list = {
+				1 = { set_variable = { RUS_agri_export_eng_quantity = 2 } }
+				1 = { set_variable = { RUS_agri_export_eng_quantity = 3 } }
+				1 = { set_variable = { RUS_agri_export_eng_quantity = 4 } }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_eng_quantity > RUS_agri_order_limit } }
+				set_variable = { RUS_agri_export_eng_quantity = RUS_agri_order_limit }
+			}
+		}
+	}
+}
+
+RUS_agri_refresh_export_orders = {
+	set_variable = { RUS_agri_export_fra_progress = 0 }
+	if = {
+		limit = { check_variable = { RUS_agri_export_fra_crop = 1 } }
+		set_variable = { RUS_agri_export_fra_progress = RUS_agri_wheat_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_fra_crop = 2 } }
+		set_variable = { RUS_agri_export_fra_progress = RUS_agri_rye_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_fra_crop = 3 } }
+		set_variable = { RUS_agri_export_fra_progress = RUS_agri_beet_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_fra_crop = 4 } }
+		set_variable = { RUS_agri_export_fra_progress = RUS_agri_flax_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_fra_crop = 5 } }
+		set_variable = { RUS_agri_export_fra_progress = RUS_agri_cotton_investment }
+	}
+	set_variable = { RUS_agri_export_eng_progress = 0 }
+	if = {
+		limit = { check_variable = { RUS_agri_export_eng_crop = 1 } }
+		set_variable = { RUS_agri_export_eng_progress = RUS_agri_wheat_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_eng_crop = 2 } }
+		set_variable = { RUS_agri_export_eng_progress = RUS_agri_rye_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_eng_crop = 3 } }
+		set_variable = { RUS_agri_export_eng_progress = RUS_agri_beet_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_eng_crop = 4 } }
+		set_variable = { RUS_agri_export_eng_progress = RUS_agri_flax_investment }
+	}
+	if = {
+		limit = { check_variable = { RUS_agri_export_eng_crop = 5 } }
+		set_variable = { RUS_agri_export_eng_progress = RUS_agri_cotton_investment }
+	}
+}
+
+# Compare the same ordered units with and without the base premium, before storage.
+RUS_agri_export_price_delta = {
+	set_temp_variable = { RUS_agri_export_normal_rate = RUS_agri_export_raw_rate }
+	add_to_temp_variable = { RUS_agri_export_raw_rate = 0.10 }
+	clamp_temp_variable = { var = RUS_agri_export_normal_rate min = 0.40 max = 1.50 }
+	clamp_temp_variable = { var = RUS_agri_export_raw_rate min = 0.40 max = 1.50 }
+	set_temp_variable = { RUS_agri_export_first = RUS_agri_export_units }
+	set_temp_variable = { RUS_agri_export_middle = 0 }
+	set_temp_variable = { RUS_agri_export_excess = 0 }
+	if = {
+		limit = {
+			check_variable = { RUS_agri_export_capacity > 0 }
+			check_variable = { RUS_agri_export_units > RUS_agri_export_capacity }
+		}
+		set_temp_variable = { RUS_agri_export_first = RUS_agri_export_capacity }
+		set_temp_variable = { RUS_agri_export_excess = RUS_agri_export_units }
+		subtract_from_temp_variable = { RUS_agri_export_excess = RUS_agri_export_capacity }
+		set_temp_variable = { RUS_agri_export_middle = RUS_agri_export_excess }
+		clamp_temp_variable = { var = RUS_agri_export_middle min = 0 max = 2 }
+		subtract_from_temp_variable = { RUS_agri_export_excess = RUS_agri_export_middle }
+	}
+	set_temp_variable = { RUS_agri_export_delta = 0 }
+	set_temp_variable = { RUS_agri_export_old_tier = RUS_agri_export_normal_rate }
+	set_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_raw_rate }
+	subtract_from_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_old_tier }
+	multiply_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_first }
+	add_to_temp_variable = { RUS_agri_export_delta = RUS_agri_export_new_tier }
+	set_temp_variable = { RUS_agri_export_old_tier = RUS_agri_export_normal_rate }
+	set_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_raw_rate }
+	subtract_from_temp_variable = { RUS_agri_export_old_tier = 0.30 }
+	subtract_from_temp_variable = { RUS_agri_export_new_tier = 0.30 }
+	clamp_temp_variable = { var = RUS_agri_export_old_tier min = 0.40 max = 1.50 }
+	clamp_temp_variable = { var = RUS_agri_export_new_tier min = 0.40 max = 1.50 }
+	subtract_from_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_old_tier }
+	multiply_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_middle }
+	add_to_temp_variable = { RUS_agri_export_delta = RUS_agri_export_new_tier }
+	set_temp_variable = { RUS_agri_export_old_tier = RUS_agri_export_normal_rate }
+	set_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_raw_rate }
+	subtract_from_temp_variable = { RUS_agri_export_old_tier = 0.70 }
+	subtract_from_temp_variable = { RUS_agri_export_new_tier = 0.70 }
+	clamp_temp_variable = { var = RUS_agri_export_old_tier min = 0.40 max = 1.50 }
+	clamp_temp_variable = { var = RUS_agri_export_new_tier min = 0.40 max = 1.50 }
+	subtract_from_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_old_tier }
+	multiply_temp_variable = { RUS_agri_export_new_tier = RUS_agri_export_excess }
+	add_to_temp_variable = { RUS_agri_export_delta = RUS_agri_export_new_tier }
+}
+
+RUS_agri_apply_export_premiums = {
+	RUS_agri_refresh_export_orders = yes
+	if = {
+		limit = {
+			check_variable = { RUS_agri_export_fra_crop > 0 }
+			check_variable = { RUS_agri_export_fra_quantity > 0 }
+			NOT = { check_variable = { RUS_agri_export_fra_progress < RUS_agri_export_fra_quantity } }
+		}
+		set_temp_variable = { RUS_agri_export_units = RUS_agri_export_fra_quantity }
+		if = {
+			limit = { check_variable = { RUS_agri_export_fra_crop = 1 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_wheat_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_wheat_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_wheat }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_wheat_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_wheat_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_wheat_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_wheat_final = RUS_agri_wheat_priced_return }
+			divide_variable = { RUS_agri_wheat_final = RUS_agri_wheat_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_fra_crop = 2 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_rye_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_rye_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_rye }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_rye_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_rye_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_rye_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_rye_final = RUS_agri_rye_priced_return }
+			divide_variable = { RUS_agri_rye_final = RUS_agri_rye_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_fra_crop = 3 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_beet_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_beet_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_beet }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_beet_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_beet_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_beet_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_beet_final = RUS_agri_beet_priced_return }
+			divide_variable = { RUS_agri_beet_final = RUS_agri_beet_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_fra_crop = 4 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_flax_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_flax_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_flax }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_flax_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_flax_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_flax_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_flax_final = RUS_agri_flax_priced_return }
+			divide_variable = { RUS_agri_flax_final = RUS_agri_flax_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_fra_crop = 5 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_cotton_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_cotton_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_cotton }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_cotton_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_cotton_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_cotton_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_cotton_final = RUS_agri_cotton_priced_return }
+			divide_variable = { RUS_agri_cotton_final = RUS_agri_cotton_investment }
+		}
+	}
+	if = {
+		limit = {
+			check_variable = { RUS_agri_export_eng_crop > 0 }
+			check_variable = { RUS_agri_export_eng_quantity > 0 }
+			NOT = { check_variable = { RUS_agri_export_eng_progress < RUS_agri_export_eng_quantity } }
+		}
+		set_temp_variable = { RUS_agri_export_units = RUS_agri_export_eng_quantity }
+		if = {
+			limit = { check_variable = { RUS_agri_export_eng_crop = 1 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_wheat_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_wheat_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_wheat }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_wheat_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_wheat_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_wheat_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_wheat_final = RUS_agri_wheat_priced_return }
+			divide_variable = { RUS_agri_wheat_final = RUS_agri_wheat_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_eng_crop = 2 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_rye_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_rye_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_rye }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_rye_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_rye_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_rye_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_rye_final = RUS_agri_rye_priced_return }
+			divide_variable = { RUS_agri_rye_final = RUS_agri_rye_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_eng_crop = 3 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_beet_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_beet_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_beet }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_beet_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_beet_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_beet_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_beet_final = RUS_agri_beet_priced_return }
+			divide_variable = { RUS_agri_beet_final = RUS_agri_beet_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_eng_crop = 4 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_flax_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_flax_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_flax }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_flax_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_flax_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_flax_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_flax_final = RUS_agri_flax_priced_return }
+			divide_variable = { RUS_agri_flax_final = RUS_agri_flax_investment }
+		}
+		if = {
+			limit = { check_variable = { RUS_agri_export_eng_crop = 5 } }
+			set_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_cotton_base }
+			subtract_from_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_cotton_rotation_penalty }
+			if = {
+				limit = { has_country_flag = RUS_agri_saturation_cotton }
+				subtract_from_temp_variable = { RUS_agri_export_raw_rate = 0.15 }
+			}
+			if = {
+				limit = { check_variable = { RUS_agri_export_actual = 1 } }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_cotton_market }
+				add_to_temp_variable = { RUS_agri_export_raw_rate = RUS_agri_weather }
+			}
+			set_temp_variable = { RUS_agri_export_capacity = RUS_agri_cotton_capacity }
+			RUS_agri_export_price_delta = yes
+			add_to_variable = { RUS_agri_cotton_priced_return = RUS_agri_export_delta }
+			set_variable = { RUS_agri_cotton_final = RUS_agri_cotton_priced_return }
+			divide_variable = { RUS_agri_cotton_final = RUS_agri_cotton_investment }
+		}
+	}
+}

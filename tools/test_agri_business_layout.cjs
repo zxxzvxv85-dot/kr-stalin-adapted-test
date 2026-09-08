@@ -17,7 +17,7 @@ for (const lang of ["simp_chinese", "english", "russian"]) {
     }
   }
   const keys = new Map();
-  for (const stem of ["RUS_agri_business", "RUS_agricultural_quarterly_management"]) {
+  for (const stem of ["RUS_agri_business", "RUS_agricultural_quarterly_management", "RUS_agri_export_orders"]) {
     const text = fs.readFileSync(path.join(root, "localisation", lang, stem + "_l_" + lang + ".yml"), "utf8");
     for (const m of text.matchAll(/^ ([\w.]+):0 "(.*)"$/gm)) keys.set(m[1], m[2]);
   }
@@ -29,14 +29,15 @@ for (const lang of ["simp_chinese", "english", "russian"]) {
     .sort((a, b) => width(b) - width(a))[0];
   const status = ["RUS_agri_order_ready", "RUS_agri_order_pending"].map(x => keys.get(x))
     .sort((a, b) => width(b) - width(a))[0];
-  const expand = text => text.replace(/\[RUSAgriOrder[12]Crop\]/g, crop)
-    .replace(/\[RUSAgriOrder[12]Status\]/g, status)
+  const expand = text => text.replace(/\[RUSAgri(?:Order[12]|FranceOrder|BritainOrder)Crop\]/g, crop)
+    .replace(/\[RUSAgri(?:Order[12]|FranceOrder|BritainOrder)Status\]/g, status)
     .replace(/\[RUSAgriOrderScoreReward\]/g, keys.get("RUS_agri_order_point_reward"))
     .replace(/\[\?([^|]+)\|(\d)\]/g, (_, key, decimals) =>
       key.endsWith("progress") ? "10" : decimals === "0" ? "5" : decimals === "2" ? "2.60" : "-30.0");
   const result = {};
   for (const [key, limit] of [["RUS_agri_preview_summary", 520], ["RUS_agri_business_header", 92],
-    ["RUS_agri_order_1_line", 520], ["RUS_agri_order_2_line", 520], ["RUS_agri_wheat_business_value", 92]]) {
+    ["RUS_agri_order_1_line", 520], ["RUS_agri_order_2_line", 520], ["RUS_agri_wheat_business_value", 92],
+    ["RUS_agri_export_fra_line", 520], ["RUS_agri_export_eng_line", 520]]) {
     const measured = width(expand(keys.get(key)));
     assert.ok(measured <= limit, lang + " " + key + " exceeds width: " + measured + "/" + limit);
     result[key] = measured;

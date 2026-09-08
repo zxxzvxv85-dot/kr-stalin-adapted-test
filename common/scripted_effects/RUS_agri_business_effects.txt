@@ -149,9 +149,11 @@ RUS_agri_draw_business_conditions = {
 		set_variable = { RUS_agri_order_2_cash = RUS_agri_order_2_quantity }
 		multiply_variable = { RUS_agri_order_2_cash = 0.65 }
 	}
+	RUS_agri_draw_export_orders = yes
 }
 
 RUS_agri_refresh_business_display = {
+	RUS_agri_refresh_export_orders = yes
 	set_variable = { RUS_agri_wheat_rotation_penalty = RUS_agri_wheat_fatigue }
 	multiply_variable = { RUS_agri_wheat_rotation_penalty = 0.15 }
 	set_variable = { RUS_agri_rye_rotation_penalty = RUS_agri_rye_fatigue }
@@ -525,6 +527,8 @@ RUS_agri_preview_allocation = {
 	}
 	clamp_variable = { var = RUS_agri_cotton_final min = 0.40 max = 1.50 }
 	RUS_agri_apply_capacity_rates = yes
+	set_temp_variable = { RUS_agri_export_actual = 0 }
+	RUS_agri_apply_export_premiums = yes
 	RUS_agri_apply_storage = yes
 	RUS_agri_compute_crop_returns = yes
 	set_variable = { RUS_agri_preview_crop_returns = 0 }

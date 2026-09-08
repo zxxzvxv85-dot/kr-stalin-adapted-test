@@ -37,6 +37,7 @@ for (const file of [
   "common/scripted_effects/RUS_agricultural_quarterly_management_effects.txt",
   "common/scripted_effects/RUS_agri_development_effects.txt",
   "common/scripted_effects/RUS_agri_business_effects.txt",
+  "common/scripted_effects/RUS_agri_export_orders_effects.txt",
   "common/scripted_effects/RUS_stalin_maximalist_land_reform_effects.txt"
 ]) for (const n of parse(read(file))) {
   assert.ok(!effects.has(n.key), "Duplicate effect " + n.key);
@@ -85,6 +86,7 @@ function check(b, c, donor = c, args = {}) {
       case "has_variable": return Object.hasOwn(c.vars, v);
       case "has_completed_focus": return c.focuses.includes(v);
       case "exists": return c.exists === (v === "yes");
+      case "country_exists": return (c.countries || []).includes(v);
       case "tag": return c.id === (v === "ROOT" ? donor.id : v);
       case "original_tag": return c.id === v;
       case "is_ai": return !!c.ai === (v === "yes");
@@ -634,7 +636,7 @@ test("weather UI and ledger localization are complete, bounded and hide live act
   }
   assert.deepEqual(sets[0], sets[1]); assert.deepEqual(sets[1], sets[2]);
   const layout = read("interface/RUS_agricultural_quarterly_management.gui");
-  assert.ok(layout.includes('name = "RUS_agri_ledger" position = { x = 406 y = 394 }'));
+  assert.ok(layout.includes('name = "RUS_agri_ledger" position = { x = 406 y = 434 }'));
   assert.ok(406 + 123 <= 540 && 394 + 34 < 436);
   const gui = get(parse(read("common/scripted_guis/RUS_agricultural_quarterly_management.txt")), "scripted_gui")[0].value;
   const visibility = get(gui, "triggers"), c = country();
@@ -766,13 +768,108 @@ test("preview respects the capital ceiling and all public rows fit the existing 
   run("clear_allocation", c); assert.equal(value(c, "preview_receipts"), 0); assert.equal(value(c, "preview_capital"), 30);
   const layout = parse(read("interface/RUS_agricultural_quarterly_management.gui"));
   const panel = get(get(layout, "guiTypes"), "containerWindowType");
-  assert.equal(get(get(panel, "size"), "height"), "570");
-  for (const name of ["RUS_agri_preview_summary", "RUS_agri_order_1_line", "RUS_agri_order_2_line", ...crops.map(x => ag(x + "_business_value"))]) {
+  assert.equal(get(get(panel, "size"), "height"), "610");
+  for (const name of ["RUS_agri_preview_summary", "RUS_agri_order_1_line", "RUS_agri_order_2_line", "RUS_agri_export_fra_line", "RUS_agri_export_eng_line", ...crops.map(x => ag(x + "_business_value"))]) {
     const box = panel.find(x => Array.isArray(x.value) && get(x.value, "name") === name).value;
     const p = get(box, "position");
     assert.ok(Number(get(p, "x")) + Number(get(box, "maxWidth")) <= 540);
-    assert.ok(Number(get(p, "y")) + Number(get(box, "maxHeight")) <= 570);
+    assert.ok(Number(get(p, "y")) + Number(get(box, "maxHeight")) <= 610);
   }
+});
+test("treaty orders are additional, country-specific, random and bounded at quarter start", () => {
+  for (const treaty of [false, true]) for (const countries of [[], ["FRA"], ["ENG"], ["FRA", "ENG"]]) {
+    const seen = {fra: new Set(), eng: new Set()};
+    const c = completed(); c.countries = countries;
+    if (treaty) c.focuses.push("RUS_future_foreign_017");
+    for (let i = 0; i < 150; i++) {
+      set(c, "capital", i % 20 + 1); set(c, "season", i % 4 + 1); run("start_quarter", c);
+      assert.ok(value(c, "order_1_crop") > 0, "Domestic orders remain present");
+      for (const buyer of ["fra", "eng"]) {
+        const crop = value(c, "export_" + buyer + "_crop"), quantity = value(c, "export_" + buyer + "_quantity");
+        const eligible = treaty && countries.includes(buyer.toUpperCase());
+        assert.equal(crop > 0, eligible);
+        assert.equal(quantity > 0, eligible);
+        if (eligible) {
+          seen[buyer].add(crop);
+          assert.ok(crop <= 5 && quantity <= 4 && quantity <= value(c, "quarter_investment_limit"));
+        }
+      }
+      if (treaty && countries.length === 2) assert.notEqual(value(c, "export_fra_crop"), value(c, "export_eng_crop"));
+    }
+    for (const buyer of countries) if (treaty) assert.equal(seen[buyer.toLowerCase()].size, 5);
+  }
+});
+test("foreign premiums affect only fully ordered units before clamps and storage", () => {
+  const clamp = n => Math.max(.4, Math.min(1.5, n));
+  for (const crop of crops) for (const actual of [false, true]) for (const base of [.4, 1, 1.45])
+  for (const investment of [0, 3, 4, 8]) for (const weather of [-.9, 0, .8]) for (const storage of [false, true]) {
+    const c = completed(); set(c, "capital", 20); set(c, "season", 1); run("start_quarter", c);
+    set(c, "order_1_crop", 0); set(c, "order_2_crop", 0);
+    set(c, "export_fra_crop", crops.indexOf(crop) + 1); set(c, "export_fra_quantity", 4);
+    set(c, crop + "_investment", investment); set(c, crop + "_base", base);
+    set(c, crop + "_capacity", 3); set(c, crop + "_fatigue", 1);
+    set(c, "weather", weather); set(c, crop + "_market", .1);
+    if (storage) flag(c, "active_storage");
+    run("refresh_totals", c);
+    if (actual) {
+      run("calculate_final_rates", c); run("apply_capacity_rates", c);
+      c.temps.RUS_agri_export_actual = 1; run("apply_export_premiums", c);
+      run("apply_storage", c); run("compute_crop_returns", c);
+    }
+    const raw = base - value(c, crop + "_rotation_penalty") - (c.flags[ag("saturation_" + crop)] ? .15 : 0) + (actual ? weather + .1 : 0);
+    let expected = 0;
+    for (let unit = 1; unit <= investment; unit++) {
+      const premium = investment >= 4 && unit <= 4 ? .1 : 0;
+      expected += clamp(clamp(raw + premium) - (unit <= 3 ? 0 : unit <= 5 ? .3 : .7));
+    }
+    if (storage && expected < investment) expected = Math.min(investment, expected + investment * .15);
+    assert.ok(Math.abs(value(c, crop + (actual ? "_return" : "_preview_return")) - expected) < .0001,
+      JSON.stringify({crop,actual,base,investment,weather,storage,expected}));
+  }
+});
+test("orders survive refresh and serialization, start next quarter, and reset missing buyers", () => {
+  let c = completed(); c.countries = ["FRA", "ENG"]; set(c, "capital", 10); set(c, "season", 3); run("start_quarter", c);
+  c.focuses.push("RUS_future_foreign_017"); run("refresh_totals", c);
+  assert.equal(value(c, "export_fra_crop"), 0);
+  run("start_quarter", c);
+  const orders = () => ["fra", "eng"].map(b => [value(c, "export_" + b + "_crop"), value(c, "export_" + b + "_quantity")]);
+  const before = orders(), seed = c.seed;
+  for (let i = 0; i < 30; i++) {
+    run("balance_allocation", c); run("confirm_allocation", c); run("reopen_allocation", c);
+    c = JSON.parse(JSON.stringify(c)); run("daily_update", c);
+    assert.deepEqual(orders(), before); assert.equal(c.seed, seed);
+  }
+  c.countries = []; run("start_quarter", c);
+  assert.deepEqual(orders(), [[0, 0], [0, 0]]);
+});
+test("both export orders settle once with manual or automatic allocation and capital stays capped", () => {
+  for (const manual of [false, true]) {
+    const c = completed(); c.countries = ["FRA", "ENG"]; c.focuses.push("RUS_future_foreign_017");
+    set(c, "capital", 30); set(c, "season", 2); run("start_quarter", c);
+    set(c, "export_fra_crop", 1); set(c, "export_fra_quantity", 2);
+    set(c, "export_eng_crop", 2); set(c, "export_eng_quantity", 2);
+    set(c, "weather", 0); crops.forEach(x => set(c, x + "_market", 0));
+    run("balance_allocation", c); if (manual) run("confirm_allocation", c);
+    const preview = value(c, "preview_capital");
+    set(c, "days_remaining", 0); run("settle_quarter", c);
+    assert.equal(value(c, "capital"), preview); assert.ok(value(c, "capital") <= 30);
+    const settled = JSON.stringify(c); run("settle_quarter", c); assert.equal(JSON.stringify(c), settled);
+  }
+});
+test("export UI localization and focus reward resolve in all three languages", () => {
+  const sets = [];
+  for (const lang of ["simp_chinese", "english", "russian"]) {
+    const file = "localisation/" + lang + "/RUS_agri_export_orders_l_" + lang + ".yml";
+    assert.equal(fs.readFileSync(path.join(root, file)).subarray(0, 3).toString("hex"), "efbbbf");
+    const lines = read(file).trimEnd().split(/\r?\n/).slice(1);
+    lines.forEach(line => assert.match(line, /^ [\w.]+:0 "(?:[^"\\]|\\.)*"$/));
+    sets.push(lines.map(line => line.trim().split(":")[0]));
+    assert.equal(new Set(sets.at(-1)).size, 3);
+  }
+  assert.deepEqual(sets[0], sets[1]); assert.deepEqual(sets[1], sets[2]);
+  const focus = parse(read("common/national_focus/00_RUS_future_foreign_policy_skeleton.txt"))
+    .find(n => n.key === "shared_focus" && get(n.value, "id") === "RUS_future_foreign_017").value;
+  assert.ok(get(focus, "completion_reward").some(n => n.key === "custom_effect_tooltip" && n.value === "RUS_agri_export_orders_unlock_tt"));
 });
 test("business localisation and dynamic crop names resolve in all three languages", () => {
   const keysets = [];
