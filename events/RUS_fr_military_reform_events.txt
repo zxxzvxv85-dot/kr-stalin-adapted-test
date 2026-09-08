@@ -34,6 +34,14 @@ country_event = {
 		clr_country_flag = RUS_fr_specialise_armaments
 		clr_country_flag = RUS_fr_specialise_mobility
 		set_country_flag = RUS_fr_specialise_armour
+		if = {
+			limit = { NOT = { RUS_semyon_timoshenko = { has_trait = KR_shock_theorist } } }
+			add_trait = {
+				character = RUS_semyon_timoshenko
+				slot = theorist
+				trait = KR_shock_theorist
+			}
+		}
 	}
 }
 
