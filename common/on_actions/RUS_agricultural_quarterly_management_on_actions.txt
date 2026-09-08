@@ -6,7 +6,11 @@ on_actions = {
 					original_tag = RUS
 					has_country_flag = RUS_agri_management_unlocked
 				}
-				RUS_agri_daily_update = yes
+				if = {
+					limit = { has_country_flag = RUS_nat_enabled }
+					RUS_nat_daily = yes
+				}
+				else = { RUS_agri_daily_update = yes }
 			}
 		}
 	}

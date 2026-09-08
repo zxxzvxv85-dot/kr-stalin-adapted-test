@@ -38,12 +38,14 @@ for (const file of [
   "common/scripted_effects/RUS_agri_development_effects.txt",
   "common/scripted_effects/RUS_agri_business_effects.txt",
   "common/scripted_effects/RUS_agri_export_orders_effects.txt",
+  "common/scripted_effects/RUS_national_agriculture_effects.txt",
   "common/scripted_effects/RUS_stalin_maximalist_land_reform_effects.txt"
 ]) for (const n of parse(read(file))) {
   assert.ok(!effects.has(n.key), "Duplicate effect " + n.key);
   effects.set(n.key, n.value);
 }
 const triggers = new Map(parse(read("common/scripted_triggers/RUS_agri_development_triggers.txt")).map(n => [n.key, n.value]));
+for (const node of parse(read("common/scripted_triggers/RUS_national_agriculture_triggers.txt"))) triggers.set(node.key, node.value);
 const decisions = new Map(parse(read("common/decisions/RUS_agri_development_decisions.txt"))
   .flatMap(n => n.value).map(n => [n.key, n.value]));
 const crops = ["wheat", "rye", "beet", "flax", "cotton"];
@@ -114,6 +116,13 @@ function exec(b, c, donor = c, args = {}) {
       if (k === "if") branch = false;
       if (!branch && check(get(v, "limit"), c, donor, args)) { branch = true; exec(v.filter(x => x.key !== "limit"), c, donor, args); }
     } else if (k === "else") { if (!branch) exec(v, c, donor, args); branch = true; }
+    else if (k === "while_loop_effect") {
+      let iterations = 0;
+      while (check(get(v, "limit"), c, donor, args)) {
+        assert.ok(++iterations < 10000, "Loop limit");
+        exec(v.filter(x => x.key !== "limit"), c, donor, args);
+      }
+    }
     else if (["hidden_effect", "effect", "text"].includes(k)) exec(v, c, donor, args);
     else if (k === "meta_effect") exec(get(v, "text"), c, donor, args);
     else if (k === "FROM") exec(v, donor.target, donor, args);
@@ -135,8 +144,10 @@ function exec(b, c, donor = c, args = {}) {
         else if (k.startsWith("subtract_from")) result = old - value;
         else if (k.startsWith("multiply")) result = old * value;
         else if (k.startsWith("divide")) result = old / value;
+        else if (k.startsWith("modulo")) result = old % value;
         else throw Error(k);
-        target[name] = Math.round(result * 1e6) / 1e6;
+        const precision = c.precision || 1e6;
+        target[name] = Math.round(result * precision) / precision;
       }
     } else if (k === "random_list") {
       c.seed = (Math.imul(c.seed, 1664525) + 1013904223) >>> 0;
@@ -151,6 +162,11 @@ function exec(b, c, donor = c, args = {}) {
       for (const id of Array.isArray(v) ? v.map(x => x.key) : [v]) delete c.ideas[id];
     } else if (k === "country_event") c.events.push(v);
     else if (k === "add_cic") c.surplus += num(c, v);
+    else if (k === "add_political_power") c.pp = (c.pp || 0) + num(c, v);
+    else if (k === "add_dynamic_modifier") c.dynamic = get(v, "modifier");
+    else if (k === "force_update_dynamic_modifier") {
+      if (c.civCapacity !== undefined) c.vars.num_of_civilian_factories_available_for_projects = Math.max(0, c.civCapacity - (c.vars.RUS_nat_factories || 0));
+    }
     else if (["custom_effect_tooltip", "effect_tooltip", "set_variable_to_random", "name",
       "RUS_stalin_update_advisor_relationship_multipliers", "RUS_stalin_apply_max_advisor_trait_tier"].includes(k)) {
       // External advisor refresh/engine presentation do not participate in arithmetic.
@@ -175,6 +191,9 @@ const expire = c => {
     if (typeof days === "number" && --bag[key] <= 0) delete bag[key];
   }
 };
+if (require.main !== module) {
+  module.exports = {parse, get, effects, triggers, country, num, check, exec, read, root};
+} else {
 let tests = 0;
 function test(name, fn) { fn(); tests++; console.log("PASS " + name); }
 test("exchange decisions have valid IDs and scalar payment calls with unchanged prices", () => {
@@ -447,7 +466,7 @@ test("unstarted minigame stays locked through 400 daily ticks", () => {
   assert.equal(check(get(gui, "visible"), c), false);
   assert.equal(check(triggers.get(ag("exchange_unlocked")), c), false);
 });
-test("launch opens the outlook once, optional proposal is read-only, and initial season is unchanged", () => {
+test("legacy launch stays hidden and optional agricultural proposal remains read-only", () => {
   const start = get(parse(read("common/decisions/RUS_agricultural_quarterly_management_decisions.txt"))[0].value,
     "RUS_start_agricultural_quarterly_management");
   const eventFile = parse(read("events/RUS_agricultural_quarterly_management_events.txt"));
@@ -464,7 +483,7 @@ test("launch opens the outlook once, optional proposal is read-only, and initial
   assert.deepEqual(get(proposal, "option").map(n => n.key), ["name"]);
   for (let month = 1; month <= 12; month++) {
     const c = country(); c.month = month; c.focuses.push("RUS_future_foreign_002");
-    assert.equal(check(get(start, "visible"), c), true);
+    assert.equal(check(get(start, "visible"), c), false);
     exec(get(start, "complete_effect"), c);
     assert.equal(check(get(start, "visible"), c), false);
     assert.equal(c.events.length, 1);
@@ -515,19 +534,27 @@ test("event declarations are unique and new keys do not duplicate a language", (
     const ours = ["RUS_agri_development", "RUS_agricultural_quarterly_management", "RUS_agri_business"]
       .map(stem => read("localisation/" + lang + "/" + stem + "_l_" + lang + ".yml")).join("\n");
     const keys = new Set([...ours.matchAll(/^ ([\w.]+):/gm)].map(m => m[1]));
-    let count = 0;
+    const counts = new Map();
+    const intentionalOverrides = new Set(["RUS_agricultural_quarterly_management_category", "RUS_agricultural_quarterly_management_category_desc", "RUS_agri_annual_shortfall_desc"]);
     function scan(dir) {
       for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
         const file = path.join(dir, ent.name);
         if (ent.isDirectory()) scan(file);
         else if (ent.name.endsWith("_l_" + lang + ".yml")) {
           const text = fs.readFileSync(file, "utf8");
-          for (const m of text.matchAll(/^ ([\w.]+):/gm)) if (keys.has(m[1])) count++;
+          for (const m of text.matchAll(/^ ([\w.]+):/gm)) if (keys.has(m[1])) {
+            const locations = counts.get(m[1]) || [];
+            locations.push(file); counts.set(m[1], locations);
+          }
         }
       }
     }
     scan(path.join(root, "localisation"));
-    assert.equal(count, keys.size, "Duplicate new key in " + lang);
+    for (const key of keys) {
+      const locations = counts.get(key) || [];
+      assert.equal(locations.length, intentionalOverrides.has(key) ? 2 : 1, "Duplicate key " + key + " in " + lang);
+      if (intentionalOverrides.has(key)) assert.ok(locations.includes(path.join(root, "localisation/replace", "RUS_national_agriculture_ui_l_" + lang + ".yml")));
+    }
   }
 });
 test("weather forecasts are fallible and extreme weather/markets remain uncommon", () => {
@@ -963,3 +990,4 @@ test("multi-year public-information policies have bounded non-compounding capita
   }
 });
 console.log(tests + " scripted regression groups passed. HOI4 runtime, rendering and native save loading still require live QA.");
+}

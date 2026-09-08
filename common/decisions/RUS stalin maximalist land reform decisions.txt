@@ -3,7 +3,7 @@ RUS_maximalist_land_reform_category = {
 		icon = GFX_decision_generic_agriculture
 		allowed = { always = no }
 		available = {
-			check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+			custom_trigger_tooltip = { tooltip = RUS_nat_reform_goal_tt RUS_nat_reform_complete = yes }
 		}
 		selectable_mission = no
 		is_good = yes
@@ -14,8 +14,9 @@ RUS_maximalist_land_reform_category = {
 		}
 		timeout_effect = {
 			log = "[GetLogRoot]: Decision timeout RUS_maximalist_land_reform_mission"
+			RUS_nat_deadline = yes
 			if = {
-				limit = { check_variable = { RUS_maximalist_land_reform_score > 99 } }
+				limit = { RUS_nat_reform_complete = yes }
 				country_event = { id = rus_maximalist_land_reform_events.2 hours = 6 }
 			}
 			else = {
@@ -30,7 +31,7 @@ RUS_maximalist_land_reform_category = {
 		allowed = { always = no }
 		visible = { has_country_flag = RUS_max_landreform_tractor_promise_active }
 		available = {
-			check_variable = { RUS_max_landreform_tractor_promise_count > 2 }
+			custom_trigger_tooltip = { tooltip = RUS_nat_tractor_goal_tt RUS_nat_tractor_complete = yes }
 		}
 		selectable_mission = no
 		is_good = yes
@@ -41,8 +42,9 @@ RUS_maximalist_land_reform_category = {
 		}
 		timeout_effect = {
 			log = "[GetLogRoot]: Decision timeout RUS_max_landreform_tractor_promise_mission"
+			if = { limit = { has_country_flag = RUS_nat_enabled } RUS_nat_daily = yes }
 			if = {
-				limit = { check_variable = { RUS_max_landreform_tractor_promise_count > 2 } }
+				limit = { RUS_nat_tractor_complete = yes }
 				country_event = { id = rus_maximalist_land_reform_events.15 hours = 6 }
 			}
 			else = {
@@ -66,12 +68,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_reform_decision_closed = no
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_reform_decision_closed = yes
 			}
 		}
 		complete_effect = {
@@ -105,12 +107,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_promote_allowed = yes
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_promote_allowed = no
 			}
 		}
 		complete_effect = {
@@ -153,12 +155,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_reform_decision_closed = no
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_reform_decision_closed = yes
 			}
 		}
 		complete_effect = {
@@ -192,12 +194,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_reform_decision_closed = no
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_reform_decision_closed = yes
 			}
 		}
 		complete_effect = {
@@ -227,12 +229,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_reform_decision_closed = no
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_reform_decision_closed = yes
 			}
 		}
 		complete_effect = {
@@ -266,12 +268,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_reform_decision_closed = no
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_reform_decision_closed = yes
 			}
 		}
 		complete_effect = {
@@ -301,12 +303,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_reform_decision_closed = no
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_reform_decision_closed = yes
 			}
 		}
 		complete_effect = {
@@ -340,12 +342,12 @@ RUS_maximalist_land_reform_category = {
 				tooltip = RUS_maximalist_land_reform_active_slot_tt
 				check_variable = { RUS_maximalist_land_reform_active_decisions < 2 }
 			}
-			check_variable = { RUS_maximalist_land_reform_score < 100 }
+			RUS_nat_reform_decision_closed = no
 		}
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = RUS_maximalist_land_reform_cancel_if_finished_tt
-				check_variable = { RUS_maximalist_land_reform_score > 99.9 }
+				RUS_nat_reform_decision_closed = yes
 			}
 		}
 		complete_effect = {

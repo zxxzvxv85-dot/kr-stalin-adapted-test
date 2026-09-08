@@ -1,0 +1,49 @@
+RUS_agricultural_quarterly_management_category = {
+RUS_nat_support_food = { icon = GFX_decision_generic_agriculture cost = 40 visible = { has_country_flag = RUS_nat_enabled } available = { custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_food = 0 } } } complete_effect = { custom_effect_tooltip = RUS_nat_support_food_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_food = 0 } }
+set_variable = { RUS_nat_support_food = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+add_to_variable = { RUS_nat_wheat_stock = 4 }
+clamp_variable = { var = RUS_nat_wheat_stock min = 0 max = 12 }
+RUS_nat_refresh = yes
+}
+ } } ai_will_do = { base = 0 } }
+RUS_nat_support_processing = { icon = GFX_decision_generic_agriculture cost = 35 visible = { has_country_flag = RUS_nat_enabled } available = { custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_processing = 0 } } } complete_effect = { custom_effect_tooltip = RUS_nat_support_processing_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_processing = 0 } }
+set_variable = { RUS_nat_support_processing = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+add_to_variable = { RUS_nat_beet_stock = 2 }
+clamp_variable = { var = RUS_nat_beet_stock min = 0 max = 6 }
+RUS_nat_refresh = yes
+}
+ } } ai_will_do = { base = 0 } }
+RUS_nat_support_textiles = { icon = GFX_decision_generic_agriculture cost = 40 visible = { has_country_flag = RUS_nat_enabled } available = { custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_textiles = 0 } } } complete_effect = { custom_effect_tooltip = RUS_nat_support_textiles_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_textiles = 0 } }
+set_variable = { RUS_nat_support_textiles = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+add_to_variable = { RUS_nat_flax_stock = 1.5 }
+clamp_variable = { var = RUS_nat_flax_stock min = 0 max = 6 }
+add_to_variable = { RUS_nat_cotton_stock = 1.5 }
+clamp_variable = { var = RUS_nat_cotton_stock min = 0 max = 6 }
+RUS_nat_refresh = yes
+}
+ } } ai_will_do = { base = 0 } }
+RUS_nat_support_technical = { icon = GFX_decision_generic_agriculture cost = 50 visible = { has_country_flag = RUS_nat_enabled } available = { custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_technical = 0 } } } complete_effect = { custom_effect_tooltip = RUS_nat_support_technical_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_technical = 0 } }
+set_variable = { RUS_nat_support_technical = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+set_variable = { RUS_nat_technical_support = 1 }
+RUS_nat_refresh = yes
+}
+ } } ai_will_do = { base = 0 } }
+RUS_nat_support_repair = { icon = GFX_decision_generic_agriculture cost = 40 visible = { has_country_flag = RUS_nat_enabled } available = { custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_repair = 0 } } } complete_effect = { custom_effect_tooltip = RUS_nat_support_repair_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_repair = 0 } }
+set_variable = { RUS_nat_support_repair = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+set_variable = { RUS_nat_repair_support = 0.05 }
+RUS_nat_refresh = yes
+}
+ } } ai_will_do = { base = 0 } }
+RUS_nat_support_emergency = { icon = GFX_decision_generic_agriculture cost = 60 visible = { has_country_flag = RUS_nat_enabled } available = { custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_emergency = 0 } } } complete_effect = { custom_effect_tooltip = RUS_nat_support_emergency_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 2 } check_variable = { RUS_nat_support_emergency = 0 } }
+set_variable = { RUS_nat_support_emergency = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+set_variable = { RUS_nat_emergency_purchase = 1 }
+RUS_nat_refresh = yes
+}
+ } } ai_will_do = { base = 0 } }
+}

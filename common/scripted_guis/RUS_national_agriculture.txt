@@ -1,0 +1,238 @@
+scripted_gui = { RUS_national_agriculture_gui = { context_type = decision_category window_name = "RUS_national_agriculture_window" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled } triggers = { nat_tab_0_click_enabled = { always = yes }
+nat_tab_1_click_enabled = { always = yes }
+nat_tab_2_click_enabled = { always = yes }
+nat_tab_3_click_enabled = { always = yes }
+nat_weather_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_wheat_icon_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_wheat_name_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_wheat_minus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_wheat_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment > 0 } }
+nat_wheat_amount_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_wheat_plus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_wheat_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_wheat_info_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_wheat_soil_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_rye_icon_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_rye_name_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_rye_minus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_rye_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment > 0 } }
+nat_rye_amount_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_rye_plus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_rye_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_rye_info_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_rye_soil_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_beet_icon_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_beet_name_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_beet_minus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_beet_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment > 0 } }
+nat_beet_amount_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_beet_plus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_beet_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_beet_info_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_beet_soil_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_flax_icon_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_flax_name_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_flax_minus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_flax_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment > 0 } }
+nat_flax_amount_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_flax_plus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_flax_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_flax_info_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_flax_soil_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_cotton_icon_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_cotton_name_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_cotton_minus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_cotton_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment > 0 } }
+nat_cotton_amount_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_cotton_plus_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_cotton_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_cotton_info_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_cotton_soil_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_food_icon_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_needs_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_task_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_next_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_auto_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_auto_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+nat_clear_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_clear_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+nat_confirm_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_confirm_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
+nat_reopen_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_reopen_click_enabled = { has_country_flag = RUS_agri_allocation_locked }
+nat_gaps_visible = { check_variable = { RUS_nat_page = 1 } }
+nat_machine_icon_0_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_0_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_icon_1_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_1_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_2_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_3_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_icon_4_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_4_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_5_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_6_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_promise_state_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_machine_coverage_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_factory_0_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_factory_0_click_enabled = { check_variable = { RUS_nat_factories > 0 } }
+nat_factory_1_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_factory_1_click_enabled = { check_variable = { RUS_nat_factories > 0 } }
+nat_factory_2_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_factory_2_click_enabled = { check_variable = { RUS_nat_available > 0 } }
+nat_factory_3_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_factory_3_click_enabled = { check_variable = { RUS_nat_available > 0 } }
+nat_stop_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_stop_click_enabled = { always = yes }
+nat_max_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_max_click_enabled = { always = yes }
+nat_stock_wheat_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_stock_rye_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_stock_beet_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_stock_flax_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_stock_cotton_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_supply_food_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_supply_beet_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_supply_textile_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_export_icon_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_reserve_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_reserve_0_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_reserve_0_click_enabled = { always = yes }
+nat_reserve_1_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_reserve_1_click_enabled = { always = yes }
+nat_reserve_2_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_reserve_2_click_enabled = { always = yes }
+nat_order_icon_generic_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_order_generic_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_order_rank_generic_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_accept_generic_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_accept_generic_click_enabled = { check_variable = { RUS_nat_generic_quantity > 0 } }
+nat_order_icon_fra_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_order_fra_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_order_rank_fra_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_accept_fra_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_accept_fra_click_enabled = { check_variable = { RUS_nat_fra_quantity > 0 } }
+nat_order_icon_eng_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_order_eng_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_order_rank_eng_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_accept_eng_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_accept_eng_click_enabled = { check_variable = { RUS_nat_eng_quantity > 0 } }
+nat_morder_fra_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_maccept_fra_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_maccept_fra_click_enabled = { check_variable = { RUS_nat_fra_machine_quantity > 0 } }
+nat_morder_eng_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_maccept_eng_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_maccept_eng_click_enabled = { check_variable = { RUS_nat_eng_machine_quantity > 0 } }
+nat_priority_visible = { check_variable = { RUS_nat_page = 3 } }
+nat_priority_click_enabled = { always = yes }
+nat_income_icon_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_head_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_weather_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_wheat_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_rye_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_beet_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_flax_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_cotton_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_supply_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_shortage_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_pp_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_report_orders_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
+nat_empty_report_visible = { check_variable = { RUS_nat_page = 4 } NOT = { has_country_flag = RUS_nat_has_report } } } effects = { nat_tab_0_click = { set_variable = { RUS_nat_page = 1 }
+ RUS_nat_refresh = yes }
+nat_tab_1_click = { set_variable = { RUS_nat_page = 2 }
+ RUS_nat_refresh = yes }
+nat_tab_2_click = { set_variable = { RUS_nat_page = 3 }
+ RUS_nat_refresh = yes }
+nat_tab_3_click = { set_variable = { RUS_nat_page = 4 }
+ RUS_nat_refresh = yes }
+nat_wheat_minus_click = { RUS_agri_decrease_wheat = yes RUS_nat_refresh = yes }
+nat_wheat_plus_click = { RUS_agri_increase_wheat = yes RUS_nat_refresh = yes }
+nat_rye_minus_click = { RUS_agri_decrease_rye = yes RUS_nat_refresh = yes }
+nat_rye_plus_click = { RUS_agri_increase_rye = yes RUS_nat_refresh = yes }
+nat_beet_minus_click = { RUS_agri_decrease_beet = yes RUS_nat_refresh = yes }
+nat_beet_plus_click = { RUS_agri_increase_beet = yes RUS_nat_refresh = yes }
+nat_flax_minus_click = { RUS_agri_decrease_flax = yes RUS_nat_refresh = yes }
+nat_flax_plus_click = { RUS_agri_increase_flax = yes RUS_nat_refresh = yes }
+nat_cotton_minus_click = { RUS_agri_decrease_cotton = yes RUS_nat_refresh = yes }
+nat_cotton_plus_click = { RUS_agri_increase_cotton = yes RUS_nat_refresh = yes }
+nat_auto_click = { RUS_nat_auto_allocate = yes
+ RUS_nat_refresh = yes }
+nat_clear_click = { RUS_agri_clear_allocation = yes RUS_nat_refresh = yes }
+nat_confirm_click = { RUS_agri_confirm_allocation = yes RUS_nat_refresh = yes }
+nat_reopen_click = { RUS_agri_reopen_allocation = yes RUS_nat_refresh = yes }
+nat_factory_0_click = { set_variable = { RUS_nat_requested = RUS_nat_factories }
+add_to_variable = { RUS_nat_requested = -10 }
+RUS_nat_set_factories = yes
+ RUS_nat_refresh = yes }
+nat_factory_1_click = { set_variable = { RUS_nat_requested = RUS_nat_factories }
+add_to_variable = { RUS_nat_requested = -1 }
+RUS_nat_set_factories = yes
+ RUS_nat_refresh = yes }
+nat_factory_2_click = { set_variable = { RUS_nat_requested = RUS_nat_factories }
+add_to_variable = { RUS_nat_requested = 1 }
+RUS_nat_set_factories = yes
+ RUS_nat_refresh = yes }
+nat_factory_3_click = { set_variable = { RUS_nat_requested = RUS_nat_factories }
+add_to_variable = { RUS_nat_requested = 10 }
+RUS_nat_set_factories = yes
+ RUS_nat_refresh = yes }
+nat_stop_click = { set_variable = { RUS_nat_requested = 0 }
+RUS_nat_set_factories = yes
+ RUS_nat_refresh = yes }
+nat_max_click = { set_variable = { RUS_nat_requested = RUS_nat_factories }
+add_to_variable = { RUS_nat_requested = RUS_nat_available }
+RUS_nat_set_factories = yes
+ RUS_nat_refresh = yes }
+nat_reserve_0_click = { set_variable = { RUS_nat_reserve = 0.5 }
+ RUS_nat_refresh = yes }
+nat_reserve_1_click = { set_variable = { RUS_nat_reserve = 1 }
+ RUS_nat_refresh = yes }
+nat_reserve_2_click = { set_variable = { RUS_nat_reserve = 2 }
+ RUS_nat_refresh = yes }
+nat_accept_generic_click = { if = { limit = { check_variable = { RUS_nat_generic_accept = 1 } }
+set_variable = { RUS_nat_generic_accept = 0 }
+}
+else = {
+set_variable = { RUS_nat_generic_accept = 1 }
+}
+ RUS_nat_refresh = yes }
+nat_accept_fra_click = { if = { limit = { check_variable = { RUS_nat_fra_accept = 1 } }
+set_variable = { RUS_nat_fra_accept = 0 }
+}
+else = {
+set_variable = { RUS_nat_fra_accept = 1 }
+}
+ RUS_nat_refresh = yes }
+nat_accept_eng_click = { if = { limit = { check_variable = { RUS_nat_eng_accept = 1 } }
+set_variable = { RUS_nat_eng_accept = 0 }
+}
+else = {
+set_variable = { RUS_nat_eng_accept = 1 }
+}
+ RUS_nat_refresh = yes }
+nat_maccept_fra_click = { if = { limit = { check_variable = { RUS_nat_fra_machine_accept = 1 } }
+set_variable = { RUS_nat_fra_machine_accept = 0 }
+}
+else = {
+set_variable = { RUS_nat_fra_machine_accept = 1 }
+}
+ RUS_nat_refresh = yes }
+nat_maccept_eng_click = { if = { limit = { check_variable = { RUS_nat_eng_machine_accept = 1 } }
+set_variable = { RUS_nat_eng_machine_accept = 0 }
+}
+else = {
+set_variable = { RUS_nat_eng_machine_accept = 1 }
+}
+ RUS_nat_refresh = yes }
+nat_priority_click = { add_to_variable = { RUS_nat_generic_priority = 1 }
+if = { limit = { check_variable = { RUS_nat_generic_priority > 3 } }
+set_variable = { RUS_nat_generic_priority = 1 }
+}
+add_to_variable = { RUS_nat_fra_priority = 1 }
+if = { limit = { check_variable = { RUS_nat_fra_priority > 3 } }
+set_variable = { RUS_nat_fra_priority = 1 }
+}
+add_to_variable = { RUS_nat_eng_priority = 1 }
+if = { limit = { check_variable = { RUS_nat_eng_priority > 3 } }
+set_variable = { RUS_nat_eng_priority = 1 }
+}
+ RUS_nat_refresh = yes } } } }

@@ -1,0 +1,109 @@
+defined_text = { name = GetRUSNatPlan
+text = { trigger = { has_country_flag = RUS_agri_allocation_locked } localization_key = RUS_nat_plan_locked }
+text = { localization_key = RUS_nat_plan_open } }
+defined_text = { name = GetRUSNatwheatSaturation
+text = { trigger = { has_country_flag = RUS_agri_saturation_wheat } localization_key = RUS_nat_saturation }
+text = { localization_key = RUS_nat_no_saturation } }
+defined_text = { name = GetRUSNatryeSaturation
+text = { trigger = { has_country_flag = RUS_agri_saturation_rye } localization_key = RUS_nat_saturation }
+text = { localization_key = RUS_nat_no_saturation } }
+defined_text = { name = GetRUSNatbeetSaturation
+text = { trigger = { has_country_flag = RUS_agri_saturation_beet } localization_key = RUS_nat_saturation }
+text = { localization_key = RUS_nat_no_saturation } }
+defined_text = { name = GetRUSNatflaxSaturation
+text = { trigger = { has_country_flag = RUS_agri_saturation_flax } localization_key = RUS_nat_saturation }
+text = { localization_key = RUS_nat_no_saturation } }
+defined_text = { name = GetRUSNatcottonSaturation
+text = { trigger = { has_country_flag = RUS_agri_saturation_cotton } localization_key = RUS_nat_saturation }
+text = { localization_key = RUS_nat_no_saturation } }
+defined_text = { name = GetRUSNatWeather
+text = { trigger = { check_variable = { RUS_agri_weather_forecast > 0 } } localization_key = RUS_nat_weather_good }
+text = { trigger = { check_variable = { RUS_agri_weather_forecast < 0 } } localization_key = RUS_nat_weather_bad }
+text = { localization_key = RUS_nat_weather_normal } }
+defined_text = { name = GetRUSNatNext
+text = { trigger = { has_country_flag = RUS_agri_next_machinery } localization_key = RUS_nat_next_machines }
+text = { trigger = { has_country_flag = RUS_agri_next_storage } localization_key = RUS_nat_next_storage }
+text = { localization_key = RUS_nat_none } }
+defined_text = { name = GetRUSNatPromise
+text = { trigger = { has_country_flag = RUS_max_landreform_tractor_promise_kept } localization_key = RUS_nat_promise_kept }
+text = { trigger = { has_country_flag = RUS_max_landreform_tractor_promise_failed } localization_key = RUS_nat_promise_failed }
+text = { trigger = { has_country_flag = RUS_max_landreform_tractor_promise_active } localization_key = RUS_nat_promise_pending }
+text = { localization_key = RUS_nat_promise_none } }
+defined_text = { name = GetRUSNatwheatMarket
+text = { trigger = { check_variable = { RUS_agri_wheat_forecast > 0 } } localization_key = RUS_nat_strong }
+text = { trigger = { check_variable = { RUS_agri_wheat_forecast < 0 } } localization_key = RUS_nat_weak }
+text = { localization_key = RUS_nat_stable } }
+defined_text = { name = GetRUSNatryeMarket
+text = { trigger = { check_variable = { RUS_agri_rye_forecast > 0 } } localization_key = RUS_nat_strong }
+text = { trigger = { check_variable = { RUS_agri_rye_forecast < 0 } } localization_key = RUS_nat_weak }
+text = { localization_key = RUS_nat_stable } }
+defined_text = { name = GetRUSNatbeetMarket
+text = { trigger = { check_variable = { RUS_agri_beet_forecast > 0 } } localization_key = RUS_nat_strong }
+text = { trigger = { check_variable = { RUS_agri_beet_forecast < 0 } } localization_key = RUS_nat_weak }
+text = { localization_key = RUS_nat_stable } }
+defined_text = { name = GetRUSNatflaxMarket
+text = { trigger = { check_variable = { RUS_agri_flax_forecast > 0 } } localization_key = RUS_nat_strong }
+text = { trigger = { check_variable = { RUS_agri_flax_forecast < 0 } } localization_key = RUS_nat_weak }
+text = { localization_key = RUS_nat_stable } }
+defined_text = { name = GetRUSNatcottonMarket
+text = { trigger = { check_variable = { RUS_agri_cotton_forecast > 0 } } localization_key = RUS_nat_strong }
+text = { trigger = { check_variable = { RUS_agri_cotton_forecast < 0 } } localization_key = RUS_nat_weak }
+text = { localization_key = RUS_nat_stable } }
+defined_text = { name = GetRUSNatMachineryMarket
+text = { trigger = { check_variable = { RUS_nat_machine_forecast > 0 } } localization_key = RUS_nat_strong }
+text = { trigger = { check_variable = { RUS_nat_machine_forecast < 0 } } localization_key = RUS_nat_weak }
+text = { localization_key = RUS_nat_stable } }
+defined_text = { name = GetRUSNatOrdergeneric
+text = { trigger = { check_variable = { RUS_nat_generic_crop = 1 } } localization_key = RUS_agri_wheat }
+text = { trigger = { check_variable = { RUS_nat_generic_crop = 2 } } localization_key = RUS_agri_rye }
+text = { trigger = { check_variable = { RUS_nat_generic_crop = 3 } } localization_key = RUS_agri_beet }
+text = { trigger = { check_variable = { RUS_nat_generic_crop = 4 } } localization_key = RUS_agri_flax }
+text = { trigger = { check_variable = { RUS_nat_generic_crop = 5 } } localization_key = RUS_agri_cotton }
+text = { localization_key = RUS_nat_none } }
+defined_text = { name = GetRUSNatAcceptgeneric
+text = { trigger = { check_variable = { RUS_nat_generic_shipped = 1 } } localization_key = RUS_nat_delivered }
+text = { trigger = { check_variable = { RUS_nat_generic_accept = 1 } } localization_key = RUS_nat_accepted }
+text = { localization_key = RUS_nat_cancelled } }
+defined_text = { name = GetRUSNatOrderfra
+text = { trigger = { check_variable = { RUS_nat_fra_crop = 1 } } localization_key = RUS_agri_wheat }
+text = { trigger = { check_variable = { RUS_nat_fra_crop = 2 } } localization_key = RUS_agri_rye }
+text = { trigger = { check_variable = { RUS_nat_fra_crop = 3 } } localization_key = RUS_agri_beet }
+text = { trigger = { check_variable = { RUS_nat_fra_crop = 4 } } localization_key = RUS_agri_flax }
+text = { trigger = { check_variable = { RUS_nat_fra_crop = 5 } } localization_key = RUS_agri_cotton }
+text = { localization_key = RUS_nat_none } }
+defined_text = { name = GetRUSNatAcceptfra
+text = { trigger = { check_variable = { RUS_nat_fra_shipped = 1 } } localization_key = RUS_nat_delivered }
+text = { trigger = { check_variable = { RUS_nat_fra_accept = 1 } } localization_key = RUS_nat_accepted }
+text = { localization_key = RUS_nat_cancelled } }
+defined_text = { name = GetRUSNatOrdereng
+text = { trigger = { check_variable = { RUS_nat_eng_crop = 1 } } localization_key = RUS_agri_wheat }
+text = { trigger = { check_variable = { RUS_nat_eng_crop = 2 } } localization_key = RUS_agri_rye }
+text = { trigger = { check_variable = { RUS_nat_eng_crop = 3 } } localization_key = RUS_agri_beet }
+text = { trigger = { check_variable = { RUS_nat_eng_crop = 4 } } localization_key = RUS_agri_flax }
+text = { trigger = { check_variable = { RUS_nat_eng_crop = 5 } } localization_key = RUS_agri_cotton }
+text = { localization_key = RUS_nat_none } }
+defined_text = { name = GetRUSNatAccepteng
+text = { trigger = { check_variable = { RUS_nat_eng_shipped = 1 } } localization_key = RUS_nat_delivered }
+text = { trigger = { check_variable = { RUS_nat_eng_accept = 1 } } localization_key = RUS_nat_accepted }
+text = { localization_key = RUS_nat_cancelled } }
+defined_text = { name = GetRUSNatMachineAcceptfra
+text = { trigger = { check_variable = { RUS_nat_fra_machine_shipped = 1 } } localization_key = RUS_nat_delivered }
+text = { trigger = { check_variable = { RUS_nat_fra_machine_accept = 1 } } localization_key = RUS_nat_accepted }
+text = { localization_key = RUS_nat_cancelled } }
+defined_text = { name = GetRUSNatMachineAccepteng
+text = { trigger = { check_variable = { RUS_nat_eng_machine_shipped = 1 } } localization_key = RUS_nat_delivered }
+text = { trigger = { check_variable = { RUS_nat_eng_machine_accept = 1 } } localization_key = RUS_nat_accepted }
+text = { localization_key = RUS_nat_cancelled } }
+defined_text = { name = GetRUSNatTask
+text = { trigger = { check_variable = { RUS_nat_task = 1 } } localization_key = RUS_nat_task_1 }
+text = { trigger = { check_variable = { RUS_nat_task = 2 } } localization_key = RUS_nat_task_2 }
+text = { localization_key = RUS_nat_task_3 } }
+defined_text = { name = GetRUSNatTarget
+text = { trigger = { has_country_flag = RUS_nat_enabled } localization_key = RUS_nat_target150 }
+text = { localization_key = RUS_nat_target100 } }
+defined_text = { name = GetRUSNatTractorDays
+text = { trigger = { has_country_flag = RUS_nat_enabled } localization_key = RUS_nat_days540 }
+text = { localization_key = RUS_nat_days270 } }
+defined_text = { name = GetRUSNatTractorRequirement
+text = { trigger = { has_country_flag = RUS_nat_enabled } localization_key = RUS_nat_tractor_requirement }
+text = { localization_key = RUS_nat_empty } }

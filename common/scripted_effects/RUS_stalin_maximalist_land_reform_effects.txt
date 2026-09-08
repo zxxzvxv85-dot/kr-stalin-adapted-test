@@ -30,6 +30,10 @@ RUS_maximalist_land_reform_add_initial_stage = {
 }
 
 RUS_maximalist_land_reform_update_stage_idea = {
+	if = {
+		limit = { has_country_flag = RUS_nat_enabled has_country_flag = RUS_maximalist_land_reform_success }
+		RUS_agri_refresh_score_account = yes
+	}
 	hidden_effect = {
 		RUS_maximalist_land_reform_remove_stage_ideas = yes
 	}
@@ -54,7 +58,7 @@ RUS_maximalist_land_reform_update_stage_idea = {
 		add_ideas = RUS_maximalist_land_reform_stage_3
 	}
 	else_if = {
-		limit = { check_variable = { RUS_maximalist_land_reform_score < 100 } }
+		limit = { RUS_nat_reform_complete = no }
 		set_variable = { RUS_maximalist_land_reform_stage = 4 }
 		add_ideas = RUS_maximalist_land_reform_stage_4
 	}
@@ -76,6 +80,7 @@ RUS_maximalist_land_reform_update_stage_idea = {
 RUS_maximalist_land_reform_apply_monthly_advisor_score = {
 	if = {
 		limit = {
+			NOT = { has_country_flag = RUS_nat_enabled }
 			has_country_flag = RUS_maximalist_land_reform_in_progress
 			check_variable = { RUS_maximalist_land_reform_score < 100 }
 		}

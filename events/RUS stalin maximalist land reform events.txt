@@ -26,6 +26,11 @@ country_event = {
 		name = rus_maximalist_land_reform_events.2.a
 		custom_effect_tooltip = rus_maximalist_land_reform_events.2.a.tt
 		set_country_flag = RUS_maximalist_land_reform_success
+		if = {
+			limit = { has_country_flag = RUS_nat_enabled NOT = { has_country_flag = RUS_nat_outlook_seen } }
+			set_country_flag = RUS_nat_outlook_seen
+			country_event = { id = RUS_agricultural_management.3 }
+		}
 		hidden_effect = { RUS_agri_refresh_score_account = yes }
 		clr_country_flag = RUS_maximalist_land_reform_in_progress
 		set_variable = { RUS_maximalist_land_reform_active_decisions = 0 }
@@ -151,6 +156,10 @@ country_event = {
 		RUS_maximalist_land_reform_update_stage_idea = yes
 		unlock_decision_category_tooltip = RUS_maximalist_land_reform_category
 		activate_mission = RUS_maximalist_land_reform_mission
+		if = {
+			limit = { has_country_flag = RUS_nat_enabled }
+			add_days_mission_timeout = { mission = RUS_maximalist_land_reform_mission days = 180 }
+		}
 		country_event = { id = rus_maximalist_land_reform_events.50 days = 90 }
 		country_event = { id = rus_maximalist_land_reform_events.51 days = 270 }
 	}
@@ -208,6 +217,10 @@ country_event = {
 		set_country_flag = RUS_max_landreform_tractor_promise_active
 		set_variable = { RUS_max_landreform_tractor_promise_count = 0 }
 		activate_mission = RUS_max_landreform_tractor_promise_mission
+		if = {
+			limit = { has_country_flag = RUS_nat_enabled }
+			add_days_mission_timeout = { mission = RUS_max_landreform_tractor_promise_mission days = 270 }
+		}
 	}
 }
 

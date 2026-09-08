@@ -45,7 +45,7 @@ RUS_agri_set_base_rates = {
 	RUS_agri_apply_machinery = yes
 }
 
-RUS_agri_refresh_totals = {
+RUS_agri_refresh_totals_legacy = {
 	set_variable = { RUS_agri_total_investment = RUS_agri_wheat_investment }
 	add_to_variable = { RUS_agri_total_investment = RUS_agri_rye_investment }
 	add_to_variable = { RUS_agri_total_investment = RUS_agri_beet_investment }
@@ -492,7 +492,7 @@ RUS_agri_clear_allocation = {
 	}
 }
 
-RUS_agri_balance_allocation = {
+RUS_agri_balance_allocation_legacy = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
 		set_variable = { RUS_agri_wheat_investment = 0 }
@@ -735,4 +735,14 @@ RUS_agri_daily_update = {
 		}
 		else = { RUS_agri_refresh_gui = yes }
 	}
+}
+
+RUS_agri_refresh_totals = {
+ if = { limit = { has_country_flag = RUS_nat_enabled } RUS_nat_refresh = yes }
+ else = { RUS_agri_refresh_totals_legacy = yes }
+}
+
+RUS_agri_balance_allocation = {
+ if = { limit = { has_country_flag = RUS_nat_enabled } RUS_nat_auto_allocate = yes }
+ else = { RUS_agri_balance_allocation_legacy = yes }
 }
