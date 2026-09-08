@@ -30505,6 +30505,14 @@ focus_tree = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			RUS_fr_apply_artillery_legacy_rewards = yes
 			add_tech_bonus = { name = RUS_fr_artillery_ammunition_technical_committee bonus = 0.75 uses = 1 category = artillery }
+			if = {
+				limit = { has_dlc_gtd = yes }
+				add_breakthrough_points = { specialization = specialization_land value = 1 }
+				if = {
+					limit = { NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer } }
+					sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.5 }
+				}
+			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 	}
