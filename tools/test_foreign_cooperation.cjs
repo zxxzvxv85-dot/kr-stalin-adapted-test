@@ -170,4 +170,28 @@ for (const lang of ['simp_chinese', 'english', 'russian']) {
 }
 assert.deepEqual(allKeys[0], allKeys[1]);
 assert.deepEqual(allKeys[0], allKeys[2]);
-console.log(`${cases} behavioral cases passed; aid hooks, resource prices, modifier values and three-language BOM/key parity passed.`);
+const parisBranch = new Set(['RUS_future_foreign_006']);
+for (let changed = true; changed;) {
+  changed = false;
+  for (const {value: focus} of focuses) {
+    const id = get(focus, 'id');
+    const prerequisites = focus.filter(n => n.key === 'prerequisite').flatMap(n => n.value).map(n => n.value);
+    if (!parisBranch.has(id) && prerequisites.some(p => parisBranch.has(p))) {
+      parisBranch.add(id); changed = true;
+    }
+  }
+}
+assert.deepEqual([...parisBranch].sort(), ['006', '016', '017', '032', '046', '047', '056'].map(id => 'RUS_future_foreign_' + id));
+for (const {value: focus} of focuses) {
+  const threat = (get(focus, 'completion_reward') || []).filter(n => n.key === 'add_threat');
+  assert.deepEqual(threat.map(n => n.value), parisBranch.has(get(focus, 'id')) ? ['2.0'] : []);
+}
+function threatCount(nodes) {
+  return nodes.reduce((count, n) => count + (n.key === 'add_threat' ? 1 : 0) + (Array.isArray(n.value) ? threatCount(n.value) : 0), 0);
+}
+for (const decision of decisions) {
+  const aid = ['RUS_future_foreign_military_aid', 'RUS_future_foreign_civil_aid'].includes(decision.key);
+  assert.equal(threatCount(decision.value), aid ? 1 : 0);
+  if (aid) assert.equal(get(get(decision.value, 'complete_effect'), 'add_threat'), '1.0');
+}
+console.log(`${cases} behavioral cases passed; aid hooks, resource prices, modifier values and three-language BOM/key parity passed. Seven Paris-branch rewards and one-time aid threat hooks verified.`);

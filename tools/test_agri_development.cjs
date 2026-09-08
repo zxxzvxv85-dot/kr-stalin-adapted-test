@@ -142,13 +142,14 @@ function exec(b, c, donor = c, args = {}) {
       let roll = c.seed / 4294967296 * total;
       for (const x of v) { roll -= Number(x.key); if (roll < 0) { exec(x.value, c, donor, args); break; } }
     } else if (k === "add_manpower") c.manpower = (c.manpower || 0) + num(c, v);
+    else if (k === "add_threat") c.threat = (c.threat || 0) + num(c, v);
     else if (k === "add_timed_idea") c.ideas[get(v, "idea")] = num(c, get(v, "days"));
     else if (k === "add_ideas") c.ideas[v] = true;
     else if (k === "remove_ideas") {
       for (const id of Array.isArray(v) ? v.map(x => x.key) : [v]) delete c.ideas[id];
     } else if (k === "country_event") c.events.push(v);
     else if (k === "add_cic") c.surplus += num(c, v);
-    else if (["custom_effect_tooltip", "set_variable_to_random", "name",
+    else if (["custom_effect_tooltip", "effect_tooltip", "set_variable_to_random", "name",
       "RUS_stalin_update_advisor_relationship_multipliers", "RUS_stalin_apply_max_advisor_trait_tier"].includes(k)) {
       // External advisor refresh/engine presentation do not participate in arithmetic.
     } else if (effects.has(k)) {
@@ -296,6 +297,28 @@ test("aid requires valid peaceful socialist target, focus, funds and recipient s
     if (fail === "funds") x.focuses.push("RUS_future_foreign_003");
     const before = value(x, "spendable_score"); buy(x, "aid_food");
     assert.equal(value(x, "spendable_score"), before); assert.deepEqual(x.target.ideas, {});
+  }
+});
+test("each successful foreign aid adds one threat to the donor, failed purchases add none", () => {
+  for (const kind of ["food", "technicians", "front"]) {
+    const definition = decisions.get(ag("exchange_aid_" + kind));
+    assert.equal(get(get(get(definition, "complete_effect"), "effect_tooltip"), "add_threat"), "1.0");
+    for (const failure of [null, "missing", "hostile", "government", "funds", "focus", "slot", "peace"]) {
+      const c = completed(failure === "funds" ? 0 : 30);
+      c.target = country(); c.target.id = "FRA"; c.target.war = true;
+      if (failure !== "focus") c.focuses.push("RUS_future_foreign_003");
+      if (failure === "missing") c.target.exists = false;
+      if (failure === "hostile") c.target.enemy = true;
+      if (failure === "government") c.target.government = "democratic";
+      if (failure === "slot") c.target.ideas.RUS_agri_development_aid_food = 180;
+      if (failure === "peace") c.target.war = false;
+      const succeeds = failure === null || (failure === "peace" && kind !== "front");
+      buy(c, "aid_" + kind);
+      assert.equal(c.threat || 0, succeeds ? 1 : 0, kind + ": " + failure);
+      assert.equal(c.target.threat || 0, 0);
+      buy(c, "aid_" + kind);
+      assert.equal(c.threat || 0, succeeds ? 1 : 0, "No increase when aid slot is occupied");
+    }
   }
 });
 test("next-quarter purchases are exclusive, deferred, one-time and cross-year", () => {

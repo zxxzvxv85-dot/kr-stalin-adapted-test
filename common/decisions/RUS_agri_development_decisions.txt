@@ -297,6 +297,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
 		complete_effect = {
 			custom_effect_tooltip = RUS_agri_exchange_aid_food_effect_tt
+			effect_tooltip = { add_threat = 1.0 }
 			hidden_effect = {
 				if = {
 					limit = {
@@ -314,6 +315,7 @@ RUS_Spreading_the_Revolution_decisions = {
 							add_timed_idea = { idea = RUS_agri_development_aid_food days = 180 }
 							add_manpower = 10000
 						}
+						add_threat = 1.0
 						clr_country_flag = RUS_agri_purchase_paid
 						RUS_agri_refresh_gui = yes
 					}
@@ -350,6 +352,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
 		complete_effect = {
 			custom_effect_tooltip = RUS_agri_exchange_aid_technicians_effect_tt
+			effect_tooltip = { add_threat = 1.0 }
 			hidden_effect = {
 				if = {
 					limit = {
@@ -364,6 +367,7 @@ RUS_Spreading_the_Revolution_decisions = {
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_technicians days = 180 } }
+						add_threat = 1.0
 						clr_country_flag = RUS_agri_purchase_paid
 						RUS_agri_refresh_gui = yes
 					}
@@ -401,6 +405,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
 		complete_effect = {
 			custom_effect_tooltip = RUS_agri_exchange_aid_front_effect_tt
+			effect_tooltip = { add_threat = 1.0 }
 			hidden_effect = {
 				if = {
 					limit = {
@@ -416,6 +421,7 @@ RUS_Spreading_the_Revolution_decisions = {
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_front days = 180 } }
+						add_threat = 1.0
 						clr_country_flag = RUS_agri_purchase_paid
 						RUS_agri_refresh_gui = yes
 					}
