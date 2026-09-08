@@ -445,6 +445,55 @@ test("unstarted minigame stays locked through 400 daily ticks", () => {
   assert.equal(check(get(gui, "visible"), c), false);
   assert.equal(check(triggers.get(ag("exchange_unlocked")), c), false);
 });
+test("launch opens the outlook once, optional proposal is read-only, and initial season is unchanged", () => {
+  const start = get(parse(read("common/decisions/RUS_agricultural_quarterly_management_decisions.txt"))[0].value,
+    "RUS_start_agricultural_quarterly_management");
+  const eventFile = parse(read("events/RUS_agricultural_quarterly_management_events.txt"));
+  const event = id => eventFile.find(n => n.key === "country_event" && get(n.value, "id") === id).value;
+  const outlook = event("RUS_agricultural_management.3"), proposal = event("RUS_agricultural_management.4");
+  assert.equal(get(start, "fire_only_once"), "yes");
+  assert.equal(get(outlook, "is_triggered_only"), "yes");
+  assert.equal(get(proposal, "is_triggered_only"), "yes");
+  const options = outlook.filter(n => n.key === "option").map(n => n.value);
+  assert.equal(options.length, 2);
+  assert.deepEqual(options[0].map(n => n.key), ["name"]);
+  assert.deepEqual(options[1].map(n => n.key), ["name", "country_event"]);
+  assert.equal(get(get(options[1], "country_event"), "id"), "RUS_agricultural_management.4");
+  assert.deepEqual(get(proposal, "option").map(n => n.key), ["name"]);
+  for (let month = 1; month <= 12; month++) {
+    const c = country(); c.month = month; c.focuses.push("RUS_future_foreign_002");
+    assert.equal(check(get(start, "visible"), c), true);
+    exec(get(start, "complete_effect"), c);
+    assert.equal(check(get(start, "visible"), c), false);
+    assert.equal(c.events.length, 1);
+    assert.equal(get(c.events[0], "id"), "RUS_agricultural_management.3");
+    assert.equal(value(c, "season"), month < 3 || month === 12 ? 4 : Math.floor((month - 3) / 3) + 1);
+    const before = JSON.stringify({...c, events: []});
+    exec(options[0], c);
+    assert.equal(c.events.length, 1);
+    exec(options[1], c);
+    assert.equal(get(c.events[1], "id"), "RUS_agricultural_management.4");
+    exec(get(proposal, "option"), c);
+    assert.equal(c.events.length, 2);
+    assert.equal(JSON.stringify({...c, events: []}), before);
+  }
+  for (const prefix of ["RUS_agri_outlook_events", "RUS_vst_right_revolt"]) {
+    const keys = [];
+    for (const lang of ["simp_chinese", "english", "russian"]) {
+      const folder = prefix === "RUS_vst_right_revolt" ? "replace" : lang;
+      const bytes = fs.readFileSync(path.join(root, "localisation", folder, prefix + "_l_" + lang + ".yml"));
+      assert.equal(bytes.subarray(0, 3).toString("hex"), "efbbbf");
+      const lines = bytes.toString("utf8").trimEnd().split(/\r?\n/).slice(1);
+      keys.push(lines.map(line => {
+        assert.match(line, /^ [\w.]+:0 "(?:[^"\\]|\\.)*"$/);
+        return line.trim().split(":")[0];
+      }));
+      assert.equal(new Set(keys.at(-1)).size, keys.at(-1).length);
+    }
+    assert.deepEqual(keys[0], keys[1]); assert.deepEqual(keys[1], keys[2]);
+    assert.equal(keys[0].length, prefix === "RUS_vst_right_revolt" ? 3 : 7);
+  }
+});
 test("annual event button cannot restart an already active year", () => {
   const option = get(get(parse(read("events/RUS_agricultural_quarterly_management_events.txt")), "country_event"), "option");
   const c = completed(20); flag(c, "annual_score_paid"); set(c, "year", 1);
