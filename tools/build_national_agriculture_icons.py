@@ -39,6 +39,12 @@ for name, source in SOURCES.items():
     text_icon.save(text_destination)
     manifest.append({'name': 'text_'+name, 'source': str(source), 'sha256': hashlib.sha256(text_destination.read_bytes()).hexdigest()})
 proof = ROOT / 'output/national-agriculture'
+# The category frame uses a 112x100 photograph, not an event-picture sprite.
+field_source = KR / 'gfx/event_pictures/Generic/GFX_report_event_generic_mechanized_farms.png'
+with Image.open(field_source) as field_original:
+    field = ImageOps.fit(field_original.convert('RGBA').crop((24, 30, 187, 151)), (112, 100), method=Image.Resampling.LANCZOS)
+field.save(DEST / 'category_fields.png')
+manifest.append({'name': 'category_fields', 'source': str(field_source), 'crop': [24, 30, 187, 151], 'sha256': hashlib.sha256((DEST / 'category_fields.png').read_bytes()).hexdigest()})
 proof.mkdir(parents=True, exist_ok=True)
 (proof / 'icon-sources.json').write_text(json.dumps(manifest, indent=2)+'\n', encoding='utf-8')
 print('Eight existing-art sprites at 32x32 and eight inline icons at 20x20. No paid generation.')

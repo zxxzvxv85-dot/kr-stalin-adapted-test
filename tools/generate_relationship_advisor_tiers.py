@@ -344,8 +344,7 @@ def render_traits() -> str:
                 lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt")
             if advisor["group"] == "max":
                 lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_maximalist_advisor_weekly_tt")
-                if tier < 5:
-                    lines.append("\t\tcustom_modifier_tooltip = RUS_maximalist_advisor_land_reform_monthly_tt")
+                lines.append(f"\t\tcustom_modifier_tooltip = RUS_maximalist_advisor_{advisor['slug']}_agriculture_tt")
             lines.extend(["\t}", ""])
     lines.append("}")
     return "\n".join(lines) + "\n"
@@ -478,19 +477,66 @@ def render_localisation(language: str) -> str:
     translations = {
         "english": {
             "centre": "Weekly balance of power: §Y1 point toward the centre§!",
-            "land": "While land reform is underway, monthly land reform score: §G+1§!",
+            "land": "£RUS_nat_text_reform£ During §4land reform§!, monthly reform points: §G+1§!",
         },
         "russian": {
             "centre": "Еженедельный баланс сил: §Y1 пункт к центру§!",
-            "land": "Пока идет земельная реформа, ежемесячные очки земельной реформы: §G+1§!",
+            "land": "£RUS_nat_text_reform£ Во время §4земельной реформы§!, очки реформы в месяц: §G+1§!",
         },
         "simp_chinese": {
             "centre": "每周权力平衡：§Y向中央移动1点§!",
-            "land": "土地改革进行期间，每月土地改革分数：§G+1§!",
+            "land": "£RUS_nat_text_reform£ §4土地改革§!进行期间，每月土改分数：§G+1§!",
         },
     }[language]
     lines.append(f"  RUS_kamenev_bop_maximalist_advisor_weekly_tt: \"{translations['centre']}\"")
     lines.append(f"  RUS_maximalist_advisor_land_reform_monthly_tt: \"{translations['land']}\"")
+    agriculture = {
+        "simp_chinese": {
+            "ustinov": "£RUS_nat_text_reform£ §Y国家农业系统§!\\n完成§4季度任务§!时，额外土改分数：§G+1§!\\n不足整季按有效天数折算；仅在土改进行中或成功后发放。\\n§R不提供每月被动土改积分。§!",
+            "kolegayev": "£RUS_nat_text_food£ §Y国家农业系统§!\\n五种作物的§4实物产量§!：§G+5%§!\\n§R不提供每月被动土改积分。§!",
+            "kakhovskaya": "£RUS_nat_text_stock£ §Y国家农业系统§!\\n作物§4季末库存损耗率§!：§Y5%§! → §G2%§!\\n§g不影响在役农机损耗。§!\\n§R不提供每月被动土改积分。§!",
+        },
+        "english": {
+            "ustinov": "£RUS_nat_text_reform£ §YNational Agriculture System§!\\nCompleting the §4quarterly task§! grants extra reform points: §G+1§!\\nPartial quarters use eligible days; requires ongoing or successful reform.\\n§RNo passive monthly reform points.§!",
+            "kolegayev": "£RUS_nat_text_food£ §YNational Agriculture System§!\\n§4Physical output§! of all five crops: §G+5%§!\\n§RNo passive monthly reform points.§!",
+            "kakhovskaya": "£RUS_nat_text_stock£ §YNational Agriculture System§!\\nQuarter-end §4crop stock spoilage§!: §Y5%§! → §G2%§!\\n§gDoes not affect in-service machinery wear.§!\\n§RNo passive monthly reform points.§!",
+        },
+        "russian": {
+            "ustinov": "£RUS_nat_text_reform£ §YГосударственная аграрная система§!\\nВыполнение §4квартального задания§! даёт дополнительно очков реформы: §G+1§!\\nНеполный квартал учитывает дни действия; реформа должна идти или завершиться успешно.\\n§RНет пассивных ежемесячных очков реформы.§!",
+            "kolegayev": "£RUS_nat_text_food£ §YГосударственная аграрная система§!\\n§4Физический урожай§! всех пяти культур: §G+5%§!\\n§RНет пассивных ежемесячных очков реформы.§!",
+            "kakhovskaya": "£RUS_nat_text_stock£ §YГосударственная аграрная система§!\\n§4Потери запасов культур§! в конце квартала: §Y5%§! → §G2%§!\\n§gНе влияет на износ техники в эксплуатации.§!\\n§RНет пассивных ежемесячных очков реформы.§!",
+        },
+    }[language]
+    for slug, description in agriculture.items():
+        lines.append(f'  RUS_maximalist_advisor_{slug}_agriculture_tt: "[GetRUSMaximalistAgriculture{slug}]"')
+        lines.append(f'  RUS_maximalist_advisor_{slug}_national_tt: "{description}"')
+    lines.append('  RUS_maximalist_advisor_agriculture_empty: ""')
+    return "\n".join(lines) + "\n"
+
+
+def render_agriculture_localisation() -> str:
+    # Explicit country scope also works when the tooltip is opened from a portrait.
+    lines = []
+    for slug in ("ustinov", "kolegayev", "kakhovskaya"):
+        lines.extend([
+            "defined_text = {",
+            f"\tname = GetRUSMaximalistAgriculture{slug}",
+            "\ttext = {",
+            "\t\ttrigger = { RUS = { has_country_flag = RUS_nat_enabled } }",
+            f"\t\tlocalization_key = RUS_maximalist_advisor_{slug}_national_tt",
+            "\t}",
+            "\ttext = {",
+            "\t\ttrigger = { RUS = {",
+            "\t\t\tNOT = { has_country_flag = RUS_nat_enabled }",
+            "\t\t\tNOT = { has_country_flag = RUS_maximalist_land_reform_success }",
+            "\t\t\tNOT = { has_country_flag = RUS_maximalist_land_reform_failure }",
+            "\t\t\tcheck_variable = { RUS_maximalist_land_reform_score < 100 }",
+            "\t\t} }",
+            "\t\tlocalization_key = RUS_maximalist_advisor_land_reform_monthly_tt",
+            "\t}",
+            "\ttext = { localization_key = RUS_maximalist_advisor_agriculture_empty }",
+            "}",
+        ])
     return "\n".join(lines) + "\n"
 
 
@@ -502,6 +548,7 @@ def write(path: Path, content: str, bom: bool = False) -> None:
 def main() -> None:
     write(ROOT / "common/country_leader/RUS_stalin_relationship_scaled_advisor_tiers.txt", render_traits())
     write(ROOT / "common/scripted_effects/RUS_stalin_relationship_scaled_advisor_tier_effects.txt", render_effects())
+    write(ROOT / "common/scripted_localisation/RUS_maximalist_advisor_agriculture_loc.txt", render_agriculture_localisation())
     for language in ("english", "russian", "simp_chinese"):
         write(
             ROOT / f"localisation/{language}/RUS_stalin_relationship_scaled_advisor_tiers_l_{language}.yml",

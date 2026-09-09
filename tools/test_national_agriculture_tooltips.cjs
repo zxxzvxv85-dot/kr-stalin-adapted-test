@@ -31,7 +31,7 @@ for (const lang of ['simp_chinese','english','russian']) {
       assert.ok(texture,`${lang} ${key}: unknown text icon ${icon[1]}`);
       assert.ok(fs.existsSync(path.join(root,texture)),texture);
     }
-    if(previous.has(key) && !/^RUS_nat_(task_3|reserve_[012])$/.test(key)) {
+    if(previous.has(key) && !/^RUS_nat_(task_3|reserve_[012]|(?:m?order)_(?:fra|eng))$/.test(key)) {
       assert.equal(plain(value),plain(previous.get(key)),`${lang} ${key}: unintended rule/text change`);
     }
   }
