@@ -52,6 +52,12 @@ for (const lang of ['simp_chinese','english','russian']) {
     assert.equal(get(button.value,'pdx_tooltip'),`RUS_nat_reserve_${i}_tt`);
     assert.ok(loc.get(`RUS_nat_reserve_${i}_tt`).includes('25%'));
   }
+  for (const crop of ['wheat','rye','beet','flax','cotton']) {
+    const value = loc.get(`RUS_nat_${crop}_info`);
+    assert.ok(value.includes(`[?RUS_nat_${crop}_preview_rate|2]`), 'Unit yield must be a decimal quantity');
+    assert.ok(!value.includes('|%'), 'Unit yield is not a percentage');
+    if (lang === 'simp_chinese') assert.ok(value.includes('单位产量'));
+  }
 }
 assert.equal(chinesePresentation('甲；乙；丙'),'甲。\\n\\n乙。\\n\\n丙');
 assert.equal(chinesePresentation('§Y0.1§!个百分点 §G+5§!个百分点'),'§Y0.1%§! §G+5%§!');
