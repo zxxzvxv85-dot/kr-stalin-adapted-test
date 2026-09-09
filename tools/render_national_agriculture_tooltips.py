@@ -14,7 +14,7 @@ for key in [f'RUS_nat_tab_{i}_tt' for i in range(4)] + ['RUS_nat_reserve_1_tt']:
     canvas = Image.new('RGB', (370, 1800), '#20221f')
     draw = ImageDraw.Draw(canvas)
     x, y, color = 14, 12, colors['!']
-    for token in re.findall(r'§.|£[^£]+£|\\n|.', loc[key]):
+    for token in re.findall(r'§.|£[^£]+£|\\n|[+-]?\d+(?:\.\d+)?%?|.', loc[key]):
         if token.startswith('§'):
             color = colors[token[1]]
             continue

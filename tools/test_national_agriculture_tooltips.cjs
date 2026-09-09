@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {execFileSync} = require('node:child_process');
 const {parse, get, root} = require('./test_agri_development.cjs');
+const {chinesePresentation} = require('./national_agriculture_tooltip_style.cjs');
 const read = file => fs.readFileSync(path.join(root,file),'utf8');
 const entries = text => [...text.matchAll(/^\s*([\w.]+):(?:0)?\s*"(.*)"$/gm)].map(m=>[m[1],m[2]]);
 const plain = text => text.replace(/§./g,'').replace(/£[^£]+£/g,'').replace(/\\n/g,' ').replace(/\s+/g,' ')
@@ -32,12 +33,19 @@ for (const lang of ['simp_chinese','english','russian']) {
       assert.ok(fs.existsSync(path.join(root,texture)),texture);
     }
     if(previous.has(key) && !/^RUS_nat_(task_3|reserve_[012]|(?:m?order)_(?:fra|eng))$/.test(key)) {
-      assert.equal(plain(value),plain(previous.get(key)),`${lang} ${key}: unintended rule/text change`);
+      const expected = lang === 'simp_chinese' ? chinesePresentation(previous.get(key), key) : previous.get(key);
+      assert.equal(plain(value),plain(expected),`${lang} ${key}: unintended rule/text change`);
     }
   }
   for (let i=0;i<4;i++) {
     const value=loc.get(`RUS_nat_tab_${i}_tt`);
     for (const marker of ['§4','§Y','§R','£RUS_nat_text_','\\n\\n']) assert.ok(value.includes(marker),`${lang}: unstyled tooltip ${i}`);
+    if (lang === 'simp_chinese') {
+      assert.ok(!value.includes('；'), 'Semicolon clauses must become paragraphs');
+      assert.ok(!value.includes('个百分点'), 'Use percentage notation consistently');
+      assert.ok(!/\d[分点]/.test(plain(value)), 'No score/allocation suffix after a number');
+      assert.equal(chinesePresentation(value, `RUS_nat_tab_${i}_tt`),value,'Presentation must be idempotent');
+    }
   }
   for (let i=0;i<3;i++) {
     const button=gui.find(w=>w.key==='buttonType'&&get(w.value,'name')===`nat_reserve_${i}`);
@@ -45,4 +53,21 @@ for (const lang of ['simp_chinese','english','russian']) {
     assert.ok(loc.get(`RUS_nat_reserve_${i}_tt`).includes('25%'));
   }
 }
+assert.equal(chinesePresentation('甲；乙；丙'),'甲。\\n\\n乙。\\n\\n丙');
+assert.equal(chinesePresentation('§Y0.1§!个百分点 §G+5§!个百分点'),'§Y0.1%§! §G+5%§!');
+assert.equal(chinesePresentation('§Y20§!点，§G+2点§!，§Y12分§!'),'§Y20§!，§G+2§!，§Y12§!');
+assert.equal(chinesePresentation('§Y30%§!，§Y1.20§!，540天，3次，3000单位'),'§Y30%§!，§Y1.20§!，540天，3次，3000单位');
 console.log('Tooltip checks passed: three locales, preserved mechanics text, colors, icons, reserve bindings and BOM/unique keys.');
+const cn = new Map(entries(read('localisation/simp_chinese/RUS_national_agriculture_l_simp_chinese.yml')));
+const oldCn = new Map(entries(execFileSync('git',['show','HEAD:localisation/simp_chinese/RUS_national_agriculture_l_simp_chinese.yml'],{cwd:root,encoding:'utf8'})));
+for (const [key, value] of cn) {
+  assert.equal(chinesePresentation(value, key), value, `${key}: not idempotent`);
+  const old = oldCn.get(key);
+  const refs = s => [...s.matchAll(/\[\?([^|\]]+)/g)].map(m => m[1]);
+  assert.deepEqual(refs(value), refs(old || ''), `${key}: variable references changed`);
+}
+assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('粮食内需额外+2、纺织原料内需额外+1'));
+assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('小麦12、黑麦12、甜菜6、亚麻6、棉花6'));
+assert.ok(plain(cn.get('RUS_nat_tab_1_tt')).includes('仓库农机不参与在役损耗'));
+assert.ok(plain(cn.get('RUS_nat_tab_3_tt')).includes('不包含下列储备、农机覆盖和任务积分'));
+assert.ok(!cn.get('RUS_nat_machine_5').includes('\\n'));
