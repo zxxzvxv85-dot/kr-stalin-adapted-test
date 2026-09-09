@@ -219,10 +219,10 @@ const ui = [], triggers = [], clicks = [];
 const visible = (id,p) => { if(p) triggers.push(`${id}_visible = { check_variable = { RUS_nat_page = ${p} } }`); };
 // The native decision grid is 502px wide; keep text inside its right padding.
 function text(id,x,y,width,key,p=0,height=26) { width=Math.min(width,492-x); ui.push(`instantTextBoxType = { name = "${id}" position = { x = ${x} y = ${y} } font = "hoi_16mbs" text = "${key}" maxWidth = ${width} maxHeight = ${height} fixedsize = yes alwaystransparent = yes }`); visible(id,p); }
-function button(id,x,y,key,body,p=0,enabled='always = yes',sprite='GFX_button_123x34') { const tooltip=id.startsWith('nat_tab_')?key+'_tt':key; ui.push(`buttonType = { name = "${id}" position = { x = ${x} y = ${y} } quadTextureSprite = "${sprite}" buttonText = "${key}" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "${tooltip}" }`); visible(id,p); triggers.push(`${id}_click_enabled = { ${enabled} }`); clicks.push(`${id}_click = { ${body} RUS_nat_refresh = yes }`); }
+function button(id,x,y,key,body,p=0,enabled='always = yes',sprite='GFX_button_123x34') { const tooltip=/^nat_(tab|reserve)_/.test(id)?key+'_tt':key; ui.push(`buttonType = { name = "${id}" position = { x = ${x} y = ${y} } quadTextureSprite = "${sprite}" buttonText = "${key}" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "${tooltip}" }`); visible(id,p); triggers.push(`${id}_click_enabled = { ${enabled} }`); clicks.push(`${id}_click = { ${body} RUS_nat_refresh = yes }`); }
 function icon(id,kind,x,y,p=0){ui.push(`iconType = { name = "${id}" position = { x = ${x} y = ${y} } spriteType = "GFX_RUS_nat_${kind}" scale = 0.75 alwaystransparent = yes }`);visible(id,p);}
 const iconNames=['stock','reform','orders','machinery','food','export','income','factories'];
-write('interface/RUS_national_agriculture.gfx','spriteTypes = {\n'+iconNames.map(k=>`spriteType = { name = "GFX_RUS_nat_${k}" texturefile = "gfx/interface/RUS_national_agriculture/${k}.png" noOfFrames = 1 }`).join('\n')+'\n}\n');
+write('interface/RUS_national_agriculture.gfx','spriteTypes = {\n'+iconNames.map(k=>`spriteType = { name = "GFX_RUS_nat_${k}" texturefile = "gfx/interface/RUS_national_agriculture/${k}.png" noOfFrames = 1 }\nspriteType = { name = "GFX_RUS_nat_text_${k}" texturefile = "gfx/interface/RUS_national_agriculture/text_${k}.png" noOfFrames = 1 legacy_lazy_load = no }`).join('\n')+'\n}\n');
 label('RUS_nat_title','国家农业委员会','National Agriculture Board','Государственный аграрный комитет');
 text('nat_title',10,8,520,'RUS_nat_title');
 text('nat_decision_score',10,605,482,label(n('decision_score_line'),'决议累计供分：[?RUS_nat_decision_score|1]/90（含最初四项）','Decision points: [?RUS_nat_decision_score|1]/90 (includes initial four)','Очки решений: [?RUS_nat_decision_score|1]/90 (включая первые четыре)'),0,20);
@@ -285,7 +285,13 @@ crops.forEach((c,i)=>text('nat_stock_'+c,10,141+i*26,190,label(n('stock_'+c),`$$
 groups.forEach(([g],i)=>text('nat_supply_'+g,208,141+i*38,320,label(n('supply_'+g),`${['粮食','加工','纺织'][i]}预计供给 [?${n(g+'_delivered')}|1]/[?${n(g+'_need')}|1]`,`${['Food','Beet','Fibre'][i]} supply [?${n(g+'_delivered')}|1]/[?${n(g+'_need')}|1]`,`${['Зерно','Свёкла','Волокно'][i]} [?${n(g+'_delivered')}|1]/[?${n(g+'_need')}|1]`),3));
 icon('nat_export_icon','export',8,276,3);
 text('nat_reserve',38,278,492,label(n('reserve_line'),'储备目标：[?RUS_nat_reserve|1]季  预计出口：[?RUS_nat_preview_income|0]','Reserve: [?RUS_nat_reserve|1] quarters  Expected exports: [?RUS_nat_preview_income|0]','Резерв: [?RUS_nat_reserve|1] кварт.  Экспорт: [?RUS_nat_preview_income|0]'),3);
-[.5,1,2].forEach((q,i)=>button('nat_reserve_'+i,10+i*165,307,label(n('reserve_'+i),`${q}季储备`,`${q} quarter reserve`,`Резерв: ${q} кв.`),v('reserve',q),3));
+[.5,1,2].forEach((q,i)=>{
+ button('nat_reserve_'+i,10+i*165,307,label(n('reserve_'+i),['保留半季','保留一季','保留两季'][i],`Keep ${q} quarter${q===2?'s':''}`,`Запас ${q} кв.`),v('reserve',q),3);
+ label(n('reserve_'+i+'_tt'),
+  `£RUS_nat_text_stock£ §Y${['半季','一季','两季'][i]}国内储备§!\\n\\n先满足§4本季内需§!，再为粮食、甜菜与纺织原料各保留相当于§Y${q}个完整季度内需§!的库存；只有超出储备的部分才能用于§4出口订单§!。\\n储备越多，可用于出口的库存越少。§R这是保留目标，不会补发库存，也不是储存期限。§!作物仍受库存上限及季末损耗约束。\\n默认保留§Y一季§!。农机出口另按在役目标的§Y25%§!保留备件，不受此按钮影响。`,
+  `£RUS_nat_text_stock£ §Y${q}-quarter domestic reserve§!\\n\\nMeet §4current domestic needs§! first, then retain food, beet and fibre stocks equal to §Y${q} full quarters of demand§!. Only stock above this reserve may fulfil §4export orders§!.\\nLarger reserves leave less stock for exports. §RThis is a stock target, not free supplies or a storage duration.§! Storage caps and quarterly spoilage still apply.\\nDefault: §Yone quarter§!. Machinery separately retains spares equal to §Y25%§! of its in-service target; this button does not change that reserve.`,
+  `£RUS_nat_text_stock£ §YВнутренний запас на ${q} кварт.§!\\n\\nСначала обеспечиваются §4текущие внутренние нужды§!, затем сохраняются зерно, свёкла и волокно в объёме §Y${q} полных квартальных потребностей§!. Только излишки могут идти на §4экспортные заказы§!.\\nБольший резерв оставляет меньше продукции для экспорта. §RЭто цель запаса, а не бесплатные поставки или срок хранения.§! Лимиты складов и квартальные потери сохраняются.\\nПо умолчанию: §Yодин квартал§!. Запчасти для техники резервируются отдельно в размере §Y25%§! целевого парка; эта кнопка на них не влияет.`);
+});
 ['generic','fra','eng'].forEach((o,i)=>{
  icon('nat_order_icon_'+o,'orders',8,350+i*43,3);
  text('nat_order_'+o,38,352+i*43,322,label(n('order_'+o),`${['一般','法国','英国'][i]}：[GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0]  [GetRUSNatAccept${o}]`,`${['General','France','Britain'][i]}: [GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0] [GetRUSNatAccept${o}]`,`${['Общий','Франция','Британия'][i]}: [GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0] [GetRUSNatAccept${o}]`),3,20);
@@ -344,7 +350,7 @@ crops.forEach(c=>scripted(`GetRUSNat${c}Market`,[[`check_variable = { ${a(c+'_fo
 scripted('GetRUSNatMachineryMarket',[[ck('machine_forecast','>',0),n('strong')],[ck('machine_forecast','<',0),n('weak')]],n('stable'));
 ['generic','fra','eng'].forEach(o=>{scripted('GetRUSNatOrder'+o,crops.map((c,i)=>[ck(o+'_crop','=',i+1),a(c)]),n('none'));scripted('GetRUSNatAccept'+o,[[ck(o+'_shipped','=',1),n('delivered')],[ck(o+'_accept','=',1),n('accepted')]],n('cancelled'));});
 ['fra','eng'].forEach(o=>scripted('GetRUSNatMachineAccept'+o,[[ck(o+'_machine_shipped','=',1),n('delivered')],[ck(o+'_machine_accept','=',1),n('accepted')]],n('cancelled')));
-label(n('task_1'),'全部内需达标','Meet all domestic needs','Обеспечить все потребности');label(n('task_2'),'三类储备达到一季','One-quarter reserves in all categories','Квартальный запас всех категорий');label(n('task_3'),'四种作物各配置至少3点','Allocate 3+ to at least four crops','Выделить по 3 ед. четырём культурам');
+label(n('task_1'),'§4全部内需§!达标','Meet §4all domestic needs§!','Обеспечить §4все потребности§!');label(n('task_2'),'§4三类储备§!达到§Y一季§!','§YOne-quarter§! reserves in §4all categories§!','§YКвартальный§! запас §4всех категорий§!');label(n('task_3'),'五种中§4任选四种§!，各配置至少§Y3§!点','Any §4four of five§! crops: §Y3+§! each','§4Любые 4 из 5§! культур: по §Y3+§!');
 scripted('GetRUSNatTask',[[ck('task','=',1),n('task_1')],[ck('task','=',2),n('task_2')]],n('task_3'));
 label(n('target150'),'150','150','150');label(n('target100'),'100','100','100');
 label(n('days540'),'540','540','540');label(n('days270'),'270','270','270');
@@ -387,5 +393,6 @@ const overrides={
  write(`localisation/replace/RUS_national_agriculture_ui_l_${lang}.yml`,`l_${lang}:\n`+Object.entries(overrides).map(([k,t])=>` ${k}:0 "${t[i]}"`).join('\n')+`\n RUS_future_foreign_002_effect_tt:0 "${old[1]}${extra}"\n`,true);
 });
 write('events/RUS_national_agriculture_events.txt','add_namespace = RUS_national_agriculture\ncountry_event = { id = RUS_national_agriculture.1 title = RUS_national_agriculture.1.t desc = RUS_national_agriculture.1.d picture = GFX_report_event_RUS_ustinov is_triggered_only = yes option = { name = RUS_national_agriculture.1.a } }\n');
+require('./national_agriculture_tooltip_style.cjs')(loc);
 ['simp_chinese','english','russian'].forEach((language,i)=>write(`localisation/${language}/RUS_national_agriculture_l_${language}.yml`,`l_${language}:\n`+Object.entries(loc).map(([key,values])=>` ${key}:0 "${values[i]}"`).join('\n')+'\n',true));
 console.log('Generated national agriculture scripts, four-page GUI and three locales.');

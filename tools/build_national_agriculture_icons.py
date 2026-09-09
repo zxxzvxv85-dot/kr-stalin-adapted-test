@@ -32,7 +32,13 @@ for name, source in SOURCES.items():
     destination = DEST / f'{name}.png'
     icon.save(destination)
     manifest.append({'name': name, 'source': str(source), 'sha256': hashlib.sha256(destination.read_bytes()).hexdigest()})
+    fitted_text = ImageOps.contain(art.crop(bounds), (18, 18), Image.Resampling.LANCZOS)
+    text_icon = Image.new('RGBA', (20, 20))
+    text_icon.alpha_composite(fitted_text, ((20-fitted_text.width)//2, (20-fitted_text.height)//2))
+    text_destination = DEST / f'text_{name}.png'
+    text_icon.save(text_destination)
+    manifest.append({'name': 'text_'+name, 'source': str(source), 'sha256': hashlib.sha256(text_destination.read_bytes()).hexdigest()})
 proof = ROOT / 'output/national-agriculture'
 proof.mkdir(parents=True, exist_ok=True)
 (proof / 'icon-sources.json').write_text(json.dumps(manifest, indent=2)+'\n', encoding='utf-8')
-print('Eight existing-art sprites verified, RGBA 32x32. No paid generation.')
+print('Eight existing-art sprites at 32x32 and eight inline icons at 20x20. No paid generation.')
