@@ -11,7 +11,7 @@ const locale=process.argv[2]||'simp_chinese',loc=new Map();
 for(const stem of ['RUS_national_agriculture','RUS_agricultural_quarterly_management','RUS_agri_development'])for(const m of read(`localisation/${locale}/${stem}_l_${locale}.yml`).matchAll(/^\s*([\w.]+):(?:0)?\s*"(.*)"$/gm))loc.set(m[1],m[2]);
 const definitions=parse(read('common/scripted_localisation/RUS_national_agriculture_loc.txt'));
 function resolve(text,depth=0){if(depth>8)return '';
- return text.replace(/\$([\w.]+)\$/g,(_,key)=>resolve(loc.get(key)||key,depth+1)).replace(/\[\?([^|]+)\|(\d)\]/g,(_,key,d)=>(c.vars[key]||0).toFixed(+d)).replace(/\[([^\]]+)\]/g,(_,key)=>{const b=definitions.find(b=>get(b.value,'name')===key);if(!b)return '';const t=b.value.find(t=>t.key==='text'&&(!get(t.value,'trigger')||check(get(t.value,'trigger'),c)));return resolve(loc.get(get(t?.value||[],'localization_key'))||'',depth+1);}).replace(/§./g,'').replace(/\\n/g,'\n');
+ return text.replace(/\$([\w.]+)\$/g,(_,key)=>resolve(loc.get(key)||key,depth+1)).replace(/\[\?([^|]+)\|(%?)(\d)\]/g,(_,key,pct,d)=>((c.vars[key]||0)*(pct?100:1)).toFixed(+d)+(pct?'%':'')).replace(/\[([^\]]+)\]/g,(_,key)=>{const b=definitions.find(b=>get(b.value,'name')===key);if(!b)return '';const t=b.value.find(t=>t.key==='text'&&(!get(t.value,'trigger')||check(get(t.value,'trigger'),c)));return resolve(loc.get(get(t?.value||[],'localization_key'))||'',depth+1);}).replace(/§./g,'').replace(/\\n/g,'\n');
 }
 const gui=get(get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes'),'containerWindowType');
 const scripted=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
@@ -22,7 +22,7 @@ for(let page=1;page<=4;page++){
  c.vars.RUS_nat_page=page;const widgets=[];
  for(const w of gui.filter(w=>['iconType','instantTextBoxType','buttonType'].includes(w.key))){const name=get(w.value,'name');const visible=get(triggers,name+'_visible');if(visible&&!check(visible,c))continue;
  const pos=get(w.value,'position');const key=get(w.value,'text')||get(w.value,'buttonText');const sprite=get(w.value,'spriteType')||get(w.value,'quadTextureSprite');const enabled=get(triggers,name+'_click_enabled');
- widgets.push({kind:w.key,name,x:+get(pos,'x'),y:+get(pos,'y'),width:+get(w.value,'maxWidth')||123,height:+get(w.value,'maxHeight')||34,text:key?resolve(loc.get(key)||key):sprite?.includes('decrease')?'-':sprite?.includes('increase')?'+':'',sprite:sprites[sprite],scale:+get(w.value,'scale')||1,enabled:!enabled||check(enabled,c)});
+ widgets.push({kind:w.key,name,x:+get(pos,'x'),y:+get(pos,'y'),width:+get(w.value,'maxWidth')||123,height:+get(w.value,'maxHeight')||34,format:get(w.value,'format'),text:key?resolve(loc.get(key)||key):sprite?.includes('decrease')?'-':sprite?.includes('increase')?'+':'',sprite:sprites[sprite],scale:+get(w.value,'scale')||1,enabled:!enabled||check(enabled,c)});
  }
  pages.push(widgets);
 }

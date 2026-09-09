@@ -41,6 +41,34 @@ test('hidden markets and weather never change previews or redraw on refresh',()=
 test('market prices cannot change physical harvest',()=>{
  const c=fresh();c.vars.RUS_agri_wheat_investment=10;set(c,'fraction',1);set(c,'actual',1);run(c,'yield');const y=val(c,'wheat_yield');c.vars.RUS_agri_wheat_market=-.4;run(c,'yield');assert.equal(val(c,'wheat_yield'),y);
 });
+test('per-crop preview rates work at zero allocation and follow public yield modifiers',()=>{
+ const c=fresh(100);c.ideas.RUS_andrey_kolegayev_advisor=true;set(c,'technical_support',1);
+ for(const crop of crops) {
+  for(const amount of [0,1,5,10]) {
+   c.vars[`RUS_agri_${crop}_investment`]=amount;run(c,'refresh');
+   const expected=val(c,crop+'_rate')*val(c,'mechanisation')*val(c,'fraction')*1.05*1.05;
+   assert.ok(Math.abs(val(c,crop+'_preview_rate')-expected)<1e-5);
+   assert.ok(Math.abs(val(c,crop+'_yield')-val(c,crop+'_preview_rate')*amount)<1e-5);
+   assert.ok(val(c,crop+'_preview_rate')>0);
+  }
+ }
+ const snapshot=crops.map(crop=>[val(c,crop+'_preview_rate'),val(c,crop+'_preview_income')]);
+ c.vars.RUS_agri_weather=-.8;for(const crop of crops)c.vars[`RUS_agri_${crop}_market`]=.7;run(c,'refresh');
+ assert.deepEqual(crops.map(crop=>[val(c,crop+'_preview_rate'),val(c,crop+'_preview_income')]),snapshot);
+});
+test('per-crop income previews reset, respect needs and orders, and do not pay real money',()=>{
+ const c=fresh();
+ for(const crop of crops){set(c,crop+'_stock',12);c.vars[`RUS_agri_${crop}_investment`]=0;}
+ set(c,'generic_crop',1);set(c,'generic_quantity',2);set(c,'generic_accept',1);set(c,'generic_priority',1);
+ set(c,'fra_accept',0);set(c,'eng_accept',0);set(c,'fra_machine_accept',0);set(c,'eng_machine_accept',0);
+ const beforeSurplus=c.surplus;run(c,'refresh');assert.equal(val(c,'wheat_preview_income'),2000);assert.equal(val(c,'preview_income'),2000);assert.equal(c.surplus,beforeSurplus);
+ const beforeStock=val(c,'wheat_stock');run(c,'refresh');assert.equal(val(c,'wheat_stock'),beforeStock);assert.equal(val(c,'wheat_preview_income'),2000);
+ for(const crop of crops.filter(x=>x!=='wheat'))assert.equal(val(c,crop+'_preview_income'),0);
+ set(c,'generic_accept',0);run(c,'refresh');assert.equal(val(c,'wheat_preview_income'),0);assert.equal(val(c,'preview_income'),0);
+ set(c,'generic_accept',1);set(c,'beet_stock',0);run(c,'refresh');assert.equal(val(c,'wheat_preview_income'),0);assert.equal(c.surplus,beforeSurplus);
+ const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
+ for(const crop of crops)for(const sign of ['minus','plus'])assert.ok(get(get(gui,'effects'),`nat_${crop}_${sign}_click`).some(x=>x.key==='RUS_nat_refresh'));
+});
 test('allocation stays bounded, public automation handles a partial quarter without reading outcomes',()=>{
  const c=fresh(269);run(c,'auto_allocate');assert.equal(val(c,'allocated'),20);for(const crop of crops)assert.ok(c.vars['RUS_agri_'+crop+'_investment']<=10);
  const allocations=crops.map(x=>c.vars['RUS_agri_'+x+'_investment']);c.vars.RUS_agri_weather=.4;for(const crop of crops)c.vars['RUS_agri_'+crop+'_market']=.4;run(c,'auto_allocate');assert.deepEqual(crops.map(x=>c.vars['RUS_agri_'+x+'_investment']),allocations);

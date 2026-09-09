@@ -123,7 +123,7 @@ effect('consume',groups.map(([g,cs])=>v(g+'_available',0)+cs.map(c=>add(g+'_avai
  v(g+'_delivered',n(g+'_available'))+cl(g+'_delivered',0,n(g+'_need'))+v(g+'_ratio',1)+iff(ck(g+'_need','>',0),v(g+'_ratio',n(g+'_delivered'))+div(g+'_ratio',n(g+'_need')))+
  iff(ck(g+'_available','>',0),cs.map(c=>v('tmp',n(c+'_work'))+div('tmp',n(g+'_available'))+mul('tmp',n(g+'_delivered'))+sub(c+'_work',n('tmp'))+cl(c+'_work',0,100000)).join(''))+
  v(g+'_reserve',n(g+'_demand'))+mul(g+'_reserve',n('reserve'))+v(g+'_left',n(g+'_available'))+sub(g+'_left',n(g+'_delivered'))).join(''));
-effect('trade',v('income',0)+crops.map(c=>v(c+'_sold',0)).join('')+
+effect('trade',v('income',0)+crops.map(c=>v(c+'_sold',0)+v(c+'_income',0)).join('')+
   [1,2,3].map(rank=>['generic','fra','eng'].map(o=>iff(`${ck(o+'_priority','=',rank)} ${ck(o+'_accept','=',1)} ${ck(o+'_shipped','=',0)} ${ck(o+'_quantity','>',0)} ${groups.map(([g])=>ck(g+'_ratio','>',.9999)).join(' ')}`,
  crops.map((c,i)=>{const g=i<2?'food':i===2?'beet':'textile';return iff(ck(o+'_crop','=',i+1),v('free',n(g+'_left'))+sub('free',n(g+'_reserve'))+
  iff(`${ck('free','>',-0.0001)} NOT = { ${ck('free','<',n(o+'_quantity'))} } NOT = { ${ck(c+'_work','<',n(o+'_quantity'))} } ${ck(g+'_ratio','>',.9999)}`,
@@ -132,7 +132,7 @@ effect('trade',v('income',0)+crops.map(c=>v(c+'_sold',0)).join('')+
  v('order_cash',0)+v('units',n(o+'_quantity'))+`while_loop_effect = { limit = { ${ck('units','>',0)} }\n`+
  v('unit_price',n('price'))+iff(`NOT = { ${ck(c+'_sold','<',a(c+'_capacity'))} }`,sub('unit_price',.3))+
  v('tmp',a(c+'_capacity'))+add('tmp',2)+iff(`NOT = { ${ck(c+'_sold','<',n('tmp'))} }`,sub('unit_price',.4))+cl('unit_price',.4,1.5)+add('order_cash',n('unit_price'))+add(c+'_sold',1)+sub('units',1)+`}\n`+
- mul('order_cash',1000)+add('income',n('order_cash'))+sub(c+'_work',n(o+'_quantity'))+sub(g+'_left',n(o+'_quantity'))+
+ mul('order_cash',1000)+add('income',n('order_cash'))+add(c+'_income',n('order_cash'))+sub(c+'_work',n(o+'_quantity'))+sub(g+'_left',n(o+'_quantity'))+
  iff(ck('actual','=',1),v(o+'_shipped',1))))}).join(''))).join('')).join('')+
  ['fra','eng'].map(o=>iff(`${ck(o+'_machine_accept','=',1)} ${ck(o+'_machine_shipped','=',0)} ${ck(o+'_machine_quantity','>',0)}`,
  v('free',n('machine_work'))+v('tmp',n('target'))+mul('tmp',.25)+sub('free',n('tmp'))+
@@ -141,6 +141,8 @@ effect('trade',v('income',0)+crops.map(c=>v(c+'_sold',0)).join('')+
 effect('refresh',v('remaining',n('quarter_end'))+sub('remaining','global.num_days')+cl('remaining',0,92)+`set_variable = { RUS_agri_days_remaining = ${n('remaining')} }\n`+call('totals')+call('parameters')+
  v('fraction',n('elapsed'))+add('fraction',n('remaining'))+div('fraction',n('season_length'))+v('actual',0)+call('yield')+
  crops.map(c=>v(c+'_work',n(c+'_stock'))+add(c+'_work',n(c+'_yield'))).join('')+call('consume')+v('machine_work',n('machine_stock'))+call('trade')+v('preview_income',n('income'))+
+ crops.map(c=>v(c+'_preview_income',n(c+'_income'))+v(c+'_preview_rate',n(c+'_rate'))+mul(c+'_preview_rate',n('mechanisation'))+mul(c+'_preview_rate',n('fraction'))+
+ iff('has_idea = RUS_andrey_kolegayev_advisor',mul(c+'_preview_rate',1.05))+iff(ck('technical_support','=',1),mul(c+'_preview_rate',1.05))).join('')+
  groups.map(([g])=>v(g+'_preview',n(g+'_ratio'))+mul(g+'_preview',100)+v(g+'_gap',n(g+'_need'))+sub(g+'_gap',n(g+'_delivered'))+cl(g+'_gap',0,1000)).join('')+
  v('coverage_display',n('mean_coverage'))+mul('coverage_display',100)+
  `RUS_agri_refresh_gui = yes\n`);
@@ -218,7 +220,7 @@ write('common/decisions/RUS_national_agriculture_decisions.txt',`RUS_agricultura
 const ui = [], triggers = [], clicks = [];
 const visible = (id,p) => { if(p) triggers.push(`${id}_visible = { check_variable = { RUS_nat_page = ${p} } }`); };
 // The native decision grid is 502px wide; keep text inside its right padding.
-function text(id,x,y,width,key,p=0,height=26) { width=Math.min(width,492-x); ui.push(`instantTextBoxType = { name = "${id}" position = { x = ${x} y = ${y} } font = "hoi_16mbs" text = "${key}" maxWidth = ${width} maxHeight = ${height} fixedsize = yes alwaystransparent = yes }`); visible(id,p); }
+function text(id,x,y,width,key,p=0,height=26,format='left') { width=Math.min(width,492-x); ui.push(`instantTextBoxType = { name = "${id}" position = { x = ${x} y = ${y} } font = "hoi_16mbs" text = "${key}"${format==='center'?' format = center':''} maxWidth = ${width} maxHeight = ${height} fixedsize = yes alwaystransparent = yes }`); visible(id,p); }
 function button(id,x,y,key,body,p=0,enabled='always = yes',sprite='GFX_button_123x34') { const tooltip=/^nat_(tab|reserve)_/.test(id)?key+'_tt':key; ui.push(`buttonType = { name = "${id}" position = { x = ${x} y = ${y} } quadTextureSprite = "${sprite}" buttonText = "${key}" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "${tooltip}" }`); visible(id,p); triggers.push(`${id}_click_enabled = { ${enabled} }`); clicks.push(`${id}_click = { ${body} RUS_nat_refresh = yes }`); }
 function icon(id,kind,x,y,p=0){ui.push(`iconType = { name = "${id}" position = { x = ${x} y = ${y} } spriteType = "GFX_RUS_nat_${kind}" scale = 0.75 alwaystransparent = yes }`);visible(id,p);}
 const iconNames=['stock','reform','orders','machinery','food','export','income','factories'];
@@ -252,15 +254,18 @@ crops.forEach((c,i)=>{
  ui.push(`iconType = { name = "nat_${c}_icon" position = { x = 10 y = ${y} } spriteType = "GFX_RUS_agri_crop_${c}" scale = 0.5 alwaystransparent = yes }`);visible('nat_'+c+'_icon',1);
  text('nat_'+c+'_name',50,y,80,a(c),1);
  button('nat_'+c+'_minus',136,y,'',`RUS_agri_decrease_${c} = yes`,1,`NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { ${a(c+'_investment')} > 0 }`,'GFX_naval_decrease_amount');
- text('nat_'+c+'_amount',168,y,35,label(n(c+'_amount'),`[?${a(c+'_investment')}|0]`,`[?${a(c+'_investment')}|0]`,`[?${a(c+'_investment')}|0]`),1);
+ text('nat_'+c+'_amount',169,y+8,32,label(n(c+'_amount'),`[?${a(c+'_investment')}|0]`,`[?${a(c+'_investment')}|0]`,`[?${a(c+'_investment')}|0]`),1,17,'center');
  button('nat_'+c+'_plus',201,y,'',`RUS_agri_increase_${c} = yes`,1,`NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { ${a(c+'_investment')} < 10 } ${ck('allocated','<',n('budget'))}`,'GFX_naval_increase_amount');
- text('nat_'+c+'_info',239,y,290,label(n(c+'_info'),`预计产量 [?${n(c+'_yield')}|1]  [GetRUSNat${c}Market]`,`Yield [?${n(c+'_yield')}|1]  [GetRUSNat${c}Market]`,`Урожай [?${n(c+'_yield')}|1]  [GetRUSNat${c}Market]`),1,20);
- text('nat_'+c+'_soil',239,y+22,290,label(n(c+'_soil'),`地力疲劳 [?${a(c+'_fatigue')}|0]  容量 [?${a(c+'_capacity')}|0] [GetRUSNat${c}Saturation]`,`Fatigue [?${a(c+'_fatigue')}|0]  Capacity [?${a(c+'_capacity')}|0] [GetRUSNat${c}Saturation]`,`Истощ. [?${a(c+'_fatigue')}|0]  Сбыт [?${a(c+'_capacity')}|0] [GetRUSNat${c}Saturation]`),1,20);
+ text('nat_'+c+'_info',239,y,253,label(n(c+'_info'),`预计产量 [?${n(c+'_yield')}|1]  产量倍率 [?${n(c+'_preview_rate')}|%0]`,`Yield [?${n(c+'_yield')}|1]  Yield rate [?${n(c+'_preview_rate')}|%0]`,`Урожай [?${n(c+'_yield')}|1]  Выход [?${n(c+'_preview_rate')}|%0]`),1,20);
+ text('nat_'+c+'_market',239,y+22,253,label(n(c+'_market_line'),`行情预测：[GetRUSNat${c}Market]  预计出口收入 [?${n(c+'_preview_income')}|0]`,`Forecast: [GetRUSNat${c}Market]  Exports [?${n(c+'_preview_income')}|0]`,`Прогноз: [GetRUSNat${c}Market]  Доход [?${n(c+'_preview_income')}|0]`),1,20);
+ text('nat_'+c+'_soil',10,y+34,223,label(n(c+'_soil'),`地力疲劳 [?${a(c+'_fatigue')}|0]  容量 [?${a(c+'_capacity')}|0] [GetRUSNat${c}Saturation]`,`Fatigue [?${a(c+'_fatigue')}|0]  Capacity [?${a(c+'_capacity')}|0] [GetRUSNat${c}Saturation]`,`Истощ. [?${a(c+'_fatigue')}|0]  Сбыт [?${a(c+'_capacity')}|0] [GetRUSNat${c}Saturation]`),1,16);
 });
-icon('nat_food_icon','food',8,428,1);
-text('nat_needs',38,430,492,label(n('needs'),'预计满足：粮食[?RUS_nat_food_preview|0]% 加工[?RUS_nat_beet_preview|0]% 纺织[?RUS_nat_textile_preview|0]%','Supply: Food [?RUS_nat_food_preview|0]% Processing [?RUS_nat_beet_preview|0]% Textiles [?RUS_nat_textile_preview|0]%','Снабжение: зерно [?RUS_nat_food_preview|0]% свёкла [?RUS_nat_beet_preview|0]% волокно [?RUS_nat_textile_preview|0]%'),1);
-text('nat_task',10,459,520,label(n('task_line'),'季度任务：[GetRUSNatTask]','Quarterly task: [GetRUSNatTask]','Задание: [GetRUSNatTask]'),1);
-text('nat_next',10,487,520,label(n('next_line'),'下季投入：[GetRUSNatNext]','Next quarter: [GetRUSNatNext]','Следующий квартал: [GetRUSNatNext]'),1);
+icon('nat_food_icon','food',8,423,1);
+text('nat_needs',38,425,492,label(n('needs'),'预计满足：粮食[?RUS_nat_food_preview|0]% 加工[?RUS_nat_beet_preview|0]% 纺织[?RUS_nat_textile_preview|0]%','Supply: Food [?RUS_nat_food_preview|0]% Processing [?RUS_nat_beet_preview|0]% Textiles [?RUS_nat_textile_preview|0]%','Снабжение: зерно [?RUS_nat_food_preview|0]% свёкла [?RUS_nat_beet_preview|0]% волокно [?RUS_nat_textile_preview|0]%'),1,20);
+text('nat_task',10,450,520,label(n('task_line'),'季度任务：[GetRUSNatTask]','Quarterly task: [GetRUSNatTask]','Задание: [GetRUSNatTask]'),1,20);
+text('nat_next',10,475,520,label(n('next_line'),'下季投入：[GetRUSNatNext]','Next quarter: [GetRUSNatNext]','Следующий квартал: [GetRUSNatNext]'),1,20);
+icon('nat_preview_income_icon','income',8,498,1);
+text('nat_preview_income',38,500,454,label(n('preview_income_line'),'预计出口收入（经济盈余）：[?RUS_nat_preview_income|0]','Expected export income (surplus): [?RUS_nat_preview_income|0]','Ожидаемый доход от экспорта (профицит): [?RUS_nat_preview_income|0]'),1,20);
 button('nat_auto',5,526,label(n('auto'),'自动配置','Auto Allocate','Автоплан'),call('auto_allocate'),1,'NOT = { has_country_flag = RUS_agri_allocation_locked }');
 button('nat_clear',128,526,'RUS_agri_clear','RUS_agri_clear_allocation = yes',1,'NOT = { has_country_flag = RUS_agri_allocation_locked }');
 button('nat_confirm',251,526,'RUS_agri_confirm','RUS_agri_confirm_allocation = yes',1,'NOT = { has_country_flag = RUS_agri_allocation_locked }');

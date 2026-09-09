@@ -24,11 +24,13 @@ for source in OUT.glob('layout-*.json'):
                 assert x+icon.width<=ox+502 and y+icon.height<=oy+625
                 sheet.paste(icon,(x,y),icon)
             elif w['kind']=='buttonType':
-                width=26 if w['name'].endswith(('_minus','_plus')) else 123
+                width=33 if w['name'].endswith(('_minus','_plus')) else 123
                 d.rectangle((x,y,x+width-1,y+33),fill='#41473a' if w['enabled'] else '#33362f',outline='#888979')
                 tw=d.textlength(w['text'],font=font)
                 d.text((x+(width-tw)/2,y+6),w['text'],font=font,fill='#e5e0c7' if w['enabled'] else '#85867a')
             else:
+                if w.get('format') == 'center':
+                    x += (w['width'] - d.textlength(w['text'], font=font)) / 2
                 d.text((x,y),w['text'],font=font,fill='#e4e3d7')
     destination=OUT/f"layout-{data['locale']}.png"
     sheet.save(destination)

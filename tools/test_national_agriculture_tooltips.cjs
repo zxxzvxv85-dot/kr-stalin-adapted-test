@@ -32,7 +32,7 @@ for (const lang of ['simp_chinese','english','russian']) {
       assert.ok(texture,`${lang} ${key}: unknown text icon ${icon[1]}`);
       assert.ok(fs.existsSync(path.join(root,texture)),texture);
     }
-    if(previous.has(key) && !/^RUS_nat_(task_3|reserve_[012]|(?:m?order)_(?:fra|eng))$/.test(key)) {
+    if(previous.has(key) && !/^RUS_nat_(task_3|reserve_[012]|(?:wheat|rye|beet|flax|cotton)_info|(?:m?order)_(?:fra|eng))$/.test(key)) {
       const expected = lang === 'simp_chinese' ? chinesePresentation(previous.get(key), key) : previous.get(key);
       assert.equal(plain(value),plain(expected),`${lang} ${key}: unintended rule/text change`);
     }
@@ -64,7 +64,9 @@ for (const [key, value] of cn) {
   assert.equal(chinesePresentation(value, key), value, `${key}: not idempotent`);
   const old = oldCn.get(key);
   const refs = s => [...s.matchAll(/\[\?([^|\]]+)/g)].map(m => m[1]);
-  assert.deepEqual(refs(value), refs(old || ''), `${key}: variable references changed`);
+  const crop = /^RUS_nat_(wheat|rye|beet|flax|cotton)_(info|market_line)$/.exec(key);
+  const expected = crop ? crop[2] === 'info' ? [`RUS_nat_${crop[1]}_yield`, `RUS_nat_${crop[1]}_preview_rate`] : [`RUS_nat_${crop[1]}_preview_income`] : key === 'RUS_nat_preview_income_line' ? ['RUS_nat_preview_income'] : refs(old || '');
+  assert.deepEqual(refs(value), expected, `${key}: variable references changed`);
 }
 assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('粮食内需额外+2、纺织原料内需额外+1'));
 assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('小麦12、黑麦12、甜菜6、亚麻6、棉花6'));
