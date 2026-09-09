@@ -284,7 +284,12 @@ country_event = {
 		clr_country_flag = RUS_max_landreform_tractor_promise_active
 		set_country_flag = RUS_maximalist_land_reform_tractor_bonus
 		if = {
-			limit = { has_idea = RUS_maximalist_land_reform_stage_5 }
+			limit = {
+				OR = {
+					has_idea = RUS_maximalist_land_reform_stage_5
+					has_idea = RUS_nat_land_reform_stage_8
+				}
+			}
 			RUS_maximalist_land_reform_update_stage_idea = yes
 		}
 	}

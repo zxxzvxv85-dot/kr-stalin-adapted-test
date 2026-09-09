@@ -9,6 +9,7 @@ RUS_maximalist_land_reform_remove_stage_ideas = {
 		RUS_maximalist_land_reform_stage_5
 		RUS_maximalist_land_reform_stage_5_tractor_bonus
 	}
+	RUS_nat_remove_reform_stages = yes
 }
 
 RUS_maximalist_land_reform_add_initial_stage = {
@@ -38,6 +39,10 @@ RUS_maximalist_land_reform_update_stage_idea = {
 		RUS_maximalist_land_reform_remove_stage_ideas = yes
 	}
 	if = {
+		limit = { has_country_flag = RUS_nat_enabled }
+		RUS_nat_update_reform_stage = yes
+	}
+	else_if = {
 		limit = { check_variable = { RUS_maximalist_land_reform_score < 20 } }
 		set_variable = { RUS_maximalist_land_reform_stage = 0 }
 		add_ideas = RUS_maximalist_land_reform_stage_0

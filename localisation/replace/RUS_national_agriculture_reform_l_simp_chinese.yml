@@ -1,7 +1,7 @@
 ﻿l_simp_chinese:
-  RUS_maximalist_land_reform_category_desc: "最高纲领派的方案已经得到大会通过。机械化、扫盲、畜牧业改造与集体农庄试验将逐步推进；每一轮改革都会增加土地改革分数，并按阶段调整国家精神。\n\n当前土地改革分数：§Y[?RUS_maximalist_land_reform_score|0]§!/§Y100§!\n当前阶段：[ROOT.RUSGetMaximalistLandReformCurrentStage]/§Y5§!\n下一阶段：[ROOT.RUSGetMaximalistLandReformNextStage]"
-  RUS_maximalist_land_reform_mission_desc: "最高纲领派必须在有限时间内证明自己的方案能够改造俄罗斯农村。若改革分数达到§Y100§!，土地改革将圆满完成；否则将以停滞告终。"
-  RUS_maximalist_land_reform_score_status_tt: "§Y土地改革分数§!：[?RUS_maximalist_land_reform_score|Y0]/§Y100§!\n§Y当前阶段§!：[ROOT.RUSGetMaximalistLandReformCurrentStage]/5\n§Y下一阶段§!：[ROOT.RUSGetMaximalistLandReformNextStage]"
-  RUS_maximalist_land_reform_next_stage_100: "§Y100§!分"
+  RUS_maximalist_land_reform_category_desc: "最高纲领派的方案已经得到大会通过。机械化、扫盲、畜牧业改造与集体农庄试验将逐步推进；每一轮改革都会增加土地改革分数，并按阶段调整国家精神。\n\n当前土地改革分数：§Y[?RUS_maximalist_land_reform_score|0]§!/§Y[GetRUSNatTarget]§!\n当前阶段：[ROOT.RUSGetMaximalistLandReformCurrentStage]/[GetRUSNatStageCount]\n下一阶段：[ROOT.RUSGetMaximalistLandReformNextStage]"
+  RUS_maximalist_land_reform_mission_desc: "最高纲领派必须在有限时间内证明自己的方案能够改造俄罗斯农村。若改革分数达到§Y[GetRUSNatTarget]§!，土地改革将圆满完成；否则将以停滞告终。"
+  RUS_maximalist_land_reform_score_status_tt: "§Y土地改革分数§!：[?RUS_maximalist_land_reform_score|Y0]/§Y[GetRUSNatTarget]§!\n§Y当前阶段§!：[ROOT.RUSGetMaximalistLandReformCurrentStage]/[GetRUSNatStageCount]\n§Y下一阶段§!：[ROOT.RUSGetMaximalistLandReformNextStage]"
+  RUS_maximalist_land_reform_next_stage_100: "§Y[GetRUSNatTarget]§!分"
   RUS_max_landreform_tractor_promise_mission_desc: "我们已经承诺在[GetRUSNatTractorDays]天内补足农业设备。完成§Y推广拖拉机§!决议§Y3§!次即可兑现承诺。\n\n当前进度：§Y[?RUS_max_landreform_tractor_promise_count|0]§!/§Y3§![GetRUSNatTractorRequirement]"
   rus_maximalist_land_reform_events.11.c.tt: "我们将优先保证拖拉机的生产。土地改革决议栏将出现新任务：在[GetRUSNatTractorDays]天内累计完成§Y推广拖拉机§!决议§Y3§!次。若完成则触发§Y不被辜负的信任§!；若没有完成，则基础稳定度§R-10.00%§!，政治点数§R-45§!。[GetRUSNatTractorRequirement]"

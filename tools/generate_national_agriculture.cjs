@@ -24,6 +24,35 @@ const success = flag('RUS_maximalist_land_reform_success');
 const failure = flag('RUS_maximalist_land_reform_failure');
 const active = flag('RUS_maximalist_land_reform_in_progress');
 
+const reformThresholds=[0,20,40,60,80,100,120,135,150];
+const reformIdeas=reformThresholds.map((_,i)=>n('land_reform_stage_'+i));
+const tractorReformIdea=n('land_reform_stage_8_tractor_bonus');
+effect('remove_reform_stages',`remove_ideas = { ${[...reformIdeas,tractorReformIdea].join(' ')} }\n`);
+// Keep the advisor algorithm's original 0-5 tiers, independently of nine spirits.
+let reformSelection=v('reform_stage',8)+`set_variable = { RUS_maximalist_land_reform_stage = 5 }\n`+
+ iff(flag('RUS_maximalist_land_reform_tractor_bonus'),`add_ideas = ${tractorReformIdea}\n`,`add_ideas = ${reformIdeas[8]}\n`);
+for(let i=7;i>=0;i--)reformSelection=iff(`check_variable = { RUS_maximalist_land_reform_score < ${reformThresholds[i+1]} }`,v('reform_stage',i)+`set_variable = { RUS_maximalist_land_reform_stage = ${Math.min(i,4)} }\nadd_ideas = ${reformIdeas[i]}\n`,reformSelection);
+effect('update_reform_stage',reformSelection);
+const reformBase=[
+ {stability_factor:-.2,political_power_factor:-.2},
+ {stability_factor:-.16,political_power_factor:-.16},
+ {stability_factor:-.1,political_power_factor:-.1},
+ {stability_factor:-.06,monthly_population:.05},
+ {stability_factor:.05,monthly_population:.08,conscription_factor:.03},
+];
+const finalReformBase={stability_factor:.05,monthly_population:.1,conscription_factor:.05,supply_consumption_factor:-.05,no_supply_grace:72};
+const reformConsumers=[.2,.14,.08,.02,-.01,-.03,-.05,-.07,-.1];
+const reformArms=[0,0,0,0,0,.05,.1,.1,.15];
+function reformIdea(id,i,tractor=false){
+ const modifiers={...(i===8?finalReformBase:reformBase[Math.min(i,4)]),consumer_goods_expected_value:tractor?-.12:reformConsumers[i]};
+ if(reformArms[i])modifiers.production_speed_arms_factory_factor=reformArms[i];
+ if(i>=7)modifiers.global_building_slots=i===8?2:1;
+ if(i>=7)modifiers.supply_node_range=i===8?.1:.05;
+ if(tractor)modifiers.economy_cost_factor=-.2;
+ return `${id} = { name = ${id} picture = generic_agrarian_reform modifier = { custom_modifier_tooltip = RUS_maximalist_land_reform_score_status_tt\n${Object.entries(modifiers).map(([k,v])=>`${k} = ${v}`).join('\n')}\n} }\n`;
+}
+write('common/ideas/RUS_national_agriculture_reform_ideas.txt',`ideas = { country = {\n${reformIdeas.map((id,i)=>reformIdea(id,i)).join('')}${reformIdea(tractorReformIdea,8,true)} } }\n`);
+
 // Only direct reform-decision awards consume this lifetime allowance.
 for(const amount of [5,10])effect('decision_score_'+amount,iff(mode,
  `custom_effect_tooltip = ${n('decision_score_'+amount+'_tt')}\nhidden_effect = {\n`+
@@ -280,6 +309,26 @@ write('interface/RUS_national_agriculture.gui',`guiTypes = { containerWindowType
 write('common/scripted_guis/RUS_national_agriculture.txt',`scripted_gui = { RUS_national_agriculture_gui = { context_type = decision_category window_name = "RUS_national_agriculture_window" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { ${mode} } triggers = { ${triggers.join('\n')} } effects = { ${clicks.join('\n')} } } }\n`);
 const sl=[];
 function scripted(name,entries,fallback){sl.push(`defined_text = { name = ${name}\n${entries.map(([trigger,key])=>`text = { trigger = { ${trigger} } localization_key = ${key} }`).join('\n')}\ntext = { localization_key = ${fallback} } }`);}
+const reformNames=[
+ ['改革起步','Reform Begins','Начало реформы'],['清理旧制','Dismantling the Old Order','Демонтаж старого порядка'],
+ ['重建农村','Rural Reconstruction','Восстановление села'],['恢复生产','Production Restored','Восстановление производства'],
+ ['初见成效','Early Results','Первые результаты'],['农业工厂化','Agricultural Industrialisation','Фабричная организация сельского хозяйства'],
+ ['城乡协作','Urban-Rural Cooperation','Сотрудничество города и деревни'],['体系成熟','A Mature System','Зрелая система'],
+ ['土地改革完成','Land Reform Completed','Земельная реформа завершена']
+];
+reformIdeas.forEach((id,i)=>{
+ label(id,...reformNames[i]);
+ label(id+'_desc',`$${i===8?'RUS_maximalist_land_reform_stage_5_desc':'RUS_maximalist_land_reform_desc'}$`,`$${i===8?'RUS_maximalist_land_reform_stage_5_desc':'RUS_maximalist_land_reform_desc'}$`,`$${i===8?'RUS_maximalist_land_reform_stage_5_desc':'RUS_maximalist_land_reform_desc'}$`);
+ label(n('stage_number_'+i),`§Y${i+1}§!`,`§Y${i+1}§!`,`§Y${i+1}§!`);
+ if(i)label(n('next_stage_'+reformThresholds[i]),`§Y${reformThresholds[i]}§!分`,`§Y${reformThresholds[i]}§! points`,`§Y${reformThresholds[i]}§! очков`);
+});
+label(tractorReformIdea,...reformNames[8]);label(tractorReformIdea+'_desc','$RUS_maximalist_land_reform_stage_5_tractor_bonus_desc$','$RUS_maximalist_land_reform_stage_5_tractor_bonus_desc$','$RUS_maximalist_land_reform_stage_5_tractor_bonus_desc$');
+label(n('stage_total9'),'§Y9§!','§Y9§!','§Y9§!');label(n('stage_total5'),'§Y5§!','§Y5§!','§Y5§!');
+scripted('GetRUSNatStageCount',[[mode,n('stage_total9')]],n('stage_total5'));
+scripted('GetRUSNatCurrentStage',reformThresholds.map((score,i)=>[`NOT = { check_variable = { RUS_maximalist_land_reform_score < ${score} } }`,n('stage_number_'+i)]).reverse(),n('stage_number_0'));
+scripted('GetRUSNatNextStage',reformThresholds.map((score,i)=>[`NOT = { check_variable = { RUS_maximalist_land_reform_score < ${score} } }`,i===8?'RUS_maximalist_land_reform_next_stage_complete':n('next_stage_'+reformThresholds[i+1])]).reverse(),n('next_stage_20'));
+label(n('current_stage'),'[GetRUSNatCurrentStage]','[GetRUSNatCurrentStage]','[GetRUSNatCurrentStage]');
+label(n('next_stage'),'[GetRUSNatNextStage]','[GetRUSNatNextStage]','[GetRUSNatNextStage]');
 label(n('strong'),'偏强','Strong','Рост');label(n('stable'),'平稳','Stable','Стабильно');label(n('weak'),'偏弱','Weak','Спад');label(n('none'),'无','None','Нет');label(n('accepted'),'已接单','Accepted','Принят');label(n('cancelled'),'未接单','Declined','Отклонён');label(n('delivered'),'已交付','Delivered','Поставлен');
 label(n('plan_locked'),'方案已确认','Plan confirmed','План утверждён');label(n('plan_open'),'方案待确认','Plan unconfirmed','План не утверждён');
 scripted('GetRUSNatPlan',[[flag('RUS_agri_allocation_locked'),n('plan_locked')]],n('plan_open'));
@@ -316,7 +365,7 @@ label(n('tractor_goal_tt'),'完成3次推广拖拉机（当前[?RUS_max_landrefo
 ['simp_chinese','english','russian'].forEach(lang=>{
  const source=fs.readFileSync(path.join(root,`localisation/${lang}/RUS_stalin_maximalist_land_reform_l_${lang}.yml`),'utf8');
  const keys=['RUS_maximalist_land_reform_category_desc','RUS_maximalist_land_reform_mission_desc','RUS_maximalist_land_reform_score_status_tt','RUS_maximalist_land_reform_next_stage_100','RUS_max_landreform_tractor_promise_mission_desc','rus_maximalist_land_reform_events.11.c.tt'];
- const lines=source.split(/\r?\n/).filter(line=>keys.some(key=>line.trimStart().startsWith(key+':'))).map(line=>line.replace(/\b100\b/g,'[GetRUSNatTarget]').replace(/\b270\b/g,'[GetRUSNatTractorDays]').replace(/"\s*$/,line.includes('tractor_promise_mission_desc')||line.includes('11.c.tt')?'[GetRUSNatTractorRequirement]"':'"'));
+ const lines=source.split(/\r?\n/).filter(line=>keys.some(key=>line.trimStart().startsWith(key+':'))).map(line=>line.replace(/§Y100§!/g,'§Y[GetRUSNatTarget]§!').replace(/\b100\b/g,'[GetRUSNatTarget]').replace(/\b270\b/g,'[GetRUSNatTractorDays]').replace(/\/(?:§Y)?5(?:§!)?/g,'/[GetRUSNatStageCount]').replace(/"\s*$/,line.includes('tractor_promise_mission_desc')||line.includes('11.c.tt')?'[GetRUSNatTractorRequirement]"':'"'));
  if(lines.length!==keys.length)throw Error('Missing reform localization in '+lang);
  write(`localisation/replace/RUS_national_agriculture_reform_l_${lang}.yml`,`l_${lang}:\n`+lines.join('\n')+'\n',true);
 });
