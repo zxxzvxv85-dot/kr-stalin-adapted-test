@@ -32,7 +32,7 @@ for (const lang of ['simp_chinese','english','russian']) {
       assert.ok(texture,`${lang} ${key}: unknown text icon ${icon[1]}`);
       assert.ok(fs.existsSync(path.join(root,texture)),texture);
     }
-    if(previous.has(key) && !/^RUS_nat_(task_3|reserve_[012]|(?:wheat|rye|beet|flax|cotton)_info|(?:m?order)_(?:fra|eng))$/.test(key)) {
+    if(previous.has(key) && !/^RUS_nat_(title|plan_open|tab_0_tt|needs|report_supply|supply_(?:food|beet|textile)|task_3|reserve_[012](?:_tt)?|(?:wheat|rye|beet|flax|cotton)_info|(?:m?order)_(?:fra|eng))$/.test(key)) {
       const expected = lang === 'simp_chinese' ? chinesePresentation(previous.get(key), key) : previous.get(key);
       assert.equal(plain(value),plain(expected),`${lang} ${key}: unintended rule/text change`);
     }
@@ -58,6 +58,10 @@ for (const lang of ['simp_chinese','english','russian']) {
     assert.ok(!value.includes('|%'), 'Unit yield is not a percentage');
     if (lang === 'simp_chinese') assert.ok(value.includes('单位产量'));
   }
+  assert.ok(plain(loc.get('RUS_nat_tab_0_tt')).includes({simp_chinese:'手动调整即时保存',english:'Manual edits are saved immediately',russian:'Ручные изменения сохраняются сразу'}[lang]));
+  for(const group of ['food','beet','textile']) assert.ok(plain(loc.get(`RUS_nat_supply_${group}`)).includes(`[?RUS_nat_${group}_preview|2]%`));
+  for(const [key,suffix] of [['needs','preview'],['report_supply','last_ratio']]) for(const group of ['food','beet','textile']) assert.ok(loc.get(`RUS_nat_${key}`).includes(`[?RUS_nat_${group}_${suffix}|2]`));
+  if(lang==='simp_chinese') for(const [key,value] of loc) assert.ok(!value.includes('不是'),key);
 }
 assert.equal(chinesePresentation('甲；乙；丙'),'甲。\\n\\n乙。\\n\\n丙');
 assert.equal(chinesePresentation('§Y0.1§!个百分点 §G+5§!个百分点'),'§Y0.1%§! §G+5%§!');
@@ -70,6 +74,11 @@ for (const [key, value] of cn) {
   assert.equal(chinesePresentation(value, key), value, `${key}: not idempotent`);
   const old = oldCn.get(key);
   const refs = s => [...s.matchAll(/\[\?([^|\]]+)/g)].map(m => m[1]);
+  if(!old || /^RUS_nat_supply_(food|beet|textile)$/.test(key)) {
+    const scripts = read('common/scripted_effects/RUS_national_agriculture_effects.txt')+read('common/scripted_effects/RUS_agri_development_effects.txt');
+    for(const ref of refs(value)) assert.ok(scripts.includes(ref),`${key}: undeclared ${ref}`);
+    continue;
+  }
   const crop = /^RUS_nat_(wheat|rye|beet|flax|cotton)_(info|market_line)$/.exec(key);
   const expected = crop ? crop[2] === 'info' ? [`RUS_nat_${crop[1]}_yield`, `RUS_nat_${crop[1]}_preview_rate`] : [`RUS_nat_${crop[1]}_preview_income`] : key === 'RUS_nat_preview_income_line' ? ['RUS_nat_preview_income'] : refs(old || '');
   assert.deepEqual(refs(value), expected, `${key}: variable references changed`);

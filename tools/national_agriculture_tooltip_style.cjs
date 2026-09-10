@@ -43,10 +43,10 @@ const chineseHelp = [
     '农机承诺成功、土改成功各永久增加生产配置额度+2，总额度最多24。',
     '£RUS_nat_text_food£ 实物产量受季节、地力疲劳、实际天气、平均农机覆盖及农业产量修正影响。',
     '预估不计隐藏天气与行情，预测不保证准确。行情、市场饱和与销售容量只影响售价，不减少实物产量。',
-    '单位产量表示每单位生产配置的预计实物产出，含当前公开修正及不足整季折算，未配置时也显示。例如单位产量1.25表示每配置1可产出1.25单位作物。它不是资金回报率。',
+    '单位产量表示每单位生产配置的预计实物产出，含当前公开修正及不足整季折算，未配置时也显示。例如单位产量1.25表示每配置1可产出1.25单位作物。',
     '£RUS_nat_text_income£ 各作物出口收入为预估可交付订单的经济盈余，包含可用旧库存。先满足内需并保留储备，无可交付订单时收入为0。下方收入总览还包含农机出口。',
     '£RUS_nat_text_orders£ 确认后锁定配置，季末前可重新调整。',
-    '未确认时按内需与储备自动配置。首次及截止日的不足整季时段按实际天数结算。'],
+    '手动调整即时保存，未确认时沿用当前草案结算，下季保留手动配置。自动模式按内需与储备自动配置。首次及截止日的不足整季时段按实际天数结算。'],
   ['农机生产',
     '£RUS_nat_text_machinery£ 分配工厂会实际占用可用民用工厂。',
     '每厂日产 = 1.20 × 效率 × 产出系数',
@@ -60,7 +60,7 @@ const chineseHelp = [
     '初始设备不计入累计自产。出口不扣累计自产成绩。'],
   ['库存与贸易',
     '£RUS_nat_text_food£ 完整和平季度内需：粮食（小麦与黑麦）合计8单位，甜菜2单位，纺织原料（亚麻与棉花）合计4单位。',
-    '开季处于战争时，本季粮食内需额外§R+2§!、纺织原料内需额外§R+1§!。这是需求增加，不是产量奖励。',
+    '开季处于战争时，本季粮食内需额外§R+2§!、纺织原料内需额外§R+1§!。',
     '£RUS_nat_text_stock£ 先满足内需，再保留选定的半季/一季/两季储备，最后按优先级交付已接订单。仅交整单，同一库存不可重复交付。',
     '作物库存上限：小麦12、黑麦12、甜菜6、亚麻6、棉花6单位。',
     '满足内需与出口后，剩余作物库存先移除超出上限的部分，再损耗5%。卡霍夫斯卡娅任职时损耗率为2%。已消费、已出口的作物不再损耗。',
@@ -86,6 +86,7 @@ function chinesePresentation(text, key = '') {
     return `§Y${title}§!\\n\\n` + paragraphs.map(p => tooltip(p, 0)).join('\\n\\n');
   }
   text = text
+    .replace('§R这是保留目标，不会补发库存，也不是储存期限。§!', '')
     .replace(/(\d+(?:\.\d+)?)(§!)?个百分点/g, '$1%$2')
     .replace('每日降低§Y0.1%§!', '每日§R-0.1%§!')
     .replace('§R恶劣天气§!再§G+5%§!', '§R恶劣天气§!再§R+5%§!')
@@ -146,6 +147,12 @@ module.exports = function style(loc) {
   for (const [key, color] of Object.entries({strong:'G',weak:'R',stable:'Y',weather_good:'G',weather_bad:'R',weather_normal:'Y',saturation:'R',plan_locked:'G',plan_open:'Y',accepted:'G',delivered:'G',cancelled:'g',promise_pending:'Y',promise_kept:'G',promise_failed:'R'})) {
     loc[`RUS_nat_${key}`] = loc[`RUS_nat_${key}`].map(text => `§${color}${text}§!`);
   }
-  for (const [key, values] of Object.entries(loc)) values[0] = chinesePresentation(values[0], key);
+  for (const [key, values] of Object.entries(loc)) {
+    values[0] = chinesePresentation(values[0], key);
+    if (/^RUS_nat_reserve_[012]_tt$/.test(key)) {
+      values[1] = values[1].replace('§RThis is a stock target, not free supplies or a storage duration.§! ', '');
+      values[2] = values[2].replace('§RЭто цель запаса, а не бесплатные поставки или срок хранения.§! ', '');
+    }
+  }
 };
 module.exports.chinesePresentation = chinesePresentation;

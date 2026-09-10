@@ -1,4 +1,5 @@
-scripted_gui = { RUS_national_agriculture_gui = { context_type = decision_category window_name = "RUS_national_agriculture_window" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled } triggers = { nat_tab_0_click_enabled = { always = yes }
+scripted_gui = { RUS_national_agriculture_gui = { context_type = decision_category window_name = "RUS_national_agriculture_window" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled } triggers = { nat_ledger_click_enabled = { always = yes }
+nat_tab_0_click_enabled = { always = yes }
 nat_tab_1_click_enabled = { always = yes }
 nat_tab_2_click_enabled = { always = yes }
 nat_tab_3_click_enabled = { always = yes }
@@ -143,7 +144,8 @@ nat_report_supply_visible = { has_country_flag = RUS_nat_has_report check_variab
 nat_report_shortage_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
 nat_report_pp_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
 nat_report_orders_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
-nat_empty_report_visible = { check_variable = { RUS_nat_page = 4 } NOT = { has_country_flag = RUS_nat_has_report } } } effects = { nat_tab_0_click = { set_variable = { RUS_nat_page = 1 }
+nat_empty_report_visible = { check_variable = { RUS_nat_page = 4 } NOT = { has_country_flag = RUS_nat_has_report } } } effects = { nat_ledger_click = { RUS_nat_refresh = yes country_event = { id = RUS_national_agriculture.5 } RUS_nat_refresh = yes }
+nat_tab_0_click = { set_variable = { RUS_nat_page = 1 }
  RUS_nat_refresh = yes }
 nat_tab_1_click = { set_variable = { RUS_nat_page = 2 }
  RUS_nat_refresh = yes }
@@ -151,20 +153,33 @@ nat_tab_2_click = { set_variable = { RUS_nat_page = 3 }
  RUS_nat_refresh = yes }
 nat_tab_3_click = { set_variable = { RUS_nat_page = 4 }
  RUS_nat_refresh = yes }
-nat_wheat_minus_click = { RUS_agri_decrease_wheat = yes RUS_nat_refresh = yes }
-nat_wheat_plus_click = { RUS_agri_increase_wheat = yes RUS_nat_refresh = yes }
-nat_rye_minus_click = { RUS_agri_decrease_rye = yes RUS_nat_refresh = yes }
-nat_rye_plus_click = { RUS_agri_increase_rye = yes RUS_nat_refresh = yes }
-nat_beet_minus_click = { RUS_agri_decrease_beet = yes RUS_nat_refresh = yes }
-nat_beet_plus_click = { RUS_agri_increase_beet = yes RUS_nat_refresh = yes }
-nat_flax_minus_click = { RUS_agri_decrease_flax = yes RUS_nat_refresh = yes }
-nat_flax_plus_click = { RUS_agri_increase_flax = yes RUS_nat_refresh = yes }
-nat_cotton_minus_click = { RUS_agri_decrease_cotton = yes RUS_nat_refresh = yes }
-nat_cotton_plus_click = { RUS_agri_increase_cotton = yes RUS_nat_refresh = yes }
-nat_auto_click = { RUS_nat_auto_allocate = yes
+nat_wheat_minus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_decrease_wheat = yes RUS_nat_refresh = yes }
+nat_wheat_plus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_increase_wheat = yes RUS_nat_refresh = yes }
+nat_rye_minus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_decrease_rye = yes RUS_nat_refresh = yes }
+nat_rye_plus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_increase_rye = yes RUS_nat_refresh = yes }
+nat_beet_minus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_decrease_beet = yes RUS_nat_refresh = yes }
+nat_beet_plus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_increase_beet = yes RUS_nat_refresh = yes }
+nat_flax_minus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_decrease_flax = yes RUS_nat_refresh = yes }
+nat_flax_plus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_increase_flax = yes RUS_nat_refresh = yes }
+nat_cotton_minus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_decrease_cotton = yes RUS_nat_refresh = yes }
+nat_cotton_plus_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_increase_cotton = yes RUS_nat_refresh = yes }
+nat_auto_click = { clr_country_flag = RUS_nat_manual_plan
+RUS_nat_auto_allocate = yes
  RUS_nat_refresh = yes }
-nat_clear_click = { RUS_agri_clear_allocation = yes RUS_nat_refresh = yes }
-nat_confirm_click = { RUS_agri_confirm_allocation = yes RUS_nat_refresh = yes }
+nat_clear_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_clear_allocation = yes RUS_nat_refresh = yes }
+nat_confirm_click = { set_country_flag = RUS_nat_manual_plan
+RUS_agri_confirm_allocation = yes RUS_nat_refresh = yes }
 nat_reopen_click = { RUS_agri_reopen_allocation = yes RUS_nat_refresh = yes }
 nat_factory_0_click = { set_variable = { RUS_nat_requested = RUS_nat_factories }
 add_to_variable = { RUS_nat_requested = -10 }

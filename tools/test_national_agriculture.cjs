@@ -17,7 +17,7 @@ test('calendar is anchored to all 365 game days, including partial winter',()=>{
  for(let d=0;d<365;d++){
   const c=fresh(d);const s=d<59||d>=334?4:d<151?1:d<243?2:3;
   assert.equal(val(c,'season'),s);assert.ok(val(c,'remaining')>0);assert.ok(val(c,'remaining')<=92);
-  assert.equal(c.events.length,0);
+  assert.deepEqual(c.events.map(e=>get(e,'id')),['RUS_national_agriculture.2']);
  }
 });
 test('enabling twice cannot duplicate starting stocks or reset factory production',()=>{
@@ -183,7 +183,7 @@ test('domestic supply and reserves have priority; cancellation and priority do n
  set(c,'generic_shipped',0);set(c,'wheat_work',50);set(c,'food_left',50);set(c,'beet_ratio',.5);run(c,'trade');assert.equal(val(c,'income'),0);assert.equal(val(c,'wheat_work'),50);
 });
 test('all domestic reward thresholds and partial-quarter political rewards',()=>{
- for(const [ratio,expected] of [[.899,0],[.9,1],[.999,1],[1,2]]){const c=fresh();c.flags.RUS_maximalist_land_reform_in_progress=true;set(c,'food_ratio',ratio);set(c,'beet_ratio',0);set(c,'textile_ratio',0);set(c,'task',3);set(c,'fraction',1);set(c,'eligible_days',92);run(c,'award');assert.equal(c.vars.RUS_agri_score_award,expected);}
+ for(const [ratio,expected] of [[.899,0],[.9,1],[.999,1],[1,2]]){const c=fresh();c.flags.RUS_maximalist_land_reform_in_progress=true;set(c,'food_ratio',ratio);set(c,'beet_ratio',0);set(c,'textile_ratio',0);set(c,'food_left',0);set(c,'task',0);set(c,'fraction',1);set(c,'eligible_days',92);run(c,'award');assert.equal(c.vars.RUS_agri_score_award,expected);}
  const c=fresh();for(const [g] of [['food'],['beet'],['textile']])set(c,g+'_ratio',1);set(c,'task',3);set(c,'fraction',.5);run(c,'award');assert.equal(c.pp,25);assert.equal(c.vars.RUS_agri_score_award,0);
 });
 test('annual ideas replace earlier tiers; supply and reserves determine the tier',()=>{
