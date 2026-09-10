@@ -58,7 +58,7 @@ test('no-credit states do not consume allowance and success cannot bypass the ca
  c.vars.RUS_maximalist_land_reform_score=150;c.vars.RUS_nat_decision_score=88;
  run(c,'RUS_nat_decision_score_5');assert.equal(c.vars.RUS_agri_spendable_score,2);
  run(c,'RUS_nat_decision_score_10');assert.equal(c.vars.RUS_agri_spendable_score,2);
- assert.equal(c.vars.RUS_maximalist_land_reform_score,150);assert.equal(c.vars.RUS_nat_decision_score,90);
+ assert.equal(c.vars.RUS_maximalist_land_reform_score,200);assert.equal(c.vars.RUS_nat_decision_score,90);
 });
 test('the lifetime allowance survives quarterly resets, annual resets and serialization',()=>{
  let c=fresh();c.vars.RUS_nat_decision_score=88;

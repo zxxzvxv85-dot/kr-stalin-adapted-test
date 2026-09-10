@@ -13,6 +13,7 @@ const plain = text => text.replace(/§./g,'').replace(/£[^£]+£/g,'').replace(
   .replace(/\s+/g,' ').trim();
 const sprites = new Map(get(parse(read('interface/RUS_national_agriculture.gfx')),'spriteTypes').map(s=>[get(s.value,'name'),get(s.value,'texturefile')]));
 const gui = get(get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes'),'containerWindowType');
+const balanceChanges=new Set(['RUS_nat_header','RUS_nat_score_line','RUS_nat_tab_1_tt','RUS_nat_tab_3_tt','RUS_nat_machine_4','RUS_nat_machine_5','RUS_nat_tractor_requirement','RUS_national_agriculture.2.d']);
 for (const lang of ['simp_chinese','english','russian']) {
   const file = `localisation/${lang}/RUS_national_agriculture_l_${lang}.yml`;
   const content = read(file), pairs = entries(content), loc = new Map(pairs);
@@ -32,7 +33,7 @@ for (const lang of ['simp_chinese','english','russian']) {
       assert.ok(texture,`${lang} ${key}: unknown text icon ${icon[1]}`);
       assert.ok(fs.existsSync(path.join(root,texture)),texture);
     }
-    if(previous.has(key) && !/^RUS_nat_(title|plan_open|tab_0_tt|needs|report_supply|supply_(?:food|beet|textile)|task_3|reserve_[012](?:_tt)?|(?:wheat|rye|beet|flax|cotton)_info|(?:m?order)_(?:fra|eng))$/.test(key)) {
+    if(previous.has(key) && !balanceChanges.has(key) && !/^RUS_nat_(title|plan_open|tab_0_tt|needs|report_supply|supply_(?:food|beet|textile)|task_3|reserve_[012](?:_tt)?|(?:wheat|rye|beet|flax|cotton)_info|(?:m?order)_(?:fra|eng))$/.test(key)) {
       const expected = lang === 'simp_chinese' ? chinesePresentation(previous.get(key), key) : previous.get(key);
       assert.equal(plain(value),plain(expected),`${lang} ${key}: unintended rule/text change`);
     }

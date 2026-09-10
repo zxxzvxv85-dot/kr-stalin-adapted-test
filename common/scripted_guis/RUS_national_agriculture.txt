@@ -10,7 +10,7 @@ nat_wheat_minus_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_wheat_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment > 0 } }
 nat_wheat_amount_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_wheat_plus_visible = { check_variable = { RUS_nat_page = 1 } }
-nat_wheat_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_wheat_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment < 10 } check_variable = { RUS_nat_allocated < 50 } }
 nat_wheat_info_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_wheat_market_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_wheat_soil_visible = { check_variable = { RUS_nat_page = 1 } }
@@ -20,7 +20,7 @@ nat_rye_minus_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_rye_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment > 0 } }
 nat_rye_amount_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_rye_plus_visible = { check_variable = { RUS_nat_page = 1 } }
-nat_rye_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_rye_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment < 10 } check_variable = { RUS_nat_allocated < 50 } }
 nat_rye_info_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_rye_market_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_rye_soil_visible = { check_variable = { RUS_nat_page = 1 } }
@@ -30,7 +30,7 @@ nat_beet_minus_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_beet_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment > 0 } }
 nat_beet_amount_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_beet_plus_visible = { check_variable = { RUS_nat_page = 1 } }
-nat_beet_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_beet_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment < 10 } check_variable = { RUS_nat_allocated < 50 } }
 nat_beet_info_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_beet_market_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_beet_soil_visible = { check_variable = { RUS_nat_page = 1 } }
@@ -40,7 +40,7 @@ nat_flax_minus_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_flax_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment > 0 } }
 nat_flax_amount_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_flax_plus_visible = { check_variable = { RUS_nat_page = 1 } }
-nat_flax_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_flax_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment < 10 } check_variable = { RUS_nat_allocated < 50 } }
 nat_flax_info_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_flax_market_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_flax_soil_visible = { check_variable = { RUS_nat_page = 1 } }
@@ -50,7 +50,7 @@ nat_cotton_minus_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_cotton_minus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment > 0 } }
 nat_cotton_amount_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_cotton_plus_visible = { check_variable = { RUS_nat_page = 1 } }
-nat_cotton_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment < 10 } check_variable = { RUS_nat_allocated < RUS_nat_budget } }
+nat_cotton_plus_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment < 10 } check_variable = { RUS_nat_allocated < 50 } }
 nat_cotton_info_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_cotton_market_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_cotton_soil_visible = { check_variable = { RUS_nat_page = 1 } }
@@ -68,6 +68,7 @@ nat_confirm_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_confirm_click_enabled = { NOT = { has_country_flag = RUS_agri_allocation_locked } }
 nat_reopen_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_reopen_click_enabled = { has_country_flag = RUS_agri_allocation_locked }
+nat_expansion_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_gaps_visible = { check_variable = { RUS_nat_page = 1 } }
 nat_machine_icon_0_visible = { check_variable = { RUS_nat_page = 2 } }
 nat_machine_0_visible = { check_variable = { RUS_nat_page = 2 } }

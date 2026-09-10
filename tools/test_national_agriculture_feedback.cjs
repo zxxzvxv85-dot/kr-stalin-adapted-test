@@ -41,11 +41,11 @@ test('manual drafts, including intentional zero, survive settlement and seasonal
 test('confirm/reopen preserves drafts; auto mode clears manual selection and ignores hidden outcomes',()=>{
  const c=fresh();click(c,'clear');click(c,'rye_plus');click(c,'confirm');assert.ok(c.flags.RUS_agri_allocation_locked);
  const saved=plan(c);click(c,'reopen');assert.ok(!c.flags.RUS_agri_allocation_locked);assert.deepEqual(plan(c),saved);
- click(c,'auto');assert.ok(!c.flags.RUS_nat_manual_plan);assert.equal(val(c,'allocated'),20);
+ click(c,'auto');assert.ok(!c.flags.RUS_nat_manual_plan);assert.equal(val(c,'allocated'),10);
  const a=structuredClone(c),b=structuredClone(c);a.vars.RUS_agri_weather=-.4;b.vars.RUS_agri_weather=.4;
  for(const crop of crops){a.vars['RUS_agri_'+crop+'_market']=-.4;b.vars['RUS_agri_'+crop+'_market']=.4;}
  click(a,'auto');click(b,'auto');assert.deepEqual(plan(a),plan(b));
- c.vars['global.num_days']=706791;run(c,'start_quarter');assert.equal(val(c,'allocated'),20);
+ c.vars['global.num_days']=706791;run(c,'start_quarter');assert.equal(val(c,'allocated'),10);
  assert.ok(!c.flags.RUS_nat_manual_plan);
 });
 test('deadline reminders fire once, survive reload and suppress confirmed/AI plans',()=>{

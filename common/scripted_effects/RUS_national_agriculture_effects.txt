@@ -28,25 +28,25 @@ set_variable = { RUS_maximalist_land_reform_stage = 3 }
 add_ideas = RUS_nat_land_reform_stage_3
 }
 else = {
-if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 100 } }
+if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 110 } }
 set_variable = { RUS_nat_reform_stage = 4 }
 set_variable = { RUS_maximalist_land_reform_stage = 4 }
 add_ideas = RUS_nat_land_reform_stage_4
 }
 else = {
-if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 120 } }
+if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 140 } }
 set_variable = { RUS_nat_reform_stage = 5 }
 set_variable = { RUS_maximalist_land_reform_stage = 4 }
 add_ideas = RUS_nat_land_reform_stage_5
 }
 else = {
-if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 135 } }
+if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 170 } }
 set_variable = { RUS_nat_reform_stage = 6 }
 set_variable = { RUS_maximalist_land_reform_stage = 4 }
 add_ideas = RUS_nat_land_reform_stage_6
 }
 else = {
-if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 150 } }
+if = { limit = { check_variable = { RUS_maximalist_land_reform_score < 200 } }
 set_variable = { RUS_nat_reform_stage = 7 }
 set_variable = { RUS_maximalist_land_reform_stage = 4 }
 add_ideas = RUS_nat_land_reform_stage_7
@@ -104,6 +104,20 @@ RUS_agri_refresh_gui = yes
 else = {
 RUS_maximalist_land_reform_add_score_10 = yes
 }
+}
+
+RUS_nat_expansion_cost = {
+set_variable = { RUS_nat_extra = RUS_nat_allocated }
+subtract_from_variable = { RUS_nat_extra = RUS_nat_budget }
+clamp_variable = { var = RUS_nat_extra min = 0 max = 50 }
+set_variable = { RUS_nat_expansion_preview = RUS_nat_extra }
+clamp_variable = { var = RUS_nat_expansion_preview min = 0 max = 5 }
+multiply_variable = { RUS_nat_expansion_preview = 0.005 }
+set_variable = { RUS_nat_extra_high = RUS_nat_extra }
+subtract_from_variable = { RUS_nat_extra_high = 5 }
+clamp_variable = { var = RUS_nat_extra_high min = 0 max = 50 }
+multiply_variable = { RUS_nat_extra_high = 0.01 }
+add_to_variable = { RUS_nat_expansion_preview = RUS_nat_extra_high }
 }
 
 RUS_nat_calendar = {
@@ -198,7 +212,7 @@ divide_variable = { RUS_nat_daily = 10000 }
 multiply_variable = { RUS_nat_daily = RUS_nat_output }
 set_variable = { RUS_nat_room = RUS_nat_target }
 subtract_from_variable = { RUS_nat_room = RUS_nat_installed }
-add_to_variable = { RUS_nat_room = 4500 }
+add_to_variable = { RUS_nat_room = 5000 }
 subtract_from_variable = { RUS_nat_room = RUS_nat_machine_stock }
 clamp_variable = { var = RUS_nat_room min = 0 max = 1001000 }
 clamp_variable = { var = RUS_nat_daily min = 0 max = RUS_nat_room }
@@ -253,7 +267,7 @@ RUS_nat_factory_capacity = yes
 RUS_nat_parameters = yes
 set_variable = { RUS_nat_room = RUS_nat_target }
 subtract_from_variable = { RUS_nat_room = RUS_nat_installed }
-add_to_variable = { RUS_nat_room = 4500 }
+add_to_variable = { RUS_nat_room = 5000 }
 subtract_from_variable = { RUS_nat_room = RUS_nat_machine_stock }
 clamp_variable = { var = RUS_nat_room min = 0 max = 1001000 }
 if = { limit = { check_variable = { RUS_nat_factories > 0 } check_variable = { RUS_nat_room > 0 } }
@@ -384,7 +398,7 @@ set_variable = { RUS_nat_support_textiles = 0 }
 set_variable = { RUS_nat_support_technical = 0 }
 set_variable = { RUS_nat_support_repair = 0 }
 set_variable = { RUS_nat_support_emergency = 0 }
-set_variable = { RUS_nat_budget = 20 }
+set_variable = { RUS_nat_budget = 10 }
 if = { limit = { has_country_flag = RUS_maximalist_land_reform_success }
 add_to_variable = { RUS_nat_budget = 2 }
 }
@@ -449,6 +463,7 @@ add_to_variable = { RUS_nat_allocated = RUS_agri_flax_investment }
 add_to_variable = { RUS_nat_allocated = RUS_agri_cotton_investment }
 set_variable = { RUS_nat_unused = RUS_nat_budget }
 subtract_from_variable = { RUS_nat_unused = RUS_nat_allocated }
+RUS_nat_expansion_cost = yes
 clr_country_flag = RUS_agri_saturation_wheat
 set_variable = { RUS_nat_concentration = RUS_agri_wheat_investment }
 multiply_variable = { RUS_nat_concentration = 2 }
@@ -480,7 +495,7 @@ if = { limit = { has_country_flag = RUS_agri_previous_dominant_cotton check_vari
 set_country_flag = RUS_agri_saturation_cotton
 }
 set_variable = { RUS_agri_total_investment = RUS_nat_allocated }
-set_variable = { RUS_agri_investment_limit = RUS_nat_budget }
+set_variable = { RUS_agri_investment_limit = 50 }
 }
 
 RUS_nat_yield = {
@@ -495,8 +510,8 @@ divide_variable = { RUS_nat_mechanisation = RUS_nat_target }
 }
 clamp_variable = { var = RUS_nat_mechanisation min = 0 max = 1 }
 set_variable = { RUS_nat_mean_coverage = RUS_nat_mechanisation }
-multiply_variable = { RUS_nat_mechanisation = 0.2 }
-add_to_variable = { RUS_nat_mechanisation = 0.9 }
+multiply_variable = { RUS_nat_mechanisation = 0.5 }
+add_to_variable = { RUS_nat_mechanisation = 0.6 }
 set_variable = { RUS_nat_wheat_rate = RUS_agri_wheat_base }
 set_variable = { RUS_nat_tmp = RUS_agri_wheat_fatigue }
 multiply_variable = { RUS_nat_tmp = 0.15 }
@@ -2909,16 +2924,19 @@ clamp_variable = { var = RUS_nat_shortage min = 0 max = 3 }
 set_variable = { RUS_nat_stability = RUS_nat_shortage }
 multiply_variable = { RUS_nat_stability = -0.02 }
 set_variable = { RUS_nat_consumer = RUS_nat_shortage }
-multiply_variable = { RUS_nat_consumer = 0.02 }
-clamp_variable = { var = RUS_nat_consumer min = 0 max = 0.05 }
-set_variable = { RUS_nat_factory_penalty = 0 }
-if = { limit = { check_variable = { RUS_nat_beet_ratio < 0.9999 } }
-subtract_from_variable = { RUS_nat_factory_penalty = 0.03 }
-}
+multiply_variable = { RUS_nat_consumer = 0.01 }
+clamp_variable = { var = RUS_nat_consumer min = 0 max = 0.025 }
+set_variable = { RUS_nat_beet_weekly = 1 }
+subtract_from_variable = { RUS_nat_beet_weekly = RUS_nat_beet_ratio }
+clamp_variable = { var = RUS_nat_beet_weekly min = 0 max = 1 }
+multiply_variable = { RUS_nat_beet_weekly = -0.004 }
 if = { limit = { check_variable = { RUS_nat_textile_ratio < 0.9999 } }
-subtract_from_variable = { RUS_nat_factory_penalty = 0.03 }
+subtract_from_variable = { RUS_nat_stability = 0.06 }
+add_to_variable = { RUS_nat_consumer = 0.025 }
 }
-clamp_variable = { var = RUS_nat_factory_penalty min = -0.05 max = 0 }
+RUS_nat_expansion_cost = yes
+set_variable = { RUS_nat_expansion_active = RUS_nat_expansion_preview }
+add_to_variable = { RUS_nat_consumer = RUS_nat_expansion_active }
 force_update_dynamic_modifier = yes
 }
 

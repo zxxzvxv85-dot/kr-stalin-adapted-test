@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict');
 const {parse,get,effects,country,exec,check,read}=require('./test_agri_development.cjs');
-const thresholds=[0,20,40,60,80,100,120,135,150];
+const thresholds=[0,20,40,60,80,110,140,170,200];
 const ids=thresholds.map((_,i)=>'RUS_nat_land_reform_stage_'+i),bonus=ids[8]+'_tractor_bonus';
 const ideas=get(get(parse(read('common/ideas/RUS_national_agriculture_reform_ideas.txt')),'ideas'),'country');
 const original=get(get(parse(read('common/ideas/RUS stalin maximalist land reform ideas.txt')),'ideas'),'country');
@@ -23,13 +23,13 @@ test('all nine thresholds and fractional boundaries select one spirit, not addit
  }
 });
 test('consumer expectations, military construction and absolute slots match the approved table',()=>{
- const consumer=[.2,.14,.08,.02,-.01,-.03,-.05,-.07,-.1],arms=[0,0,0,0,0,.05,.1,.1,.15],slots=[0,0,0,0,0,0,0,1,2];
+ const consumer=[.2,.14,.08,.02,.01,0,-.03,-.07,-.1],arms=[0,0,0,0,0,0,.05,.1,.15],slots=[0,0,0,0,0,0,0,1,2];
  ids.forEach((id,i)=>{const m=mods(ideas,id);assert.equal(m.consumer_goods_expected_value,consumer[i]);assert.equal(m.production_speed_arms_factory_factor||0,arms[i]);assert.equal(m.global_building_slots||0,slots[i]);assert.equal(m.global_building_slots_factor,undefined);assert.equal(m.supply_node_range||0,i===8?.1:i===7?.05:0);});
- for(let i=0;i<5;i++)assert.deepEqual(mods(ideas,ids[i]),mods(original,'RUS_maximalist_land_reform_stage_'+i));
+ for(let i=0;i<4;i++)assert.deepEqual(mods(ideas,ids[i]),mods(original,'RUS_maximalist_land_reform_stage_'+i));
  const final=mods(ideas,ids[8]);for(const [key,value] of Object.entries(mods(original,'RUS_maximalist_land_reform_stage_5')))if(key!=='consumer_goods_expected_value')assert.equal(final[key],value);
 });
 test('completed machinery promise gives minus 12 percent, not a second stacked spirit',()=>{
- const c=fresh(150);c.flags.RUS_maximalist_land_reform_tractor_bonus=true;
+ const c=fresh(200);c.flags.RUS_maximalist_land_reform_tractor_bonus=true;
  for(let i=0;i<4;i++)refresh(c);
  assert.deepEqual([...ids,bonus].filter(id=>c.ideas[id]),[bonus]);
  const m=mods(ideas,bonus);assert.equal(m.consumer_goods_expected_value,-.12);assert.equal(m.economy_cost_factor,-.2);assert.equal(m.production_speed_arms_factory_factor,.15);assert.equal(m.global_building_slots,2);assert.equal(m.supply_node_range,.1);
@@ -38,10 +38,10 @@ test('promise reward applies both before final reform and after it is complete',
  const event=parse(read('events/RUS stalin maximalist land reform events.txt')).find(n=>n.key==='country_event'&&get(n.value,'id')==='rus_maximalist_land_reform_events.15');
  const option=get(event.value,'option');
  assert.equal(+get(option,'add_stability'),.05);
- for(const score of [120,150]){
+ for(const score of [140,200]){
   const c=fresh(score);refresh(c);exec(option.filter(n=>n.key!=='add_stability'),c);
   assert.equal(c.pp,50);assert.ok(c.flags.RUS_maximalist_land_reform_tractor_bonus);
-  if(score===120){assert.ok(c.ideas[ids[6]]);assert.ok(!c.ideas[bonus]);c.vars.RUS_maximalist_land_reform_score=150;refresh(c);}
+  if(score===140){assert.ok(c.ideas[ids[6]]);assert.ok(!c.ideas[bonus]);c.vars.RUS_maximalist_land_reform_score=200;refresh(c);}
   assert.ok(c.ideas[bonus]);assert.ok(!c.ideas[ids[8]]);
  }
 });
@@ -55,9 +55,9 @@ test('old ministers retain the original six tiers and original tractor bonus',()
  assert.ok(c.ideas.RUS_maximalist_land_reform_stage_5_tractor_bonus);assert.equal(mods(original,'RUS_maximalist_land_reform_stage_5_tractor_bonus').consumer_goods_expected_value,-.05);
 });
 test('score losses downgrade correctly, while spending after success preserves the final tier',()=>{
- const c=fresh(135);refresh(c);run(c,'RUS_maximalist_land_reform_subtract_score_3');assert.ok(c.ideas[ids[6]]);assert.ok(!c.ideas[ids[7]]);
- c.vars.RUS_maximalist_land_reform_score=168;c.flags.RUS_maximalist_land_reform_success=true;refresh(c);
- assert.equal(c.vars.RUS_maximalist_land_reform_score,150);assert.equal(c.vars.RUS_agri_spendable_score,18);assert.ok(c.ideas[ids[8]]);
+ const c=fresh(170);refresh(c);run(c,'RUS_maximalist_land_reform_subtract_score_3');assert.ok(c.ideas[ids[6]]);assert.ok(!c.ideas[ids[7]]);
+ c.vars.RUS_maximalist_land_reform_score=218;c.flags.RUS_maximalist_land_reform_success=true;refresh(c);
+ assert.equal(c.vars.RUS_maximalist_land_reform_score,200);assert.equal(c.vars.RUS_agri_spendable_score,18);assert.ok(c.ideas[ids[8]]);
  c.vars.RUS_agri_purchase_cost=18;run(c,'RUS_agri_spend_score');refresh(c);assert.equal(c.vars.RUS_agri_spendable_score,0);assert.ok(c.ideas[ids[8]]);
 });
 test('failure cleanup removes every new spirit, including the machinery variant',()=>{
