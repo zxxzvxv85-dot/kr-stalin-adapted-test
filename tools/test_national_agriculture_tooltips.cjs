@@ -88,4 +88,4 @@ assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('粮食内需额外+2、纺
 assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('小麦12、黑麦12、甜菜6、亚麻6、棉花6'));
 assert.ok(plain(cn.get('RUS_nat_tab_1_tt')).includes('仓库农机不参与在役损耗'));
 assert.ok(plain(cn.get('RUS_nat_tab_3_tt')).includes('不包含下列储备、农机覆盖和任务积分'));
-assert.ok(!cn.get('RUS_nat_machine_5').includes('\\n'));
+assert.ok(!cn.get('RUS_nat_machine_4').includes('\\n'));
