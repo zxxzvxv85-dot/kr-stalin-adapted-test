@@ -296,18 +296,15 @@ button('nat_auto',5,526,label(n('auto'),'自动配置','Auto Allocate','Авто
 button('nat_clear',128,526,'RUS_agri_clear','RUS_agri_clear_allocation = yes',1,'NOT = { has_country_flag = RUS_agri_allocation_locked }');
 button('nat_confirm',251,526,'RUS_agri_confirm','RUS_agri_confirm_allocation = yes',1,'NOT = { has_country_flag = RUS_agri_allocation_locked }');
 button('nat_reopen',374,526,'RUS_agri_reopen','RUS_agri_reopen_allocation = yes',1,'has_country_flag = RUS_agri_allocation_locked');
-text('nat_expansion',10,562,482,label(n('expansion_line'),'超额[?RUS_nat_extra|0]  下季消费品期望+[?RUS_nat_expansion_preview|%1]','Extra [?RUS_nat_extra|0]  Next CG +[?RUS_nat_expansion_preview|%1]','Сверх [?RUS_nat_extra|0]  След. ТНП +[?RUS_nat_expansion_preview|%1]'),1,18);
-text('nat_gaps',10,583,520,label(n('gaps'),'本季缺口：粮食[?RUS_nat_food_gap|1] 加工[?RUS_nat_beet_gap|1] 纺织[?RUS_nat_textile_gap|1]','Deficit: Food [?RUS_nat_food_gap|1] Beet [?RUS_nat_beet_gap|1] Fibre [?RUS_nat_textile_gap|1]','Дефицит: зерно [?RUS_nat_food_gap|1] свёкла [?RUS_nat_beet_gap|1] волокно [?RUS_nat_textile_gap|1]'),1);
+text('nat_gaps',10,562,520,label(n('gaps'),'本季缺口：粮食[?RUS_nat_food_gap|1] 加工[?RUS_nat_beet_gap|1] 纺织[?RUS_nat_textile_gap|1]','Deficit: Food [?RUS_nat_food_gap|1] Beet [?RUS_nat_beet_gap|1] Fibre [?RUS_nat_textile_gap|1]','Дефицит: зерно [?RUS_nat_food_gap|1] свёкла [?RUS_nat_beet_gap|1] волокно [?RUS_nat_textile_gap|1]'),1);
 const machineRows=[
  ['分配民工：[?RUS_nat_factories|0]  可增派：[?RUS_nat_available|0]','Assigned factories: [?RUS_nat_factories|0]  Available: [?RUS_nat_available|0]','Заводов: [?RUS_nat_factories|0]  Доступно: [?RUS_nat_available|0]'],
  ['日产：[?RUS_nat_daily|2]  累计自产：[?RUS_nat_produced|1]','Daily output: [?RUS_nat_daily|2]  Total produced: [?RUS_nat_produced|1]','В сутки: [?RUS_nat_daily|2]  Произведено: [?RUS_nat_produced|1]'],
- ['效率：[?RUS_nat_eff_display|1]% / [?RUS_nat_cap_display|1]%','Efficiency: [?RUS_nat_eff_display|1]% / [?RUS_nat_cap_display|1]%','Эффективность: [?RUS_nat_eff_display|1]% / [?RUS_nat_cap_display|1]%'],
- ['产出系数：[?RUS_nat_output|2]  增长系数：[?RUS_nat_growth|2]','Output factor: [?RUS_nat_output|2]  Growth factor: [?RUS_nat_growth|2]','Выпуск: x[?RUS_nat_output|2]  Рост: x[?RUS_nat_growth|2]'],
  ['在役：[?RUS_nat_installed|1]/[?RUS_nat_target|0]  库存：[?RUS_nat_machine_stock|1]/5000','In service: [?RUS_nat_installed|1]/[?RUS_nat_target|0]  Stock: [?RUS_nat_machine_stock|1]/5000','В строю: [?RUS_nat_installed|1]/[?RUS_nat_target|0]  Склад: [?RUS_nat_machine_stock|1]/5000'],
  ['拖拉机承诺：推广[?RUS_max_landreform_tractor_promise_count|0]/3次；自产[?RUS_nat_produced|0]/4000','Promise: decisions [?RUS_max_landreform_tractor_promise_count|0]/3; output [?RUS_nat_produced|0]/4000','Обещание: решения [?RUS_max_landreform_tractor_promise_count|0]/3; выпуск [?RUS_nat_produced|0]/4000'],
  ['机械行情预测：[GetRUSNatMachineryMarket]','Machinery market: [GetRUSNatMachineryMarket]','Рынок техники: [GetRUSNatMachineryMarket]']
 ];
-machineRows.forEach((l,i)=>{const kind={0:'factories',1:'machinery',4:'stock'}[i];if(kind)icon('nat_machine_icon_'+i,kind,8,143+i*46,2);text('nat_machine_'+i,kind?38:10,145+i*46,kind?492:520,label(n('machine_'+i),...l),2);});
+machineRows.forEach((l,i)=>{const kind={0:'factories',1:'machinery',2:'stock'}[i];if(kind)icon('nat_machine_icon_'+i,kind,8,143+i*46,2);text('nat_machine_'+i,kind?38:10,145+i*46,kind?492:520,label(n('machine_'+i),...l),2);});
 text('nat_promise_state',10,397,520,label(n('promise_state'),'[GetRUSNatPromise]','[GetRUSNatPromise]','[GetRUSNatPromise]'),2,20);
 text('nat_machine_coverage',10,452,520,label(n('machine_coverage'),'本季平均覆盖率：[?RUS_nat_coverage_display|1]%','Average machinery coverage: [?RUS_nat_coverage_display|1]%','Средняя обеспеченность техникой: [?RUS_nat_coverage_display|1]%'),2);
 [-10,-1,1,10].forEach((delta,i)=>button('nat_factory_'+i,5+i*123,492,label(n('factory_'+i),`${delta>0?'+':''}${delta} 民工`,`${delta>0?'+':''}${delta} factories`,`${delta>0?'+':''}${delta} зав.`),v('requested',n('factories'))+add('requested',delta)+call('set_factories'),2,delta>0?ck('available','>',0):ck('factories','>',0)));
@@ -432,10 +429,6 @@ const expansionHelp=[
  'Free allocation starts at §Y10§!. Reform and machinery-promise success each add §Y2§! free points. Crop plus buttons allow expansion beyond this allowance, up to §Y10§! per crop and §Y50§! total. Automatic allocation uses only the free allowance.\\n\\nExtra E = max(allocation - free allowance, §Y0§!)\\nNext-quarter consumer goods expectations = min(E, §Y5§!) x §Y0.5%§! + max(E - §Y5§!, §Y0§!) x §Y1%§!\\n\\nThe final plan is charged at quarter end for the whole next quarter, replacing the prior charge. §Y5§! extra gives §R+2.5%§!; §Y10§! gives §R+7.5%§!.',
  'Бесплатный план начинается с §Y10§!. Успех реформы и обещания о технике дают по §Y2§! бесплатные единицы. Кнопки плюс позволяют расширение: до §Y10§! на культуру и §Y50§! всего. Автоплан использует только бесплатный лимит.\\n\\nИзбыток E = max(план - бесплатный лимит, §Y0§!)\\nОжидания ТНП следующего квартала = min(E, §Y5§!) x §Y0.5%§! + max(E - §Y5§!, §Y0§!) x §Y1%§!\\n\\nИтоговый план определяет штраф на весь следующий квартал; прежний штраф заменяется. §Y5§! сверх лимита: §R+2.5%§!; §Y10§!: §R+7.5%§!.'
 ];
-for(let i=0;i<3;i++){
- if(i)loc.RUS_nat_tab_0_tt[i]+='\\n\\n'+expansionHelp[i];
- loc['RUS_national_agriculture.2.d'][i]+='\\n\\n'+expansionHelp[i].replace(/§[YGR](?=[+\-\d])/g,'§b');
-}
 loc.RUS_nat_tab_3_tt[1]=loc.RUS_nat_tab_3_tt[1].replace(/Beet or fibre shortages .*?output(?:§!)?\./, 'Beet shortfall proportionally reduces weekly stability, down to -0.4% per week at zero supply. Fibre shortages apply -6% stability and +2.5% consumer goods expectations. These recover when supplied and stack with food shortages.');
 loc.RUS_nat_tab_3_tt[2]=loc.RUS_nat_tab_3_tt[2].replace(/Нехватка свёклы или волокна .*?заводов(?:§!)?\./, 'Дефицит свёклы пропорционально снижает стабильность в неделю, до -0.4% при нулевом снабжении. Нехватка волокна: стабильность -6%, ожидания ТНП +2.5%. При восстановлении снабжения штраф снимается; штрафы зерна и волокна суммируются.');
 ['simp_chinese','english','russian'].forEach((language,i)=>write(`localisation/${language}/RUS_national_agriculture_l_${language}.yml`,`l_${language}:\n`+Object.entries(loc).map(([key,values])=>` ${key}:0 "${values[i]}"`).join('\n')+'\n',true));

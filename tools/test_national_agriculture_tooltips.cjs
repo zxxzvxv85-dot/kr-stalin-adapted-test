@@ -13,7 +13,7 @@ const plain = text => text.replace(/§./g,'').replace(/£[^£]+£/g,'').replace(
   .replace(/\s+/g,' ').trim();
 const sprites = new Map(get(parse(read('interface/RUS_national_agriculture.gfx')),'spriteTypes').map(s=>[get(s.value,'name'),get(s.value,'texturefile')]));
 const gui = get(get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes'),'containerWindowType');
-const balanceChanges=new Set(['RUS_nat_header','RUS_nat_score_line','RUS_nat_tab_1_tt','RUS_nat_tab_3_tt','RUS_nat_machine_4','RUS_nat_machine_5','RUS_nat_tractor_requirement','RUS_national_agriculture.2.d']);
+const balanceChanges=new Set(['RUS_nat_header','RUS_nat_score_line','RUS_nat_tab_1_tt','RUS_nat_tab_3_tt','RUS_nat_machine_2','RUS_nat_machine_3','RUS_nat_machine_4','RUS_nat_machine_5','RUS_nat_tractor_requirement','RUS_national_agriculture.2.d']);
 for (const lang of ['simp_chinese','english','russian']) {
   const file = `localisation/${lang}/RUS_national_agriculture_l_${lang}.yml`;
   const content = read(file), pairs = entries(content), loc = new Map(pairs);

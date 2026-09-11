@@ -11837,7 +11837,6 @@ focus_tree = {
 			RUS_VST_right_relation = yes
 			RUS_stalin_kamenev_bop_move_left_005 = yes
 			country_event = { id = RUS_stalin_kamenev_agendas.9 hours = 6 }
-			country_event = { id = RUS_stalin_kamenev_agendas.11 days = 30 }
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 	}
@@ -15033,7 +15032,12 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_encourage_collectivisation"
-			RUS_maximalist_land_reform_add_score_10 = yes
+			if = {
+				limit = { has_country_flag = RUS_nat_enabled }
+				set_variable = { RUS_agri_score_award = 10 }
+				RUS_agri_credit_score = yes
+			}
+			else = { RUS_maximalist_land_reform_add_score_10 = yes }
 			add_political_power = 75
 			random_owned_controlled_state = {
 				limit = { has_state_category = two }
@@ -20579,7 +20583,6 @@ focus_tree = {
 		id = RUS_desperate_measures
 		icon = GFX_goal_generic_more_territorial_claims
 		cost = 2
-		allow_branch = { has_socialist_government = no }
 
 		relative_position_id = RUS_address_the_army
 		x = 6
@@ -31060,7 +31063,6 @@ focus_tree = {
 			}
 			RUS_fr_show_armour_design_legacy_rewards = yes
 			RUS_fr_apply_armour_design_legacy_rewards = yes
-			add_tech_bonus = { name = RUS_fr_emphasise_armour_design bonus = 0.50 uses = 2 category = mio_cat_tech_all_armor_and_modules }
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 	}
@@ -31148,6 +31150,13 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
+			if = {
+				limit = { has_dlc_aat = yes }
+				every_military_industrial_organization = {
+					limit = { has_mio_trait = RUS_fr_mio_trait_breakthrough_chassis_coordination }
+					unlock_mio_trait_tooltip = RUS_fr_mio_trait_breakthrough_chassis_coordination
+				}
+			}
 			add_ideas = RUS_fr_armour_breakthrough_programme_idea
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
@@ -31201,6 +31210,13 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
+			if = {
+				limit = { has_dlc_aat = yes }
+				every_military_industrial_organization = {
+					limit = { has_mio_trait = RUS_fr_mio_trait_high_velocity_firepower_integration }
+					unlock_mio_trait_tooltip = RUS_fr_mio_trait_high_velocity_firepower_integration
+				}
+			}
 			add_tech_bonus = { name = RUS_fr_high_velocity_kinetic_gun_program bonus = 1.00 uses = 1 category = mio_cat_tech_all_armor_and_modules }
 			if = {
 				limit = { has_country_flag = RUS_fr_specialise_armour }
@@ -31231,6 +31247,14 @@ focus_tree = {
 		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_air_assault_brigades }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
+			if = {
+				limit = { has_dlc_aat = yes }
+				every_military_industrial_organization = {
+					limit = { has_mio_trait = RUS_fr_mio_trait_standardised_armoured_components }
+					unlock_mio_trait_tooltip = RUS_fr_mio_trait_standardised_armoured_components
+				}
+			}
+			add_tech_bonus = { name = RUS_fr_universal_hull_standards bonus = 1.00 uses = 2 category = mio_cat_tech_all_armor_and_modules }
 			set_country_flag = RUS_fr_okmo_half_xp_cost
 			custom_effect_tooltip = RUS_fr_okmo_half_xp_cost_tt
 			if = {
@@ -31238,7 +31262,7 @@ focus_tree = {
 				add_ideas = RUS_fr_universal_hull_armour_priority_idea
 			}
 		}
-		search_filters = { FOCUS_FILTER_PRODUCTION }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 	}
 
 	focus = {
