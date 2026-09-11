@@ -81,7 +81,7 @@ for (const [key, value] of cn) {
     continue;
   }
   const crop = /^RUS_nat_(wheat|rye|beet|flax|cotton)_(info|market_line)$/.exec(key);
-  const expected = crop ? crop[2] === 'info' ? [`RUS_nat_${crop[1]}_yield`, `RUS_nat_${crop[1]}_preview_rate`] : [`RUS_nat_${crop[1]}_preview_income`] : key === 'RUS_nat_machine_2' ? ['RUS_nat_installed','RUS_nat_target','RUS_nat_machine_stock'] : key === 'RUS_nat_machine_3' ? ['RUS_max_landreform_tractor_promise_count','RUS_nat_produced'] : key === 'RUS_nat_machine_4' ? ['RUS_nat_machine_forecast'] : key === 'RUS_nat_preview_income_line' ? ['RUS_nat_preview_income'] : refs(old || '');
+  const expected = crop ? crop[2] === 'info' ? [`RUS_nat_${crop[1]}_yield`, `RUS_nat_${crop[1]}_preview_rate`] : [`RUS_nat_${crop[1]}_preview_income`] : key === 'RUS_nat_machine_2' ? ['RUS_nat_installed','RUS_nat_target','RUS_nat_machine_stock'] : key === 'RUS_nat_machine_3' ? ['RUS_max_landreform_tractor_promise_count','RUS_nat_produced'] : key === 'RUS_nat_machine_4' ? [] : key === 'RUS_nat_preview_income_line' ? ['RUS_nat_preview_income'] : refs(old || '');
   assert.deepEqual(refs(value), expected, `${key}: variable references changed`);
 }
 assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('粮食内需额外+2、纺织原料内需额外+1'));
