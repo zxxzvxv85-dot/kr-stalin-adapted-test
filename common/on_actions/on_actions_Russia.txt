@@ -305,6 +305,8 @@ on_actions = {
 
 	on_daily_RUS = {
 		effect = {
+			RUS_stalin_migrate_psr_collapse_direction = yes
+			if = { limit = { has_country_flag = RUS_kamenev_bop_active check_variable = { RUS_kamenev_party_balance < -74 } OR = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } NOT = { has_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier } } } } RUS_stalin_psr_balance_collapse = yes }
 			# Migrate the retired native Kamenev BOP while preserving its active tier.
 			RUS_stalin_kamenev_migrate_legacy_balance = yes
 			if = {

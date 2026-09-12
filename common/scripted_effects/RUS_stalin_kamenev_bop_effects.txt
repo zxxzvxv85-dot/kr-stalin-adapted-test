@@ -198,9 +198,42 @@ RUS_stalin_kamenev_bop_refresh_runtime_effects = {
 	RUS_stalin_refresh_advisor_relationship_effects = yes
 }
 
+RUS_stalin_psr_balance_collapse = {
+	# The collapse is caused only by Socialist Revolutionary dominance (negative balance values).
+	if = {
+		limit = { NOT = { check_variable = { RUS_kamenev_party_balance < -74 } } }
+		return = yes
+	}
+	if = { limit = { has_country_flag = RUS_stalin_psr_balance_collapse_done has_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier } } return = yes }
+	set_country_flag = RUS_stalin_psr_balance_collapse_done
+	add_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier }
+}
+
+RUS_stalin_migrate_psr_collapse_direction = {
+	# Remove the erroneous collapse state written by versions that treated positive balance as PSR dominance.
+	if = {
+		limit = {
+			has_country_flag = RUS_stalin_psr_balance_collapse_done
+			NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_direction_migrated }
+		}
+		set_country_flag = RUS_stalin_psr_balance_collapse_direction_migrated
+		if = {
+			limit = { check_variable = { RUS_kamenev_party_balance > 74 } }
+			clr_country_flag = RUS_stalin_psr_balance_collapse_done
+			if = {
+				limit = { has_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier } }
+				remove_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier }
+			}
+		}
+	}
+}
+
 RUS_stalin_enforce_kamenev_advisor_locks = {
 	if = {
-		limit = { RUS_stalin_psr_advisors_locked = yes }
+		limit = {
+			RUS_stalin_psr_advisors_locked = yes
+			NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
+		}
 		remove_ideas = {
 			RUS_ilya_mayorov_advisor
 			RUS_nikolay_zdobnov_advisor

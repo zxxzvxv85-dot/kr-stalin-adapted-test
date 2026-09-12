@@ -12,11 +12,12 @@ RUS_stalin_psr_advisors_locked = {
 	custom_override_tooltip = {
 		tooltip = RUS_stalin_psr_advisors_locked
 		OR = {
+			has_country_flag = RUS_stalin_psr_balance_collapse_done
 			has_country_flag = RUS_mantle_of_the_srs_advisor_lock
 			has_completed_focus = RUS_mantle_of_the_srs
 			AND = {
 				has_country_flag = RUS_kamenev_bop_active
-				check_variable = { RUS_kamenev_party_balance > 74 }
+				check_variable = { RUS_kamenev_party_balance < -74 }
 			}
 		}
 	}
@@ -24,9 +25,10 @@ RUS_stalin_psr_advisors_locked = {
 
 RUS_stalin_bolshevik_advisors_locked = {
 	custom_override_tooltip = {
-		tooltip = RUS_stalin_bolshevik_advisors_locked
+		 tooltip = RUS_stalin_bolshevik_advisors_locked
+		NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 		has_country_flag = RUS_kamenev_bop_active
-		check_variable = { RUS_kamenev_party_balance < -74 }
+		check_variable = { RUS_kamenev_party_balance > 74 }
 	}
 }
 
@@ -34,10 +36,11 @@ RUS_stalin_can_hire_psr_advisor = {
 	custom_override_tooltip = {
 		tooltip = RUS_stalin_can_hire_psr_advisor
 		NOT = { has_country_flag = RUS_mantle_of_the_srs_advisor_lock }
+		NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 		NOT = { has_completed_focus = RUS_mantle_of_the_srs }
 		OR = {
 			NOT = { has_country_flag = RUS_kamenev_bop_active }
-			check_variable = { RUS_kamenev_party_balance < 75 }
+			check_variable = { RUS_kamenev_party_balance > -75 }
 		}
 	}
 }
@@ -46,10 +49,10 @@ RUS_stalin_can_hire_maximalist_advisor = {
 	custom_override_tooltip = {
 		tooltip = RUS_stalin_can_hire_maximalist_advisor
 		OR = {
-			RUS_is_maximalist = yes
-			has_country_flag = RUS_VST_MAX_deal
-			has_country_flag = RUS_maximalist_bolshevik_alliance
-			RUS_stalin_can_hire_psr_advisor = yes
+			AND = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } RUS_is_maximalist = yes }
+			AND = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_country_flag = RUS_VST_MAX_deal }
+			AND = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_country_flag = RUS_maximalist_bolshevik_alliance }
+			AND = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } RUS_stalin_can_hire_psr_advisor = yes }
 		}
 	}
 }
@@ -57,9 +60,10 @@ RUS_stalin_can_hire_maximalist_advisor = {
 RUS_stalin_can_hire_bolshevik_advisor = {
 	custom_override_tooltip = {
 		tooltip = RUS_stalin_can_hire_bolshevik_advisor
+		NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 		OR = {
 			NOT = { has_country_flag = RUS_kamenev_bop_active }
-			check_variable = { RUS_kamenev_party_balance > -75 }
+			check_variable = { RUS_kamenev_party_balance < 75 }
 		}
 	}
 }
