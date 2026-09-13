@@ -1,0 +1,28 @@
+{
+  "focus_id": "RUS_fr_universal_hull_standards",
+  "focus_name": "装甲车辆部件通用化",
+  "sprite": "GFX_goal_RUS_fr_universal_hull",
+  "texture": "kr_stalin_adapted_test/gfx/interface/goals/RUS_fr_military_reform/universal_hull.dds",
+  "native_size": [90, 86],
+  "mode": "single complete icon generation requested explicitly by user",
+  "references": [
+    {"texture": "RUS_urals_industry.png", "role": "same-country industrial palette and node weight", "reuse": "visual reference only"},
+    {"texture": "RUS_european_russia_industry.png", "role": "same-country industrial palette and node weight", "reuse": "visual reference only"},
+    {"texture": "generic_heavy_armour_russian.png", "role": "Russian armoured subject silhouette", "reuse": "visual reference only"},
+    {"texture": "generic_army_tanks2.png", "role": "tank subject and native-scale detail density", "reuse": "visual reference only"},
+    {"texture": "Automobile_Production.png", "role": "manufacturing frame and industrial material", "reuse": "visual reference only"},
+    {"texture": "QIE_assembly.png", "role": "standardisation and assembly symbolism", "reuse": "visual reference only"}
+  ],
+  "generated_components": [
+    {"component": "common tracked chassis", "completeness": "complete", "layer": "dominant subject"},
+    {"component": "interchangeable turret and casemate modules", "completeness": "complete visible modules", "layer": "single supporting idea"},
+    {"component": "aged industrial frame and restrained laurel", "completeness": "complete", "layer": "secondary frame"},
+    {"component": "soft cast shadow", "completeness": "complete", "layer": "under icon"}
+  ],
+  "constraints": [
+    "Generate frame and artwork together because the user explicitly requested a complete direct generation.",
+    "Do not retain the old factory, broken armour plates or rail subject.",
+    "No hard black outline; use only a small soft directional shadow.",
+    "No text, no UI, no glossy mobile-game medal treatment."
+  ]
+}
