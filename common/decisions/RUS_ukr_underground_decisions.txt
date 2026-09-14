@@ -1,0 +1,110 @@
+RUS_Spreading_the_Revolution_decisions = {
+ RUS_ukr_status = {
+  icon = GFX_decision_generic_operation
+  priority = 200
+  visible = { RUS_ukr_page_visible = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_status_readonly_tt always = no } }
+  cost = 0
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_families = {
+  icon = GFX_decision_generic_operation
+  priority = 100
+  visible = { RUS_ukr_page_visible = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_families_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR } UKR = { has_country_flag = UKR_revolt_over } NOT = { has_country_flag = RUS_ukr_families_cooldown } } }
+  custom_cost_text = RUS_ukr_families_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_families = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_families_result_tt hidden_effect = { RUS_ukr_start_families = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_mine = {
+  icon = GFX_decision_generic_operation
+  priority = 99
+  visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_mine_done } }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_mine_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR }  } }
+  custom_cost_text = RUS_ukr_mine_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_mine = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_mine_result_tt hidden_effect = { RUS_ukr_start_mine = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_rural = {
+  icon = GFX_decision_generic_operation
+  priority = 98
+  visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_rural_done } }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_rural_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR }  } }
+  custom_cost_text = RUS_ukr_rural_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_rural = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_rural_result_tt hidden_effect = { RUS_ukr_start_rural = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_rail = {
+  icon = GFX_decision_generic_operation
+  priority = 97
+  visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_rail_done } }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_rail_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR }  } }
+  custom_cost_text = RUS_ukr_rail_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_rail = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_rail_result_tt hidden_effect = { RUS_ukr_start_rail = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_relocate = {
+  icon = GFX_decision_generic_operation
+  priority = 96
+  visible = { RUS_ukr_page_visible = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_relocate_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR } check_variable = { RUS_ukr_alert > 19 } NOT = { has_country_flag = RUS_ukr_relocate_cooldown } } }
+  custom_cost_text = RUS_ukr_relocate_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_relocate = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_relocate_result_tt hidden_effect = { RUS_ukr_start_relocate = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_declaration = {
+  icon = GFX_decision_generic_operation
+  priority = 95
+  visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_declaration_done } }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_declaration_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR } RUS_ukr_two_networks = yes } }
+  custom_cost_text = RUS_ukr_declaration_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_declaration = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_declaration_result_tt hidden_effect = { RUS_ukr_start_declaration = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_strike = {
+  icon = GFX_decision_generic_operation
+  priority = 94
+  visible = { RUS_ukr_page_visible = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_strike_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR } RUS_ukr_mine_active = yes NOT = { has_country_flag = RUS_ukr_strike_cooldown } } }
+  custom_cost_text = RUS_ukr_strike_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_strike = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_strike_result_tt hidden_effect = { RUS_ukr_start_strike = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_land = {
+  icon = GFX_decision_generic_operation
+  priority = 93
+  visible = { RUS_ukr_page_visible = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_land_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR } RUS_ukr_rural_active = yes NOT = { has_country_flag = RUS_ukr_land_cooldown } } }
+  custom_cost_text = RUS_ukr_land_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_land = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_land_result_tt hidden_effect = { RUS_ukr_start_land = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_slowdown = {
+  icon = GFX_decision_generic_operation
+  priority = 92
+  visible = { RUS_ukr_page_visible = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_slowdown_requirements_tt RUS_ukr_can_start = yes NOT = { has_war_with = UKR } RUS_ukr_rail_active = yes NOT = { has_country_flag = RUS_ukr_slowdown_cooldown } } }
+  custom_cost_text = RUS_ukr_slowdown_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_slowdown = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_slowdown_result_tt hidden_effect = { RUS_ukr_start_slowdown = yes } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_ukr_night = {
+  icon = GFX_decision_generic_operation
+  priority = 91
+  visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_night_done } }
+  available = { custom_trigger_tooltip = { tooltip = RUS_ukr_night_requirements_tt RUS_ukr_can_start = yes has_war_with = UKR has_completed_focus = RUS_future_foreign_059 RUS_ukr_two_networks = yes } }
+  custom_cost_text = RUS_ukr_night_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_night = yes } }
+  complete_effect = { custom_effect_tooltip = RUS_ukr_night_result_tt hidden_effect = { RUS_ukr_start_night = yes } }
+  ai_will_do = { factor = 0 }
+ }
+}

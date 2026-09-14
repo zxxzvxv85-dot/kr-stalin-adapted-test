@@ -1,0 +1,22 @@
+add_namespace = RUS_ukr_underground
+# Narrative, title and option labels deliberately blank at the user's request.
+# Option effects remain visible on hover; cancellation makes stale windows harmless.
+country_event = {
+ id = RUS_ukr_underground.1
+ title = RUS_ukr_underground.1.t
+ desc = RUS_ukr_underground.1.d
+ is_triggered_only = yes
+ option = {
+  name = RUS_ukr_underground.1.a
+  trigger = { has_country_flag = RUS_ukr_raid_pending NOT = { has_political_power < 30 } }
+  custom_effect_tooltip = RUS_ukr_raid_evacuate_tt
+  hidden_effect = { RUS_ukr_raid_evacuate = yes }
+  ai_chance = { factor = 0 }
+ }
+ option = {
+  name = RUS_ukr_underground.1.b
+  custom_effect_tooltip = RUS_ukr_raid_abandon_tt
+  hidden_effect = { RUS_ukr_raid_abandon = yes }
+  ai_chance = { factor = 100 }
+ }
+}

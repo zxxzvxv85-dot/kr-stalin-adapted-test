@@ -1,0 +1,70 @@
+defined_text = { name = RUSUkrMineState
+ text = { trigger = { has_country_flag = RUS_ukr_mine_disabled } localization_key = RUS_ukr_network_disabled }
+ text = { trigger = { RUS_ukr_mine_active = yes } localization_key = RUS_ukr_network_active }
+ text = { localization_key = RUS_ukr_network_missing }
+}
+defined_text = { name = RUSUkrRuralState
+ text = { trigger = { has_country_flag = RUS_ukr_rural_disabled } localization_key = RUS_ukr_network_disabled }
+ text = { trigger = { RUS_ukr_rural_active = yes } localization_key = RUS_ukr_network_active }
+ text = { localization_key = RUS_ukr_network_missing }
+}
+defined_text = { name = RUSUkrRailState
+ text = { trigger = { has_country_flag = RUS_ukr_rail_disabled } localization_key = RUS_ukr_network_disabled }
+ text = { trigger = { RUS_ukr_rail_active = yes } localization_key = RUS_ukr_network_active }
+ text = { localization_key = RUS_ukr_network_missing }
+}
+defined_text = { name = RUSUkrActionState
+ text = { trigger = { has_country_flag = RUS_ukr_action_families } localization_key = RUS_ukr_families }
+ text = { trigger = { has_country_flag = RUS_ukr_action_mine } localization_key = RUS_ukr_mine }
+ text = { trigger = { has_country_flag = RUS_ukr_action_rural } localization_key = RUS_ukr_rural }
+ text = { trigger = { has_country_flag = RUS_ukr_action_rail } localization_key = RUS_ukr_rail }
+ text = { trigger = { has_country_flag = RUS_ukr_action_relocate } localization_key = RUS_ukr_relocate }
+ text = { trigger = { has_country_flag = RUS_ukr_action_declaration } localization_key = RUS_ukr_declaration }
+ text = { trigger = { has_country_flag = RUS_ukr_action_strike } localization_key = RUS_ukr_strike }
+ text = { trigger = { has_country_flag = RUS_ukr_action_land } localization_key = RUS_ukr_land }
+ text = { trigger = { has_country_flag = RUS_ukr_action_slowdown } localization_key = RUS_ukr_slowdown }
+ text = { trigger = { has_country_flag = RUS_ukr_action_night } localization_key = RUS_ukr_night }
+ text = { trigger = { has_country_flag = RUS_ukr_raid_pending } localization_key = RUS_ukr_raid }
+ text = { trigger = { has_country_flag = RUS_ukr_lockdown } localization_key = RUS_ukr_locked }
+ text = { localization_key = RUS_ukr_idle }
+}
+defined_text = { name = RUSUkrFamiliesCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_35 }
+ text = { localization_key = RUS_ukr_pp_25 }
+}
+defined_text = { name = RUSUkrMineCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_45 }
+ text = { localization_key = RUS_ukr_pp_35 }
+}
+defined_text = { name = RUSUkrRuralCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_45 }
+ text = { localization_key = RUS_ukr_pp_35 }
+}
+defined_text = { name = RUSUkrRailCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_50 }
+ text = { localization_key = RUS_ukr_pp_40 }
+}
+defined_text = { name = RUSUkrRelocateCost
+ text = { localization_key = RUS_ukr_pp_20 }
+}
+defined_text = { name = RUSUkrDeclarationCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_50 }
+ text = { localization_key = RUS_ukr_pp_40 }
+}
+defined_text = { name = RUSUkrStrikeCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_40 }
+ text = { localization_key = RUS_ukr_pp_30 }
+}
+defined_text = { name = RUSUkrLandCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } UKR = { check_variable = { UKR_land_reform_score > 69 } } } localization_key = RUS_ukr_pp_45 }
+ text = { trigger = { OR = { check_variable = { RUS_ukr_alert > 49 } UKR = { check_variable = { UKR_land_reform_score > 69 } } } } localization_key = RUS_ukr_pp_35 }
+ text = { localization_key = RUS_ukr_pp_25 }
+}
+defined_text = { name = RUSUkrSlowdownCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_45 }
+ text = { localization_key = RUS_ukr_pp_35 }
+}
+defined_text = { name = RUSUkrNightCost
+ text = { trigger = { check_variable = { RUS_ukr_alert > 49 } } localization_key = RUS_ukr_pp_60 }
+ text = { localization_key = RUS_ukr_pp_50 }
+}
