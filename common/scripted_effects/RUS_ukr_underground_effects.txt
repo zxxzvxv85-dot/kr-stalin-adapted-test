@@ -16,6 +16,7 @@ RUS_ukr_clamp = {
 }
 RUS_ukr_cleanup_action = {
  clr_country_flag = RUS_ukr_busy
+ clr_country_flag = RUS_ukr_native_action
  set_variable = { RUS_ukr_days = 0 }
  set_variable = { RUS_ukr_idle_days = 0 }
  remove_ideas = RUS_ukr_burden_2
@@ -101,7 +102,6 @@ RUS_ukr_start_families = {
  set_variable = { RUS_ukr_idle_days = 0 }
  add_political_power = -25
  if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
- add_ideas = RUS_ukr_burden_2
 }
 RUS_ukr_finish_families = {
  add_to_variable = { RUS_ukr_strength = 15 }
@@ -115,7 +115,6 @@ RUS_ukr_start_mine = {
  set_variable = { RUS_ukr_idle_days = 0 }
  add_political_power = -35
  if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
- add_ideas = RUS_ukr_burden_3
 }
 RUS_ukr_finish_mine = {
  add_to_variable = { RUS_ukr_strength = 15 }
@@ -132,7 +131,6 @@ RUS_ukr_start_rural = {
  add_political_power = -35
  if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
  add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
- add_ideas = RUS_ukr_burden_2
 }
 RUS_ukr_finish_rural = {
  add_to_variable = { RUS_ukr_strength = 15 }
@@ -149,7 +147,6 @@ RUS_ukr_start_rail = {
  set_variable = { RUS_ukr_idle_days = 0 }
  add_political_power = -40
  if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
- add_ideas = RUS_ukr_burden_3
 }
 RUS_ukr_finish_rail = {
  add_to_variable = { RUS_ukr_strength = 10 }
@@ -164,7 +161,6 @@ RUS_ukr_start_relocate = {
  set_variable = { RUS_ukr_days = 30 }
  set_variable = { RUS_ukr_idle_days = 0 }
  add_political_power = -20
- add_ideas = RUS_ukr_burden_2
 }
 RUS_ukr_finish_relocate = {
  add_to_variable = { RUS_ukr_alert = -20 }
@@ -177,7 +173,6 @@ RUS_ukr_start_declaration = {
  set_variable = { RUS_ukr_idle_days = 0 }
  add_political_power = -40
  if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
- add_ideas = RUS_ukr_burden_3
 }
 RUS_ukr_finish_declaration = {
  add_to_variable = { RUS_ukr_strength = 20 }
@@ -194,7 +189,6 @@ RUS_ukr_start_strike = {
  add_political_power = -30
  if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
  subtract_from_variable = { RUS_ukr_strength = 15 }
- add_ideas = RUS_ukr_burden_2
 }
 RUS_ukr_finish_strike = {
  add_to_variable = { RUS_ukr_alert = 15 }
@@ -306,7 +300,8 @@ RUS_ukr_tick = {
   }
   else = {
    subtract_from_variable = { RUS_ukr_days = 1 }
-   if = { limit = { check_variable = { RUS_ukr_days < 1 } }
+   clamp_variable = { var = RUS_ukr_days min = 0 max = 60 }
+   if = { limit = { check_variable = { RUS_ukr_days < 1 } NOT = { has_country_flag = RUS_ukr_native_action } }
     if = { limit = { has_country_flag = RUS_ukr_action_families } RUS_ukr_finish_families = yes }
     if = { limit = { has_country_flag = RUS_ukr_action_mine } RUS_ukr_finish_mine = yes }
     if = { limit = { has_country_flag = RUS_ukr_action_rural } RUS_ukr_finish_rural = yes }

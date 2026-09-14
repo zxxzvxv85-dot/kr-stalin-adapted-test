@@ -23,7 +23,7 @@ FX=dict((k,v) for k,_,v in read('common/scripted_effects/RUS_ukr_underground_eff
 TR=dict((k,v) for k,_,v in read('common/scripted_triggers/RUS_ukr_underground_triggers.txt'))
 TR['RUS_europe_intervention_UKR_selected_or_overview']=parse('always = yes')
 D=dict((k,v) for k,_,v in get(read('common/decisions/RUS_ukr_underground_decisions.txt'),'RUS_Spreading_the_Revolution_decisions'))
-def country(tag):return dict(tag=tag,exists=True,cap=False,socialist=tag=='RUS',ai=False,subject=False,faction='GER' if tag!='RUS' else 'RUS',war=set(),focus=set(),flags={},vars={},ideas={},pp=1000,equipment=10000,stability=.8,balance=0,events=[])
+def country(tag):return dict(tag=tag,exists=True,cap=False,socialist=tag=='RUS',ai=False,subject=False,faction='GER' if tag!='RUS' else 'RUS',war=set(),focus=set(),flags={},vars={},ideas={},decisions={},pp=1000,equipment=10000,stability=.8,balance=0,events=[])
 def world():
     w={t:country(t) for t in ['RUS','UKR','GER']}
     w['RUS']['focus']={'RUS_future_foreign_037','RUS_future_foreign_059'};w['UKR']['flags']['UKR_revolt_over']=None
@@ -66,6 +66,7 @@ def run(b,c,w,choice=0):
         elif k in FX:run(FX[k],c,w,choice)
         elif k=='hidden_effect':run(v,c,w,choice)
         elif k=='custom_effect_tooltip':pass
+        elif k=='effect_tooltip':pass # Presentation-only: must never grant resources.
         elif k=='set_country_flag':
             if isinstance(v,list):c['flags'][get(v,'flag')]=int(get(v,'days'))
             else:c['flags'][v]=None
@@ -100,12 +101,27 @@ def tick(w,days=1):
                         if d<=1:del c[field][k]
                         else:c[field][k]=d-1
         run(FX['RUS_ukr_tick'],w['RUS'],w)
+        c=w['RUS']
+        for id,remaining in list(c['decisions'].items()):
+            d=D[id]
+            if check(get(d,'cancel_trigger'),c,w):
+                run(get(d,'cancel_effect'),c,w)
+                # Guard against engines invoking remove_effect after cancellation as well.
+                run(get(d,'remove_effect'),c,w)
+                del c['decisions'][id]
+            elif remaining<=1:
+                run(get(d,'remove_effect'),c,w);del c['decisions'][id]
+            else:c['decisions'][id]=remaining-1
 def allowed(n,w):
     d=D['RUS_ukr_'+n];c=w['RUS']
     return all(check(get(d,k,[]),c,w) for k in ['visible','available','custom_cost_trigger'])
 def start(n,w):
     assert allowed(n,w),('not available',n)
     run(get(D['RUS_ukr_'+n],'complete_effect'),w['RUS'],w)
+    w['RUS']['decisions']['RUS_ukr_'+n]=int(get(D['RUS_ukr_'+n],'days_remove'))
+def consumer_burden(w):
+    c=w['RUS'];native=sum(float(get(get(D[id],'modifier',[]),'consumer_goods_factor',0)) for id in c['decisions'])
+    return native+(.04 if 'RUS_ukr_emergency_burden' in c['ideas'] else 0)
 def nets(w,*names):
     for n in names:w['RUS']['flags']['RUS_ukr_'+n+'_network']=None
 def strength(w,n):w['RUS']['vars']['RUS_ukr_strength']=n
@@ -116,10 +132,10 @@ count=0
 def ok():
     global count;count+=1
 # Upfront debit, completion boundary, non-stacking, once-only, cooldown after cancellation.
-w=world();start('mine',w);assert w['RUS']['pp']==965 and 'RUS_ukr_burden_3' in w['RUS']['ideas']
+w=world();start('mine',w);assert w['RUS']['pp']==965 and consumer_burden(w)==.03
 assert not allowed('families',w);tick(w,44);assert 'RUS_ukr_mine_network' not in w['RUS']['flags']
 tick(w);assert w['RUS']['vars']['RUS_ukr_strength']==15 and not allowed('mine',w)
-assert 'RUS_ukr_burden_3' not in w['RUS']['ideas'];ok()
+assert consumer_burden(w)==0;ok()
 for target,change in [('UKR',lambda c:c.update(exists=False)),('UKR',lambda c:c.update(cap=True)),('UKR',lambda c:c.update(socialist=True)),('UKR',lambda c:c.update(faction='RUS')),('RUS',lambda c:c.update(socialist=False)),('RUS',lambda c:c.update(subject=True))]:
     w=world();start('families',w);tick(w,29);change(w[target]);tick(w)
     assert w['RUS']['vars']['RUS_ukr_strength']==0 and w['RUS']['pp']==975
@@ -157,7 +173,7 @@ run(FX['RUS_ukr_raid_abandon'],w['RUS'],w,2);assert 'RUS_ukr_rail_disabled' in w
 w=world();w['RUS']['flags']['RUS_ukr_raid_pending']=None;run(FX['RUS_ukr_raid_abandon'],w['RUS'],w);assert not any(k.endswith('_disabled') for k in w['RUS']['flags']);ok()
 w=world();nets(w,'rail');w['RUS']['flags']['RUS_ukr_raid_pending']=None;strength(w,20)
 run(FX['RUS_ukr_raid_evacuate'],w['RUS'],w);assert w['RUS']['vars']['RUS_ukr_strength']==10
-start('mine',w);assert set(w['RUS']['ideas'])=={'RUS_ukr_emergency_burden','RUS_ukr_burden_3'}
+start('mine',w);assert abs(consumer_burden(w)-.07)<1e-8
 tick(w,30);assert 'RUS_ukr_emergency_burden' not in w['RUS']['ideas'];ok()
 # A stale event after war starts cannot debit or damage anything.
 w=world();w['RUS']['flags']['RUS_ukr_raid_pending']=None;war(w);tick(w);snapshot=copy.deepcopy(w)
@@ -195,6 +211,24 @@ for lang in ['simp_chinese','english','russian']:
     rows=re.findall(r'^ ([^:]+):0 "(.*)"$',p.read_text(encoding='utf-8-sig'),re.M)
     keys=dict(rows);assert len(keys)==len(rows)
     for suffix in ['t','d','a','b']:assert keys['RUS_ukr_underground.1.'+suffix]==''
+    for name,d in D.items():
+        cost=get(d,'custom_cost_text')
+        if cost:
+            assert cost in keys and cost+'_blocked' in keys,(lang,cost)
+        if name!='RUS_ukr_status':
+            assert int(get(d,'days_remove',0))>0 and get(d,'remove_effect') and get(d,'cancel_effect'),name
+            assert 'requirements_tt' not in str(get(d,'available'))
+            assert 'result_tt' not in str(get(d,'complete_effect'))
     languages.append(set(keys))
 assert languages[0]==languages[1]==languages[2];ok()
+# Native action stays visible in the engine's active-decision registry until completion.
+w=world();start('families',w);assert w['RUS']['decisions'];tick(w,29);assert w['RUS']['decisions'];tick(w);assert not w['RUS']['decisions'];ok()
+# Both Ukraine focuses enumerate their actual unlocks with native focus tooltips.
+from hoi4_politics_blocks import load as load_focus
+focuses=load_focus(ROOT/'common/national_focus/00_RUS_future_foreign_policy_skeleton.txt')
+flat=[n for root in focuses for n in (root.v if isinstance(root.v,list) else [])]+focuses
+for fid,expected in [('RUS_future_foreign_037',set(D)-{'RUS_ukr_status','RUS_ukr_night'}),('RUS_future_foreign_059',{'RUS_ukr_night'})]:
+    f=next(n for n in flat if n.value('id')==fid)
+    assert {n.v for n in f.one('completion_reward').children('unlock_decision_tooltip')}==expected
+ok()
 print(f'PASS: {count} scenario groups; executed actual decision/trigger/effect scripts. Game-engine and GUI QA still required.')

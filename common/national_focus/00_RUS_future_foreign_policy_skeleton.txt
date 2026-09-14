@@ -716,7 +716,18 @@ shared_focus = {
 	available = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_021 }
 	ai_will_do = { factor = 0 }
-	completion_reward = { custom_effect_tooltip = RUS_ukr_unlock_tt hidden_effect = { RUS_ukr_init = yes } }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_ukr_families
+		unlock_decision_tooltip = RUS_ukr_mine
+		unlock_decision_tooltip = RUS_ukr_rural
+		unlock_decision_tooltip = RUS_ukr_rail
+		unlock_decision_tooltip = RUS_ukr_relocate
+		unlock_decision_tooltip = RUS_ukr_declaration
+		unlock_decision_tooltip = RUS_ukr_strike
+		unlock_decision_tooltip = RUS_ukr_land
+		unlock_decision_tooltip = RUS_ukr_slowdown
+		hidden_effect = { RUS_ukr_init = yes }
+	}
 }
 
 # 次大陆黎明
@@ -1066,7 +1077,7 @@ shared_focus = {
 	available = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_051 }
 	ai_will_do = { factor = 0 }
-	completion_reward = { custom_effect_tooltip = RUS_ukr_night_unlock_tt }
+	completion_reward = { unlock_decision_tooltip = RUS_ukr_night }
 }
 
 # 工农红军交流会
