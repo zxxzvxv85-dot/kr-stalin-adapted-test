@@ -44,7 +44,8 @@ def check(b,c,w):
         if k=='original_tag':return c['tag']==v
         if k in ['is_ai','exists','has_capitulated','is_subject','has_socialist_government']:
             return c[{'is_ai':'ai','exists':'exists','has_capitulated':'cap','is_subject':'subject','has_socialist_government':'socialist'}[k]]==(v=='yes')
-        if k=='has_country_flag':return v in c['flags']
+        if k in ['has_country_flag','has_state_flag']:return v in c['flags']
+        if k in ['rail_way','infrastructure']:return compare(c['buildings'].get(k,0),op,float(v))
         if k=='has_completed_focus':return v in c['focus']
         if k=='has_war_with':return v in c['war']
         if k=='is_in_faction_with':return c['faction']==w[v]['faction'] and bool(c['faction'])
@@ -64,6 +65,15 @@ def run(b,c,w,choice=0):
         matched=False
         if k in w:run(v,w[k],w,choice)
         elif k in FX:run(FX[k],c,w,choice)
+        elif k in ['random_owned_controlled_state','every_owned_state']:
+            states=[st for st in c.get('states',[]) if st['owner']==c['tag'] and (k=='every_owned_state' or st['controller']==c['tag']) and check(get(v,'limit',[]),st,w)]
+            if k=='random_owned_controlled_state':states=[states[choice%len(states)]] if states else []
+            for st in states:run([n for n in v if n[0]!='limit'],st,w,choice)
+        elif k=='set_state_flag':c['flags'][v]=None
+        elif k=='clr_state_flag':c['flags'].pop(v,None)
+        elif k=='damage_building':
+            kind=get(v,'type');assert c['buildings'].get(kind,0)>0
+            c['damage'][kind]=min(c['buildings'][kind],c['damage'].get(kind,0)+float(get(v,'damage')))
         elif k=='hidden_effect':run(v,c,w,choice)
         elif k=='custom_effect_tooltip':pass
         elif k=='effect_tooltip':pass # Presentation-only: must never grant resources.
@@ -231,4 +241,27 @@ for fid,expected in [('RUS_future_foreign_037',set(D)-{'RUS_ukr_status','RUS_ukr
     f=next(n for n in flat if n.value('id')==fid)
     assert {n.v for n in f.one('completion_reward').children('unlock_decision_tooltip')}==expected
 ok()
+# Sabotage selects five distinct railway states and three distinct infrastructure states.
+def target_state(i,owner='UKR',controller='UKR',rail=1,infra=2):
+    return dict(id=i,owner=owner,controller=controller,flags={},buildings={'rail_way':rail,'infrastructure':infra},damage={})
+for choice in range(7):
+    w=world();states=[target_state(i) for i in range(10)]+[target_state(10,owner='GER'),target_state(11,controller='GER'),target_state(12,rail=0,infra=0)]
+    w['UKR']['states']=states
+    run(FX['RUS_ukr_damage_transport'],w['UKR'],w,choice)
+    assert sum(st['damage'].get('rail_way',0) for st in states)==5
+    assert sum(st['damage'].get('infrastructure',0) for st in states)==3
+    assert all(d==1 for st in states for d in st['damage'].values())
+    assert all(not st['flags'] for st in states) and all(not st['damage'] for st in states[10:])
+ok()
+w=world();w['UKR']['states']=[target_state(0),target_state(1,rail=0),target_state(2,controller='GER')]
+run(FX['RUS_ukr_damage_transport'],w['UKR'],w)
+assert [st['damage'] for st in w['UKR']['states']]==[{'rail_way':1,'infrastructure':1},{'infrastructure':1},{}];ok()
+# Native action waits until day 21, grants building damage once and no old timed penalty.
+w=world();nets(w,'rail');strength(w,100);w['UKR']['states']=[target_state(i) for i in range(8)]
+start('slowdown',w);tick(w,20);assert not any(st['damage'] for st in w['UKR']['states'])
+tick(w);assert sum(st['damage'].get('rail_way',0) for st in w['UKR']['states'])==5
+assert 'RUS_ukr_rail_slowdown' not in w['UKR']['ideas']
+snapshot=copy.deepcopy(w['UKR']['states']);tick(w);assert w['UKR']['states']==snapshot;ok()
+w=world();nets(w,'rail');strength(w,100);w['UKR']['states']=[target_state(i) for i in range(8)]
+start('slowdown',w);tick(w,20);war(w);tick(w);assert not any(st['damage'] for st in w['UKR']['states']);ok()
 print(f'PASS: {count} scenario groups; executed actual decision/trigger/effect scripts. Game-engine and GUI QA still required.')

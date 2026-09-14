@@ -227,7 +227,7 @@ RUS_ukr_start_slowdown = {
 RUS_ukr_finish_slowdown = {
  add_to_variable = { RUS_ukr_alert = 20 }
  if = { limit = { UKR = { has_completed_focus = UKR_purge_vdr_supporters } } add_to_variable = { RUS_ukr_alert = 5 } }
- UKR = { add_timed_idea = { idea = RUS_ukr_rail_slowdown days = 60 } }
+ UKR = { RUS_ukr_damage_transport = yes }
 }
 RUS_ukr_start_night = {
  RUS_ukr_init = yes
@@ -358,4 +358,50 @@ RUS_ukr_raid_resolve = {
  set_variable = { RUS_ukr_alert = 40 }
  set_variable = { RUS_ukr_idle_days = 0 }
  RUS_ukr_clamp = yes
+}
+
+# Country scope: pick distinct owned/controlled states for each building type.
+RUS_ukr_damage_transport = {
+ every_owned_state = { clr_state_flag = RUS_ukr_rail_damage_selected clr_state_flag = RUS_ukr_infra_damage_selected }
+ random_owned_controlled_state = {
+  limit = { rail_way > 0 NOT = { has_state_flag = RUS_ukr_rail_damage_selected } }
+  set_state_flag = RUS_ukr_rail_damage_selected
+  damage_building = { type = rail_way damage = 1 }
+ }
+ random_owned_controlled_state = {
+  limit = { rail_way > 0 NOT = { has_state_flag = RUS_ukr_rail_damage_selected } }
+  set_state_flag = RUS_ukr_rail_damage_selected
+  damage_building = { type = rail_way damage = 1 }
+ }
+ random_owned_controlled_state = {
+  limit = { rail_way > 0 NOT = { has_state_flag = RUS_ukr_rail_damage_selected } }
+  set_state_flag = RUS_ukr_rail_damage_selected
+  damage_building = { type = rail_way damage = 1 }
+ }
+ random_owned_controlled_state = {
+  limit = { rail_way > 0 NOT = { has_state_flag = RUS_ukr_rail_damage_selected } }
+  set_state_flag = RUS_ukr_rail_damage_selected
+  damage_building = { type = rail_way damage = 1 }
+ }
+ random_owned_controlled_state = {
+  limit = { rail_way > 0 NOT = { has_state_flag = RUS_ukr_rail_damage_selected } }
+  set_state_flag = RUS_ukr_rail_damage_selected
+  damage_building = { type = rail_way damage = 1 }
+ }
+ random_owned_controlled_state = {
+  limit = { infrastructure > 0 NOT = { has_state_flag = RUS_ukr_infra_damage_selected } }
+  set_state_flag = RUS_ukr_infra_damage_selected
+  damage_building = { type = infrastructure damage = 1 }
+ }
+ random_owned_controlled_state = {
+  limit = { infrastructure > 0 NOT = { has_state_flag = RUS_ukr_infra_damage_selected } }
+  set_state_flag = RUS_ukr_infra_damage_selected
+  damage_building = { type = infrastructure damage = 1 }
+ }
+ random_owned_controlled_state = {
+  limit = { infrastructure > 0 NOT = { has_state_flag = RUS_ukr_infra_damage_selected } }
+  set_state_flag = RUS_ukr_infra_damage_selected
+  damage_building = { type = infrastructure damage = 1 }
+ }
+ every_owned_state = { clr_state_flag = RUS_ukr_rail_damage_selected clr_state_flag = RUS_ukr_infra_damage_selected }
 }
