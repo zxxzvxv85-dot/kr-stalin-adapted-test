@@ -2723,7 +2723,7 @@ ideas = {
 		}
 
 		RUS_vst_party_unity_idea = {
-			on_add = {
+			on_add = { if = { limit = { RUS_uses_kamenev_politics = yes }
 				log = "[GetLogRoot]: add idea RUS_vst_party_unity_idea"
 				add_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
 				if = {
@@ -2733,8 +2733,12 @@ ideas = {
 					}
 					add_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier }
 				}
-			}
-			on_remove = {
+			 }
+else = {
+				log = "[GetLogRoot]: add idea RUS_vst_party_unity_idea"
+				add_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
+			 } }
+			on_remove = { if = { limit = { RUS_uses_kamenev_politics = yes }
 				remove_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
 				if = {
 					limit = { has_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier } }
@@ -2744,14 +2748,20 @@ ideas = {
 					limit = { has_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier } }
 					remove_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier }
 				}
-			}
+			 }
+else = {
+				if = {
+					limit = { has_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier } }
+					remove_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
+				}
+			 } }
 			picture = FRA_idea_revenge
 			modifier = {
 				custom_modifier_tooltip = RUS_vst_party_unity_modifier_tt
 			}
 		}
 		RUS_vst_party_streamlined_idea = { #VST equivalent of RUS_guided_democracy
-			on_add = {
+			on_add = { if = { limit = { RUS_uses_kamenev_politics = yes }
 				log = "[GetLogRoot]: add idea RUS_vst_party_streamlined_idea"
 				set_variable = { RUS.coalition_stability = 0.5 }
 				if = {
@@ -2759,23 +2769,27 @@ ideas = {
 					add_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
 				}
 				RUS_stalin_freeze_vst_factionalism_relationship_effects = yes
-			}
-			on_remove = {
+			 }
+else = {
+				log = "[GetLogRoot]: add idea RUS_vst_party_streamlined_idea"
+				set_variable = { RUS.coalition_stability = 0.5 }
+			 } }
+			on_remove = { if = { limit = { RUS_uses_kamenev_politics = yes }
 				if = {
 					limit = { has_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier } }
 					remove_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier }
 				}
-			}
+			 }
+else = {  } }
 			picture = FRA_idea_revenge
 			modifier = {
 				political_power_gain = 0.1
 				party_popularity_stability_factor = 0.1
 				war_support_factor = -0.05
-				custom_modifier_tooltip = RUS_vst_party_unity_modifier_tt
 			}
 		}
 		RUS_vst_party_factionalism_idea = {
-			on_add = {
+			on_add = { if = { limit = { RUS_uses_kamenev_politics = yes }
 				log = "[GetLogRoot]: add idea RUS_vst_party_factionalism_idea"
 				add_dynamic_modifier = { modifier = RUS_vst_party_factionalism_modifier }
 				RUS_stalin_refresh_vst_factionalism_dynamic_modifier = yes
@@ -2786,8 +2800,12 @@ ideas = {
 					}
 					add_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier }
 				}
-			}
-			on_remove = {
+			 }
+else = {
+				log = "[GetLogRoot]: add idea RUS_vst_party_factionalism_idea"
+				add_dynamic_modifier = { modifier = RUS_vst_party_factionalism_modifier }
+			 } }
+			on_remove = { if = { limit = { RUS_uses_kamenev_politics = yes }
 				if = {
 					limit = { has_dynamic_modifier = { modifier = RUS_vst_party_factionalism_modifier } }
 					remove_dynamic_modifier = { modifier = RUS_vst_party_factionalism_modifier }
@@ -2796,7 +2814,13 @@ ideas = {
 					limit = { has_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier } }
 					remove_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier }
 				}
-			}
+			 }
+else = {
+				if = {
+					limit = { has_dynamic_modifier = { modifier = RUS_vst_party_factionalism_modifier } }
+					remove_dynamic_modifier = { modifier = RUS_vst_party_factionalism_modifier }
+				}
+			 } }
 			picture = FRA_idea_revenge
 			modifier = {
 				custom_modifier_tooltip = RUS_vst_party_factionalism_modifier_tt

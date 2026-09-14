@@ -1,4 +1,5 @@
 RUS_stalin_calculate_vst_factionalism_relationship_effects = {
+if = { limit = { RUS_uses_kamenev_politics = yes }
 	set_variable = { RUS_vst_factionalism_extra_pp_gain = 0 }
 	set_variable = { RUS_vst_factionalism_weekly_stability = 0 }
 	set_variable = { RUS_vst_factionalism_building_slots_factor = 0 }
@@ -45,9 +46,12 @@ RUS_stalin_calculate_vst_factionalism_relationship_effects = {
 		divide_variable = { RUS_vst_factionalism_extra_pp_gain = 25 }
 	}
 	set_country_flag = RUS_vst_relationship_balance_v2_migrated
+ }
+else = {  }
 }
 
 RUS_stalin_refresh_vst_factionalism_dynamic_modifier = {
+if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = {
 			OR = {
@@ -103,9 +107,19 @@ RUS_stalin_refresh_vst_factionalism_dynamic_modifier = {
 		divide_variable = { RUS_vst_factionalism_total_pp_gain = 2 }
 		force_update_dynamic_modifier = yes
 	}
+set_variable = { RUS_vst_factionalism_pp_delta = RUS_vst_factionalism_total_pp_gain }
+subtract_from_variable = { RUS_vst_factionalism_pp_delta = vst_popularity_var }
+if = { limit = { OR = { has_idea = RUS_vst_party_unity_idea has_idea = RUS_vst_party_streamlined_idea has_idea = RUS_vst_party_factionalism_idea } }
+ add_dynamic_modifier = { modifier = RUS_kamenev_vst_relationship_addon }
+}
+ }
+else = { if = { limit = { has_dynamic_modifier = { modifier = RUS_kamenev_vst_relationship_addon } } remove_dynamic_modifier = { modifier = RUS_kamenev_vst_relationship_addon } }
+if = { limit = { has_idea = RUS_vst_party_streamlined_idea } remove_dynamic_modifier = { modifier = RUS_vst_party_unity_modifier } }
+ }
 }
 
 RUS_stalin_freeze_vst_factionalism_relationship_effects = {
+if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = { NOT = { has_country_flag = RUS_stalin_vst_factionalism_effects_frozen } }
 		RUS_stalin_calculate_vst_factionalism_relationship_effects = yes
@@ -115,9 +129,17 @@ RUS_stalin_freeze_vst_factionalism_relationship_effects = {
 	add_to_variable = { RUS_vst_factionalism_total_pp_gain = RUS_vst_factionalism_extra_pp_gain }
 	divide_variable = { RUS_vst_factionalism_total_pp_gain = 2 }
 	force_update_dynamic_modifier = yes
+set_variable = { RUS_vst_factionalism_pp_delta = RUS_vst_factionalism_total_pp_gain }
+subtract_from_variable = { RUS_vst_factionalism_pp_delta = vst_popularity_var }
+if = { limit = { OR = { has_idea = RUS_vst_party_unity_idea has_idea = RUS_vst_party_streamlined_idea has_idea = RUS_vst_party_factionalism_idea } }
+ add_dynamic_modifier = { modifier = RUS_kamenev_vst_relationship_addon }
+}
+ }
+else = {  }
 }
 
 RUS_stalin_apply_vst_factionalism_monthly_surplus = {
+if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = {
 			OR = {
@@ -129,4 +151,6 @@ RUS_stalin_apply_vst_factionalism_monthly_surplus = {
 		}
 		add_cic = RUS_vst_factionalism_monthly_cic
 	}
+ }
+else = {  }
 }

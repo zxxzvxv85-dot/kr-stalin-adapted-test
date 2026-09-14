@@ -60,15 +60,20 @@ RUS_stalin_update_advisor_relationship_multipliers = {
 }
 
 RUS_stalin_freeze_advisor_relationship_effects = {
+RUS_sync_political_advisor_route = yes
+if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = { NOT = { has_country_flag = RUS_stalin_advisor_relationships_frozen } }
 		RUS_stalin_update_advisor_relationship_multipliers = yes
 		set_country_flag = RUS_stalin_advisor_relationships_frozen
 		RUS_stalin_apply_relationship_advisor_trait_tiers = yes
 	}
+ }
+else = {  }
 }
 
 RUS_stalin_ensure_relationship_scaled_advisor_traits = {
+ if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = {
 			OR = {
@@ -79,11 +84,14 @@ RUS_stalin_ensure_relationship_scaled_advisor_traits = {
 		RUS_stalin_update_advisor_relationship_multipliers = yes
 		RUS_stalin_apply_relationship_advisor_trait_tiers = yes
 	}
+ }
 }
 
 # KR's common socialist setup still assigns Kirov the obsolete VST-right identity
 # in both cabinet slots. Kirov belongs exclusively to the RKP in this branch.
 RUS_stalin_remove_obsolete_kirov_vst_right_traits = {
+RUS_sync_political_advisor_route = yes
+if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = {
 			has_character = RUS_sergey_kirov
@@ -92,6 +100,8 @@ RUS_stalin_remove_obsolete_kirov_vst_right_traits = {
 		remove_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_vst_right_kirov }
 		remove_trait = { character = RUS_sergey_kirov slot = second_in_command trait = KR_vst_right_kirov }
 	}
+ }
+else = {  }
 }
 
 RUS_stalin_refresh_kalinin_education_effects = {
@@ -129,6 +139,8 @@ RUS_stalin_refresh_kalinin_education_effects = {
 }
 
 RUS_stalin_refresh_advisor_relationship_effects = {
+RUS_sync_political_advisor_route = yes
+if = { limit = { RUS_uses_kamenev_politics = yes }
 	# Remove the failed variable-backed modifiers from old saves before applying native traits.
 	if = {
 		limit = { has_dynamic_modifier = { modifier = RUS_bolshevik_advisor_relationship_modifier } }
@@ -144,4 +156,6 @@ RUS_stalin_refresh_advisor_relationship_effects = {
 	}
 	RUS_stalin_ensure_relationship_scaled_advisor_traits = yes
 	RUS_stalin_refresh_kalinin_education_effects = yes
+ }
+else = {  }
 }
