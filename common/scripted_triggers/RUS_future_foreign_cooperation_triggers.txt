@@ -2,11 +2,11 @@ RUS_future_foreign_can_pay_aid_pp = {
 	OR = {
 		AND = {
 			has_completed_focus = RUS_future_foreign_056
-			NOT = { has_political_power < 24 }
+			RUS_diplomacy_can_pay_24 = yes
 		}
 		AND = {
 			NOT = { has_completed_focus = RUS_future_foreign_056 }
-			NOT = { has_political_power < 30 }
+			RUS_diplomacy_can_pay_30 = yes
 		}
 	}
 }

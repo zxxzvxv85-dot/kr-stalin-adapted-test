@@ -26,21 +26,21 @@ RUS_ukr_two_networks = { OR = {
  AND = { RUS_ukr_mine_active = yes RUS_ukr_rail_active = yes }
  AND = { RUS_ukr_rural_active = yes RUS_ukr_rail_active = yes }
 } }
-RUS_ukr_can_pay_families = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 25 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 35 } } } }
-RUS_ukr_can_pay_mine = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 35 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 45 } } } }
-RUS_ukr_can_pay_rural = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 35 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 45 } } } NOT = { has_equipment = { infantry_equipment < 500 } } }
-RUS_ukr_can_pay_rail = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 40 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 50 } } } }
-RUS_ukr_can_pay_relocate = { NOT = { has_political_power < 20 } }
-RUS_ukr_can_pay_declaration = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 40 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 50 } } } }
-RUS_ukr_can_pay_strike = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 30 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 40 } } } check_variable = { RUS_ukr_strength > 14 } }
+RUS_ukr_can_pay_families = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_25 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_35 = yes } } }
+RUS_ukr_can_pay_mine = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_35 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_45 = yes } } }
+RUS_ukr_can_pay_rural = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_35 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_45 = yes } } NOT = { has_equipment = { infantry_equipment < 500 } } }
+RUS_ukr_can_pay_rail = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_40 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_50 = yes } } }
+RUS_ukr_can_pay_relocate = { RUS_diplomacy_can_pay_20 = yes }
+RUS_ukr_can_pay_declaration = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_40 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_50 = yes } } }
+RUS_ukr_can_pay_strike = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_30 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_40 = yes } } check_variable = { RUS_ukr_strength > 14 } }
 RUS_ukr_can_pay_land = { OR = {
-   AND = { check_variable = { RUS_ukr_alert < 50 } UKR = { check_variable = { UKR_land_reform_score < 70 } } NOT = { has_political_power < 25 } check_variable = { RUS_ukr_strength > 9 } }
-   AND = { check_variable = { RUS_ukr_alert > 49 } UKR = { check_variable = { UKR_land_reform_score < 70 } } NOT = { has_political_power < 35 } check_variable = { RUS_ukr_strength > 9 } }
-   AND = { check_variable = { RUS_ukr_alert < 50 } UKR = { check_variable = { UKR_land_reform_score > 69 } } NOT = { has_political_power < 35 } check_variable = { RUS_ukr_strength > 14 } }
-   AND = { check_variable = { RUS_ukr_alert > 49 } UKR = { check_variable = { UKR_land_reform_score > 69 } } NOT = { has_political_power < 45 } check_variable = { RUS_ukr_strength > 14 } }
+   AND = { check_variable = { RUS_ukr_alert < 50 } UKR = { check_variable = { UKR_land_reform_score < 70 } } RUS_diplomacy_can_pay_25 = yes check_variable = { RUS_ukr_strength > 9 } }
+   AND = { check_variable = { RUS_ukr_alert > 49 } UKR = { check_variable = { UKR_land_reform_score < 70 } } RUS_diplomacy_can_pay_35 = yes check_variable = { RUS_ukr_strength > 9 } }
+   AND = { check_variable = { RUS_ukr_alert < 50 } UKR = { check_variable = { UKR_land_reform_score > 69 } } RUS_diplomacy_can_pay_35 = yes check_variable = { RUS_ukr_strength > 14 } }
+   AND = { check_variable = { RUS_ukr_alert > 49 } UKR = { check_variable = { UKR_land_reform_score > 69 } } RUS_diplomacy_can_pay_45 = yes check_variable = { RUS_ukr_strength > 14 } }
   } check_variable = { RUS_ukr_strength > 9 } }
-RUS_ukr_can_pay_slowdown = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 35 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 45 } } } check_variable = { RUS_ukr_strength > 14 } }
-RUS_ukr_can_pay_night = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 50 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 60 } } } check_variable = { RUS_ukr_strength > 39 } NOT = { has_equipment = { infantry_equipment < 1000 } } }
+RUS_ukr_can_pay_slowdown = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_35 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_45 = yes } } check_variable = { RUS_ukr_strength > 14 } }
+RUS_ukr_can_pay_night = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } RUS_diplomacy_can_pay_50 = yes } AND = { check_variable = { RUS_ukr_alert > 49 } RUS_diplomacy_can_pay_60 = yes } } check_variable = { RUS_ukr_strength > 39 } NOT = { has_equipment = { infantry_equipment < 1000 } } }
 
 RUS_ukr_can_reduce_land_score = {
  check_variable = { RUS_ukr_land_score_hits < 3 }

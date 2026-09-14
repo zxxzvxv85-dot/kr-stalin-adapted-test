@@ -100,8 +100,8 @@ RUS_ukr_start_families = {
  set_country_flag = RUS_ukr_action_families
  set_variable = { RUS_ukr_days = 30 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -25
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_25 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
 }
 RUS_ukr_finish_families = {
  add_to_variable = { RUS_ukr_strength = 15 }
@@ -113,8 +113,8 @@ RUS_ukr_start_mine = {
  set_country_flag = RUS_ukr_action_mine
  set_variable = { RUS_ukr_days = 45 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -35
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_35 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
 }
 RUS_ukr_finish_mine = {
  add_to_variable = { RUS_ukr_strength = 15 }
@@ -128,8 +128,8 @@ RUS_ukr_start_rural = {
  set_country_flag = RUS_ukr_action_rural
  set_variable = { RUS_ukr_days = 45 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -35
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_35 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
  add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
 }
 RUS_ukr_finish_rural = {
@@ -145,8 +145,8 @@ RUS_ukr_start_rail = {
  set_country_flag = RUS_ukr_action_rail
  set_variable = { RUS_ukr_days = 60 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -40
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_40 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
 }
 RUS_ukr_finish_rail = {
  add_to_variable = { RUS_ukr_strength = 10 }
@@ -160,7 +160,7 @@ RUS_ukr_start_relocate = {
  set_country_flag = RUS_ukr_action_relocate
  set_variable = { RUS_ukr_days = 30 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -20
+ RUS_diplomacy_pay_20 = yes
 }
 RUS_ukr_finish_relocate = {
  add_to_variable = { RUS_ukr_alert = -20 }
@@ -171,8 +171,8 @@ RUS_ukr_start_declaration = {
  set_country_flag = RUS_ukr_action_declaration
  set_variable = { RUS_ukr_days = 45 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -40
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_40 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
 }
 RUS_ukr_finish_declaration = {
  add_to_variable = { RUS_ukr_strength = 20 }
@@ -186,8 +186,8 @@ RUS_ukr_start_strike = {
  set_country_flag = RUS_ukr_action_strike
  set_variable = { RUS_ukr_days = 30 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -30
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_30 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
  subtract_from_variable = { RUS_ukr_strength = 15 }
 }
 RUS_ukr_finish_strike = {
@@ -205,10 +205,10 @@ RUS_ukr_start_land = {
  set_country_flag = RUS_ukr_action_land
  set_variable = { RUS_ukr_days = 30 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -25
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_25 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
  subtract_from_variable = { RUS_ukr_strength = 10 }
- if = { limit = { UKR = { check_variable = { UKR_land_reform_score > 69 } } } add_political_power = -10 subtract_from_variable = { RUS_ukr_strength = 5 } }
+ if = { limit = { UKR = { check_variable = { UKR_land_reform_score > 69 } } } RUS_diplomacy_pay_10 = yes subtract_from_variable = { RUS_ukr_strength = 5 } }
 }
 RUS_ukr_finish_land = {
  RUS_ukr_reduce_land_score = yes
@@ -222,8 +222,8 @@ RUS_ukr_start_slowdown = {
  set_country_flag = RUS_ukr_action_slowdown
  set_variable = { RUS_ukr_days = 21 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -35
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_35 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
  subtract_from_variable = { RUS_ukr_strength = 15 }
 }
 RUS_ukr_finish_slowdown = {
@@ -237,8 +237,8 @@ RUS_ukr_start_night = {
  set_country_flag = RUS_ukr_action_night
  set_variable = { RUS_ukr_days = 7 }
  set_variable = { RUS_ukr_idle_days = 0 }
- add_political_power = -50
- if = { limit = { check_variable = { RUS_ukr_alert > 49 } } add_political_power = -10 }
+ RUS_diplomacy_pay_50 = yes
+ if = { limit = { check_variable = { RUS_ukr_alert > 49 } } RUS_diplomacy_pay_10 = yes }
  add_equipment_to_stockpile = { type = infantry_equipment amount = -1000 }
  set_variable = { RUS_ukr_escrow = RUS_ukr_strength }
  set_variable = { RUS_ukr_strength = 0 }

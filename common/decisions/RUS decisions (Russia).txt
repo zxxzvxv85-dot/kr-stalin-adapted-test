@@ -14386,7 +14386,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		fire_only_once = no
-		cost = 50
+		cost = RUS_diplomacy_pp_cost_50?50
 		days_remove = 100
 		modifier = {
 			weekly_manpower = -200
@@ -14415,7 +14415,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		fire_only_once = no
-		cost = 25
+		cost = RUS_diplomacy_pp_cost_25?25
 		days_remove = 50
 		modifier = {
 			weekly_manpower = -250
@@ -14501,7 +14501,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		fire_only_once = yes
-		cost = 20
+		cost = RUS_diplomacy_pp_cost_20?20
 		highlight_states = {
 			highlight_states_trigger = {
 				is_owned_by = FROM
@@ -14586,7 +14586,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		fire_only_once = yes
-		cost = 20
+		cost = RUS_diplomacy_pp_cost_20?20
 		days_remove = 30
 		highlight_states = {
 			highlight_states_trigger = {
@@ -14700,7 +14700,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		fire_only_once = yes
-		cost = 20
+		cost = RUS_diplomacy_pp_cost_20?20
 		ai_will_do = { factor = 100 }
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_add_to_union"
@@ -14856,7 +14856,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
-		cost = 75
+		cost = RUS_diplomacy_pp_cost_75?75
 		fire_only_once = yes
 
 		ai_will_do = { factor = 1000 }
@@ -14906,7 +14906,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
-		cost = 200
+		cost = RUS_diplomacy_pp_cost_200?200
 		fire_only_once = yes
 
 		ai_will_do = { factor = 100 }
@@ -14976,7 +14976,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
-		cost = 200
+		cost = RUS_diplomacy_pp_cost_200?200
 		fire_only_once = yes
 
 		ai_will_do = { factor = 100 }
@@ -15122,7 +15122,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
-		cost = 30
+		cost = RUS_diplomacy_pp_cost_30?30
 		fire_only_once = yes
 
 		ai_will_do = { factor = 1000 }
@@ -15181,7 +15181,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			is_subject = no
 		}
 
-		cost = 10
+		cost = RUS_diplomacy_pp_cost_10?10
 		days_remove = 40
 		fire_only_once = no
 		war_with_target_on_remove = yes
@@ -15209,7 +15209,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		cancel_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision cancel RUS_Socialist_Attack_Isolated_Europe"
 			clear_decision_attack_AI = yes
-			add_political_power = 10
+			RUS_diplomacy_refund_10 = yes
 		}
 
 		complete_effect = {
@@ -15269,7 +15269,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
-		cost = 10
+		cost = RUS_diplomacy_pp_cost_10?10
 		days_remove = 10
 		fire_only_once = yes
 
@@ -15371,7 +15371,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			FROM = { has_socialist_government = no }
 		}
 
-		cost = 10
+		cost = RUS_diplomacy_pp_cost_10?10
 		days_remove = 40
 		fire_only_once = no
 		war_with_target_on_remove = yes
@@ -15407,7 +15407,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		cancel_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision cancel RUS_Socialist_Attack_Europe"
 			clear_decision_attack_AI = yes
-			add_political_power = 10
+			RUS_diplomacy_refund_10 = yes
 		}
 
 		complete_effect = {
@@ -15463,7 +15463,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			FROM = { has_socialist_government = no }
 		}
 
-		cost = 10
+		cost = RUS_diplomacy_pp_cost_10?10
 		days_remove = 40
 		fire_only_once = no
 		war_with_target_on_remove = yes
@@ -15495,7 +15495,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		cancel_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision cancel RUS_Socialist_Attack_Middle_East"
 			clear_decision_attack_AI = yes
-			add_political_power = 10
+			RUS_diplomacy_refund_10 = yes
 		}
 
 		complete_effect = {
@@ -15557,7 +15557,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			FROM = { has_socialist_government = no }
 		}
 
-		cost = 10
+		cost = RUS_diplomacy_pp_cost_10?10
 		days_remove = 40
 		fire_only_once = no
 		war_with_target_on_remove = yes
@@ -15596,7 +15596,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		cancel_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision cancel RUS_Socialist_Attack_Far_East"
 			clear_decision_attack_AI = yes
-			add_political_power = 10
+			RUS_diplomacy_refund_10 = yes
 		}
 
 		complete_effect = {
@@ -15618,7 +15618,7 @@ RUS_Spreading_the_Revolution_decisions = {
 	RUS_attack_soc = {
 		name = attack_country
 		icon = hol_draw_up_staff_plans
-		cost = 20
+		cost = RUS_diplomacy_pp_cost_20?20
 		allowed = { always = no }
 
 		available = {
@@ -15725,7 +15725,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		cancel_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision cancel RUS_attack_soc"
 			clear_decision_attack_AI = yes
-			hidden_effect = { add_political_power = 10 }
+			hidden_effect = { RUS_diplomacy_refund_10 = yes }
 			if = {
 				limit = { FROM = { is_ally_with = OTT } }
 				clr_country_flag = RUS_attacking_ottomans
@@ -15797,7 +15797,7 @@ RUS_Spreading_the_Revolution_decisions = {
 	RUS_invade_mongolia_soc = {
 		name = invade_country
 		icon = hol_draw_up_staff_plans
-		cost = 20
+		cost = RUS_diplomacy_pp_cost_20?20
 		allowed = { always = no }
 
 		available = {
@@ -15882,7 +15882,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		cancel_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision cancel RUS_invade_mongolia_soc"
 			clear_decision_attack_AI = yes
-			hidden_effect = { add_political_power = 10 }
+			hidden_effect = { RUS_diplomacy_refund_10 = yes }
 		}
 
 		complete_effect = {
@@ -15934,12 +15934,12 @@ RUS_Spreading_the_Revolution_decisions = {
 				second_weltkrieg_has_begun = yes
 			}
 		}
-		cost = 20
+		cost = RUS_diplomacy_pp_cost_20?20
 		ai_will_do = { base = 1 }
 		fire_only_once = yes
 		complete_effect = {
 			log = "[GetLogRoot]: Decision complete RUS_cooperate_with_borotbysts"
-			hidden_effect = { add_political_power = -20 }
+			hidden_effect = { RUS_diplomacy_pay_20 = yes }
 			country_event = russia_socialist_events.413
 		}
 		fixed_random_seed = no
@@ -15962,12 +15962,12 @@ RUS_Spreading_the_Revolution_decisions = {
 				}
 			}
 		}
-		cost = 20
+		cost = RUS_diplomacy_pp_cost_20?20
 		ai_will_do = { base = 1 }
 		fire_only_once = yes
 		complete_effect = {
 			log = "[GetLogRoot]: Decision complete RUS_cooperate_with_rds"
-			hidden_effect = { add_political_power = -20 }
+			hidden_effect = { RUS_diplomacy_pay_20 = yes }
 			custom_effect_tooltip = RUS_cooperate_with_rds_tt
 			effect_tooltip = {
 				UKR = { add_ideas = RUS_UKR_illegitimate_republic }
@@ -15992,7 +15992,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		ai_will_do = { base = 1 }
-		cost = 30
+		cost = RUS_diplomacy_pp_cost_30?30
 		fire_only_once = yes
 		complete_effect = {
 			log = "[GetLogRoot]: Decision complete RUS_invite_revolutionary_committee"
@@ -16049,7 +16049,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
-		cost = 30
+		cost = RUS_diplomacy_pp_cost_30?30
 		fire_only_once = yes
 
 		targets = { LKT }
@@ -16128,7 +16128,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 
-		cost = 50
+		cost = RUS_diplomacy_pp_cost_50?50
 		fire_only_once = yes
 
 		ai_will_do = { base = 1000 }

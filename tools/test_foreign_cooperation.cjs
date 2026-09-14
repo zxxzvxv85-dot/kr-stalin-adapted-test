@@ -32,10 +32,13 @@ const get = (block, key) => block.find(n => n.key === key)?.value;
 const load = file => parse(read(file));
 const effects = new Map(load('common/scripted_effects/RUS_future_foreign_cooperation_effects.txt').map(n => [n.key, n.value]));
 const triggers = new Map(load('common/scripted_triggers/RUS_future_foreign_cooperation_triggers.txt').map(n => [n.key, n.value]));
+for (const n of load('common/scripted_effects/RUS_diplomacy_cost_effects.txt')) effects.set(n.key, n.value);
+for (const n of load('common/scripted_triggers/RUS_diplomacy_cost_triggers.txt')) triggers.set(n.key, n.value);
 const country = id => ({id, exists:true, socialist:true, wars:[], focuses:[], pp:0, vars:{}, guarantees:[], opinions:[], ideas:[]});
 function check(block, c, world, origin) {
   return block.every(n => {
     const v = n.value;
+    if (n.key === 'has_country_flag') return (c.flags || []).includes(v);
     if (n.key === 'NOT') return !check(v, c, world, origin);
     if (n.key === 'AND') return check(v, c, world, origin);
     if (n.key === 'OR') return v.some(item => check([item], c, world, origin));
@@ -121,8 +124,8 @@ for (const type of ['military', 'civil']) {
   assert.equal(get(get(get(decision, 'complete_effect'), 'hidden_effect'), 'RUS_future_foreign_pay_aid_pp'), 'yes');
   assert.equal(get(decision, 'custom_cost_text'), 'RUS_future_foreign_' + type + '_aid_scaled_cost');
 }
-assert.equal(get(get(decisions, 'RUS_future_foreign_joint_develop_pokrovsk_tungsten'), 'cost'), '40');
-assert.equal(get(get(decisions, 'RUS_future_foreign_joint_develop_zlatoust_chromium'), 'cost'), '45');
+assert.equal(get(get(decisions, 'RUS_future_foreign_joint_develop_pokrovsk_tungsten'), 'cost'), 'RUS_diplomacy_pp_cost_40?40');
+assert.equal(get(get(decisions, 'RUS_future_foreign_joint_develop_zlatoust_chromium'), 'cost'), 'RUS_diplomacy_pp_cost_45?45');
 const focuses = load('common/national_focus/00_RUS_future_foreign_policy_skeleton.txt').filter(n => n.key === 'shared_focus');
 for (const id of ['046', '056']) {
   const matches = focuses.filter(n => get(n.value, 'id') === 'RUS_future_foreign_' + id);
