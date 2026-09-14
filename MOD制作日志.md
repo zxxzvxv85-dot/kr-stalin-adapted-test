@@ -1,6 +1,13 @@
 # [KR] 多么幼稚的幻想，但是斯大林——制作日志与开发备忘
 
-最后更新：2026-09-13
+最后更新：2026-09-14
+
+## 2026-09-14 — 更换斯大林领导人大头像
+
+- 仅修改测试版。将斯大林担任国家领导人时使用的 `GFX_portrait_RUS_iosif_stalin_civilian_large` 替换为用户提供的新图；保持原有 sprite 名称和 `gfx/GFX_portrait_RUS_iosif_stalin_civilian_large.png` 路径，不改人物定义与政治效果。
+- 原图为 `1086×1448` RGB，与目标 `156×210` 比例几乎一致；居中裁去左右各 5 像素，不做纵向裁剪，再用 Lanczos 缩放并轻度锐化，因此完整保留头顶、肩部和制服领口。输出继续为 `156×210` RGB PNG。
+- 顾问及其他小尺寸界面使用的 `GFX_portrait_RUS_iosif_stalin_civilian_small` 保持不变。原始输入图与裁剪记录保存在 `tools/art_sources/stalin_portrait_20260914/`，开发素材由上传脚本排除。
+- `interface/Stalin_form_sov.gfx` 经 RHoiScribe 验证为绿色、零诊断；上传目录已干净重建为 1008 个文件，运行时头像与测试版源码 SHA256 一致，开发素材未进入上传目录。
 
 ## 2026-09-13 — 重绘单兵负荷轻量化纲要国策图标
 
