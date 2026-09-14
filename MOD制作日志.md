@@ -6,7 +6,7 @@
 
 - 仅修改测试版。以用户补充的 `1490×1920` 黑白历史照片为身份与构图底稿，重新修复、克制上色斯大林国家领导人大头像；保持原有 sprite 名称和 `gfx/GFX_portrait_RUS_iosif_stalin_civilian_large.png` 路径，不改人物定义与政治效果。
 - 背景改为 KR 俄罗斯领导人常用的暖象牙灰，并按参考图制作上亮下暗的纵向层次：最终顶角均值约为 `228/225/208`，对应 KR 参考约为 `230/227/210`。背景调整仅作用于与画布边缘连通的暖灰区域，人物发丝、耳朵、脸部和制服轮廓保持完整。
-- 最终构图在生成底稿上放大 `1.16` 倍，保留约 6% 的头顶留白，使头部占比接近 KR 现有斯大林头像；经 Lanczos 缩放输出为 `156×210` RGB PNG。顾问及其他小尺寸界面使用的 `GFX_portrait_RUS_iosif_stalin_civilian_small` 保持不变。
+- 最终构图在生成底稿上放大 `1.25` 倍，保留约 6% 的头顶留白，使游戏内头部占比接近 KR 现有领导人头像；经 Lanczos 缩放输出为 `156×210` RGB PNG。顾问及其他小尺寸界面使用的 `GFX_portrait_RUS_iosif_stalin_civilian_small` 保持不变。
 - 黑白原图、生成底稿与裁剪记录保存在 `tools/art_sources/stalin_portrait_20260914/`，开发素材由上传脚本排除。`interface/Stalin_form_sov.gfx` 经 RHoiScribe 验证为绿色、零诊断；上传目录干净重建后，运行时头像与测试版源码 SHA256 一致。
 
 ## 2026-09-13 — 重绘单兵负荷轻量化纲要国策图标
