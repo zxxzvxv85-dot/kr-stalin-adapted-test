@@ -1,0 +1,42 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			every_country = {
+				limit = {
+					original_tag = UKR
+					is_ai = yes
+				}
+				# KR's native AI-side lock disables every Republican victory event.
+				set_country_flag = UKR_hetman_side_ai
+				clr_country_flag = UKR_ai_borotbyst_revolution
+				if = {
+					limit = {
+						has_country_flag = UKR_revolt_started
+						NOT = { has_country_flag = UKR_revolt_over }
+					}
+					country_event = ukraine_revolt_events.52
+				}
+			}
+		}
+	}
+
+	on_daily = {
+		effect = {
+			if = {
+				limit = {
+					original_tag = UKR
+					is_ai = yes
+				}
+				set_country_flag = UKR_hetman_side_ai
+				clr_country_flag = UKR_ai_borotbyst_revolution
+				if = {
+					limit = {
+						has_country_flag = UKR_revolt_started
+						NOT = { has_country_flag = UKR_revolt_over }
+					}
+					country_event = ukraine_revolt_events.52
+				}
+			}
+		}
+	}
+}
