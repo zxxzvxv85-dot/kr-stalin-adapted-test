@@ -274,6 +274,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_strike_cooldown_tt NOT = { has_coun
 if = { limit = { hidden_trigger = { UKR = { has_completed_focus = UKR_purge_vdr_supporters } } } custom_effect_tooltip = RUS_ukr_alert_gain_5_tt }
 if = { limit = { hidden_trigger = { check_variable = { RUS_ukr_strikes < 3 } } } UKR = { add_stability = -0.03 } }
 UKR = { add_timed_idea = { idea = RUS_ukr_mine_strike days = 90 } }
+if = { limit = { hidden_trigger = { RUS_ukr_can_reduce_strike_score = yes } } UKR = { custom_effect_tooltip = RUS_ukr_strike_score_loss_tt } }
  }
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_strike RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
@@ -317,6 +318,7 @@ if = { limit = { hidden_trigger = { UKR = { check_variable = { UKR_land_reform_s
    effect_tooltip = { custom_effect_tooltip = RUS_ukr_alert_gain_10_tt
 if = { limit = { hidden_trigger = { UKR = { has_completed_focus = UKR_purge_vdr_supporters } } } custom_effect_tooltip = RUS_ukr_alert_gain_5_tt }
 UKR = { add_timed_idea = { idea = RUS_ukr_land_agitation days = 90 } }
+if = { limit = { hidden_trigger = { RUS_ukr_can_reduce_land_score = yes } } UKR = { custom_effect_tooltip = RUS_ukr_land_score_loss_tt } }
  }
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_land RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }

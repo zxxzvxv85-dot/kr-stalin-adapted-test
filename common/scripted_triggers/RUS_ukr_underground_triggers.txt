@@ -41,3 +41,13 @@ RUS_ukr_can_pay_land = { OR = {
   } check_variable = { RUS_ukr_strength > 9 } }
 RUS_ukr_can_pay_slowdown = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 35 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 45 } } } check_variable = { RUS_ukr_strength > 14 } }
 RUS_ukr_can_pay_night = { OR = { AND = { check_variable = { RUS_ukr_alert < 50 } NOT = { has_political_power < 50 } } AND = { check_variable = { RUS_ukr_alert > 49 } NOT = { has_political_power < 60 } } } check_variable = { RUS_ukr_strength > 39 } NOT = { has_equipment = { infantry_equipment < 1000 } } }
+
+RUS_ukr_can_reduce_land_score = {
+ check_variable = { RUS_ukr_land_score_hits < 3 }
+ UKR = { has_active_mission = UKR_landreform_mission check_variable = { UKR_land_reform_score > 0 } }
+}
+
+RUS_ukr_can_reduce_strike_score = {
+ check_variable = { RUS_ukr_strike_score_hits < 3 }
+ UKR = { has_active_mission = UKR_industrialisation_mission check_variable = { UKR_industrial_score > 0 } }
+}

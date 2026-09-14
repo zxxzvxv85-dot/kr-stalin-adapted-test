@@ -47,6 +47,7 @@ def check(b,c,w):
         if k in ['has_country_flag','has_state_flag']:return v in c['flags']
         if k in ['rail_way','infrastructure']:return compare(c['buildings'].get(k,0),op,float(v))
         if k=='has_completed_focus':return v in c['focus']
+        if k=='has_active_mission':return v in c.get('missions',set())
         if k=='has_war_with':return v in c['war']
         if k=='is_in_faction_with':return c['faction']==w[v]['faction'] and bool(c['faction'])
         if k=='has_political_power':return compare(c['pp'],op,float(v))
@@ -264,4 +265,29 @@ assert 'RUS_ukr_rail_slowdown' not in w['UKR']['ideas']
 snapshot=copy.deepcopy(w['UKR']['states']);tick(w);assert w['UKR']['states']==snapshot;ok()
 w=world();nets(w,'rail');strength(w,100);w['UKR']['states']=[target_state(i) for i in range(8)]
 start('slowdown',w);tick(w,20);war(w);tick(w);assert not any(st['damage'] for st in w['UKR']['states']);ok()
+# Reform damage: active KR missions, independent three-hit caps, zero floor and cancellation.
+for action,variable,mission,amount,network in [('land','UKR_land_reform_score','UKR_landreform_mission',5,'rural'),('strike','UKR_industrial_score','UKR_industrialisation_mission',3,'mine')]:
+    counter='RUS_ukr_'+action+'_score_hits'
+    for initial,active,expected in [(50,True,50-amount),(2,True,0),(0,True,0),(50,False,50)]:
+        w=world();w['UKR']['vars'][variable]=initial;w['UKR']['missions']={mission} if active else set()
+        run(FX['RUS_ukr_reduce_'+action+'_score'],w['RUS'],w)
+        assert w['UKR']['vars'][variable]==expected
+        assert w['RUS']['vars'].get(counter,0)==int(expected<initial)
+    ok()
+    w=world();nets(w,network);w['UKR']['missions']={mission};w['UKR']['vars'][variable]=50
+    for i in range(4):
+        strength(w,100);alert(w,0);start(action,w);tick(w,29)
+        assert w['UKR']['vars'][variable]==50-min(i,3)*amount
+        tick(w);assert w['UKR']['vars'][variable]==50-min(i+1,3)*amount
+        tick(w,120)
+    assert w['RUS']['vars'][counter]==3
+    other='strike' if action=='land' else 'land';assert w['RUS']['vars'].get('RUS_ukr_'+other+'_score_hits',0)==0
+    ok()
+    for cancel in [True,False]:
+        w=world();nets(w,network);strength(w,100);w['UKR']['missions']={mission};w['UKR']['vars'][variable]=50
+        start(action,w);tick(w,29)
+        if cancel:war(w)
+        else:w['UKR']['missions'].clear()
+        tick(w);assert w['UKR']['vars'][variable]==50 and w['RUS']['vars'].get(counter,0)==0
+    ok()
 print(f'PASS: {count} scenario groups; executed actual decision/trigger/effect scripts. Game-engine and GUI QA still required.')

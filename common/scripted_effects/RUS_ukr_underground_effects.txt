@@ -191,6 +191,7 @@ RUS_ukr_start_strike = {
  subtract_from_variable = { RUS_ukr_strength = 15 }
 }
 RUS_ukr_finish_strike = {
+ RUS_ukr_reduce_strike_score = yes
  add_to_variable = { RUS_ukr_alert = 15 }
  if = { limit = { UKR = { has_completed_focus = UKR_purge_vdr_supporters } } add_to_variable = { RUS_ukr_alert = 5 } }
  if = { limit = { check_variable = { RUS_ukr_strikes < 3 } }
@@ -210,6 +211,7 @@ RUS_ukr_start_land = {
  if = { limit = { UKR = { check_variable = { UKR_land_reform_score > 69 } } } add_political_power = -10 subtract_from_variable = { RUS_ukr_strength = 5 } }
 }
 RUS_ukr_finish_land = {
+ RUS_ukr_reduce_land_score = yes
  add_to_variable = { RUS_ukr_alert = 10 }
  if = { limit = { UKR = { has_completed_focus = UKR_purge_vdr_supporters } } add_to_variable = { RUS_ukr_alert = 5 } }
  UKR = { add_timed_idea = { idea = RUS_ukr_land_agitation days = 90 } }
@@ -404,4 +406,24 @@ RUS_ukr_damage_transport = {
   damage_building = { type = infrastructure damage = 1 }
  }
  every_owned_state = { clr_state_flag = RUS_ukr_rail_damage_selected clr_state_flag = RUS_ukr_infra_damage_selected }
+}
+
+RUS_ukr_reduce_land_score = {
+ if = { limit = { RUS_ukr_can_reduce_land_score = yes }
+  UKR = {
+   subtract_from_variable = { UKR_land_reform_score = 5 }
+   if = { limit = { check_variable = { UKR_land_reform_score < 0 } } set_variable = { UKR_land_reform_score = 0 } }
+  }
+  add_to_variable = { RUS_ukr_land_score_hits = 1 }
+ }
+}
+
+RUS_ukr_reduce_strike_score = {
+ if = { limit = { RUS_ukr_can_reduce_strike_score = yes }
+  UKR = {
+   subtract_from_variable = { UKR_industrial_score = 3 }
+   if = { limit = { check_variable = { UKR_industrial_score < 0 } } set_variable = { UKR_industrial_score = 0 } }
+  }
+  add_to_variable = { RUS_ukr_strike_score_hits = 1 }
+ }
 }
