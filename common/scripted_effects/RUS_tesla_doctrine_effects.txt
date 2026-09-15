@@ -1,83 +1,140 @@
-# Country scope. Fixed settlement order: armor, combat support, operations.
+# Country scope. Policy upkeep is independent from funds-driven mastery.
+RUS_tesla_doctrine_pay_upkeep = {
+ if = {
+  limit = { NOT = { has_army_experience < 0.1 } }
+  army_experience = -0.1
+ }
+ else = {
+  set_temp_variable = { RUS_tesla_upkeep_remainder = army_experience }
+  multiply_temp_variable = { RUS_tesla_upkeep_remainder = -1 }
+  army_experience = RUS_tesla_upkeep_remainder
+ }
+}
 RUS_tesla_doctrine_daily_tick = {
-	# One settlement per country and track, never per production line.
-	if = {
-		limit = {
-			has_country_flag = RUS_tesla_doctrine_armor_1
-			NOT = { has_army_experience < 0.1 }
-			has_subdoctrine_in_track = armor
-			NOT = { has_completed_track = armor }
-			mio:RUS_tstz_organisation = {
-				is_mio_available = yes
-				has_mio_policy_active = RUS_tesla_doctrine_armor_policy
-			}
-		}
-		army_experience = -0.1
-		if = {
-			limit = { has_country_flag = RUS_tesla_doctrine_armor_3 }
-			add_mastery = { track = armor amount = 1.00 }
-			add_to_variable = { RUS_tesla_doctrine_armor_total = 1.00 }
-		}
-		else_if = {
-			limit = { has_country_flag = RUS_tesla_doctrine_armor_2 }
-			add_mastery = { track = armor amount = 0.75 }
-			add_to_variable = { RUS_tesla_doctrine_armor_total = 0.75 }
-		}
-		else = { add_mastery = { track = armor amount = 0.50 }
-			add_to_variable = { RUS_tesla_doctrine_armor_total = 0.50 } }
-	}
-
-	# One settlement per country and track, never per production line.
-	if = {
-		limit = {
-			has_country_flag = RUS_tesla_doctrine_combat_support_1
-			NOT = { has_army_experience < 0.1 }
-			has_subdoctrine_in_track = combat_support
-			NOT = { has_completed_track = combat_support }
-			mio:RUS_obukhov_organisation = {
-				is_mio_available = yes
-				has_mio_policy_active = RUS_tesla_doctrine_combat_support_policy
-			}
-		}
-		army_experience = -0.1
-		if = {
-			limit = { has_country_flag = RUS_tesla_doctrine_combat_support_3 }
-			add_mastery = { track = combat_support amount = 1.00 }
-			add_to_variable = { RUS_tesla_doctrine_combat_support_total = 1.00 }
-		}
-		else_if = {
-			limit = { has_country_flag = RUS_tesla_doctrine_combat_support_2 }
-			add_mastery = { track = combat_support amount = 0.75 }
-			add_to_variable = { RUS_tesla_doctrine_combat_support_total = 0.75 }
-		}
-		else = { add_mastery = { track = combat_support amount = 0.50 }
-			add_to_variable = { RUS_tesla_doctrine_combat_support_total = 0.50 } }
-	}
-
-	# One settlement per country and track, never per production line.
-	if = {
-		limit = {
-			has_country_flag = RUS_tesla_doctrine_operations_1
-			NOT = { has_army_experience < 0.1 }
-			has_subdoctrine_in_track = operations
-			NOT = { has_completed_track = operations }
-			mio:RUS_amo_organisation = {
-				is_mio_available = yes
-				has_mio_policy_active = RUS_tesla_doctrine_operations_policy
-			}
-		}
-		army_experience = -0.1
-		if = {
-			limit = { has_country_flag = RUS_tesla_doctrine_operations_3 }
-			add_mastery = { track = operations amount = 1.00 }
-			add_to_variable = { RUS_tesla_doctrine_operations_total = 1.00 }
-		}
-		else_if = {
-			limit = { has_country_flag = RUS_tesla_doctrine_operations_2 }
-			add_mastery = { track = operations amount = 0.75 }
-			add_to_variable = { RUS_tesla_doctrine_operations_total = 0.75 }
-		}
-		else = { add_mastery = { track = operations amount = 0.50 }
-			add_to_variable = { RUS_tesla_doctrine_operations_total = 0.50 } }
-	}
+ mio:RUS_tstz_organisation = {
+  set_variable = { RUS_tesla_daily_funds = 0 }
+  if = {
+   limit = { has_mio_flag = RUS_tesla_funds_sampled }
+   set_variable = { RUS_tesla_daily_funds = funds }
+   subtract_from_variable = { RUS_tesla_daily_funds = RUS_tesla_previous_funds }
+   clamp_variable = { var = RUS_tesla_daily_funds min = 0 }
+  }
+  set_variable = { RUS_tesla_previous_funds = funds }
+  set_mio_flag = RUS_tesla_funds_sampled
+  PREV = { set_variable = { RUS_tesla_doctrine_armor_daily_funds = PREV.RUS_tesla_daily_funds } }
+ }
+ if = {
+  limit = { mio:RUS_tstz_organisation = { has_mio_policy_active = RUS_tesla_doctrine_armor_policy } }
+  RUS_tesla_doctrine_pay_upkeep = yes
+  if = {
+   limit = {
+    has_country_flag = RUS_tesla_doctrine_armor_1
+    has_subdoctrine_in_track = armor
+    NOT = { has_completed_track = armor }
+    mio:RUS_tstz_organisation = {
+     is_mio_available = yes
+     check_variable = { RUS_tesla_manufacturers > 0 }
+     NOT = { check_variable = { RUS_tesla_daily_funds < 2.56 } }
+    }
+   }
+   if = {
+    limit = { has_country_flag = RUS_tesla_doctrine_armor_3 }
+    add_mastery = { track = armor amount = 1.00 }
+    add_to_variable = { RUS_tesla_doctrine_armor_total = 1.00 }
+   }
+   else_if = {
+    limit = { has_country_flag = RUS_tesla_doctrine_armor_2 }
+    add_mastery = { track = armor amount = 0.75 }
+    add_to_variable = { RUS_tesla_doctrine_armor_total = 0.75 }
+   }
+   else = {
+    add_mastery = { track = armor amount = 0.50 }
+    add_to_variable = { RUS_tesla_doctrine_armor_total = 0.50 }
+   }
+  }
+ }
+ mio:RUS_obukhov_organisation = {
+  set_variable = { RUS_tesla_daily_funds = 0 }
+  if = {
+   limit = { has_mio_flag = RUS_tesla_funds_sampled }
+   set_variable = { RUS_tesla_daily_funds = funds }
+   subtract_from_variable = { RUS_tesla_daily_funds = RUS_tesla_previous_funds }
+   clamp_variable = { var = RUS_tesla_daily_funds min = 0 }
+  }
+  set_variable = { RUS_tesla_previous_funds = funds }
+  set_mio_flag = RUS_tesla_funds_sampled
+  PREV = { set_variable = { RUS_tesla_doctrine_combat_support_daily_funds = PREV.RUS_tesla_daily_funds } }
+ }
+ if = {
+  limit = { mio:RUS_obukhov_organisation = { has_mio_policy_active = RUS_tesla_doctrine_combat_support_policy } }
+  RUS_tesla_doctrine_pay_upkeep = yes
+  if = {
+   limit = {
+    has_country_flag = RUS_tesla_doctrine_combat_support_1
+    has_subdoctrine_in_track = combat_support
+    NOT = { has_completed_track = combat_support }
+    mio:RUS_obukhov_organisation = {
+     is_mio_available = yes
+     check_variable = { RUS_tesla_manufacturers > 0 }
+     NOT = { check_variable = { RUS_tesla_daily_funds < 2.56 } }
+    }
+   }
+   if = {
+    limit = { has_country_flag = RUS_tesla_doctrine_combat_support_3 }
+    add_mastery = { track = combat_support amount = 1.00 }
+    add_to_variable = { RUS_tesla_doctrine_combat_support_total = 1.00 }
+   }
+   else_if = {
+    limit = { has_country_flag = RUS_tesla_doctrine_combat_support_2 }
+    add_mastery = { track = combat_support amount = 0.75 }
+    add_to_variable = { RUS_tesla_doctrine_combat_support_total = 0.75 }
+   }
+   else = {
+    add_mastery = { track = combat_support amount = 0.50 }
+    add_to_variable = { RUS_tesla_doctrine_combat_support_total = 0.50 }
+   }
+  }
+ }
+ mio:RUS_amo_organisation = {
+  set_variable = { RUS_tesla_daily_funds = 0 }
+  if = {
+   limit = { has_mio_flag = RUS_tesla_funds_sampled }
+   set_variable = { RUS_tesla_daily_funds = funds }
+   subtract_from_variable = { RUS_tesla_daily_funds = RUS_tesla_previous_funds }
+   clamp_variable = { var = RUS_tesla_daily_funds min = 0 }
+  }
+  set_variable = { RUS_tesla_previous_funds = funds }
+  set_mio_flag = RUS_tesla_funds_sampled
+  PREV = { set_variable = { RUS_tesla_doctrine_operations_daily_funds = PREV.RUS_tesla_daily_funds } }
+ }
+ if = {
+  limit = { mio:RUS_amo_organisation = { has_mio_policy_active = RUS_tesla_doctrine_operations_policy } }
+  RUS_tesla_doctrine_pay_upkeep = yes
+  if = {
+   limit = {
+    has_country_flag = RUS_tesla_doctrine_operations_1
+    has_subdoctrine_in_track = operations
+    NOT = { has_completed_track = operations }
+    mio:RUS_amo_organisation = {
+     is_mio_available = yes
+     check_variable = { RUS_tesla_manufacturers > 0 }
+     NOT = { check_variable = { RUS_tesla_daily_funds < 2.56 } }
+    }
+   }
+   if = {
+    limit = { has_country_flag = RUS_tesla_doctrine_operations_3 }
+    add_mastery = { track = operations amount = 1.00 }
+    add_to_variable = { RUS_tesla_doctrine_operations_total = 1.00 }
+   }
+   else_if = {
+    limit = { has_country_flag = RUS_tesla_doctrine_operations_2 }
+    add_mastery = { track = operations amount = 0.75 }
+    add_to_variable = { RUS_tesla_doctrine_operations_total = 0.75 }
+   }
+   else = {
+    add_mastery = { track = operations amount = 0.50 }
+    add_to_variable = { RUS_tesla_doctrine_operations_total = 0.50 }
+   }
+  }
+ }
 }

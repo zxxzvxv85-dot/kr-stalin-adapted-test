@@ -4603,7 +4603,23 @@ RUS_tstz_organisation = {
 			production_resource_need_factor = -0.04
 		}
 	}
+
+	on_industrial_manufacturer_assigned = {
+		hidden_effect = { add_to_variable = { RUS_tesla_manufacturers = 1 } }
+		if = {
+			limit = { has_mio_policy_active = RUS_tesla_doctrine_armor_policy }
+			FROM = { custom_effect_tooltip = RUS_tesla_doctrine_armor_production_tt }
+		}
+	}
+
+	on_industrial_manufacturer_unassigned = {
+		hidden_effect = {
+			subtract_from_variable = { RUS_tesla_manufacturers = 1 }
+			clamp_variable = { var = RUS_tesla_manufacturers min = 0 }
+		}
+	}
 }
+
 RUS_chtz_organisation = {
 	name = chtz
 	icon = GFX_idea_chtz
@@ -11330,6 +11346,12 @@ RUS_obukhov_organisation = {
 	}
 
 	on_industrial_manufacturer_assigned = {
+		hidden_effect = { add_to_variable = { RUS_tesla_manufacturers = 1 } }
+		if = {
+			limit = { has_mio_policy_active = RUS_tesla_doctrine_combat_support_policy }
+			FROM = { custom_effect_tooltip = RUS_tesla_doctrine_combat_support_production_tt }
+		}
+
 		if = { #Check if the trait to give army xp is unlocked
 			limit = { RUS_has_obukhov_upgrade_5_or_6 = yes }
 			RUS_calculate_daily_funds_gain_and_requirement = yes
@@ -12200,7 +12222,15 @@ RUS_obukhov_organisation = {
 			production_conversion_speed_factor = 0.12
 		}
 	}
+
+	on_industrial_manufacturer_unassigned = {
+		hidden_effect = {
+			subtract_from_variable = { RUS_tesla_manufacturers = 1 }
+			clamp_variable = { var = RUS_tesla_manufacturers min = 0 }
+		}
+	}
 }
+
 RUS_bmz_organisation = {
 	name = bmz
 	icon = GFX_idea_bmz
@@ -12913,7 +12943,23 @@ RUS_amo_organisation = {
 			maximum_speed = 0.1
 		}
 	}
+
+	on_industrial_manufacturer_assigned = {
+		hidden_effect = { add_to_variable = { RUS_tesla_manufacturers = 1 } }
+		if = {
+			limit = { has_mio_policy_active = RUS_tesla_doctrine_operations_policy }
+			FROM = { custom_effect_tooltip = RUS_tesla_doctrine_operations_production_tt }
+		}
+	}
+
+	on_industrial_manufacturer_unassigned = {
+		hidden_effect = {
+			subtract_from_variable = { RUS_tesla_manufacturers = 1 }
+			clamp_variable = { var = RUS_tesla_manufacturers min = 0 }
+		}
+	}
 }
+
 
 RUS_naz_organisation = {
 	name = naz

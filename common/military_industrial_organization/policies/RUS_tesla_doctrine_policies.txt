@@ -10,7 +10,15 @@ RUS_tesla_doctrine_armor_policy = {
 			}
 		}
 	}
-	on_add = { FROM = { custom_effect_tooltip = RUS_tesla_doctrine_armor_policy_tt } }
+	on_add = {
+  FROM = { custom_effect_tooltip = RUS_tesla_doctrine_armor_policy_tt }
+  hidden_effect = {
+   set_variable = { RUS_tesla_previous_funds = funds }
+   set_variable = { RUS_tesla_daily_funds = 0 }
+   set_mio_flag = RUS_tesla_funds_sampled
+   FROM = { set_variable = { RUS_tesla_doctrine_armor_daily_funds = 0 } }
+  }
+ }
 	ai_will_do = { base = 10 }
 }
 
@@ -26,7 +34,15 @@ RUS_tesla_doctrine_combat_support_policy = {
 			}
 		}
 	}
-	on_add = { FROM = { custom_effect_tooltip = RUS_tesla_doctrine_combat_support_policy_tt } }
+	on_add = {
+  FROM = { custom_effect_tooltip = RUS_tesla_doctrine_combat_support_policy_tt }
+  hidden_effect = {
+   set_variable = { RUS_tesla_previous_funds = funds }
+   set_variable = { RUS_tesla_daily_funds = 0 }
+   set_mio_flag = RUS_tesla_funds_sampled
+   FROM = { set_variable = { RUS_tesla_doctrine_combat_support_daily_funds = 0 } }
+  }
+ }
 	ai_will_do = { base = 10 }
 }
 
@@ -42,6 +58,14 @@ RUS_tesla_doctrine_operations_policy = {
 			}
 		}
 	}
-	on_add = { FROM = { custom_effect_tooltip = RUS_tesla_doctrine_operations_policy_tt } }
+	on_add = {
+  FROM = { custom_effect_tooltip = RUS_tesla_doctrine_operations_policy_tt }
+  hidden_effect = {
+   set_variable = { RUS_tesla_previous_funds = funds }
+   set_variable = { RUS_tesla_daily_funds = 0 }
+   set_mio_flag = RUS_tesla_funds_sampled
+   FROM = { set_variable = { RUS_tesla_doctrine_operations_daily_funds = 0 } }
+  }
+ }
 	ai_will_do = { base = 10 }
 }
