@@ -47,7 +47,7 @@ def run(ns,w):
   elif k=='add_to_variable':
    t,_,amount=v[0];w['total'][t]=w['total'].get(t,D(0))+D(amount)
   else:raise AssertionError(k)
-for level,gain in [(1,'0.6'),(2,'1'),(3,'1.5')]:
+for level,gain in [(1,'0.50'),(2,'0.75'),(3,'1.00')]:
  w=world(level);run(fx,w)
  assert w['xp']==D('.7') and all(w['gain'][t]==D(gain) for t in tracks)
  assert all(v==D(gain) for v in w['total'].values())
@@ -58,9 +58,9 @@ for xp,count in [('0',0),('.09',0),('.1',1),('.2',2),('.3',3)]:
  w=world(xp=xp);run(fx,w);assert len(w['gain'])==count and w['xp']>=0
 w=world(3,'9')
 for _ in range(30):run(fx,w)
-assert w['xp']==0 and all(v==45 for v in w['gain'].values())
+assert w['xp']==0 and all(v==30 for v in w['gain'].values())
 w=world(1);run(fx,w);w['flags'].update(f'RUS_tesla_doctrine_{t}_3' for t in tracks);run(fx,w)
-assert all(v==D('2.1') for v in w['gain'].values())
+assert all(v==D('1.50') for v in w['gain'].values())
 w['active']=set();before=copy.deepcopy(w);run(fx,w);assert w==before
 org=(R/'common/military_industrial_organization/organizations/RUS_tesla_organization.txt').read_text()
 assert len(re.findall(r'token = RUS_tesla_doctrine_\w+_[123]\b',org))==9
