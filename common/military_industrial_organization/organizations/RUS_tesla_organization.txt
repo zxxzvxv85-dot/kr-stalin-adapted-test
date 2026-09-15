@@ -161,5 +161,146 @@ RUS_tesla_electrical_organisation = {
 		}
 	}
 
+	tree_header_text = { text = RUS_tesla_doctrine_armor_header x = 5 }
+
+	trait = {
+		token = RUS_tesla_doctrine_armor_1
+		name = RUS_tesla_doctrine_armor_1
+		icon = GFX_generic_mio_trait_icon_detection
+		position = { x = 5 y = 1 }
+		any_parent = { RUS_tesla_all_russian_electrotechnical_institute }
+		available = { has_mio_size > 5 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_armor_1_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_armor_1 }
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_doctrine_armor_2
+		name = RUS_tesla_doctrine_armor_2
+		icon = GFX_generic_mio_trait_icon_detection
+		position = { x = 5 y = 2 }
+		any_parent = { RUS_tesla_doctrine_armor_1 }
+		available = { has_mio_size > 8 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_armor_2_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_armor_2 }
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_doctrine_armor_3
+		name = RUS_tesla_doctrine_armor_3
+		icon = GFX_generic_mio_trait_icon_detection
+		position = { x = 5 y = 3 }
+		any_parent = { RUS_tesla_doctrine_armor_2 }
+		available = { has_mio_size > 11 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_armor_3_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_armor_3 }
+			}
+		}
+	}
+
+	tree_header_text = { text = RUS_tesla_doctrine_combat_support_header x = 7 }
+
+	trait = {
+		token = RUS_tesla_doctrine_combat_support_1
+		name = RUS_tesla_doctrine_combat_support_1
+		icon = GFX_generic_mio_trait_icon_detection
+		position = { x = 7 y = 1 }
+		any_parent = { RUS_tesla_all_russian_electrotechnical_institute }
+		available = { has_mio_size > 5 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_combat_support_1_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_combat_support_1 }
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_doctrine_combat_support_2
+		name = RUS_tesla_doctrine_combat_support_2
+		icon = GFX_generic_mio_trait_icon_detection
+		position = { x = 7 y = 2 }
+		any_parent = { RUS_tesla_doctrine_combat_support_1 }
+		available = { has_mio_size > 8 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_combat_support_2_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_combat_support_2 }
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_doctrine_combat_support_3
+		name = RUS_tesla_doctrine_combat_support_3
+		icon = GFX_generic_mio_trait_icon_detection
+		position = { x = 7 y = 3 }
+		any_parent = { RUS_tesla_doctrine_combat_support_2 }
+		available = { has_mio_size > 11 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_combat_support_3_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_combat_support_3 }
+			}
+		}
+	}
+
+	tree_header_text = { text = RUS_tesla_doctrine_operations_header x = 9 }
+
+	trait = {
+		token = RUS_tesla_doctrine_operations_1
+		name = RUS_tesla_doctrine_operations_1
+		icon = GFX_generic_mio_trait_icon_efficiency_gain
+		position = { x = 9 y = 1 }
+		any_parent = { RUS_tesla_all_russian_electrotechnical_institute }
+		available = { has_mio_size > 5 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_operations_1_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_operations_1 }
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_doctrine_operations_2
+		name = RUS_tesla_doctrine_operations_2
+		icon = GFX_generic_mio_trait_icon_efficiency_gain
+		position = { x = 9 y = 2 }
+		any_parent = { RUS_tesla_doctrine_operations_1 }
+		available = { has_mio_size > 8 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_operations_2_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_operations_2 }
+			}
+		}
+	}
+
+	trait = {
+		token = RUS_tesla_doctrine_operations_3
+		name = RUS_tesla_doctrine_operations_3
+		icon = GFX_generic_mio_trait_icon_efficiency_gain
+		position = { x = 9 y = 3 }
+		any_parent = { RUS_tesla_doctrine_operations_2 }
+		available = { has_mio_size > 11 }
+		on_complete = {
+			FROM = {
+				custom_effect_tooltip = RUS_tesla_doctrine_operations_3_tt
+				hidden_effect = { set_country_flag = RUS_tesla_doctrine_operations_3 }
+			}
+		}
+	}
+
 	ai_will_do = { base = 75 }
 }

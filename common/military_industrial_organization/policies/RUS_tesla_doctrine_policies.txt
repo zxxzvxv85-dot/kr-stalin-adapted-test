@@ -1,0 +1,47 @@
+RUS_tesla_doctrine_armor_policy = {
+	name = RUS_tesla_doctrine_armor_policy
+	icon = GFX_generic_mio_trait_icon_detection
+	allowed = { is_military_industrial_organization = RUS_tstz_organisation }
+	available = {
+		FROM = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_tesla_doctrine_armor_policy_unlock_tt
+				has_country_flag = RUS_tesla_doctrine_armor_1
+			}
+		}
+	}
+	on_add = { FROM = { custom_effect_tooltip = RUS_tesla_doctrine_armor_policy_tt } }
+	ai_will_do = { base = 10 }
+}
+
+RUS_tesla_doctrine_combat_support_policy = {
+	name = RUS_tesla_doctrine_combat_support_policy
+	icon = GFX_generic_mio_trait_icon_detection
+	allowed = { is_military_industrial_organization = RUS_obukhov_organisation }
+	available = {
+		FROM = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_tesla_doctrine_combat_support_policy_unlock_tt
+				has_country_flag = RUS_tesla_doctrine_combat_support_1
+			}
+		}
+	}
+	on_add = { FROM = { custom_effect_tooltip = RUS_tesla_doctrine_combat_support_policy_tt } }
+	ai_will_do = { base = 10 }
+}
+
+RUS_tesla_doctrine_operations_policy = {
+	name = RUS_tesla_doctrine_operations_policy
+	icon = GFX_generic_mio_trait_icon_efficiency_gain
+	allowed = { is_military_industrial_organization = RUS_amo_organisation }
+	available = {
+		FROM = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_tesla_doctrine_operations_policy_unlock_tt
+				has_country_flag = RUS_tesla_doctrine_operations_1
+			}
+		}
+	}
+	on_add = { FROM = { custom_effect_tooltip = RUS_tesla_doctrine_operations_policy_tt } }
+	ai_will_do = { base = 10 }
+}

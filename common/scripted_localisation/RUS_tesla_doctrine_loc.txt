@@ -1,0 +1,59 @@
+defined_text = {
+ name = RUSTeslaarmorGain
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_armor_3 } localization_key = RUS_tesla_doctrine_gain_3 }
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_armor_2 } localization_key = RUS_tesla_doctrine_gain_2 }
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_armor_1 } localization_key = RUS_tesla_doctrine_gain_1 }
+ text = { localization_key = RUS_tesla_doctrine_gain_0 }
+}
+defined_text = {
+ name = RUSTeslaarmorStatus
+ text = { trigger = { NOT = { has_country_flag = RUS_tesla_doctrine_armor_1 } } localization_key = RUS_tesla_doctrine_locked }
+ text = { trigger = { mio:RUS_tstz_organisation = { is_mio_available = no } } localization_key = RUS_tesla_doctrine_unavailable }
+ text = { trigger = { NOT = { mio:RUS_tstz_organisation = { has_mio_policy_active = RUS_tesla_doctrine_armor_policy } } } localization_key = RUS_tesla_doctrine_inactive }
+ text = { trigger = { NOT = { has_subdoctrine_in_track = armor } } localization_key = RUS_tesla_doctrine_no_track }
+ text = { trigger = { has_completed_track = armor } localization_key = RUS_tesla_doctrine_completed }
+ text = { trigger = { has_army_experience < 0.1 } localization_key = RUS_tesla_doctrine_no_xp }
+ text = { localization_key = RUS_tesla_doctrine_active }
+}
+
+defined_text = {
+ name = RUSTeslacombat_supportGain
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_combat_support_3 } localization_key = RUS_tesla_doctrine_gain_3 }
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_combat_support_2 } localization_key = RUS_tesla_doctrine_gain_2 }
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_combat_support_1 } localization_key = RUS_tesla_doctrine_gain_1 }
+ text = { localization_key = RUS_tesla_doctrine_gain_0 }
+}
+defined_text = {
+ name = RUSTeslacombat_supportStatus
+ text = { trigger = { NOT = { has_country_flag = RUS_tesla_doctrine_combat_support_1 } } localization_key = RUS_tesla_doctrine_locked }
+ text = { trigger = { mio:RUS_obukhov_organisation = { is_mio_available = no } } localization_key = RUS_tesla_doctrine_unavailable }
+ text = { trigger = { NOT = { mio:RUS_obukhov_organisation = { has_mio_policy_active = RUS_tesla_doctrine_combat_support_policy } } } localization_key = RUS_tesla_doctrine_inactive }
+ text = { trigger = { NOT = { has_subdoctrine_in_track = combat_support } } localization_key = RUS_tesla_doctrine_no_track }
+ text = { trigger = { has_completed_track = combat_support } localization_key = RUS_tesla_doctrine_completed }
+ text = { trigger = { has_army_experience < 0.1 } localization_key = RUS_tesla_doctrine_no_xp }
+ text = { localization_key = RUS_tesla_doctrine_active }
+}
+
+defined_text = {
+ name = RUSTeslaoperationsGain
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_operations_3 } localization_key = RUS_tesla_doctrine_gain_3 }
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_operations_2 } localization_key = RUS_tesla_doctrine_gain_2 }
+ text = { trigger = { has_country_flag = RUS_tesla_doctrine_operations_1 } localization_key = RUS_tesla_doctrine_gain_1 }
+ text = { localization_key = RUS_tesla_doctrine_gain_0 }
+}
+defined_text = {
+ name = RUSTeslaoperationsStatus
+ text = { trigger = { NOT = { has_country_flag = RUS_tesla_doctrine_operations_1 } } localization_key = RUS_tesla_doctrine_locked }
+ text = { trigger = { mio:RUS_amo_organisation = { is_mio_available = no } } localization_key = RUS_tesla_doctrine_unavailable }
+ text = { trigger = { NOT = { mio:RUS_amo_organisation = { has_mio_policy_active = RUS_tesla_doctrine_operations_policy } } } localization_key = RUS_tesla_doctrine_inactive }
+ text = { trigger = { NOT = { has_subdoctrine_in_track = operations } } localization_key = RUS_tesla_doctrine_no_track }
+ text = { trigger = { has_completed_track = operations } localization_key = RUS_tesla_doctrine_completed }
+ text = { trigger = { has_army_experience < 0.1 } localization_key = RUS_tesla_doctrine_no_xp }
+ text = { localization_key = RUS_tesla_doctrine_active }
+}
+
+defined_text = {
+ name = RUSTeslaArmorPartner
+ text = { trigger = { has_country_flag = RUS_stalingrad_tractor_factory } localization_key = tstz_stalingrad }
+ text = { localization_key = tstz }
+}

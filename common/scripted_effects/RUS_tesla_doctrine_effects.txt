@@ -1,0 +1,83 @@
+# Country scope. Fixed settlement order: armor, combat support, operations.
+RUS_tesla_doctrine_daily_tick = {
+	# One settlement per country and track, never per production line.
+	if = {
+		limit = {
+			has_country_flag = RUS_tesla_doctrine_armor_1
+			has_army_experience >= 0.1
+			has_subdoctrine_in_track = armor
+			NOT = { has_completed_track = armor }
+			mio:RUS_tstz_organisation = {
+				is_mio_available = yes
+				has_mio_policy_active = RUS_tesla_doctrine_armor_policy
+			}
+		}
+		army_experience = -0.1
+		if = {
+			limit = { has_country_flag = RUS_tesla_doctrine_armor_3 }
+			add_mastery = { track = armor amount = 1.5 }
+			add_to_variable = { RUS_tesla_doctrine_armor_total = 1.5 }
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_doctrine_armor_2 }
+			add_mastery = { track = armor amount = 1 }
+			add_to_variable = { RUS_tesla_doctrine_armor_total = 1 }
+		}
+		else = { add_mastery = { track = armor amount = 0.6 }
+			add_to_variable = { RUS_tesla_doctrine_armor_total = 0.6 } }
+	}
+
+	# One settlement per country and track, never per production line.
+	if = {
+		limit = {
+			has_country_flag = RUS_tesla_doctrine_combat_support_1
+			has_army_experience >= 0.1
+			has_subdoctrine_in_track = combat_support
+			NOT = { has_completed_track = combat_support }
+			mio:RUS_obukhov_organisation = {
+				is_mio_available = yes
+				has_mio_policy_active = RUS_tesla_doctrine_combat_support_policy
+			}
+		}
+		army_experience = -0.1
+		if = {
+			limit = { has_country_flag = RUS_tesla_doctrine_combat_support_3 }
+			add_mastery = { track = combat_support amount = 1.5 }
+			add_to_variable = { RUS_tesla_doctrine_combat_support_total = 1.5 }
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_doctrine_combat_support_2 }
+			add_mastery = { track = combat_support amount = 1 }
+			add_to_variable = { RUS_tesla_doctrine_combat_support_total = 1 }
+		}
+		else = { add_mastery = { track = combat_support amount = 0.6 }
+			add_to_variable = { RUS_tesla_doctrine_combat_support_total = 0.6 } }
+	}
+
+	# One settlement per country and track, never per production line.
+	if = {
+		limit = {
+			has_country_flag = RUS_tesla_doctrine_operations_1
+			has_army_experience >= 0.1
+			has_subdoctrine_in_track = operations
+			NOT = { has_completed_track = operations }
+			mio:RUS_amo_organisation = {
+				is_mio_available = yes
+				has_mio_policy_active = RUS_tesla_doctrine_operations_policy
+			}
+		}
+		army_experience = -0.1
+		if = {
+			limit = { has_country_flag = RUS_tesla_doctrine_operations_3 }
+			add_mastery = { track = operations amount = 1.5 }
+			add_to_variable = { RUS_tesla_doctrine_operations_total = 1.5 }
+		}
+		else_if = {
+			limit = { has_country_flag = RUS_tesla_doctrine_operations_2 }
+			add_mastery = { track = operations amount = 1 }
+			add_to_variable = { RUS_tesla_doctrine_operations_total = 1 }
+		}
+		else = { add_mastery = { track = operations amount = 0.6 }
+			add_to_variable = { RUS_tesla_doctrine_operations_total = 0.6 } }
+	}
+}
