@@ -27,6 +27,8 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_families_cooldown_tt NOT = { has_co
   days_re_enable = 180
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    hidden_effect = { RUS_ukr_start_families = yes set_country_flag = RUS_ukr_native_action }
   }
   remove_effect = {
@@ -65,6 +67,8 @@ NOT = { has_war_with = UKR }
   cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.03 }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    hidden_effect = { RUS_ukr_start_mine = yes set_country_flag = RUS_ukr_native_action }
   }
   remove_effect = {
@@ -104,6 +108,8 @@ NOT = { has_war_with = UKR }
   cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    effect_tooltip = { add_equipment_to_stockpile = { type = infantry_equipment amount = -500 }
  }
    hidden_effect = { RUS_ukr_start_rural = yes set_country_flag = RUS_ukr_native_action }
@@ -146,6 +152,8 @@ NOT = { has_war_with = UKR }
   cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.03 }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    hidden_effect = { RUS_ukr_start_rail = yes set_country_flag = RUS_ukr_native_action }
   }
   remove_effect = {
@@ -187,6 +195,8 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_relocate_cooldown_tt NOT = { has_co
   days_re_enable = 60
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    hidden_effect = { RUS_ukr_start_relocate = yes set_country_flag = RUS_ukr_native_action }
   }
   remove_effect = {
@@ -224,6 +234,8 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_two_networks_tt RUS_ukr_two_network
   cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.03 }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    hidden_effect = { RUS_ukr_start_declaration = yes set_country_flag = RUS_ukr_native_action }
   }
   remove_effect = {
@@ -265,6 +277,8 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_strike_cooldown_tt NOT = { has_coun
   days_re_enable = 120
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    effect_tooltip = { custom_effect_tooltip = RUS_ukr_strength_loss_15_tt
  }
    hidden_effect = { RUS_ukr_start_strike = yes set_country_flag = RUS_ukr_native_action }
@@ -309,6 +323,8 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_land_cooldown_tt NOT = { has_countr
   cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
   days_re_enable = 120
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    effect_tooltip = { custom_effect_tooltip = RUS_ukr_strength_loss_10_tt
 if = { limit = { hidden_trigger = { UKR = { check_variable = { UKR_land_reform_score > 69 } } } } custom_effect_tooltip = RUS_ukr_land_extra_cost_tt }
  }
@@ -353,6 +369,8 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_slowdown_cooldown_tt NOT = { has_co
   cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
   days_re_enable = 120
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    effect_tooltip = { custom_effect_tooltip = RUS_ukr_strength_loss_15_tt
  }
    hidden_effect = { RUS_ukr_start_slowdown = yes set_country_flag = RUS_ukr_native_action }
@@ -394,6 +412,8 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_two_networks_tt RUS_ukr_two_network
   days_remove = 7
   cancel_trigger = { NOT = { RUS_ukr_route_valid = yes has_war_with = UKR } }
   complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
    effect_tooltip = { add_equipment_to_stockpile = { type = infantry_equipment amount = -1000 }
 custom_effect_tooltip = RUS_ukr_freeze_strength_tt
  }

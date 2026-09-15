@@ -20,6 +20,7 @@ def parse(text):
 def read(p):return parse((ROOT/p).read_text(encoding='utf-8-sig'))
 def get(b,k,default=None):return next((v for x,_,v in b if x==k),default)
 FX=dict((k,v) for k,_,v in read('common/scripted_effects/RUS_ukr_underground_effects.txt'))
+FX['RUS_rd_action_readiness']=get(read('common/scripted_effects/RUS_regional_diplomacy_effects.txt'),'RUS_rd_action_readiness')
 TR=dict((k,v) for k,_,v in read('common/scripted_triggers/RUS_ukr_underground_triggers.txt'))
 FX.update((k,v) for k,_,v in read('common/scripted_effects/RUS_diplomacy_cost_effects.txt'))
 TR.update((k,v) for k,_,v in read('common/scripted_triggers/RUS_diplomacy_cost_triggers.txt'))
@@ -39,10 +40,11 @@ def check(b,c,w):
         if k in w:return check(v,w[k],w)
         if k in TR:return check(TR[k],c,w)==(v=='yes')
         if k=='custom_trigger_tooltip':return check([n for n in v if n[0]!='tooltip'],c,w)
-        if k=='AND':return check(v,c,w)
+        if k in ['AND','hidden_trigger']:return check(v,c,w)
         if k=='NOT':return not check(v,c,w)
         if k=='OR':return any(one(*n) for n in v)
         if k=='always':return v=='yes'
+        if k=='has_power_balance':return c.get('bop',False)
         if k=='original_tag':return c['tag']==v
         if k in ['is_ai','exists','has_capitulated','is_subject','has_socialist_government']:
             return c[{'is_ai':'ai','exists':'exists','has_capitulated':'cap','is_subject':'subject','has_socialist_government':'socialist'}[k]]==(v=='yes')
@@ -96,6 +98,7 @@ def run(b,c,w,choice=0):
         elif k=='add_timed_idea':c['ideas'][get(v,'idea')]=int(get(v,'days'))
         elif k=='add_stability':c['stability']+=float(v)
         elif k=='add_power_balance_value':c['balance']+=float(get(v,'value'))
+        elif k=='set_power_balance':c['bop']=True
         elif k=='country_event':c['events'].append(get(v,'id'))
         elif k=='random_list':
             options=[]

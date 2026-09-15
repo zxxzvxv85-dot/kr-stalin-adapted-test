@@ -1,0 +1,209 @@
+# Spawn limited local volunteer formations on the Russian side of the border.
+
+RUS_rd_GEO_form_militia = {
+ if = {
+  limit = {
+   check_variable = { RUS_rd_GEO_militia_raised < 2 }
+   OR = {
+    AND = { NOT = { has_war_with = GEO } any_owned_state = { is_controlled_by = ROOT impassable = no any_neighbor_state = { is_controlled_by = GEO } } }
+    AND = { has_war_with = GEO GEO = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } } }
+   }
+  }
+  if = {
+   limit = { NOT = { has_template = "格鲁吉亚志愿民兵" } }
+   division_template = {
+    name = "格鲁吉亚志愿民兵"
+    is_locked = yes
+    regiments = {
+     militia = { x = 0 y = 0 }
+     militia = { x = 0 y = 1 }
+     militia = { x = 1 y = 0 }
+     militia = { x = 1 y = 1 }
+    }
+   }
+  }
+  if = {
+   limit = { has_war_with = GEO }
+   GEO = {
+    random_controlled_state = {
+     limit = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } }
+     create_unit = {
+      division = "division_template = \"格鲁吉亚志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+      owner = ROOT
+      allow_spawning_on_enemy_provs = yes
+      country_score = { base = 0 modifier = { tag = GEO add = 1000 } }
+      count = 1
+     }
+    }
+   }
+  }
+  else = {
+  random_owned_controlled_state = {
+   limit = { impassable = no any_neighbor_state = { is_controlled_by = GEO } }
+   create_unit = {
+    division = "division_template = \"格鲁吉亚志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+    owner = PREV
+    allow_spawning_on_enemy_provs = no
+    count = 1
+   }
+  }
+  }
+  add_to_variable = { RUS_rd_GEO_militia_raised = 1 }
+ }
+}
+
+RUS_rd_AZR_form_militia = {
+ if = {
+  limit = {
+   check_variable = { RUS_rd_AZR_militia_raised < 2 }
+   OR = {
+    AND = { NOT = { has_war_with = AZR } any_owned_state = { is_controlled_by = ROOT impassable = no any_neighbor_state = { is_controlled_by = AZR } } }
+    AND = { has_war_with = AZR AZR = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } } }
+   }
+  }
+  if = {
+   limit = { NOT = { has_template = "阿塞拜疆志愿民兵" } }
+   division_template = {
+    name = "阿塞拜疆志愿民兵"
+    is_locked = yes
+    regiments = {
+     militia = { x = 0 y = 0 }
+     militia = { x = 0 y = 1 }
+     militia = { x = 1 y = 0 }
+     militia = { x = 1 y = 1 }
+    }
+   }
+  }
+  if = {
+   limit = { has_war_with = AZR }
+   AZR = {
+    random_controlled_state = {
+     limit = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } }
+     create_unit = {
+      division = "division_template = \"阿塞拜疆志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+      owner = ROOT
+      allow_spawning_on_enemy_provs = yes
+      country_score = { base = 0 modifier = { tag = AZR add = 1000 } }
+      count = 1
+     }
+    }
+   }
+  }
+  else = {
+  random_owned_controlled_state = {
+   limit = { impassable = no any_neighbor_state = { is_controlled_by = AZR } }
+   create_unit = {
+    division = "division_template = \"阿塞拜疆志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+    owner = PREV
+    allow_spawning_on_enemy_provs = no
+    count = 1
+   }
+  }
+  }
+  add_to_variable = { RUS_rd_AZR_militia_raised = 1 }
+ }
+}
+
+RUS_rd_BLR_form_militia = {
+ if = {
+  limit = {
+   check_variable = { RUS_rd_BLR_militia_raised < 2 }
+   OR = {
+    AND = { NOT = { has_war_with = BLR } any_owned_state = { is_controlled_by = ROOT impassable = no any_neighbor_state = { is_controlled_by = BLR } } }
+    AND = { has_war_with = BLR BLR = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } } }
+   }
+  }
+  if = {
+   limit = { NOT = { has_template = "白俄罗斯志愿民兵" } }
+   division_template = {
+    name = "白俄罗斯志愿民兵"
+    is_locked = yes
+    regiments = {
+     militia = { x = 0 y = 0 }
+     militia = { x = 0 y = 1 }
+     militia = { x = 1 y = 0 }
+     militia = { x = 1 y = 1 }
+    }
+   }
+  }
+  if = {
+   limit = { has_war_with = BLR }
+   BLR = {
+    random_controlled_state = {
+     limit = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } }
+     create_unit = {
+      division = "division_template = \"白俄罗斯志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+      owner = ROOT
+      allow_spawning_on_enemy_provs = yes
+      country_score = { base = 0 modifier = { tag = BLR add = 1000 } }
+      count = 1
+     }
+    }
+   }
+  }
+  else = {
+  random_owned_controlled_state = {
+   limit = { impassable = no any_neighbor_state = { is_controlled_by = BLR } }
+   create_unit = {
+    division = "division_template = \"白俄罗斯志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+    owner = PREV
+    allow_spawning_on_enemy_provs = no
+    count = 1
+   }
+  }
+  }
+  add_to_variable = { RUS_rd_BLR_militia_raised = 1 }
+ }
+}
+
+RUS_rd_POL_form_militia = {
+ if = {
+  limit = {
+   check_variable = { RUS_rd_POL_militia_raised < 2 }
+   OR = {
+    AND = { NOT = { has_war_with = POL } any_owned_state = { is_controlled_by = ROOT impassable = no any_neighbor_state = { is_controlled_by = POL } } }
+    AND = { has_war_with = POL POL = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } } }
+   }
+  }
+  if = {
+   limit = { NOT = { has_template = "波兰志愿民兵" } }
+   division_template = {
+    name = "波兰志愿民兵"
+    is_locked = yes
+    regiments = {
+     militia = { x = 0 y = 0 }
+     militia = { x = 0 y = 1 }
+     militia = { x = 1 y = 0 }
+     militia = { x = 1 y = 1 }
+    }
+   }
+  }
+  if = {
+   limit = { has_war_with = POL }
+   POL = {
+    random_controlled_state = {
+     limit = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } }
+     create_unit = {
+      division = "division_template = \"波兰志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+      owner = ROOT
+      allow_spawning_on_enemy_provs = yes
+      country_score = { base = 0 modifier = { tag = POL add = 1000 } }
+      count = 1
+     }
+    }
+   }
+  }
+  else = {
+  random_owned_controlled_state = {
+   limit = { impassable = no any_neighbor_state = { is_controlled_by = POL } }
+   create_unit = {
+    division = "division_template = \"波兰志愿民兵\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+    owner = PREV
+    allow_spawning_on_enemy_provs = no
+    count = 1
+   }
+  }
+  }
+  add_to_variable = { RUS_rd_POL_militia_raised = 1 }
+ }
+}

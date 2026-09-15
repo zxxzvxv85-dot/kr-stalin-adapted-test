@@ -1,0 +1,487 @@
+RUS_Spreading_the_Revolution_decisions = {
+ RUS_rd_BAT_status = {
+  icon = GFX_decision_generic_operation
+  priority = 220
+  visible = { RUS_rd_BAT_page = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_rd_readonly always = no } }
+  cost = 0
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BAT_press = {
+  icon = GFX_decision_generic_operation
+  priority = 160
+  visible = { RUS_rd_BAT_page = yes  }
+  available = { RUS_rd_BAT_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_BAT_ready NOT = { has_country_flag = RUS_rd_BAT_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_unblocked NOT = { has_country_flag = RUS_rd_BAT_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_press_cooldown NOT = { has_country_flag = RUS_rd_BAT_press_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_room check_variable = { RUS_rd_BAT_stock < 3 } } }
+  custom_cost_text = RUS_rd_BAT_press_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_BAT_press_afford RUS_diplomacy_can_pay_25 = yes } }
+  fire_only_once = no
+  days_remove = 14
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_020 } RUS_rd_BAT_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = {  }
+   hidden_effect = { RUS_rd_BAT_press_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BAT_press_gain }
+   hidden_effect = { RUS_rd_BAT_press_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_BAT_press_active } RUS_rd_BAT_press_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BAT_unions = {
+  icon = GFX_decision_generic_operation
+  priority = 159
+  visible = { RUS_rd_BAT_page = yes  }
+  available = { RUS_rd_BAT_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_BAT_ready NOT = { has_country_flag = RUS_rd_BAT_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_unblocked NOT = { has_country_flag = RUS_rd_BAT_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_unions_cooldown NOT = { has_country_flag = RUS_rd_BAT_unions_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_unions_resource NOT = { check_variable = { RUS_rd_BAT_stock < 1 } } } BAT = { NOT = { has_idea = RUS_rd_transport_resistance } } BAT = { NOT = { has_idea = RUS_rd_port_boycott } } }
+  custom_cost_text = RUS_rd_BAT_unions_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_BAT_unions_afford RUS_diplomacy_can_pay_35 = yes } }
+  fire_only_once = no
+  days_remove = 21
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_020 } RUS_rd_BAT_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BAT_unions_spend }
+   hidden_effect = { RUS_rd_BAT_unions_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 80 = { BAT = { add_timed_idea = { idea = RUS_rd_transport_resistance days = 45 } } } 20 = { custom_effect_tooltip = RUS_rd_BAT_unions_exposed } } }
+   hidden_effect = { RUS_rd_BAT_unions_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_BAT_unions_active } RUS_rd_BAT_unions_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BAT_boycott = {
+  icon = GFX_decision_generic_operation
+  priority = 158
+  visible = { RUS_rd_BAT_page = yes  }
+  available = { RUS_rd_BAT_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_BAT_ready NOT = { has_country_flag = RUS_rd_BAT_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_unblocked NOT = { has_country_flag = RUS_rd_BAT_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_BAT_boycott_cooldown NOT = { has_country_flag = RUS_rd_BAT_boycott_cooldown } } has_war_with = BAT custom_trigger_tooltip = { tooltip = RUS_rd_BAT_boycott_resource NOT = { check_variable = { RUS_rd_BAT_stock < 2 } } } BAT = { NOT = { has_idea = RUS_rd_transport_resistance } } BAT = { NOT = { has_idea = RUS_rd_port_boycott } } }
+  custom_cost_text = RUS_rd_BAT_boycott_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_BAT_boycott_afford RUS_diplomacy_can_pay_40 = yes } }
+  fire_only_once = no
+  days_remove = 7
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_020 } RUS_rd_BAT_target_valid = yes has_war_with = BAT } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BAT_boycott_spend }
+   hidden_effect = { RUS_rd_BAT_boycott_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 70 = { BAT = { add_timed_idea = { idea = RUS_rd_port_boycott days = 30 } } } 30 = { custom_effect_tooltip = RUS_rd_BAT_boycott_exposed } } }
+   hidden_effect = { RUS_rd_BAT_boycott_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_BAT_boycott_active } RUS_rd_BAT_boycott_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_LIT_status = {
+  icon = GFX_decision_generic_operation
+  priority = 220
+  visible = { RUS_rd_LIT_page = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_rd_readonly always = no } }
+  cost = 0
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_LIT_press = {
+  icon = GFX_decision_generic_operation
+  priority = 160
+  visible = { RUS_rd_LIT_page = yes  }
+  available = { RUS_rd_LIT_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_LIT_ready NOT = { has_country_flag = RUS_rd_LIT_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_unblocked NOT = { has_country_flag = RUS_rd_LIT_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_press_cooldown NOT = { has_country_flag = RUS_rd_LIT_press_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_room check_variable = { RUS_rd_LIT_stock < 3 } } }
+  custom_cost_text = RUS_rd_LIT_press_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_LIT_press_afford RUS_diplomacy_can_pay_25 = yes } }
+  fire_only_once = no
+  days_remove = 14
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_020 } RUS_rd_LIT_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = {  }
+   hidden_effect = { RUS_rd_LIT_press_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_LIT_press_gain }
+   hidden_effect = { RUS_rd_LIT_press_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_LIT_press_active } RUS_rd_LIT_press_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_LIT_unions = {
+  icon = GFX_decision_generic_operation
+  priority = 159
+  visible = { RUS_rd_LIT_page = yes  }
+  available = { RUS_rd_LIT_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_LIT_ready NOT = { has_country_flag = RUS_rd_LIT_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_unblocked NOT = { has_country_flag = RUS_rd_LIT_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_unions_cooldown NOT = { has_country_flag = RUS_rd_LIT_unions_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_unions_resource NOT = { check_variable = { RUS_rd_LIT_stock < 1 } } } LIT = { NOT = { has_idea = RUS_rd_transport_resistance } } LIT = { NOT = { has_idea = RUS_rd_port_boycott } } }
+  custom_cost_text = RUS_rd_LIT_unions_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_LIT_unions_afford RUS_diplomacy_can_pay_35 = yes } }
+  fire_only_once = no
+  days_remove = 21
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_020 } RUS_rd_LIT_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_LIT_unions_spend }
+   hidden_effect = { RUS_rd_LIT_unions_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 80 = { LIT = { add_timed_idea = { idea = RUS_rd_transport_resistance days = 45 } } } 20 = { custom_effect_tooltip = RUS_rd_LIT_unions_exposed } } }
+   hidden_effect = { RUS_rd_LIT_unions_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_LIT_unions_active } RUS_rd_LIT_unions_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_LIT_boycott = {
+  icon = GFX_decision_generic_operation
+  priority = 158
+  visible = { RUS_rd_LIT_page = yes  }
+  available = { RUS_rd_LIT_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_LIT_ready NOT = { has_country_flag = RUS_rd_LIT_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_unblocked NOT = { has_country_flag = RUS_rd_LIT_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_LIT_boycott_cooldown NOT = { has_country_flag = RUS_rd_LIT_boycott_cooldown } } has_war_with = LIT custom_trigger_tooltip = { tooltip = RUS_rd_LIT_boycott_resource NOT = { check_variable = { RUS_rd_LIT_stock < 2 } } } LIT = { NOT = { has_idea = RUS_rd_transport_resistance } } LIT = { NOT = { has_idea = RUS_rd_port_boycott } } }
+  custom_cost_text = RUS_rd_LIT_boycott_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_LIT_boycott_afford RUS_diplomacy_can_pay_40 = yes } }
+  fire_only_once = no
+  days_remove = 7
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_020 } RUS_rd_LIT_target_valid = yes has_war_with = LIT } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_LIT_boycott_spend }
+   hidden_effect = { RUS_rd_LIT_boycott_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 70 = { LIT = { add_timed_idea = { idea = RUS_rd_port_boycott days = 30 } } } 30 = { custom_effect_tooltip = RUS_rd_LIT_boycott_exposed } } }
+   hidden_effect = { RUS_rd_LIT_boycott_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_LIT_boycott_active } RUS_rd_LIT_boycott_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_GEO_status = {
+  icon = GFX_decision_generic_operation
+  priority = 220
+  visible = { RUS_rd_GEO_page = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_rd_readonly always = no } }
+  cost = 0
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_GEO_stations = {
+  icon = GFX_decision_generic_operation
+  priority = 160
+  visible = { RUS_rd_GEO_page = yes  }
+  available = { RUS_rd_GEO_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_GEO_ready NOT = { has_country_flag = RUS_rd_GEO_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_unblocked NOT = { has_country_flag = RUS_rd_GEO_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_stations_cooldown NOT = { has_country_flag = RUS_rd_GEO_stations_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_room check_variable = { RUS_rd_GEO_stock < 3 } } }
+  custom_cost_text = RUS_rd_GEO_stations_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_GEO_stations_afford RUS_diplomacy_can_pay_30 = yes } NOT = { has_equipment = { support_equipment < 100 } } }
+  fire_only_once = no
+  days_remove = 21
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_022 } RUS_rd_GEO_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { add_equipment_to_stockpile = { type = support_equipment amount = -100 } }
+   hidden_effect = { RUS_rd_GEO_stations_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_GEO_stations_gain }
+   hidden_effect = { RUS_rd_GEO_stations_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_GEO_stations_active } RUS_rd_GEO_stations_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_GEO_militias = {
+  icon = GFX_decision_generic_operation
+  priority = 159
+  visible = { RUS_rd_GEO_page = yes  }
+  available = { RUS_rd_GEO_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_GEO_ready NOT = { has_country_flag = RUS_rd_GEO_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_unblocked NOT = { has_country_flag = RUS_rd_GEO_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_militias_cooldown NOT = { has_country_flag = RUS_rd_GEO_militias_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_militias_resource NOT = { check_variable = { RUS_rd_GEO_stock < 1 } } } GEO = { NOT = { has_idea = RUS_rd_mountain_security } } }
+  custom_cost_text = RUS_rd_GEO_militias_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_GEO_militias_afford RUS_diplomacy_can_pay_25 = yes } NOT = { has_equipment = { infantry_equipment < 500 } } }
+  fire_only_once = no
+  days_remove = 30
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_022 } RUS_rd_GEO_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { add_equipment_to_stockpile = { type = infantry_equipment amount = -500 } }
+   hidden_effect = { RUS_rd_GEO_militias_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 85 = { GEO = { add_timed_idea = { idea = RUS_rd_mountain_security days = 60 } } custom_effect_tooltip = RUS_rd_GEO_form_militia_tt } 15 = { custom_effect_tooltip = RUS_rd_GEO_militias_exposed } } }
+   hidden_effect = { RUS_rd_GEO_militias_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_GEO_militias_active } RUS_rd_GEO_militias_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_GEO_fuel = {
+  icon = GFX_decision_generic_operation
+  priority = 158
+  visible = { RUS_rd_GEO_page = yes  }
+  available = { RUS_rd_GEO_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_GEO_ready NOT = { has_country_flag = RUS_rd_GEO_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_unblocked NOT = { has_country_flag = RUS_rd_GEO_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_GEO_fuel_cooldown NOT = { has_country_flag = RUS_rd_GEO_fuel_cooldown } } has_war_with = GEO custom_trigger_tooltip = { tooltip = RUS_rd_GEO_fuel_resource NOT = { check_variable = { RUS_rd_GEO_stock < 1 } } } GEO = { NOT = { has_idea = RUS_rd_fuel_disruption } } }
+  custom_cost_text = RUS_rd_GEO_fuel_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_GEO_fuel_afford RUS_diplomacy_can_pay_40 = yes } }
+  fire_only_once = no
+  days_remove = 14
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_022 } RUS_rd_GEO_target_valid = yes has_war_with = GEO } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_GEO_fuel_spend }
+   hidden_effect = { RUS_rd_GEO_fuel_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 75 = { GEO = { add_timed_idea = { idea = RUS_rd_fuel_disruption days = 45 } } } 25 = { custom_effect_tooltip = RUS_rd_GEO_fuel_exposed } } }
+   hidden_effect = { RUS_rd_GEO_fuel_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_GEO_fuel_active } RUS_rd_GEO_fuel_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_AZR_status = {
+  icon = GFX_decision_generic_operation
+  priority = 220
+  visible = { RUS_rd_AZR_page = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_rd_readonly always = no } }
+  cost = 0
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_AZR_stations = {
+  icon = GFX_decision_generic_operation
+  priority = 160
+  visible = { RUS_rd_AZR_page = yes  }
+  available = { RUS_rd_AZR_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_AZR_ready NOT = { has_country_flag = RUS_rd_AZR_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_unblocked NOT = { has_country_flag = RUS_rd_AZR_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_stations_cooldown NOT = { has_country_flag = RUS_rd_AZR_stations_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_room check_variable = { RUS_rd_AZR_stock < 3 } } }
+  custom_cost_text = RUS_rd_AZR_stations_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_AZR_stations_afford RUS_diplomacy_can_pay_30 = yes } NOT = { has_equipment = { support_equipment < 100 } } }
+  fire_only_once = no
+  days_remove = 21
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_022 } RUS_rd_AZR_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { add_equipment_to_stockpile = { type = support_equipment amount = -100 } }
+   hidden_effect = { RUS_rd_AZR_stations_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_AZR_stations_gain }
+   hidden_effect = { RUS_rd_AZR_stations_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_AZR_stations_active } RUS_rd_AZR_stations_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_AZR_militias = {
+  icon = GFX_decision_generic_operation
+  priority = 159
+  visible = { RUS_rd_AZR_page = yes  }
+  available = { RUS_rd_AZR_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_AZR_ready NOT = { has_country_flag = RUS_rd_AZR_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_unblocked NOT = { has_country_flag = RUS_rd_AZR_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_militias_cooldown NOT = { has_country_flag = RUS_rd_AZR_militias_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_militias_resource NOT = { check_variable = { RUS_rd_AZR_stock < 1 } } } AZR = { NOT = { has_idea = RUS_rd_mountain_security } } }
+  custom_cost_text = RUS_rd_AZR_militias_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_AZR_militias_afford RUS_diplomacy_can_pay_25 = yes } NOT = { has_equipment = { infantry_equipment < 500 } } }
+  fire_only_once = no
+  days_remove = 30
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_022 } RUS_rd_AZR_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { add_equipment_to_stockpile = { type = infantry_equipment amount = -500 } }
+   hidden_effect = { RUS_rd_AZR_militias_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 85 = { AZR = { add_timed_idea = { idea = RUS_rd_mountain_security days = 60 } } custom_effect_tooltip = RUS_rd_AZR_form_militia_tt } 15 = { custom_effect_tooltip = RUS_rd_AZR_militias_exposed } } }
+   hidden_effect = { RUS_rd_AZR_militias_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_AZR_militias_active } RUS_rd_AZR_militias_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_AZR_fuel = {
+  icon = GFX_decision_generic_operation
+  priority = 158
+  visible = { RUS_rd_AZR_page = yes  }
+  available = { RUS_rd_AZR_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_AZR_ready NOT = { has_country_flag = RUS_rd_AZR_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_unblocked NOT = { has_country_flag = RUS_rd_AZR_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_AZR_fuel_cooldown NOT = { has_country_flag = RUS_rd_AZR_fuel_cooldown } } has_war_with = AZR custom_trigger_tooltip = { tooltip = RUS_rd_AZR_fuel_resource NOT = { check_variable = { RUS_rd_AZR_stock < 1 } } } AZR = { NOT = { has_idea = RUS_rd_fuel_disruption } } }
+  custom_cost_text = RUS_rd_AZR_fuel_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_AZR_fuel_afford RUS_diplomacy_can_pay_40 = yes } }
+  fire_only_once = no
+  days_remove = 14
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_022 } RUS_rd_AZR_target_valid = yes has_war_with = AZR } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_AZR_fuel_spend }
+   hidden_effect = { RUS_rd_AZR_fuel_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 75 = { AZR = { add_timed_idea = { idea = RUS_rd_fuel_disruption days = 45 } } } 25 = { custom_effect_tooltip = RUS_rd_AZR_fuel_exposed } } }
+   hidden_effect = { RUS_rd_AZR_fuel_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_AZR_fuel_active } RUS_rd_AZR_fuel_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BLR_status = {
+  icon = GFX_decision_generic_operation
+  priority = 220
+  visible = { RUS_rd_BLR_page = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_rd_readonly always = no } }
+  cost = 0
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BLR_supplies = {
+  icon = GFX_decision_generic_operation
+  priority = 160
+  visible = { RUS_rd_BLR_page = yes  }
+  available = { RUS_rd_BLR_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_BLR_ready NOT = { has_country_flag = RUS_rd_BLR_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_unblocked NOT = { has_country_flag = RUS_rd_BLR_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_supplies_cooldown NOT = { has_country_flag = RUS_rd_BLR_supplies_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_room check_variable = { RUS_rd_BLR_stock < 100 } } }
+  custom_cost_text = RUS_rd_BLR_supplies_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_BLR_supplies_afford RUS_diplomacy_can_pay_25 = yes } NOT = { has_equipment = { infantry_equipment < 500 } } NOT = { has_equipment = { support_equipment < 50 } } }
+  fire_only_once = no
+  days_remove = 21
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_036 } RUS_rd_BLR_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { add_equipment_to_stockpile = { type = infantry_equipment amount = -500 } add_equipment_to_stockpile = { type = support_equipment amount = -50 } }
+   hidden_effect = { RUS_rd_BLR_supplies_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BLR_supplies_gain custom_effect_tooltip = RUS_rd_BLR_form_militia_tt }
+   hidden_effect = { RUS_rd_BLR_supplies_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_BLR_supplies_active } RUS_rd_BLR_supplies_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BLR_couriers = {
+  icon = GFX_decision_generic_operation
+  priority = 159
+  visible = { RUS_rd_BLR_page = yes  }
+  available = { RUS_rd_BLR_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_BLR_ready NOT = { has_country_flag = RUS_rd_BLR_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_unblocked NOT = { has_country_flag = RUS_rd_BLR_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_couriers_cooldown NOT = { has_country_flag = RUS_rd_BLR_couriers_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_couriers_resource NOT = { check_variable = { RUS_rd_BLR_stock < 10 } } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_couriers_network NOT = { has_country_flag = RUS_rd_BLR_couriers_ready } } }
+  custom_cost_text = RUS_rd_BLR_couriers_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_BLR_couriers_afford RUS_diplomacy_can_pay_20 = yes } }
+  fire_only_once = no
+  days_remove = 14
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_036 } RUS_rd_BLR_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BLR_couriers_spend }
+   hidden_effect = { RUS_rd_BLR_couriers_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BLR_couriers_network_reward }
+   hidden_effect = { RUS_rd_BLR_couriers_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_BLR_couriers_active } RUS_rd_BLR_couriers_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BLR_raids = {
+  icon = GFX_decision_generic_operation
+  priority = 158
+  visible = { RUS_rd_BLR_page = yes OR = { has_country_flag = RUS_rd_BLR_raids_active NOT = { has_country_flag = RUS_rd_BLR_couriers_ready } } }
+  available = { RUS_rd_BLR_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_BLR_ready NOT = { has_country_flag = RUS_rd_BLR_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_unblocked NOT = { has_country_flag = RUS_rd_BLR_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_raids_cooldown NOT = { has_country_flag = RUS_rd_BLR_raids_cooldown } } has_war_with = BLR custom_trigger_tooltip = { tooltip = RUS_rd_BLR_raids_resource NOT = { check_variable = { RUS_rd_BLR_stock < 30 } } } BLR = { NOT = { has_idea = RUS_rd_convoy_raids } } }
+  custom_cost_text = RUS_rd_BLR_raids_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_BLR_raids_afford RUS_diplomacy_can_pay_35 = yes } }
+  fire_only_once = no
+  days_remove = 14
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_036 } RUS_rd_BLR_target_valid = yes has_war_with = BLR } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BLR_raids_spend }
+   hidden_effect = { RUS_rd_BLR_raids_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 75 = { BLR = { add_timed_idea = { idea = RUS_rd_convoy_raids days = 30 } } custom_effect_tooltip = RUS_rd_forts_damage_tt } 25 = { custom_effect_tooltip = RUS_rd_BLR_raids_exposed } } }
+   hidden_effect = { RUS_rd_BLR_raids_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_BLR_raids_active } RUS_rd_BLR_raids_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_BLR_raids_fast = {
+  icon = GFX_decision_generic_operation
+  priority = 157
+  visible = { RUS_rd_BLR_page = yes OR = { has_country_flag = RUS_rd_BLR_raids_fast_active has_country_flag = RUS_rd_BLR_couriers_ready } }
+  available = { RUS_rd_BLR_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_BLR_ready NOT = { has_country_flag = RUS_rd_BLR_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_unblocked NOT = { has_country_flag = RUS_rd_BLR_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_BLR_raids_fast_cooldown NOT = { has_country_flag = RUS_rd_BLR_raids_cooldown } } has_war_with = BLR custom_trigger_tooltip = { tooltip = RUS_rd_BLR_raids_fast_resource NOT = { check_variable = { RUS_rd_BLR_stock < 30 } } } BLR = { NOT = { has_idea = RUS_rd_convoy_raids } } }
+  custom_cost_text = RUS_rd_BLR_raids_fast_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_BLR_raids_fast_afford RUS_diplomacy_can_pay_35 = yes } }
+  fire_only_once = no
+  days_remove = 7
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_036 } RUS_rd_BLR_target_valid = yes has_war_with = BLR } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_BLR_raids_fast_spend custom_effect_tooltip = RUS_rd_BLR_raids_fast_consume_network }
+   hidden_effect = { RUS_rd_BLR_raids_fast_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 90 = { BLR = { add_timed_idea = { idea = RUS_rd_convoy_raids days = 30 } } custom_effect_tooltip = RUS_rd_forts_damage_tt } 10 = { custom_effect_tooltip = RUS_rd_BLR_raids_fast_exposed } } }
+   hidden_effect = { RUS_rd_BLR_raids_fast_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_BLR_raids_fast_active } RUS_rd_BLR_raids_fast_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_POL_status = {
+  icon = GFX_decision_generic_operation
+  priority = 220
+  visible = { RUS_rd_POL_page = yes }
+  available = { custom_trigger_tooltip = { tooltip = RUS_rd_readonly always = no } }
+  cost = 0
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_POL_contact = {
+  icon = GFX_decision_generic_operation
+  priority = 160
+  visible = { RUS_rd_POL_page = yes  }
+  available = { RUS_rd_POL_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_POL_ready NOT = { has_country_flag = RUS_rd_POL_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unblocked NOT = { has_country_flag = RUS_rd_POL_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_contact_cooldown NOT = { has_country_flag = RUS_rd_POL_contact_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_room check_variable = { RUS_rd_POL_stock < 100 } } }
+  custom_cost_text = RUS_rd_POL_contact_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_contact_afford RUS_diplomacy_can_pay_25 = yes } }
+  fire_only_once = no
+  days_remove = 21
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_021 } RUS_rd_POL_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = {  }
+   hidden_effect = { RUS_rd_POL_contact_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_POL_contact_gain }
+   hidden_effect = { RUS_rd_POL_contact_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_POL_contact_active } RUS_rd_POL_contact_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_POL_training = {
+  icon = GFX_decision_generic_operation
+  priority = 159
+  visible = { RUS_rd_POL_page = yes  }
+  available = { RUS_rd_POL_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_POL_ready NOT = { has_country_flag = RUS_rd_POL_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unblocked NOT = { has_country_flag = RUS_rd_POL_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_training_cooldown NOT = { has_country_flag = RUS_rd_POL_training_cooldown } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_room check_variable = { RUS_rd_POL_stock < 100 } } }
+  custom_cost_text = RUS_rd_POL_training_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_training_afford RUS_diplomacy_can_pay_35 = yes } NOT = { has_equipment = { infantry_equipment < 500 } } }
+  fire_only_once = no
+  days_remove = 30
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_021 } RUS_rd_POL_target_valid = yes } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { add_equipment_to_stockpile = { type = infantry_equipment amount = -500 } }
+   hidden_effect = { RUS_rd_POL_training_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 85 = { custom_effect_tooltip = RUS_rd_POL_training_gain army_experience = 5 custom_effect_tooltip = RUS_rd_POL_form_militia_tt } 15 = { custom_effect_tooltip = RUS_rd_POL_training_exposed } } }
+   hidden_effect = { RUS_rd_POL_training_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_POL_training_active } RUS_rd_POL_training_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_POL_cooperation = {
+  icon = GFX_decision_generic_operation
+  priority = 158
+  visible = { RUS_rd_POL_page = yes  }
+  available = { RUS_rd_POL_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_POL_ready NOT = { has_country_flag = RUS_rd_POL_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unblocked NOT = { has_country_flag = RUS_rd_POL_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_cooperation_cooldown NOT = { has_country_flag = RUS_rd_POL_cooperation_cooldown } } has_war_with = POL custom_trigger_tooltip = { tooltip = RUS_rd_POL_cooperation_resource NOT = { check_variable = { RUS_rd_POL_stock < 60 } } } POL = { NOT = { has_idea = RUS_rd_polish_noncooperation } } }
+  custom_cost_text = RUS_rd_POL_cooperation_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_cooperation_afford RUS_diplomacy_can_pay_40 = yes } }
+  fire_only_once = no
+  days_remove = 10
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_021 } RUS_rd_POL_target_valid = yes has_war_with = POL } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_POL_cooperation_spend }
+   hidden_effect = { RUS_rd_POL_cooperation_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 80 = { POL = { add_timed_idea = { idea = RUS_rd_polish_noncooperation days = 30 } } } 20 = { custom_effect_tooltip = RUS_rd_POL_cooperation_exposed } } }
+   hidden_effect = { RUS_rd_POL_cooperation_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_POL_cooperation_active } RUS_rd_POL_cooperation_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+}
