@@ -16,6 +16,7 @@ def parse(text):
   return nodes
  out=block();assert i==len(ts);return out
 def get(ns,key):return next(v for k,op,v in ns if k==key)
+assert '>=' not in (R/'common/scripted_effects/RUS_tesla_doctrine_effects.txt').read_text(), 'HOI4 rejects >= in this trigger'
 fx=get(parse((R/'common/scripted_effects/RUS_tesla_doctrine_effects.txt').read_text()),'RUS_tesla_doctrine_daily_tick')
 tracks=['armor','combat_support','operations']
 mios=['RUS_tstz_organisation','RUS_obukhov_organisation','RUS_amo_organisation']

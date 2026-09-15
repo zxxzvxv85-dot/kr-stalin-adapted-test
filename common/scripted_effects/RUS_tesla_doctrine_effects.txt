@@ -4,7 +4,7 @@ RUS_tesla_doctrine_daily_tick = {
 	if = {
 		limit = {
 			has_country_flag = RUS_tesla_doctrine_armor_1
-			has_army_experience >= 0.1
+			NOT = { has_army_experience < 0.1 }
 			has_subdoctrine_in_track = armor
 			NOT = { has_completed_track = armor }
 			mio:RUS_tstz_organisation = {
@@ -31,7 +31,7 @@ RUS_tesla_doctrine_daily_tick = {
 	if = {
 		limit = {
 			has_country_flag = RUS_tesla_doctrine_combat_support_1
-			has_army_experience >= 0.1
+			NOT = { has_army_experience < 0.1 }
 			has_subdoctrine_in_track = combat_support
 			NOT = { has_completed_track = combat_support }
 			mio:RUS_obukhov_organisation = {
@@ -58,7 +58,7 @@ RUS_tesla_doctrine_daily_tick = {
 	if = {
 		limit = {
 			has_country_flag = RUS_tesla_doctrine_operations_1
-			has_army_experience >= 0.1
+			NOT = { has_army_experience < 0.1 }
 			has_subdoctrine_in_track = operations
 			NOT = { has_completed_track = operations }
 			mio:RUS_amo_organisation = {
