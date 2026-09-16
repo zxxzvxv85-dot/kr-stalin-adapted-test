@@ -61,7 +61,7 @@ test('Balkan countries create separate orders without increasing total procureme
  for(const tag of ['ser','alb','bul'])assert.equal(val(c,tag+'_quantity'),1);
  assert.deepEqual(c.arrays.RUS_nat_foreign_order_rows,[0,1,2,3,4,5,8,9]);
  const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
- const before=val(c,'ser_accept');exec(get(get(gui,'effects'),'card_order_5_switch_click'),c);assert.equal(val(c,'ser_accept'),1-before);
+ const before=val(c,'ser_accept');exec(get(get(get(get(parse(read('common/scripted_guis/RUS_agriculture_order_panels.txt')),'scripted_gui'),'RUS_agriculture_foreign_panel'),'effects'),'card_order_5_switch_click'),c);assert.equal(val(c,'ser_accept'),1-before);
  assert.equal(val(c,'alb_accept'),1);assert.equal(val(c,'bul_accept'),1);assert.equal(val(c,'generic_accept'),1);
  c.world={};run(c,'refresh');assert.equal(val(c,'ser_quantity'),1);
  run(c,'start_quarter');for(const tag of balkanTags)assert.equal(val(c,tag.toLowerCase()+'_quantity'),0);
