@@ -1,0 +1,20 @@
+# Russia-only unlock path; preserve original focus and sabot research prerequisites.
+RUS_refresh_special_tank_modules = {
+ if = {
+  limit = { tag = RUS }
+  if = {
+   limit = {
+    has_tech = RUS_fr_unlock_stabilizer
+    NOT = { has_tech = RUS_unlock_special_stabilizer }
+   }
+   set_technology = { RUS_unlock_special_stabilizer = 1 popup = no }
+  }
+  if = {
+   limit = {
+    has_tech = sp_advance_sabot_shells
+    NOT = { has_tech = RUS_unlock_special_auto_loader }
+   }
+   set_technology = { RUS_unlock_special_auto_loader = 1 popup = no }
+  }
+ }
+}
