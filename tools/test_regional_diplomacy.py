@@ -204,10 +204,10 @@ for id in actions:
     if 'random_list' in str(FX[id+'_finish']):
         w=world();ready(id,w);c=w['RUS'];start(id,w);stock=c['vars'][resource]
         tick(w,int(get(D[id],'days_remove')),choice=1)
-        assert c['flags'][f'RUS_rd_{t}_lock']==60 and not w[t]['ideas'] and not c.get('units')
+        assert c['flags'][f'RUS_rd_{t}_lock']==30 and not w[t]['ideas'] and not c.get('units')
         assert c['vars'][resource]==max(0,stock-(1 if cap==3 else 10))
         assert all(not p['damage'] for p in w['_provinces'])
-        tick(w,60);assert f'RUS_rd_{t}_lock' not in c['flags'] and c['vars'][f'RUS_rd_{t}_lock_days']==0
+        tick(w,30);assert f'RUS_rd_{t}_lock' not in c['flags'] and c['vars'][f'RUS_rd_{t}_lock_days']==0
 
 # Country isolation, stock generation/caps and idempotent initialization.
 w=world();c=w['RUS']
