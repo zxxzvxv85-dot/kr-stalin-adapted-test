@@ -59,8 +59,9 @@ run(fx,'RUS',techs);assert len(EVENTS)==2
 print('Notification checks passed: one per module, including previously unlocked saves.')
 
 # The local artillery file masks KR's file: verify the project-unlocked node still exists locally.
-artillery=(R/'common/technologies/artillery.txt').read_text()
+artillery=(R.parent/'1521695605/common/technologies/artillery.txt').read_text(encoding='utf-8-sig')
+assert not (R/'common/technologies/artillery.txt').exists(), 'Do not mask the upstream artillery tree'
 assert len(re.findall(r'^\s*sp_advance_sabot_shells\s*=\s*{',artillery,re.M))==1
 assert 'leads_to_tech = sp_advance_sabot_shells' in artillery
 assert 'is_special_project_completed = sp:sp_land_large_caliber_kinetic_energy_sabot' in artillery
-print('Special-project research node and incoming technology path are present in the overriding artillery file.')
+print('Special-project research node and incoming technology path are present in the upstream artillery file; no local tree override remains.')
