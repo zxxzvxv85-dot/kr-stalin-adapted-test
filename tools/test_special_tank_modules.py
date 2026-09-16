@@ -68,3 +68,7 @@ assert len(re.findall(r'^\s*sp_advance_sabot_shells\s*=\s*{',artillery,re.M))==1
 assert 'leads_to_tech = sp_advance_sabot_shells' in artillery
 assert 'is_special_project_completed = sp:sp_land_large_caliber_kinetic_energy_sabot' in artillery
 print('Special-project research node and incoming technology path are present in the upstream artillery file; no local tree override remains.')
+
+focus=(R/"common/national_focus/RUS focus (Russia).txt").read_text(encoding="utf-8-sig")
+assert re.search(r"set_technology = \{ RUS_fr_unlock_stabilizer = 1 popup = no \}\s*hidden_effect = \{ RUS_refresh_special_tank_modules = yes \}",focus)
+print("Stabilizer refresh executes directly after its focus prerequisite is granted.")
