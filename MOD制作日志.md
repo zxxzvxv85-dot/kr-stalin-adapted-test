@@ -2163,3 +2163,9 @@ mio:RUS_example_organization = {
 
 - 原生子界面挂接后未采用根窗口的 403 像素偏移，导致列表出现在顶部。改为零坐标透明根容器，在内部用独立 viewport 设置 x=10、y=403、482×156 的滚动区，保留根 visible 控制。
 - 补充零坐标根与内部视口坐标检查，跨页互斥、行显示、三语言布局及 GUI/结构检查通过。仍待重启确认原生定位。
+
+
+### 2026-09-17 修正农业订单父窗口挂接
+
+- 原生日志明确报 Parent window for RUS_agriculture_domestic_panel / foreign_panel is not found，说明 parent_scripted_gui 无法解析决议类别实例。改用 KR 现有子界面的 parent_window_name 挂接方式，在农业主窗口内建立专用锚点 RUS_agriculture_order_anchor。
+- 保留零坐标子根和内部 403 像素视口偏移；增加锚点存在与 parent_window_name 对应检查。可见性、坐标、三语言布局及脚本结构检查通过，原生父窗口解析和关闭决议时同步隐藏仍待重启实测。

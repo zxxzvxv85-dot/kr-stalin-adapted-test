@@ -158,7 +158,7 @@ for i,c in enumerate(C):
 txt('nat_report_supply','RUS_dash_report_supply',22,494,458,25)
 txt('nat_report_pp','RUS_dash_report_pp',22,524,458,25)
 txt('nat_empty_report','RUS_nat_empty_report',30,250,442,75)
-g.append('}');g.extend(browser_windows);g.append(browser_entry);g.append('}')
+g.append('containerWindowType = { name = "RUS_agriculture_order_anchor" position = { x = 0 y = 0 } size = { width = 502 height = 625 } }');g.append('}');g.extend(browser_windows);g.append(browser_entry);g.append('}')
 (R/'interface/RUS_national_agriculture.gui').write_text('\n'.join(g)+'\n',encoding='utf-8')
 # Drop the rejected dashboard's cosmetic trigger block, preserve all original actions.
 p=R/'common/scripted_guis/RUS_national_agriculture.txt';s=p.read_text(encoding='utf-8-sig');s=re.sub(r'# (?:DASHBOARD|CARDS) BEGIN\n.*?# (?:DASHBOARD|CARDS) END\n','',s,flags=re.S)
@@ -232,7 +232,7 @@ for buyer in ['ser','rom','gre','alb','bul']:
 children=['scripted_gui = {']
 for part in ['domestic','foreign']:
  test='check_variable = { RUS_nat_order_category < 1 }' if part=='domestic' else 'check_variable = { RUS_nat_order_category = 1 }'
- children.append(f'RUS_agriculture_{part}_panel = {{ context_type = player_context parent_scripted_gui = RUS_national_agriculture_gui window_name = "card_orders_{part}_scroll" dirty = global.RUS_agri_management_update ai_enabled = {{ always = no }} visible = {{ has_country_flag = RUS_nat_enabled check_variable = {{ RUS_nat_page = 3 }} '+test+' }')
+ children.append(f'RUS_agriculture_{part}_panel = {{ context_type = player_context parent_window_name = RUS_agriculture_order_anchor window_name = "card_orders_{part}_scroll" dirty = global.RUS_agri_management_update ai_enabled = {{ always = no }} visible = {{ has_country_flag = RUS_nat_enabled check_variable = {{ RUS_nat_page = 3 }} '+test+' }')
  if part=='foreign':
   children.append('dynamic_lists = { card_foreign_orders_grid = { array = RUS_nat_foreign_order_rows value = RUS_nat_order_row index = RUS_nat_order_index change_scope = no entry_container = RUS_agriculture_foreign_order_entry } }')
   children.append('triggers = {'+'\n'.join(t for t in tr if re.match(r'card_order_\d+_|card_no_foreign_orders_',t))+'}')

@@ -69,7 +69,7 @@ console.log('Card left/right click: five crops, zero/cap boundaries and locked p
 const mainWindow=get(get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes'),'containerWindowType');
 assert.ok(!mainWindow.some(n=>n.key==='containerWindowType'&&/card_orders_.*_scroll/.test(get(n.value,'name'))),'Native scroll backgrounds must not be nested unconditionally in the main page');
 for(const part of ['domestic','foreign']){
- const panel=get(panels,`RUS_agriculture_${part}_panel`);assert.equal(get(panel,'parent_scripted_gui'),'RUS_national_agriculture_gui');
+ const panel=get(panels,`RUS_agriculture_${part}_panel`);assert.equal(get(panel,'parent_window_name'),'RUS_agriculture_order_anchor');assert.equal(get(panel,'parent_scripted_gui'),undefined);assert.ok(mainWindow.some(n=>n.key==='containerWindowType'&&get(n.value,'name')==='RUS_agriculture_order_anchor'));
  for(let page=0;page<=4;page++)for(let category=0;category<=1;category++){
   const c=country();c.flags.RUS_nat_enabled=true;c.vars.RUS_nat_page=page;c.vars.RUS_nat_order_category=category;
   assert.equal(check(get(panel,'visible'),c),page===3&&category===(part==='foreign'?1:0));

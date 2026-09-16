@@ -1,7 +1,7 @@
 scripted_gui = {
-RUS_agriculture_domestic_panel = { context_type = player_context parent_scripted_gui = RUS_national_agriculture_gui window_name = "card_orders_domestic_scroll" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_page = 3 } check_variable = { RUS_nat_order_category < 1 } }
+RUS_agriculture_domestic_panel = { context_type = player_context parent_window_name = RUS_agriculture_order_anchor window_name = "card_orders_domestic_scroll" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_page = 3 } check_variable = { RUS_nat_order_category < 1 } }
 }
-RUS_agriculture_foreign_panel = { context_type = player_context parent_scripted_gui = RUS_national_agriculture_gui window_name = "card_orders_foreign_scroll" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_page = 3 } check_variable = { RUS_nat_order_category = 1 } }
+RUS_agriculture_foreign_panel = { context_type = player_context parent_window_name = RUS_agriculture_order_anchor window_name = "card_orders_foreign_scroll" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_page = 3 } check_variable = { RUS_nat_order_category = 1 } }
 dynamic_lists = { card_foreign_orders_grid = { array = RUS_nat_foreign_order_rows value = RUS_nat_order_row index = RUS_nat_order_index change_scope = no entry_container = RUS_agriculture_foreign_order_entry } }
 triggers = {card_no_foreign_orders_visible = { check_variable = { RUS_nat_foreign_order_count = 0 } }
 card_order_0_crop_wheat_visible = { check_variable = { RUS_nat_order_row = 0 } check_variable = { RUS_nat_generic_crop = 1 } }
