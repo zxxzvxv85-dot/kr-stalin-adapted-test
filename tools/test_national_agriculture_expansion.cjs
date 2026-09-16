@@ -44,4 +44,59 @@ test('4000 self-produced promise and 5000 warehouse preserve capacity',()=>{
  set(c,'requested',10);run(c,'set_factories');set(c,'installed',400);set(c,'machine_stock',5000);const before=val(c,'produced');day(c);near(val(c,'produced'),before);
  set(c,'machine_stock',4999.9);day(c);near(val(c,'machine_stock'),5000);near(val(c,'produced'),before+.1);
 });
+const balkanTags=['SER','ROM','GRE','ALB','BUL'];
+const buyers=(c,tags=balkanTags)=>{
+ c.world=Object.fromEntries(tags.map(tag=>{const buyer=country();buyer.id=tag;buyer.flags.KR_is_socialist=true;return [tag,buyer];}));
+};
+test('Balkan countries create separate orders without increasing total procurement',()=>{
+ for(const enabled of [false,true])for(const focus of [false,true]){
+  const c=enabled?fresh():country();buyers(c);if(focus)c.focuses.push('RUS_future_foreign_019');run(c,'draw_orders');
+  assert.equal(val(c,'generic_quantity'),0);
+  for(const tag of balkanTags)assert.equal(val(c,tag.toLowerCase()+'_quantity'),enabled&&focus?1:0);
+ }
+ const c=fresh();buyers(c);c.focuses.push('RUS_future_foreign_002','RUS_future_foreign_017','RUS_future_foreign_019');c.countries=['FRA','ENG'];
+ delete c.world.ROM.flags.KR_is_socialist;c.world.GRE.exists=false;run(c,'draw_orders');run(c,'refresh');
+ assert.equal(val(c,'balkan_order_count'),3);assert.equal(val(c,'rom_quantity'),0);assert.equal(val(c,'gre_quantity'),0);
+ assert.ok(val(c,'generic_quantity')>=2&&val(c,'generic_quantity')<=4);
+ for(const tag of ['ser','alb','bul'])assert.equal(val(c,tag+'_quantity'),1);
+ assert.deepEqual(c.arrays.RUS_nat_foreign_order_rows,[0,1,2,3,4,5,8,9]);
+ const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
+ const before=val(c,'ser_accept');exec(get(get(gui,'effects'),'card_order_5_switch_click'),c);assert.equal(val(c,'ser_accept'),1-before);
+ assert.equal(val(c,'alb_accept'),1);assert.equal(val(c,'bul_accept'),1);assert.equal(val(c,'generic_accept'),1);
+ c.world={};run(c,'refresh');assert.equal(val(c,'ser_quantity'),1);
+ run(c,'start_quarter');for(const tag of balkanTags)assert.equal(val(c,tag.toLowerCase()+'_quantity'),0);
+});
+test('Independent shipments respect domestic reserves and never pay twice',()=>{
+ const c=fresh();buyers(c);c.focuses.push('RUS_future_foreign_019');run(c,'draw_orders');
+ for(const tag of balkanTags)set(c,tag.toLowerCase()+'_crop',1);
+ set(c,'actual',1);for(const g of ['food','beet','textile'])set(c,g+'_ratio',1);
+ set(c,'food_reserve',8);set(c,'food_left',12);set(c,'wheat_work',12);c.vars.RUS_agri_wheat_capacity=100;c.vars.RUS_agri_wheat_market=0;
+ set(c,'ser_accept',0);run(c,'trade');assert.equal(val(c,'ser_shipped'),0);assert.equal(val(c,'income'),4000);assert.equal(val(c,'wheat_work'),8);
+ for(const tag of ['rom','gre','alb','bul'])assert.equal(val(c,tag+'_shipped'),1);
+ run(c,'trade');assert.equal(val(c,'income'),0);
+ set(c,'ser_accept',1);run(c,'trade');assert.equal(val(c,'ser_shipped'),0);
+ set(c,'food_left',9);set(c,'wheat_work',9);run(c,'trade');assert.equal(val(c,'income'),1000);assert.equal(val(c,'ser_shipped'),1);assert.equal(val(c,'wheat_work'),8);
+ run(c,'trade');assert.equal(val(c,'income'),0);
+ const settled=fresh();buyers(settled);settled.focuses.push('RUS_future_foreign_019');run(settled,'draw_orders');
+ for(const tag of balkanTags)set(settled,tag.toLowerCase()+'_crop',1);
+ for(const crop of crops){settled.vars['RUS_agri_'+crop+'_investment']=0;set(settled,crop+'_stock',30);}
+ set(settled,'elapsed',92);set(settled,'coverage_sum',92);run(settled,'settle');assert.equal(val(settled,'last_crop_orders'),5);
+ const earned=settled.surplus;run(settled,'settle');assert.equal(settled.surplus,earned);
+});
+test('Balkan order generator and three locales preserve the implemented order contract',()=>{
+ const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+ const root=path.resolve(__dirname,'..'),outputs=new Map();
+ const fakeFs={...fs,mkdirSync(){},writeFileSync(file,text){outputs.set(path.relative(root,file).replaceAll('\\','/'),text);}};
+ vm.runInNewContext(read('tools/generate_national_agriculture.cjs'),{__dirname,require:id=>id==='node:fs'?fakeFs:require(id),console:{log(){}}});
+ const generated=get(parse(outputs.get('common/scripted_effects/RUS_national_agriculture_effects.txt')),'RUS_nat_draw_orders');
+ assert.deepEqual(generated,effects.get('RUS_nat_draw_orders'));
+ for(const language of ['simp_chinese','english','russian']){
+  const file=`localisation/${language}/RUS_national_agriculture_l_${language}.yml`,text=read(file),keys=[...text.matchAll(/^\s+(\S+):\d*\s+"/gm)].map(m=>m[1]);
+  assert.equal(text.charCodeAt(0),0xfeff);assert.equal(keys.length,new Set(keys).size);assert.ok(!text.includes('\ufffd'));
+  for(const key of ['RUS_nat_generic_order','RUS_nat_balkan_order','RUS_nat_joint_order','RUS_nat_order_generic']){
+   const pattern=new RegExp('^ '+key+':.*$','m');assert.equal(text.match(pattern)[0],outputs.get(file).match(pattern)[0]);
+  }
+  assert.ok(text.match(/^ RUS_nat_tab_2_tt:.*$/m)[0].includes(outputs.get(file).match(/^ RUS_nat_tab_2_tt:.*$/m)[0].split('\\n\\n£RUS_nat_text_export£').at(-1)));
+ }
+});
 console.log(count+' expansion regression groups passed. Engine save/load QA remains outstanding.');

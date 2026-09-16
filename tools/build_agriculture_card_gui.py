@@ -143,17 +143,9 @@ for i,(name,value,sprite,tip) in enumerate([('card_reserve_zero',0,'reserve_0',z
  button(name,sprite,x,299,tip=tip,p=3);txt('card_reserve_'+str(i),label('reserve_num_'+str(i),str(value) if value!=.5 else '0.5'),x+45,319,53,40,3,'hoi_24header')
  img('card_reserve_selected_'+str(i),'reserve_selected',x,299,3,f'check_variable = {{ RUS_nat_reserve = {value} }}')
 txt('card_reserve_label',label('reserve',['保留\\n储备','Keep\\nreserve','Резерв']),10,312,66,42,3)
-for i,o in enumerate(['generic','fra','eng']):
- x=10+i*164;button('nat_accept_'+o,'order_'+o,x,370,tip='RUS_nat_order_'+o)
- txt('card_order_title_'+o,label('buyer_'+o,{'generic':['一般订单','General','Общий'],'fra':['法兰西','France','Франция'],'eng':['不列颠','Britain','Британия']}[o]),x+8,383,138,p=3)
- for j,c in enumerate(C):
-  n=f'card_order_{o}_{c}';g.append(f'iconType = {{ name = "{n}" position = {{ x = {x+48} y = 407 }} spriteType = "GFX_RUS_agri_crop_{c}" scale = 0.85 alwaystransparent = yes }}');visible(n,3,f'check_variable = {{ RUS_nat_{o}_crop = {j+1} }}')
- txt('nat_order_'+o,label('order_'+o,f'× §Y[?RUS_nat_{o}_quantity|0]§!'),x+7,459,140,23)
- txt('nat_order_rank_'+o,label('accepted_'+o,f'[GetRUSNatAccept{o}] · §Y[?RUS_nat_{o}_priority|0]§!'),x+7,481,140,21)
-for i,o in enumerate(['fra','eng']):
- x=10+i*248;button('nat_maccept_'+o,'morder_'+o,x,512,tip='RUS_nat_morder_'+o)
- txt('nat_morder_'+o,label('machine_order_'+o,[f'{"法" if o=="fra" else "英"} · 农机 §Y[?RUS_nat_{o}_machine_quantity|0]§!\\n[GetRUSNatMachineAccept{o}]',f'{o.upper()} · §Y[?RUS_nat_{o}_machine_quantity|0]§! machines\\n[GetRUSNatMachineAccept{o}]',f'{o.upper()} · §Y[?RUS_nat_{o}_machine_quantity|0]§! машин\\n[GetRUSNatMachineAccept{o}]']),x+56,520,171,43)
-button('nat_priority','priority',10,565,label('priority',['调整优先级','Priority','Приоритет']),'RUS_nat_priority')
+exec((R/'tools/agriculture_order_browser.py').read_text(encoding='utf-8'))
+button('card_order_priority','priority',10,565,label('priority',['调整优先级','Priority','Приоритет']),'RUS_nat_priority',3)
+txt('card_order_scroll_hint',label('scroll_hint',['滚轮浏览订单','Scroll to browse orders','Прокрутите список']),132,574,232,20,3)
 button('nat_ledger','ledger',382,565,'RUS_nat_ledger','RUS_nat_ledger',3)
 # Report: live crop chart, live income and reward counters.
 img('card_report_panel','report_panel',10,185,4,tip=label('report_tip','$RUS_nat_report_weather$\\n$RUS_nat_report_shortage$\\n$RUS_nat_report_orders$'))
@@ -166,11 +158,12 @@ for i,c in enumerate(C):
 txt('nat_report_supply','RUS_dash_report_supply',22,494,458,25)
 txt('nat_report_pp','RUS_dash_report_pp',22,524,458,25)
 txt('nat_empty_report','RUS_nat_empty_report',30,250,442,75)
-g.append('} }')
+g.append('}');g.append(browser_entry);g.append('}')
 (R/'interface/RUS_national_agriculture.gui').write_text('\n'.join(g)+'\n',encoding='utf-8')
 # Drop the rejected dashboard's cosmetic trigger block, preserve all original actions.
 p=R/'common/scripted_guis/RUS_national_agriculture.txt';s=p.read_text(encoding='utf-8-sig');s=re.sub(r'# (?:DASHBOARD|CARDS) BEGIN\n.*?# (?:DASHBOARD|CARDS) END\n','',s,flags=re.S)
 s=re.sub(r'# CARD ACTIONS BEGIN\n.*?# CARD ACTIONS END\n','',s,flags=re.S)
+s=re.sub(r'effects = \{\s*','effects = {',s,count=1)
 def original_block(name):
  match=re.search(r'\b'+name+r'\s*=\s*\{',s);start=match.end();depth=1;end=start
  while depth:
@@ -178,7 +171,7 @@ def original_block(name):
   elif s[end]=='}':depth-=1
   end+=1
  return s[start:end-1]
-actions=['card_reserve_zero_click = { set_variable = { RUS_nat_reserve = 0 } RUS_nat_refresh = yes }']
+actions=browser_actions+['card_reserve_zero_click = { set_variable = { RUS_nat_reserve = 0 } RUS_nat_refresh = yes }']
 tr.append('card_reserve_zero_click_enabled = { always = yes }')
 for crop in C:
  tr.append(f'card_{crop}_add_click_enabled = {{'+original_block(f'nat_{crop}_plus_click_enabled')+'}')
@@ -188,7 +181,24 @@ for crop in C:
  for suffix,source,guard in [('click','plus',plus),('right_click','minus',minus)]:
   actions.append(f'card_{crop}_adjust_{suffix} = {{ if = {{ limit = {{'+guard+'} '+original_block(f'nat_{crop}_{source}_click')+'} }')
 
+for buyer in ['ser','rom','gre','alb','bul']:
+ body=f'if = {{ limit = {{ check_variable = {{ RUS_nat_{buyer}_accept = 1 }} }} set_variable = {{ RUS_nat_{buyer}_accept = 0 }} }} else = {{ set_variable = {{ RUS_nat_{buyer}_accept = 1 }} }} RUS_nat_refresh = yes'
+ for alias,source in browser_aliases:
+  if source==f'nat_accept_{buyer}':
+   actions.append(alias+'_click = {'+body+'}')
+   tr.append(alias+f'_click_enabled = {{ check_variable = {{ RUS_nat_{buyer}_quantity > 0 }} check_variable = {{ RUS_nat_{buyer}_shipped = 0 }} }}')
+for alias,source in browser_aliases:
+ if source.rsplit('_',1)[-1] in ['ser','rom','gre','alb','bul']:continue
+ actions.append(alias+'_click = {'+original_block(source+'_click')+'}')
+ buyer=source.rsplit('_',1)[-1];suffix='_machine' if 'maccept' in source else ''
+ tr.append(alias+'_click_enabled = {'+original_block(source+'_click_enabled')+f' check_variable = {{ RUS_nat_{buyer}{suffix}_shipped = 0 }}'+'}')
+actions.append('card_order_priority_click = {'+''.join(f'add_to_variable = {{ RUS_nat_{o}_priority = 1 }} if = {{ limit = {{ check_variable = {{ RUS_nat_{o}_priority > 8 }} }} set_variable = {{ RUS_nat_{o}_priority = 1 }} }} ' for o in ['generic','fra','eng','ser','rom','gre','alb','bul'])+'RUS_nat_refresh = yes }')
 s=s.replace('effects = {','effects = {\n# CARD ACTIONS BEGIN\n'+'\n'.join(actions)+'\n# CARD ACTIONS END\n',1)
+s=re.sub(r'# ORDER LIST BEGIN\n.*?# ORDER LIST END\n','',s,flags=re.S)
+s=s.replace('triggers = {','''# ORDER LIST BEGIN
+dynamic_lists = { card_foreign_orders_grid = { array = RUS_nat_foreign_order_rows value = RUS_nat_order_row index = RUS_nat_order_index change_scope = no entry_container = RUS_agriculture_foreign_order_entry } }
+# ORDER LIST END
+triggers = {''',1)
 s=re.sub(r'triggers = \{\s*','triggers = {\n',s,count=1)
 # Reuse original visibility for original widgets; generated rules only define new names.
 defined=set(re.findall(r'\b(\w+)_visible\s*=',s));tr=[t for t in tr if t.split('_visible')[0] not in defined]
@@ -215,3 +225,8 @@ for name,(w,h,b) in sprites.items():gfx.append(f'spriteType = {{ name = "GFX_RUS
 gfx.append('}');(R/'interface/RUS_agriculture_cards.gfx').write_text('\n'.join(gfx)+'\n',encoding='utf-8')
 (R/'output/agri-gui/card-sprite-sizes.json').write_text(json.dumps(sprites),encoding='utf-8')
 print('Four illustrated interactive pages generated; original click actions preserved.')
+
+status=[]
+for buyer in ['ser','rom','gre','alb','bul']:
+ status.append(f'defined_text = {{ name = GetRUSNatAccept{buyer} text = {{ trigger = {{ check_variable = {{ RUS_nat_{buyer}_shipped = 1 }} }} localization_key = RUS_nat_delivered }} text = {{ trigger = {{ check_variable = {{ RUS_nat_{buyer}_accept = 1 }} }} localization_key = RUS_nat_accepted }} text = {{ localization_key = RUS_nat_cancelled }} }}')
+(R/'common/scripted_localisation/RUS_agriculture_order_browser_loc.txt').write_text('\n'.join(status)+'\n',encoding='utf-8')

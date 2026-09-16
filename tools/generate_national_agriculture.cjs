@@ -3,6 +3,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const crops = ['wheat', 'rye', 'beet', 'flax', 'cotton'];
+const balkanBuyers=['ser','rom','gre','alb','bul'];
+const cropBuyers=['generic','fra','eng',...balkanBuyers];
 const n = x => 'RUS_nat_' + x;
 const a = x => 'RUS_agri_' + x;
 const v = (k, x) => `set_variable = { ${n(k)} = ${x} }\n`;
@@ -100,11 +102,19 @@ effect('production_day', call('factory_capacity')+call('parameters')+
  sub('efficiency',10)+cl('efficiency',3000,n('cap'))+v('daily',0))+
  v('coverage',n('installed'))+div('coverage',n('target'))+cl('coverage',0,1)+add('coverage_sum',n('coverage'))+add('elapsed',1)+
  iff(`${active} NOT = { ${failure} }`,add('eligible_days',1)));
-effect('draw_orders', ['generic','fra','eng'].map((o)=>v(o+'_crop',0)+v(o+'_quantity',0)+v(o+'_shipped',0)+v(o+'_accept',1)+v(o+'_priority',o==='generic'?1:o==='fra'?2:3)).join('')+
+effect('draw_orders', `clr_country_flag = RUS_nat_order_browser_ready\n`+['SER','ROM','GRE','ALB','BUL'].map(tag=>`clr_country_flag = RUS_nat_order_source_${tag}\n`).join('')+cropBuyers.map((o)=>v(o+'_crop',0)+v(o+'_quantity',0)+v(o+'_shipped',0)+v(o+'_accept',1)+v(o+'_priority',cropBuyers.indexOf(o)+1)).join('')+
+ v('balkan_order_count',0)+
  ['fra','eng'].map(o=>v(o+'_machine_quantity',0)+v(o+'_machine_shipped',0)+v(o+'_machine_accept',1)).join('')+
  [['generic','has_completed_focus = RUS_future_foreign_002'],['fra','has_completed_focus = RUS_future_foreign_017 country_exists = FRA'],['eng','has_completed_focus = RUS_future_foreign_017 country_exists = ENG']].map(([o,t])=>iff(t,
  `random_list = { ${crops.map((c,i)=>`1 = { ${v(o+'_crop',i+1)} }`).join(' ')} }\nrandom_list = { ${[2,3,4].map(x=>`1 = { ${v(o+'_quantity',x)} }`).join(' ')} }\n`+
  (o==='generic'?'':`random_list = { ${[60,80,100].map(x=>`1 = { ${v(o+'_machine_quantity',x)} }`).join(' ')} }\n`))).join('')+
+ // Each eligible Balkan buyer has its own one-unit contract; preserve the shared crop draw.
+ // Query focus completion every quarter so enabling agriculture later also works.
+ iff(`${mode} has_completed_focus = RUS_future_foreign_019`,
+  ['SER','ROM','GRE','ALB','BUL'].map(tag=>iff(`${tag} = { exists = yes has_socialist_government = yes }`,`set_country_flag = RUS_nat_order_source_${tag}\n`+add('balkan_order_count',1))).join('')+
+  iff(ck('balkan_order_count','>',0),
+   iff(ck('generic_quantity','<',1),`random_list = { ${crops.map((c,i)=>`1 = { ${v('generic_crop',i+1)} }`).join(' ')} }\n`)+
+   balkanBuyers.map(o=>iff(flag('RUS_nat_order_source_'+o.toUpperCase()),v(o+'_quantity',1)+v(o+'_crop',n('generic_crop')))).join('')))+
  // Keep active crop orders distinct; at most two deterministic skips are needed.
  ['fra','eng'].map((o,i)=>iff(ck(o+'_quantity','>',0),`while_loop_effect = { limit = { OR = { ${['generic',...(i?['fra']:[])].map(prior=>`AND = { ${ck(prior+'_quantity','>',0)} ${ck(o+'_crop','=',n(prior+'_crop'))} }`).join(' ')} } }\n${op('modulo',o+'_crop',5)}${add(o+'_crop',1)}}\n`)).join(''));
 effect('start_quarter', call('calendar')+v('quarter_end','global.num_days')+add('quarter_end',n('remaining'))+v('elapsed',0)+v('eligible_days',0)+v('coverage_sum',0)+v('target',400)+iff(success,v('target',500))+
@@ -136,16 +146,16 @@ effect('consume',groups.map(([g,cs])=>v(g+'_available',0)+cs.map(c=>add(g+'_avai
  iff(ck(g+'_available','>',0),cs.map(c=>v('tmp',n(c+'_work'))+div('tmp',n(g+'_available'))+mul('tmp',n(g+'_delivered'))+sub(c+'_work',n('tmp'))+cl(c+'_work',0,100000)).join(''))+
  v(g+'_reserve',n(g+'_demand'))+mul(g+'_reserve',n('reserve'))+v(g+'_left',n(g+'_available'))+sub(g+'_left',n(g+'_delivered'))).join(''));
 effect('trade',v('income',0)+crops.map(c=>v(c+'_sold',0)+v(c+'_income',0)).join('')+
-  [1,2,3].map(rank=>['generic','fra','eng'].map(o=>iff(`${ck(o+'_priority','=',rank)} ${ck(o+'_accept','=',1)} ${ck(o+'_shipped','=',0)} ${ck(o+'_quantity','>',0)} ${groups.map(([g])=>ck(g+'_ratio','>',.9999)).join(' ')}`,
+  v('order_rank',1)+`while_loop_effect = { limit = { ${ck('order_rank','<',9)} }\n`+cropBuyers.map(o=>iff(`${ck(o+'_priority','=',n('order_rank'))} ${ck(o+'_accept','=',1)} ${ck(o+'_shipped','=',0)} ${ck(o+'_quantity','>',0)} ${groups.map(([g])=>ck(g+'_ratio','>',.9999)).join(' ')}`,
  crops.map((c,i)=>{const g=i<2?'food':i===2?'beet':'textile';return iff(ck(o+'_crop','=',i+1),v('free',n(g+'_left'))+sub('free',n(g+'_reserve'))+
  iff(`${ck('free','>',-0.0001)} NOT = { ${ck('free','<',n(o+'_quantity'))} } NOT = { ${ck(c+'_work','<',n(o+'_quantity'))} } ${ck(g+'_ratio','>',.9999)}`,
- v('price',1)+iff(ck('actual','=',1),add('price',a(c+'_market')))+iff(flag('RUS_agri_saturation_'+c),sub('price',.15))+ (o==='generic'?'':add('price',.1))+
+ v('price',1)+iff(ck('actual','=',1),add('price',a(c+'_market')))+iff(flag('RUS_agri_saturation_'+c),sub('price',.15))+ (['fra','eng'].includes(o)?add('price',.1):'')+
  // Marginal pricing across all contracts, without discounting domestic consumption.
  v('order_cash',0)+v('units',n(o+'_quantity'))+`while_loop_effect = { limit = { ${ck('units','>',0)} }\n`+
  v('unit_price',n('price'))+iff(`NOT = { ${ck(c+'_sold','<',a(c+'_capacity'))} }`,sub('unit_price',.3))+
  v('tmp',a(c+'_capacity'))+add('tmp',2)+iff(`NOT = { ${ck(c+'_sold','<',n('tmp'))} }`,sub('unit_price',.4))+cl('unit_price',.4,1.5)+add('order_cash',n('unit_price'))+add(c+'_sold',1)+sub('units',1)+`}\n`+
  mul('order_cash',1000)+add('income',n('order_cash'))+add(c+'_income',n('order_cash'))+sub(c+'_work',n(o+'_quantity'))+sub(g+'_left',n(o+'_quantity'))+
- iff(ck('actual','=',1),v(o+'_shipped',1))))}).join(''))).join('')).join('')+
+ iff(ck('actual','=',1),v(o+'_shipped',1))))}).join(''))).join('')+add('order_rank',1)+`}\n`+
  ['fra','eng'].map(o=>iff(`${ck(o+'_machine_accept','=',1)} ${ck(o+'_machine_shipped','=',0)} ${ck(o+'_machine_quantity','>',0)}`,
  v('free',n('machine_work'))+v('tmp',n('target'))+mul('tmp',.25)+sub('free',n('tmp'))+
  iff(`NOT = { ${ck('free','<',n(o+'_machine_quantity'))} } NOT = { ${ck('installed','<',n('target'))} }`,
@@ -157,11 +167,11 @@ effect('refresh',v('remaining',n('quarter_end'))+sub('remaining','global.num_day
  iff('has_idea = RUS_andrey_kolegayev_advisor',mul(c+'_preview_rate',1.05))+iff(ck('technical_support','=',1),mul(c+'_preview_rate',1.05))).join('')+
  groups.map(([g])=>v(g+'_preview',n(g+'_ratio'))+mul(g+'_preview',100)+v(g+'_gap',n(g+'_need'))+sub(g+'_gap',n(g+'_delivered'))+cl(g+'_gap',0,1000)).join('')+
  v('coverage_display',n('mean_coverage'))+mul('coverage_display',100)+
- call('supply_ledger')+
+ call('supply_ledger')+call('order_browser_refresh')+
  `RUS_agri_refresh_gui = yes\n`);
 effect('supply_ledger',groups.map(([g,cs])=>v(g+'_stock_now',0)+v(g+'_new_yield',0)+v(g+'_order_need',0)+
  cs.map(c=>add(g+'_stock_now',n(c+'_stock'))+add(g+'_new_yield',n(c+'_yield'))+
- ['generic','fra','eng'].map(o=>iff(`${ck(o+'_accept','=',1)} ${ck(o+'_shipped','=',0)} ${ck(o+'_crop','=',crops.indexOf(c)+1)}`,add(g+'_order_need',n(o+'_quantity')))).join('')).join('')+
+ cropBuyers.map(o=>iff(`${ck(o+'_accept','=',1)} ${ck(o+'_shipped','=',0)} ${ck(o+'_crop','=',crops.indexOf(c)+1)}`,add(g+'_order_need',n(o+'_quantity')))).join('')).join('')+
  v(g+'_target_total',n(g+'_need'))+add(g+'_target_total',n(g+'_reserve'))+add(g+'_target_total',n(g+'_order_need'))+
  v(g+'_all_gap',n(g+'_target_total'))+sub(g+'_all_gap',n(g+'_stock_now'))+sub(g+'_all_gap',n(g+'_new_yield'))+cl(g+'_all_gap',0,100000)).join(''));
 // Public-information greedy allocator: prioritise food, processing, textiles, then reserves.
@@ -200,7 +210,7 @@ effect('settle',iff(ck('elapsed','>',0),
  call('emergency_fill')+call('consume')+
  v('loss_rate',n('wear'))+iff('check_variable = { RUS_agri_weather < 0 }',add('loss_rate',.05))+sub('loss_rate',n('repair_support'))+cl('loss_rate',0,.3)+v('loss',n('installed'))+mul('loss',n('loss_rate'))+mul('loss',n('fraction'))+sub('installed',n('loss'))+call('install')+
  v('machine_work',n('machine_stock'))+call('trade')+`add_cic = ${n('income')}\n`+v('machine_stock',n('machine_work'))+v('last_income',n('income'))+v('last_loss',n('loss'))+v('last_weather','RUS_agri_weather')+v('last_machine_market',n('machine_market'))+v('last_season',n('season'))+
- v('last_crop_orders',0)+['generic','fra','eng'].map(o=>add('last_crop_orders',n(o+'_shipped'))).join('')+v('last_machine_orders',0)+['fra','eng'].map(o=>add('last_machine_orders',n(o+'_machine_shipped'))).join('')+
+ v('last_crop_orders',0)+cropBuyers.map(o=>add('last_crop_orders',n(o+'_shipped'))).join('')+v('last_machine_orders',0)+['fra','eng'].map(o=>add('last_machine_orders',n(o+'_machine_shipped'))).join('')+
  v('retention',.95)+iff('has_idea = RUS_irina_kakhovskaya_advisor',v('retention',.98))+
  // Prorate losses, and do not let capped inventory manufacture additional goods.
  v('spoil',1)+sub('spoil',n('retention'))+mul('spoil',n('fraction'))+v('retention',1)+sub('retention',n('spoil'))+
@@ -323,12 +333,12 @@ text('nat_reserve',38,278,492,label(n('reserve_line'),'储备目标：[?RUS_nat_
 });
 ['generic','fra','eng'].forEach((o,i)=>{
  icon('nat_order_icon_'+o,'orders',8,350+i*43,3);
- text('nat_order_'+o,38,352+i*43,322,label(n('order_'+o),`${['一般','[FRA.GetName]','[ENG.GetName]'][i]}：[GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0]  [GetRUSNatAccept${o}]`,`${['General','[FRA.GetName]','[ENG.GetName]'][i]}: [GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0] [GetRUSNatAccept${o}]`,`${['Общий','[FRA.GetName]','[ENG.GetName]'][i]}: [GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0] [GetRUSNatAccept${o}]`),3,20);
+ text('nat_order_'+o,38,352+i*43,322,label(n('order_'+o),`${['[GetRUSNatGenericOrderSource]','[FRA.GetName]','[ENG.GetName]'][i]}：[GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0]  [GetRUSNatAccept${o}]`,`${['[GetRUSNatGenericOrderSource]','[FRA.GetName]','[ENG.GetName]'][i]}: [GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0] [GetRUSNatAccept${o}]`,`${['[GetRUSNatGenericOrderSource]','[FRA.GetName]','[ENG.GetName]'][i]}: [GetRUSNatOrder${o}] [?${n(o+'_quantity')}|0] [GetRUSNatAccept${o}]`),3,20);
  text('nat_order_rank_'+o,38,372+i*43,348,label(n('order_rank_'+o),`优先级 [?${n(o+'_priority')}|0]`,`Priority [?${n(o+'_priority')}|0]`,`Приоритет [?${n(o+'_priority')}|0]`),3,18);
  button('nat_accept_'+o,369,349+i*43,label(n('toggle'),'接单/取消','Accept/Cancel','Заказ/Отмена'),iff(ck(o+'_accept','=',1),v(o+'_accept',0),v(o+'_accept',1)),3,ck(o+'_quantity','>',0));
 });
 ['fra','eng'].forEach((o,i)=>{text('nat_morder_'+o,10,490+i*40,350,label(n('morder_'+o),`[${o.toUpperCase()}.GetName]农机：[?${n(o+'_machine_quantity')}|0]  [GetRUSNatMachineAccept${o}]`,`[${o.toUpperCase()}.GetName] machinery: [?${n(o+'_machine_quantity')}|0] [GetRUSNatMachineAccept${o}]`,`[${o.toUpperCase()}.GetName], техника: [?${n(o+'_machine_quantity')}|0] [GetRUSNatMachineAccept${o}]`),3);button('nat_maccept_'+o,369,487+i*40,n('toggle'),iff(ck(o+'_machine_accept','=',1),v(o+'_machine_accept',0),v(o+'_machine_accept',1)),3,ck(o+'_machine_quantity','>',0));});
-button('nat_priority',10,570,label(n('priority'),'订单顺序轮换','Rotate Priority','Порядок заказов'),['generic','fra','eng'].map(o=>add(o+'_priority',1)+iff(ck(o+'_priority','>',3),v(o+'_priority',1))).join(''),3);
+button('nat_priority',10,570,label(n('priority'),'订单顺序轮换','Rotate Priority','Порядок заказов'),cropBuyers.map(o=>add(o+'_priority',1)+iff(ck(o+'_priority','>',cropBuyers.length),v(o+'_priority',1))).join(''),3);
 icon('nat_income_icon','income',8,141,4);
 text('nat_report_head',38,143,492,label(n('report_head'),'上季：第[?RUS_nat_last_season|0]季  出口：[?RUS_nat_last_income|0]  农机损耗：[?RUS_nat_last_loss|1]','Season: [?RUS_nat_last_season|0]  Exports: [?RUS_nat_last_income|0]  Machinery lost: [?RUS_nat_last_loss|1]','Сезон: [?RUS_nat_last_season|0]  Экспорт: [?RUS_nat_last_income|0]  Износ: [?RUS_nat_last_loss|1]'),4);
 text('nat_report_weather',10,180,520,label(n('report_weather'),'实际天气：[?RUS_nat_last_weather|2]  农机行情：[?RUS_nat_last_machine_market|2]','Actual weather: [?RUS_nat_last_weather|2]  Machinery market: [?RUS_nat_last_machine_market|2]','Погода: [?RUS_nat_last_weather|2]  Рынок техники: [?RUS_nat_last_machine_market|2]'),4);
@@ -378,6 +388,10 @@ label(n('promise_pending'),'承诺履行中','Promise in progress','Обещан
 scripted('GetRUSNatPromise',[[flag('RUS_max_landreform_tractor_promise_kept'),n('promise_kept')],[flag('RUS_max_landreform_tractor_promise_failed'),n('promise_failed')],[flag('RUS_max_landreform_tractor_promise_active'),n('promise_pending')]],n('promise_none'));
 crops.forEach(c=>scripted(`GetRUSNat${c}Market`,[[`check_variable = { ${a(c+'_forecast')} > 0 }`,n('strong')],[`check_variable = { ${a(c+'_forecast')} < 0 }`,n('weak')]],n('stable')));
 scripted('GetRUSNatMachineryMarket',[[ck('machine_forecast','>',0),n('strong')],[ck('machine_forecast','<',0),n('weak')]],n('stable'));
+label(n('generic_order'),'一般订单','General Order','Обычный заказ');
+label(n('balkan_order'),'巴尔干合单','Balkan Pool','Заказ Балкан');
+label(n('joint_order'),'联合采购','Joint Order','Общий заказ');
+scripted('GetRUSNatGenericOrderSource',[],n('generic_order'));
 ['generic','fra','eng'].forEach(o=>{scripted('GetRUSNatOrder'+o,crops.map((c,i)=>[ck(o+'_crop','=',i+1),a(c)]),n('none'));scripted('GetRUSNatAccept'+o,[[ck(o+'_shipped','=',1),n('delivered')],[ck(o+'_accept','=',1),n('accepted')]],n('cancelled'));});
 ['fra','eng'].forEach(o=>scripted('GetRUSNatMachineAccept'+o,[[ck(o+'_machine_shipped','=',1),n('delivered')],[ck(o+'_machine_accept','=',1),n('accepted')]],n('cancelled')));
 label(n('task_1'),'§4全部内需§!达标','Meet §4all domestic needs§!','Обеспечить §4все потребности§!');label(n('task_2'),'§4三类储备§!达到§Y一季§!','§YOne-quarter§! reserves in §4all categories§!','§YКвартальный§! запас §4всех категорий§!');label(n('task_3'),'五种中§4任选四种§!，各配置至少§Y3§!点','Any §4four of five§! crops: §Y3+§! each','§4Любые 4 из 5§! культур: по §Y3+§!');
@@ -424,6 +438,8 @@ const overrides={
 });
 require('./national_agriculture_guidance.cjs')({label,write});
 require('./national_agriculture_tooltip_style.cjs')(loc);
+const balkanOrderHelp=["\\n\\n£RUS_nat_text_export£ 完成§Y巴尔干的红色幽灵§!后，每季开始时，塞尔维亚、罗马尼亚、希腊、阿尔巴尼亚、保加利亚中的每个现存社会主义国家提供§Y1§!单位作物的独立订单。各国分别接取、取消、交付并计入季度报告；作物抽签与正常出口价格不变。", "\\n\\n£RUS_nat_text_export£ After §YThe Red Spectre of the Balkans§!, each existing socialist Serbia, Romania, Greece, Albania and Bulgaria offers an independent §Y1§!-unit crop order at quarter start. Accept, cancel, deliver and count each country separately. Crop draws and normal export prices are unchanged.", "\\n\\n£RUS_nat_text_export£ После фокуса §YКрасный призрак Балкан§! каждая существующая социалистическая Сербия, Румыния, Греция, Албания и Болгария предлагает отдельный заказ на §Y1§! единицу культур. Принятие, отмена, поставка и учёт в отчёте независимы. Выбор культур и обычные экспортные цены не меняются."];
+loc.RUS_nat_tab_2_tt=loc.RUS_nat_tab_2_tt.map((text,i)=>i===0?text.slice(0,text.lastIndexOf('\\n\\n£RUS_nat_text_export£'))+balkanOrderHelp[i]:text+balkanOrderHelp[i]);
 const expansionHelp=[
  '免费配置起点为§Y10§!，土改成功与农机承诺成功各增加§Y2§!免费配置。超过免费额度后可继续使用作物加号，每种作物最多§Y10§!，合计最多§Y50§!。自动配置仅使用免费额度。\\n\\n超额配置 E = 实际配置 - 免费额度（最低为§Y0§!）\\n下季消费品期望 = min(E, §Y5§!) × §Y0.5%§! + max(E - §Y5§!, §Y0§!) × §Y1%§!\\n\\n季末按最终配置确定惩罚，下一季全程生效，每季替换。超额§Y5§!时为§R+2.5%§!，超额§Y10§!时为§R+7.5%§!。',
  'Free allocation starts at §Y10§!. Reform and machinery-promise success each add §Y2§! free points. Crop plus buttons allow expansion beyond this allowance, up to §Y10§! per crop and §Y50§! total. Automatic allocation uses only the free allowance.\\n\\nExtra E = max(allocation - free allowance, §Y0§!)\\nNext-quarter consumer goods expectations = min(E, §Y5§!) x §Y0.5%§! + max(E - §Y5§!, §Y0§!) x §Y1%§!\\n\\nThe final plan is charged at quarter end for the whole next quarter, replacing the prior charge. §Y5§! extra gives §R+2.5%§!; §Y10§! gives §R+7.5%§!.',

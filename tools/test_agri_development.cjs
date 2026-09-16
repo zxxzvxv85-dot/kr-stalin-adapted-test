@@ -39,6 +39,7 @@ for (const file of [
   "common/scripted_effects/RUS_agri_business_effects.txt",
   "common/scripted_effects/RUS_agri_export_orders_effects.txt",
   "common/scripted_effects/RUS_national_agriculture_effects.txt",
+  "common/scripted_effects/RUS_agriculture_order_browser_effects.txt",
   "common/scripted_effects/RUS_stalin_maximalist_land_reform_effects.txt"
 ]) for (const n of parse(read(file))) {
   assert.ok(!effects.has(n.key), "Duplicate effect " + n.key);
@@ -46,6 +47,10 @@ for (const file of [
 }
 const triggers = new Map(parse(read("common/scripted_triggers/RUS_agri_development_triggers.txt")).map(n => [n.key, n.value]));
 for (const node of parse(read("common/scripted_triggers/RUS_national_agriculture_triggers.txt"))) triggers.set(node.key, node.value);
+// Use the loaded mod's socialist-government flag semantics for foreign buyers.
+const socialistGovernment = parse(read("common/scripted_triggers/_government_scripted_triggers.txt"))
+  .find(node => node.key === "has_socialist_government");
+triggers.set(socialistGovernment.key, socialistGovernment.value);
 const decisions = new Map(parse(read("common/decisions/RUS_agri_development_decisions.txt"))
   .flatMap(n => n.value).map(n => [n.key, n.value]));
 const crops = ["wheat", "rye", "beet", "flax", "cotton"];
@@ -104,6 +109,10 @@ function check(b, c, donor = c, args = {}) {
       case "check_variable": return v.every(x => compare(num(c, x.key, args), x.op, num(c, x.value, args)));
       default:
         if (triggers.has(n.key)) return check(triggers.get(n.key), c, donor, args) === (v === "yes");
+        if (/^[A-Z0-9]{3}$/.test(n.key) && Array.isArray(v)) {
+          const target = c.world?.[n.key];
+          return !!target && check(v, target, donor, args);
+        }
         throw Error("Unsupported trigger: " + n.key);
     }
   });
@@ -126,6 +135,8 @@ function exec(b, c, donor = c, args = {}) {
     else if (["hidden_effect", "effect", "text"].includes(k)) exec(v, c, donor, args);
     else if (k === "meta_effect") exec(get(v, "text"), c, donor, args);
     else if (k === "FROM") exec(v, donor.target, donor, args);
+    else if (k === "clear_array") { c.arrays ||= {}; c.arrays[v] = []; }
+    else if (k === "add_to_array") { c.arrays ||= {}; const a=v[0]; (c.arrays[a.key] ||= []).push(num(c,a.value,args)); }
     else if (k === "set_country_flag") {
       if (Array.isArray(v)) c.flags[get(v, "flag")] = num(c, get(v, "days"));
       else c.flags[v] = true;

@@ -13,6 +13,7 @@ names=['种植配额','农机生产','库存与贸易','季度报告']
 for idx,widgets in enumerate(data['pages']):
  im=Image.new('RGBA',(502,625),'#142421');di=ImageDraw.Draw(im)
  for w in widgets:
+  before=im.copy() if w.get('clip') else None
   x,y=round(w['x']),round(w['y'])
   font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',14)
   if w['kind']=='iconType':
@@ -28,7 +29,10 @@ for idx,widgets in enumerate(data['pages']):
    font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',22 if w.get('font')=='hoi_24header' else 14)
    if w.get('format')=='center':xx+=(w['width']-max(di.textlength(line,font=font) for line in text.splitlines() or ['']))/2
    di.multiline_text((xx,y),text,font=font,fill='#eee8ce',spacing=5)
+  if before is not None:
+   cx,cy,cw,ch=map(round,w['clip']);before.paste(im.crop((cx,cy,cx+cw,cy+ch)),(cx,cy));im=before;di=ImageDraw.Draw(im)
  ox=20+520*(idx%2);oy=100+640*(idx//2)
- sheet.paste(im,(ox,oy));d.text((ox,oy-23),names[idx],font=font,fill='#c8af72')
+
+ if idx<4:sheet.paste(im,(ox,oy));d.text((ox,oy-23),names[idx],font=font,fill='#c8af72')
  im.convert('RGB').save(OUT/f'page-{idx+1}-preview.png')
 sheet.save(OUT/'dashboard-preview.png');print(OUT/'dashboard-preview.png')

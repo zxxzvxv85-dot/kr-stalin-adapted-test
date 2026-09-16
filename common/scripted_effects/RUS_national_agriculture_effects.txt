@@ -298,6 +298,12 @@ add_to_variable = { RUS_nat_eligible_days = 1 }
 }
 
 RUS_nat_draw_orders = {
+clr_country_flag = RUS_nat_order_browser_ready
+clr_country_flag = RUS_nat_order_source_SER
+clr_country_flag = RUS_nat_order_source_ROM
+clr_country_flag = RUS_nat_order_source_GRE
+clr_country_flag = RUS_nat_order_source_ALB
+clr_country_flag = RUS_nat_order_source_BUL
 set_variable = { RUS_nat_generic_crop = 0 }
 set_variable = { RUS_nat_generic_quantity = 0 }
 set_variable = { RUS_nat_generic_shipped = 0 }
@@ -313,6 +319,32 @@ set_variable = { RUS_nat_eng_quantity = 0 }
 set_variable = { RUS_nat_eng_shipped = 0 }
 set_variable = { RUS_nat_eng_accept = 1 }
 set_variable = { RUS_nat_eng_priority = 3 }
+set_variable = { RUS_nat_ser_crop = 0 }
+set_variable = { RUS_nat_ser_quantity = 0 }
+set_variable = { RUS_nat_ser_shipped = 0 }
+set_variable = { RUS_nat_ser_accept = 1 }
+set_variable = { RUS_nat_ser_priority = 4 }
+set_variable = { RUS_nat_rom_crop = 0 }
+set_variable = { RUS_nat_rom_quantity = 0 }
+set_variable = { RUS_nat_rom_shipped = 0 }
+set_variable = { RUS_nat_rom_accept = 1 }
+set_variable = { RUS_nat_rom_priority = 5 }
+set_variable = { RUS_nat_gre_crop = 0 }
+set_variable = { RUS_nat_gre_quantity = 0 }
+set_variable = { RUS_nat_gre_shipped = 0 }
+set_variable = { RUS_nat_gre_accept = 1 }
+set_variable = { RUS_nat_gre_priority = 6 }
+set_variable = { RUS_nat_alb_crop = 0 }
+set_variable = { RUS_nat_alb_quantity = 0 }
+set_variable = { RUS_nat_alb_shipped = 0 }
+set_variable = { RUS_nat_alb_accept = 1 }
+set_variable = { RUS_nat_alb_priority = 7 }
+set_variable = { RUS_nat_bul_crop = 0 }
+set_variable = { RUS_nat_bul_quantity = 0 }
+set_variable = { RUS_nat_bul_shipped = 0 }
+set_variable = { RUS_nat_bul_accept = 1 }
+set_variable = { RUS_nat_bul_priority = 8 }
+set_variable = { RUS_nat_balkan_order_count = 0 }
 set_variable = { RUS_nat_fra_machine_quantity = 0 }
 set_variable = { RUS_nat_fra_machine_shipped = 0 }
 set_variable = { RUS_nat_fra_machine_accept = 1 }
@@ -362,6 +394,58 @@ random_list = { 1 = { set_variable = { RUS_nat_eng_machine_quantity = 60 }
  } 1 = { set_variable = { RUS_nat_eng_machine_quantity = 80 }
  } 1 = { set_variable = { RUS_nat_eng_machine_quantity = 100 }
  } }
+}
+if = { limit = { has_country_flag = RUS_nat_enabled has_completed_focus = RUS_future_foreign_019 }
+if = { limit = { SER = { exists = yes has_socialist_government = yes } }
+set_country_flag = RUS_nat_order_source_SER
+add_to_variable = { RUS_nat_balkan_order_count = 1 }
+}
+if = { limit = { ROM = { exists = yes has_socialist_government = yes } }
+set_country_flag = RUS_nat_order_source_ROM
+add_to_variable = { RUS_nat_balkan_order_count = 1 }
+}
+if = { limit = { GRE = { exists = yes has_socialist_government = yes } }
+set_country_flag = RUS_nat_order_source_GRE
+add_to_variable = { RUS_nat_balkan_order_count = 1 }
+}
+if = { limit = { ALB = { exists = yes has_socialist_government = yes } }
+set_country_flag = RUS_nat_order_source_ALB
+add_to_variable = { RUS_nat_balkan_order_count = 1 }
+}
+if = { limit = { BUL = { exists = yes has_socialist_government = yes } }
+set_country_flag = RUS_nat_order_source_BUL
+add_to_variable = { RUS_nat_balkan_order_count = 1 }
+}
+if = { limit = { check_variable = { RUS_nat_balkan_order_count > 0 } }
+if = { limit = { check_variable = { RUS_nat_generic_quantity < 1 } }
+random_list = { 1 = { set_variable = { RUS_nat_generic_crop = 1 }
+ } 1 = { set_variable = { RUS_nat_generic_crop = 2 }
+ } 1 = { set_variable = { RUS_nat_generic_crop = 3 }
+ } 1 = { set_variable = { RUS_nat_generic_crop = 4 }
+ } 1 = { set_variable = { RUS_nat_generic_crop = 5 }
+ } }
+}
+if = { limit = { has_country_flag = RUS_nat_order_source_SER }
+set_variable = { RUS_nat_ser_quantity = 1 }
+set_variable = { RUS_nat_ser_crop = RUS_nat_generic_crop }
+}
+if = { limit = { has_country_flag = RUS_nat_order_source_ROM }
+set_variable = { RUS_nat_rom_quantity = 1 }
+set_variable = { RUS_nat_rom_crop = RUS_nat_generic_crop }
+}
+if = { limit = { has_country_flag = RUS_nat_order_source_GRE }
+set_variable = { RUS_nat_gre_quantity = 1 }
+set_variable = { RUS_nat_gre_crop = RUS_nat_generic_crop }
+}
+if = { limit = { has_country_flag = RUS_nat_order_source_ALB }
+set_variable = { RUS_nat_alb_quantity = 1 }
+set_variable = { RUS_nat_alb_crop = RUS_nat_generic_crop }
+}
+if = { limit = { has_country_flag = RUS_nat_order_source_BUL }
+set_variable = { RUS_nat_bul_quantity = 1 }
+set_variable = { RUS_nat_bul_crop = RUS_nat_generic_crop }
+}
+}
 }
 if = { limit = { check_variable = { RUS_nat_fra_quantity > 0 } }
 while_loop_effect = { limit = { OR = { AND = { check_variable = { RUS_nat_generic_quantity > 0 } check_variable = { RUS_nat_fra_crop = RUS_nat_generic_crop } } } }
@@ -722,7 +806,9 @@ set_variable = { RUS_nat_flax_sold = 0 }
 set_variable = { RUS_nat_flax_income = 0 }
 set_variable = { RUS_nat_cotton_sold = 0 }
 set_variable = { RUS_nat_cotton_income = 0 }
-if = { limit = { check_variable = { RUS_nat_generic_priority = 1 } check_variable = { RUS_nat_generic_accept = 1 } check_variable = { RUS_nat_generic_shipped = 0 } check_variable = { RUS_nat_generic_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+set_variable = { RUS_nat_order_rank = 1 }
+while_loop_effect = { limit = { check_variable = { RUS_nat_order_rank < 9 } }
+if = { limit = { check_variable = { RUS_nat_generic_priority = RUS_nat_order_rank } check_variable = { RUS_nat_generic_accept = 1 } check_variable = { RUS_nat_generic_shipped = 0 } check_variable = { RUS_nat_generic_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 if = { limit = { check_variable = { RUS_nat_generic_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
@@ -914,7 +1000,7 @@ set_variable = { RUS_nat_generic_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_priority = 1 } check_variable = { RUS_nat_fra_accept = 1 } check_variable = { RUS_nat_fra_shipped = 0 } check_variable = { RUS_nat_fra_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_fra_priority = RUS_nat_order_rank } check_variable = { RUS_nat_fra_accept = 1 } check_variable = { RUS_nat_fra_shipped = 0 } check_variable = { RUS_nat_fra_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 if = { limit = { check_variable = { RUS_nat_fra_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
@@ -1111,7 +1197,7 @@ set_variable = { RUS_nat_fra_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_eng_priority = 1 } check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_eng_priority = RUS_nat_order_rank } check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 if = { limit = { check_variable = { RUS_nat_eng_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
@@ -1308,11 +1394,11 @@ set_variable = { RUS_nat_eng_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_priority = 2 } check_variable = { RUS_nat_generic_accept = 1 } check_variable = { RUS_nat_generic_shipped = 0 } check_variable = { RUS_nat_generic_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 1 } }
+if = { limit = { check_variable = { RUS_nat_ser_priority = RUS_nat_order_rank } check_variable = { RUS_nat_ser_accept = 1 } check_variable = { RUS_nat_ser_shipped = 0 } check_variable = { RUS_nat_ser_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_ser_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_ser_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_ser_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
@@ -1321,7 +1407,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_wheat }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_ser_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_wheat_sold < RUS_agri_wheat_capacity } } }
@@ -1340,17 +1426,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_wheat_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_ser_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_ser_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_ser_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 2 } }
+if = { limit = { check_variable = { RUS_nat_ser_crop = 2 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_ser_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_ser_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
@@ -1359,7 +1445,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_rye }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_ser_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_rye_sold < RUS_agri_rye_capacity } } }
@@ -1378,17 +1464,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_rye_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_rye_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_rye_work = RUS_nat_ser_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_ser_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_ser_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 3 } }
+if = { limit = { check_variable = { RUS_nat_ser_crop = 3 } }
 set_variable = { RUS_nat_free = RUS_nat_beet_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_beet_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_ser_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_ser_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
@@ -1397,7 +1483,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_beet }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_ser_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_beet_sold < RUS_agri_beet_capacity } } }
@@ -1416,17 +1502,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_beet_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_beet_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_beet_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_beet_work = RUS_nat_ser_quantity }
+subtract_from_variable = { RUS_nat_beet_left = RUS_nat_ser_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_ser_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 4 } }
+if = { limit = { check_variable = { RUS_nat_ser_crop = 4 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_ser_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_ser_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
@@ -1435,7 +1521,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_flax }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_ser_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_flax_sold < RUS_agri_flax_capacity } } }
@@ -1454,17 +1540,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_flax_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_flax_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_flax_work = RUS_nat_ser_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_ser_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_ser_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 5 } }
+if = { limit = { check_variable = { RUS_nat_ser_crop = 5 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_ser_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_ser_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
@@ -1473,7 +1559,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_cotton }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_ser_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_cotton_sold < RUS_agri_cotton_capacity } } }
@@ -1492,19 +1578,19 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_cotton_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_ser_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_ser_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_ser_shipped = 1 }
 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_priority = 2 } check_variable = { RUS_nat_fra_accept = 1 } check_variable = { RUS_nat_fra_shipped = 0 } check_variable = { RUS_nat_fra_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 1 } }
+if = { limit = { check_variable = { RUS_nat_rom_priority = RUS_nat_order_rank } check_variable = { RUS_nat_rom_accept = 1 } check_variable = { RUS_nat_rom_shipped = 0 } check_variable = { RUS_nat_rom_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_rom_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_rom_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_rom_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
@@ -1512,9 +1598,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_wheat }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_rom_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_wheat_sold < RUS_agri_wheat_capacity } } }
@@ -1533,17 +1618,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_wheat_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_rom_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_rom_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_rom_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 2 } }
+if = { limit = { check_variable = { RUS_nat_rom_crop = 2 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_rom_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_rom_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
@@ -1551,9 +1636,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_rye }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_rom_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_rye_sold < RUS_agri_rye_capacity } } }
@@ -1572,17 +1656,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_rye_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_rye_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_rye_work = RUS_nat_rom_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_rom_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_rom_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 3 } }
+if = { limit = { check_variable = { RUS_nat_rom_crop = 3 } }
 set_variable = { RUS_nat_free = RUS_nat_beet_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_beet_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_rom_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_rom_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
@@ -1590,9 +1674,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_beet }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_rom_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_beet_sold < RUS_agri_beet_capacity } } }
@@ -1611,17 +1694,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_beet_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_beet_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_beet_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_beet_work = RUS_nat_rom_quantity }
+subtract_from_variable = { RUS_nat_beet_left = RUS_nat_rom_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_rom_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 4 } }
+if = { limit = { check_variable = { RUS_nat_rom_crop = 4 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_rom_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_rom_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
@@ -1629,9 +1712,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_flax }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_rom_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_flax_sold < RUS_agri_flax_capacity } } }
@@ -1650,17 +1732,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_flax_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_flax_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_flax_work = RUS_nat_rom_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_rom_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_rom_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 5 } }
+if = { limit = { check_variable = { RUS_nat_rom_crop = 5 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_rom_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_rom_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
@@ -1668,9 +1750,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_cotton }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_rom_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_cotton_sold < RUS_agri_cotton_capacity } } }
@@ -1689,19 +1770,19 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_cotton_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_rom_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_rom_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_rom_shipped = 1 }
 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_eng_priority = 2 } check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-if = { limit = { check_variable = { RUS_nat_eng_crop = 1 } }
+if = { limit = { check_variable = { RUS_nat_gre_priority = RUS_nat_order_rank } check_variable = { RUS_nat_gre_accept = 1 } check_variable = { RUS_nat_gre_shipped = 0 } check_variable = { RUS_nat_gre_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_gre_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_gre_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_gre_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
@@ -1709,9 +1790,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_wheat }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
+set_variable = { RUS_nat_units = RUS_nat_gre_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_wheat_sold < RUS_agri_wheat_capacity } } }
@@ -1730,17 +1810,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_wheat_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_eng_quantity }
+subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_gre_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_gre_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
+set_variable = { RUS_nat_gre_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_eng_crop = 2 } }
+if = { limit = { check_variable = { RUS_nat_gre_crop = 2 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_gre_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_gre_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
@@ -1748,9 +1828,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_rye }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
+set_variable = { RUS_nat_units = RUS_nat_gre_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_rye_sold < RUS_agri_rye_capacity } } }
@@ -1769,17 +1848,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_rye_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_rye_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_eng_quantity }
+subtract_from_variable = { RUS_nat_rye_work = RUS_nat_gre_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_gre_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
+set_variable = { RUS_nat_gre_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_eng_crop = 3 } }
+if = { limit = { check_variable = { RUS_nat_gre_crop = 3 } }
 set_variable = { RUS_nat_free = RUS_nat_beet_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_beet_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_gre_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_gre_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
@@ -1787,9 +1866,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_beet }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
+set_variable = { RUS_nat_units = RUS_nat_gre_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_beet_sold < RUS_agri_beet_capacity } } }
@@ -1808,17 +1886,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_beet_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_beet_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_beet_left = RUS_nat_eng_quantity }
+subtract_from_variable = { RUS_nat_beet_work = RUS_nat_gre_quantity }
+subtract_from_variable = { RUS_nat_beet_left = RUS_nat_gre_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
+set_variable = { RUS_nat_gre_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_eng_crop = 4 } }
+if = { limit = { check_variable = { RUS_nat_gre_crop = 4 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_gre_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_gre_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
@@ -1826,9 +1904,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_flax }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
+set_variable = { RUS_nat_units = RUS_nat_gre_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_flax_sold < RUS_agri_flax_capacity } } }
@@ -1847,17 +1924,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_flax_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_flax_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_eng_quantity }
+subtract_from_variable = { RUS_nat_flax_work = RUS_nat_gre_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_gre_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
+set_variable = { RUS_nat_gre_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_eng_crop = 5 } }
+if = { limit = { check_variable = { RUS_nat_gre_crop = 5 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_gre_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_gre_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
@@ -1865,9 +1942,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_cotton }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
+set_variable = { RUS_nat_units = RUS_nat_gre_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_cotton_sold < RUS_agri_cotton_capacity } } }
@@ -1886,19 +1962,19 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_cotton_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_eng_quantity }
+subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_gre_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_gre_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
+set_variable = { RUS_nat_gre_shipped = 1 }
 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_priority = 3 } check_variable = { RUS_nat_generic_accept = 1 } check_variable = { RUS_nat_generic_shipped = 0 } check_variable = { RUS_nat_generic_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 1 } }
+if = { limit = { check_variable = { RUS_nat_alb_priority = RUS_nat_order_rank } check_variable = { RUS_nat_alb_accept = 1 } check_variable = { RUS_nat_alb_shipped = 0 } check_variable = { RUS_nat_alb_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_alb_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_alb_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_alb_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
@@ -1907,7 +1983,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_wheat }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_alb_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_wheat_sold < RUS_agri_wheat_capacity } } }
@@ -1926,17 +2002,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_wheat_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_alb_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_alb_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_alb_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 2 } }
+if = { limit = { check_variable = { RUS_nat_alb_crop = 2 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_alb_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_alb_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
@@ -1945,7 +2021,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_rye }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_alb_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_rye_sold < RUS_agri_rye_capacity } } }
@@ -1964,17 +2040,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_rye_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_rye_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_rye_work = RUS_nat_alb_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_alb_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_alb_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 3 } }
+if = { limit = { check_variable = { RUS_nat_alb_crop = 3 } }
 set_variable = { RUS_nat_free = RUS_nat_beet_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_beet_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_alb_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_alb_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
@@ -1983,7 +2059,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_beet }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_alb_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_beet_sold < RUS_agri_beet_capacity } } }
@@ -2002,17 +2078,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_beet_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_beet_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_beet_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_beet_work = RUS_nat_alb_quantity }
+subtract_from_variable = { RUS_nat_beet_left = RUS_nat_alb_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_alb_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 4 } }
+if = { limit = { check_variable = { RUS_nat_alb_crop = 4 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_alb_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_alb_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
@@ -2021,7 +2097,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_flax }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_alb_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_flax_sold < RUS_agri_flax_capacity } } }
@@ -2040,17 +2116,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_flax_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_flax_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_flax_work = RUS_nat_alb_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_alb_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_alb_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_generic_crop = 5 } }
+if = { limit = { check_variable = { RUS_nat_alb_crop = 5 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_generic_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_generic_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_alb_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_alb_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
@@ -2059,7 +2135,7 @@ if = { limit = { has_country_flag = RUS_agri_saturation_cotton }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_generic_quantity }
+set_variable = { RUS_nat_units = RUS_nat_alb_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_cotton_sold < RUS_agri_cotton_capacity } } }
@@ -2078,19 +2154,19 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_cotton_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_generic_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_generic_quantity }
+subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_alb_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_alb_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_generic_shipped = 1 }
+set_variable = { RUS_nat_alb_shipped = 1 }
 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_priority = 3 } check_variable = { RUS_nat_fra_accept = 1 } check_variable = { RUS_nat_fra_shipped = 0 } check_variable = { RUS_nat_fra_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 1 } }
+if = { limit = { check_variable = { RUS_nat_bul_priority = RUS_nat_order_rank } check_variable = { RUS_nat_bul_accept = 1 } check_variable = { RUS_nat_bul_shipped = 0 } check_variable = { RUS_nat_bul_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_bul_crop = 1 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_bul_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_bul_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
@@ -2098,9 +2174,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_wheat }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_bul_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_wheat_sold < RUS_agri_wheat_capacity } } }
@@ -2119,17 +2194,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_wheat_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_bul_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_bul_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_bul_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 2 } }
+if = { limit = { check_variable = { RUS_nat_bul_crop = 2 } }
 set_variable = { RUS_nat_free = RUS_nat_food_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_bul_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_bul_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
@@ -2137,9 +2212,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_rye }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_bul_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_rye_sold < RUS_agri_rye_capacity } } }
@@ -2158,17 +2232,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_rye_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_rye_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_rye_work = RUS_nat_bul_quantity }
+subtract_from_variable = { RUS_nat_food_left = RUS_nat_bul_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_bul_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 3 } }
+if = { limit = { check_variable = { RUS_nat_bul_crop = 3 } }
 set_variable = { RUS_nat_free = RUS_nat_beet_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_beet_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_bul_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_bul_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
@@ -2176,9 +2250,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_beet }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_bul_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_beet_sold < RUS_agri_beet_capacity } } }
@@ -2197,17 +2270,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_beet_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_beet_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_beet_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_beet_work = RUS_nat_bul_quantity }
+subtract_from_variable = { RUS_nat_beet_left = RUS_nat_bul_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_bul_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 4 } }
+if = { limit = { check_variable = { RUS_nat_bul_crop = 4 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_bul_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_bul_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
@@ -2215,9 +2288,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_flax }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_bul_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_flax_sold < RUS_agri_flax_capacity } } }
@@ -2236,17 +2308,17 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_flax_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_flax_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_flax_work = RUS_nat_bul_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_bul_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_bul_shipped = 1 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_fra_crop = 5 } }
+if = { limit = { check_variable = { RUS_nat_bul_crop = 5 } }
 set_variable = { RUS_nat_free = RUS_nat_textile_left }
 subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_fra_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_fra_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
+if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_bul_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_bul_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
 set_variable = { RUS_nat_price = 1 }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
 add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
@@ -2254,9 +2326,8 @@ add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
 if = { limit = { has_country_flag = RUS_agri_saturation_cotton }
 subtract_from_variable = { RUS_nat_price = 0.15 }
 }
-add_to_variable = { RUS_nat_price = 0.1 }
 set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_fra_quantity }
+set_variable = { RUS_nat_units = RUS_nat_bul_quantity }
 while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
 set_variable = { RUS_nat_unit_price = RUS_nat_price }
 if = { limit = { NOT = { check_variable = { RUS_nat_cotton_sold < RUS_agri_cotton_capacity } } }
@@ -2275,210 +2346,15 @@ subtract_from_variable = { RUS_nat_units = 1 }
 multiply_variable = { RUS_nat_order_cash = 1000 }
 add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
 add_to_variable = { RUS_nat_cotton_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_fra_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_fra_quantity }
+subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_bul_quantity }
+subtract_from_variable = { RUS_nat_textile_left = RUS_nat_bul_quantity }
 if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_fra_shipped = 1 }
+set_variable = { RUS_nat_bul_shipped = 1 }
 }
 }
 }
 }
-if = { limit = { check_variable = { RUS_nat_eng_priority = 3 } check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_quantity > 0 } check_variable = { RUS_nat_food_ratio > 0.9999 } check_variable = { RUS_nat_beet_ratio > 0.9999 } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-if = { limit = { check_variable = { RUS_nat_eng_crop = 1 } }
-set_variable = { RUS_nat_free = RUS_nat_food_left }
-subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_wheat_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
-set_variable = { RUS_nat_price = 1 }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-add_to_variable = { RUS_nat_price = RUS_agri_wheat_market }
-}
-if = { limit = { has_country_flag = RUS_agri_saturation_wheat }
-subtract_from_variable = { RUS_nat_price = 0.15 }
-}
-add_to_variable = { RUS_nat_price = 0.1 }
-set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
-while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
-set_variable = { RUS_nat_unit_price = RUS_nat_price }
-if = { limit = { NOT = { check_variable = { RUS_nat_wheat_sold < RUS_agri_wheat_capacity } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.3 }
-}
-set_variable = { RUS_nat_tmp = RUS_agri_wheat_capacity }
-add_to_variable = { RUS_nat_tmp = 2 }
-if = { limit = { NOT = { check_variable = { RUS_nat_wheat_sold < RUS_nat_tmp } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.4 }
-}
-clamp_variable = { var = RUS_nat_unit_price min = 0.4 max = 1.5 }
-add_to_variable = { RUS_nat_order_cash = RUS_nat_unit_price }
-add_to_variable = { RUS_nat_wheat_sold = 1 }
-subtract_from_variable = { RUS_nat_units = 1 }
-}
-multiply_variable = { RUS_nat_order_cash = 1000 }
-add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
-add_to_variable = { RUS_nat_wheat_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_wheat_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_eng_quantity }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
-}
-}
-}
-if = { limit = { check_variable = { RUS_nat_eng_crop = 2 } }
-set_variable = { RUS_nat_free = RUS_nat_food_left }
-subtract_from_variable = { RUS_nat_free = RUS_nat_food_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_rye_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_food_ratio > 0.9999 } }
-set_variable = { RUS_nat_price = 1 }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-add_to_variable = { RUS_nat_price = RUS_agri_rye_market }
-}
-if = { limit = { has_country_flag = RUS_agri_saturation_rye }
-subtract_from_variable = { RUS_nat_price = 0.15 }
-}
-add_to_variable = { RUS_nat_price = 0.1 }
-set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
-while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
-set_variable = { RUS_nat_unit_price = RUS_nat_price }
-if = { limit = { NOT = { check_variable = { RUS_nat_rye_sold < RUS_agri_rye_capacity } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.3 }
-}
-set_variable = { RUS_nat_tmp = RUS_agri_rye_capacity }
-add_to_variable = { RUS_nat_tmp = 2 }
-if = { limit = { NOT = { check_variable = { RUS_nat_rye_sold < RUS_nat_tmp } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.4 }
-}
-clamp_variable = { var = RUS_nat_unit_price min = 0.4 max = 1.5 }
-add_to_variable = { RUS_nat_order_cash = RUS_nat_unit_price }
-add_to_variable = { RUS_nat_rye_sold = 1 }
-subtract_from_variable = { RUS_nat_units = 1 }
-}
-multiply_variable = { RUS_nat_order_cash = 1000 }
-add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
-add_to_variable = { RUS_nat_rye_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_rye_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_food_left = RUS_nat_eng_quantity }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
-}
-}
-}
-if = { limit = { check_variable = { RUS_nat_eng_crop = 3 } }
-set_variable = { RUS_nat_free = RUS_nat_beet_left }
-subtract_from_variable = { RUS_nat_free = RUS_nat_beet_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_beet_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_beet_ratio > 0.9999 } }
-set_variable = { RUS_nat_price = 1 }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-add_to_variable = { RUS_nat_price = RUS_agri_beet_market }
-}
-if = { limit = { has_country_flag = RUS_agri_saturation_beet }
-subtract_from_variable = { RUS_nat_price = 0.15 }
-}
-add_to_variable = { RUS_nat_price = 0.1 }
-set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
-while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
-set_variable = { RUS_nat_unit_price = RUS_nat_price }
-if = { limit = { NOT = { check_variable = { RUS_nat_beet_sold < RUS_agri_beet_capacity } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.3 }
-}
-set_variable = { RUS_nat_tmp = RUS_agri_beet_capacity }
-add_to_variable = { RUS_nat_tmp = 2 }
-if = { limit = { NOT = { check_variable = { RUS_nat_beet_sold < RUS_nat_tmp } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.4 }
-}
-clamp_variable = { var = RUS_nat_unit_price min = 0.4 max = 1.5 }
-add_to_variable = { RUS_nat_order_cash = RUS_nat_unit_price }
-add_to_variable = { RUS_nat_beet_sold = 1 }
-subtract_from_variable = { RUS_nat_units = 1 }
-}
-multiply_variable = { RUS_nat_order_cash = 1000 }
-add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
-add_to_variable = { RUS_nat_beet_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_beet_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_beet_left = RUS_nat_eng_quantity }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
-}
-}
-}
-if = { limit = { check_variable = { RUS_nat_eng_crop = 4 } }
-set_variable = { RUS_nat_free = RUS_nat_textile_left }
-subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_flax_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-set_variable = { RUS_nat_price = 1 }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-add_to_variable = { RUS_nat_price = RUS_agri_flax_market }
-}
-if = { limit = { has_country_flag = RUS_agri_saturation_flax }
-subtract_from_variable = { RUS_nat_price = 0.15 }
-}
-add_to_variable = { RUS_nat_price = 0.1 }
-set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
-while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
-set_variable = { RUS_nat_unit_price = RUS_nat_price }
-if = { limit = { NOT = { check_variable = { RUS_nat_flax_sold < RUS_agri_flax_capacity } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.3 }
-}
-set_variable = { RUS_nat_tmp = RUS_agri_flax_capacity }
-add_to_variable = { RUS_nat_tmp = 2 }
-if = { limit = { NOT = { check_variable = { RUS_nat_flax_sold < RUS_nat_tmp } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.4 }
-}
-clamp_variable = { var = RUS_nat_unit_price min = 0.4 max = 1.5 }
-add_to_variable = { RUS_nat_order_cash = RUS_nat_unit_price }
-add_to_variable = { RUS_nat_flax_sold = 1 }
-subtract_from_variable = { RUS_nat_units = 1 }
-}
-multiply_variable = { RUS_nat_order_cash = 1000 }
-add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
-add_to_variable = { RUS_nat_flax_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_flax_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_eng_quantity }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
-}
-}
-}
-if = { limit = { check_variable = { RUS_nat_eng_crop = 5 } }
-set_variable = { RUS_nat_free = RUS_nat_textile_left }
-subtract_from_variable = { RUS_nat_free = RUS_nat_textile_reserve }
-if = { limit = { check_variable = { RUS_nat_free > -0.0001 } NOT = { check_variable = { RUS_nat_free < RUS_nat_eng_quantity } } NOT = { check_variable = { RUS_nat_cotton_work < RUS_nat_eng_quantity } } check_variable = { RUS_nat_textile_ratio > 0.9999 } }
-set_variable = { RUS_nat_price = 1 }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-add_to_variable = { RUS_nat_price = RUS_agri_cotton_market }
-}
-if = { limit = { has_country_flag = RUS_agri_saturation_cotton }
-subtract_from_variable = { RUS_nat_price = 0.15 }
-}
-add_to_variable = { RUS_nat_price = 0.1 }
-set_variable = { RUS_nat_order_cash = 0 }
-set_variable = { RUS_nat_units = RUS_nat_eng_quantity }
-while_loop_effect = { limit = { check_variable = { RUS_nat_units > 0 } }
-set_variable = { RUS_nat_unit_price = RUS_nat_price }
-if = { limit = { NOT = { check_variable = { RUS_nat_cotton_sold < RUS_agri_cotton_capacity } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.3 }
-}
-set_variable = { RUS_nat_tmp = RUS_agri_cotton_capacity }
-add_to_variable = { RUS_nat_tmp = 2 }
-if = { limit = { NOT = { check_variable = { RUS_nat_cotton_sold < RUS_nat_tmp } } }
-subtract_from_variable = { RUS_nat_unit_price = 0.4 }
-}
-clamp_variable = { var = RUS_nat_unit_price min = 0.4 max = 1.5 }
-add_to_variable = { RUS_nat_order_cash = RUS_nat_unit_price }
-add_to_variable = { RUS_nat_cotton_sold = 1 }
-subtract_from_variable = { RUS_nat_units = 1 }
-}
-multiply_variable = { RUS_nat_order_cash = 1000 }
-add_to_variable = { RUS_nat_income = RUS_nat_order_cash }
-add_to_variable = { RUS_nat_cotton_income = RUS_nat_order_cash }
-subtract_from_variable = { RUS_nat_cotton_work = RUS_nat_eng_quantity }
-subtract_from_variable = { RUS_nat_textile_left = RUS_nat_eng_quantity }
-if = { limit = { check_variable = { RUS_nat_actual = 1 } }
-set_variable = { RUS_nat_eng_shipped = 1 }
-}
-}
-}
+add_to_variable = { RUS_nat_order_rank = 1 }
 }
 if = { limit = { check_variable = { RUS_nat_fra_machine_accept = 1 } check_variable = { RUS_nat_fra_machine_shipped = 0 } check_variable = { RUS_nat_fra_machine_quantity > 0 } }
 set_variable = { RUS_nat_free = RUS_nat_machine_work }
@@ -2616,6 +2492,7 @@ clamp_variable = { var = RUS_nat_textile_gap min = 0 max = 1000 }
 set_variable = { RUS_nat_coverage_display = RUS_nat_mean_coverage }
 multiply_variable = { RUS_nat_coverage_display = 100 }
 RUS_nat_supply_ledger = yes
+RUS_nat_order_browser_refresh = yes
 RUS_agri_refresh_gui = yes
 }
 
@@ -2634,6 +2511,21 @@ add_to_variable = { RUS_nat_food_order_need = RUS_nat_fra_quantity }
 if = { limit = { check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_crop = 1 } }
 add_to_variable = { RUS_nat_food_order_need = RUS_nat_eng_quantity }
 }
+if = { limit = { check_variable = { RUS_nat_ser_accept = 1 } check_variable = { RUS_nat_ser_shipped = 0 } check_variable = { RUS_nat_ser_crop = 1 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_ser_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_rom_accept = 1 } check_variable = { RUS_nat_rom_shipped = 0 } check_variable = { RUS_nat_rom_crop = 1 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_rom_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_gre_accept = 1 } check_variable = { RUS_nat_gre_shipped = 0 } check_variable = { RUS_nat_gre_crop = 1 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_gre_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_alb_accept = 1 } check_variable = { RUS_nat_alb_shipped = 0 } check_variable = { RUS_nat_alb_crop = 1 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_alb_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_bul_accept = 1 } check_variable = { RUS_nat_bul_shipped = 0 } check_variable = { RUS_nat_bul_crop = 1 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_bul_quantity }
+}
 add_to_variable = { RUS_nat_food_stock_now = RUS_nat_rye_stock }
 add_to_variable = { RUS_nat_food_new_yield = RUS_nat_rye_yield }
 if = { limit = { check_variable = { RUS_nat_generic_accept = 1 } check_variable = { RUS_nat_generic_shipped = 0 } check_variable = { RUS_nat_generic_crop = 2 } }
@@ -2644,6 +2536,21 @@ add_to_variable = { RUS_nat_food_order_need = RUS_nat_fra_quantity }
 }
 if = { limit = { check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_crop = 2 } }
 add_to_variable = { RUS_nat_food_order_need = RUS_nat_eng_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_ser_accept = 1 } check_variable = { RUS_nat_ser_shipped = 0 } check_variable = { RUS_nat_ser_crop = 2 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_ser_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_rom_accept = 1 } check_variable = { RUS_nat_rom_shipped = 0 } check_variable = { RUS_nat_rom_crop = 2 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_rom_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_gre_accept = 1 } check_variable = { RUS_nat_gre_shipped = 0 } check_variable = { RUS_nat_gre_crop = 2 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_gre_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_alb_accept = 1 } check_variable = { RUS_nat_alb_shipped = 0 } check_variable = { RUS_nat_alb_crop = 2 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_alb_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_bul_accept = 1 } check_variable = { RUS_nat_bul_shipped = 0 } check_variable = { RUS_nat_bul_crop = 2 } }
+add_to_variable = { RUS_nat_food_order_need = RUS_nat_bul_quantity }
 }
 set_variable = { RUS_nat_food_target_total = RUS_nat_food_need }
 add_to_variable = { RUS_nat_food_target_total = RUS_nat_food_reserve }
@@ -2666,6 +2573,21 @@ add_to_variable = { RUS_nat_beet_order_need = RUS_nat_fra_quantity }
 if = { limit = { check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_crop = 3 } }
 add_to_variable = { RUS_nat_beet_order_need = RUS_nat_eng_quantity }
 }
+if = { limit = { check_variable = { RUS_nat_ser_accept = 1 } check_variable = { RUS_nat_ser_shipped = 0 } check_variable = { RUS_nat_ser_crop = 3 } }
+add_to_variable = { RUS_nat_beet_order_need = RUS_nat_ser_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_rom_accept = 1 } check_variable = { RUS_nat_rom_shipped = 0 } check_variable = { RUS_nat_rom_crop = 3 } }
+add_to_variable = { RUS_nat_beet_order_need = RUS_nat_rom_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_gre_accept = 1 } check_variable = { RUS_nat_gre_shipped = 0 } check_variable = { RUS_nat_gre_crop = 3 } }
+add_to_variable = { RUS_nat_beet_order_need = RUS_nat_gre_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_alb_accept = 1 } check_variable = { RUS_nat_alb_shipped = 0 } check_variable = { RUS_nat_alb_crop = 3 } }
+add_to_variable = { RUS_nat_beet_order_need = RUS_nat_alb_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_bul_accept = 1 } check_variable = { RUS_nat_bul_shipped = 0 } check_variable = { RUS_nat_bul_crop = 3 } }
+add_to_variable = { RUS_nat_beet_order_need = RUS_nat_bul_quantity }
+}
 set_variable = { RUS_nat_beet_target_total = RUS_nat_beet_need }
 add_to_variable = { RUS_nat_beet_target_total = RUS_nat_beet_reserve }
 add_to_variable = { RUS_nat_beet_target_total = RUS_nat_beet_order_need }
@@ -2687,6 +2609,21 @@ add_to_variable = { RUS_nat_textile_order_need = RUS_nat_fra_quantity }
 if = { limit = { check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_crop = 4 } }
 add_to_variable = { RUS_nat_textile_order_need = RUS_nat_eng_quantity }
 }
+if = { limit = { check_variable = { RUS_nat_ser_accept = 1 } check_variable = { RUS_nat_ser_shipped = 0 } check_variable = { RUS_nat_ser_crop = 4 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_ser_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_rom_accept = 1 } check_variable = { RUS_nat_rom_shipped = 0 } check_variable = { RUS_nat_rom_crop = 4 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_rom_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_gre_accept = 1 } check_variable = { RUS_nat_gre_shipped = 0 } check_variable = { RUS_nat_gre_crop = 4 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_gre_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_alb_accept = 1 } check_variable = { RUS_nat_alb_shipped = 0 } check_variable = { RUS_nat_alb_crop = 4 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_alb_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_bul_accept = 1 } check_variable = { RUS_nat_bul_shipped = 0 } check_variable = { RUS_nat_bul_crop = 4 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_bul_quantity }
+}
 add_to_variable = { RUS_nat_textile_stock_now = RUS_nat_cotton_stock }
 add_to_variable = { RUS_nat_textile_new_yield = RUS_nat_cotton_yield }
 if = { limit = { check_variable = { RUS_nat_generic_accept = 1 } check_variable = { RUS_nat_generic_shipped = 0 } check_variable = { RUS_nat_generic_crop = 5 } }
@@ -2697,6 +2634,21 @@ add_to_variable = { RUS_nat_textile_order_need = RUS_nat_fra_quantity }
 }
 if = { limit = { check_variable = { RUS_nat_eng_accept = 1 } check_variable = { RUS_nat_eng_shipped = 0 } check_variable = { RUS_nat_eng_crop = 5 } }
 add_to_variable = { RUS_nat_textile_order_need = RUS_nat_eng_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_ser_accept = 1 } check_variable = { RUS_nat_ser_shipped = 0 } check_variable = { RUS_nat_ser_crop = 5 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_ser_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_rom_accept = 1 } check_variable = { RUS_nat_rom_shipped = 0 } check_variable = { RUS_nat_rom_crop = 5 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_rom_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_gre_accept = 1 } check_variable = { RUS_nat_gre_shipped = 0 } check_variable = { RUS_nat_gre_crop = 5 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_gre_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_alb_accept = 1 } check_variable = { RUS_nat_alb_shipped = 0 } check_variable = { RUS_nat_alb_crop = 5 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_alb_quantity }
+}
+if = { limit = { check_variable = { RUS_nat_bul_accept = 1 } check_variable = { RUS_nat_bul_shipped = 0 } check_variable = { RUS_nat_bul_crop = 5 } }
+add_to_variable = { RUS_nat_textile_order_need = RUS_nat_bul_quantity }
 }
 set_variable = { RUS_nat_textile_target_total = RUS_nat_textile_need }
 add_to_variable = { RUS_nat_textile_target_total = RUS_nat_textile_reserve }
@@ -3028,6 +2980,11 @@ set_variable = { RUS_nat_last_crop_orders = 0 }
 add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_generic_shipped }
 add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_fra_shipped }
 add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_eng_shipped }
+add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_ser_shipped }
+add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_rom_shipped }
+add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_gre_shipped }
+add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_alb_shipped }
+add_to_variable = { RUS_nat_last_crop_orders = RUS_nat_bul_shipped }
 set_variable = { RUS_nat_last_machine_orders = 0 }
 add_to_variable = { RUS_nat_last_machine_orders = RUS_nat_fra_machine_shipped }
 add_to_variable = { RUS_nat_last_machine_orders = RUS_nat_eng_machine_shipped }
