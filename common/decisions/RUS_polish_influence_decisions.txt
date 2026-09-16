@@ -1,0 +1,71 @@
+RUS_Spreading_the_Revolution_decisions = {
+ RUS_rd_POL_press = {
+  icon = GFX_decision_generic_operation
+  priority = 155
+  visible = { RUS_rd_POL_page = yes  }
+  available = { RUS_rd_POL_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_POL_ready NOT = { has_country_flag = RUS_rd_POL_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unblocked NOT = { has_country_flag = RUS_rd_POL_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_press_cooldown NOT = { has_country_flag = RUS_rd_POL_press_cooldown } } POL = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_influence_room has_variable = POL_soc_influence check_variable = { POL_soc_influence < 100 } } } }
+  custom_cost_text = RUS_rd_POL_press_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_press_afford RUS_diplomacy_can_pay_25 = yes } }
+  fire_only_once = no
+  days_remove = 21
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_021 } RUS_rd_POL_target_valid = yes POL = { has_variable = POL_soc_influence } } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = {  }
+   hidden_effect = { RUS_rd_POL_press_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { POL = { set_temp_variable = { POL_influence_change = 3 } POL_add_syndicalist_influence = yes } }
+   hidden_effect = { RUS_rd_POL_press_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_POL_press_active } RUS_rd_POL_press_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_POL_unions = {
+  icon = GFX_decision_generic_operation
+  priority = 154
+  visible = { RUS_rd_POL_page = yes  }
+  available = { RUS_rd_POL_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_POL_ready NOT = { has_country_flag = RUS_rd_POL_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unblocked NOT = { has_country_flag = RUS_rd_POL_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unions_cooldown NOT = { has_country_flag = RUS_rd_POL_unions_cooldown } } POL = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_influence_room has_variable = POL_soc_influence check_variable = { POL_soc_influence < 100 } } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unions_resource NOT = { check_variable = { RUS_rd_POL_stock < 10 } } } }
+  custom_cost_text = RUS_rd_POL_unions_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_unions_afford RUS_diplomacy_can_pay_35 = yes } }
+  fire_only_once = no
+  days_remove = 30
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_021 } RUS_rd_POL_target_valid = yes POL = { has_variable = POL_soc_influence } } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_POL_unions_spend }
+   hidden_effect = { RUS_rd_POL_unions_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 85 = { POL = { set_temp_variable = { POL_influence_change = 5 } POL_add_syndicalist_influence = yes } } 15 = { custom_effect_tooltip = RUS_rd_POL_unions_exposed } } }
+   hidden_effect = { RUS_rd_POL_unions_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_POL_unions_active } RUS_rd_POL_unions_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+ RUS_rd_POL_workers_peasants = {
+  icon = GFX_decision_generic_operation
+  priority = 153
+  visible = { RUS_rd_POL_page = yes  }
+  available = { RUS_rd_POL_route_valid = yes custom_trigger_tooltip = { tooltip = RUS_rd_POL_ready NOT = { has_country_flag = RUS_rd_POL_busy } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_unblocked NOT = { has_country_flag = RUS_rd_POL_lock } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_workers_peasants_cooldown NOT = { has_country_flag = RUS_rd_POL_workers_peasants_cooldown } } POL = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_influence_room has_variable = POL_soc_influence check_variable = { POL_soc_influence < 100 } } } custom_trigger_tooltip = { tooltip = RUS_rd_POL_workers_peasants_resource NOT = { check_variable = { RUS_rd_POL_stock < 15 } } } }
+  custom_cost_text = RUS_rd_POL_workers_peasants_cost
+  custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_rd_POL_workers_peasants_afford RUS_diplomacy_can_pay_40 = yes } }
+  fire_only_once = no
+  days_remove = 30
+  cancel_trigger = { NOT = { hidden_trigger = { original_tag = RUS is_subject = no has_socialist_government = yes has_completed_focus = RUS_future_foreign_021 } RUS_rd_POL_target_valid = yes POL = { has_variable = POL_soc_influence } } }
+  complete_effect = {
+   custom_effect_tooltip = RUS_rd_readiness_gain_tt
+   hidden_effect = { RUS_rd_action_readiness = yes }
+   effect_tooltip = { custom_effect_tooltip = RUS_rd_POL_workers_peasants_spend }
+   hidden_effect = { RUS_rd_POL_workers_peasants_start = yes }
+  }
+  remove_effect = {
+   effect_tooltip = { random_list = { 80 = { POL = { set_temp_variable = { POL_influence_change = 7 } POL_add_syndicalist_influence = yes } } 20 = { custom_effect_tooltip = RUS_rd_POL_workers_peasants_exposed } } }
+   hidden_effect = { RUS_rd_POL_workers_peasants_finish = yes }
+  }
+  cancel_effect = { hidden_effect = { if = { limit = { has_country_flag = RUS_rd_POL_workers_peasants_active } RUS_rd_POL_workers_peasants_cleanup = yes } } }
+  ai_will_do = { factor = 0 }
+ }
+}

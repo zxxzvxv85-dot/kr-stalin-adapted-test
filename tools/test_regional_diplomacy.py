@@ -45,6 +45,7 @@ def check(b,c,w):
         if k=='has_idea':return v in c['ideas']
         if k=='controls_province':return w['_provinces'][int(val(v,c))]['controller']==c['tag']
         if k=='has_template':return v in c.get('templates',{})
+        if k=='has_variable':return v in c['vars']
         if k=='any_owned_state':return any(check(v,s,w) for s in c.get('states',[]) if s['owner']==c['tag'])
         if k=='any_controlled_state':return any(check(v,s,w) for s in c.get('states',[]) if s['controller']==c['tag'])
         if k=='any_neighbor_state':return any(check(v,s,w) for s in c.get('neighbors',[]))
@@ -107,9 +108,9 @@ def run(b,c,w,choice=0):
             if isinstance(v,list):c['flags'][get(v,'flag')]=int(get(v,'days'))
             else:c['flags'][v]=None
         elif k=='clr_country_flag':c['flags'].pop(v,None)
-        elif k in ['set_variable','add_to_variable','subtract_from_variable']:
+        elif k in ['set_variable','set_temp_variable','add_to_variable','subtract_from_variable']:
             a,_,z=v[0];z=val(z,c);current=c['vars'].get(a,0)
-            c['vars'][a]=z if k=='set_variable' else current+z*(1 if k=='add_to_variable' else -1)
+            c['vars'][a]=z if k in ['set_variable','set_temp_variable'] else current+z*(1 if k=='add_to_variable' else -1)
         elif k=='clamp_variable':
             a=get(v,'var');c['vars'][a]=max(float(get(v,'min')),min(float(get(v,'max')),c['vars'].get(a,0)))
         elif k=='add_political_power':c['pp']+=float(v)
