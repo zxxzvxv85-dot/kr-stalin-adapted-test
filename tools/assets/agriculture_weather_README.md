@@ -1,0 +1,9 @@
+# Agriculture weather artwork
+
+Generated with the built-in `image_gen` tool. No CLI/API fallback was used; the tool did not identify a specific model. The atlas is `agriculture_weather_atlas.png`, RGBA, 2172 × 724 pixels. Three equal-width cells are cropped by alpha and resized into transparent 42 × 34 game sprites by `build_agriculture_card_gui.py`.
+
+Validation: three readable silhouettes inspected on the green GUI background at native size, non-empty alpha and transparent padding confirmed. Native game rendering still needs restart verification.
+
+Final prompt:
+
+Create one transparent PNG sprite atlas for a premium 1930s Hearts of Iron IV / Kaiserreich agricultural management GUI. One horizontal row of exactly THREE separate weather emblems in three equal square cells, generous transparent margins and no overlap. LEFT: favourable weather, a beautifully modelled antique brass sun with short sculpted triangular rays, warm muted golden face, no face features. CENTER: ordinary weather, the same brass sun half hidden behind a compact silver-grey sculpted cloud. RIGHT: adverse weather, a substantial dark pewter storm cloud with three readable silver rain drops and a tiny restrained brass lightning bolt. Authentic detailed hand-painted game UI inventory icon rendering, beveled cast metal, aged bronze highlights, deep crisp relief and restrained worn silver patina. Readable strong silhouettes at only 42x34 pixels. Professional historical strategy-game assets, not emoji, not flat vector, not simple geometric line drawing, not plastic, not cartoon, not glossy mobile game jewels. All three same material language and apparent scale, orthographic frontal view. NO text, numerals, lettering, badges, frames, background scenes, checkers or labels. True transparent alpha background. Each emblem occupies the central 70 percent of its cell. The row is the complete asset. Wide 3:1 aspect.

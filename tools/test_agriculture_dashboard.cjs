@@ -24,3 +24,10 @@ for(const lang of ['simp_chinese','english','russian']){
 console.log('Dashboard: original click effects preserved; one page visible including unset page; allocation bars exact; three locales retain detailed tooltips.');
 
 assert.ok(!/[<>]=/.test(read('common/scripted_guis/RUS_national_agriculture.txt')), 'Native HOI4 parser rejects inline >= and <= here; use NOT with the opposite strict comparison');
+
+for(const lang of ['simp_chinese','english','russian']){
+ const expanded=read(`localisation/replace/RUS_agriculture_expanded_l_${lang}.yml`);
+ assert.ok(!/\$[\w.]+\$/.test(expanded));
+ assert.ok(expanded.includes('RUS_nat_report_cotton:0'));
+ assert.ok(expanded.includes('[?RUS_nat_cotton_last_yield|1]'));
+}

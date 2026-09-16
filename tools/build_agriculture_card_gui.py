@@ -54,14 +54,11 @@ save('supply_panel',plate(482,89))
 save('report_panel',plate(482,371,'green'))
 save('small_panel',plate(234,80))
 save('footer',plate(482,26))
-for name in ['good','normal','bad']:
- im=Image.new('RGBA',(42,34));d=ImageDraw.Draw(im)
- if name!='bad':
-  d.ellipse((8,5,27,24),fill='#d7b66f',outline='#f2d594',width=2)
-  for j in range(8):
-   a=math.pi*j/4;d.line((18+12*math.cos(a),15+12*math.sin(a),18+16*math.cos(a),15+16*math.sin(a)),fill='#c3a773',width=2)
- if name!='good':paste(im,L/('效果/Cloud.png' if name=='normal' else '效果/Cloud Dark.png'),(8,7,32,24))
- save('weather_'+name,im)
+atlas=Image.open(R/'tools/assets/agriculture_weather_atlas.png').convert('RGBA')
+for index,name in enumerate(['good','normal','bad']):
+ cell=atlas.crop((index*atlas.width//3,0,(index+1)*atlas.width//3,atlas.height))
+ cell=cell.crop(cell.getbbox());cell.thumbnail((38,32),Image.Resampling.LANCZOS)
+ im=Image.new('RGBA',(42,34));im.alpha_composite(cell,((42-cell.width)//2,(34-cell.height)//2));save('weather_'+name,im)
 g=['guiTypes = { containerWindowType = { name = "RUS_national_agriculture_window" position = { x = 0 y = 0 } size = { width = 100% height = 625 } clipping = yes']
 tr=[];loc={};layout=[]
 def condition(p):return 'check_variable = { RUS_nat_page < 2 }' if p==1 else f'check_variable = {{ RUS_nat_page = {p} }}'
@@ -171,15 +168,19 @@ for i,lang in enumerate(['simp_chinese','english','russian']):
  # GUI tooltips do not reliably expand nested $localisation$ references.
  # Resolve them at build time, leaving live [?variables] and [Get...] intact.
  source={}
- for stem in ['RUS_national_agriculture','RUS_agricultural_quarterly_management','RUS_agri_development','RUS_agri_business','RUS_agriculture_dashboard']:
-  file=R/f'localisation/{lang}/{stem}_l_{lang}.yml'
-  if file.exists():
-   source.update(re.findall(r'^\s*([\w.]+):(?:\d+)?\s*"(.*)"$',file.read_text(encoding='utf-8-sig'),re.M))
+ files=sorted((R/f'localisation/{lang}').glob('*.yml'))+sorted((R/'localisation/replace').glob(f'*_l_{lang}.yml'))
+ for file in files:
+  if file.name.startswith('RUS_agriculture_expanded_'):continue
+  source.update(re.findall(r'^\s*([\w.]+):(?:\d+)?\s*"(.*)"$',file.read_text(encoding='utf-8-sig'),re.M))
  source.update({k:v[i] for k,v in loc.items()})
  def expand(value,depth=0):
   assert depth<12, 'Localisation reference cycle'
   return re.sub(r'\$([\w.]+)\$',lambda m:expand(source[m[1]],depth+1),value)
  (R/f'localisation/{lang}/RUS_agriculture_cards_l_{lang}.yml').write_text(f'l_{lang}:\n'+''.join(f' {k}:0 "{expand(v[i])}"\n' for k,v in loc.items()),encoding='utf-8-sig')
+ # Legacy stock/report tooltip keys are used directly by several widgets and
+ # scripted-localisation branches. Flatten their nested crop-name references too.
+ flattened={k:expand(v) for k,v in source.items() if k.startswith(('RUS_nat_','RUS_dash_')) and re.search(r'\$[\w.]+\$',v)}
+ (R/f'localisation/replace/RUS_agriculture_expanded_l_{lang}.yml').write_text(f'l_{lang}:\n'+''.join(f' {k}:0 "{v}"\n' for k,v in flattened.items()),encoding='utf-8-sig')
 gfx=['spriteTypes = {']
 for name,(w,h,b) in sprites.items():gfx.append(f'spriteType = {{ name = "GFX_RUS_card_{name}" texturefile = "gfx/interface/RUS_agriculture_cards/{name}.png" noOfFrames = 1 '+('effectFile = "gfx/FX/buttonstate.lua" ' if b else '')+'}')
 gfx.append('}');(R/'interface/RUS_agriculture_cards.gfx').write_text('\n'.join(gfx)+'\n',encoding='utf-8')
