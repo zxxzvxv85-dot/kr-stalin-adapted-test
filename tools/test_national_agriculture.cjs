@@ -204,6 +204,7 @@ test('three locales, declared GUI keys, sprites and fixed page boundaries',()=>{
  let expected;const keys=new Set();for(const lang of ['simp_chinese','english','russian']){
  const bytes=fs.readFileSync(path.join(root,'localisation',lang,`RUS_national_agriculture_l_${lang}.yml`));assert.equal(bytes.subarray(0,3).toString('hex'),'efbbbf');const ids=bytes.toString('utf8').split(/\r?\n/).slice(1).filter(Boolean).map(l=>l.trim().split(':')[0]);assert.equal(new Set(ids).size,ids.length);if(expected)assert.deepEqual(ids,expected);expected=ids;ids.forEach(k=>keys.add(k));
  }
+ for(const lang of ['simp_chinese','english','russian'])for(const stem of ['RUS_agriculture_dashboard','RUS_agriculture_cards'])for(const m of read(`localisation/${lang}/${stem}_l_${lang}.yml`).matchAll(/^\s+(\S+):0/gm))keys.add(m[1]);
  const gui=get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes');assert.ok(gui);
  for(const m of read('interface/RUS_national_agriculture.gui').matchAll(/(?:text|buttonText|pdx_tooltip) = "([^"]+)"/g))assert.ok(keys.has(m[1])||m[1].startsWith('RUS_agri_'),'Missing UI key '+m[1]);
 });

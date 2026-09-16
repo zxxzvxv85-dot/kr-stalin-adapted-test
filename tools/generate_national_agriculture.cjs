@@ -433,3 +433,8 @@ loc.RUS_nat_tab_3_tt[1]=loc.RUS_nat_tab_3_tt[1].replace(/Beet or fibre shortages
 loc.RUS_nat_tab_3_tt[2]=loc.RUS_nat_tab_3_tt[2].replace(/Нехватка свёклы или волокна .*?заводов(?:§!)?\./, 'Дефицит свёклы пропорционально снижает стабильность в неделю, до -0.4% при нулевом снабжении. Нехватка волокна: стабильность -6%, ожидания ТНП +2.5%. При восстановлении снабжения штраф снимается; штрафы зерна и волокна суммируются.');
 ['simp_chinese','english','russian'].forEach((language,i)=>write(`localisation/${language}/RUS_national_agriculture_l_${language}.yml`,`l_${language}:\n`+Object.entries(loc).map(([key,values])=>` ${key}:0 "${values[i]}"`).join('\n')+'\n',true));
 console.log('Generated national agriculture scripts, four-page GUI and three locales.');
+
+// Keep the presentation layer when regenerating gameplay scripts.
+if (typeof module !== 'undefined' && require.main === module) {
+ require('node:child_process').execFileSync('python', [path.join(__dirname, 'build_agriculture_card_gui.py')], {stdio: 'inherit'});
+}

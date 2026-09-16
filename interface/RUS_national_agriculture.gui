@@ -1,123 +1,419 @@
 guiTypes = { containerWindowType = { name = "RUS_national_agriculture_window" position = { x = 0 y = 0 } size = { width = 100% height = 625 } clipping = yes
-instantTextBoxType = { name = "nat_title" position = { x = 10 y = 8 } font = "hoi_16mbs" text = "RUS_nat_title" maxWidth = 349 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_ledger" position = { x = 369 y = 0 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_ledger" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_ledger" }
-instantTextBoxType = { name = "nat_decision_score" position = { x = 10 y = 605 } font = "hoi_16mbs" text = "RUS_nat_decision_score_line" maxWidth = 482 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_tab_0" position = { x = 5 y = 38 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_tab_0" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_tab_0_tt" }
-buttonType = { name = "nat_tab_1" position = { x = 128 y = 38 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_tab_1" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_tab_1_tt" }
-buttonType = { name = "nat_tab_2" position = { x = 251 y = 38 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_tab_2" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_tab_2_tt" }
-buttonType = { name = "nat_tab_3" position = { x = 374 y = 38 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_tab_3" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_tab_3_tt" }
-instantTextBoxType = { name = "nat_header" position = { x = 10 y = 76 } font = "hoi_16mbs" text = "RUS_nat_header" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_reform_icon" position = { x = 8 y = 100 } spriteType = "GFX_RUS_nat_reform" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_score" position = { x = 38 y = 102 } font = "hoi_16mbs" text = "RUS_nat_score_line" maxWidth = 454 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_weather" position = { x = 10 y = 134 } font = "hoi_16mbs" text = "RUS_nat_weather" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_wheat_icon" position = { x = 10 y = 173 } spriteType = "GFX_RUS_agri_crop_wheat" scale = 0.5 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_wheat_name" position = { x = 50 y = 173 } font = "hoi_16mbs" text = "RUS_agri_wheat" maxWidth = 80 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_wheat_minus" position = { x = 136 y = 173 } quadTextureSprite = "GFX_naval_decrease_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_wheat_amount" position = { x = 169 y = 181 } font = "hoi_16mbs" text = "RUS_nat_wheat_amount" format = center maxWidth = 32 maxHeight = 17 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_wheat_plus" position = { x = 201 y = 173 } quadTextureSprite = "GFX_naval_increase_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_wheat_info" position = { x = 239 y = 173 } font = "hoi_16mbs" text = "RUS_nat_wheat_info" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_wheat_market" position = { x = 239 y = 195 } font = "hoi_16mbs" text = "RUS_nat_wheat_market_line" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_wheat_soil" position = { x = 10 y = 207 } font = "hoi_16mbs" text = "RUS_nat_wheat_soil" maxWidth = 223 maxHeight = 16 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_rye_icon" position = { x = 10 y = 223 } spriteType = "GFX_RUS_agri_crop_rye" scale = 0.5 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_rye_name" position = { x = 50 y = 223 } font = "hoi_16mbs" text = "RUS_agri_rye" maxWidth = 80 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_rye_minus" position = { x = 136 y = 223 } quadTextureSprite = "GFX_naval_decrease_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_rye_amount" position = { x = 169 y = 231 } font = "hoi_16mbs" text = "RUS_nat_rye_amount" format = center maxWidth = 32 maxHeight = 17 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_rye_plus" position = { x = 201 y = 223 } quadTextureSprite = "GFX_naval_increase_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_rye_info" position = { x = 239 y = 223 } font = "hoi_16mbs" text = "RUS_nat_rye_info" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_rye_market" position = { x = 239 y = 245 } font = "hoi_16mbs" text = "RUS_nat_rye_market_line" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_rye_soil" position = { x = 10 y = 257 } font = "hoi_16mbs" text = "RUS_nat_rye_soil" maxWidth = 223 maxHeight = 16 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_beet_icon" position = { x = 10 y = 273 } spriteType = "GFX_RUS_agri_crop_beet" scale = 0.5 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_beet_name" position = { x = 50 y = 273 } font = "hoi_16mbs" text = "RUS_agri_beet" maxWidth = 80 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_beet_minus" position = { x = 136 y = 273 } quadTextureSprite = "GFX_naval_decrease_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_beet_amount" position = { x = 169 y = 281 } font = "hoi_16mbs" text = "RUS_nat_beet_amount" format = center maxWidth = 32 maxHeight = 17 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_beet_plus" position = { x = 201 y = 273 } quadTextureSprite = "GFX_naval_increase_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_beet_info" position = { x = 239 y = 273 } font = "hoi_16mbs" text = "RUS_nat_beet_info" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_beet_market" position = { x = 239 y = 295 } font = "hoi_16mbs" text = "RUS_nat_beet_market_line" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_beet_soil" position = { x = 10 y = 307 } font = "hoi_16mbs" text = "RUS_nat_beet_soil" maxWidth = 223 maxHeight = 16 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_flax_icon" position = { x = 10 y = 323 } spriteType = "GFX_RUS_agri_crop_flax" scale = 0.5 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_flax_name" position = { x = 50 y = 323 } font = "hoi_16mbs" text = "RUS_agri_flax" maxWidth = 80 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_flax_minus" position = { x = 136 y = 323 } quadTextureSprite = "GFX_naval_decrease_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_flax_amount" position = { x = 169 y = 331 } font = "hoi_16mbs" text = "RUS_nat_flax_amount" format = center maxWidth = 32 maxHeight = 17 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_flax_plus" position = { x = 201 y = 323 } quadTextureSprite = "GFX_naval_increase_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_flax_info" position = { x = 239 y = 323 } font = "hoi_16mbs" text = "RUS_nat_flax_info" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_flax_market" position = { x = 239 y = 345 } font = "hoi_16mbs" text = "RUS_nat_flax_market_line" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_flax_soil" position = { x = 10 y = 357 } font = "hoi_16mbs" text = "RUS_nat_flax_soil" maxWidth = 223 maxHeight = 16 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_cotton_icon" position = { x = 10 y = 373 } spriteType = "GFX_RUS_agri_crop_cotton" scale = 0.5 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_cotton_name" position = { x = 50 y = 373 } font = "hoi_16mbs" text = "RUS_agri_cotton" maxWidth = 80 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_cotton_minus" position = { x = 136 y = 373 } quadTextureSprite = "GFX_naval_decrease_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_cotton_amount" position = { x = 169 y = 381 } font = "hoi_16mbs" text = "RUS_nat_cotton_amount" format = center maxWidth = 32 maxHeight = 17 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_cotton_plus" position = { x = 201 y = 373 } quadTextureSprite = "GFX_naval_increase_amount" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "" }
-instantTextBoxType = { name = "nat_cotton_info" position = { x = 239 y = 373 } font = "hoi_16mbs" text = "RUS_nat_cotton_info" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_cotton_market" position = { x = 239 y = 395 } font = "hoi_16mbs" text = "RUS_nat_cotton_market_line" maxWidth = 253 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_cotton_soil" position = { x = 10 y = 407 } font = "hoi_16mbs" text = "RUS_nat_cotton_soil" maxWidth = 223 maxHeight = 16 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_food_icon" position = { x = 8 y = 423 } spriteType = "GFX_RUS_nat_food" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_needs" position = { x = 38 y = 425 } font = "hoi_16mbs" text = "RUS_nat_needs" maxWidth = 454 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_task" position = { x = 10 y = 450 } font = "hoi_16mbs" text = "RUS_nat_task_line" maxWidth = 482 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_next" position = { x = 10 y = 475 } font = "hoi_16mbs" text = "RUS_nat_next_line" maxWidth = 482 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_preview_income_icon" position = { x = 8 y = 498 } spriteType = "GFX_RUS_nat_income" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_preview_income" position = { x = 38 y = 500 } font = "hoi_16mbs" text = "RUS_nat_preview_income_line" maxWidth = 454 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_auto" position = { x = 5 y = 526 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_auto" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_auto" }
-buttonType = { name = "nat_clear" position = { x = 128 y = 526 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_agri_clear" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_agri_clear" }
-buttonType = { name = "nat_confirm" position = { x = 251 y = 526 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_agri_confirm" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_agri_confirm" }
-buttonType = { name = "nat_reopen" position = { x = 374 y = 526 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_agri_reopen" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_agri_reopen" }
-instantTextBoxType = { name = "nat_gaps" position = { x = 10 y = 562 } font = "hoi_16mbs" text = "RUS_nat_gaps" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_machine_icon_0" position = { x = 8 y = 143 } spriteType = "GFX_RUS_nat_factories" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_machine_0" position = { x = 38 y = 145 } font = "hoi_16mbs" text = "RUS_nat_machine_0" maxWidth = 454 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_machine_icon_1" position = { x = 8 y = 189 } spriteType = "GFX_RUS_nat_machinery" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_machine_1" position = { x = 38 y = 191 } font = "hoi_16mbs" text = "RUS_nat_machine_1" maxWidth = 454 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_machine_icon_2" position = { x = 8 y = 235 } spriteType = "GFX_RUS_nat_stock" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_machine_2" position = { x = 38 y = 237 } font = "hoi_16mbs" text = "RUS_nat_machine_2" maxWidth = 454 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_machine_3" position = { x = 10 y = 283 } font = "hoi_16mbs" text = "RUS_nat_machine_3" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_machine_4" position = { x = 10 y = 329 } font = "hoi_16mbs" text = "RUS_nat_machine_4" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_promise_state" position = { x = 10 y = 397 } font = "hoi_16mbs" text = "RUS_nat_promise_state" maxWidth = 482 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_machine_coverage" position = { x = 10 y = 452 } font = "hoi_16mbs" text = "RUS_nat_machine_coverage" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_factory_0" position = { x = 5 y = 492 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_factory_0" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_factory_0" }
-buttonType = { name = "nat_factory_1" position = { x = 128 y = 492 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_factory_1" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_factory_1" }
-buttonType = { name = "nat_factory_2" position = { x = 251 y = 492 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_factory_2" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_factory_2" }
-buttonType = { name = "nat_factory_3" position = { x = 374 y = 492 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_factory_3" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_factory_3" }
-buttonType = { name = "nat_stop" position = { x = 10 y = 533 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_stop" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_stop" }
-buttonType = { name = "nat_max" position = { x = 270 y = 533 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_max" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_max" }
-instantTextBoxType = { name = "nat_stock_wheat" position = { x = 10 y = 141 } font = "hoi_16mbs" text = "RUS_nat_stock_wheat" maxWidth = 190 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_stock_rye" position = { x = 10 y = 167 } font = "hoi_16mbs" text = "RUS_nat_stock_rye" maxWidth = 190 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_stock_beet" position = { x = 10 y = 193 } font = "hoi_16mbs" text = "RUS_nat_stock_beet" maxWidth = 190 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_stock_flax" position = { x = 10 y = 219 } font = "hoi_16mbs" text = "RUS_nat_stock_flax" maxWidth = 190 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_stock_cotton" position = { x = 10 y = 245 } font = "hoi_16mbs" text = "RUS_nat_stock_cotton" maxWidth = 190 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_supply_food" position = { x = 208 y = 141 } font = "hoi_16mbs" text = "RUS_nat_supply_food" maxWidth = 284 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_supply_beet" position = { x = 208 y = 179 } font = "hoi_16mbs" text = "RUS_nat_supply_beet" maxWidth = 284 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_supply_textile" position = { x = 208 y = 217 } font = "hoi_16mbs" text = "RUS_nat_supply_textile" maxWidth = 284 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-iconType = { name = "nat_export_icon" position = { x = 8 y = 276 } spriteType = "GFX_RUS_nat_export" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_reserve" position = { x = 38 y = 278 } font = "hoi_16mbs" text = "RUS_nat_reserve_line" maxWidth = 454 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_reserve_0" position = { x = 10 y = 307 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_reserve_0" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_reserve_0_tt" }
-buttonType = { name = "nat_reserve_1" position = { x = 175 y = 307 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_reserve_1" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_reserve_1_tt" }
-buttonType = { name = "nat_reserve_2" position = { x = 340 y = 307 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_reserve_2" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_reserve_2_tt" }
-iconType = { name = "nat_order_icon_generic" position = { x = 8 y = 350 } spriteType = "GFX_RUS_nat_orders" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_order_generic" position = { x = 38 y = 352 } font = "hoi_16mbs" text = "RUS_nat_order_generic" maxWidth = 322 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_order_rank_generic" position = { x = 38 y = 372 } font = "hoi_16mbs" text = "RUS_nat_order_rank_generic" maxWidth = 348 maxHeight = 18 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_accept_generic" position = { x = 369 y = 349 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_toggle" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_toggle" }
-iconType = { name = "nat_order_icon_fra" position = { x = 8 y = 393 } spriteType = "GFX_RUS_nat_orders" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_order_fra" position = { x = 38 y = 395 } font = "hoi_16mbs" text = "RUS_nat_order_fra" maxWidth = 322 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_order_rank_fra" position = { x = 38 y = 415 } font = "hoi_16mbs" text = "RUS_nat_order_rank_fra" maxWidth = 348 maxHeight = 18 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_accept_fra" position = { x = 369 y = 392 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_toggle" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_toggle" }
-iconType = { name = "nat_order_icon_eng" position = { x = 8 y = 436 } spriteType = "GFX_RUS_nat_orders" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_order_eng" position = { x = 38 y = 438 } font = "hoi_16mbs" text = "RUS_nat_order_eng" maxWidth = 322 maxHeight = 20 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_order_rank_eng" position = { x = 38 y = 458 } font = "hoi_16mbs" text = "RUS_nat_order_rank_eng" maxWidth = 348 maxHeight = 18 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_accept_eng" position = { x = 369 y = 435 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_toggle" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_toggle" }
-instantTextBoxType = { name = "nat_morder_fra" position = { x = 10 y = 490 } font = "hoi_16mbs" text = "RUS_nat_morder_fra" maxWidth = 350 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_maccept_fra" position = { x = 369 y = 487 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_toggle" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_toggle" }
-instantTextBoxType = { name = "nat_morder_eng" position = { x = 10 y = 530 } font = "hoi_16mbs" text = "RUS_nat_morder_eng" maxWidth = 350 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-buttonType = { name = "nat_maccept_eng" position = { x = 369 y = 527 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_toggle" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_toggle" }
-buttonType = { name = "nat_priority" position = { x = 10 y = 570 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_nat_priority" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "RUS_nat_priority" }
-iconType = { name = "nat_income_icon" position = { x = 8 y = 141 } spriteType = "GFX_RUS_nat_income" scale = 0.75 alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_head" position = { x = 38 y = 143 } font = "hoi_16mbs" text = "RUS_nat_report_head" maxWidth = 454 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_weather" position = { x = 10 y = 180 } font = "hoi_16mbs" text = "RUS_nat_report_weather" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_wheat" position = { x = 10 y = 221 } font = "hoi_16mbs" text = "RUS_nat_report_wheat" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_rye" position = { x = 10 y = 259 } font = "hoi_16mbs" text = "RUS_nat_report_rye" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_beet" position = { x = 10 y = 297 } font = "hoi_16mbs" text = "RUS_nat_report_beet" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_flax" position = { x = 10 y = 335 } font = "hoi_16mbs" text = "RUS_nat_report_flax" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_cotton" position = { x = 10 y = 373 } font = "hoi_16mbs" text = "RUS_nat_report_cotton" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_supply" position = { x = 10 y = 427 } font = "hoi_16mbs" text = "RUS_nat_report_supply" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_shortage" position = { x = 10 y = 469 } font = "hoi_16mbs" text = "RUS_nat_report_shortage" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_pp" position = { x = 10 y = 510 } font = "hoi_16mbs" text = "RUS_nat_report_pp" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_report_orders" position = { x = 10 y = 552 } font = "hoi_16mbs" text = "RUS_nat_report_orders" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
-instantTextBoxType = { name = "nat_empty_report" position = { x = 10 y = 145 } font = "hoi_16mbs" text = "RUS_nat_empty_report" maxWidth = 482 maxHeight = 26 fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_board" position = { x = 0 y = 0 } spriteType = "GFX_RUS_card_board" alwaystransparent = yes }
+buttonType = { name = "nat_tab_0" position = { x = 8 y = 5 } quadTextureSprite = "GFX_RUS_card_nav_0" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_tab_0_tt" clicksound = click_default }
+instantTextBoxType = { name = "card_nav_label_0" position = { x = 10 y = 42 } font = "hoi_16mbs" text = "RUS_nat_tab_0" maxWidth = 112 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_nav_selected_0" position = { x = 8 y = 5 } spriteType = "GFX_RUS_card_selected" alwaystransparent = yes }
+buttonType = { name = "nat_tab_1" position = { x = 131 y = 5 } quadTextureSprite = "GFX_RUS_card_nav_1" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_tab_1_tt" clicksound = click_default }
+instantTextBoxType = { name = "card_nav_label_1" position = { x = 133 y = 42 } font = "hoi_16mbs" text = "RUS_nat_tab_1" maxWidth = 112 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_nav_selected_1" position = { x = 131 y = 5 } spriteType = "GFX_RUS_card_selected" alwaystransparent = yes }
+buttonType = { name = "nat_tab_2" position = { x = 254 y = 5 } quadTextureSprite = "GFX_RUS_card_nav_2" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_tab_2_tt" clicksound = click_default }
+instantTextBoxType = { name = "card_nav_label_2" position = { x = 256 y = 42 } font = "hoi_16mbs" text = "RUS_nat_tab_2" maxWidth = 112 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_nav_selected_2" position = { x = 254 y = 5 } spriteType = "GFX_RUS_card_selected" alwaystransparent = yes }
+buttonType = { name = "nat_tab_3" position = { x = 377 y = 5 } quadTextureSprite = "GFX_RUS_card_nav_3" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_tab_3_tt" clicksound = click_default }
+instantTextBoxType = { name = "card_nav_label_3" position = { x = 379 y = 42 } font = "hoi_16mbs" text = "RUS_nat_tab_3" maxWidth = 112 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_nav_selected_3" position = { x = 377 y = 5 } spriteType = "GFX_RUS_card_selected" alwaystransparent = yes }
+instantTextBoxType = { name = "card_season" position = { x = 30 y = 99 } font = "hoi_24header" text = "RUS_card_season" maxWidth = 57 maxHeight = 28 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_season_label" position = { x = 27 y = 133 } font = "hoi_16mbs" text = "RUS_card_season_label" maxWidth = 62 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_remaining" position = { x = 412 y = 99 } font = "hoi_24header" text = "RUS_card_remaining" maxWidth = 59 maxHeight = 28 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_days" position = { x = 404 y = 133 } font = "hoi_16mbs" text = "RUS_card_days" maxWidth = 76 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_title" position = { x = 107 y = 76 } font = "hoi_16mbs" text = "RUS_nat_title" maxWidth = 288 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_plan" position = { x = 105 y = 105 } font = "hoi_16mbs" text = "RUS_card_plan" maxWidth = 292 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_weather_good" position = { x = 167 y = 130 } spriteType = "GFX_RUS_card_weather_good" pdx_tooltip = "RUS_card_weather_tip" alwaystransparent = no }
+iconType = { name = "card_weather_normal" position = { x = 167 y = 130 } spriteType = "GFX_RUS_card_weather_normal" pdx_tooltip = "RUS_card_weather_tip" alwaystransparent = no }
+iconType = { name = "card_weather_bad" position = { x = 167 y = 130 } spriteType = "GFX_RUS_card_weather_bad" pdx_tooltip = "RUS_card_weather_tip" alwaystransparent = no }
+instantTextBoxType = { name = "card_plan_state" position = { x = 213 y = 135 } font = "hoi_16mbs" text = "RUS_card_plan_state" maxWidth = 166 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_footer" position = { x = 10 y = 595 } spriteType = "GFX_RUS_card_footer" pdx_tooltip = "RUS_card_reform_tip" alwaystransparent = no }
+instantTextBoxType = { name = "nat_score" position = { x = 14 y = 600 } font = "hoi_16mbs" text = "RUS_card_reform_brief" maxWidth = 474 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_reform_0" position = { x = 17.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_1" position = { x = 40.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_2" position = { x = 64.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_3" position = { x = 87.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_4" position = { x = 111.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_5" position = { x = 134.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_6" position = { x = 158.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_7" position = { x = 181.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_8" position = { x = 205.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_9" position = { x = 228.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_10" position = { x = 252.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_11" position = { x = 275.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_12" position = { x = 299.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_13" position = { x = 322.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_14" position = { x = 346.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_15" position = { x = 369.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_16" position = { x = 393.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_17" position = { x = 416.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_18" position = { x = 440.0 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_reform_19" position = { x = 463.5 y = 622 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+buttonType = { name = "nat_wheat_plus" position = { x = 10 y = 183 } quadTextureSprite = "GFX_RUS_card_crop_wheat" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_wheat_tip" clicksound = click_default }
+instantTextBoxType = { name = "nat_wheat_name" position = { x = 15 y = 196 } font = "hoi_16mbs" text = "RUS_agri_wheat" maxWidth = 82 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_wheat_amount" position = { x = 28 y = 313 } font = "hoi_24header" text = "RUS_nat_wheat_amount" maxWidth = 56 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_yield_wheat" position = { x = 16 y = 350 } font = "hoi_16mbs" text = "RUS_card_wheat_yield" maxWidth = 80 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_wheat_minus" position = { x = 40 y = 381 } quadTextureSprite = "GFX_RUS_card_minus" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_wheat_tip" clicksound = click_default }
+iconType = { name = "card_allocation_wheat_0" position = { x = 18 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_1" position = { x = 26 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_2" position = { x = 34 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_3" position = { x = 42 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_4" position = { x = 50 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_5" position = { x = 58 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_6" position = { x = 66 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_7" position = { x = 74 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_8" position = { x = 82 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_wheat_9" position = { x = 90 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+buttonType = { name = "nat_rye_plus" position = { x = 107 y = 183 } quadTextureSprite = "GFX_RUS_card_crop_rye" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_rye_tip" clicksound = click_default }
+instantTextBoxType = { name = "nat_rye_name" position = { x = 112 y = 196 } font = "hoi_16mbs" text = "RUS_agri_rye" maxWidth = 82 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_rye_amount" position = { x = 125 y = 313 } font = "hoi_24header" text = "RUS_nat_rye_amount" maxWidth = 56 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_yield_rye" position = { x = 113 y = 350 } font = "hoi_16mbs" text = "RUS_card_rye_yield" maxWidth = 80 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_rye_minus" position = { x = 137 y = 381 } quadTextureSprite = "GFX_RUS_card_minus" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_rye_tip" clicksound = click_default }
+iconType = { name = "card_allocation_rye_0" position = { x = 115 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_1" position = { x = 123 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_2" position = { x = 131 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_3" position = { x = 139 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_4" position = { x = 147 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_5" position = { x = 155 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_6" position = { x = 163 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_7" position = { x = 171 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_8" position = { x = 179 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_rye_9" position = { x = 187 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+buttonType = { name = "nat_beet_plus" position = { x = 204 y = 183 } quadTextureSprite = "GFX_RUS_card_crop_beet" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_beet_tip" clicksound = click_default }
+instantTextBoxType = { name = "nat_beet_name" position = { x = 209 y = 196 } font = "hoi_16mbs" text = "RUS_agri_beet" maxWidth = 82 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_beet_amount" position = { x = 222 y = 313 } font = "hoi_24header" text = "RUS_nat_beet_amount" maxWidth = 56 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_yield_beet" position = { x = 210 y = 350 } font = "hoi_16mbs" text = "RUS_card_beet_yield" maxWidth = 80 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_beet_minus" position = { x = 234 y = 381 } quadTextureSprite = "GFX_RUS_card_minus" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_beet_tip" clicksound = click_default }
+iconType = { name = "card_allocation_beet_0" position = { x = 212 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_1" position = { x = 220 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_2" position = { x = 228 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_3" position = { x = 236 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_4" position = { x = 244 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_5" position = { x = 252 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_6" position = { x = 260 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_7" position = { x = 268 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_8" position = { x = 276 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_beet_9" position = { x = 284 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+buttonType = { name = "nat_flax_plus" position = { x = 301 y = 183 } quadTextureSprite = "GFX_RUS_card_crop_flax" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_flax_tip" clicksound = click_default }
+instantTextBoxType = { name = "nat_flax_name" position = { x = 306 y = 196 } font = "hoi_16mbs" text = "RUS_agri_flax" maxWidth = 82 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_flax_amount" position = { x = 319 y = 313 } font = "hoi_24header" text = "RUS_nat_flax_amount" maxWidth = 56 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_yield_flax" position = { x = 307 y = 350 } font = "hoi_16mbs" text = "RUS_card_flax_yield" maxWidth = 80 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_flax_minus" position = { x = 331 y = 381 } quadTextureSprite = "GFX_RUS_card_minus" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_flax_tip" clicksound = click_default }
+iconType = { name = "card_allocation_flax_0" position = { x = 309 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_1" position = { x = 317 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_2" position = { x = 325 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_3" position = { x = 333 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_4" position = { x = 341 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_5" position = { x = 349 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_6" position = { x = 357 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_7" position = { x = 365 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_8" position = { x = 373 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_flax_9" position = { x = 381 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+buttonType = { name = "nat_cotton_plus" position = { x = 398 y = 183 } quadTextureSprite = "GFX_RUS_card_crop_cotton" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_cotton_tip" clicksound = click_default }
+instantTextBoxType = { name = "nat_cotton_name" position = { x = 403 y = 196 } font = "hoi_16mbs" text = "RUS_agri_cotton" maxWidth = 82 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_cotton_amount" position = { x = 416 y = 313 } font = "hoi_24header" text = "RUS_nat_cotton_amount" maxWidth = 56 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_yield_cotton" position = { x = 404 y = 350 } font = "hoi_16mbs" text = "RUS_card_cotton_yield" maxWidth = 80 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_cotton_minus" position = { x = 428 y = 381 } quadTextureSprite = "GFX_RUS_card_minus" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_card_cotton_tip" clicksound = click_default }
+iconType = { name = "card_allocation_cotton_0" position = { x = 406 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_1" position = { x = 414 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_2" position = { x = 422 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_3" position = { x = 430 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_4" position = { x = 438 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_5" position = { x = 446 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_6" position = { x = 454 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_7" position = { x = 462 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_8" position = { x = 470 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_allocation_cotton_9" position = { x = 478 y = 375 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_supply_panel" position = { x = 10 y = 415 } spriteType = "GFX_RUS_card_supply_panel" pdx_tooltip = "RUS_card_supply_tip" alwaystransparent = no }
+instantTextBoxType = { name = "card_supply_label_food" position = { x = 22 y = 427 } font = "hoi_16mbs" text = "RUS_card_supply_food" maxWidth = 140 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_supply_num_food" position = { x = 22 y = 452 } font = "hoi_24header" text = "RUS_card_supply_num_food" maxWidth = 140 maxHeight = 28 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_need_food_0" position = { x = 43 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_1" position = { x = 53 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_2" position = { x = 63 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_3" position = { x = 73 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_4" position = { x = 83 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_5" position = { x = 93 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_6" position = { x = 103 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_7" position = { x = 113 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_8" position = { x = 123 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_food_9" position = { x = 133 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+instantTextBoxType = { name = "card_supply_label_beet" position = { x = 182 y = 427 } font = "hoi_16mbs" text = "RUS_card_supply_beet" maxWidth = 140 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_supply_num_beet" position = { x = 182 y = 452 } font = "hoi_24header" text = "RUS_card_supply_num_beet" maxWidth = 140 maxHeight = 28 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_need_beet_0" position = { x = 203 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_1" position = { x = 213 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_2" position = { x = 223 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_3" position = { x = 233 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_4" position = { x = 243 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_5" position = { x = 253 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_6" position = { x = 263 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_7" position = { x = 273 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_8" position = { x = 283 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_beet_9" position = { x = 293 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+instantTextBoxType = { name = "card_supply_label_textile" position = { x = 342 y = 427 } font = "hoi_16mbs" text = "RUS_card_supply_textile" maxWidth = 140 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "card_supply_num_textile" position = { x = 342 y = 452 } font = "hoi_24header" text = "RUS_card_supply_num_textile" maxWidth = 140 maxHeight = 28 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_need_textile_0" position = { x = 363 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_1" position = { x = 373 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_2" position = { x = 383 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_3" position = { x = 393 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_4" position = { x = 403 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_5" position = { x = 413 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_6" position = { x = 423 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_7" position = { x = 433 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_8" position = { x = 443 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_need_textile_9" position = { x = 453 y = 484 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+instantTextBoxType = { name = "card_crop_hint" position = { x = 15 y = 510 } font = "hoi_16mbs" text = "RUS_card_crop_hint" maxWidth = 472 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_auto" position = { x = 12 y = 535 } quadTextureSprite = "GFX_RUS_card_auto" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_auto" clicksound = click_default }
+instantTextBoxType = { name = "card_label_auto" position = { x = 14 y = 570 } font = "hoi_16mbs" text = "RUS_nat_auto" maxWidth = 104 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_clear" position = { x = 135 y = 535 } quadTextureSprite = "GFX_RUS_card_clear" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_agri_clear" clicksound = click_default }
+instantTextBoxType = { name = "card_label_clear" position = { x = 137 y = 570 } font = "hoi_16mbs" text = "RUS_agri_clear" maxWidth = 104 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_confirm" position = { x = 258 y = 535 } quadTextureSprite = "GFX_RUS_card_confirm" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_agri_confirm" clicksound = click_default }
+instantTextBoxType = { name = "card_label_confirm" position = { x = 260 y = 570 } font = "hoi_16mbs" text = "RUS_agri_confirm" maxWidth = 104 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_reopen" position = { x = 381 y = 535 } quadTextureSprite = "GFX_RUS_card_reopen" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_agri_reopen" clicksound = click_default }
+instantTextBoxType = { name = "card_label_reopen" position = { x = 383 y = 570 } font = "hoi_16mbs" text = "RUS_agri_reopen" maxWidth = 104 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_factory_2" position = { x = 26 y = 190 } quadTextureSprite = "GFX_RUS_card_factory" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_factory_2" clicksound = click_default }
+iconType = { name = "card_combine" position = { x = 296 y = 190 } spriteType = "GFX_RUS_card_combine" alwaystransparent = yes }
+iconType = { name = "card_arrow" position = { x = 191 y = 240 } spriteType = "GFX_RUS_card_arrow" alwaystransparent = yes }
+instantTextBoxType = { name = "nat_machine_0" position = { x = 37 y = 308 } font = "hoi_16mbs" text = "RUS_card_factory_num" maxWidth = 158 maxHeight = 26 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_machine_1" position = { x = 307 y = 308 } font = "hoi_16mbs" text = "RUS_card_daily" maxWidth = 158 maxHeight = 26 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_factory_0" position = { x = 26 y = 349 } quadTextureSprite = "GFX_RUS_card_factory_minus10" buttonText = "RUS_card_factory_minus10" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_factory_0" clicksound = click_default }
+buttonType = { name = "nat_factory_1" position = { x = 100 y = 349 } quadTextureSprite = "GFX_RUS_card_factory_minus1" buttonText = "RUS_card_factory_minus1" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_factory_1" clicksound = click_default }
+buttonType = { name = "nat_factory_3" position = { x = 174 y = 349 } quadTextureSprite = "GFX_RUS_card_factory_plus10" buttonText = "RUS_card_factory_plus10" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_factory_3" clicksound = click_default }
+instantTextBoxType = { name = "card_available" position = { x = 273 y = 359 } font = "hoi_16mbs" text = "RUS_card_available" maxWidth = 204 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_machine_panel" position = { x = 10 y = 403 } spriteType = "GFX_RUS_card_supply_panel" pdx_tooltip = "RUS_card_machine_tip" alwaystransparent = no }
+instantTextBoxType = { name = "nat_machine_2" position = { x = 23 y = 417 } font = "hoi_16mbs" text = "RUS_dash_machine_2" maxWidth = 456 maxHeight = 24 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_machine_coverage" position = { x = 23 y = 454 } font = "hoi_16mbs" text = "RUS_nat_machine_coverage" maxWidth = 456 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_coverage_0" position = { x = 34 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_1" position = { x = 59 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_2" position = { x = 84 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_3" position = { x = 109 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_4" position = { x = 134 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_5" position = { x = 159 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_6" position = { x = 184 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_7" position = { x = 209 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_8" position = { x = 234 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_9" position = { x = 259 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_10" position = { x = 284 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_11" position = { x = 309 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_12" position = { x = 334 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_13" position = { x = 359 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_14" position = { x = 384 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_15" position = { x = 409 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_16" position = { x = 434 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+iconType = { name = "card_coverage_17" position = { x = 459 y = 480 } spriteType = "GFX_RUS_card_reform" alwaystransparent = yes }
+instantTextBoxType = { name = "nat_machine_3" position = { x = 16 y = 506 } font = "hoi_16mbs" text = "RUS_card_produced" maxWidth = 470 maxHeight = 24 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_stop" position = { x = 26 y = 548 } quadTextureSprite = "GFX_RUS_card_stop" buttonText = "RUS_nat_stop" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_stop" clicksound = click_default }
+buttonType = { name = "nat_max" position = { x = 365 y = 548 } quadTextureSprite = "GFX_RUS_card_max" buttonText = "RUS_nat_max" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_max" clicksound = click_default }
+iconType = { name = "card_bin_wheat" position = { x = 10 y = 185 } spriteType = "GFX_RUS_card_bin_wheat" pdx_tooltip = "RUS_card_bin_tip_wheat" alwaystransparent = no }
+instantTextBoxType = { name = "nat_stock_wheat" position = { x = 15 y = 247 } font = "hoi_16mbs" text = "RUS_card_stock_wheat" maxWidth = 82 maxHeight = 25 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_0" position = { x = 18 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_1" position = { x = 26 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_2" position = { x = 34 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_3" position = { x = 42 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_4" position = { x = 50 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_5" position = { x = 58 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_6" position = { x = 66 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_7" position = { x = 74 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_8" position = { x = 82 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_wheat_9" position = { x = 90 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_bin_rye" position = { x = 107 y = 185 } spriteType = "GFX_RUS_card_bin_rye" pdx_tooltip = "RUS_card_bin_tip_rye" alwaystransparent = no }
+instantTextBoxType = { name = "nat_stock_rye" position = { x = 112 y = 247 } font = "hoi_16mbs" text = "RUS_card_stock_rye" maxWidth = 82 maxHeight = 25 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_stock_rye_0" position = { x = 115 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_1" position = { x = 123 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_2" position = { x = 131 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_3" position = { x = 139 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_4" position = { x = 147 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_5" position = { x = 155 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_6" position = { x = 163 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_7" position = { x = 171 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_8" position = { x = 179 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_rye_9" position = { x = 187 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_bin_beet" position = { x = 204 y = 185 } spriteType = "GFX_RUS_card_bin_beet" pdx_tooltip = "RUS_card_bin_tip_beet" alwaystransparent = no }
+instantTextBoxType = { name = "nat_stock_beet" position = { x = 209 y = 247 } font = "hoi_16mbs" text = "RUS_card_stock_beet" maxWidth = 82 maxHeight = 25 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_stock_beet_0" position = { x = 212 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_1" position = { x = 220 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_2" position = { x = 228 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_3" position = { x = 236 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_4" position = { x = 244 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_5" position = { x = 252 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_6" position = { x = 260 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_7" position = { x = 268 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_8" position = { x = 276 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_beet_9" position = { x = 284 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_bin_flax" position = { x = 301 y = 185 } spriteType = "GFX_RUS_card_bin_flax" pdx_tooltip = "RUS_card_bin_tip_flax" alwaystransparent = no }
+instantTextBoxType = { name = "nat_stock_flax" position = { x = 306 y = 247 } font = "hoi_16mbs" text = "RUS_card_stock_flax" maxWidth = 82 maxHeight = 25 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_stock_flax_0" position = { x = 309 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_1" position = { x = 317 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_2" position = { x = 325 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_3" position = { x = 333 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_4" position = { x = 341 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_5" position = { x = 349 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_6" position = { x = 357 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_7" position = { x = 365 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_8" position = { x = 373 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_flax_9" position = { x = 381 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_bin_cotton" position = { x = 398 y = 185 } spriteType = "GFX_RUS_card_bin_cotton" pdx_tooltip = "RUS_card_bin_tip_cotton" alwaystransparent = no }
+instantTextBoxType = { name = "nat_stock_cotton" position = { x = 403 y = 247 } font = "hoi_16mbs" text = "RUS_card_stock_cotton" maxWidth = 82 maxHeight = 25 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_0" position = { x = 406 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_1" position = { x = 414 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_2" position = { x = 422 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_3" position = { x = 430 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_4" position = { x = 438 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_5" position = { x = 446 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_6" position = { x = 454 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_7" position = { x = 462 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_8" position = { x = 470 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+iconType = { name = "card_stock_cotton_9" position = { x = 478 y = 284 } spriteType = "GFX_RUS_card_tick" alwaystransparent = yes }
+buttonType = { name = "nat_reserve_0" position = { x = 92 y = 299 } quadTextureSprite = "GFX_RUS_card_reserve_0" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_reserve_0_tt" clicksound = click_default }
+instantTextBoxType = { name = "card_reserve_0" position = { x = 137 y = 319 } font = "hoi_24header" text = "RUS_card_reserve_num_0" maxWidth = 53 maxHeight = 40 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_reserve_selected_0" position = { x = 92 y = 299 } spriteType = "GFX_RUS_card_reserve_selected" alwaystransparent = yes }
+buttonType = { name = "nat_reserve_1" position = { x = 196 y = 299 } quadTextureSprite = "GFX_RUS_card_reserve_1" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_reserve_1_tt" clicksound = click_default }
+instantTextBoxType = { name = "card_reserve_1" position = { x = 241 y = 319 } font = "hoi_24header" text = "RUS_card_reserve_num_1" maxWidth = 53 maxHeight = 40 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_reserve_selected_1" position = { x = 196 y = 299 } spriteType = "GFX_RUS_card_reserve_selected" alwaystransparent = yes }
+buttonType = { name = "nat_reserve_2" position = { x = 300 y = 299 } quadTextureSprite = "GFX_RUS_card_reserve_2" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_reserve_2_tt" clicksound = click_default }
+instantTextBoxType = { name = "card_reserve_2" position = { x = 345 y = 319 } font = "hoi_24header" text = "RUS_card_reserve_num_2" maxWidth = 53 maxHeight = 40 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_reserve_selected_2" position = { x = 300 y = 299 } spriteType = "GFX_RUS_card_reserve_selected" alwaystransparent = yes }
+instantTextBoxType = { name = "card_reserve_label" position = { x = 15 y = 312 } font = "hoi_16mbs" text = "RUS_card_reserve" maxWidth = 70 maxHeight = 42 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_accept_generic" position = { x = 10 y = 370 } quadTextureSprite = "GFX_RUS_card_order_generic" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_order_generic" clicksound = click_default }
+instantTextBoxType = { name = "card_order_title_generic" position = { x = 18 y = 383 } font = "hoi_16mbs" text = "RUS_card_buyer_generic" maxWidth = 138 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_order_generic_wheat" position = { x = 58 y = 407 } spriteType = "GFX_RUS_agri_crop_wheat" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_generic_rye" position = { x = 58 y = 407 } spriteType = "GFX_RUS_agri_crop_rye" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_generic_beet" position = { x = 58 y = 407 } spriteType = "GFX_RUS_agri_crop_beet" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_generic_flax" position = { x = 58 y = 407 } spriteType = "GFX_RUS_agri_crop_flax" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_generic_cotton" position = { x = 58 y = 407 } spriteType = "GFX_RUS_agri_crop_cotton" scale = 0.85 alwaystransparent = yes }
+instantTextBoxType = { name = "nat_order_generic" position = { x = 17 y = 459 } font = "hoi_16mbs" text = "RUS_card_order_generic" maxWidth = 140 maxHeight = 23 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_order_rank_generic" position = { x = 17 y = 481 } font = "hoi_16mbs" text = "RUS_card_accepted_generic" maxWidth = 140 maxHeight = 21 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_accept_fra" position = { x = 174 y = 370 } quadTextureSprite = "GFX_RUS_card_order_fra" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_order_fra" clicksound = click_default }
+instantTextBoxType = { name = "card_order_title_fra" position = { x = 182 y = 383 } font = "hoi_16mbs" text = "RUS_card_buyer_fra" maxWidth = 138 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_order_fra_wheat" position = { x = 222 y = 407 } spriteType = "GFX_RUS_agri_crop_wheat" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_fra_rye" position = { x = 222 y = 407 } spriteType = "GFX_RUS_agri_crop_rye" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_fra_beet" position = { x = 222 y = 407 } spriteType = "GFX_RUS_agri_crop_beet" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_fra_flax" position = { x = 222 y = 407 } spriteType = "GFX_RUS_agri_crop_flax" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_fra_cotton" position = { x = 222 y = 407 } spriteType = "GFX_RUS_agri_crop_cotton" scale = 0.85 alwaystransparent = yes }
+instantTextBoxType = { name = "nat_order_fra" position = { x = 181 y = 459 } font = "hoi_16mbs" text = "RUS_card_order_fra" maxWidth = 140 maxHeight = 23 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_order_rank_fra" position = { x = 181 y = 481 } font = "hoi_16mbs" text = "RUS_card_accepted_fra" maxWidth = 140 maxHeight = 21 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_accept_eng" position = { x = 338 y = 370 } quadTextureSprite = "GFX_RUS_card_order_eng" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_order_eng" clicksound = click_default }
+instantTextBoxType = { name = "card_order_title_eng" position = { x = 346 y = 383 } font = "hoi_16mbs" text = "RUS_card_buyer_eng" maxWidth = 138 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_order_eng_wheat" position = { x = 386 y = 407 } spriteType = "GFX_RUS_agri_crop_wheat" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_eng_rye" position = { x = 386 y = 407 } spriteType = "GFX_RUS_agri_crop_rye" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_eng_beet" position = { x = 386 y = 407 } spriteType = "GFX_RUS_agri_crop_beet" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_eng_flax" position = { x = 386 y = 407 } spriteType = "GFX_RUS_agri_crop_flax" scale = 0.85 alwaystransparent = yes }
+iconType = { name = "card_order_eng_cotton" position = { x = 386 y = 407 } spriteType = "GFX_RUS_agri_crop_cotton" scale = 0.85 alwaystransparent = yes }
+instantTextBoxType = { name = "nat_order_eng" position = { x = 345 y = 459 } font = "hoi_16mbs" text = "RUS_card_order_eng" maxWidth = 140 maxHeight = 23 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_order_rank_eng" position = { x = 345 y = 481 } font = "hoi_16mbs" text = "RUS_card_accepted_eng" maxWidth = 140 maxHeight = 21 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_maccept_fra" position = { x = 10 y = 512 } quadTextureSprite = "GFX_RUS_card_morder_fra" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_morder_fra" clicksound = click_default }
+instantTextBoxType = { name = "nat_morder_fra" position = { x = 66 y = 520 } font = "hoi_16mbs" text = "RUS_card_machine_order_fra" maxWidth = 171 maxHeight = 43 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_maccept_eng" position = { x = 258 y = 512 } quadTextureSprite = "GFX_RUS_card_morder_eng" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_morder_eng" clicksound = click_default }
+instantTextBoxType = { name = "nat_morder_eng" position = { x = 314 y = 520 } font = "hoi_16mbs" text = "RUS_card_machine_order_eng" maxWidth = 171 maxHeight = 43 format = center fixedsize = yes alwaystransparent = yes }
+buttonType = { name = "nat_priority" position = { x = 10 y = 565 } quadTextureSprite = "GFX_RUS_card_priority" buttonText = "RUS_card_priority" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_priority" clicksound = click_default }
+buttonType = { name = "nat_ledger" position = { x = 382 y = 565 } quadTextureSprite = "GFX_RUS_card_ledger" buttonText = "RUS_nat_ledger" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_nat_ledger" clicksound = click_default }
+iconType = { name = "card_report_panel" position = { x = 10 y = 185 } spriteType = "GFX_RUS_card_report_panel" pdx_tooltip = "RUS_card_report_tip" alwaystransparent = no }
+instantTextBoxType = { name = "nat_report_head" position = { x = 22 y = 198 } font = "hoi_16mbs" text = "RUS_dash_report_head" maxWidth = 458 maxHeight = 26 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_0" position = { x = 38 y = 393 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_1" position = { x = 38 y = 385 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_2" position = { x = 38 y = 377 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_3" position = { x = 38 y = 369 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_4" position = { x = 38 y = 361 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_5" position = { x = 38 y = 353 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_6" position = { x = 38 y = 345 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_7" position = { x = 38 y = 337 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_8" position = { x = 38 y = 329 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_9" position = { x = 38 y = 321 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_10" position = { x = 38 y = 313 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_11" position = { x = 38 y = 305 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_12" position = { x = 38 y = 297 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_13" position = { x = 38 y = 289 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_14" position = { x = 38 y = 281 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_15" position = { x = 38 y = 273 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_16" position = { x = 38 y = 265 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_17" position = { x = 38 y = 257 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_18" position = { x = 38 y = 249 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_wheat_19" position = { x = 38 y = 241 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_report_crop_wheat" position = { x = 34 y = 408 } spriteType = "GFX_RUS_agri_crop_wheat" scale = 0.6 pdx_tooltip = "RUS_nat_report_wheat" alwaystransparent = no }
+instantTextBoxType = { name = "nat_report_wheat" position = { x = 21 y = 452 } font = "hoi_24header" text = "RUS_card_last_wheat" maxWidth = 63 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_0" position = { x = 134 y = 393 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_1" position = { x = 134 y = 385 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_2" position = { x = 134 y = 377 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_3" position = { x = 134 y = 369 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_4" position = { x = 134 y = 361 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_5" position = { x = 134 y = 353 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_6" position = { x = 134 y = 345 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_7" position = { x = 134 y = 337 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_8" position = { x = 134 y = 329 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_9" position = { x = 134 y = 321 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_10" position = { x = 134 y = 313 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_11" position = { x = 134 y = 305 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_12" position = { x = 134 y = 297 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_13" position = { x = 134 y = 289 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_14" position = { x = 134 y = 281 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_15" position = { x = 134 y = 273 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_16" position = { x = 134 y = 265 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_17" position = { x = 134 y = 257 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_18" position = { x = 134 y = 249 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_rye_19" position = { x = 134 y = 241 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_report_crop_rye" position = { x = 130 y = 408 } spriteType = "GFX_RUS_agri_crop_rye" scale = 0.6 pdx_tooltip = "RUS_nat_report_rye" alwaystransparent = no }
+instantTextBoxType = { name = "nat_report_rye" position = { x = 117 y = 452 } font = "hoi_24header" text = "RUS_card_last_rye" maxWidth = 63 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_0" position = { x = 230 y = 393 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_1" position = { x = 230 y = 385 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_2" position = { x = 230 y = 377 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_3" position = { x = 230 y = 369 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_4" position = { x = 230 y = 361 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_5" position = { x = 230 y = 353 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_6" position = { x = 230 y = 345 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_7" position = { x = 230 y = 337 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_8" position = { x = 230 y = 329 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_9" position = { x = 230 y = 321 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_10" position = { x = 230 y = 313 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_11" position = { x = 230 y = 305 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_12" position = { x = 230 y = 297 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_13" position = { x = 230 y = 289 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_14" position = { x = 230 y = 281 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_15" position = { x = 230 y = 273 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_16" position = { x = 230 y = 265 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_17" position = { x = 230 y = 257 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_18" position = { x = 230 y = 249 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_beet_19" position = { x = 230 y = 241 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_report_crop_beet" position = { x = 226 y = 408 } spriteType = "GFX_RUS_agri_crop_beet" scale = 0.6 pdx_tooltip = "RUS_nat_report_beet" alwaystransparent = no }
+instantTextBoxType = { name = "nat_report_beet" position = { x = 213 y = 452 } font = "hoi_24header" text = "RUS_card_last_beet" maxWidth = 63 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_0" position = { x = 326 y = 393 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_1" position = { x = 326 y = 385 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_2" position = { x = 326 y = 377 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_3" position = { x = 326 y = 369 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_4" position = { x = 326 y = 361 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_5" position = { x = 326 y = 353 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_6" position = { x = 326 y = 345 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_7" position = { x = 326 y = 337 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_8" position = { x = 326 y = 329 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_9" position = { x = 326 y = 321 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_10" position = { x = 326 y = 313 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_11" position = { x = 326 y = 305 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_12" position = { x = 326 y = 297 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_13" position = { x = 326 y = 289 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_14" position = { x = 326 y = 281 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_15" position = { x = 326 y = 273 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_16" position = { x = 326 y = 265 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_17" position = { x = 326 y = 257 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_18" position = { x = 326 y = 249 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_flax_19" position = { x = 326 y = 241 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_report_crop_flax" position = { x = 322 y = 408 } spriteType = "GFX_RUS_agri_crop_flax" scale = 0.6 pdx_tooltip = "RUS_nat_report_flax" alwaystransparent = no }
+instantTextBoxType = { name = "nat_report_flax" position = { x = 309 y = 452 } font = "hoi_24header" text = "RUS_card_last_flax" maxWidth = 63 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_0" position = { x = 422 y = 393 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_1" position = { x = 422 y = 385 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_2" position = { x = 422 y = 377 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_3" position = { x = 422 y = 369 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_4" position = { x = 422 y = 361 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_5" position = { x = 422 y = 353 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_6" position = { x = 422 y = 345 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_7" position = { x = 422 y = 337 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_8" position = { x = 422 y = 329 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_9" position = { x = 422 y = 321 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_10" position = { x = 422 y = 313 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_11" position = { x = 422 y = 305 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_12" position = { x = 422 y = 297 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_13" position = { x = 422 y = 289 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_14" position = { x = 422 y = 281 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_15" position = { x = 422 y = 273 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_16" position = { x = 422 y = 265 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_17" position = { x = 422 y = 257 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_18" position = { x = 422 y = 249 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_harvest_cotton_19" position = { x = 422 y = 241 } spriteType = "GFX_RUS_card_bar" alwaystransparent = yes }
+iconType = { name = "card_report_crop_cotton" position = { x = 418 y = 408 } spriteType = "GFX_RUS_agri_crop_cotton" scale = 0.6 pdx_tooltip = "RUS_nat_report_cotton" alwaystransparent = no }
+instantTextBoxType = { name = "nat_report_cotton" position = { x = 405 y = 452 } font = "hoi_24header" text = "RUS_card_last_cotton" maxWidth = 63 maxHeight = 29 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_report_supply" position = { x = 22 y = 494 } font = "hoi_16mbs" text = "RUS_dash_report_supply" maxWidth = 458 maxHeight = 25 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_report_pp" position = { x = 22 y = 524 } font = "hoi_16mbs" text = "RUS_dash_report_pp" maxWidth = 458 maxHeight = 25 format = center fixedsize = yes alwaystransparent = yes }
+instantTextBoxType = { name = "nat_empty_report" position = { x = 30 y = 250 } font = "hoi_16mbs" text = "RUS_nat_empty_report" maxWidth = 442 maxHeight = 75 format = center fixedsize = yes alwaystransparent = yes }
 } }
