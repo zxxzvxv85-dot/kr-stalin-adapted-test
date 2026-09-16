@@ -51,6 +51,7 @@ im=Image.new('RGBA',(100,62));ImageDraw.Draw(im).rounded_rectangle((2,2,97,59),r
 for name,w,h,color in [('tick',6,5,'#d8bd70'),('bar',28,6,'#b9bc74'),('reform',20,3,'#d8bd70')]:save(name,Image.new('RGBA',(w,h),color))
 im=Image.new('RGBA',(120,40));d=ImageDraw.Draw(im);d.polygon([(0,15),(89,15),(89,3),(117,20),(89,37),(89,25),(0,25)],fill='#cbb579',outline='#514c38');save('arrow',im)
 save('supply_panel',plate(482,89))
+save('ledger_column',plate(158,112))
 save('report_panel',plate(482,371,'green'))
 save('small_panel',plate(234,80))
 save('footer',plate(482,26))
@@ -103,12 +104,16 @@ for i,c in enumerate(C):
  txt('card_yield_'+c,label(c+'_yield',[f'产 §Y[?RUS_nat_{c}_yield|1]§!',f'Yield §Y[?RUS_nat_{c}_yield|1]§!',f'Сбор §Y[?RUS_nat_{c}_yield|1]§!']),x+6,350,80,p=1)
  button('nat_'+c+'_minus','minus',x+30,381,tip=label(c+'_tip',loc['RUS_card_'+c+'_tip']))
  ticks('allocation_'+c,'RUS_agri_'+c+'_investment',x+8,375,10,8,0,1,1)
-img('card_supply_panel','supply_panel',10,415,1,tip=label('supply_tip','$RUS_nat_needs$\\n$RUS_nat_gaps$\\n$RUS_nat_preview_income_line$'))
 for i,(c,name) in enumerate([('food',['粮食','Food','Зерно']),('beet',['甜菜','Beet','Свёкла']),('textile',['纺织','Fibre','Ткани'])]):
- txt('card_supply_label_'+c,label('supply_'+c,name),22+i*160,427,140,p=1)
- txt('card_supply_num_'+c,label('supply_num_'+c,f'§Y[?RUS_nat_{c}_preview|0]§!%'),22+i*160,452,140,28,1,'hoi_24header')
- ticks('need_'+c,'RUS_nat_'+c+'_preview',43+i*160,484,10,10,0,10,1)
-txt('card_crop_hint',label('crop_hint',['点击作物卡增配 · 悬停查看详情','Click a crop card to allocate · Hover for details','Нажмите на культуру · Подробности при наведении']),15,510,472,22,1)
+ details=[]
+ for lang in range(3):
+  words=[['本季供需','现有库存','预计新增','内需供给','满足率','储备目标','已接订单','还需增产'],['Quarterly supply','Stock','Expected harvest','Domestic supply','Coverage','Reserve target','Accepted orders','Extra production needed'],['Снабжение квартала','Запас','Прогноз урожая','Внутреннее снабжение','Обеспечение','Целевой резерв','Принятые заказы','Нужно произвести']][lang]
+  details.append(f'§Y{name[lang]} · {words[0]}§!\\n\\n{words[1]}: §Y[?RUS_nat_{c}_stock_now|1]§!\\n{words[2]}: §Y[?RUS_nat_{c}_new_yield|1]§!\\n{words[3]}: §Y[?RUS_nat_{c}_delivered|1]§! / §Y[?RUS_nat_{c}_need|1]§!\\n{words[4]}: §Y[?RUS_nat_{c}_preview|2]§!%\\n{words[5]}: §Y[?RUS_nat_{c}_reserve|1]§!\\n{words[6]}: §Y[?RUS_nat_{c}_order_need|1]§!\\n{words[7]}: §Y[?RUS_nat_{c}_all_gap|2]§!')
+ img('card_ledger_'+c,'ledger_column',10+i*162,415,1,tip=label('ledger_'+c+'_tip',details))
+ txt('card_supply_label_'+c,label('supply_'+c,[f'{n} §Y[?RUS_nat_{c}_preview|0]§!%' for n in name]),18+i*162,423,142,p=1)
+ for row,(key,words,decimals) in enumerate([('stock_now',['库存','Stock','Запас'],1),('new_yield',['预计新增','Harvest','Урожай'],1),('all_gap',['还需增产','Shortfall','Дефицит'],2)]):
+  txt('card_ledger_'+c+'_'+key,label('ledger_'+c+'_'+key,[f'{w} §Y[?RUS_nat_{c}_{key}|{decimals}]§!' for w in words]),18+i*162,447+22*row,142,p=1)
+ ticks('need_'+c,'RUS_nat_'+c+'_preview',40+i*162,518,10,10,0,10,1)
 for i,(n,s,key) in enumerate([('nat_auto','auto','RUS_nat_auto'),('nat_clear','clear','RUS_agri_clear'),('nat_confirm','confirm','RUS_agri_confirm'),('nat_reopen','reopen','RUS_agri_reopen')]):
  button(n,s,12+i*123,535,tip=key);txt('card_label_'+s,key,14+i*123,570,104,p=1)
 # Production line: click the factory illustration to add one civilian factory.
