@@ -12,7 +12,7 @@ for i,(part,names) in enumerate([('domestic',['国内订单','Domestic','Вну�
  test='check_variable = { RUS_nat_order_category < 1 }' if i==0 else 'check_variable = { RUS_nat_order_category = 1 }'
  img(name+'_selected','order_tab_selected',10+248*i,367,3,test)
  main_g=g;g=[]
- g.append(f'containerWindowType = {{ name = "{name}_scroll" position = {{ x = 10 y = 403 }} size = {{ width = 482 height = 156 }} clipping = yes verticalScrollbar = "right_vertical_slider" smooth_scrolling = yes background = {{ spriteType = "GFX_RUS_card_order_scroll" }}')
+ g.append(f'containerWindowType = {{ name = "{name}_scroll" position = {{ x = 0 y = 0 }} size = {{ width = 502 height = 625 }}\ncontainerWindowType = {{ name = "{name}_viewport" position = {{ x = 10 y = 403 }} size = {{ width = 482 height = 156 }} clipping = yes verticalScrollbar = "right_vertical_slider" smooth_scrolling = yes background = {{ spriteType = "GFX_RUS_card_order_scroll" }}')
  if i==0:
   tip=label('domestic_order_tip',['国内基本需求优先满足，不能取消。这里显示本季实际需求与预计供给；农机行显示在役数量和目标。','Domestic essentials have priority and cannot be cancelled. Seasonal needs and estimated delivery are shown; machinery shows installed units and target.','Внутренние нужды обязательны. Показаны спрос и прогноз снабжения; техника — в строю и целевое количество.'])
   for j,(group,crop,names) in enumerate([('food','wheat',['粮食供给','Food supply','Продовольствие']),('beet','beet',['制糖原料','Sugar processing','Сырьё для сахара']),('textile','cotton',['纺织原料','Textile materials','Текстильное сырьё']),('machine',None,['国内农机需求','Domestic machinery','Техника для страны'])]):
@@ -26,7 +26,7 @@ for i,(part,names) in enumerate([('domestic',['国内订单','Domestic','Вну�
   g.append('gridboxType = { name = "card_foreign_orders_grid" position = { x = 4 y = 4 } size = { width = 456 height = 100%% } slotsize = { width = 456 height = 1 } max_slots_horizontal = 1 add_horizontal = no }')
   txt('card_no_foreign_orders',label('no_foreign_orders',['本季暂无国外订单','No foreign orders this quarter','Нет внешних заказов в этом квартале']),18,50,430,40)
   tr.append('card_no_foreign_orders_visible = { check_variable = { RUS_nat_foreign_order_count = 0 } }')
- g.append('}');browser_windows.append('\n'.join(g));g=main_g
+ g.append('} }');browser_windows.append('\n'.join(g));g=main_g
 
 # One 76px entry for each numeric row id, supplied by the quarter's order cache.
 main_g=g;g=[]

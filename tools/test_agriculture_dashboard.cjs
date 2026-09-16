@@ -80,3 +80,14 @@ for(let row=0;row<10;row++){
  for(let candidate=0;candidate<10;candidate++)assert.equal(check(get(get(foreignPanel,'triggers'),`card_order_${candidate}_card_visible`),c),candidate===row);
 }
 console.log('Native panel roots isolated across all pages/categories; one row variant visible at a time.');
+
+const roots=get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes');
+for(const part of ['domestic','foreign']){
+ const window=roots.find(n=>get(n.value,'name')===`card_orders_${part}_scroll`).value;
+ assert.equal(get(get(window,'position'),'y'),'0');
+ const viewport=window.find(n=>n.key==='containerWindowType').value;
+ assert.equal(get(viewport,'name'),`card_orders_${part}_viewport`);
+ assert.equal(get(get(viewport,'position'),'x'),'10');assert.equal(get(get(viewport,'position'),'y'),'403');
+ assert.equal(get(get(viewport,'size'),'height'),'156');assert.equal(get(viewport,'verticalScrollbar'),'right_vertical_slider');
+}
+console.log('Scroll viewports use explicit offsets inside zero-origin child roots.');
