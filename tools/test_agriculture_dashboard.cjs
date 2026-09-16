@@ -18,6 +18,9 @@ for(const v of [0,1,5,10]){
 for(const lang of ['simp_chinese','english','russian']){
  const buf=fs.readFileSync(path.join(root,`localisation/${lang}/RUS_agriculture_cards_l_${lang}.yml`));assert.equal(buf.subarray(0,3).toString('hex'),'efbbbf');
  const keys=[...buf.toString('utf8').matchAll(/^\s+(\S+):0/gm)].map(m=>m[1]);assert.equal(keys.length,new Set(keys).size);
- for(const crop of ['wheat','rye','beet','flax','cotton'])assert.ok(buf.toString().includes(`$RUS_nat_${crop}_soil$`),'Detailed values must remain in tooltips');
+ for(const crop of ['wheat','rye','beet','flax','cotton'])assert.ok(buf.toString().includes(`[?RUS_agri_${crop}_fatigue|0]`),'Detailed live values must remain in tooltips');
+ assert.ok(!/\$RUS_[\w.]+\$/.test(buf.toString()),'GUI localisation must not leave nested dollar references');
 }
 console.log('Dashboard: original click effects preserved; one page visible including unset page; allocation bars exact; three locales retain detailed tooltips.');
+
+assert.ok(!/[<>]=/.test(read('common/scripted_guis/RUS_national_agriculture.txt')), 'Native HOI4 parser rejects inline >= and <= here; use NOT with the opposite strict comparison');

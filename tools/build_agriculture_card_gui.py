@@ -79,7 +79,7 @@ def label(key,values):
 def ticks(n,var,x,y,count,dx,dy,unit,p,s='tick',extra=''):
  for i in range(count):
   name=f'card_{n}_{i}';img(name,s,x+dx*i,y+dy*i)
-  tr.append(f'{name}_visible = {{ {condition(p) if p else ""} check_variable = {{ {var} >= {(i+1)*unit:g} }} {extra} }}')
+  tr.append(f'{name}_visible = {{ {condition(p) if p else ""} NOT = {{ check_variable = {{ {var} < {(i+1)*unit:g} }} }} {extra} }}')
 img('card_board','board',0,0)
 for i in range(4):
  button('nat_tab_'+str(i),'nav_'+str(i),8+i*123,5,tip='RUS_nat_tab_'+str(i)+'_tt')
@@ -168,7 +168,18 @@ s=re.sub(r'triggers = \{\s*','triggers = {\n',s,count=1)
 defined=set(re.findall(r'\b(\w+)_visible\s*=',s));tr=[t for t in tr if t.split('_visible')[0] not in defined]
 s=s.replace('triggers = {','triggers = {\n# CARDS BEGIN\n'+'\n'.join(tr)+'\n# CARDS END\n',1);p.write_text(s,encoding='utf-8')
 for i,lang in enumerate(['simp_chinese','english','russian']):
- (R/f'localisation/{lang}/RUS_agriculture_cards_l_{lang}.yml').write_text(f'l_{lang}:\n'+''.join(f' {k}:0 "{v[i]}"\n' for k,v in loc.items()),encoding='utf-8-sig')
+ # GUI tooltips do not reliably expand nested $localisation$ references.
+ # Resolve them at build time, leaving live [?variables] and [Get...] intact.
+ source={}
+ for stem in ['RUS_national_agriculture','RUS_agricultural_quarterly_management','RUS_agri_development','RUS_agri_business','RUS_agriculture_dashboard']:
+  file=R/f'localisation/{lang}/{stem}_l_{lang}.yml'
+  if file.exists():
+   source.update(re.findall(r'^\s*([\w.]+):(?:\d+)?\s*"(.*)"$',file.read_text(encoding='utf-8-sig'),re.M))
+ source.update({k:v[i] for k,v in loc.items()})
+ def expand(value,depth=0):
+  assert depth<12, 'Localisation reference cycle'
+  return re.sub(r'\$([\w.]+)\$',lambda m:expand(source[m[1]],depth+1),value)
+ (R/f'localisation/{lang}/RUS_agriculture_cards_l_{lang}.yml').write_text(f'l_{lang}:\n'+''.join(f' {k}:0 "{expand(v[i])}"\n' for k,v in loc.items()),encoding='utf-8-sig')
 gfx=['spriteTypes = {']
 for name,(w,h,b) in sprites.items():gfx.append(f'spriteType = {{ name = "GFX_RUS_card_{name}" texturefile = "gfx/interface/RUS_agriculture_cards/{name}.png" noOfFrames = 1 '+('effectFile = "gfx/FX/buttonstate.lua" ' if b else '')+'}')
 gfx.append('}');(R/'interface/RUS_agriculture_cards.gfx').write_text('\n'.join(gfx)+'\n',encoding='utf-8')
