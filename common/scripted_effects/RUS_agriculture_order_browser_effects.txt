@@ -1,6 +1,7 @@
 RUS_nat_order_browser_refresh = {
 if = { limit = { NOT = { has_country_flag = RUS_nat_order_browser_ready } }
 set_country_flag = RUS_nat_order_browser_ready
+clr_country_flag = RUS_nat_order_view_ready
 set_variable = { RUS_nat_generic_base_quantity = RUS_nat_generic_quantity }
 
 clamp_variable = { var = RUS_nat_generic_base_quantity min = 0 max = 1000 }
@@ -16,5 +17,33 @@ if = { limit = { check_variable = { RUS_nat_rom_quantity > 0 } } add_to_array = 
 if = { limit = { check_variable = { RUS_nat_gre_quantity > 0 } } add_to_array = { RUS_nat_foreign_order_rows = 7 } add_to_variable = { RUS_nat_foreign_order_count = 1 } }
 if = { limit = { check_variable = { RUS_nat_alb_quantity > 0 } } add_to_array = { RUS_nat_foreign_order_rows = 8 } add_to_variable = { RUS_nat_foreign_order_count = 1 } }
 if = { limit = { check_variable = { RUS_nat_bul_quantity > 0 } } add_to_array = { RUS_nat_foreign_order_rows = 9 } add_to_variable = { RUS_nat_foreign_order_count = 1 } }
+}
+set_variable = { RUS_nat_order_view_key = 0 }
+if = { limit = { check_variable = { RUS_nat_page = 3 } }
+ set_variable = { RUS_nat_order_view_key = 1 }
+ if = { limit = { check_variable = { RUS_nat_order_category = 1 } } set_variable = { RUS_nat_order_view_key = 2 } }
+}
+if = { limit = { OR = { NOT = { has_country_flag = RUS_nat_order_view_ready } NOT = { check_variable = { RUS_nat_order_view_last = RUS_nat_order_view_key } } } }
+ set_country_flag = RUS_nat_order_view_ready
+ set_variable = { RUS_nat_order_view_last = RUS_nat_order_view_key }
+ clear_array = RUS_nat_visible_order_rows
+ if = { limit = { check_variable = { RUS_nat_order_view_key = 1 } }
+add_to_array = { RUS_nat_visible_order_rows = 100 }
+add_to_array = { RUS_nat_visible_order_rows = 101 }
+add_to_array = { RUS_nat_visible_order_rows = 102 }
+add_to_array = { RUS_nat_visible_order_rows = 103 }
+}
+ if = { limit = { check_variable = { RUS_nat_order_view_key = 2 } }
+if = { limit = { check_variable = { RUS_nat_generic_base_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 0 } }
+if = { limit = { check_variable = { RUS_nat_fra_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 1 } }
+if = { limit = { check_variable = { RUS_nat_eng_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 2 } }
+if = { limit = { check_variable = { RUS_nat_fra_machine_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 3 } }
+if = { limit = { check_variable = { RUS_nat_eng_machine_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 4 } }
+if = { limit = { check_variable = { RUS_nat_ser_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 5 } }
+if = { limit = { check_variable = { RUS_nat_rom_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 6 } }
+if = { limit = { check_variable = { RUS_nat_gre_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 7 } }
+if = { limit = { check_variable = { RUS_nat_alb_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 8 } }
+if = { limit = { check_variable = { RUS_nat_bul_quantity > 0 } } add_to_array = { RUS_nat_visible_order_rows = 9 } }
+}
 }
 }

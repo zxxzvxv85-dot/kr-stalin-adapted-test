@@ -16,24 +16,21 @@ function resolve(text,depth=0){if(depth>8)return '';
 const containers=get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes');
 const gui=get(containers,'containerWindowType');
 const scripted=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
-const childPanels=get(parse(read('common/scripted_guis/RUS_agriculture_order_panels.txt')),'scripted_gui');
-const foreignPanel=get(childPanels,'RUS_agriculture_foreign_panel');
-const triggers=[...get(scripted,'triggers'),...get(foreignPanel,'triggers')];const sprites={};
+const triggers=get(scripted,'triggers');const sprites={};
 for(const file of ['interface/RUS_agri_crop_icons.gfx','interface/RUS_national_agriculture.gfx','interface/RUS_agriculture_cards.gfx'])for(const sprite of get(parse(read(file)),'spriteTypes')){const texture=get(sprite.value,'texturefile')||get(sprite.value,'textureFile');if(texture)sprites[get(sprite.value,'name')]=texture;}
 const pages=[];
 for(let page=1;page<=5;page++){
- c.vars.RUS_nat_page=page===5?3:page;c.vars.RUS_nat_order_category=page===5?1:0;const widgets=[];
+ c.vars.RUS_nat_page=page===5?3:page;c.vars.RUS_nat_order_category=page===5?1:0;exec(effects.get('RUS_nat_order_browser_refresh'),c);const widgets=[];
  function walk(nodes,ox=0,oy=0,clip=null){
  for(const w of nodes.filter(w=>['iconType','instantTextBoxType','buttonType','containerWindowType','gridboxType'].includes(w.key))){const name=get(w.value,'name');const visible=get(triggers,name+'_visible');if(visible&&!check(visible,c))continue;
  const pos=get(w.value,'position')||[];const wx=ox+(+get(pos,'x')||0),wy=oy+(+get(pos,'y')||0);
  if(w.key==='containerWindowType'){const size=get(w.value,'size');const nextClip=get(w.value,'verticalScrollbar')?[wx,wy,+get(size,'width'),+get(size,'height')]:clip;walk(w.value,wx,wy,nextClip);continue;}
- if(w.key==='gridboxType'){const entry=containers.find(n=>get(n.value,'name')==='RUS_agriculture_foreign_order_entry').value;for(const [idx,row] of (c.arrays?.RUS_nat_foreign_order_rows||[]).entries()){c.temps.RUS_nat_order_row=row;walk(entry,wx,wy+idx*76,clip);}continue;}
+ if(w.key==='gridboxType'){const entry=containers.find(n=>get(n.value,'name')==='RUS_agriculture_foreign_order_entry').value;for(const [idx,row] of (c.arrays?.RUS_nat_visible_order_rows||[]).entries()){c.temps.RUS_nat_order_row=row;walk(entry,wx,wy+idx*76,clip);}continue;}
  const key=get(w.value,'text')||get(w.value,'buttonText');const sprite=get(w.value,'spriteType')||get(w.value,'quadTextureSprite');const enabled=get(triggers,name+'_click_enabled');
  widgets.push({kind:w.key,name,x:wx,y:wy,clip,width:+get(w.value,'maxWidth')||123,height:+get(w.value,'maxHeight')||34,font:get(w.value,'font'),format:get(w.value,'format'),text:key?resolve(loc.get(key)||key):sprite?.includes('decrease')?'-':sprite?.includes('increase')?'+':'',sprite:sprites[sprite],scale:+get(w.value,'scale')||1,enabled:!enabled||check(enabled,c)});
  }
  }
  walk(gui);
- for(const panel of childPanels){if(check(get(panel.value,'visible'),c)){const window=containers.find(n=>get(n.value,'name')===get(panel.value,'window_name'));walk([window]);}}
  pages.push(widgets);
 }
 const out=path.join(root,'output/national-agriculture');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,`layout-${locale}.json`),JSON.stringify({locale,pages},null,2));console.log('Saved four-page offline layout state for '+locale);

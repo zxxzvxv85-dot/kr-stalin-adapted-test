@@ -158,7 +158,7 @@ for i,c in enumerate(C):
 txt('nat_report_supply','RUS_dash_report_supply',22,494,458,25)
 txt('nat_report_pp','RUS_dash_report_pp',22,524,458,25)
 txt('nat_empty_report','RUS_nat_empty_report',30,250,442,75)
-g.append('containerWindowType = { name = "RUS_agriculture_order_anchor" position = { x = 0 y = 0 } size = { width = 502 height = 625 } }');g.append('}');g.extend(browser_windows);g.append(browser_entry);g.append('}')
+g.append('}');g.append(browser_entry);g.append('}')
 (R/'interface/RUS_national_agriculture.gui').write_text('\n'.join(g)+'\n',encoding='utf-8')
 # Drop the rejected dashboard's cosmetic trigger block, preserve all original actions.
 p=R/'common/scripted_guis/RUS_national_agriculture.txt';s=p.read_text(encoding='utf-8-sig');s=re.sub(r'# (?:DASHBOARD|CARDS) BEGIN\n.*?# (?:DASHBOARD|CARDS) END\n','',s,flags=re.S)
@@ -193,12 +193,16 @@ for alias,source in browser_aliases:
  buyer=source.rsplit('_',1)[-1];suffix='_machine' if 'maccept' in source else ''
  tr.append(alias+'_click_enabled = {'+original_block(source+'_click_enabled')+f' check_variable = {{ RUS_nat_{buyer}{suffix}_shipped = 0 }}'+'}')
 actions.append('card_order_priority_click = {'+''.join(f'add_to_variable = {{ RUS_nat_{o}_priority = 1 }} if = {{ limit = {{ check_variable = {{ RUS_nat_{o}_priority > 8 }} }} set_variable = {{ RUS_nat_{o}_priority = 1 }} }} ' for o in ['generic','fra','eng','ser','rom','gre','alb','bul'])+'RUS_nat_refresh = yes }')
-s=s.replace('effects = {','effects = {\n# CARD ACTIONS BEGIN\n'+'\n'.join(a for a in actions if not re.match(r'card_order_\d+_',a))+'\n# CARD ACTIONS END\n',1)
+s=s.replace('effects = {','effects = {\n# CARD ACTIONS BEGIN\n'+'\n'.join(actions)+'\n# CARD ACTIONS END\n',1)
 s=re.sub(r'# ORDER LIST BEGIN\n.*?# ORDER LIST END\n','',s,flags=re.S)
+s=s.replace('triggers = {','''# ORDER LIST BEGIN
+dynamic_lists = { card_foreign_orders_grid = { array = RUS_nat_visible_order_rows value = RUS_nat_order_row index = RUS_nat_order_index change_scope = no entry_container = RUS_agriculture_foreign_order_entry } }
+# ORDER LIST END
+triggers = {''',1)
 s=re.sub(r'triggers = \{\s*','triggers = {\n',s,count=1)
 # Reuse original visibility for original widgets; generated rules only define new names.
 defined=set(re.findall(r'\b(\w+)_visible\s*=',s));tr=[t for t in tr if t.split('_visible')[0] not in defined]
-s=s.replace('triggers = {','triggers = {\n# CARDS BEGIN\n'+'\n'.join(t for t in tr if not re.match(r'card_order_\d+_|card_no_foreign_orders_',t))+'\n# CARDS END\n',1);p.write_text(s,encoding='utf-8')
+s=s.replace('triggers = {','triggers = {\n# CARDS BEGIN\n'+'\n'.join(tr)+'\n# CARDS END\n',1);p.write_text(s,encoding='utf-8')
 for i,lang in enumerate(['simp_chinese','english','russian']):
  # GUI tooltips do not reliably expand nested $localisation$ references.
  # Resolve them at build time, leaving live [?variables] and [Get...] intact.
@@ -227,16 +231,6 @@ for buyer in ['ser','rom','gre','alb','bul']:
  status.append(f'defined_text = {{ name = GetRUSNatAccept{buyer} text = {{ trigger = {{ check_variable = {{ RUS_nat_{buyer}_shipped = 1 }} }} localization_key = RUS_nat_delivered }} text = {{ trigger = {{ check_variable = {{ RUS_nat_{buyer}_accept = 1 }} }} localization_key = RUS_nat_accepted }} text = {{ localization_key = RUS_nat_cancelled }} }}')
 (R/'common/scripted_localisation/RUS_agriculture_order_browser_loc.txt').write_text('\n'.join(status)+'\n',encoding='utf-8')
 
-# Scrollable panels are independent scripted-GUI children: their root visibility
-# hides the entire native window, including its background and scrollbar.
-children=['scripted_gui = {']
-for part in ['domestic','foreign']:
- test='check_variable = { RUS_nat_order_category < 1 }' if part=='domestic' else 'check_variable = { RUS_nat_order_category = 1 }'
- children.append(f'RUS_agriculture_{part}_panel = {{ context_type = player_context parent_window_name = RUS_agriculture_order_anchor window_name = "card_orders_{part}_scroll" dirty = global.RUS_agri_management_update ai_enabled = {{ always = no }} visible = {{ has_country_flag = RUS_nat_enabled check_variable = {{ RUS_nat_page = 3 }} '+test+' }')
- if part=='foreign':
-  children.append('dynamic_lists = { card_foreign_orders_grid = { array = RUS_nat_foreign_order_rows value = RUS_nat_order_row index = RUS_nat_order_index change_scope = no entry_container = RUS_agriculture_foreign_order_entry } }')
-  children.append('triggers = {'+'\n'.join(t for t in tr if re.match(r'card_order_\d+_|card_no_foreign_orders_',t))+'}')
-  children.append('effects = {'+'\n'.join(a for a in actions if re.match(r'card_order_\d+_',a))+'}')
- children.append('}')
-children.append('}')
-(R/'common/scripted_guis/RUS_agriculture_order_panels.txt').write_text('\n'.join(children)+'\n',encoding='utf-8')
+# No globally attached child panels: decision GUI owns the viewport and its lifetime.
+obsolete=R/'common/scripted_guis/RUS_agriculture_order_panels.txt'
+if obsolete.exists():obsolete.unlink()

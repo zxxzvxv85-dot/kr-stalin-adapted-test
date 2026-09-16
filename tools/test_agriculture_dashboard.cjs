@@ -1,9 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
 const {parse,get,read,root,country,check,exec,effects}=require('./test_agri_development.cjs');
 const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
-const panels=get(parse(read('common/scripted_guis/RUS_agriculture_order_panels.txt')),'scripted_gui');
-const foreignPanel=get(panels,'RUS_agriculture_foreign_panel');
-const allClickEffects=[...get(gui,'effects'),...get(foreignPanel,'effects')];
+const allClickEffects=get(gui,'effects');
 const baseline=get(get(parse(cp.execFileSync('git',['show','HEAD:common/scripted_guis/RUS_national_agriculture.txt'],{cwd:root,encoding:'utf8'})),'scripted_gui'),'RUS_national_agriculture_gui');
 for(const entry of get(baseline,'effects')) assert.deepEqual(get(allClickEffects,entry.key),entry.value,'Preserve original effect '+entry.key);
 for(const crop of ['wheat','rye','beet','flax','cotton']) {
@@ -66,28 +64,23 @@ console.log('Card left/right click: five crops, zero/cap boundaries and locked p
  console.log('Zero reserve: targets and ledger refresh, stock preserved, selection and switching back passed.');
 }
 
-const mainWindow=get(get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes'),'containerWindowType');
-assert.ok(!mainWindow.some(n=>n.key==='containerWindowType'&&/card_orders_.*_scroll/.test(get(n.value,'name'))),'Native scroll backgrounds must not be nested unconditionally in the main page');
-for(const part of ['domestic','foreign']){
- const panel=get(panels,`RUS_agriculture_${part}_panel`);assert.equal(get(panel,'parent_window_name'),'RUS_agriculture_order_anchor');assert.equal(get(panel,'parent_scripted_gui'),undefined);assert.ok(mainWindow.some(n=>n.key==='containerWindowType'&&get(n.value,'name')==='RUS_agriculture_order_anchor'));
- for(let page=0;page<=4;page++)for(let category=0;category<=1;category++){
-  const c=country();c.flags.RUS_nat_enabled=true;c.vars.RUS_nat_page=page;c.vars.RUS_nat_order_category=category;
-  assert.equal(check(get(panel,'visible'),c),page===3&&category===(part==='foreign'?1:0));
- }
+
+const roots=get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes');
+const mainWindow=get(roots,'containerWindowType');
+const viewport=mainWindow.find(n=>n.key==='containerWindowType'&&get(n.value,'name')==='card_order_viewport').value;
+assert.equal(get(get(viewport,'position'),'y'),'403');
+assert.ok(!fs.existsSync(path.join(root,'common/scripted_guis/RUS_agriculture_order_panels.txt')));
+assert.equal(roots.filter(n=>n.key==='containerWindowType').length,2,'Only decision root and row template: no independently created windows');
+for(let page=0;page<=4;page++)for(let category=0;category<=1;category++){
+ const c=country();c.vars.RUS_nat_page=page;c.vars.RUS_nat_order_category=category;c.vars.RUS_nat_fra_quantity=3;
+ exec(effects.get('RUS_nat_order_browser_refresh'),c);
+ assert.deepEqual(c.arrays.RUS_nat_visible_order_rows,page===3?(category===0?[100,101,102,103]:[1]):[]);
+ assert.equal(check(get(triggers,'card_order_browser_background_visible'),c),page===3);
+ const rows=c.arrays.RUS_nat_visible_order_rows;exec(effects.get('RUS_nat_order_browser_refresh'),c);assert.equal(c.arrays.RUS_nat_visible_order_rows,rows);
+ c.vars.RUS_nat_page=1;exec(effects.get('RUS_nat_order_browser_refresh'),c);assert.deepEqual(c.arrays.RUS_nat_visible_order_rows,[]);
 }
 for(let row=0;row<10;row++){
  const c=country();c.temps.RUS_nat_order_row=row;
- for(let candidate=0;candidate<10;candidate++)assert.equal(check(get(get(foreignPanel,'triggers'),`card_order_${candidate}_card_visible`),c),candidate===row);
+ for(let candidate=0;candidate<10;candidate++)assert.equal(check(get(triggers,`card_order_${candidate}_card_visible`),c),candidate===row);
 }
-console.log('Native panel roots isolated across all pages/categories; one row variant visible at a time.');
-
-const roots=get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes');
-for(const part of ['domestic','foreign']){
- const window=roots.find(n=>get(n.value,'name')===`card_orders_${part}_scroll`).value;
- assert.equal(get(get(window,'position'),'y'),'0');
- const viewport=window.find(n=>n.key==='containerWindowType').value;
- assert.equal(get(viewport,'name'),`card_orders_${part}_viewport`);
- assert.equal(get(get(viewport,'position'),'x'),'10');assert.equal(get(get(viewport,'position'),'y'),'403');
- assert.equal(get(get(viewport,'size'),'height'),'156');assert.equal(get(viewport,'verticalScrollbar'),'right_vertical_slider');
-}
-console.log('Scroll viewports use explicit offsets inside zero-origin child roots.');
+console.log('One embedded viewport; empty outside trade, exclusive domestic/foreign rows, no global child windows.');
