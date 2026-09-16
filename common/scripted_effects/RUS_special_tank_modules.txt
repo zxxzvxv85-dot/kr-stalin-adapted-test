@@ -11,7 +11,7 @@ RUS_refresh_special_tank_modules = {
   }
   if = {
    limit = {
-    has_tech = sp_advance_sabot_shells
+    is_in_array = { array = researched_techs value = token:sp_advance_sabot_shells }
     NOT = { has_tech = RUS_unlock_special_auto_loader }
    }
    set_technology = { RUS_unlock_special_auto_loader = 1 popup = no }

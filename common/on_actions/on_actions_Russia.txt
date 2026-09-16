@@ -444,7 +444,7 @@ on_actions = {
 			# Reapply the auto-loader unlock for saves which researched the sabot-shell tech before this module effect was added.
 			if = {
 				limit = {
-					has_tech = sp_advance_sabot_shells
+					is_in_array = { array = researched_techs value = token:sp_advance_sabot_shells }
 					NOT = { has_tech = RUS_auto_loader_old_save_compat }
 				}
 				set_technology = { RUS_auto_loader_old_save_compat = 1 popup = no }

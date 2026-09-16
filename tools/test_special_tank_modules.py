@@ -20,6 +20,9 @@ def check(nodes,tag,techs):
  for k,op,v in nodes:
   if k=='tag':ok=tag==v
   elif k=='has_tech':ok=v in techs
+  elif k=='is_in_array':
+   assert get(v,'array')=='researched_techs'
+   ok=get(v,'value').removeprefix('token:') in techs
   elif k=='has_country_flag':ok=v in FLAGS
   elif k=='NOT':ok=not check(v,tag,techs)
   else:raise AssertionError(k)
