@@ -56,7 +56,7 @@ module.exports = ({label: register,write}) => {
   const indicators=option('RUS_nat_event_indicators','country_event = { id = RUS_national_agriculture.7 }');
   const guide=option('RUS_nat_event_guide','country_event = { id = RUS_national_agriculture.2 }');
   const close=option('RUS_nat_event_close');
-  const event=(num,options)=>`country_event = { id = ${id(num)} title = ${id(num)}.t desc = ${id(num)}.d picture = ${[2,6,7].includes(num) ? "GFX_RUS_agriculture_guide_mascot" : "GFX_report_event_RUS_ustinov"} is_triggered_only = yes ${options} }\n`;
+  const event=(num,options)=>`country_event = { id = ${id(num)} title = ${id(num)}.t desc = ${id(num)}.d picture = GFX_RUS_agriculture_guide_mascot is_triggered_only = yes ${options} }\n`;
   write('events/RUS_national_agriculture_events.txt','add_namespace = RUS_national_agriculture\n'+
     event(1,prod+ledger+option(id(1)+'.a'))+event(2,conditions+prod+ledger+close)+event(3,prod+ledger+close)+
     event(4,prod+ledger+option('RUS_nat_event_confirm','trigger = { has_country_flag = RUS_nat_enabled NOT = { has_country_flag = RUS_agri_allocation_locked } } set_country_flag = RUS_nat_manual_plan RUS_agri_confirm_allocation = yes RUS_nat_refresh = yes')+close)+event(5,prod+close)+
