@@ -7,30 +7,14 @@ RUS_refresh_special_tank_modules = {
     has_tech = RUS_fr_unlock_stabilizer
     NOT = { has_tech = RUS_unlock_special_stabilizer }
    }
-   set_technology = { RUS_unlock_special_stabilizer = 1 popup = no }
+   set_technology = { RUS_unlock_special_stabilizer = 1 popup = yes }
   }
   if = {
    limit = {
     is_in_array = { array = researched_techs value = token:sp_advance_sabot_shells }
     NOT = { has_tech = RUS_unlock_special_auto_loader }
    }
-   set_technology = { RUS_unlock_special_auto_loader = 1 popup = no }
-  }
-  if = {
-   limit = {
-    has_tech = RUS_unlock_special_stabilizer
-    NOT = { has_country_flag = RUS_special_stabilizer_notified }
-   }
-   set_country_flag = RUS_special_stabilizer_notified
-   country_event = { id = RUS_special_tank_modules.1 hours = 1 }
-  }
-  if = {
-   limit = {
-    has_tech = RUS_unlock_special_auto_loader
-    NOT = { has_country_flag = RUS_special_auto_loader_notified }
-   }
-   set_country_flag = RUS_special_auto_loader_notified
-   country_event = { id = RUS_special_tank_modules.2 hours = 1 }
+   set_technology = { RUS_unlock_special_auto_loader = 1 popup = yes }
   }
  }
 }
