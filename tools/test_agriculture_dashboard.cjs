@@ -1,8 +1,12 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
-const {parse,get,read,root,country,check}=require('./test_agri_development.cjs');
+const {parse,get,read,root,country,check,exec}=require('./test_agri_development.cjs');
 const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
 const baseline=get(get(parse(cp.execFileSync('git',['show','HEAD:common/scripted_guis/RUS_national_agriculture.txt'],{cwd:root,encoding:'utf8'})),'scripted_gui'),'RUS_national_agriculture_gui');
-assert.deepEqual(get(gui,'effects'),get(baseline,'effects'),'Presentation must preserve every original click effect');
+for(const entry of get(baseline,'effects')) assert.deepEqual(get(get(gui,'effects'),entry.key),entry.value,'Preserve original effect '+entry.key);
+for(const crop of ['wheat','rye','beet','flax','cotton']) {
+ assert.deepEqual(get(get(gui,'effects'),`card_${crop}_add_click`),get(get(gui,'effects'),`nat_${crop}_plus_click`));
+ assert.deepEqual(get(get(gui,'triggers'),`card_${crop}_add_click_enabled`),get(get(gui,'triggers'),`nat_${crop}_plus_click_enabled`));
+}
 const triggers=get(gui,'triggers'),c=country();
 for(let p=0;p<=4;p++){
  c.vars.RUS_nat_page=p;
@@ -31,3 +35,12 @@ for(const lang of ['simp_chinese','english','russian']){
  assert.ok(expanded.includes('RUS_nat_report_cotton:0'));
  assert.ok(expanded.includes('[?RUS_nat_cotton_last_yield|1]'));
 }
+
+for(const crop of ['wheat','rye','beet','flax','cotton']) for(const locked of [false,true]) for(const amount of [0,9,10]) for(const right of [false,true]) {
+ const state=country();state.vars.RUS_agri_investment_limit=50;state.vars.RUS_nat_page=1;
+ state.vars[`RUS_agri_${crop}_investment`]=amount;state.vars.RUS_nat_allocated=amount;
+ if(locked)state.flags.RUS_agri_allocation_locked=true;
+ exec(get(get(gui,'effects'),`card_${crop}_adjust_${right?'right_click':'click'}`),state);
+ assert.equal(state.vars[`RUS_agri_${crop}_investment`],locked?amount:Math.max(0,Math.min(10,amount+(right?-1:1))));
+}
+console.log('Card left/right click: five crops, zero/cap boundaries and locked plans passed.');

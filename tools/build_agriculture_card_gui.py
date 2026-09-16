@@ -25,6 +25,7 @@ for i,c in enumerate(C):
  paste(im,R/f'gfx/interface/RUS_agri_crops/RUS_agri_{c}.png',(12,38,68,76));d.rectangle((18,127,73,153),fill='#17221c',outline='#88764e');d.line((10,164,81,164),fill='#9b8960');save('crop_'+c,im,True)
  im=plate(92,96,'wood');paste(im,R/f'gfx/interface/RUS_agri_crops/RUS_agri_{c}.png',(18,8,56,49));save('bin_'+c,im)
 im=Image.new('RGBA',(32,26));d=ImageDraw.Draw(im);d.ellipse((4,1,27,24),fill='#642e25',outline='#c6b07a',width=2);d.line((10,13,21,13),fill='#e2d6b1',width=3);save('minus',im,True)
+im=Image.new('RGBA',(32,26));d=ImageDraw.Draw(im);d.ellipse((4,1,27,24),fill='#304e32',outline='#c6b07a',width=2);d.line((10,13,21,13),fill='#e2d6b1',width=3);d.line((16,7,16,19),fill='#e2d6b1',width=3);save('plus',im,True)
 for name in ['factory_minus10','factory_minus1','factory_plus10']:save(name,plate(66,40,'wood'),True)
 for name,path in [('auto',L/'物件/notebook small.png'),('clear',L/'经济技术/cog.png'),('confirm',L/'物件/Padlock.png'),('reopen',L/'物件/Padlock.png')]:token(name,path,(108,57),'red' if name=='confirm' else 'wood')
 navpaths=[R/'gfx/interface/RUS_agri_crops/RUS_agri_wheat.png',L/'经济技术/Combine.png',L/'经济技术/Bag.png',L/'物件/notebook small.png']
@@ -98,11 +99,12 @@ txt('nat_score',label('reform_brief',['土改  §Y[?RUS_agri_display_score|1]§!
 ticks('reform','RUS_agri_display_score',17,622,20,23.5,0,10,0,'reform')
 for i,c in enumerate(C):
  x=10+i*97
- button('nat_'+c+'_plus','crop_'+c,x,183,tip=label(c+'_tip',[f'§Y$RUS_agri_{c}$§!\\n点击卡片：增加1点配额。下方减号：收回1点。\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$',f'§Y$RUS_agri_{c}$§!\\nClick card: +1. Minus token: -1.\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$',f'§Y$RUS_agri_{c}$§!\\nКарта: +1. Минус: -1.\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$']))
+ button('card_'+c+'_adjust','crop_'+c,x,183,p=1,tip=label(c+'_tip',[f'§Y$RUS_agri_{c}$§!\\n卡片左键：增加1点配额；右键：收回1点。下方加减号均为左键操作。\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$',f'§Y$RUS_agri_{c}$§!\\nCard: left-click +1, right-click -1. Both +/- tokens use left-click.\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$',f'§Y$RUS_agri_{c}$§!\\nКарта: ЛКМ +1, ПКМ -1. Кнопки +/-: ЛКМ.\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$']))
  txt('nat_'+c+'_name','RUS_agri_'+c,x+5,196,82)
  txt('nat_'+c+'_amount','RUS_nat_'+c+'_amount',x+18,313,56,29,font='hoi_24header')
  txt('card_yield_'+c,label(c+'_yield',[f'产 §Y[?RUS_nat_{c}_yield|1]§!',f'Yield §Y[?RUS_nat_{c}_yield|1]§!',f'Сбор §Y[?RUS_nat_{c}_yield|1]§!']),x+6,350,80,p=1)
- button('nat_'+c+'_minus','minus',x+30,381,tip=label(c+'_tip',loc['RUS_card_'+c+'_tip']))
+ button('nat_'+c+'_minus','minus',x+10,381,tip=label(c+'_tip',loc['RUS_card_'+c+'_tip']))
+ button('card_'+c+'_add','plus',x+50,381,tip=label(c+'_tip',loc['RUS_card_'+c+'_tip']),p=1)
  ticks('allocation_'+c,'RUS_agri_'+c+'_investment',x+8,375,10,8,0,1,1)
 for i,(c,name) in enumerate([('food',['粮食','Food','Зерно']),('beet',['甜菜','Beet','Свёкла']),('textile',['纺织','Fibre','Ткани'])]):
  details=[]
@@ -165,6 +167,24 @@ g.append('} }')
 (R/'interface/RUS_national_agriculture.gui').write_text('\n'.join(g)+'\n',encoding='utf-8')
 # Drop the rejected dashboard's cosmetic trigger block, preserve all original actions.
 p=R/'common/scripted_guis/RUS_national_agriculture.txt';s=p.read_text(encoding='utf-8-sig');s=re.sub(r'# (?:DASHBOARD|CARDS) BEGIN\n.*?# (?:DASHBOARD|CARDS) END\n','',s,flags=re.S)
+s=re.sub(r'# CARD ACTIONS BEGIN\n.*?# CARD ACTIONS END\n','',s,flags=re.S)
+def original_block(name):
+ match=re.search(r'\b'+name+r'\s*=\s*\{',s);start=match.end();depth=1;end=start
+ while depth:
+  if s[end]=='{':depth+=1
+  elif s[end]=='}':depth-=1
+  end+=1
+ return s[start:end-1]
+actions=[]
+for crop in C:
+ tr.append(f'card_{crop}_add_click_enabled = {{'+original_block(f'nat_{crop}_plus_click_enabled')+'}')
+ actions.append(f'card_{crop}_add_click = {{'+original_block(f'nat_{crop}_plus_click')+'}')
+ plus=original_block(f'nat_{crop}_plus_click_enabled');minus=original_block(f'nat_{crop}_minus_click_enabled')
+ tr.append(f'card_{crop}_adjust_click_enabled = {{ OR = {{ AND = {{'+plus+'} AND = {'+minus+'} } }')
+ for suffix,source,guard in [('click','plus',plus),('right_click','minus',minus)]:
+  actions.append(f'card_{crop}_adjust_{suffix} = {{ if = {{ limit = {{'+guard+'} '+original_block(f'nat_{crop}_{source}_click')+'} }')
+
+s=s.replace('effects = {','effects = {\n# CARD ACTIONS BEGIN\n'+'\n'.join(actions)+'\n# CARD ACTIONS END\n',1)
 s=re.sub(r'triggers = \{\s*','triggers = {\n',s,count=1)
 # Reuse original visibility for original widgets; generated rules only define new names.
 defined=set(re.findall(r'\b(\w+)_visible\s*=',s));tr=[t for t in tr if t.split('_visible')[0] not in defined]
