@@ -29,6 +29,7 @@ card_reform_18_visible = {  NOT = { check_variable = { RUS_agri_display_score < 
 card_reform_19_visible = {  NOT = { check_variable = { RUS_agri_display_score < 200 } }  }
 card_wheat_adjust_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_yield_wheat_visible = { check_variable = { RUS_nat_page < 2 }  }
+card_unit_yield_wheat_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_wheat_add_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_allocation_wheat_0_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_wheat_investment < 1 } }  }
 card_allocation_wheat_1_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_wheat_investment < 2 } }  }
@@ -42,6 +43,7 @@ card_allocation_wheat_8_visible = { check_variable = { RUS_nat_page < 2 } NOT = 
 card_allocation_wheat_9_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_wheat_investment < 10 } }  }
 card_rye_adjust_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_yield_rye_visible = { check_variable = { RUS_nat_page < 2 }  }
+card_unit_yield_rye_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_rye_add_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_allocation_rye_0_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_rye_investment < 1 } }  }
 card_allocation_rye_1_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_rye_investment < 2 } }  }
@@ -55,6 +57,7 @@ card_allocation_rye_8_visible = { check_variable = { RUS_nat_page < 2 } NOT = { 
 card_allocation_rye_9_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_rye_investment < 10 } }  }
 card_beet_adjust_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_yield_beet_visible = { check_variable = { RUS_nat_page < 2 }  }
+card_unit_yield_beet_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_beet_add_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_allocation_beet_0_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_beet_investment < 1 } }  }
 card_allocation_beet_1_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_beet_investment < 2 } }  }
@@ -68,6 +71,7 @@ card_allocation_beet_8_visible = { check_variable = { RUS_nat_page < 2 } NOT = {
 card_allocation_beet_9_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_beet_investment < 10 } }  }
 card_flax_adjust_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_yield_flax_visible = { check_variable = { RUS_nat_page < 2 }  }
+card_unit_yield_flax_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_flax_add_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_allocation_flax_0_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_flax_investment < 1 } }  }
 card_allocation_flax_1_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_flax_investment < 2 } }  }
@@ -81,6 +85,7 @@ card_allocation_flax_8_visible = { check_variable = { RUS_nat_page < 2 } NOT = {
 card_allocation_flax_9_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_flax_investment < 10 } }  }
 card_cotton_adjust_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_yield_cotton_visible = { check_variable = { RUS_nat_page < 2 }  }
+card_unit_yield_cotton_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_cotton_add_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_allocation_cotton_0_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_cotton_investment < 1 } }  }
 card_allocation_cotton_1_visible = { check_variable = { RUS_nat_page < 2 } NOT = { check_variable = { RUS_agri_cotton_investment < 2 } }  }
@@ -539,6 +544,7 @@ RUS_agri_increase_cotton = yes RUS_nat_refresh = yes } }
 card_cotton_adjust_right_click = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment > 0 } }  set_country_flag = RUS_nat_manual_plan
 RUS_agri_decrease_cotton = yes RUS_nat_refresh = yes } }
 # CARD ACTIONS END
+
 
  nat_ledger_click = { RUS_nat_refresh = yes country_event = { id = RUS_national_agriculture.5 } RUS_nat_refresh = yes }
 nat_tab_0_click = { set_variable = { RUS_nat_page = 1 }

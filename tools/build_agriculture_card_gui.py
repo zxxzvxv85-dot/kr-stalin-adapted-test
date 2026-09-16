@@ -22,7 +22,7 @@ def token(name,path,size=(100,58),kind='wood'):
  im=plate(*size,kind);paste(im,path,(6,4,size[0]-12,size[1]-20));save(name,im,True)
 for i,c in enumerate(C):
  im=plate(92,190,'green');d=ImageDraw.Draw(im);d.ellipse((10,33,81,115),fill='#293d2c',outline='#8e8355',width=2)
- paste(im,R/f'gfx/interface/RUS_agri_crops/RUS_agri_{c}.png',(12,38,68,76));d.rectangle((18,127,73,153),fill='#17221c',outline='#88764e');d.line((10,164,81,164),fill='#9b8960');save('crop_'+c,im,True)
+ paste(im,R/f'gfx/interface/RUS_agri_crops/RUS_agri_{c}.png',(12,38,68,76));d.rectangle((18,117,73,143),fill='#17221c',outline='#88764e');d.line((10,147,81,147),fill='#9b8960');save('crop_'+c,im,True)
  im=plate(92,96,'wood');paste(im,R/f'gfx/interface/RUS_agri_crops/RUS_agri_{c}.png',(18,8,56,49));save('bin_'+c,im)
 im=Image.new('RGBA',(32,26));d=ImageDraw.Draw(im);d.ellipse((4,1,27,24),fill='#642e25',outline='#c6b07a',width=2);d.line((10,13,21,13),fill='#e2d6b1',width=3);save('minus',im,True)
 im=Image.new('RGBA',(32,26));d=ImageDraw.Draw(im);d.ellipse((4,1,27,24),fill='#304e32',outline='#c6b07a',width=2);d.line((10,13,21,13),fill='#e2d6b1',width=3);d.line((16,7,16,19),fill='#e2d6b1',width=3);save('plus',im,True)
@@ -101,8 +101,9 @@ for i,c in enumerate(C):
  x=10+i*97
  button('card_'+c+'_adjust','crop_'+c,x,183,p=1,tip=label(c+'_tip',[f'§Y$RUS_agri_{c}$§!\\n卡片左键：增加1点配额；右键：收回1点。下方加减号均为左键操作。\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$',f'§Y$RUS_agri_{c}$§!\\nCard: left-click +1, right-click -1. Both +/- tokens use left-click.\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$',f'§Y$RUS_agri_{c}$§!\\nКарта: ЛКМ +1, ПКМ -1. Кнопки +/-: ЛКМ.\\n\\n$RUS_nat_{c}_info$\\n$RUS_nat_{c}_market_line$\\n$RUS_nat_{c}_soil$']))
  txt('nat_'+c+'_name','RUS_agri_'+c,x+5,196,82)
- txt('nat_'+c+'_amount','RUS_nat_'+c+'_amount',x+18,313,56,29,font='hoi_24header')
- txt('card_yield_'+c,label(c+'_yield',[f'产 §Y[?RUS_nat_{c}_yield|1]§!',f'Yield §Y[?RUS_nat_{c}_yield|1]§!',f'Сбор §Y[?RUS_nat_{c}_yield|1]§!']),x+6,350,80,p=1)
+ txt('nat_'+c+'_amount','RUS_nat_'+c+'_amount',x+18,303,56,29,font='hoi_24header')
+ txt('card_yield_'+c,label(c+'_yield',[f'产 §Y[?RUS_nat_{c}_yield|1]§!',f'Yield §Y[?RUS_nat_{c}_yield|1]§!',f'Сбор §Y[?RUS_nat_{c}_yield|1]§!']),x+6,333,80,18,p=1)
+ txt('card_unit_yield_'+c,label(c+'_unit_yield',[f'单产 §Y[?RUS_nat_{c}_preview_rate|2]§!',f'Unit §Y[?RUS_nat_{c}_preview_rate|2]§!',f'Уд. §Y[?RUS_nat_{c}_preview_rate|2]§!']),x+6,352,80,18,p=1)
  button('nat_'+c+'_minus','minus',x+10,381,tip=label(c+'_tip',loc['RUS_card_'+c+'_tip']))
  button('card_'+c+'_add','plus',x+50,381,tip=label(c+'_tip',loc['RUS_card_'+c+'_tip']),p=1)
  ticks('allocation_'+c,'RUS_agri_'+c+'_investment',x+8,375,10,8,0,1,1)
