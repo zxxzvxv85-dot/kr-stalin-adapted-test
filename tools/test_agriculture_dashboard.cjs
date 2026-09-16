@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
-const {parse,get,read,root,country,check,exec}=require('./test_agri_development.cjs');
+const {parse,get,read,root,country,check,exec,effects}=require('./test_agri_development.cjs');
 const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
 const baseline=get(get(parse(cp.execFileSync('git',['show','HEAD:common/scripted_guis/RUS_national_agriculture.txt'],{cwd:root,encoding:'utf8'})),'scripted_gui'),'RUS_national_agriculture_gui');
 for(const entry of get(baseline,'effects')) assert.deepEqual(get(get(gui,'effects'),entry.key),entry.value,'Preserve original effect '+entry.key);
@@ -44,3 +44,21 @@ for(const crop of ['wheat','rye','beet','flax','cotton']) for(const locked of [f
  assert.equal(state.vars[`RUS_agri_${crop}_investment`],locked?amount:Math.max(0,Math.min(10,amount+(right?-1:1))));
 }
 console.log('Card left/right click: five crops, zero/cap boundaries and locked plans passed.');
+
+{
+ const state=country(); state.vars['global.num_days']=706699;state.civCapacity=100;
+ exec(effects.get('RUS_nat_enable'),state);
+ state.vars.RUS_nat_page=3;
+ const crops=['wheat','rye','beet','flax','cotton'];const before=crops.map(k=>state.vars[`RUS_nat_${k}_stock`]);
+ exec(get(get(gui,'effects'),'card_reserve_zero_click'),state);
+ for(const group of ['food','beet','textile']) {
+  assert.equal(state.vars[`RUS_nat_${group}_reserve`],0);
+  assert.ok(Math.abs(state.vars[`RUS_nat_${group}_target_total`]-state.vars[`RUS_nat_${group}_need`]-state.vars[`RUS_nat_${group}_order_need`])<1e-5);
+ }
+ assert.deepEqual(crops.map(k=>state.vars[`RUS_nat_${k}_stock`]),before);
+ assert.equal(check(get(triggers,'card_reserve_selected_0_visible'),state),true);
+ for(let i=1;i<4;i++)assert.equal(check(get(triggers,`card_reserve_selected_${i}_visible`),state),false);
+ exec(effects.get('RUS_nat_refresh'),state);assert.equal(state.vars.RUS_nat_reserve,0);
+ exec(get(get(gui,'effects'),'nat_reserve_1_click'),state);assert.equal(state.vars.RUS_nat_reserve,1);
+ console.log('Zero reserve: targets and ledger refresh, stock preserved, selection and switching back passed.');
+}

@@ -137,10 +137,12 @@ for i,c in enumerate(C):
  x=10+i*97;group='food' if i<2 else 'beet' if i==2 else 'textile';img('card_bin_'+c,'bin_'+c,x,185,3,tip=label('bin_tip_'+c,f'$RUS_nat_stock_{c}$\\n$RUS_nat_supply_{group}$\\n$RUS_nat_reserve_line$'))
  txt('nat_stock_'+c,label('stock_'+c,f'§Y[?RUS_nat_{c}_stock|1]§!'),x+5,247,82,25)
  ticks('stock_'+c,'RUS_nat_'+c+'_stock',x+8,284,10,8,0,1.2 if i<2 else .6,3)
-for i,key in enumerate(['RUS_nat_reserve_0','RUS_nat_reserve_1','RUS_nat_reserve_2']):
- button('nat_reserve_'+str(i),'reserve_'+str(i),92+i*104,299,tip=key+'_tt');txt('card_reserve_'+str(i),label('reserve_num_'+str(i),['0.5','1','2'][i]),137+i*104,319,53,40,3,'hoi_24header')
- img('card_reserve_selected_'+str(i),'reserve_selected',92+i*104,299,3,f'check_variable = {{ RUS_nat_reserve = {[.5,1,2][i]} }}')
-txt('card_reserve_label',label('reserve',['保留\\n储备','Keep\\nreserve','Резерв']),15,312,70,42,3)
+zero_tip=label('reserve_zero_tip',['§Y不保留农业储备§!\\n先满足本季内需，剩余农产品可用于出口订单。粮食、甜菜和纺织原料的储备目标设为 0；不会清空现有库存。农机备件储备不受影响。','§YNo agricultural reserve§!\\nMeet current domestic demand first; remaining crops may fulfil export orders. Food, beet and fibre reserve targets become 0. Existing stock is not discarded. Machinery spares are unchanged.','§YБез аграрного резерва§!\\nСначала внутренние нужды, затем экспорт. Целевой запас зерна, свёклы и волокна: 0. Накопленные запасы не уничтожаются. Резерв техники не меняется.'])
+for i,(name,value,sprite,tip) in enumerate([('card_reserve_zero',0,'reserve_0',zero_tip),('nat_reserve_0',.5,'reserve_0','RUS_nat_reserve_0_tt'),('nat_reserve_1',1,'reserve_1','RUS_nat_reserve_1_tt'),('nat_reserve_2',2,'reserve_2','RUS_nat_reserve_2_tt')]):
+ x=82+i*104
+ button(name,sprite,x,299,tip=tip,p=3);txt('card_reserve_'+str(i),label('reserve_num_'+str(i),str(value) if value!=.5 else '0.5'),x+45,319,53,40,3,'hoi_24header')
+ img('card_reserve_selected_'+str(i),'reserve_selected',x,299,3,f'check_variable = {{ RUS_nat_reserve = {value} }}')
+txt('card_reserve_label',label('reserve',['保留\\n储备','Keep\\nreserve','Резерв']),10,312,66,42,3)
 for i,o in enumerate(['generic','fra','eng']):
  x=10+i*164;button('nat_accept_'+o,'order_'+o,x,370,tip='RUS_nat_order_'+o)
  txt('card_order_title_'+o,label('buyer_'+o,{'generic':['一般订单','General','Общий'],'fra':['法兰西','France','Франция'],'eng':['不列颠','Britain','Британия']}[o]),x+8,383,138,p=3)
@@ -176,7 +178,8 @@ def original_block(name):
   elif s[end]=='}':depth-=1
   end+=1
  return s[start:end-1]
-actions=[]
+actions=['card_reserve_zero_click = { set_variable = { RUS_nat_reserve = 0 } RUS_nat_refresh = yes }']
+tr.append('card_reserve_zero_click_enabled = { always = yes }')
 for crop in C:
  tr.append(f'card_{crop}_add_click_enabled = {{'+original_block(f'nat_{crop}_plus_click_enabled')+'}')
  actions.append(f'card_{crop}_add_click = {{'+original_block(f'nat_{crop}_plus_click')+'}')
