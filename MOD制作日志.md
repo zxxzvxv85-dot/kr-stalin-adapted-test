@@ -2223,3 +2223,8 @@ mio:RUS_example_organization = {
 ### 2026-09-17 测试版封面替换
 
 - 用户提供油画直接替换thumbnail.png，保留原始比例与像素内容，descriptor.mod已有封面引用无需更改。PNG解码验证通过。
+
+
+### 2026-09-17 更新测试版封面最终图
+
+- 按用户最新图片直接替换thumbnail.png，保留原图；PNG解码验证通过。
