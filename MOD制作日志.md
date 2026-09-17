@@ -2218,3 +2218,8 @@ mio:RUS_example_organization = {
 
 - 采用用户提供的莫洛托夫挥帽照片，内置image_gen处理旧相纸边框、轻微倾斜、阴影与透明底；生成1369×1149，等比缩至210×176 RGBA。原生尺寸目视通过。提示词与生成源图保存在tools/art_sources/paris_meeting。
 - 仅事件RUS_future_foreign_policy_events.2改用独立贴图，其他事件不变。GFX、事件与结构检查及修复预演完成；仍待原生游戏查看。
+
+
+### 2026-09-17 测试版封面替换
+
+- 用户提供油画直接替换thumbnail.png，保留原始比例与像素内容，descriptor.mod已有封面引用无需更改。PNG解码验证通过。
