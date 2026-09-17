@@ -39,14 +39,19 @@ def run(nodes,c):
    name=get(v,"var");c["vars"][name]=max(float(get(v,"min")),min(float(get(v,"max")),c["vars"].get(name,0)))
   elif k=="add_power_balance_value": c["balance"]=max(-1,min(1,c["balance"]+value(get(v,"value"),c)))
   else: raise AssertionError(k)
-def fixture(stage=0,plan=None,land=None,left=True,bop=True,success=False):
+def fixture(stage=0,plan=None,land=None,left=True,bop=True,success=False,unlocked=True):
  c={"vars":{},"flags":set(),"bop":bop,"balance":.7}
+ if unlocked:c["flags"].add("RUS_europe_intervention_gui_unlocked")
  if left:c["flags"].add("RUS_auto_kamenev_vst_left_path")
  for n in range(1,stage+1):c["flags"].add("RUS_fr_reform_stage_"+str(n))
  if plan is not None:c["vars"]["RUS_first_five_year_plan_score"]=plan
  if land is not None:c["vars"]["RUS_maximalist_land_reform_score"]=land
  if success:c["flags"].add("RUS_maximalist_land_reform_success")
  return c
+c=fixture(unlocked=False);run(fx["RUS_revolution_readiness_monthly"],c);assert c["balance"]==.7 and not c["vars"]
+run(fx["RUS_revolution_readiness_refresh"],c);assert c["vars"]["RUS_readiness_decay_total"]==0
+c["flags"].add("RUS_europe_intervention_gui_unlocked");run(fx["RUS_revolution_readiness_refresh"],c);assert c["balance"]==.7 and c["vars"]["RUS_readiness_decay_total"]==2
+run(fx["RUS_revolution_readiness_monthly"],c);assert math.isclose(c["balance"],.68)
 count=0
 for stage,army in enumerate([.8,.6,.4,.2,0]):
  for plan,p in [(None,.7),(0,.7),(75,.35),(150,0),(200,0),(-10,.7)]:

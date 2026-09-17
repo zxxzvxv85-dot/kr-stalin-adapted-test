@@ -4,7 +4,7 @@ RUS_revolution_readiness_refresh = {
  set_variable = { RUS_readiness_decay_plan = 0 }
  set_variable = { RUS_readiness_decay_land = 0 }
  if = {
-  limit = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+  limit = { has_country_flag = RUS_auto_kamenev_vst_left_path has_country_flag = RUS_europe_intervention_gui_unlocked }
   if = { limit = { has_country_flag = RUS_fr_reform_stage_4 } }
   else_if = { limit = { has_country_flag = RUS_fr_reform_stage_3 } set_variable = { RUS_readiness_decay_army = 0.2 } }
   else_if = { limit = { has_country_flag = RUS_fr_reform_stage_2 } set_variable = { RUS_readiness_decay_army = 0.4 } }
@@ -33,7 +33,7 @@ RUS_revolution_readiness_refresh = {
 }
 RUS_revolution_readiness_monthly = {
  if = {
-  limit = { has_power_balance = { id = RUS_europe_intervention_power_balance } }
+  limit = { has_country_flag = RUS_europe_intervention_gui_unlocked has_power_balance = { id = RUS_europe_intervention_power_balance } }
   RUS_revolution_readiness_refresh = yes
   if = { limit = { check_variable = { RUS_readiness_decay_total >= 2.0 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.02 } }
   else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.9 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.019 } }
