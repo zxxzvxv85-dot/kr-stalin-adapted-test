@@ -1,6 +1,11 @@
 on_actions = {
+	on_monthly_RUS = {
+		effect = { RUS_revolution_readiness_monthly = yes }
+	}
+
 	on_daily_RUS = {
 		effect = {
+			if = { limit = { has_power_balance = { id = RUS_europe_intervention_power_balance } } RUS_revolution_readiness_refresh = yes }
 			if = {
 				limit = {
 					has_global_flag = second_weltkrieg_has_started

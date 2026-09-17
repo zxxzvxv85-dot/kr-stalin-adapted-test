@@ -1,0 +1,59 @@
+# Contributions are readiness points: army 40%, plan 35%, land 25%; total cap 2.
+RUS_revolution_readiness_refresh = {
+ set_variable = { RUS_readiness_decay_army = 0 }
+ set_variable = { RUS_readiness_decay_plan = 0 }
+ set_variable = { RUS_readiness_decay_land = 0 }
+ if = {
+  limit = { has_country_flag = RUS_auto_kamenev_vst_left_path }
+  if = { limit = { has_country_flag = RUS_fr_reform_stage_4 } }
+  else_if = { limit = { has_country_flag = RUS_fr_reform_stage_3 } set_variable = { RUS_readiness_decay_army = 0.2 } }
+  else_if = { limit = { has_country_flag = RUS_fr_reform_stage_2 } set_variable = { RUS_readiness_decay_army = 0.4 } }
+  else_if = { limit = { has_country_flag = RUS_fr_reform_stage_1 } set_variable = { RUS_readiness_decay_army = 0.6 } }
+  else = { set_variable = { RUS_readiness_decay_army = 0.8 } }
+  set_variable = { RUS_readiness_decay_plan = RUS_first_five_year_plan_score }
+  clamp_variable = { var = RUS_readiness_decay_plan min = 0 max = 150 }
+  divide_variable = { RUS_readiness_decay_plan = 150 }
+  multiply_variable = { RUS_readiness_decay_plan = -0.7 }
+  add_to_variable = { RUS_readiness_decay_plan = 0.7 }
+  if = { limit = { NOT = { has_country_flag = RUS_maximalist_land_reform_success } }
+   set_variable = { RUS_readiness_decay_land = RUS_maximalist_land_reform_score }
+   clamp_variable = { var = RUS_readiness_decay_land min = 0 max = 200 }
+   divide_variable = { RUS_readiness_decay_land = 200 }
+   multiply_variable = { RUS_readiness_decay_land = -0.5 }
+   add_to_variable = { RUS_readiness_decay_land = 0.5 }
+  }
+ }
+ set_variable = { RUS_readiness_decay_total = RUS_readiness_decay_army }
+ add_to_variable = { RUS_readiness_decay_total = RUS_readiness_decay_plan }
+ add_to_variable = { RUS_readiness_decay_total = RUS_readiness_decay_land }
+ clamp_variable = { var = RUS_readiness_decay_total min = 0 max = 2 }
+ multiply_variable = { RUS_readiness_decay_total = 10 }
+ round_variable = RUS_readiness_decay_total
+ divide_variable = { RUS_readiness_decay_total = 10 }
+}
+RUS_revolution_readiness_monthly = {
+ if = {
+  limit = { has_power_balance = { id = RUS_europe_intervention_power_balance } }
+  RUS_revolution_readiness_refresh = yes
+  if = { limit = { check_variable = { RUS_readiness_decay_total >= 2.0 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.02 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.9 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.019 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.8 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.018 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.7 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.017 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.6 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.016 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.5 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.015 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.4 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.014 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.3 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.013 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.2 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.012 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.1 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.011 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 1.0 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.01 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.9 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.009 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.8 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.008 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.7 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.007 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.6 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.006 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.5 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.005 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.4 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.004 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.3 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.003 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.2 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.002 } }
+  else_if = { limit = { check_variable = { RUS_readiness_decay_total >= 0.1 } } add_power_balance_value = { id = RUS_europe_intervention_power_balance value = -0.001 } }
+ }
+}
