@@ -19,6 +19,16 @@ on_actions = {
 				set_country_flag = RUS_tesla_retirement_event_fired
 				country_event = RUS_stalin_flavour_events.2
 			}
+			if = {
+				limit = {
+					has_socialist_government = yes
+					has_global_flag = { flag = USA_civil_war_begun_flag days > 6 }
+					NOT = { has_global_flag = USA_civil_war_over_flag }
+					NOT = { has_country_flag = RUS_kerensky_absurd_affair_event_fired }
+				}
+				set_country_flag = RUS_kerensky_absurd_affair_event_fired
+				country_event = RUS_stalin_flavour_events.6
+			}
 		}
 	}
 }
