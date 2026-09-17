@@ -126,7 +126,7 @@ characters = {
 					has_government = totalist
 				}
 			}
-			traits = { KR_tireless_organiser }
+			traits = { KR_tireless_organiser KR_bolshevik_kamenev_bop }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
 				RUS_VST_left_relation = yes
@@ -157,7 +157,7 @@ characters = {
 				has_socialist_government = yes
 				is_country_leader = no
 			}
-			traits = { KR_gentleman_of_revolution_sic }
+			traits = { KR_gentleman_of_revolution_sic KR_bolshevik_kamenev_bop }
 			cost = 0
 			can_be_fired = no
 		}
@@ -194,7 +194,7 @@ characters = {
 				has_socialist_government = yes
 				NOT = { has_country_leader = { character = RUS_grigory_zinovyev } }
 			}
-			traits = { RUS_grishka_third_sic }
+			traits = { RUS_grishka_third_sic KR_bolshevik_zinovyev }
 			cost = 0
 			can_be_fired = no
 		}
@@ -5848,7 +5848,7 @@ else = {
 				}
 				RUS_boldyrev = no
 			}
-			traits = { KR_leading_diplomat }
+			traits = { RUS_relationship_display_karelin KR_spiridonist_karelin }
 			on_add = {
 				ROOT = {
 					if = {
@@ -5885,7 +5885,7 @@ else = {
 				RUS_stalin_can_hire_psr_advisor = yes
 			 } AND = { RUS_uses_kamenev_politics = no  } } }
 			visible = { has_socialist_government = yes }
-			traits = { KR_leading_diplomat }
+			traits = { KR_leading_diplomat KR_spiridonist_karelin }
 			cost = 0
 			can_be_fired = no
 		}
