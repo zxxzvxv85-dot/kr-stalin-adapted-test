@@ -2253,3 +2253,8 @@ mio:RUS_example_organization = {
 
 - 按用户确认，将联合威慑图标替换为双手各持一枪、双枪交叉的版本，背景使用法兰西公社及KR社会主义俄罗斯RUS_soc白蓝边红旗。
 - 保留原sprite与路径，100×88 RGBA尺寸、透明通道与唯一引用检查通过。生成源图和提示词归档至tools/art_sources/joint_deterrence/crossed_rifles。
+
+### 2026-09-17 补充布琼尼顾问背景
+
+- 为布琼尼空中突击高级指挥顾问新增完整人物介绍，整理其出身、帝俄军旅、革命与内战经历，并衔接流亡法国后由巴黎世博会直升机启发空中机动作战的架空设定。
+- 使用顾问说明键 `RUS_semyon_budyonny_air_assault_high_command_desc`，简体中文本地化文件保持 UTF-8 BOM；单文件校验通过。
