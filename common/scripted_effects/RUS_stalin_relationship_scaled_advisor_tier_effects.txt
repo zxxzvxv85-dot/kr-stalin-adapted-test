@@ -196,6 +196,11 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 			limit = { NOT = { has_trait = KR_spiridonist_kamkov } }
 			add_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_spiridonist_kamkov }
 		}
+		# Old saves carried the mod-only duplicate on the deputy slot as well.
+		if = {
+			limit = { has_trait = KR_spiridonist_kamkov_bop }
+			remove_trait = { character = RUS_boris_kamkov slot = second_in_command trait = KR_spiridonist_kamkov_bop }
+		}
 	}
 	RUS_vladimir_karelin = {
 		if = {
@@ -261,6 +266,11 @@ RUS_stalin_clear_legacy_relationship_advisor_traits = {
 		if = {
 			limit = { NOT = { has_trait = KR_sr_steinberg } }
 			add_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_sr_steinberg }
+		}
+		# Old saves carried the mod-only duplicate on the deputy slot as well.
+		if = {
+			limit = { has_trait = KR_sr_steinberg_bop }
+			remove_trait = { character = RUS_isaak_steinberg slot = second_in_command trait = KR_sr_steinberg_bop }
 		}
 	}
 	RUS_yevgeny_sattel = {
