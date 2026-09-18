@@ -3,7 +3,7 @@ guiTypes = {
 	containerWindowType = {
 		name = "RUS_fr_military_reform_dashboard_window"
 		position = { x = 0 y = 0 }
-		size = { width = 100% height = 232 }
+		size = { width = 100% height = 430 }
 		clipping = no
 
 		iconType = {
@@ -294,15 +294,15 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_line"
-			position = { x = 170 y = 102 }
+			position = { x = 240 y = 202 }
 			spriteType = "GFX_RUS_fr_dashboard_stage_line"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_fr_dashboard_stage_1_button"
-			position = { x = 164 y = 81 }
-			quadTextureSprite = "GFX_RUS_fr_dashboard_stage_1_grey"
+			position = { x = 10 y = 78 }
+			quadTextureSprite = "GFX_unit_limits_entry"
 			buttonText = ""
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RUS_fr_dashboard_stage_1_tt"
@@ -310,17 +310,17 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_1_icon"
-			position = { x = 164 y = 81 }
+			position = { x = 82 y = 92 }
 			spriteType = "GFX_goal_RUS_fr_revolutionary_military_council"
-			scale = 0.31
+			scale = 0.52
 			pdx_tooltip = "RUS_fr_dashboard_stage_1_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_fr_dashboard_stage_2_button"
-			position = { x = 207 y = 83 }
-			quadTextureSprite = "GFX_RUS_fr_dashboard_stage_2_grey"
+			position = { x = 256 y = 78 }
+			quadTextureSprite = "GFX_unit_limits_entry"
 			buttonText = ""
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RUS_fr_dashboard_stage_2_tt"
@@ -328,17 +328,17 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_2_icon"
-			position = { x = 207 y = 83 }
+			position = { x = 328 y = 92 }
 			spriteType = "GFX_goal_RUS_fr_military_political_system"
-			scale = 0.29
+			scale = 0.52
 			pdx_tooltip = "RUS_fr_dashboard_stage_2_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_fr_dashboard_stage_3_button"
-			position = { x = 251 y = 80 }
-			quadTextureSprite = "GFX_RUS_fr_dashboard_stage_3_grey"
+			position = { x = 10 y = 215 }
+			quadTextureSprite = "GFX_unit_limits_entry"
 			buttonText = ""
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RUS_fr_dashboard_stage_3_tt"
@@ -346,17 +346,17 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_3_icon"
-			position = { x = 251 y = 80 }
+			position = { x = 82 y = 229 }
 			spriteType = "GFX_goal_RUS_fr_red_commander_system"
-			scale = 0.28
+			scale = 0.52
 			pdx_tooltip = "RUS_fr_dashboard_stage_3_tt"
 			alwaystransparent = yes
 		}
 
 		buttonType = {
 			name = "RUS_fr_dashboard_stage_4_button"
-			position = { x = 297 y = 82 }
-			quadTextureSprite = "GFX_RUS_fr_dashboard_stage_4_grey"
+			position = { x = 256 y = 215 }
+			quadTextureSprite = "GFX_unit_limits_entry"
 			buttonText = ""
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RUS_fr_dashboard_stage_4_tt"
@@ -364,44 +364,81 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_4_icon"
-			position = { x = 297 y = 82 }
+			position = { x = 328 y = 229 }
 			spriteType = "GFX_goal_RUS_fr_experimental_formations"
-			scale = 0.30
+			scale = 0.52
 			pdx_tooltip = "RUS_fr_dashboard_stage_4_tt"
+			alwaystransparent = yes
+		}
+
+		instantTextBoxType = {
+			name = "RUS_fr_dashboard_stage_1_title"
+			position = { x = 26 y = 171 }
+			font = "RUS_fr_beiwei_18_gold"
+			text = "RUS_fr_dashboard_stage_1_title"
+			format = center
+			maxWidth = 200
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_fr_dashboard_stage_2_title"
+			position = { x = 272 y = 171 }
+			font = "RUS_fr_beiwei_18_gold"
+			text = "RUS_fr_dashboard_stage_2_title"
+			format = center
+			maxWidth = 200
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_fr_dashboard_stage_3_title"
+			position = { x = 26 y = 308 }
+			font = "RUS_fr_beiwei_18_gold"
+			text = "RUS_fr_dashboard_stage_3_title"
+			format = center
+			maxWidth = 200
+			alwaystransparent = yes
+		}
+		instantTextBoxType = {
+			name = "RUS_fr_dashboard_stage_4_title"
+			position = { x = 272 y = 308 }
+			font = "RUS_fr_beiwei_18_gold"
+			text = "RUS_fr_dashboard_stage_4_title"
+			format = center
+			maxWidth = 200
 			alwaystransparent = yes
 		}
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_1_complete"
-			position = { x = 163 y = 82 }
+			position = { x = 10 y = 78 }
 			spriteType = "GFX_RUS_fr_dashboard_completed_seal"
 			pdx_tooltip = "RUS_fr_dashboard_stage_1_tt"
 		}
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_2_complete"
-			position = { x = 207 y = 82 }
+			position = { x = 256 y = 78 }
 			spriteType = "GFX_RUS_fr_dashboard_completed_seal"
 			pdx_tooltip = "RUS_fr_dashboard_stage_2_tt"
 		}
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_3_complete"
-			position = { x = 251 y = 82 }
+			position = { x = 10 y = 215 }
 			spriteType = "GFX_RUS_fr_dashboard_completed_seal"
 			pdx_tooltip = "RUS_fr_dashboard_stage_3_tt"
 		}
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_4_complete"
-			position = { x = 295 y = 82 }
+			position = { x = 256 y = 215 }
 			spriteType = "GFX_RUS_fr_dashboard_completed_seal"
 			pdx_tooltip = "RUS_fr_dashboard_stage_4_tt"
 		}
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_1_current"
-			position = { x = 160 y = 78 }
+			position = { x = 10 y = 78 }
 			spriteType = "GFX_RUS_fr_dashboard_current_frame"
 			pdx_tooltip = "RUS_fr_dashboard_stage_1_tt"
 			alwaystransparent = yes
@@ -409,7 +446,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_2_current"
-			position = { x = 204 y = 78 }
+			position = { x = 256 y = 78 }
 			spriteType = "GFX_RUS_fr_dashboard_current_frame"
 			pdx_tooltip = "RUS_fr_dashboard_stage_2_tt"
 			alwaystransparent = yes
@@ -417,7 +454,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_3_current"
-			position = { x = 248 y = 78 }
+			position = { x = 10 y = 215 }
 			spriteType = "GFX_RUS_fr_dashboard_current_frame"
 			pdx_tooltip = "RUS_fr_dashboard_stage_3_tt"
 			alwaystransparent = yes
@@ -425,7 +462,7 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_stage_4_current"
-			position = { x = 292 y = 78 }
+			position = { x = 256 y = 215 }
 			spriteType = "GFX_RUS_fr_dashboard_current_frame"
 			pdx_tooltip = "RUS_fr_dashboard_stage_4_tt"
 			alwaystransparent = yes
@@ -433,14 +470,14 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_reform_progress_panel"
-			position = { x = 4 y = 174 }
+			position = { x = 4 y = 365 }
 			spriteType = "GFX_unit_limits_entry"
 			alwaystransparent = yes
 		}
 
 		instantTextBoxType = {
 			name = "RUS_fr_dashboard_reform_progress_header"
-			position = { x = 130 y = 180 }
+			position = { x = 130 y = 371 }
 			font = "RUS_fr_beiwei_15_gold"
 			text = "RUS_fr_dashboard_reform_progress_header"
 			format = center
@@ -450,14 +487,14 @@ guiTypes = {
 
 		iconType = {
 			name = "RUS_fr_dashboard_reform_progress_shadow"
-			position = { x = 171 y = 207 }
+			position = { x = 171 y = 392 }
 			spriteType = "GFX_unit_limit_progressbar_shadow"
 			alwaystransparent = yes
 		}
 
 		containerWindowType = {
 			name = "RUS_fr_dashboard_reform_progress_clip"
-			position = { x = 171 y = 200 }
+			position = { x = 171 y = 385 }
 			size = { width = 158 height = 22 }
 			clipping = yes
 
