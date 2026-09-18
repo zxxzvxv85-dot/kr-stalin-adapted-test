@@ -1364,6 +1364,45 @@ shared_focus = {
 			country_event = { id = RUS_future_foreign_policy_events.5 days = 14 }
 		}
 	}
+	completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_future_foreign_062"
+				add_named_threat = {
+					threat = -25
+					name = RUS_future_foreign_062
+				}
+				add_stability = 0.15
+				add_research_slot = 1
+				set_country_flag = RUS_future_foreign_062_research_slot_added
+				hidden_effect = {
+					every_allied_country = {
+						limit = { is_subject = no }
+						INT = { add_to_faction = PREV }
+					}
+					dismantle_faction = yes
+					INT = { add_to_faction = ROOT }
+					if = {
+						limit = {
+							has_country_leader = { character = RUS_iosif_stalin }
+						}
+						set_faction_leader = yes
+					}
+					if = {
+						limit = {
+							NOT = { has_country_flag = RUS_bolsheviks_leave_home_event_scheduled }
+						}
+						set_country_flag = RUS_bolsheviks_leave_home_event_scheduled
+						country_event = { id = stalin_form_sov.25 days = 7 }
+					}
+				}
+				if = {
+					limit = {
+						has_country_leader = { character = RUS_iosif_stalin }
+					}
+					custom_effect_tooltip = RUS_stalin_abolish_war_faction_leader_tt
+				}
+				custom_effect_tooltip = RUS_abolish_war_tt
+				add_ideas = RUS_INT_industrialisation
+			}
 }
 
 # 156工程
