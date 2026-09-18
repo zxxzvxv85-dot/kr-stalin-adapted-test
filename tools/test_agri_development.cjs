@@ -83,7 +83,7 @@ function check(b, c, donor = c, args = {}) {
     const v = n.value;
     switch (n.key) {
       case "NOT": return !check(v, c, donor, args);
-      case "AND": case "custom_trigger_tooltip": return check(v, c, donor, args);
+      case "AND": case "custom_trigger_tooltip": case "custom_override_tooltip": return check(v, c, donor, args);
       case "OR": return v.some(x => check([x], c, donor, args));
       case "FROM": return check(v, donor.target, donor, args);
       case "ROOT": return check(v, donor, donor, args);
@@ -173,6 +173,7 @@ function exec(b, c, donor = c, args = {}) {
       for (const id of Array.isArray(v) ? v.map(x => x.key) : [v]) delete c.ideas[id];
     } else if (k === "country_event") c.events.push(v);
     else if (k === "add_cic") c.surplus += num(c, v);
+    else if (k === "add_stability") c.stability = (c.stability || 0) + num(c, v);
     else if (k === "add_political_power") c.pp = (c.pp || 0) + num(c, v);
     else if (k === "add_dynamic_modifier") c.dynamic = get(v, "modifier");
     else if (k === "force_update_dynamic_modifier") {
@@ -907,8 +908,14 @@ test("export UI localization and focus reward resolve in all three languages", (
   assert.deepEqual(sets[0], sets[1]); assert.deepEqual(sets[1], sets[2]);
   const focus = parse(read("common/national_focus/00_RUS_future_foreign_policy_skeleton.txt"))
     .find(n => n.key === "shared_focus" && get(n.value, "id") === "RUS_future_foreign_017").value;
-  assert.ok(get(focus, "completion_reward").some(n => n.key === "custom_effect_tooltip" && n.value === "RUS_agri_export_orders_unlock_tt"));
+  // The minigame gates the order line only; it must never lock the Paris-Moscow treaty itself.
+  assert.equal(get(focus, "available"), undefined);
+  const orderLine = get(focus, "completion_reward").find(n => n.key === "if"
+    && get(get(n.value, "limit") || [], "has_country_flag") === "RUS_nat_enabled");
+  assert.ok(orderLine, "the export-order tooltip must be conditional on RUS_nat_enabled");
+  assert.ok(orderLine.value.some(n => n.key === "custom_effect_tooltip" && n.value === "RUS_agri_export_orders_unlock_tt"));
 });
+
 test("business localisation and dynamic crop names resolve in all three languages", () => {
   const keysets = [];
   const definitions = parse(read("common/scripted_localisation/RUS_agri_business_scripted_loc.txt"));

@@ -70,12 +70,12 @@ test('per-crop income previews reset, respect needs and orders, and do not pay r
  for(const crop of crops)for(const sign of ['minus','plus'])assert.ok(get(get(gui,'effects'),`nat_${crop}_${sign}_click`).some(x=>x.key==='RUS_nat_refresh'));
 });
 test('allocation stays bounded, public automation handles a partial quarter without reading outcomes',()=>{
- const c=fresh(269);run(c,'auto_allocate');assert.equal(val(c,'allocated'),20);for(const crop of crops)assert.ok(c.vars['RUS_agri_'+crop+'_investment']<=10);
+ const c=fresh(269);run(c,'auto_allocate');assert.equal(val(c,'allocated'),10);for(const crop of crops)assert.ok(c.vars['RUS_agri_'+crop+'_investment']<=10);
  const allocations=crops.map(x=>c.vars['RUS_agri_'+x+'_investment']);c.vars.RUS_agri_weather=.4;for(const crop of crops)c.vars['RUS_agri_'+crop+'_market']=.4;run(c,'auto_allocate');assert.deepEqual(crops.map(x=>c.vars['RUS_agri_'+x+'_investment']),allocations);
 });
-test('150 target and 3000 production condition isolate other ministers',()=>{
- const c=country();c.vars.RUS_maximalist_land_reform_score=100;assert.ok(check(triggers.get('RUS_nat_reform_complete'),c));c.flags.RUS_nat_enabled=true;assert.ok(!check(triggers.get('RUS_nat_reform_complete'),c));c.vars.RUS_maximalist_land_reform_score=150;assert.ok(check(triggers.get('RUS_nat_reform_complete'),c));
- c.vars.RUS_max_landreform_tractor_promise_count=3;set(c,'produced',2999);assert.ok(!check(triggers.get('RUS_nat_tractor_complete'),c));set(c,'produced',3000);assert.ok(check(triggers.get('RUS_nat_tractor_complete'),c));c.vars.RUS_max_landreform_tractor_promise_count=2;assert.ok(!check(triggers.get('RUS_nat_tractor_complete'),c));
+test('reform target and 4000 production condition isolate other ministers',()=>{
+ const c=country();c.vars.RUS_maximalist_land_reform_score=100;assert.ok(check(triggers.get('RUS_nat_reform_complete'),c));c.flags.RUS_nat_enabled=true;assert.ok(!check(triggers.get('RUS_nat_reform_complete'),c));c.vars.RUS_maximalist_land_reform_score=200;assert.ok(check(triggers.get('RUS_nat_reform_complete'),c));
+ c.vars.RUS_max_landreform_tractor_promise_count=3;set(c,'produced',3999);assert.ok(!check(triggers.get('RUS_nat_tractor_complete'),c));set(c,'produced',4000);assert.ok(check(triggers.get('RUS_nat_tractor_complete'),c));c.vars.RUS_max_landreform_tractor_promise_count=2;assert.ok(!check(triggers.get('RUS_nat_tractor_complete'),c));
 });
 test('domestic needs grant at most 3 reform points per full quarter and 50 PP',()=>{
  const c=fresh();c.flags.RUS_maximalist_land_reform_in_progress=true;
@@ -83,10 +83,10 @@ test('domestic needs grant at most 3 reform points per full quarter and 50 PP',(
  set(c,'mean_coverage',0);set(c,'task',3);set(c,'fraction',1);set(c,'eligible_days',92);run(c,'award');assert.equal(c.vars.RUS_agri_last_quarter_score,3);assert.equal(c.pp,50);
  c.flags.RUS_maximalist_land_reform_failure=true;run(c,'award');assert.equal(c.vars.RUS_agri_last_quarter_score,0);
 });
-test('success transfers excess once and keeps the 150 floor when spending',()=>{
- const c=fresh();c.flags.RUS_maximalist_land_reform_success=true;c.vars.RUS_maximalist_land_reform_score=162;
- exec(effects.get('RUS_agri_refresh_score_account'),c);exec(effects.get('RUS_agri_refresh_score_account'),c);assert.equal(c.vars.RUS_agri_spendable_score,12);assert.equal(c.vars.RUS_maximalist_land_reform_score,150);
- c.temps.RUS_agri_purchase_cost=8;exec(effects.get('RUS_agri_spend_score'),c);assert.equal(c.vars.RUS_agri_spendable_score,4);assert.equal(c.vars.RUS_maximalist_land_reform_score,150);
+test('success transfers excess once and keeps the 200 floor when spending',()=>{
+ const c=fresh();c.flags.RUS_maximalist_land_reform_success=true;c.vars.RUS_maximalist_land_reform_score=212;
+ exec(effects.get('RUS_agri_refresh_score_account'),c);exec(effects.get('RUS_agri_refresh_score_account'),c);assert.equal(c.vars.RUS_agri_spendable_score,12);assert.equal(c.vars.RUS_maximalist_land_reform_score,200);
+ c.temps.RUS_agri_purchase_cost=8;exec(effects.get('RUS_agri_spend_score'),c);assert.equal(c.vars.RUS_agri_spendable_score,4);assert.equal(c.vars.RUS_maximalist_land_reform_score,200);
 });
 test('quarter settles once across native-date boundary and serialised reload',()=>{
  let c=fresh(150,3);c.flags.RUS_maximalist_land_reform_in_progress=true;day(c);assert.equal(val(c,'season'),2);assert.equal(val(c,'remaining'),92);assert.equal(val(c,'last_season'),1);assert.ok(val(c,'last_pp')<1);
@@ -100,16 +100,30 @@ test('stock accounting, full orders and military equipment counters are separate
  const c=fresh();set(c,'actual',1);set(c,'fraction',1);set(c,'wheat_work',20);set(c,'rye_work',0);set(c,'beet_work',2);set(c,'flax_work',4);set(c,'cotton_work',0);run(c,'consume');assert.equal(val(c,'wheat_work'),12);
  set(c,'generic_crop',1);set(c,'generic_quantity',4);set(c,'generic_accept',1);set(c,'generic_priority',1);set(c,'machine_work',0);run(c,'trade');assert.equal(val(c,'wheat_work'),8);assert.equal(val(c,'generic_shipped'),1);assert.ok(val(c,'income')>0);run(c,'trade');assert.equal(val(c,'income'),0);
 });
-test('political support has two quarterly slots and no direct reform-score effect',()=>{
+test('agricultural support charges stability, halves it with Ustinov, and resets four quarterly slots',()=>{
  const defs=parse(read('common/decisions/RUS_national_agriculture_decisions.txt'))[0].value;const c=fresh();
- for(const id of ['food','repair']){const d=get(defs,'RUS_nat_support_'+id);assert.ok(check(get(d,'available'),c));exec(get(d,'complete_effect'),c);assert.ok(!check(get(d,'available'),c));}
- assert.equal(val(c,'support_count'),2);assert.ok(!check(get(get(defs,'RUS_nat_support_emergency'),'available'),c));assert.equal(c.vars.RUS_maximalist_land_reform_score||0,0);
+ for(const hired of [false,true]) {
+  const c=fresh(); if(hired)c.ideas.RUS_aleksey_ustinov_advisor=true;
+  const beforePP=c.pp||0;
+  for(const id of ['food','repair','technical','processing']) {
+   const d=get(defs,'RUS_nat_support_'+id);assert.equal(get(d,'cost'),'0');
+   assert.ok(check(get(d,'available'),c));exec(get(d,'complete_effect'),c);
+   assert.ok(!check(get(d,'available'),c));
+   const loss=c.stability;exec(get(d,'complete_effect'),c);assert.equal(c.stability,loss);
+  }
+  assert.equal(val(c,'support_count'),4);assert.ok(!check(get(get(defs,'RUS_nat_support_emergency'),'available'),c));
+  assert.ok(Math.abs(c.stability-(hired?-.04:-.08))<1e-9);assert.equal(c.pp||0,beforePP);
+  assert.equal(c.vars.RUS_maximalist_land_reform_score||0,0);
+  run(c,'start_quarter');
+  assert.equal(val(c,'support_count'),0);
+  assert.ok(check(get(get(defs,'RUS_nat_support_food'),'available'),c));
+ }
 });
-test('4500 machinery storage halts production without manufacturing promise progress',()=>{
- const c=fresh(59,8);set(c,'installed',400);set(c,'machine_stock',4500);const before=val(c,'produced');day(c);assert.equal(val(c,'daily'),0);assert.equal(val(c,'produced'),before);set(c,'machine_stock',4499.9);day(c);assert.ok(val(c,'produced')-before<=.10001);assert.ok(val(c,'machine_stock')<=4500);
+test('filled installation and 5000 machinery storage halt production without manufacturing promise progress',()=>{
+ const c=fresh(59,8);set(c,'installed',8000);set(c,'machine_stock',5000);const before=val(c,'produced');day(c);assert.equal(val(c,'daily'),0);assert.equal(val(c,'produced'),before);set(c,'machine_stock',4999.9);day(c);assert.ok(val(c,'produced')-before<=.10001);assert.ok(val(c,'machine_stock')<=5000);
 });
-test('adverse weather and repairs modify fixed quarterly wear, never warehouse stock',()=>{
- const c=fresh();set(c,'elapsed',92);set(c,'fraction',1);set(c,'installed',400);set(c,'machine_stock',100);set(c,'coverage_sum',92);set(c,'eligible_days',92);set(c,'boundary',1);set(c,'wear',.25);set(c,'repair_support',.05);c.vars.RUS_agri_weather=-.4;c.flags.RUS_agri_allocation_locked=true;run(c,'settle');assert.equal(val(c,'last_loss'),100);assert.equal(val(c,'installed'),400);assert.equal(val(c,'machine_stock'),0);
+test('adverse weather and repairs modify fixed quarterly wear, and stored machines do not wear',()=>{
+ const c=fresh();set(c,'elapsed',92);set(c,'fraction',1);set(c,'installed',400);set(c,'machine_stock',100);set(c,'coverage_sum',92);set(c,'eligible_days',92);set(c,'boundary',1);set(c,'wear',.1);set(c,'repair_support',.05);c.vars.RUS_agri_weather=-.4;c.flags.RUS_agri_allocation_locked=true;run(c,'settle');assert.equal(val(c,'loss_rate'),.075);assert.equal(val(c,'last_loss'),30);assert.equal(val(c,'installed'),470);assert.equal(val(c,'machine_stock'),0);
 });
 test('hard annual caps: domestic score 12, political power 200, including repeated partial arithmetic',()=>{
  const c=fresh();c.flags.RUS_maximalist_land_reform_in_progress=true;for(const g of ['food','beet','textile']){set(c,g+'_ratio',1);set(c,g+'_left',0);}set(c,'task',3);set(c,'mean_coverage',0);set(c,'fraction',1);set(c,'eligible_days',92);
@@ -119,7 +133,7 @@ test('emergency procurement fills only the food gap and never yields export surp
  const c=fresh();set(c,'fraction',1);set(c,'emergency_purchase',1);set(c,'wheat_work',6);set(c,'rye_work',0);run(c,'emergency_fill');assert.equal(val(c,'wheat_work'),7.2);assert.equal(val(c,'emergency_purchase'),0);run(c,'emergency_fill');assert.equal(val(c,'wheat_work'),7.2);
 });
 test('machine orders observe domestic installation, reserve and distinct shipment counters',()=>{
- const c=fresh();set(c,'actual',1);set(c,'installed',400);set(c,'machine_work',250);set(c,'produced',3000);set(c,'fra_machine_quantity',100);set(c,'eng_machine_quantity',100);set(c,'machine_market',0);run(c,'trade');assert.equal(val(c,'fra_machine_shipped'),1);assert.equal(val(c,'eng_machine_shipped'),0);assert.equal(val(c,'machine_work'),150);assert.equal(val(c,'income'),16500);assert.equal(val(c,'produced'),3000);
+ const c=fresh();set(c,'actual',1);set(c,'installed',8000);set(c,'machine_work',2100);set(c,'produced',3000);set(c,'fra_machine_quantity',100);set(c,'eng_machine_quantity',100);set(c,'machine_market',0);run(c,'trade');assert.equal(val(c,'fra_machine_shipped'),1);assert.equal(val(c,'eng_machine_shipped'),0);assert.equal(val(c,'machine_work'),2000);assert.equal(val(c,'income'),16500);assert.equal(val(c,'produced'),3000);
 });
 test('fixed-point eight-factory production can reach 3000 in 540 days without exports',()=>{
  const c=fresh(59,8);c.precision=1000;
@@ -133,12 +147,15 @@ test('3600-day simulations remain bounded and succeed with existing reform decis
  for(let d=1;d<=720;d++){c.vars.RUS_first_five_year_plan_score=Math.min(150,d/5);day(c);}
  run(c,'deadline');const points=c.vars.RUS_maximalist_land_reform_score;low=Math.min(low,points);high=Math.max(high,points);
  // This scenario assumes 90 auxiliary points from existing reform decisions;
- // it does not assert that farming alone can reach the 150-point goal.
- if(points+90>=150)successes++;
+ // it does not assert that farming alone can reach the 200-point goal.
+ if(points+90>=200)successes++;
  c.flags.RUS_maximalist_land_reform_success=true;delete c.flags.RUS_maximalist_land_reform_in_progress;c.countries=['ENG','FRA'];c.focuses.push('RUS_future_foreign_002','RUS_future_foreign_017');
- for(let d=721;d<=3600;d++){day(c);assert.ok(val(c,'budget')<=24);assert.ok(val(c,'machine_stock')<=4500);assert.ok(val(c,'installed')<=500);assert.ok(c.surplus<=Math.ceil(d/90)*63000);}
+ for(let d=721;d<=3600;d++){day(c);assert.ok(val(c,'budget')<=14);assert.ok(val(c,'machine_stock')<=5000);assert.ok(val(c,'installed')<=8000);assert.ok(c.surplus<=Math.ceil(d/90)*63000);}
  }
- console.log(JSON.stringify({seeds:24,agricultureScore720:[low,high],passesWith90Auxiliary:successes}));assert.equal(successes,24);
+ console.log(JSON.stringify({seeds:24,agricultureScore720:[low,high],passesWith90Auxiliary:successes}));
+ // The Ustinov target is 200 and the reform decisions supply at most 90 of it, so two
+ // agricultural years cannot finish the reform on their own; later quarters and events must.
+ assert.equal(successes,0);assert.ok(low>=10&&high<=25);
 });
 test('unstarted five-year plan is zero, current parameters clamp and do not use historic maxima',()=>{
  const c=fresh(59,8);delete c.flags.RUS_first_five_year_plan_mission_started;c.vars.RUS_first_five_year_plan_score=150;run(c,'parameters');assert.equal(val(c,'score'),0);
@@ -162,15 +179,15 @@ test('mission extension, deadline production and success-only outlook hooks are 
  const missions=parse(read('common/decisions/RUS stalin maximalist land reform decisions.txt'))[0].value;assert.ok(JSON.stringify(get(get(missions,'RUS_max_landreform_tractor_promise_mission'),'timeout_effect')).includes('RUS_nat_daily'));
 });
 test('completed reform preserves promise decisions; failure closes them without stopping production',()=>{
- const c=fresh(59,8);c.flags.RUS_maximalist_land_reform_success=true;c.flags.RUS_max_landreform_tractor_promise_active=true;c.vars.RUS_maximalist_land_reform_score=150;c.vars.RUS_max_landreform_tractor_promise_count=2;
+ const c=fresh(59,8);c.flags.RUS_maximalist_land_reform_success=true;c.flags.RUS_max_landreform_tractor_promise_active=true;c.vars.RUS_maximalist_land_reform_score=200;c.vars.RUS_max_landreform_tractor_promise_count=2;
  assert.ok(check(triggers.get('RUS_nat_promote_allowed'),c));assert.ok(check(triggers.get('RUS_nat_reform_decision_closed'),c));
- exec(effects.get('RUS_maximalist_land_reform_add_score_5'),c);assert.equal(c.vars.RUS_maximalist_land_reform_score,150);assert.equal(c.vars.RUS_agri_spendable_score,5);
+ exec(effects.get('RUS_maximalist_land_reform_add_score_5'),c);assert.equal(c.vars.RUS_maximalist_land_reform_score,200);assert.equal(c.vars.RUS_agri_spendable_score,5);
  delete c.flags.RUS_maximalist_land_reform_success;c.flags.RUS_maximalist_land_reform_failure=true;assert.ok(!check(triggers.get('RUS_nat_promote_allowed'),c));const before=val(c,'produced');day(c);assert.ok(val(c,'produced')>before);assert.ok(!check(triggers.get('RUS_agri_exchange_unlocked'),c));
 });
 test('other-minister monthly points are preserved; national agriculture has no passive points',()=>{
  const c=country();c.flags.RUS_maximalist_land_reform_in_progress=true;c.ideas.RUS_aleksey_ustinov_advisor=true;c.ideas.RUS_andrey_kolegayev_advisor=true;c.ideas.RUS_irina_kakhovskaya_advisor=true;
  exec(effects.get('RUS_maximalist_land_reform_apply_monthly_advisor_score'),c);assert.equal(c.vars.RUS_maximalist_land_reform_score,3);c.flags.RUS_nat_enabled=true;exec(effects.get('RUS_maximalist_land_reform_apply_monthly_advisor_score'),c);assert.equal(c.vars.RUS_maximalist_land_reform_score,3);
- for(const score of [99,100,149]){c.vars.RUS_maximalist_land_reform_score=score;exec(effects.get('RUS_maximalist_land_reform_update_stage_idea'),c);assert.equal(c.vars.RUS_maximalist_land_reform_stage,4);}c.vars.RUS_maximalist_land_reform_score=150;exec(effects.get('RUS_maximalist_land_reform_update_stage_idea'),c);assert.equal(c.vars.RUS_maximalist_land_reform_stage,5);
+ for(const score of [99,100,199]){c.vars.RUS_maximalist_land_reform_score=score;exec(effects.get('RUS_maximalist_land_reform_update_stage_idea'),c);assert.equal(c.vars.RUS_maximalist_land_reform_stage,4);}c.vars.RUS_maximalist_land_reform_score=200;exec(effects.get('RUS_maximalist_land_reform_update_stage_idea'),c);assert.equal(c.vars.RUS_maximalist_land_reform_stage,5);
 });
 test('orders only appear next quarter and existing contracts survive a buyer disappearing',()=>{
  const c=fresh(59);assert.equal(val(c,'generic_quantity'),0);assert.equal(val(c,'fra_quantity'),0);
@@ -193,11 +210,11 @@ test('annual ideas replace earlier tiers; supply and reserves determine the tier
  set(c,'year_weight',4);set(c,'year_supply',3.6);run(c,'annual');assert.ok(!Object.keys(c.ideas).some(k=>k.startsWith('RUS_agri_annual_')));
 });
 test('food shortage recovers gradually and even small industrial-crop shortages affect output',()=>{
- const c=fresh();set(c,'food_ratio',.5);set(c,'beet_ratio',.99);set(c,'textile_ratio',1);for(let i=0;i<5;i++)run(c,'penalties');assert.equal(val(c,'shortage'),3);assert.equal(val(c,'stability'),-.06);assert.equal(val(c,'consumer'),.05);assert.equal(val(c,'factory_penalty'),-.03);
- set(c,'textile_ratio',.99);run(c,'penalties');assert.equal(val(c,'factory_penalty'),-.05);for(const g of ['food','beet','textile'])set(c,g+'_ratio',1);run(c,'penalties');assert.equal(val(c,'shortage'),2);assert.equal(val(c,'factory_penalty'),0);
+ const c=fresh();set(c,'food_ratio',.5);set(c,'beet_ratio',.99);set(c,'textile_ratio',1);for(let i=0;i<5;i++)run(c,'penalties');assert.equal(val(c,'shortage'),3);assert.equal(val(c,'stability'),-.06);assert.equal(val(c,'consumer'),.025);
+ set(c,'textile_ratio',.99);run(c,'penalties');assert.equal(val(c,'stability'),-.12);assert.equal(val(c,'consumer'),.05);for(const g of ['food','beet','textile'])set(c,g+'_ratio',1);run(c,'penalties');assert.equal(val(c,'shortage'),2);assert.equal(val(c,'stability'),-.04);assert.equal(val(c,'consumer'),.02);
 });
 test('next-quarter organisation bonuses never add equipment and only activate once across winter',()=>{
- const c=fresh(58);c.flags.RUS_agri_next_machinery=true;run(c,'start_quarter');assert.ok(c.flags.RUS_agri_active_machinery);assert.equal(val(c,'produced'),0);assert.equal(val(c,'installed'),100);assert.equal(c.vars.RUS_agri_wheat_base,1.1);day(c);assert.ok(!c.flags.RUS_agri_active_machinery);assert.equal(c.vars.RUS_agri_wheat_base,1.25);
+ const c=fresh(58);c.flags.RUS_agri_next_machinery=true;run(c,'start_quarter');assert.ok(c.flags.RUS_agri_active_machinery);assert.equal(val(c,'produced'),0);assert.equal(val(c,'installed'),4000);assert.equal(c.vars.RUS_agri_wheat_base,1.1);day(c);assert.ok(!c.flags.RUS_agri_active_machinery);assert.equal(c.vars.RUS_agri_wheat_base,1.25);
  c.flags.RUS_agri_active_storage=true;c.vars.RUS_agri_wheat_base=.4;c.vars.RUS_agri_wheat_fatigue=0;c.vars.RUS_agri_wheat_investment=1;set(c,'fraction',1);set(c,'actual',0);run(c,'yield');assert.equal(val(c,'wheat_rate'),.55);c.vars.RUS_agri_wheat_base=1.25;run(c,'yield');assert.equal(val(c,'wheat_rate'),1.25);
 });
 test('three locales, declared GUI keys, sprites and fixed page boundaries',()=>{
