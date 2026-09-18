@@ -1352,7 +1352,7 @@ shared_focus = {
 # 最后的斗争
 shared_focus = {
 	id = RUS_future_foreign_062
-	icon = GFX_focus_ger_great_red_menace
+	icon = GFX_goal_attack_germany
 	cost = 7
 
 	x = 27
@@ -1366,8 +1366,103 @@ shared_focus = {
 		}
 	}
 	completion_reward = {
-		custom_effect_tooltip = RUS_abolish_war_tt
+			add_state_claim = 537 #South Sakhalin
+			add_state_claim = 555 #Kurils
+			if = {
+				limit = { can_declare_war_on = GER }
+				declare_war_on = {
+					target = GER
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					can_declare_war_on = BLR
+					BLR = { has_socialist_government = no }
+				}
+				declare_war_on = {
+					target = BLR
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					can_declare_war_on = UKR
+					UKR = { has_socialist_government = no }
+				}
+				declare_war_on = {
+					target = UKR
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					can_declare_war_on = BAT
+					BAT = { has_socialist_government = no }
+				}
+				declare_war_on = {
+					target = BAT
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					can_declare_war_on = GEO
+					GEO = {
+						OR = {
+							is_subject = no
+							is_ally_with = GER
+							is_guaranteed_by = GER
+						}
+					}
+				}
+				declare_war_on = {
+					target = GEO
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					can_declare_war_on = AZR
+					AZR = {
+						OR = {
+							is_subject = no
+							is_ally_with = GER
+							is_guaranteed_by = GER
+						}
+					}
+				}
+				declare_war_on = {
+					target = AZR
+					type = annex_everything
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						is_in_faction_with = GER
+						OR = {
+							original_tag = FIN
+							original_tag = EST
+							original_tag = LAT
+							original_tag = LIT
+							original_tag = BLR
+							original_tag = UKR
+							original_tag = POL
+						}
+						ROOT = { can_declare_war_on = PREV }
+					}
+					add_to_war = {
+						targeted_alliance = GER
+						enemy = ROOT
+					}
+				}
+				BLR = { country_event = { id = belarus_political_events.53 days = 2 } }
+				country_event = { id = russia_socialist_events.388 days = 200 } #The New Normal
+				RUS_western_march_plan = yes
+			}
 	}
+
 
 }
 
