@@ -55,9 +55,9 @@ for state,color in [('active','#c44b38'),('ready','#dfba6b'),('done','#718c68')]
     for x,y,sx,sy in [(4,4,1,1),(229,4,-1,1),(4,136,1,-1),(229,136,-1,-1)]:
         d.line((x,y,x+14*sx,y),fill=color,width=3);d.line((x,y,x,y+11*sy),fill=color,width=3)
     im.save(DEST/f'{state}.png')
-icons=['revolutionary_military_council.dds','military_political_system.dds','red_commander_system.png','experimental_formations.dds']
+icons=[R/'gfx/interface/goals/RUS_fr_military_reform/revolutionary_military_council.dds',KR/'gfx/interface/goals/officers.png',R/'gfx/interface/goals/RUS_fr_military_reform/red_commander_system.png',R/'gfx/interface/goals/RUS_fr_military_reform/experimental_formations.dds']
 for i,name in enumerate(icons,1):
-    src=Image.open(R/'gfx/interface/goals/RUS_fr_military_reform'/name).convert('RGBA')
+    src=Image.open(name).convert('RGBA')
     src=src.crop(src.getbbox());src.thumbnail((82,73),Image.Resampling.LANCZOS)
     im=Image.new('RGBA',(86,77));im.alpha_composite(src,((86-src.width)//2,(77-src.height)//2));im.save(DEST/f'emblem_{i}.png')
 layout=json.loads((OUT/'layout.json').read_text())
@@ -109,3 +109,4 @@ render('ready',['ready','locked','locked','locked'],'idle')
 render('waiting',['waiting','locked','locked','locked'],'idle')
 render('complete',['done']*4,'complete')
 print('Native KR metal frame + 4 existing emblems. 498x490 offline previews created.')
+
