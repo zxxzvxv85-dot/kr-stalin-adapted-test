@@ -23,34 +23,46 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_text = RUS_future_foreign_military_aid_scaled_cost
 		custom_cost_trigger = {
 			RUS_future_foreign_can_pay_aid_pp = yes
-			check_variable = { RUS_fr_military_reform_materials > 19.9 }
+			RUS_future_foreign_can_pay_military_aid_materials = yes
 		}
 		fire_only_once = yes
 		complete_effect = {
 			add_threat = 1.0
 			hidden_effect = {
 				RUS_future_foreign_pay_aid_pp = yes
-				add_to_variable = { RUS_fr_military_reform_materials = -20 }
-				RUS_fr_refresh_military_reform_materials = yes
+				RUS_future_foreign_pay_military_aid_materials = yes
 			}
 			if = {
 				limit = { FROM = { has_war = yes } }
-				FROM = {
-					add_equipment_to_stockpile = {
-						type = infantry_equipment
-						amount = 5000
-						producer = ROOT
+				if = {
+					limit = { RUS_future_foreign_has_balkan_aid_discount = yes }
+					FROM = { add_timed_idea = { idea = RUS_future_foreign_balkan_military_aid days = 180 } }
 				}
-					add_equipment_to_stockpile = {
-						type = artillery_equipment
-						amount = 500
-						producer = ROOT
+				else = {
+					FROM = {
+						add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = 5000
+							producer = ROOT
+						}
+						add_equipment_to_stockpile = {
+							type = artillery_equipment
+							amount = 500
+							producer = ROOT
+						}
 					}
+					army_experience = 5
 				}
-				army_experience = 5
 			}
 			else = {
-				FROM = { add_offsite_building = { type = arms_factory level = 1 } }
+				if = {
+					limit = { RUS_future_foreign_has_balkan_aid_discount = yes }
+					FROM = {
+						add_offsite_building = { type = arms_factory level = 2 }
+						add_manpower = 10000
+					}
+				}
+				else = { FROM = { add_offsite_building = { type = arms_factory level = 1 } } }
 				hidden_effect = {
 					if = {
 						limit = { NOT = { has_power_balance = { id = RUS_europe_intervention_power_balance } } }
@@ -62,7 +74,10 @@ RUS_Spreading_the_Revolution_decisions = {
 					value = 0.01
 				}
 			}
-			FROM = { add_ideas = RUS_future_foreign_military_aid_idea }
+			if = {
+				limit = { NOT = { RUS_future_foreign_has_balkan_aid_discount = yes } }
+				FROM = { add_ideas = RUS_future_foreign_military_aid_idea }
+			}
 		}
 		ai_will_do = { base = 0 }
 		fixed_random_seed = no
@@ -92,7 +107,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_text = RUS_future_foreign_civil_aid_scaled_cost
 		custom_cost_trigger = {
 			RUS_future_foreign_can_pay_aid_pp = yes
-			check_variable = { RUS_first_five_year_plan_score > 0.9 }
+			RUS_future_foreign_can_pay_civil_aid_score = yes
 		}
 		days_remove = 60
 		fire_only_once = yes
@@ -100,8 +115,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			add_threat = 1.0
 			hidden_effect = {
 				RUS_future_foreign_pay_aid_pp = yes
-				add_to_variable = { RUS_first_five_year_plan_score = -1 }
-				RUS_stalin_refresh_first_five_year_plan_stage = yes
+				RUS_future_foreign_pay_civil_aid_score = yes
 			}
 		}
 		remove_effect = {
@@ -119,6 +133,109 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 		ai_will_do = { base = 0 }
 		fixed_random_seed = no
+	}
+
+	RUS_future_foreign_nordic_invite = {
+		icon = GFX_decision_generic_army_support
+		target_array = ROOT.RUS_future_foreign_aid_targets
+		target_root_trigger = { has_completed_focus = RUS_future_foreign_057 }
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			FROM = {
+				exists = yes
+				OR = { tag = ICE tag = NOR tag = SWE tag = FIN tag = DEN }
+				has_socialist_government = yes
+				has_opinion = { target = ROOT value > 100 }
+				is_in_faction = no
+			}
+		}
+		visible = {
+			has_completed_focus = RUS_future_foreign_057
+			NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_future_foreign_nordic_invite_available_tt
+				NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
+				is_faction_leader = yes
+				FROM = {
+					exists = yes
+					OR = { tag = ICE tag = NOR tag = SWE tag = FIN tag = DEN }
+					has_socialist_government = yes
+					has_opinion = { target = ROOT value > 100 }
+					is_in_faction = no
+				}
+				RUS_diplomacy_can_pay_20 = yes
+			}
+		}
+		cost = RUS_diplomacy_pp_cost_20?20
+		complete_effect = {
+			if = {
+				limit = {
+					NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
+					is_faction_leader = yes
+					RUS_diplomacy_can_pay_20 = yes
+					FROM = {
+						exists = yes
+						OR = { tag = ICE tag = NOR tag = SWE tag = FIN tag = DEN }
+						has_socialist_government = yes
+						has_opinion = { target = ROOT value > 100 }
+						is_in_faction = no
+					}
+				}
+				FROM = { add_to_faction = ROOT }
+			}
+		}
+		ai_will_do = { base = 0 }
+	}
+
+	# Unlocked by the Red Ghost of the Balkans (RUS_future_foreign_019). Only offered for
+	# Balkan socialist regimes that have not joined any faction yet; those that already
+	# joined another faction never get the entry at all.
+	RUS_future_foreign_balkan_invite = {
+		icon = GFX_decision_generic_army_support
+		target_array = ROOT.RUS_future_foreign_aid_targets
+		target_root_trigger = { has_completed_focus = RUS_future_foreign_019 }
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			FROM = {
+				exists = yes
+				RUS_future_foreign_balkan_socialist_target = yes
+				is_in_faction = no
+			}
+		}
+		visible = {
+			has_completed_focus = RUS_future_foreign_019
+			RUS_europe_intervention_target_selected_or_overview = yes
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RUS_future_foreign_balkan_invite_available_tt
+				is_faction_leader = yes
+				RUS_diplomacy_can_pay_20 = yes
+				FROM = {
+					exists = yes
+					RUS_future_foreign_balkan_socialist_target = yes
+					is_in_faction = no
+				}
+			}
+		}
+		cost = RUS_diplomacy_pp_cost_20?20
+		complete_effect = {
+			if = {
+				limit = {
+					is_faction_leader = yes
+					FROM = {
+						exists = yes
+						RUS_future_foreign_balkan_socialist_target = yes
+						is_in_faction = no
+					}
+				}
+				FROM = { add_to_faction = ROOT }
+			}
+		}
+		ai_will_do = { base = 0 }
 	}
 
 	RUS_future_foreign_joint_develop_pokrovsk_tungsten = {
@@ -151,6 +268,41 @@ RUS_Spreading_the_Revolution_decisions = {
 				}
 			}
 			FRA = { add_ideas = RUS_pokrovsk_tungsten_concession }
+		}
+		ai_will_do = { base = 0 }
+		fixed_random_seed = no
+	}
+
+	RUS_future_foreign_joint_develop_zlatoust_chromium = {
+		icon = GFX_decision_chromium
+		visible = {
+			has_completed_focus = RUS_future_foreign_017
+			has_country_flag = RUS_europe_intervention_molotov_selected
+			country_exists = FRA
+		}
+		available = {
+			num_of_civilian_factories_available_for_projects > 4
+			573 = { is_owned_and_controlled_by = ROOT }
+			FRA = { NOT = { has_war_with = ROOT } }
+		}
+		cost = RUS_diplomacy_pp_cost_45?45
+		days_remove = 75
+		fire_only_once = yes
+		modifier = {
+			civilian_factory_use = 5
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_future_foreign_joint_develop_zlatoust_chromium"
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove RUS_future_foreign_joint_develop_zlatoust_chromium"
+			573 = {
+				add_resource = {
+					type = chromium
+					amount = 32
+				}
+			}
+			FRA = { add_ideas = RUS_zlatoust_chromium_concession }
 		}
 		ai_will_do = { base = 0 }
 		fixed_random_seed = no

@@ -104,7 +104,21 @@ RUS_rd_AZR_form_militia = {
  }
 }
 
+RUS_rd_BLR_unlock_militia_template = {
+ if = {
+  limit = { has_template = "白俄罗斯志愿民兵" }
+  set_division_template_lock = {
+   division_template = "白俄罗斯志愿民兵"
+   is_locked = no
+  }
+ }
+}
+
 RUS_rd_BLR_form_militia = {
+ if = {
+  limit = { has_template = "白俄罗斯志愿民兵" }
+  RUS_rd_BLR_unlock_militia_template = yes
+ }
  if = {
   limit = {
    check_variable = { RUS_rd_BLR_militia_raised < 2 }
@@ -117,7 +131,7 @@ RUS_rd_BLR_form_militia = {
    limit = { NOT = { has_template = "白俄罗斯志愿民兵" } }
    division_template = {
     name = "白俄罗斯志愿民兵"
-    is_locked = yes
+    is_locked = no
     regiments = {
      militia = { x = 0 y = 0 }
      militia = { x = 0 y = 1 }
