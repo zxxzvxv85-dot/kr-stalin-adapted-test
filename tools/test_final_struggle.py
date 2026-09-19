@@ -8,7 +8,10 @@ exec((ROOT / "tools/test_regional_diplomacy.py").read_text(encoding="utf-8-sig")
 parse, get = ns["parse"], ns["get"]
 focus_id = "RUS_future_foreign_062"
 event_prefix = "RUS_future_foreign_policy_events."
-events = {get(v, "id"): v for k, _, v in ns["read"]("events/RUS_future_foreign_policy_events.txt") if k == "country_event"}
+event_source = (ROOT / "events/RUS_future_foreign_policy_events.txt").read_text(encoding="utf-8-sig")
+# The engine rejects >=/<= here even though the generic test parser accepts them.
+assert not re.search(r"\bvalue\s*(?:>=|<=)", event_source), "Use NOT with a strict comparison for BOP thresholds"
+events = {get(v, "id"): v for k, _, v in parse(event_source) if k == "country_event"}
 focus_source = (ROOT / "common/national_focus/00_RUS_future_foreign_policy_skeleton.txt").read_text(encoding="utf-8-sig")
 focus = next(parse(block)[0][2] for block in re.split(r"(?m)(?=^shared_focus =)", focus_source) if re.search(r"\bid = " + focus_id + r"\b", block))
 
@@ -20,7 +23,8 @@ def check(nodes, state):
         elif k == "country_exists": ok = v in {"GER", "POL", "RUS"}
         elif k == "power_balance_value":
             _, operator, threshold = next(n for n in v if n[0] == "value")
-            ok = state["balance"] < float(threshold) if operator == "<" else state["balance"] >= float(threshold)
+            assert operator == "<", "Unsupported BOP comparison in fixture"
+            ok = state["balance"] < float(threshold)
         else: raise AssertionError((k, op, v))
         if not ok: return False
     return True
