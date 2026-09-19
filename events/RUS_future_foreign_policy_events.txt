@@ -63,7 +63,7 @@ country_event = {
 }
 
 
-# 最后的斗争结束后，按革命准备度给德国留下不同的借口。
+# “最后的斗争”开始14天后，按革命准备度分流。
 country_event = {
 	id = RUS_future_foreign_policy_events.5
 	title = RUS_future_foreign_policy_events.5.t
@@ -73,11 +73,16 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		country_exists = GER
-		power_balance_value = { id = RUS_europe_intervention_power_balance value < -0.10 }
+		power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.50 }
 	}
 	option = {
 		name = RUS_future_foreign_policy_events.5.a
-		GER = { create_wargoal = { type = annex_everything target = ROOT } }
+		custom_effect_tooltip = RUS_future_foreign_policy_events.5.a_tt
+		hidden_effect = {
+			GER = { create_wargoal = { type = annex_everything target = ROOT } }
+			set_country_flag = RUS_future_foreign_062_claims_only
+			complete_national_focus = RUS_future_foreign_062
+		}
 	}
 }
 
@@ -94,6 +99,10 @@ country_event = {
 	}
 	immediate = {
 		POL = {
+			if = {
+				limit = { is_in_faction = yes NOT = { is_in_faction_with = ROOT } }
+				leave_faction = yes
+			}
 			set_politics = {
 				ruling_party = radical_socialist
 				elections_allowed = no
@@ -109,6 +118,31 @@ country_event = {
 	}
 	option = {
 		name = RUS_future_foreign_policy_events.6.a
-		POL = { add_to_faction = ROOT }
+		hidden_effect = {
+			add_to_faction = POL
+			set_country_flag = RUS_future_foreign_062_claims_only
+			complete_national_focus = RUS_future_foreign_062
+		}
+	}
+}
+
+# Resolve readiness once, when the delayed event reaches the queue.
+country_event = {
+	id = RUS_future_foreign_policy_events.7
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		is_focus_being_completed = RUS_future_foreign_062
+		NOT = { has_country_flag = RUS_future_foreign_062_readiness_resolved }
+	}
+	immediate = {
+		set_country_flag = RUS_future_foreign_062_readiness_resolved
+		if = {
+			limit = { power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.50 } }
+			country_event = { id = RUS_future_foreign_policy_events.5 }
+		}
+		else = {
+			country_event = { id = RUS_future_foreign_policy_events.6 }
+		}
 	}
 }

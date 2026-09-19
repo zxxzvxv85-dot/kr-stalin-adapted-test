@@ -1362,12 +1362,14 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 	select_effect = {
 		hidden_effect = {
-			country_event = { id = RUS_future_foreign_policy_events.5 days = 14 }
+			country_event = { id = RUS_future_foreign_policy_events.7 days = 14 }
 		}
 	}
 	completion_reward = {
-			add_state_claim = 537 #South Sakhalin
-			add_state_claim = 555 #Kurils
+		add_state_claim = 537 #South Sakhalin
+		add_state_claim = 555 #Kurils
+		if = {
+			limit = { NOT = { has_country_flag = RUS_future_foreign_062_claims_only } }
 			if = {
 				limit = { can_declare_war_on = GER }
 				declare_war_on = {
@@ -1461,6 +1463,7 @@ shared_focus = {
 				country_event = { id = russia_socialist_events.388 days = 200 } #The New Normal
 				RUS_western_march_plan = yes
 			}
+		}
 	}
 
 
