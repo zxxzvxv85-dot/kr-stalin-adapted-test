@@ -93,8 +93,23 @@ country_event = {
 		power_balance_value = { id = RUS_europe_intervention_power_balance value >= -0.10 }
 		power_balance_value = { id = RUS_europe_intervention_power_balance value <= 0.50 }
 	}
+	immediate = {
+		POL = {
+			set_politics = {
+				ruling_party = radical_socialist
+				elections_allowed = no
+			}
+		}
+		give_guarantee = POL
+		GER = {
+			declare_war_on = {
+				target = POL
+				type = annex_everything
+			}
+		}
+	}
 	option = {
 		name = RUS_future_foreign_policy_events.6.a
-		GER = { create_wargoal = { type = annex_everything target = ROOT } }
+		POL = { add_to_faction = ROOT }
 	}
 }
