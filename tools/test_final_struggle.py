@@ -53,7 +53,8 @@ def run(nodes, state, scope="RUS"):
             assert scope == state["pol_overlord"] and v == "POL"
             state["pol_overlord"] = None
         elif k == "declare_war_on":
-            assert state["pol_overlord"] is None and state["pol_faction"] != "GER", "Poland must be independent before war"
+            if get(v, "target") == "POL":
+                assert state["pol_overlord"] is None and state["pol_faction"] != "GER", "Poland must be independent before war"
             state["wars"].append((scope, get(v, "target")))
         elif k == "set_country_flag": state["flags"].add(v)
         elif k == "country_event": state["events"].append((get(v, "id"), get(v, "days")))
@@ -91,9 +92,9 @@ for balance in [-1, -.75, -.5, 0, .5, .7499, .75, .7501, 1]:
     s["balance"] = -balance
     run(get(event, "option"), s)
     assert s["completed"] and s["claims"] == {"537", "555"}
-    assert s["wargoals"] == ([("GER", "ROOT")] if branch == "5" else [])
+    assert s["wargoals"] == []
     assert s["joins"] == ([("RUS", "POL")] if branch == "6" else [])
-    assert s["wars"] == ([("GER", "POL")] if branch == "6" else [])
+    assert s["wars"] == [("GER", "POL" if branch == "6" else "RUS")]
     assert s["guarantees"] == ([("RUS", "POL")] if branch == "6" else [])
     assert s["politics"] == ([("POL", "radical_socialist")] if branch == "6" else [])
     assert s["pol_overlord"] == (None if branch == "6" else "GER")
@@ -125,4 +126,4 @@ for lang in ["simp_chinese", "english", "russian"]:
     assert len(keys) == len(set(keys)), p
     tooltip = next(line for line in lines if event_prefix + "5.a_tt:" in line)
     assert "\u00a7R" in tooltip and "\u00a7!" in tooltip
-print("PASS: 9 raw BOP boundaries (50 fails, 75/100 succeed), single 14-day dispatch, cancellation, duplicate guard, both claims-only buttons, German wargoal, faction direction and 3 localisation files")
+print("PASS: 9 raw BOP boundaries, button-only German declarations against RUS/POL, no wargoal grants, claims-only focus completion, Polish independence, faction direction and 3 localisation files")
