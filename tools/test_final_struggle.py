@@ -21,7 +21,8 @@ def check(nodes, state):
         elif k == "POL": ok = check(v, state)
         elif k == "is_subject_of": ok = state["pol_overlord"] == v
         elif k == "has_country_flag": ok = v in state["flags"]
-        elif k == "is_focus_being_completed": ok = state["active"] == v
+        elif k == "focus_progress": ok = state["active"] == get(v, "focus") and not state["completed"]
+        elif k == "has_completed_focus": ok = state["completed"]
         elif k == "country_exists": ok = v in {"GER", "POL", "RUS"}
         elif k == "is_in_faction": ok = bool(state["pol_faction"]) == (v == "yes")
         elif k == "is_in_faction_with": ok = state["pol_faction"] == "RUS"
@@ -70,7 +71,8 @@ def run(nodes, state, scope="RUS"):
 def fixture(balance):
     return dict(balance=balance, flags=set(), active=focus_id, events=[], claims=set(), wargoals=[], joins=[], completed=False, pol_faction="GER", pol_overlord="GER", politics=[], guarantees=[], wars=[])
 
-for balance in [-1, -.1, 0, .4999, .5, .5001, 1]:
+assert "is_focus_being_completed" not in event_source
+for balance in [-1, -.75, -.5, 0, .5, .7499, .75, .7501, 1]:
     s = fixture(balance)
     run(get(focus, "select_effect"), s)
     assert s["events"] == [(event_prefix + "7", "14")]
@@ -78,7 +80,7 @@ for balance in [-1, -.1, 0, .4999, .5, .5001, 1]:
     assert check(get(dispatch, "trigger"), s)
     s["events"].clear()
     run(get(dispatch, "immediate"), s)
-    branch = "5" if balance < .5 else "6"
+    branch = "5" if balance < .75 else "6"
     assert s["events"] == [(event_prefix + branch, None)]
     assert not check(get(dispatch, "trigger"), s)
     event = events[event_prefix + branch]
@@ -123,4 +125,4 @@ for lang in ["simp_chinese", "english", "russian"]:
     assert len(keys) == len(set(keys)), p
     tooltip = next(line for line in lines if event_prefix + "5.a_tt:" in line)
     assert "\u00a7R" in tooltip and "\u00a7!" in tooltip
-print("PASS: 7 readiness boundaries, single 14-day dispatch, cancellation, duplicate guard, both claims-only buttons, German wargoal, faction direction and 3 localisation files")
+print("PASS: 9 raw BOP boundaries (50 fails, 75/100 succeed), single 14-day dispatch, cancellation, duplicate guard, both claims-only buttons, German wargoal, faction direction and 3 localisation files")

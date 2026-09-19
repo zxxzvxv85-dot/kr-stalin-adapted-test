@@ -73,7 +73,7 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		country_exists = GER
-		power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.50 }
+		power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.75 }
 	}
 	option = {
 		name = RUS_future_foreign_policy_events.5.a
@@ -95,7 +95,7 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		country_exists = GER
-		NOT = { power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.50 } }
+		NOT = { power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.75 } }
 	}
 	option = {
 		name = RUS_future_foreign_policy_events.6.a
@@ -135,13 +135,14 @@ country_event = {
 	hidden = yes
 	is_triggered_only = yes
 	trigger = {
-		is_focus_being_completed = RUS_future_foreign_062
+		focus_progress = { focus = RUS_future_foreign_062 progress > 0 }
+		NOT = { has_completed_focus = RUS_future_foreign_062 }
 		NOT = { has_country_flag = RUS_future_foreign_062_readiness_resolved }
 	}
 	immediate = {
 		set_country_flag = RUS_future_foreign_062_readiness_resolved
 		if = {
-			limit = { power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.50 } }
+			limit = { power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.75 } }
 			country_event = { id = RUS_future_foreign_policy_events.5 }
 		}
 		else = {
