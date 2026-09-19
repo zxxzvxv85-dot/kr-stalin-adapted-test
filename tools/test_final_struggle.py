@@ -18,9 +18,13 @@ focus = next(parse(block)[0][2] for block in re.split(r"(?m)(?=^shared_focus =)"
 def check(nodes, state):
     for k, op, v in nodes:
         if k == "NOT": ok = not check(v, state)
+        elif k == "POL": ok = check(v, state)
+        elif k == "is_subject_of": ok = state["pol_overlord"] == v
         elif k == "has_country_flag": ok = v in state["flags"]
         elif k == "is_focus_being_completed": ok = state["active"] == v
         elif k == "country_exists": ok = v in {"GER", "POL", "RUS"}
+        elif k == "is_in_faction": ok = bool(state["pol_faction"]) == (v == "yes")
+        elif k == "is_in_faction_with": ok = state["pol_faction"] == "RUS"
         elif k == "power_balance_value":
             _, operator, threshold = next(n for n in v if n[0] == "value")
             assert operator == "<", "Unsupported BOP comparison in fixture"
@@ -38,7 +42,18 @@ def run(nodes, state, scope="RUS"):
         elif k == "else":
             if not matched: run(v, state, scope)
         elif k == "hidden_effect": run(v, state, scope)
-        elif k == "GER": run(v, state, "GER")
+        elif k in {"GER", "POL"}: run(v, state, k)
+        elif k == "leave_faction":
+            assert scope == "POL"
+            state["pol_faction"] = None
+        elif k == "set_politics": state["politics"].append((scope, get(v, "ruling_party")))
+        elif k == "give_guarantee": state["guarantees"].append((scope, v))
+        elif k == "end_puppet":
+            assert scope == state["pol_overlord"] and v == "POL"
+            state["pol_overlord"] = None
+        elif k == "declare_war_on":
+            assert state["pol_overlord"] is None and state["pol_faction"] != "GER", "Poland must be independent before war"
+            state["wars"].append((scope, get(v, "target")))
         elif k == "set_country_flag": state["flags"].add(v)
         elif k == "country_event": state["events"].append((get(v, "id"), get(v, "days")))
         elif k == "complete_national_focus":
@@ -53,7 +68,7 @@ def run(nodes, state, scope="RUS"):
         else: raise AssertionError("Unexpected effect on claims-only path: " + k)
 
 def fixture(balance):
-    return dict(balance=balance, flags=set(), active=focus_id, events=[], claims=set(), wargoals=[], joins=[], completed=False)
+    return dict(balance=balance, flags=set(), active=focus_id, events=[], claims=set(), wargoals=[], joins=[], completed=False, pol_faction="GER", pol_overlord="GER", politics=[], guarantees=[], wars=[])
 
 for balance in [-1, -.1, 0, .4999, .5, .5001, 1]:
     s = fixture(balance)
@@ -68,17 +83,28 @@ for balance in [-1, -.1, 0, .4999, .5, .5001, 1]:
     assert not check(get(dispatch, "trigger"), s)
     event = events[event_prefix + branch]
     assert check(get(event, "trigger"), s)
+    assert get(event, "immediate") is None, "Visible events must wait for the button"
+    assert not s["wars"] and not s["guarantees"] and not s["politics"] and not s["completed"]
     # Readiness changing while the popup is open must not change button rewards.
     s["balance"] = -balance
     run(get(event, "option"), s)
     assert s["completed"] and s["claims"] == {"537", "555"}
     assert s["wargoals"] == ([("GER", "ROOT")] if branch == "5" else [])
     assert s["joins"] == ([("RUS", "POL")] if branch == "6" else [])
+    assert s["wars"] == ([("GER", "POL")] if branch == "6" else [])
+    assert s["guarantees"] == ([("RUS", "POL")] if branch == "6" else [])
+    assert s["politics"] == ([("POL", "radical_socialist")] if branch == "6" else [])
+    assert s["pol_overlord"] == (None if branch == "6" else "GER")
 
 s = fixture(0)
 s["active"] = None
 assert not check(get(events[event_prefix + "7"], "trigger"), s)
-high = get(events[event_prefix + "6"], "immediate")
+high = get(events[event_prefix + "6"], "option")
+s = fixture(1)
+s["pol_overlord"] = None
+s["pol_faction"] = None
+run(high, s)
+assert s["wars"] == [("GER", "POL")] and s["pol_overlord"] is None
 assert get(high, "give_guarantee") == "POL"
 assert get(get(get(high, "GER"), "declare_war_on"), "target") == "POL"
 assert get(get(get(high, "POL"), "set_politics"), "ruling_party") == "radical_socialist"

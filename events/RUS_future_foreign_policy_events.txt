@@ -97,7 +97,12 @@ country_event = {
 		country_exists = GER
 		NOT = { power_balance_value = { id = RUS_europe_intervention_power_balance value < 0.50 } }
 	}
-	immediate = {
+	option = {
+		name = RUS_future_foreign_policy_events.6.a
+		if = {
+			limit = { POL = { is_subject_of = GER } }
+			GER = { end_puppet = POL }
+		}
 		POL = {
 			if = {
 				limit = { is_in_faction = yes NOT = { is_in_faction_with = ROOT } }
@@ -115,11 +120,8 @@ country_event = {
 				type = annex_everything
 			}
 		}
-	}
-	option = {
-		name = RUS_future_foreign_policy_events.6.a
+		add_to_faction = POL
 		hidden_effect = {
-			add_to_faction = POL
 			set_country_flag = RUS_future_foreign_062_claims_only
 			complete_national_focus = RUS_future_foreign_062
 		}
