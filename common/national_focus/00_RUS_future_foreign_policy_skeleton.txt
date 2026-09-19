@@ -328,8 +328,33 @@ shared_focus = {
 	y = 23
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_022 }
+	bypass = {
+		OR = {
+			has_country_flag = RUS_lost_central_asia_war
+			is_subject = yes
+			AND = {
+				NOT = { can_declare_war_on = KAZ }
+				NOT = { can_declare_war_on = TRK }
+				NOT = { can_declare_war_on = BUK }
+				NOT = { can_declare_war_on = KHI }
+			}
+		}
+	}
 	ai_will_do = { factor = 0 }
-	completion_reward = { custom_effect_tooltip = RUS_future_foreign_009_intervention_tt }
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_009"
+		activate_targeted_decision = { target = 404 decision = RUS_central_asia_railroads }
+		custom_effect_tooltip = RUS_CA_wargoals_tt
+		add_named_threat = {
+			threat = 4
+			name = RUS_white_sun_of_desert
+		}
+		hidden_effect = {
+			activate_targeted_decision = { decision = RUS_attack target = MON }
+			activate_targeted_decision = { decision = RUS_attack target = SIK }
+			activate_targeted_decision = { decision = RUS_attack target = ETS }
+		}
+	}
 }
 
 # 三面红旗
