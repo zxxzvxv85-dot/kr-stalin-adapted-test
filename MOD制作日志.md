@@ -2558,5 +2558,5 @@ mio:RUS_example_organization = {
 ### 2026-09-20 修正战斗仍将继续的国民精神
 
 - 移除误用的 `RUS_imperial_patriotism`（帝国爱国主义）。
-- 改为添加 `RUS_patriotic_war_2`（伟大卫国战争）精神。
+- 改为添加 KR 简体中文对应的 `RUS_defencism`（护国主义）精神。
 - 仅测试版。
