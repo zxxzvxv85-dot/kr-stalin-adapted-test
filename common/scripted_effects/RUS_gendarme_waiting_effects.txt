@@ -1,8 +1,10 @@
 RUS_gendarme_refresh_waiting_bonus = {
 	set_variable = { RUS_gendarme_waiting_attack_speed = 0 }
+	set_variable = { RUS_gendarme_waiting_river_speed = 0 }
 	if = {
 		limit = { has_completed_focus = RUS_future_foreign_059 }
 		set_variable = { RUS_gendarme_waiting_attack_speed = 0.10 }
+		set_variable = { RUS_gendarme_waiting_river_speed = -0.25 }
 		if = {
 			limit = { NOT = { has_tech = RUS_gendarme_waiting_terrain } }
 			set_technology = { RUS_gendarme_waiting_terrain = 1 }
