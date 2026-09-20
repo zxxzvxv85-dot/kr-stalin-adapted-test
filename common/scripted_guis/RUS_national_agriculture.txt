@@ -584,6 +584,8 @@ nat_factory_2_visible = { check_variable = { RUS_nat_page = 2 } }
 nat_factory_2_click_enabled = { check_variable = { RUS_nat_available > 0 } }
 nat_factory_3_visible = { check_variable = { RUS_nat_page = 2 } }
 nat_factory_3_click_enabled = { check_variable = { RUS_nat_available > 0 } }
+nat_convert_mil_visible = { check_variable = { RUS_nat_page = 2 } }
+nat_convert_mil_click_enabled = { num_of_military_factories > 0 check_variable = { RUS_nat_base_civilian_factories < 5 } }
 nat_stop_visible = { check_variable = { RUS_nat_page = 2 } }
 nat_stop_click_enabled = { always = yes }
 nat_max_visible = { check_variable = { RUS_nat_page = 2 } }
@@ -809,6 +811,19 @@ nat_factory_3_click = { set_variable = { RUS_nat_requested = RUS_nat_factories }
 add_to_variable = { RUS_nat_requested = 10 }
 RUS_nat_set_factories = yes
  RUS_nat_refresh = yes }
+nat_convert_mil_click = {
+ if = {
+  limit = { check_variable = { RUS_nat_base_civilian_factories < 5 } num_of_military_factories > 0 }
+  random_owned_controlled_state = {
+   limit = { arms_factory > 0 }
+   remove_building = { type = arms_factory level = 1 }
+  }
+  add_to_variable = { RUS_nat_base_civilian_factories = 1 }
+  RUS_nat_factory_capacity = yes
+  RUS_nat_parameters = yes
+  RUS_nat_refresh_gui = yes
+ }
+}
 nat_stop_click = { set_variable = { RUS_nat_requested = 0 }
 RUS_nat_set_factories = yes
  RUS_nat_refresh = yes }
