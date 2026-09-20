@@ -1358,7 +1358,11 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_foreign_051 }
 	available = { hidden_trigger = { has_socialist_government = yes } }
 	ai_will_do = { factor = 0 }
-	completion_reward = { unlock_decision_tooltip = RUS_ukr_night }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_ukr_night
+		custom_effect_tooltip = RUS_gendarme_waiting_bonus_tt
+		hidden_effect = { RUS_future_foreign_refresh_third_international_gendarme = yes }
+	}
 }
 
 # 工农红军交流会
