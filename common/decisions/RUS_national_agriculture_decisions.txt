@@ -1,5 +1,5 @@
 RUS_agricultural_quarterly_management_category = {
-RUS_nat_guide_decision = { icon = GFX_decision_generic_agriculture cost = 10 fire_only_once = no visible = { has_country_flag = RUS_nat_enabled is_ai = no } complete_effect = { country_event = { id = RUS_national_agriculture.2 } } ai_will_do = { base = 0 } }
+RUS_nat_guide_decision = { icon = GFX_decision_generic_agriculture cost = 0 fire_only_once = no visible = { has_country_flag = RUS_nat_enabled is_ai = no } complete_effect = { country_event = { id = RUS_national_agriculture.2 } } ai_will_do = { base = 0 } }
 RUS_nat_support_food = { icon = GFX_decision_generic_agriculture cost = 10 visible = { has_country_flag = RUS_nat_enabled } available = { custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_food = 0 } } } complete_effect = { effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_food_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_food = 0 } }
 set_variable = { RUS_nat_support_food = 1 }
 add_to_variable = { RUS_nat_support_count = 1 }
