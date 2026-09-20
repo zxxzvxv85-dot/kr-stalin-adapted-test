@@ -16,24 +16,31 @@ country_event = {
 	option = {
 		name = RUS_fr_military_reform.10.a
 		ai_chance = { factor = 40 }
-		clr_country_flag = RUS_fr_specialise_mobility
-		clr_country_flag = RUS_fr_specialise_armour
-		set_country_flag = RUS_fr_specialise_armaments
-		RUS_fr_apply_timoshenko_armaments_specialisation_trait = yes
+		hidden_effect = {
+			clr_country_flag = RUS_fr_specialise_mobility
+			clr_country_flag = RUS_fr_specialise_armour
+			set_country_flag = RUS_fr_specialise_armaments
+			RUS_fr_apply_timoshenko_armaments_specialisation_trait = yes
+		}
 	}
 	option = {
 		name = RUS_fr_military_reform.10.b
 		ai_chance = { factor = 35 }
-		clr_country_flag = RUS_fr_specialise_armaments
-		clr_country_flag = RUS_fr_specialise_armour
-		set_country_flag = RUS_fr_specialise_mobility
+			hidden_effect = {
+				clr_country_flag = RUS_fr_specialise_armaments
+				clr_country_flag = RUS_fr_specialise_armour
+				set_country_flag = RUS_fr_specialise_mobility
+				add_ideas = RUS_fr_air_assault_mobility_priority_idea
+			}
 	}
 	option = {
 		name = RUS_fr_military_reform.10.c
 		ai_chance = { factor = 25 }
-		clr_country_flag = RUS_fr_specialise_armaments
-		clr_country_flag = RUS_fr_specialise_mobility
-		set_country_flag = RUS_fr_specialise_armour
+		hidden_effect = {
+			clr_country_flag = RUS_fr_specialise_armaments
+			clr_country_flag = RUS_fr_specialise_mobility
+			set_country_flag = RUS_fr_specialise_armour
+		}
 		if = {
 			limit = { NOT = { RUS_semyon_timoshenko = { has_trait = KR_shock_theorist } } }
 			add_trait = {
