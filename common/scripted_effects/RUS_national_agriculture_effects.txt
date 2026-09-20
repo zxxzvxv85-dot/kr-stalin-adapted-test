@@ -74,7 +74,7 @@ RUS_nat_decision_score_5 = {
 if = { limit = { has_country_flag = RUS_nat_enabled }
 custom_effect_tooltip = RUS_nat_decision_score_5_tt
 hidden_effect = {
-set_variable = { RUS_nat_decision_award = 90 }
+set_variable = { RUS_nat_decision_award = 95 }
 subtract_from_variable = { RUS_nat_decision_award = RUS_nat_decision_score }
 clamp_variable = { var = RUS_nat_decision_award min = 0 max = 5 }
 set_variable = { RUS_agri_score_award = RUS_nat_decision_award }
@@ -92,7 +92,7 @@ RUS_nat_decision_score_10 = {
 if = { limit = { has_country_flag = RUS_nat_enabled }
 custom_effect_tooltip = RUS_nat_decision_score_10_tt
 hidden_effect = {
-set_variable = { RUS_nat_decision_award = 90 }
+set_variable = { RUS_nat_decision_award = 95 }
 subtract_from_variable = { RUS_nat_decision_award = RUS_nat_decision_score }
 clamp_variable = { var = RUS_nat_decision_award min = 0 max = 10 }
 set_variable = { RUS_agri_score_award = RUS_nat_decision_award }
@@ -2832,7 +2832,7 @@ set_variable = { RUS_nat_task_done = 1 }
 if = { limit = { check_variable = { RUS_nat_task_done = 1 } }
 add_to_variable = { RUS_nat_points = 4 }
 if = { limit = { has_idea = RUS_aleksey_ustinov_advisor }
-add_to_variable = { RUS_nat_points = 1 }
+add_to_variable = { RUS_nat_points = 2 }
 }
 }
 set_variable = { RUS_nat_score_fraction = RUS_nat_fraction }
