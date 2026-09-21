@@ -30604,10 +30604,7 @@ focus_tree = {
 		x = -2
 		y = 3
 		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
-		# Gate only: kept out of the tree so the lines stay readable.
-		available = {
-			has_completed_focus = RUS_fr_small_arms_standardisation_committee
-		}
+		prerequisite = { focus = RUS_fr_small_arms_standardisation_committee }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			if = {
@@ -30729,10 +30726,12 @@ focus_tree = {
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = -3
 		y = 4
-		prerequisite = { focus = RUS_fr_self_propelled_support_fire_trials }
+		# The inspectorate line is cosmetic: the gate below still requires the trials.
+		prerequisite = { focus = RUS_fr_self_propelled_support_fire_trials focus = RUS_fr_armaments_quality_assurance_inspectorate }
 		mutually_exclusive = { focus = RUS_fr_soldier_load_lightening_program }
 		available = {
 			has_country_flag = RUS_fr_infantry_artillery_route
+			has_completed_focus = RUS_fr_self_propelled_support_fire_trials
 			OR = {
 				has_completed_focus = RUS_fr_vehicle_manufacturing_integration
 				has_completed_focus = RUS_fr_mechanised_logistics_regulations
@@ -30808,7 +30807,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 0
-		y = 6
+		y = 5
 		prerequisite = { focus = RUS_fr_federal_armaments_defence_industry_commission }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -30833,7 +30832,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = -1
-		y = 7
+		y = 6
 		prerequisite = { focus = RUS_fr_mechanisation_wave }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -30863,7 +30862,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 1
-		y = 7
+		y = 6
 		prerequisite = { focus = RUS_fr_mechanisation_wave }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -30892,7 +30891,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = -2
-		y = 9
+		y = 7
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
 		mutually_exclusive = { focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_helicopter_pilot_program }
 		available = {
@@ -30924,7 +30923,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 0
-		y = 8
+		y = 7
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
 		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_helicopter_pilot_program }
 		available = {
@@ -30954,7 +30953,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 2
-		y = 9
+		y = 7
 		prerequisite = { focus = RUS_fr_rapid_mobility_equipment_trials }
 		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations }
 		available = {
@@ -30990,8 +30989,8 @@ focus_tree = {
 			}
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 0
-		y = 9
+		x = 1
+		y = 8
 		prerequisite = { focus = RUS_fr_helicopter_pilot_program }
 		# Gate only: kept out of the tree so the lines stay readable.
 		available = {
@@ -31030,7 +31029,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = -2
-		y = 10
+		y = 9
 		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations }
 		# Gate only: kept out of the tree so the lines stay readable.
 		available = {
@@ -31071,7 +31070,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 2
-		y = 10
+		y = 9
 		prerequisite = { focus = RUS_fr_air_assault_brigades }
 		# Gate only: kept out of the tree so the lines stay readable.
 		available = {
@@ -31490,7 +31489,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 0
-		y = 11
+		y = 10
 		prerequisite = { focus = RUS_fr_rapid_operational_corps focus = RUS_fr_deep_mobility_program }
 		# Gate only: kept out of the tree so the lines stay readable.
 		available = {
