@@ -26117,9 +26117,26 @@ focus_tree = {
 		}
 		cost = 4
 
+		x = 14
+		y = 0
+		relative_position_id = RUS_address_the_army
+
+		offset = {
+			x = -7
+			trigger = {
+				has_country_flag = RUS_lost_wk2
+			}
+		}
+		offset = {
+			# On the socialist route this lands at x=18, y=1 from the
+			# National Military Council while preserving the old anchor elsewhere.
+			x = 6
+			y = 4
+			trigger = { has_socialist_government = yes }
+		}
+
 		# Socialists unlock the air force only after the military-reform line reached the
-		# National Military Council; the other Russian paths go through the army branch
-		# instead (the reform focus is socialist-only, the army branch is the opposite).
+		# National Military Council; the other Russian paths keep the army-line entry.
 		prerequisite = {
 			OR = {
 				focus = RUS_fr_rebuild_revolutionary_military_council
@@ -26133,12 +26150,6 @@ focus_tree = {
 			}
 		}
 
-		# Air force tree sits to the right of the reform trunk, five columns past its right edge
-		# (same relationship as the layout drawing). Anchored to a focus without offset blocks
-		# so the whole branch keeps the same place on every route.
-		x = 18
-		y = 1
-		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
 		ai_will_do = {
 			base = 0
 			modifier = {
@@ -27317,13 +27328,18 @@ focus_tree = {
 		cost = 4
 
 		relative_position_id = RUS_evaluate_VVFR
-		# Same offset as the layout drawing: four columns left of the air force root, six rows
-		# below it, so the navy tree hangs under the air force tree.
 		x = -4
 		y = 6
+		offset = {
+			# Non-socialist routes retain the original navy position relative to
+			# the army-line air-force entry.
+			x = 12
+			y = -6
+			trigger = { has_socialist_government = no }
+		}
 
-		# Same entry as the air force branch: the National Military Council for socialists,
-		# the army branch for every other Russian path.
+		# Socialists enter through the National Military Council via the air-force root;
+		# other routes retain the original army-line prerequisite.
 		prerequisite = {
 			OR = {
 				focus = RUS_fr_rebuild_revolutionary_military_council
