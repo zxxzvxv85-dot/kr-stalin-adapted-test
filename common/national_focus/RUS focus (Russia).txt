@@ -26127,18 +26127,18 @@ focus_tree = {
 			}
 		}
 		available = {
-			OR = {
-				AND = { has_socialist_government = yes has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }
-				AND = { has_socialist_government = no has_completed_focus = RUS_address_the_army }
+			if = {
+				limit = { has_socialist_government = yes }
+				has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 			}
 		}
 
 		# Air force tree sits to the right of the reform trunk, five columns past its right edge
 		# (same relationship as the layout drawing). Anchored to a focus without offset blocks
 		# so the whole branch keeps the same place on every route.
-		x = 30
-		y = 9
-		relative_position_id = RUS_rehabilitate_red_army
+		x = 18
+		y = 1
+		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
 		ai_will_do = {
 			base = 0
 			modifier = {
@@ -27331,9 +27331,9 @@ focus_tree = {
 			}
 		}
 		available = {
-			OR = {
-				AND = { has_socialist_government = yes has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }
-				AND = { has_socialist_government = no has_completed_focus = RUS_address_the_army }
+			if = {
+				limit = { has_socialist_government = yes }
+				has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 			}
 		}
 
