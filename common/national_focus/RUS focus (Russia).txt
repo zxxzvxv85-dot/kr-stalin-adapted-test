@@ -31491,11 +31491,8 @@ focus_tree = {
 		x = 0
 		y = 10
 		prerequisite = { focus = RUS_fr_rapid_operational_corps focus = RUS_fr_deep_mobility_program }
-		# Gate only: kept out of the tree so the lines stay readable.
-		available = {
-			has_completed_focus = RUS_fr_combined_arms_support_standard
-			has_completed_focus = RUS_fr_land_warfare_mainstay
-		}
+		prerequisite = { focus = RUS_fr_combined_arms_support_standard }
+		prerequisite = { focus = RUS_fr_land_warfare_mainstay }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			custom_effect_tooltip = RUS_fr_armaments_summary_integration_tt
