@@ -2668,3 +2668,10 @@ mio:RUS_example_organization = {
 - 摆放前做了全树扫描：该位置的每一格都被逐一验证过，空军/海军与军改线及时政/社会主义主干（RUS_radsocs、RUS_rebuild_the_party、RUS_kamenev_* 等）**冲突 0 格**；海军树里挂在「国家航空部」上的 `RUS_torpedo_bomber_project` 跟着空军一起走，所以海军包围盒是 x24..35 / y11..20。
 - 括号平衡 11947/11947。未实机验证。
 
+### 2026-09-21 海军/空军树改挂到「设立国家军事委员会」正下方（真前置箭头）
+
+- 位置：空军根移到 (8,21)——和「设立国家军事委员会」(8,11) 同一列、在军改线主干的正下方；海军根 = 空军根 (-2 列, +7 行) = (6,28)，即挂在空军树下面。全树逐格模拟：与军改线及其它分支**冲突 0 格**（空军树 x5..13/y21..27，海军树 x4..13/y23..33）。
+- 连接方式：上一版用的是 `available` 条件门（不画线），所以游戏里看不出来挂在委员会下面；现在两条根各加一条 `prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council focus = RUS_address_the_army }`（组内为「或」），游戏会画出委员会 → 空军/海军的箭头。
+- 为什么带第二个前置：委员会所在军改线是 `allow_branch = { has_socialist_government = yes }`、而 KR 的 `RUS_address_the_army` 恰好相反（`has_socialist_government = no`），两者互补。社会主义俄国只能走委员会这一条（箭头就是用户要的那条），萨文科夫/共和/帝国等路线走「处理陆军」，两条分支不会被锁死。
+- 同步删掉上一版加的 `available` 条件门（已被 prerequisite 取代，避免悬浮提示重复列条件）。括号平衡 11943/11943。未实机验证。
+
