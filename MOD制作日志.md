@@ -2724,3 +2724,9 @@ mio:RUS_example_organization = {
 - 记录：外交线新位置与现有着重有 14 处重叠（含空军树的 `RUS_enter_hundred`／`RUS_bomber_clique`／`RUS_create_the_VDV`，以及 `RUS_operational_independence`、`RUS_slay_militarism`、`RUS_nationalise_industries`、`RUS_small_business_primacy` 等）。按作者节奏先不处理；再上移 6 格（额外 (0,−6)）即为 0 冲突落点。
 - 括号平衡：焦点树 11955/11955。未实机验证。
 
+### 2026-09-21 海军线下移右移 1，空军线右移 1
+
+- 海军：`RUS_inspect_VMFR` 偏移 `(17, 7)` → `(18, 8)` → 海军根 (26,19)（全球力量投射 (25,23)、第三次海军军备计划 (30,20)、装甲驱逐舰 (26,22)）。
+- 空军：`RUS_evaluate_VVFR` 偏移 `x = 22` → `x = 23` → 空军根 (31,12)（国家航空部 (31,13)、天空陆军 (29,15)、轰炸机集团 (33,15)）。
+- 括号平衡 11955/11955。未实机验证。
+
