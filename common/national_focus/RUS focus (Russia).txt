@@ -26129,7 +26129,7 @@ focus_tree = {
 		# Air force tree sits to the right of the military-reform line (anchored to a focus
 		# without offset blocks so the whole branch keeps the same place on every route).
 		x = 30
-		y = 8
+		y = 9
 		relative_position_id = RUS_rehabilitate_red_army
 		ai_will_do = {
 			base = 0
@@ -27309,9 +27309,10 @@ focus_tree = {
 		cost = 4
 
 		relative_position_id = RUS_evaluate_VVFR
-		# One row below the air force tree, overlapping it by one column, like the drawing.
-		x = 11
-		y = 1
+		# Same offset as the layout drawing: four columns left of the air force root and six
+		# rows below it, so the navy tree sits under the air force tree.
+		x = -4
+		y = 6
 
 		# Same gate as the air force branch: socialist Russia unlocks the navy only after
 		# the military-reform line, other Russian paths keep it from the start.
