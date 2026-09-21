@@ -26117,26 +26117,22 @@ focus_tree = {
 		}
 		cost = 4
 
-		x = 14
-		y = 0
-		relative_position_id = RUS_address_the_army
-
+		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
+		x = 0
+		y = 1
 		offset = {
-			x = -7
-			trigger = {
-				has_country_flag = RUS_lost_wk2
-			}
-		}
+		# Keep the original army-line position on non-socialist routes.
+		x = 13
+		y = -3
+		trigger = { has_socialist_government = no }
+	}
 		offset = {
-			# On the socialist route this lands at x=18, y=1 from the
-			# National Military Council while preserving the old anchor elsewhere.
-			x = 6
-			y = 4
-			trigger = { has_socialist_government = yes }
-		}
+		x = -7
+		trigger = { has_country_flag = RUS_lost_wk2 }
+	}
 
-		# Socialists unlock the air force only after the military-reform line reached the
-		# National Military Council; the other Russian paths keep the army-line entry.
+		# Socialists unlock the air force directly below the National Military Council;
+		# other Russian paths keep the army-line entry through the conditional offset.
 		prerequisite = {
 			OR = {
 				focus = RUS_fr_rebuild_revolutionary_military_council
@@ -27327,18 +27323,18 @@ focus_tree = {
 		}
 		cost = 4
 
-		relative_position_id = RUS_evaluate_VVFR
+		relative_position_id = RUS_fr_rebuild_revolutionary_military_council
 		x = -4
-		y = 6
+		y = 2
 		offset = {
 			# Non-socialist routes retain the original navy position relative to
 			# the army-line air-force entry.
-			x = 12
-			y = -6
+			x = 18
+			y = -4
 			trigger = { has_socialist_government = no }
 		}
 
-		# Socialists enter through the National Military Council via the air-force root;
+		# Socialists enter directly below the National Military Council alongside the air branch;
 		# other routes retain the original army-line prerequisite.
 		prerequisite = {
 			OR = {
