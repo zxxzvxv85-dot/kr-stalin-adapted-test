@@ -2741,3 +2741,8 @@ mio:RUS_example_organization = {
 - `RUS_evaluate_VVFR` 偏移 `x = 23` → `x = 22` → 空军根 (30,12)；国家航空部 (30,13)、天空陆军 (28,15)、轰炸机集团 (32,15)、空中舰艇 (35,14)。
 - 括号平衡 11954/11954。未实机验证。
 
+### 2026-09-21 恢复「国家航空部 → 空中舰艇」的连线
+
+- `RUS_torpedo_bomber_project`（空中舰艇）：把 `RUS_state_aviation_bureau`（国家航空部）还原成 `prerequisite`（连线照画），只把 `RUS_promote_new_blood`（提拔新鲜血液）留在 `available = { has_completed_focus = ... }` 里当门槛（不画线）。两个条件都照旧生效。
+- `RUS_promote_new_blood` 自身仍无 prerequisite（从海军根过来的那条线保持不画）。括号平衡 11955/11955。未实机验证。
+
