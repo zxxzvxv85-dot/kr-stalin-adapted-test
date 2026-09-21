@@ -149,9 +149,17 @@ def ok():
     global count;count+=1
 # Upfront debit, completion boundary, non-stacking, once-only, cooldown after cancellation.
 w=world();start('mine',w);assert w['RUS']['pp']==965 and consumer_burden(w)==.03
-assert not allowed('families',w);tick(w,44);assert 'RUS_ukr_mine_network' not in w['RUS']['flags']
+tick(w,44);assert 'RUS_ukr_mine_network' not in w['RUS']['flags']
 tick(w);assert w['RUS']['vars']['RUS_ukr_strength']==15 and not allowed('mine',w)
 assert consumer_burden(w)==0;ok()
+# Two operations of the same country may run side by side: each keeps its own
+# timer, modifier burden and result, and both settle independently.
+w=world();start('mine',w);assert allowed('families',w);start('families',w)
+assert w['RUS']['pp']==940 and consumer_burden(w)==.05
+tick(w,29);assert 'RUS_ukr_mine_network' not in w['RUS']['flags'] and w['RUS']['vars']['RUS_ukr_strength']==0
+tick(w);assert w['RUS']['vars']['RUS_ukr_strength']==15 and consumer_burden(w)==.03
+tick(w,15);assert w['RUS']['vars']['RUS_ukr_strength']==30 and consumer_burden(w)==0
+assert not allowed('mine',w) and not allowed('families',w);ok()
 for target,change in [('UKR',lambda c:c.update(exists=False)),('UKR',lambda c:c.update(cap=True)),('UKR',lambda c:c.update(socialist=True)),('UKR',lambda c:c.update(faction='RUS')),('RUS',lambda c:c.update(socialist=False)),('RUS',lambda c:c.update(subject=True))]:
     w=world();start('families',w);tick(w,29);change(w[target]);tick(w)
     assert w['RUS']['vars']['RUS_ukr_strength']==0 and w['RUS']['pp']==975

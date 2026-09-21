@@ -13,7 +13,6 @@ RUS_Spreading_the_Revolution_decisions = {
   priority = 100
   visible = { RUS_ukr_page_visible = yes }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -38,15 +37,16 @@ custom_effect_tooltip = RUS_ukr_alert_gain_5_tt
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_families RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_families = yes
+     set_variable = { RUS_ukr_cleanup_target = 1 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_families } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_families } set_variable = { RUS_ukr_cleanup_target = 1 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_families } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_families } set_variable = { RUS_ukr_cleanup_target = 1 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -55,7 +55,6 @@ custom_effect_tooltip = RUS_ukr_alert_gain_5_tt
   priority = 99
   visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_mine_done } }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -79,15 +78,16 @@ custom_effect_tooltip = RUS_ukr_mine_network_result_tt
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_mine RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_mine = yes
+     set_variable = { RUS_ukr_cleanup_target = 2 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_mine } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_mine } set_variable = { RUS_ukr_cleanup_target = 2 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_mine } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_mine } set_variable = { RUS_ukr_cleanup_target = 2 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -96,7 +96,6 @@ custom_effect_tooltip = RUS_ukr_mine_network_result_tt
   priority = 98
   visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_rural_done } }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -123,15 +122,16 @@ custom_effect_tooltip = RUS_ukr_rural_network_result_tt
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_rural RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_rural = yes
+     set_variable = { RUS_ukr_cleanup_target = 3 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_rural } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_rural } set_variable = { RUS_ukr_cleanup_target = 3 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_rural } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_rural } set_variable = { RUS_ukr_cleanup_target = 3 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -140,7 +140,6 @@ custom_effect_tooltip = RUS_ukr_rural_network_result_tt
   priority = 97
   visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_rail_done } }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -164,15 +163,16 @@ custom_effect_tooltip = RUS_ukr_rail_network_result_tt
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_rail RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_rail = yes
+     set_variable = { RUS_ukr_cleanup_target = 4 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_rail } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_rail } set_variable = { RUS_ukr_cleanup_target = 4 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_rail } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_rail } set_variable = { RUS_ukr_cleanup_target = 4 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -181,7 +181,6 @@ custom_effect_tooltip = RUS_ukr_rail_network_result_tt
   priority = 96
   visible = { RUS_ukr_page_visible = yes }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -205,15 +204,16 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_relocate_cooldown_tt NOT = { has_co
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_relocate RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_relocate = yes
+     set_variable = { RUS_ukr_cleanup_target = 5 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_relocate } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_relocate } set_variable = { RUS_ukr_cleanup_target = 5 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_relocate } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_relocate } set_variable = { RUS_ukr_cleanup_target = 5 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -222,7 +222,6 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_relocate_cooldown_tt NOT = { has_co
   priority = 95
   visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_declaration_done } }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -246,15 +245,16 @@ add_power_balance_value = { id = RUS_europe_intervention_power_balance value = 0
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_declaration RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_declaration = yes
+     set_variable = { RUS_ukr_cleanup_target = 6 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_declaration } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_declaration } set_variable = { RUS_ukr_cleanup_target = 6 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_declaration } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_declaration } set_variable = { RUS_ukr_cleanup_target = 6 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -263,7 +263,6 @@ add_power_balance_value = { id = RUS_europe_intervention_power_balance value = 0
   priority = 94
   visible = { RUS_ukr_page_visible = yes }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -293,15 +292,16 @@ if = { limit = { hidden_trigger = { RUS_ukr_can_reduce_strike_score = yes } } UK
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_strike RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_strike = yes
+     set_variable = { RUS_ukr_cleanup_target = 7 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_strike } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_strike } set_variable = { RUS_ukr_cleanup_target = 7 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_strike } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_strike } set_variable = { RUS_ukr_cleanup_target = 7 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -310,7 +310,6 @@ if = { limit = { hidden_trigger = { RUS_ukr_can_reduce_strike_score = yes } } UK
   priority = 93
   visible = { RUS_ukr_page_visible = yes }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -339,15 +338,16 @@ if = { limit = { hidden_trigger = { RUS_ukr_can_reduce_land_score = yes } } UKR 
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_land RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_land = yes
+     set_variable = { RUS_ukr_cleanup_target = 8 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_land } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_land } set_variable = { RUS_ukr_cleanup_target = 8 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_land } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_land } set_variable = { RUS_ukr_cleanup_target = 8 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -356,7 +356,6 @@ if = { limit = { hidden_trigger = { RUS_ukr_can_reduce_land_score = yes } } UKR 
   priority = 92
   visible = { RUS_ukr_page_visible = yes }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 NOT = { has_war_with = UKR }
@@ -383,15 +382,16 @@ UKR = { custom_effect_tooltip = RUS_ukr_transport_damage_tt }
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_slowdown RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } }
      RUS_ukr_finish_slowdown = yes
+     set_variable = { RUS_ukr_cleanup_target = 9 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_slowdown } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_slowdown } set_variable = { RUS_ukr_cleanup_target = 9 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_slowdown } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_slowdown } set_variable = { RUS_ukr_cleanup_target = 9 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }
@@ -400,7 +400,6 @@ UKR = { custom_effect_tooltip = RUS_ukr_transport_damage_tt }
   priority = 91
   visible = { RUS_ukr_page_visible = yes NOT = { has_country_flag = RUS_ukr_night_done } }
   available = { RUS_ukr_route_valid = yes
-custom_trigger_tooltip = { tooltip = RUS_ukr_no_active_action_tt NOT = { has_country_flag = RUS_ukr_busy } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_pending_raid_tt NOT = { has_country_flag = RUS_ukr_raid_pending } }
 custom_trigger_tooltip = { tooltip = RUS_ukr_no_lockdown_tt NOT = { has_country_flag = RUS_ukr_lockdown } }
 has_war_with = UKR
@@ -443,16 +442,17 @@ custom_effect_tooltip = RUS_ukr_lockdown_result_tt
    hidden_effect = {
     if = { limit = { has_country_flag = RUS_ukr_action_night RUS_ukr_route_valid = yes has_war_with = UKR }
      RUS_ukr_finish_night = yes
+     set_variable = { RUS_ukr_cleanup_target = 10 }
      RUS_ukr_cleanup_action = yes
      RUS_ukr_clamp = yes
      RUS_ukr_check_raid = yes
     }
-    else_if = { limit = { has_country_flag = RUS_ukr_action_night } RUS_ukr_cancel = yes }
+    else_if = { limit = { has_country_flag = RUS_ukr_action_night } set_variable = { RUS_ukr_cleanup_target = 10 } RUS_ukr_cancel = yes }
    }
   }
   cancel_effect = {
    custom_effect_tooltip = RUS_ukr_cancel_refund_tt
-   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_night } RUS_ukr_cancel = yes } }
+   hidden_effect = { if = { limit = { has_country_flag = RUS_ukr_action_night } set_variable = { RUS_ukr_cleanup_target = 10 } RUS_ukr_cancel = yes } }
   }
   ai_will_do = { factor = 0 }
  }

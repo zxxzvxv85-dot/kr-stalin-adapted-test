@@ -8,6 +8,7 @@ RUS_ukr_init = {
   set_variable = { RUS_ukr_idle_days = 0 }
   set_variable = { RUS_ukr_days = 0 }
   set_variable = { RUS_ukr_strikes = 0 }
+  set_variable = { RUS_ukr_cleanup_target = 0 }
  }
 }
 RUS_ukr_clamp = {
@@ -15,46 +16,106 @@ RUS_ukr_clamp = {
  clamp_variable = { var = RUS_ukr_alert min = 0 max = 100 }
 }
 RUS_ukr_cleanup_action = {
- clr_country_flag = RUS_ukr_busy
- clr_country_flag = RUS_ukr_native_action
- set_variable = { RUS_ukr_days = 0 }
- set_variable = { RUS_ukr_idle_days = 0 }
- remove_ideas = RUS_ukr_burden_2
- remove_ideas = RUS_ukr_burden_3
- if = { limit = { has_country_flag = RUS_ukr_action_families }
+ # RUS_ukr_cleanup_target：0 = 清掉全部行动（路线失效等），1..10 = 只结束对应行动。
+ # 同一国家可以并行多个行动，因此每次只清理自己那一项，最后一项结束后再收尾共享状态。
+ if = { limit = { check_variable = { RUS_ukr_cleanup_target = 0 } }
+  clr_country_flag = RUS_ukr_busy
+  clr_country_flag = RUS_ukr_native_action
+  set_variable = { RUS_ukr_days = 0 }
+  set_variable = { RUS_ukr_idle_days = 0 }
+  remove_ideas = RUS_ukr_burden_2
+  remove_ideas = RUS_ukr_burden_3
+  if = { limit = { has_country_flag = RUS_ukr_action_families }
+   set_country_flag = { flag = RUS_ukr_families_cooldown days = 180 }
+   clr_country_flag = RUS_ukr_action_families
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_mine }
+   clr_country_flag = RUS_ukr_action_mine
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_rural }
+   clr_country_flag = RUS_ukr_action_rural
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_rail }
+   clr_country_flag = RUS_ukr_action_rail
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_relocate }
+   set_country_flag = { flag = RUS_ukr_relocate_cooldown days = 60 }
+   clr_country_flag = RUS_ukr_action_relocate
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_declaration }
+   clr_country_flag = RUS_ukr_action_declaration
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_strike }
+   set_country_flag = { flag = RUS_ukr_strike_cooldown days = 120 }
+   clr_country_flag = RUS_ukr_action_strike
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_land }
+   set_country_flag = { flag = RUS_ukr_land_cooldown days = 120 }
+   clr_country_flag = RUS_ukr_action_land
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_slowdown }
+   set_country_flag = { flag = RUS_ukr_slowdown_cooldown days = 120 }
+   clr_country_flag = RUS_ukr_action_slowdown
+  }
+  if = { limit = { has_country_flag = RUS_ukr_action_night }
+   clr_country_flag = RUS_ukr_action_night
+  }
+ }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 1 } }
   set_country_flag = { flag = RUS_ukr_families_cooldown days = 180 }
   clr_country_flag = RUS_ukr_action_families
  }
- if = { limit = { has_country_flag = RUS_ukr_action_mine }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 2 } }
   clr_country_flag = RUS_ukr_action_mine
  }
- if = { limit = { has_country_flag = RUS_ukr_action_rural }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 3 } }
   clr_country_flag = RUS_ukr_action_rural
  }
- if = { limit = { has_country_flag = RUS_ukr_action_rail }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 4 } }
   clr_country_flag = RUS_ukr_action_rail
  }
- if = { limit = { has_country_flag = RUS_ukr_action_relocate }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 5 } }
   set_country_flag = { flag = RUS_ukr_relocate_cooldown days = 60 }
   clr_country_flag = RUS_ukr_action_relocate
  }
- if = { limit = { has_country_flag = RUS_ukr_action_declaration }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 6 } }
   clr_country_flag = RUS_ukr_action_declaration
  }
- if = { limit = { has_country_flag = RUS_ukr_action_strike }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 7 } }
   set_country_flag = { flag = RUS_ukr_strike_cooldown days = 120 }
   clr_country_flag = RUS_ukr_action_strike
  }
- if = { limit = { has_country_flag = RUS_ukr_action_land }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 8 } }
   set_country_flag = { flag = RUS_ukr_land_cooldown days = 120 }
   clr_country_flag = RUS_ukr_action_land
  }
- if = { limit = { has_country_flag = RUS_ukr_action_slowdown }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 9 } }
   set_country_flag = { flag = RUS_ukr_slowdown_cooldown days = 120 }
   clr_country_flag = RUS_ukr_action_slowdown
  }
- if = { limit = { has_country_flag = RUS_ukr_action_night }
+ else_if = { limit = { check_variable = { RUS_ukr_cleanup_target = 10 } }
   clr_country_flag = RUS_ukr_action_night
+ }
+ # 直到最后一项行动结束，才清掉共用状态与警戒负担。
+ if = {
+  limit = {
+   NOT = { has_country_flag = RUS_ukr_action_families }
+   NOT = { has_country_flag = RUS_ukr_action_mine }
+   NOT = { has_country_flag = RUS_ukr_action_rural }
+   NOT = { has_country_flag = RUS_ukr_action_rail }
+   NOT = { has_country_flag = RUS_ukr_action_relocate }
+   NOT = { has_country_flag = RUS_ukr_action_declaration }
+   NOT = { has_country_flag = RUS_ukr_action_strike }
+   NOT = { has_country_flag = RUS_ukr_action_land }
+   NOT = { has_country_flag = RUS_ukr_action_slowdown }
+   NOT = { has_country_flag = RUS_ukr_action_night }
+  }
+  clr_country_flag = RUS_ukr_busy
+  clr_country_flag = RUS_ukr_native_action
+  set_variable = { RUS_ukr_days = 0 }
+  set_variable = { RUS_ukr_idle_days = 0 }
+  remove_ideas = RUS_ukr_burden_2
+  remove_ideas = RUS_ukr_burden_3
  }
 }
 RUS_ukr_cancel = {
@@ -298,6 +359,7 @@ RUS_ukr_tick = {
    AND = { has_country_flag = RUS_ukr_action_night NOT = { has_war_with = UKR } }
    AND = { NOT = { has_country_flag = RUS_ukr_action_night } has_war_with = UKR }
   } }
+   set_variable = { RUS_ukr_cleanup_target = 0 }
    RUS_ukr_cancel = yes
   }
   else = {
@@ -314,6 +376,7 @@ RUS_ukr_tick = {
     if = { limit = { has_country_flag = RUS_ukr_action_land } RUS_ukr_finish_land = yes }
     if = { limit = { has_country_flag = RUS_ukr_action_slowdown } RUS_ukr_finish_slowdown = yes }
     if = { limit = { has_country_flag = RUS_ukr_action_night } RUS_ukr_finish_night = yes }
+    set_variable = { RUS_ukr_cleanup_target = 0 }
     RUS_ukr_cleanup_action = yes
     RUS_ukr_clamp = yes
     RUS_ukr_check_raid = yes
