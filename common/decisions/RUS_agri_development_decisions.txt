@@ -16,7 +16,12 @@ RUS_agricultural_quarterly_management_category = {
 		custom_cost_text = RUS_agri_cost_8
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_rations_effect_tt
+			effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_rations days = 180 }
+				set_temp_variable = { modifier_change_tt = -0.02 tooltip = consumer_goods_expected_value_tooltip }
+				set_temp_variable = { modifier_change_tt = 0.03 tooltip = stability_factor_tooltip }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -55,7 +60,12 @@ RUS_agricultural_quarterly_management_category = {
 		custom_cost_text = RUS_agri_cost_10
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_mechanisation_effect_tt
+			effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_mechanisation days = 180 }
+				set_temp_variable = { modifier_change_tt = 0.15 tooltip = production_speed_infrastructure_factor_tooltip }
+				set_temp_variable = { modifier_change_tt = 0.05 tooltip = production_speed_industrial_complex_factor_tooltip }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -94,7 +104,12 @@ RUS_agricultural_quarterly_management_category = {
 		custom_cost_text = RUS_agri_cost_8
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_reserves_effect_tt
+			effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_reserves days = 180 }
+				set_temp_variable = { modifier_change_tt = -0.05 tooltip = supply_consumption_factor_tooltip }
+				set_temp_variable = { modifier_change_tt = 0.05 tooltip = army_org_regain_tooltip }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -133,7 +148,11 @@ RUS_agricultural_quarterly_management_category = {
 		custom_cost_text = RUS_agri_cost_10
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_materials_effect_tt
+			effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_materials days = 180 }
+				set_temp_variable = { modifier_change_tt = 0.05 tooltip = industrial_capacity_factory_tooltip }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -171,7 +190,8 @@ RUS_agricultural_quarterly_management_category = {
 		custom_cost_text = RUS_agri_cost_6
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 6 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_export_effect_tt
+			effect_tooltip = { add_cic = 15000 }
+			custom_effect_tooltip = RUS_agri_export_note_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -209,7 +229,10 @@ RUS_agricultural_quarterly_management_category = {
 		custom_cost_text = RUS_agri_cost_4
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 4 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_machinery_effect_tt
+			effect_tooltip = {
+				set_temp_variable = { modifier_change_tt = 0.10 tooltip = RUS_agri_tt_next_crop_base_multiplier }
+			}
+			custom_effect_tooltip = RUS_agri_next_crop_bonus_note_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -246,7 +269,10 @@ RUS_agricultural_quarterly_management_category = {
 		custom_cost_text = RUS_agri_cost_4
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 4 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_storage_effect_tt
+			effect_tooltip = {
+				set_temp_variable = { modifier_change_tt = 0.15 tooltip = RUS_agri_tt_next_loss_crop_multiplier }
+			}
+			custom_effect_tooltip = RUS_agri_next_storage_bonus_note_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -296,8 +322,14 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_text = RUS_agri_cost_8
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_aid_food_effect_tt
-			effect_tooltip = { add_threat = 1.0 }
+			custom_effect_tooltip = RUS_agri_aid_recipient_note_tt
+			effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_aid_food days = 180 }
+				add_manpower = 10000
+				set_temp_variable = { modifier_change_tt = -0.02 tooltip = consumer_goods_expected_value_tooltip }
+				set_temp_variable = { modifier_change_tt = 0.03 tooltip = stability_factor_tooltip }
+				add_threat = 1.0
+			}
 			hidden_effect = {
 				if = {
 					limit = {
@@ -351,8 +383,13 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_text = RUS_agri_cost_10
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_aid_technicians_effect_tt
-			effect_tooltip = { add_threat = 1.0 }
+			custom_effect_tooltip = RUS_agri_aid_recipient_note_tt
+			effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_aid_technicians days = 180 }
+				set_temp_variable = { modifier_change_tt = 0.15 tooltip = production_speed_infrastructure_factor_tooltip }
+				set_temp_variable = { modifier_change_tt = 0.05 tooltip = production_speed_industrial_complex_factor_tooltip }
+				add_threat = 1.0
+			}
 			hidden_effect = {
 				if = {
 					limit = {
@@ -404,8 +441,13 @@ RUS_Spreading_the_Revolution_decisions = {
 		custom_cost_text = RUS_agri_cost_8
 		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
 		complete_effect = {
-			custom_effect_tooltip = RUS_agri_exchange_aid_front_effect_tt
-			effect_tooltip = { add_threat = 1.0 }
+			custom_effect_tooltip = RUS_agri_aid_recipient_note_tt
+			effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_aid_front days = 180 }
+				set_temp_variable = { modifier_change_tt = -0.05 tooltip = supply_consumption_factor_tooltip }
+				set_temp_variable = { modifier_change_tt = 0.05 tooltip = army_org_regain_tooltip }
+				add_threat = 1.0
+			}
 			hidden_effect = {
 				if = {
 					limit = {
