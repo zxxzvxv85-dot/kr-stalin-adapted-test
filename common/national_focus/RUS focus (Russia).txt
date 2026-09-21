@@ -26121,8 +26121,16 @@ focus_tree = {
 		# National Military Council; the other Russian paths go through the army branch
 		# instead (the reform focus is socialist-only, the army branch is the opposite).
 		prerequisite = {
-			focus = RUS_fr_rebuild_revolutionary_military_council
-			focus = RUS_address_the_army
+			OR = {
+				focus = RUS_fr_rebuild_revolutionary_military_council
+				focus = RUS_address_the_army
+			}
+		}
+		available = {
+			OR = {
+				AND = { has_socialist_government = yes has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }
+				AND = { has_socialist_government = no has_completed_focus = RUS_address_the_army }
+			}
 		}
 
 		# Air force tree sits to the right of the reform trunk, five columns past its right edge
@@ -27317,8 +27325,16 @@ focus_tree = {
 		# Same entry as the air force branch: the National Military Council for socialists,
 		# the army branch for every other Russian path.
 		prerequisite = {
-			focus = RUS_fr_rebuild_revolutionary_military_council
-			focus = RUS_address_the_army
+			OR = {
+				focus = RUS_fr_rebuild_revolutionary_military_council
+				focus = RUS_address_the_army
+			}
+		}
+		available = {
+			OR = {
+				AND = { has_socialist_government = yes has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }
+				AND = { has_socialist_government = no has_completed_focus = RUS_address_the_army }
+			}
 		}
 
 		ai_will_do = {
