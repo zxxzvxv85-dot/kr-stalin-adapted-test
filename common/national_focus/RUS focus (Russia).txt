@@ -27396,9 +27396,8 @@ focus_tree = {
 		x = 0
 		y = 1
 
-		prerequisite = {
-			focus = RUS_inspect_VMFR
-		}
+		# Entry gate only: the line from the navy root is omitted on purpose.
+		available = { has_completed_focus = RUS_inspect_VMFR }
 		ai_will_do = {
 			factor = 3
 			modifier = {
@@ -27459,11 +27458,11 @@ focus_tree = {
 		x = 5
 		y = 1
 
-		prerequisite = {
-			focus = RUS_state_aviation_bureau
-		}
-		prerequisite = {
-			focus = RUS_promote_new_blood
+		# Both requirements are kept as an availability gate so no line is drawn between
+		# the air force and the navy branch.
+		available = {
+			has_completed_focus = RUS_state_aviation_bureau
+			has_completed_focus = RUS_promote_new_blood
 		}
 		ai_will_do = {
 			factor = 3

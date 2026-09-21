@@ -2730,3 +2730,9 @@ mio:RUS_example_organization = {
 - 空军：`RUS_evaluate_VVFR` 偏移 `x = 22` → `x = 23` → 空军根 (31,12)（国家航空部 (31,13)、天空陆军 (29,15)、轰炸机集团 (33,15)）。
 - 括号平衡 11955/11955。未实机验证。
 
+### 2026-09-21 去掉「空中舰艇」「提拔新鲜血液」的连线，前置条件改为可用性门槛
+
+- `RUS_promote_new_blood`（提拔新鲜血液）：`prerequisite = { focus = RUS_inspect_VMFR }` → `available = { has_completed_focus = RUS_inspect_VMFR }`。
+- `RUS_torpedo_bomber_project`（空中舰艇）：两条 prerequisite（`RUS_state_aviation_bureau` 与 `RUS_promote_new_blood`）→ 合并为 `available` 里的两个 `has_completed_focus`，条件仍是「都满足」。
+- 效果：国策树不再画这两处（含空军⇄海军之间的跨树连线），但完成条件与原来完全一致（悬浮提示会以可用性要求列出）。括号平衡 11954/11954。未实机验证。
+
