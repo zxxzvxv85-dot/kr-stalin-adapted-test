@@ -2634,3 +2634,10 @@ mio:RUS_example_organization = {
 - 顺带修掉一个真实缺陷：`common/country_leader/head_of_state.txt` 本是本模组复制 KR 的旧整文件，会遮蔽 KR 后来新增的 13 个特质（AFG/BHU/PTH），error.log 里的 `Invalid trait for remove/add: AFG_father_of_afghan_azadism_*`／`swap_country_leader_traits` 正来自这里。现按 `interface/ideas.gfx` 的同一思路改成增量文件 `common/country_leader/RUS_stalin_head_of_state_trait_overrides.txt`（只保留本模组真正改过的 3 个特质：`MON_the_mad_baron`、`RUS_revolutionary_genius`、`RUS_father_of_russia`），删除整文件覆盖，让 KR 完整文件正常加载；核对结果：旧副本 391 个特质全部仍可用，并恢复 KR 的 13 个。
 - 验证：两个新文件 RHoiScribe 校验绿色、括号平衡；未实机验证（请测试“给将领分配特质／打开将领特质界面”是否仍闪退；若仍崩，下一步可临时禁止该特质授予以进一步定位）。
 
+### 2026-09-21 导出军事/海军/空军焦点线到 draw.io
+
+- 新增 `tools/export_focus_tree_to_drawio.py`：从 `common/national_focus/RUS focus (Russia).txt` 读取焦点，解析 `x`/`y`/`relative_position_id` 得到绝对坐标，按前置关系取整棵分支，再用中文名生成 draw.io。规范与 foreign-policy 骨架图一致：120×60 卡片、120 px 网格、自下而上的正交箭头、`rounded=0` 标出分支根；脚本可重复运行。
+- 生成 `tools/design/RUS_military_navy_air_focus_lines.drawio`，共 4 页：①军事改革线（本模组 RUS_fr 60 个）②陆军线（RUS_address_the_army 及后继 46 个）③海军线（RUS_inspect_VMFR 22 个，含 1 个前置）④空军线（RUS_evaluate_VVFR 20 个，含 1 个前置）。
+- 处理细节：分支外的直接前置画成灰色虚线框（标注“（前置）”）；KR 原树里挂在别的区域、会跑到父节点上方的 2 个焦点改为挂到父节点下一行；重合格自动挪位；动态名称（如 `[RUS_fort_line]`）解析为 scripted loc 的默认变体（建造西部大防线／战略维度／高尔察克之梦）。
+- 该文件在 `tools/` 下，不进入上传包。未做游戏内校验（纯文档）。
+
