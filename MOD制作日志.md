@@ -2682,3 +2682,9 @@ mio:RUS_example_organization = {
 - 保留 `prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council focus = RUS_address_the_army }`，所以游戏里仍然画得出「设立国家军事委员会 → 空军/海军」的箭头。
 - 说明为什么行不能完全照抄画稿：画稿里空军根在主干顶下方 3 行，但 KR 中央社会主义主干占住了 x26..35 的 y19..26，行关系照抄会把海军树压进那些格子（实测 (30,12)+(26,18) 会撞格）；因此保持“空军在主干右缘外 5 列、海军相对空军 (−4,+6)”这两条能同时成立的关系。括号平衡 11943/11943。未实机验证。
 
+### 2026-09-21 修复国策树只显示 4 个国策（prerequisite 误写成 OR 触发器）
+
+- 病根：海空军入口写成 `prerequisite = { OR = { focus = A focus = B } }`，而 `OR` 是触发器语法、不能放进 prerequisite 块；引擎从该行起解析失败（error.log：`Unexpected token: ai_will_do, near line: 26149` 加随后约 150 条 `Unexpected token: focus`），那一行之后的全部国策被丢弃，只剩它前面的 4 个（革命后的武装力量／铁木辛辛的整军报告／设立国家军事委员会／评估俄罗斯空军）。
+- 修法：同一个 prerequisite 块里并列两个 `focus =`（前置取「或」的正确写法；本体＋KR 里共 3770 处）。排版／坐标**保持作者手改稿不变**。
+- 括号平衡 11955/11955；713 个 prerequisite 块内只剩 `focus =` 行。未实机验证。
+
