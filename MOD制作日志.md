@@ -2641,3 +2641,10 @@ mio:RUS_example_organization = {
 - 处理细节：分支外的直接前置画成灰色虚线框（标注“（前置）”）；KR 原树里挂在别的区域、会跑到父节点上方的 2 个焦点改为挂到父节点下一行；重合格自动挪位；动态名称（如 `[RUS_fort_line]`）解析为 scripted loc 的默认变体（建造西部大防线／战略维度／高尔察克之梦）。
 - 该文件在 `tools/` 下，不进入上传包。未做游戏内校验（纯文档）。
 
+### 2026-09-21 按手改稿重画三军线（海军/空军接到军改线）
+
+- 作者手改稿（`$RPYXT4K (1).drawio`）里：军改树整体下移 680 px，另有 23 个节点做了 ±120 的手调（军事肃反、军事民主制试行、统一指挥与军制、革命英雄主义/功勋竞赛、近卫模范部队、军备建设阶段总结等）；删掉了海军/空军原来那两个灰色虚线前置；新画了两条箭头把海军线与空军线接到 `RUS_fr_rebuild_revolutionary_military_council`（设立国家军事委员会）。
+- 新增 `tools/rebuild_drawio_from_reference.py`：读取手改稿的某一页，把每张卡片按标签映射回焦点 token（卡片 id 恢复成焦点名），吸附回 120 px 网格、自动挪开重叠、重写为统一样式，输出可直接再导入的干净文件。
+- 生成 `tools/design/RUS_three_services_focus_lines.drawio`（单页「三军线（军改 + 海军 + 空军）」）：100 张卡片、148 条箭头，军改线 60 + 海军 21 + 空军 19，0 重叠；只有军改线根节点用 `rounded=0` 样式（海军/空军根现在有父节点）。原 4 页文件 `RUS_military_navy_air_focus_lines.drawio` 保持不变。
+- 未改游戏数据：若要让海军/空军线在游戏里真的以“设立国家军事委员会”为前置，还需要改 `common/national_focus/RUS focus (Russia).txt` 里两条分支的 prerequisite（另议）。
+
