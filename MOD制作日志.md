@@ -2716,3 +2716,11 @@ mio:RUS_example_organization = {
 - 该位置落进 KR 中央社会主义主干区域：逐格算有 10 处重叠（`RUS_universal_labour_service`、`RUS_integral_socialism`、`RUS_denounce_bourgeois_tendencies`、`RUS_triumph_of_the_idea`、`RUS_dictatorship_of_the_peasantry`、`RUS_great_labour_republic` 等）。按作者要求先不动，仅记录。
 - 另记：同一列再往下 7 格（`y = 15`，即根 (29,26)）即为 0 冲突的落点，随时可切。括号平衡 11955/11955。未实机验证。
 
+### 2026-09-21 微调海军／空军入口，新外交线整体上移 8 右移 12
+
+- 海军：`RUS_inspect_VMFR` 基准偏移 `(21, 8)` → `(17, 7)`（左 4、上 1）→ 海军根 (25,18)。
+- 空军：`RUS_evaluate_VVFR` 基准偏移 `x = 23` → `x = 22`（左 1）→ 空军根 (30,12)。
+- 新外交线（`00_RUS_future_foreign_policy_skeleton.txt`，58 个焦点全部绝对坐标）：每个焦点 `x +12`、`y −8` → 坐标区间 x 31..47、y 9..23。
+- 记录：外交线新位置与现有着重有 14 处重叠（含空军树的 `RUS_enter_hundred`／`RUS_bomber_clique`／`RUS_create_the_VDV`，以及 `RUS_operational_independence`、`RUS_slay_militarism`、`RUS_nationalise_industries`、`RUS_small_business_primacy` 等）。按作者节奏先不处理；再上移 6 格（额外 (0,−6)）即为 0 冲突落点。
+- 括号平衡：焦点树 11955/11955。未实机验证。
+
