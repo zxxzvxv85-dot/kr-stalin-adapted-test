@@ -2753,3 +2753,10 @@ mio:RUS_example_organization = {
 - `RUS_fr_armaments_construction_stage_summary`（军备建设阶段总结）：`y = 7` → `6` → 绝对 (17,18)。
 - `RUS_fr_land_warfare_mainstay` 的第二个前置（装甲火力协同标准）改成 `available = { has_completed_focus = ... }` 门槛：国策树里不再画这条线，完成条件依旧要求两门都完成（与 `RUS_fr_universal_hull_standards` 之间的 prerequisite 连线保留）。
 - 括号平衡 11955/11955。未实机验证。
+
+### 2026-09-21 海军国策树上移 1
+
+- `RUS_inspect_VMFR`（海军树根）偏移 `y = 8` → `7` → 绝对 (26,18)；非社会主义路线的 `offset` 分支（`x = 18, y = -4`）保持 KR 原位置不变，与之前几次海军微调一致。
+- 整棵海军树 20 门国策随之整体上移一行：`RUS_promote_new_blood` (26,19)、`RUS_garden_of_explosives` (24,19)、`RUS_naval_infantry` (28,19)、`RUS_third_naval_armament_program` (30,19)、`RUS_warm_water_port` (29,22) 等，y 区间由 19–24 变为 18–23。属于空军线的 `RUS_torpedo_bomber_project`（挂在国家航空部下）未动。
+- 上移后原本压住海军树的「鼓舞革命精神」(29,21)、「农民集体化」(31,21) 两处重叠消失，但海军线新压到 KR 社会主义树的「赋权苏维埃」(26,23)、「人人要劳动」(27,22)、「整体社会主义」(28,23)、「批判走资倾向」(29,22) 四格；重叠格子总数 103 → 105。按之前约定，打架留待后续统一处理。
+- 括号平衡 11955/11955。未实机验证。
