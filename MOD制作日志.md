@@ -2655,3 +2655,10 @@ mio:RUS_example_organization = {
 - AI：两条分支 `ai_will_do` 里那个 `factor = 0` 的白名单补上 `RUS_stalin_ai`、`RUS_kamenev_ai`——原先只认 savinkov/republic/empire/socialist，斯大林路线的 AI 会因 factor 0 永远不点这两条分支。
 - 校验：两处 `available` 各 1 个、块内括号平衡，全文件 11951/11951；RHoiScribe 校验只剩既有的自定义效果误报。未实机验证。
 
+### 2026-09-21 把海军/空军焦点树挪到军改线右侧（游戏内排布）
+
+- `RUS_evaluate_VVFR`（空军树根）：`relative_position_id` 从 `RUS_address_the_army` 改为 `RUS_rehabilitate_red_army`（全树里少数没有 `offset` 块的焦点，位置在任何路线下都固定），`x = 30`、`y = 8`，并删掉原来两个条件偏移（`RUS_lost_wk2` 的 -7 与社会主义的 +14）——那两条偏移会把整棵树再推走一截。
+- `RUS_inspect_VMFR`（海军树根）：仍挂在空军根上，`x = 11`、`y = 1`，即比空军低一行、右侧再挪出 6 列。
+- 结果（绝对格）：军改线 x -3..25 / y 9..20，空军树 x 27..35 / y 8..14，海军树 x 35..47 / y 9..14，全部落在军改线右侧原本空着的横带（x≥26、y 8..15）里；用解析器全树模拟后，空军/海军与任何其它焦点**冲突 0 格**（改动前空军与 `RUS_fr_alloy_armour_standard` 在 (21,14) 撞格）。`RUS_torpedo_bomber_project` 仍挂在空军的「国家航空部」上，跟着空军一起走。
+- 括号平衡 11947/11947；`RUS_rehabilitate_red_army` 存在。未实机验证。
+

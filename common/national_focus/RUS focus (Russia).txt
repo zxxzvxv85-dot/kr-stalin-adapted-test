@@ -26126,20 +26126,11 @@ focus_tree = {
 			}
 		}
 
-		x = 14
-		y = 0
-		relative_position_id = RUS_address_the_army
-
-		offset = {
-			x = -7
-			trigger = {
-				has_country_flag = RUS_lost_wk2
-			}
-		}
-		offset = {
-			x = 14
-			trigger = { has_socialist_government = yes }
-		}
+		# Air force tree sits to the right of the military-reform line (anchored to a focus
+		# without offset blocks so the whole branch keeps the same place on every route).
+		x = 30
+		y = 8
+		relative_position_id = RUS_rehabilitate_red_army
 		ai_will_do = {
 			base = 0
 			modifier = {
@@ -27318,8 +27309,9 @@ focus_tree = {
 		cost = 4
 
 		relative_position_id = RUS_evaluate_VVFR
-		x = 8
-		y = 0
+		# One row below the air force tree, overlapping it by one column, like the drawing.
+		x = 11
+		y = 1
 
 		# Same gate as the air force branch: socialist Russia unlocks the navy only after
 		# the military-reform line, other Russian paths keep it from the start.
