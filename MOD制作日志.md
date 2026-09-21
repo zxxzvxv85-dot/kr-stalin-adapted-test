@@ -2582,3 +2582,9 @@ mio:RUS_example_organization = {
 - 上一版把限时国家精神的修正数值又单独列了一遍，而 `add_timed_idea` 的原生提示本身就会列出该精神的效果，于是同一组数值出现两次。现删除 7 项决议（4 项国内限时项目 + 3 项援助）里多余的 `set_temp_variable … tooltip = …` 行，只保留原生 `add_timed_idea` 行与一行自定义记账说明；「持续 180 天」也随精神提示一并从说明行去掉，不再重复。
 - 只保留「追加农机调度」「改善仓储运输」两条自定义数值行（这两项不是国家精神，引擎没有原生行可渲染）。
 - 三语键集仍为 66/66/66，BOM 保留、无重复键；RHoiScribe 检查通过。未实机验证。
+
+### 2026-09-20 农业经营指南改为免费
+
+- `RUS_nat_guide_decision`（国家农业经营指南）原写作 `cost = 10`，决议列表里因此显示 10 政治点；但生成器 `tools/generate_national_agriculture.cjs` 输出的是 `cost = 0`，回归工具 `tools/test_national_agriculture_feedback.cjs` 也断言该项必须为 0，属于生成结果被手改后偏离。现改回 `cost = 0`。
+- 验证：该回归工具的「guide is free, repeatable, player-only and does not reset the system」用例通过；同一文件后面的账本用例仍失败，原因是工作区里 `common/scripted_effects/RUS_national_agriculture_effects.txt` 存在未提交改动、与测试期望不一致，与本次改动无关。
+- 该决议的本地化只描述流程，没有费用文案需要同步修改。
