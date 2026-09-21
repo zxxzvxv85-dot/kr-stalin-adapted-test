@@ -2736,3 +2736,8 @@ mio:RUS_example_organization = {
 - `RUS_torpedo_bomber_project`（空中舰艇）：两条 prerequisite（`RUS_state_aviation_bureau` 与 `RUS_promote_new_blood`）→ 合并为 `available` 里的两个 `has_completed_focus`，条件仍是「都满足」。
 - 效果：国策树不再画这两处（含空军⇄海军之间的跨树连线），但完成条件与原来完全一致（悬浮提示会以可用性要求列出）。括号平衡 11954/11954。未实机验证。
 
+### 2026-09-21 空军线左移 1
+
+- `RUS_evaluate_VVFR` 偏移 `x = 23` → `x = 22` → 空军根 (30,12)；国家航空部 (30,13)、天空陆军 (28,15)、轰炸机集团 (32,15)、空中舰艇 (35,14)。
+- 括号平衡 11954/11954。未实机验证。
+
