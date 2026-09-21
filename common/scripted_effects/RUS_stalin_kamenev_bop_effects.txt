@@ -206,13 +206,18 @@ else = {  }
 
 RUS_stalin_psr_balance_collapse = {
 	# The collapse is caused only by Socialist Revolutionary dominance (negative balance values).
+	# `return` is not a valid effect, so the guards are inlined into a single if.
 	if = {
-		limit = { NOT = { check_variable = { RUS_kamenev_party_balance < -74 } } }
-		return = yes
+		limit = {
+			check_variable = { RUS_kamenev_party_balance < -74 }
+			NOT = {
+				has_country_flag = RUS_stalin_psr_balance_collapse_done
+				has_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier }
+			}
+		}
+		set_country_flag = RUS_stalin_psr_balance_collapse_done
+		add_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier }
 	}
-	if = { limit = { has_country_flag = RUS_stalin_psr_balance_collapse_done has_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier } } return = yes }
-	set_country_flag = RUS_stalin_psr_balance_collapse_done
-	add_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier }
 }
 
 RUS_stalin_migrate_psr_collapse_direction = {

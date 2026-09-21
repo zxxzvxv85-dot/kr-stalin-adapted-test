@@ -122,11 +122,15 @@ shared_focus = {
 				limit = { has_global_flag = FRA_created_phalanstere }
 				FRA_add_to_phalanstere = yes
 			}
-			custom_effect_tooltip = tooltip_white_line
-			INT = {
-				diplomatic_relation = {
-					country = ROOT
-					relation = non_aggression_pact
+			if = {
+				# The Internationale can itself own this tree; a country cannot hold a relation with itself.
+				limit = { NOT = { tag = INT } }
+				custom_effect_tooltip = tooltip_white_line
+				INT = {
+					diplomatic_relation = {
+						country = ROOT
+						relation = non_aggression_pact
+					}
 				}
 			}
 			custom_effect_tooltip = tooltip_white_line
@@ -880,27 +884,27 @@ shared_focus = {
 			RUS_future_foreign_refresh_third_international_gendarme = yes
 			# Pacts and Political Power follow the same Balkan socialist list as the gendarme bonus.
 			if = {
-				limit = { SER = { exists = yes has_socialist_government = yes } }
+				limit = { SER = { exists = yes has_socialist_government = yes } NOT = { tag = SER } }
 				SER = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
 			}
 			if = {
-				limit = { ROM = { exists = yes has_socialist_government = yes } }
+				limit = { ROM = { exists = yes has_socialist_government = yes } NOT = { tag = ROM } }
 				ROM = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
 			}
 			if = {
-				limit = { GRE = { exists = yes has_socialist_government = yes } }
+				limit = { GRE = { exists = yes has_socialist_government = yes } NOT = { tag = GRE } }
 				GRE = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
 			}
 			if = {
-				limit = { ALB = { exists = yes has_socialist_government = yes } }
+				limit = { ALB = { exists = yes has_socialist_government = yes } NOT = { tag = ALB } }
 				ALB = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
 			}
 			if = {
-				limit = { BUL = { exists = yes has_socialist_government = yes } }
+				limit = { BUL = { exists = yes has_socialist_government = yes } NOT = { tag = BUL } }
 				BUL = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
 			}

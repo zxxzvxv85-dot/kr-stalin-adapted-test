@@ -138,3 +138,35 @@ RUS_tesla_doctrine_daily_tick = {
   }
  }
 }
+# MIO definition files are parsed before the policy database is populated, so any
+# `has_mio_policy_active` / `unlock_mio_policy_tooltip` written there reports
+# "policy <token> does not exist". These country-scope wrappers keep the exact same
+# behaviour while referencing the policies from a scripted-effects file (the same
+# workaround KR uses for the Gamayun and Obukhov policies).
+RUS_tesla_doctrine_armor_production_notice = {
+ if = {
+  limit = { mio:RUS_tstz_organisation = { has_mio_policy_active = RUS_tesla_doctrine_armor_policy } }
+  custom_effect_tooltip = RUS_tesla_doctrine_armor_production_tt
+ }
+}
+RUS_tesla_doctrine_combat_support_production_notice = {
+ if = {
+  limit = { mio:RUS_obukhov_organisation = { has_mio_policy_active = RUS_tesla_doctrine_combat_support_policy } }
+  custom_effect_tooltip = RUS_tesla_doctrine_combat_support_production_tt
+ }
+}
+RUS_tesla_doctrine_operations_production_notice = {
+ if = {
+  limit = { mio:RUS_amo_organisation = { has_mio_policy_active = RUS_tesla_doctrine_operations_policy } }
+  custom_effect_tooltip = RUS_tesla_doctrine_operations_production_tt
+ }
+}
+RUS_unlock_tesla_doctrine_armor_policy = {
+ unlock_mio_policy_tooltip = { policy = RUS_tesla_doctrine_armor_policy show_modifiers = no }
+}
+RUS_unlock_tesla_doctrine_combat_support_policy = {
+ unlock_mio_policy_tooltip = { policy = RUS_tesla_doctrine_combat_support_policy show_modifiers = no }
+}
+RUS_unlock_tesla_doctrine_operations_policy = {
+ unlock_mio_policy_tooltip = { policy = RUS_tesla_doctrine_operations_policy show_modifiers = no }
+}

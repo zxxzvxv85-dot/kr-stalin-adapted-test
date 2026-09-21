@@ -2602,3 +2602,18 @@ mio:RUS_example_organization = {
 - 结算改为按行动清理：`RUS_ukr_cleanup_action` 现在按 `RUS_ukr_cleanup_target`（0 = 全部，1..10 = 单个行动）只清掉自己那一项及其冷却，直到最后一项结束才收尾 `busy`、`native_action`、天数与警戒负担；10 个决议的结算与取消路径各自写入目标，每日 tick 的路线失效取消与兜底结算仍用 0（全清）。
 - 状态决议文案去掉“当前行动 + 剩余天数”，改为提示可同时进行多项行动（决议卡片自带倒计时），并删除三语 `RUS_ukr_no_active_action_tt` 键。
 - 回归：`tools/test_ukr_underground.py` 新增同国并行用例（同时开矿区与家属支援，各自结算 +15、警戒/负担与冷却互不影响），47 组场景通过；东墙/高加索的 `test_regional_diplomacy.py` 仍通过。未实机验证。
+
+### 2026-09-21 修复玩家 error.log 中本模组的报错
+
+- 革命准备度：`RUS_revolution_readiness_effects.txt` 里 20 个 `check_variable = { RUS_readiness_decay_total >= N }` 用了引擎不支持的 `>=`，解析在下一行的 `add_power_balance_value` 处中断（error.log：`unexpected token … (1.4)` 与 `Invalid trigger 'add_power_balance_value'`），每月衰减整段失效；改为 `> N-0.05`（该变量已按 0.1 取整，语义等价）。`tools/test_revolution_readiness.py` 180 组用例通过。
+- 卡缅涅夫平衡：`RUS_stalin_psr_balance_collapse` 里的 `return = yes` 不是合法效果（error.log 4 条），改为把两个守卫合并进同一个 `if` 的 limit，行为不变。
+- 军事改革：`on_unit_leader_level_up` 里 `character = { limit = { is_character = RUS_semyon_timoshenko } }`，每有别国将领升级就刷 `is_character: … not a valid character`／`Scope is not a valid character`（error.log 106 条）；改为在国家作用域判断 `tag = RUS` 后刷新季莫申科折扣（`on_daily` 本来就在做，幂等）。
+- 农业 GUI：`nat_convert_mil_click` 调用不存在的 `RUS_nat_refresh_gui`（error.log 1 条），改为效果文件里真实的 `RUS_nat_refresh`。
+- 未来外交：`RUS_future_foreign_004` 的 `INT = { diplomatic_relation = { country = ROOT … } }` 在国际（INT）自己持有这棵树时报 `cant have a relation to yourself`；加 `NOT = { tag = INT }` 守卫。“繁星之下”里 5 个巴尔干社会主义国家的同类建交也补了自身判定。
+- 缺 MIO 意识形态变体：本模组把执政党意识形态组换成 `communist`，而 `RUS_bz_political_interference_*` 只有 10 个旧变体，导致 `Idea token RUS_bz_political_interference_communist is not associated with any idea` 与 `Invalid idea` 各 60 条；按同组写法补 `RUS_bz_political_interference_communist`（共用 `name = RUS_bz_political_interference`，`communist_drift = 0.04`）。
+- 特斯拉学说 MIO：`has_mio_policy_active` 与 `unlock_mio_policy_tooltip` 不能写在 MIO 定义文件里（组织文件先于政策表解析；KR 对加迈云／奥布霍夫政策也留有 `unlock_mio_policy_tooltip doesn't work in the MIO scope` 的注释），6 条 `policy … does not exist` 因此改为国家作用域的脚本效果：新增 `RUS_tesla_doctrine_{armor,combat_support,operations}_production_notice`（内部仍用 `mio:<mio> = { has_mio_policy_active = … }`，与既有日结算写法一致）与 `RUS_unlock_tesla_doctrine_*_policy`（转发 `unlock_mio_policy_tooltip`）。
+- 文本图标：三语 `RUS_future_foreign_policy_mechanics` 里的 `£boost_popularity_texticon` 与 `£civilian_intel_texticon` 在本体／KR／本模组都没有对应精灵，北欧关系提示每次重绘都刷 `Couldnt find texticon`（error.log 520 条）；改用 KR 的 `£radical_socialist_texticon`（激进社会主义支持率）与本体 `£text_infiltrate_civilian_token`（民政情报）。
+- 柏林阅兵：删除 `common/on_actions/RUS_stalin_berlin_victory_parade_on_actions.txt`。它引用的 `play_victory_parade_effect` 并不存在（error.log 报 Invalid effect），且会先写一次性标记，反而挡掉 KR 自带、德国投降时发送的 `russia_flavour_events.134`（“Victory in the Second Weltkrieg”，配 `GFX_report_event_RUS_parade`）；现在完全交回原事件。
+- 音乐：`music/rus_manstein_yablochko.ogg` 原为 48 kHz，触发 `music files should be in 44.1kHz`；用 `tools/convert_music_to_ogg.py` 重采样为 44.1 kHz 立体声 Vorbis（157.03 s，peak 0.903）。
+- 验证：RHoiScribe 单文件校验只剩既有的自定义效果误报，项目级括号与未闭合块为绿；`test_revolution_readiness.py`、`test_tesla_doctrine.py`、`test_regional_diplomacy.py`、`test_ukr_underground.py` 通过；`test_national_agriculture.cjs`／`test_national_agriculture_feedback.cjs` 仍失败，但把本次改动回退后同样失败，属工作区既有未提交改动导致。未实机验证。
+

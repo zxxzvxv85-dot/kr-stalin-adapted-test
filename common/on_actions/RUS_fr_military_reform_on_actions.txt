@@ -48,10 +48,13 @@ on_actions = {
 	# Do not stack with the vanilla Bold Attack spirit, which has its own roll.
 	on_unit_leader_level_up = {
 		effect = {
-			character = {
+			# Timoshenko's skill sets the reform discount; refresh it for RUS on level-up.
+			# is_character is not used here on purpose: probing it inside `character = {}` logs an
+			# error for every foreign leader that levels up, on top of being redundant.
+			FROM = {
 				if = {
-					limit = { is_character = RUS_semyon_timoshenko }
-					FROM = { RUS_fr_update_timoshenko_decision_costs = yes }
+					limit = { tag = RUS }
+					RUS_fr_update_timoshenko_decision_costs = yes
 				}
 			}
 			if = {

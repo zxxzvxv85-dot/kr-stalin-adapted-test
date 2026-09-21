@@ -173,7 +173,9 @@ RUS_tesla_electrical_organisation = {
 		on_complete = {
 			FROM = {
 				custom_effect_tooltip = RUS_tesla_doctrine_armor_1_tt
-				unlock_mio_policy_tooltip = { policy = RUS_tesla_doctrine_armor_policy show_modifiers = no }
+				# `unlock_mio_policy_tooltip` is ignored inside MIO scope (and logs "policy ... does not exist"),
+				# so the tooltip is emitted by a country-scope wrapper effect instead.
+				RUS_unlock_tesla_doctrine_armor_policy = yes
 				hidden_effect = { set_country_flag = RUS_tesla_doctrine_armor_1 }
 			}
 		}
@@ -221,7 +223,9 @@ RUS_tesla_electrical_organisation = {
 		on_complete = {
 			FROM = {
 				custom_effect_tooltip = RUS_tesla_doctrine_combat_support_1_tt
-				unlock_mio_policy_tooltip = { policy = RUS_tesla_doctrine_combat_support_policy show_modifiers = no }
+				# `unlock_mio_policy_tooltip` is ignored inside MIO scope (and logs "policy ... does not exist"),
+				# so the tooltip is emitted by a country-scope wrapper effect instead.
+				RUS_unlock_tesla_doctrine_combat_support_policy = yes
 				hidden_effect = { set_country_flag = RUS_tesla_doctrine_combat_support_1 }
 			}
 		}
@@ -269,7 +273,9 @@ RUS_tesla_electrical_organisation = {
 		on_complete = {
 			FROM = {
 				custom_effect_tooltip = RUS_tesla_doctrine_operations_1_tt
-				unlock_mio_policy_tooltip = { policy = RUS_tesla_doctrine_operations_policy show_modifiers = no }
+				# `unlock_mio_policy_tooltip` is ignored inside MIO scope (and logs "policy ... does not exist"),
+				# so the tooltip is emitted by a country-scope wrapper effect instead.
+				RUS_unlock_tesla_doctrine_operations_policy = yes
 				hidden_effect = { set_country_flag = RUS_tesla_doctrine_operations_1 }
 			}
 		}
