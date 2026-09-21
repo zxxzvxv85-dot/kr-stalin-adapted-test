@@ -2627,3 +2627,10 @@ mio:RUS_example_organization = {
   - `common/characters/RUS characters.txt` 工作区副本被写入了 UTF-8 BOM（`common/**` 脚本不应带 BOM），已去掉；该文件里上一轮未提交的重构保持不变，未纳入本次提交。
 - 验证：两个新文件 RHoiScribe 校验绿色，括号计数 200/200 与 8/8 平衡；未实机验证（需玩家关掉游戏后重建上传目录再测试开窗口与任命将军）。
 
+### 2026-09-21 修复“给将领分配特质”闪退：将领特质缺图标
+
+- 定位：按 A/B 结果（只关掉本模组就不闪退）确认是本模组问题。引擎绘制将领特质时按约定取精灵 `GFX_trait_<特质名>`（本体 `interface/unitleaderwindow.gfx`、KR `interface/kaiserreich/traits.gfx` 都按这个规则；KR 自家 71 个将领特质全部配了图标，本体也只为个别内部/隐藏特质留空），而本模组的 `RUS_fr_fragmented_officer_training`（军官培养体系断裂，`status_trait`）只有名字与描述、没有图标精灵；该特质会授予 20+ 名苏联陆军将领（当前存档里 23 个），一打开将领窗口/特质界面就会取到空精灵。
+- 处理：新增 `interface/RUS_fr_military_reform_trait_icons.gfx`，把 `GFX_trait_RUS_fr_fragmented_officer_training` 指向新图标 `gfx/interface/traits/RUS_fr_fragmented_officer_training.png`（23×33 RGBA，与 KR 特质图标同规格）；图标由 `tools/build_fragmented_officer_training_icon.py` 生成（深色肩章、三道金色军衔杠、红色裂纹，表示训练体系断裂）。
+- 顺带修掉一个真实缺陷：`common/country_leader/head_of_state.txt` 本是本模组复制 KR 的旧整文件，会遮蔽 KR 后来新增的 13 个特质（AFG/BHU/PTH），error.log 里的 `Invalid trait for remove/add: AFG_father_of_afghan_azadism_*`／`swap_country_leader_traits` 正来自这里。现按 `interface/ideas.gfx` 的同一思路改成增量文件 `common/country_leader/RUS_stalin_head_of_state_trait_overrides.txt`（只保留本模组真正改过的 3 个特质：`MON_the_mad_baron`、`RUS_revolutionary_genius`、`RUS_father_of_russia`），删除整文件覆盖，让 KR 完整文件正常加载；核对结果：旧副本 391 个特质全部仍可用，并恢复 KR 的 13 个。
+- 验证：两个新文件 RHoiScribe 校验绿色、括号平衡；未实机验证（请测试“给将领分配特质／打开将领特质界面”是否仍闪退；若仍崩，下一步可临时禁止该特质授予以进一步定位）。
+
