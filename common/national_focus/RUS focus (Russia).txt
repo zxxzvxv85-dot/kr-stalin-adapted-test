@@ -26117,6 +26117,15 @@ focus_tree = {
 		}
 		cost = 4
 
+		# Socialist Russia has to finish the military-reform line first (the reform focus is
+		# socialist-only, so the other Russian paths keep the air force branch unlocked).
+		available = {
+			if = {
+				limit = { has_socialist_government = yes }
+				has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
+			}
+		}
+
 		x = 14
 		y = 0
 		relative_position_id = RUS_address_the_army
@@ -26154,6 +26163,8 @@ focus_tree = {
 					has_country_flag = RUS_republic_ai
 					has_country_flag = RUS_empire_ai
 					has_country_flag = RUS_socialist_ai
+					has_country_flag = RUS_stalin_ai
+					has_country_flag = RUS_kamenev_ai
 				}
 			}
 		}
@@ -27310,6 +27321,15 @@ focus_tree = {
 		x = 8
 		y = 0
 
+		# Same gate as the air force branch: socialist Russia unlocks the navy only after
+		# the military-reform line, other Russian paths keep it from the start.
+		available = {
+			if = {
+				limit = { has_socialist_government = yes }
+				has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
+			}
+		}
+
 		ai_will_do = {
 			base = 0
 			modifier = {
@@ -27328,6 +27348,8 @@ focus_tree = {
 					has_country_flag = RUS_republic_ai
 					has_country_flag = RUS_empire_ai
 					has_country_flag = RUS_socialist_ai
+					has_country_flag = RUS_stalin_ai
+					has_country_flag = RUS_kamenev_ai
 				}
 			}
 			modifier = {

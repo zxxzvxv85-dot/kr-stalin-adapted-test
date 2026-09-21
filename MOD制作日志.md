@@ -2648,3 +2648,10 @@ mio:RUS_example_organization = {
 - 生成 `tools/design/RUS_three_services_focus_lines.drawio`（单页「三军线（军改 + 海军 + 空军）」）：100 张卡片、148 条箭头，军改线 60 + 海军 21 + 空军 19，0 重叠；只有军改线根节点用 `rounded=0` 样式（海军/空军根现在有父节点）。原 4 页文件 `RUS_military_navy_air_focus_lines.drawio` 保持不变。
 - 未改游戏数据：若要让海军/空军线在游戏里真的以“设立国家军事委员会”为前置，还需要改 `common/national_focus/RUS focus (Russia).txt` 里两条分支的 prerequisite（另议）。
 
+### 2026-09-21 海军/空军线接入军改线（数据侧）
+
+- `RUS_evaluate_VVFR`（评估俄罗斯空军）与 `RUS_inspect_VMFR`（评估俄罗斯海军）各加一段 `available` 条件门：`if = { limit = { has_socialist_government = yes } has_completed_focus = RUS_fr_rebuild_revolutionary_military_council }`，即社会主义俄国必须先把军改线走到「设立国家军事委员会」才能点开这两条分支，其余俄国路线（萨文科夫/共和/帝国等）不受影响。
+- 之所以用 `available` 而不是 `prerequisite`：这两条分支是 KR 全俄国路线共用的（图标本身就按 `has_socialist_government` 切换），而军改线带 `allow_branch = { has_socialist_government = yes }`，写成硬前置会把非社会主义路线的空军/海军整条锁死；HOI4 的 prerequisite 又是静态的，无法按路线区分。
+- AI：两条分支 `ai_will_do` 里那个 `factor = 0` 的白名单补上 `RUS_stalin_ai`、`RUS_kamenev_ai`——原先只认 savinkov/republic/empire/socialist，斯大林路线的 AI 会因 factor 0 永远不点这两条分支。
+- 校验：两处 `available` 各 1 个、块内括号平衡，全文件 11951/11951；RHoiScribe 校验只剩既有的自定义效果误报。未实机验证。
+
