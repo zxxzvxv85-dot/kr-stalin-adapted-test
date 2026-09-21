@@ -2570,3 +2570,9 @@ mio:RUS_example_organization = {
 
 - 农业交换决议的费用在分数不足时由引擎回退读取 `<custom_cost_text>_blocked`；此前只有简体中文定义了 `RUS_agri_cost_4/6/8/10_blocked`，英俄会在决议列表里直接显示原始键名。现为英俄各补 4 个键（英文 “Requires N reform pts”，俄文 “Нужно N балла/баллов”），位置与中文一致。
 - 三语键集现完全一致（各 66 键），BOM 保留、无重复键；RHoiScribe 两个文件校验为绿。全项目其余 `<custom_cost_text>_blocked` 缺口集中在俄语层（本模组俄语本地化本身不完整），不在本次范围。
+
+### 2026-09-20 修正“革命之矛”的执政党判定
+
+- `RUS_future_foreign_021`（革命之矛）的 `available` 原写作 `has_government = communism`；本模组新增的意识形态组名是 `communist`（子类型含 `marxism_leninism_subtype` 等，斯大林路线通过 `set_politics = { ruling_party = communist }` 上台），因此该条件永远为假，悬浮提示还因查不到政党名而显示 missing party name。现改为 `has_government = communist`。
+- 为该组补上缺失的政党名键 `RUS_communist_party` / `RUS_communist_party_long`（中英俄各两条，引用既有的 `RUS_totalist_party_sov` 系列）；运行时仍由 `set_party_name` 在夺权与建联盟后覆盖为 RKP(b)／VKP(b)。
+- 全项目已无 `has_government = communism` 残留；焦点文件与三语文件的 RHoiScribe 校验通过（焦点文件仅剩既有自定义效果误报）。未实机验证悬浮提示。
