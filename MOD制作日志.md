@@ -2810,3 +2810,10 @@ mio:RUS_example_organization = {
 - `RUS_fr_armaments_construction_stage_summary`（军备建设阶段总结，绝对 (16,22)）原来把「陆军兵器体系定型」「统一装甲兵器体系」放在 `available` 门槛里，现改为两个独立的 prerequisite 块：树上新增 `陆军兵器体系定型 (13,18) → 总结`、`统一装甲兵器体系 (19,18) → 总结` 两条线，加上原有的「重装机械化战斗群 OR 高速纵深机动纲要」，该门一共 4 条汇聚线。
 - 逻辑没变，仍是「(重装机械化战斗群 或 高速纵深机动纲要) 且 陆军兵器体系定型 且 统一装甲兵器体系」；原来的 `available` 块整体移除（两个条件都提到了 prerequisite）。
 - 括号平衡 11950/11950。未实机验证。
+
+### 2026-09-21 法俄贸易协议事件误发给俄罗斯
+
+- 现象：`russia_foreign_policy_events.105`（与俄罗斯签订贸易协议？）在俄国自己手里弹出，选项提示「俄罗斯苏维埃联邦社会主义共和国接受协议」，本应发给英法。
+- 根因：派发用的是 `INT` 标签别名（`common/country_tag_aliases/tag_aliases.txt` 里 `global_event_target = KR_internationale_leader`、`fallback = FRA`）。KR 里第三国际领袖开局是法国，所以原意就是发给法国；但本模组的斯大林线会让俄罗斯接管第三国际领袖（`events/stalin_form_sov.txt` 的 `stalin_form_sov.21`、`00_RUS_future_foreign_policy_skeleton.txt` 的 `RUS_future_foreign_004`、`RUS focus (Russia).txt` 的 `RUS_eastern_vanguard` 都写了 `save_global_event_target_as = KR_internationale_leader`），于是 `INT` 解析成了俄罗斯，事件发到了莫斯科。
+- 修复：三处派发（`RUS focus (Russia).txt` 2 处：社会各尽所能、法俄条约；`00_RUS_future_foreign_policy_skeleton.txt` 1 处：未来外交收尾焦点）由 `INT = { country_event = { id = russia_foreign_policy_events.105 days = 2 } }` 改为 `FRA = { ... }`，ENG 那条不变。此后协议固定发给法英，俄方收到的仍是 .106/.107 回执。
+- 与提示文本一致：`RUS_recipent_gains`、`RUS_if_FRA_accept_only`、`RUS_if_both_accept` 写的本来就是法英两国。括号平衡 11950/11950。未实机验证。
