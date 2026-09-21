@@ -31382,7 +31382,7 @@ focus_tree = {
 			}
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 6
+		x = 7
 		y = 5
 		prerequisite = { focus = RUS_fr_high_velocity_kinetic_gun_program }
 		prerequisite = { focus = RUS_fr_self_propelled_direct_fire_system focus = RUS_fr_hull_structural_durability_trials }
@@ -31418,10 +31418,11 @@ focus_tree = {
 			}
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
-		x = 6
-		y = 6
+		x = 5
+		y = 5
 		prerequisite = { focus = RUS_fr_universal_hull_standards }
-		prerequisite = { focus = RUS_fr_armoured_firepower_coordination_standard }
+		# Gate only: the line from the firepower coordination standard is omitted on purpose.
+		available = { has_completed_focus = RUS_fr_armoured_firepower_coordination_standard }
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			add_ideas = RUS_fr_land_warfare_mainstay_idea
@@ -31444,7 +31445,7 @@ focus_tree = {
 		}
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 0
-		y = 7
+		y = 6
 		prerequisite = { focus = RUS_fr_combined_arms_support_standard }
 		prerequisite = { focus = RUS_fr_rapid_operational_corps focus = RUS_fr_deep_mobility_program }
 		prerequisite = { focus = RUS_fr_land_warfare_mainstay }

@@ -2746,3 +2746,10 @@ mio:RUS_example_organization = {
 - `RUS_torpedo_bomber_project`（空中舰艇）：把 `RUS_state_aviation_bureau`（国家航空部）还原成 `prerequisite`（连线照画），只把 `RUS_promote_new_blood`（提拔新鲜血液）留在 `available = { has_completed_focus = ... }` 里当门槛（不画线）。两个条件都照旧生效。
 - `RUS_promote_new_blood` 自身仍无 prerequisite（从海军根过来的那条线保持不画）。括号平衡 11955/11955。未实机验证。
 
+### 2026-09-21 微调装甲线坐标并隐藏一条前置连线
+
+- `RUS_fr_armoured_firepower_coordination_standard`（装甲火力协同标准）：`x = 6` → `7`（`y = 5` 不变）→ 绝对 (24,17)。
+- `RUS_fr_land_warfare_mainstay`（统一装甲兵器体系）：`(x=6, y=6)` → `(x=5, y=5)` → 绝对 (22,17)。
+- `RUS_fr_armaments_construction_stage_summary`（军备建设阶段总结）：`y = 7` → `6` → 绝对 (17,18)。
+- `RUS_fr_land_warfare_mainstay` 的第二个前置（装甲火力协同标准）改成 `available = { has_completed_focus = ... }` 门槛：国策树里不再画这条线，完成条件依旧要求两门都完成（与 `RUS_fr_universal_hull_standards` 之间的 prerequisite 连线保留）。
+- 括号平衡 11955/11955。未实机验证。
