@@ -30603,8 +30603,11 @@ focus_tree = {
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = -2
 		y = 3
-		prerequisite = { focus = RUS_fr_small_arms_standardisation_committee }
 		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_small_arms_standardisation_committee
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			if = {
@@ -30653,7 +30656,10 @@ focus_tree = {
 		x = -2
 		y = 5
 		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
-		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_mechanised_platform_research_committee
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			if = { limit = { has_dlc_gtd = yes NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer } } sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.15 } }
@@ -30691,10 +30697,10 @@ focus_tree = {
 		x = -5
 		y = 4
 		prerequisite = { focus = RUS_fr_ergonomic_tolerance_standards }
-		prerequisite = { focus = RUS_fr_armaments_quality_assurance_inspectorate }
 		mutually_exclusive = { focus = RUS_fr_divisional_artillery_support_standard }
 		available = {
 			has_country_flag = RUS_fr_infantry_lightweight_route
+			has_completed_focus = RUS_fr_armaments_quality_assurance_inspectorate
 		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -30724,10 +30730,14 @@ focus_tree = {
 		x = -3
 		y = 4
 		prerequisite = { focus = RUS_fr_self_propelled_support_fire_trials }
-		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_air_assault_brigades }
 		mutually_exclusive = { focus = RUS_fr_soldier_load_lightening_program }
 		available = {
 			has_country_flag = RUS_fr_infantry_artillery_route
+			OR = {
+				has_completed_focus = RUS_fr_vehicle_manufacturing_integration
+				has_completed_focus = RUS_fr_mechanised_logistics_regulations
+				has_completed_focus = RUS_fr_air_assault_brigades
+			}
 		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -30884,10 +30894,10 @@ focus_tree = {
 		x = -2
 		y = 9
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
-		prerequisite = { focus = RUS_fr_alloy_armour_standard }
 		mutually_exclusive = { focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_helicopter_pilot_program }
 		available = {
 			has_country_flag = RUS_fr_vehicle_manufacturing_route
+			has_completed_focus = RUS_fr_alloy_armour_standard
 		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -30916,10 +30926,10 @@ focus_tree = {
 		x = 0
 		y = 8
 		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
-		prerequisite = { focus = RUS_fr_rapid_mobility_equipment_trials }
 		mutually_exclusive = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_helicopter_pilot_program }
 		available = {
 			has_country_flag = RUS_fr_mechanised_logistics_route
+			has_completed_focus = RUS_fr_rapid_mobility_equipment_trials
 		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -30983,7 +30993,10 @@ focus_tree = {
 		x = 0
 		y = 9
 		prerequisite = { focus = RUS_fr_helicopter_pilot_program }
-		prerequisite = { focus = RUS_fr_small_arms_standardisation_committee }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_small_arms_standardisation_committee
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			set_country_flag = RUS_fr_air_assault_infantry_path
@@ -31019,7 +31032,13 @@ focus_tree = {
 		x = -2
 		y = 10
 		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations }
-		prerequisite = { focus = RUS_fr_self_propelled_direct_fire_system focus = RUS_fr_hull_structural_durability_trials }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			OR = {
+				has_completed_focus = RUS_fr_self_propelled_direct_fire_system
+				has_completed_focus = RUS_fr_hull_structural_durability_trials
+			}
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			RUS_fr_complete_mobility_legacy_focuses = yes
@@ -31054,7 +31073,10 @@ focus_tree = {
 		x = 2
 		y = 10
 		prerequisite = { focus = RUS_fr_air_assault_brigades }
-		prerequisite = { focus = RUS_fr_long_range_armoured_exploitation }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_long_range_armoured_exploitation
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			RUS_fr_complete_mobility_legacy_focuses = yes
@@ -31186,7 +31208,10 @@ focus_tree = {
 		x = 1
 		y = 3
 		prerequisite = { focus = RUS_fr_alloy_armour_standard }
-		prerequisite = { focus = RUS_fr_mechanised_platform_research_committee }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_mechanised_platform_research_committee
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			if = {
@@ -31217,7 +31242,10 @@ focus_tree = {
 		x = 3
 		y = 3
 		prerequisite = { focus = RUS_fr_alloy_armour_standard }
-		prerequisite = { focus = RUS_fr_rapid_mobility_equipment_trials }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_rapid_mobility_equipment_trials
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			add_ideas = RUS_fr_long_range_armoured_exploitation_idea
@@ -31246,7 +31274,10 @@ focus_tree = {
 		x = 5
 		y = 3
 		prerequisite = { focus = RUS_fr_tank_firepower_development_plan }
-		prerequisite = { focus = RUS_fr_artillery_ammunition_technical_committee }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_artillery_ammunition_technical_committee
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			if = {
@@ -31283,8 +31314,15 @@ focus_tree = {
 		x = 1
 		y = 4
 		prerequisite = { focus = RUS_fr_breakthrough_chassis_program }
-		prerequisite = { focus = RUS_fr_long_range_armoured_exploitation }
-		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_air_assault_brigades }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_long_range_armoured_exploitation
+			OR = {
+				has_completed_focus = RUS_fr_vehicle_manufacturing_integration
+				has_completed_focus = RUS_fr_mechanised_logistics_regulations
+				has_completed_focus = RUS_fr_air_assault_brigades
+			}
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			if = {
@@ -31321,10 +31359,10 @@ focus_tree = {
 		x = 3
 		y = 4
 		prerequisite = { focus = RUS_fr_tank_firepower_development_plan }
-		prerequisite = { focus = RUS_fr_self_propelled_support_fire_trials }
 		mutually_exclusive = { focus = RUS_fr_hull_structural_durability_trials }
 		available = {
 			has_country_flag = RUS_fr_self_propelled_fire_route
+			has_completed_focus = RUS_fr_self_propelled_support_fire_trials
 		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -31355,10 +31393,10 @@ focus_tree = {
 		x = 5
 		y = 4
 		prerequisite = { focus = RUS_fr_alloy_armour_standard }
-		prerequisite = { focus = RUS_fr_armaments_quality_assurance_inspectorate }
 		mutually_exclusive = { focus = RUS_fr_self_propelled_direct_fire_system }
 		available = {
 			has_country_flag = RUS_fr_structural_durability_route
+			has_completed_focus = RUS_fr_armaments_quality_assurance_inspectorate
 		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -31384,12 +31422,19 @@ focus_tree = {
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 2
 		y = 5
-		prerequisite = { focus = RUS_fr_high_velocity_kinetic_gun_program }
 		prerequisite = { focus = RUS_fr_self_propelled_direct_fire_system focus = RUS_fr_hull_structural_durability_trials }
-		prerequisite = { focus = RUS_fr_soldier_load_lightening_program focus = RUS_fr_divisional_artillery_support_standard }
-		prerequisite = { focus = RUS_fr_vehicle_manufacturing_integration focus = RUS_fr_mechanised_logistics_regulations focus = RUS_fr_air_assault_brigades }
 		available = {
 			RUS_fpc_tank_tier_3 = yes
+			has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program
+			OR = {
+				has_completed_focus = RUS_fr_soldier_load_lightening_program
+				has_completed_focus = RUS_fr_divisional_artillery_support_standard
+			}
+			OR = {
+				has_completed_focus = RUS_fr_vehicle_manufacturing_integration
+				has_completed_focus = RUS_fr_mechanised_logistics_regulations
+				has_completed_focus = RUS_fr_air_assault_brigades
+			}
 		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
@@ -31446,9 +31491,12 @@ focus_tree = {
 		relative_position_id = RUS_fr_federal_armaments_defence_industry_commission
 		x = 0
 		y = 11
-		prerequisite = { focus = RUS_fr_combined_arms_support_standard }
 		prerequisite = { focus = RUS_fr_rapid_operational_corps focus = RUS_fr_deep_mobility_program }
-		prerequisite = { focus = RUS_fr_land_warfare_mainstay }
+		# Gate only: kept out of the tree so the lines stay readable.
+		available = {
+			has_completed_focus = RUS_fr_combined_arms_support_standard
+			has_completed_focus = RUS_fr_land_warfare_mainstay
+		}
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			custom_effect_tooltip = RUS_fr_armaments_summary_integration_tt
