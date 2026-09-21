@@ -97,6 +97,7 @@ def run(b,c,w,choice=0):
                 run([n for n in v if n[0] not in ['start','end','value']],c,w,choice)
         elif k=='set_power_balance':c['bop']=True
         elif k=='division_template':c.setdefault('templates',{})[get(v,'name')]=v
+        elif k=='set_division_template_lock':c.setdefault('template_locks',{})[get(v,'division_template')]=get(v,'is_locked')=='yes'
         elif k=='create_unit':
             assert (get(v,'owner')=='PREV' and c['controller']=='RUS' and get(v,'allow_spawning_on_enemy_provs')=='no') or (get(v,'owner')=='ROOT' and c['controller'] in w['RUS']['war'] and get(v,'allow_spawning_on_enemy_provs')=='yes')
             w['RUS'].setdefault('units',[]).append(c['id'])
@@ -185,7 +186,9 @@ for id in actions:
         before=c['vars'][resource];start(id,w)
         assert abs(c['pp'])<1e-8 and c['balance']==.005
         assert c['vars'][resource]<=before and not w[t]['ideas']
-        assert not check(get(d,'available'),c,w)
+        # A running decision cannot be taken twice - the engine blocks it, not
+        # the busy flag, now that several actions may run side by side.
+        assert id in c['decisions']
         tick(w,int(get(d,'days_remove'))-1)
         assert id in c['decisions'] and not w[t]['ideas']
         tick(w);assert id not in c['decisions'] and 0<=c['vars'][resource]<=cap
@@ -221,6 +224,19 @@ for id in ['RUS_rd_BAT_press','RUS_rd_BLR_supplies','RUS_rd_POL_training']:
     w=world();c=w['RUS'];t=id.split('_')[2];cap=3 if t=='BAT' else 100
     c['vars'][f'RUS_rd_{t}_stock']=cap-1;start(id,w);tick(w,30)
     assert c['vars'][f'RUS_rd_{t}_stock']==cap
+
+# Several actions of the same country may run in parallel: each keeps its own
+# timer, cooldown and result, and the shared resource settles per action.
+w=world();c=w['RUS'];c['vars']['RUS_rd_BAT_stock']=2
+start('RUS_rd_BAT_press',w);start('RUS_rd_BAT_unions',w)
+assert set(c['decisions'])=={'RUS_rd_BAT_press','RUS_rd_BAT_unions'}
+assert c['vars']['RUS_rd_BAT_stock']==1
+tick(w,14)
+assert 'RUS_rd_BAT_press' not in c['decisions'] and 'RUS_rd_BAT_unions' in c['decisions']
+assert c['vars']['RUS_rd_BAT_stock']==2 and c['flags']['RUS_rd_BAT_press_cooldown']==60
+tick(w,7)
+assert not c['decisions'] and w['BAT']['ideas'].get('RUS_rd_transport_resistance')==45
+assert c['flags']['RUS_rd_BAT_unions_cooldown']==90 and c['vars']['RUS_rd_BAT_stock']==2
 
 # Both raid variants hit every Belarus-controlled province, preserve foreign forts
 # and leave non-fort infrastructure unchanged. Courier advantage is consumed once.
@@ -268,4 +284,4 @@ assert loc.startswith(b'\xef\xbb\xbf')
 keys=re.findall(r'^ ([A-Za-z0-9_]+):',loc.decode('utf-8-sig'),re.M)
 assert len(keys)==len(set(keys))
 for id in D:assert id in keys and id+'_desc' in keys
-print('PASS: 19 action variants; transactions/discounts, readiness, cancellation, risk, timers, caps, country isolation, both fort-damage variants, border militia and integrations. Not a game-engine test.')
+print('PASS: 19 action variants; transactions/discounts, readiness, cancellation, risk, timers, caps, parallel actions per country, country isolation, both fort-damage variants, border militia and integrations. Not a game-engine test.')

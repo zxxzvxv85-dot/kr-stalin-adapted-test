@@ -2588,3 +2588,10 @@ mio:RUS_example_organization = {
 - `RUS_nat_guide_decision`（国家农业经营指南）原写作 `cost = 10`，决议列表里因此显示 10 政治点；但生成器 `tools/generate_national_agriculture.cjs` 输出的是 `cost = 0`，回归工具 `tools/test_national_agriculture_feedback.cjs` 也断言该项必须为 0，属于生成结果被手改后偏离。现改回 `cost = 0`。
 - 验证：该回归工具的「guide is free, repeatable, player-only and does not reset the system」用例通过；同一文件后面的账本用例仍失败，原因是工作区里 `common/scripted_effects/RUS_national_agriculture_effects.txt` 存在未提交改动、与测试期望不一致，与本次改动无关。
 - 该决议的本地化只描述流程，没有费用文案需要同步修改。
+
+### 2026-09-20 地区外交行动允许同国并行
+
+- 东墙（波罗的联合公国、立陶宛、白俄罗斯、波兰）与高加索（格鲁吉亚、阿塞拜疆）的行动原先共用 `RUS_rd_X_busy` 门槛，同一国家一次只能进行一个行动；现删掉 22 处 `_ready` 门槛（地区决议 19 处、波兰影响决议 3 处），同一国家可同时进行多个不同行动。
+- 保留的约束：曝光后的封锁（30 天）、各行动自己的冷却与花费、资源要求（组织联络/互助线路/游击物资/委员会信任），以及白俄罗斯交通员网络对两版突袭的前后置；`_busy` 标记仍由效果写入与清除，只是不再作为门槛，便于日后恢复。
+- 状态决议文案同步：去掉“当前行动 + 剩余天数”（决议卡片本身就会显示剩余天数），改为提示可同时进行多项行动；删除 6 个不再使用的 `RUS_rd_X_ready` 键（该系统仅简中）。
+- 回归：`tools/test_regional_diplomacy.py` 改为断言“进行中的决议不可重复点选”，并新增同一国家两项行动并行的结算用例；同时给测试解释器补上 `set_division_template_lock`（此前该脚本已因缺少这个效果而失败）。19 项行动、交易/折扣、取消、曝光、计时、上限、并行、国家隔离、堡垒破坏与民兵用例全部通过。未实机验证。
