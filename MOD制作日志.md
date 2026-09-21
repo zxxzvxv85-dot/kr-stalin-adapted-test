@@ -2617,3 +2617,13 @@ mio:RUS_example_organization = {
 - 音乐：`music/rus_manstein_yablochko.ogg` 原为 48 kHz，触发 `music files should be in 44.1kHz`；用 `tools/convert_music_to_ogg.py` 重采样为 44.1 kHz 立体声 Vorbis（157.03 s，peak 0.903）。
 - 验证：RHoiScribe 单文件校验只剩既有的自定义效果误报，项目级括号与未闭合块为绿；`test_revolution_readiness.py`、`test_tesla_doctrine.py`、`test_regional_diplomacy.py`、`test_ukr_underground.py` 通过；`test_national_agriculture.cjs`／`test_national_agriculture_feedback.cjs` 仍失败，但把本次改动回退后同样失败，属工作区既有未提交改动导致。未实机验证。
 
+### 2026-09-21 修复 1.19.3 将军界面闪退与 ideas.gfx 覆盖问题
+
+- 闪退定位：`Documents/Paradox Interactive/Hearts of Iron IV/crashes/` 里 2026-09-20 22:22 与 2026-09-21 03:59 两次崩溃的 `exception.txt` 堆栈完全一致（`Pure Virtual Function Call`，崩溃点在对若干子窗口列表逐个调用虚函数时），且两次崩溃前 3～8 秒 error.log 都在刷同一条：`interface/armytraittreewindow.gui (line 524): Could not find "attacker_org_modifier_value" / "defender_org_modifier_value" in window tactics_list_entry`（两次分别 616 与 674 条）。也就是玩家打开／刷新单位指挥官特质树窗口时出错并很快闪退。
+- 根因：该窗口文件是本体自带文件（`D:/steam/steamapps/common/Hearts of Iron IV/interface/armytraittreewindow.gui`，2026-08-16；`hoi4.exe` 为 2026-09-17 的 1.19.3），1.19.3 的可执行文件会去查 `attacker_org_modifier_value`／`defender_org_modifier_value` 两个文本框，而随包发布的这个文件里没有（同一套名字在本体 `interface/landcombat.gui` 里有，说明是官方漏更新）。没有任何已启用模组覆盖此文件，本模组也不使用这个窗口，属官方文件与版本不匹配。
+- 处理：本模组改为提供一份打过补丁的 `interface/armytraittreewindow.gui`（内容＝本体原文件 + `attacker_org_modifier_icon/value` 与 `defender_org_modifier_icon/value` 四个元素，位置与 `landcombat.gui` 的同类元素一致），以此消除每帧报错、避开该窗口构建失败导致的崩溃路径。官方日后若补齐该文件，应删掉本覆盖文件。
+- 顺带修掉两个真实缺陷：
+  - `interface/ideas.gfx` 原是本模组复制 KR 的旧文件（并加了 7 个自家图标），整文件覆盖会遮蔽 KR 后续新增的精灵——对比 KR 2026-09-18 版，本模组这一覆盖丢掉了 100 个 `GFX_idea_*`（主要是澳大利亚整套）。现改为只保留自家 7 个图标的独立文件 `interface/RUS_stalin_extra_idea_icons.gfx`，删除覆盖文件，让 KR 的 `ideas.gfx` 正常加载。
+  - `common/characters/RUS characters.txt` 工作区副本被写入了 UTF-8 BOM（`common/**` 脚本不应带 BOM），已去掉；该文件里上一轮未提交的重构保持不变，未纳入本次提交。
+- 验证：两个新文件 RHoiScribe 校验绿色，括号计数 200/200 与 8/8 平衡；未实机验证（需玩家关掉游戏后重建上传目录再测试开窗口与任命将军）。
+
