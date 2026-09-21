@@ -2565,3 +2565,8 @@ mio:RUS_example_organization = {
 - `RUS_agri_development_decisions.txt` 的 10 项农业交换决议不再用整段手写文本充当“选择后的效果”：限时国家精神改用原生 `add_timed_idea`，修正数值改用 KR 通行的 `set_temp_variable = { modifier_change_tt = … tooltip = <修正>_tooltip }` 行，一次性收益改用原生 `add_cic`、`add_manpower`；只有“占用国内限时项目”“冷却”“下季生效”这类本模组自有记账保留一行自定义说明。
 - 决议描述去掉与效果栏重复的数值，只保留风味句；删除 10 个三语 `RUS_agri_exchange_*_effect_tt` 纯文本键，新增 7 个三语键（含两条 `$RIGHT|+=2$` 数值行与三条说明）。
 - 三语 BOM 与键集一致、无重复键；RHoiScribe 三个本地化文件与决议文件校验通过，项目括号与未闭合块为绿色（既有 CWT 自定义效果误报不变）。未实机验证悬停显示。
+
+### 2026-09-20 补齐土改决议费用不足文案
+
+- 农业交换决议的费用在分数不足时由引擎回退读取 `<custom_cost_text>_blocked`；此前只有简体中文定义了 `RUS_agri_cost_4/6/8/10_blocked`，英俄会在决议列表里直接显示原始键名。现为英俄各补 4 个键（英文 “Requires N reform pts”，俄文 “Нужно N балла/баллов”），位置与中文一致。
+- 三语键集现完全一致（各 66 键），BOM 保留、无重复键；RHoiScribe 两个文件校验为绿。全项目其余 `<custom_cost_text>_blocked` 缺口集中在俄语层（本模组俄语本地化本身不完整），不在本次范围。
