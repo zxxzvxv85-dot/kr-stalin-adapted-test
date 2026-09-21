@@ -2576,3 +2576,9 @@ mio:RUS_example_organization = {
 - `RUS_future_foreign_021`（革命之矛）的 `available` 原写作 `has_government = communism`；本模组新增的意识形态组名是 `communist`（子类型含 `marxism_leninism_subtype` 等，斯大林路线通过 `set_politics = { ruling_party = communist }` 上台），因此该条件永远为假，悬浮提示还因查不到政党名而显示 missing party name。现改为 `has_government = communist`。
 - 为该组补上缺失的政党名键 `RUS_communist_party` / `RUS_communist_party_long`（中英俄各两条，引用既有的 `RUS_totalist_party_sov` 系列）；运行时仍由 `set_party_name` 在夺权与建联盟后覆盖为 RKP(b)／VKP(b)。
 - 全项目已无 `has_government = communism` 残留；焦点文件与三语文件的 RHoiScribe 校验通过（焦点文件仅剩既有自定义效果误报）。未实机验证悬浮提示。
+
+### 2026-09-20 去除土改决议效果栏的重复修正
+
+- 上一版把限时国家精神的修正数值又单独列了一遍，而 `add_timed_idea` 的原生提示本身就会列出该精神的效果，于是同一组数值出现两次。现删除 7 项决议（4 项国内限时项目 + 3 项援助）里多余的 `set_temp_variable … tooltip = …` 行，只保留原生 `add_timed_idea` 行与一行自定义记账说明；「持续 180 天」也随精神提示一并从说明行去掉，不再重复。
+- 只保留「追加农机调度」「改善仓储运输」两条自定义数值行（这两项不是国家精神，引擎没有原生行可渲染）。
+- 三语键集仍为 66/66/66，BOM 保留、无重复键；RHoiScribe 检查通过。未实机验证。
