@@ -2817,3 +2817,11 @@ mio:RUS_example_organization = {
 - 根因：派发用的是 `INT` 标签别名（`common/country_tag_aliases/tag_aliases.txt` 里 `global_event_target = KR_internationale_leader`、`fallback = FRA`）。KR 里第三国际领袖开局是法国，所以原意就是发给法国；但本模组的斯大林线会让俄罗斯接管第三国际领袖（`events/stalin_form_sov.txt` 的 `stalin_form_sov.21`、`00_RUS_future_foreign_policy_skeleton.txt` 的 `RUS_future_foreign_004`、`RUS focus (Russia).txt` 的 `RUS_eastern_vanguard` 都写了 `save_global_event_target_as = KR_internationale_leader`），于是 `INT` 解析成了俄罗斯，事件发到了莫斯科。
 - 修复：三处派发（`RUS focus (Russia).txt` 2 处：社会各尽所能、法俄条约；`00_RUS_future_foreign_policy_skeleton.txt` 1 处：未来外交收尾焦点）由 `INT = { country_event = { id = russia_foreign_policy_events.105 days = 2 } }` 改为 `FRA = { ... }`，ENG 那条不变。此后协议固定发给法英，俄方收到的仍是 .106/.107 回执。
 - 与提示文本一致：`RUS_recipent_gains`、`RUS_if_FRA_accept_only`、`RUS_if_both_accept` 写的本来就是法英两国。括号平衡 11950/11950。未实机验证。
+
+### 2026-09-21 修复人民农业部选项、军队减益与社会主义事件链重复
+
+- 人民农业部（`russia_socialist_events.332`）：非卡缅涅夫路线下的第三个按钮文字是乌斯季诺夫、效果却是布哈林的（没有 `RUS_nat_enable`），所以选了也解锁不了国家农业体系。改为统一版三选项（杜布罗夫斯基 / 马约罗夫 / 乌斯季诺夫），任何路线选乌斯季诺夫都会执行 `RUS_nat_enable`。
+- 军队减益（`russia_socialist_events.2`）：非卡缅涅夫路线之前拿的是 KR 原版「白匪军与红将军」（陆军经验 −50%、师组织度 −20%、每日指挥点 −0.5、学说花费 +40%），改为统一走本模组的军改精神「工农红军现状：乌合之众」（`RUS_fr_add_initial_reform_disorganisation`）。
+- 事件重复：`RUS_initialise_socrus` 的三处调用加了 `RUS_socrus_chain_initialised` 幂等守卫；白军反抗结算里「是否已初始化」的判定也把 KR 遗留精神算进去，避免社会主义事件链被整条跑两遍。
+- 老存档兼容：军改解锁后，每日 on_action 会清掉残留的 `RUS_white_army_red_baron`／`RUS_lack_of_officers*` 并补上本模组军改精神；授予军改精神的效果与「设立国家革命军事委员会」焦点也各清一次。旧存档里已经选过乌斯季诺夫但没解锁农业体系的，需要重开或控制台 `effect RUS_nat_enable = yes`。
+- 五个文件的括号均平衡（事件文件 17832/17832）。未实机验证。
