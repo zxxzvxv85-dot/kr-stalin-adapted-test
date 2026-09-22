@@ -3074,3 +3074,11 @@ mio:RUS_example_organization = {
 - 结果：社会主义路线只保留军事委员会那一条线；非社会主义路线没有连线，但空军/海军树照旧能开（依旧需要先点「处理陆军」）。
 - 本地化：新增 `localisation/english|russian|simp_chinese/RUS_air_navy_markers_l_*.yml`，避免工具提示里露出原始 key。
 - 校验：`RUS focus (Russia).txt` 括号 11961/11961；RHoiScribe 的未闭合块/括号检查全绿（其余红项为既有误报）。未实机验证。
+
+### 2026-09-22 萨文科夫路线的空军/海军开头国策彻底无前置（依旧不画线）
+
+- 作者澄清：要的不是「有前置但不画线」，而是萨文科夫（非社会主义）看空军/海军树时，开头国策**完全没有前置条件**，开局就能点；社会主义路线依旧保留国家军事委员会那一条线。
+- 做法：把上一版挂在「处理陆军」上的隐藏标记改成**开局自动补完**——`common/on_actions/on_actions_Russia.txt` 的 `on_startup` → `RUS = { … }` 里补 `complete_national_focus` 两门标记；同文件 `on_daily_RUS` 加一道保险（老存档或开局漏跑时第二天补上）。
+- 标记本身是 `allow_branch = { always = no }` 的隐藏国策、坐标又贴在各自根节点上，所以两条路由都不会多出连线：非社会主义是「无前置、无线」，社会主义是「军事委员会一条线」。
+- 顺带撤掉 `RUS_address_the_army` 里补完标记的那两行效果（不再需要）。
+- 校验：`RUS focus (Russia).txt` 括号 11959/11959、`on_actions_Russia.txt` 1181/1181；RHoiScribe 的未闭合块/括号检查全绿（其余红项为既有误报）。未实机验证。

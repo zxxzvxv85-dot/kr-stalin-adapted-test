@@ -11,6 +11,10 @@ on_actions = {
 				activate_mission = RUS_land_reform_in_progress
 				hidden_effect = { country_event = { id = russia_events.251 days = 95 } } #Land Reform
 				hidden_effect = { country_event = { id = rus_stalin_startup_events.1 days = 1 } } #Volga Famine Legacy
+				# The other Russian paths open the air and navy branches without any
+				# prerequisite, so their hidden entry markers start out completed.
+				complete_national_focus = { focus = RUS_air_navy_entry_army_air use_side_message = no }
+				complete_national_focus = { focus = RUS_air_navy_entry_army_navy use_side_message = no }
 			}
 
 			# Federal System
@@ -306,6 +310,17 @@ on_actions = {
 	on_daily_RUS = {
 		effect = {
 			RUS_stalin_migrate_psr_collapse_direction = yes
+			# Safety net for the hidden air and navy entry markers of the other paths.
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_completed_focus = RUS_air_navy_entry_army_air }
+						NOT = { has_completed_focus = RUS_air_navy_entry_army_navy }
+					}
+				}
+				complete_national_focus = { focus = RUS_air_navy_entry_army_air use_side_message = no }
+				complete_national_focus = { focus = RUS_air_navy_entry_army_navy use_side_message = no }
+			}
 			if = { limit = { has_country_flag = RUS_kamenev_bop_active check_variable = { RUS_kamenev_party_balance < -74 } OR = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } NOT = { has_dynamic_modifier = { modifier = RUS_stalin_psr_balance_collapse_modifier } } } } RUS_stalin_psr_balance_collapse = yes }
 			# Migrate the retired native Kamenev BOP while preserving its active tier.
 			RUS_stalin_kamenev_migrate_legacy_balance = yes

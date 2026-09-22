@@ -18680,13 +18680,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_address_the_army"
-			hidden_effect = {
-				RUS_stalin_recalculate_red_army_dynamic_modifier = yes
-				# The air and navy branches open for the other Russian paths through these
-				# invisible markers, so their entry carries no prerequisite line at all.
-				complete_national_focus = { focus = RUS_air_navy_entry_army_air use_side_message = no }
-				complete_national_focus = { focus = RUS_air_navy_entry_army_navy use_side_message = no }
-			}
+			hidden_effect = { RUS_stalin_recalculate_red_army_dynamic_modifier = yes }
 			if = {
 				limit = {
 					has_country_flag = RUS_stalin_communist_path
@@ -26118,9 +26112,10 @@ focus_tree = {
 	}
 
 	### Hidden markers for the non-socialist air and navy entries ###
-	# These two never show up in the tree. They only let the other Russian paths enter the
-	# air and navy branches without drawing a line from the army branch, and they sit exactly
-	# on top of their own root so that no prerequisite line can ever become visible.
+	# These two never show up in the tree and are completed at game start (see
+	# common/on_actions/on_actions_Russia.txt). They only satisfy the prerequisite of the
+	# socialist branch below, which gives the other Russian paths a free entry with no line,
+	# and they sit exactly on top of their own root so no line could ever become visible.
 	focus = {
 		id = RUS_air_navy_entry_army_air
 		icon = GFX_goal_RUS_airforce
@@ -26173,8 +26168,9 @@ focus_tree = {
 				has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 			}
 		}
-		# Socialists draw the line from the National Military Council, while the other
-		# Russian paths come in through the invisible marker and keep no line at all.
+		# Socialists draw the line from the National Military Council. The other Russian
+		# paths have no requirement and no line at all: they come in through the invisible
+		# marker above, which is already completed by the time the tree is shown.
 		prerequisite = {
 			focus = RUS_fr_rebuild_revolutionary_military_council
 			focus = RUS_air_navy_entry_army_air
@@ -27376,8 +27372,9 @@ focus_tree = {
 				has_completed_focus = RUS_fr_rebuild_revolutionary_military_council
 			}
 		}
-		# Socialists draw the line from the National Military Council, while the other
-		# Russian paths come in through the invisible marker and keep no line at all.
+		# Socialists draw the line from the National Military Council. The other Russian
+		# paths have no requirement and no line at all: they come in through the invisible
+		# marker above, which is already completed by the time the tree is shown.
 		prerequisite = {
 			focus = RUS_fr_rebuild_revolutionary_military_council
 			focus = RUS_air_navy_entry_army_navy
