@@ -3093,3 +3093,10 @@ mio:RUS_example_organization = {
 - 本地化：新增 `localisation/english|simp_chinese/RUS_ns_air_navy_entries_l_*.yml`（英文沿用 KR 本体、中文沿用中文包文案；KR 本体没有这两个 key 的俄语，保持一致）。
 - 清理：删除上一版的隐藏标记国策、`on_actions_Russia.txt` 里补完标记的效果（弹窗「国策完成 陆军分支入口（海军）」就是它触发的）以及对应的三个 loc 文件。
 - 校验：`RUS focus (Russia).txt` 11986/11986、`on_actions_Russia.txt` 1172/1172、`events/RUS events (Russia).txt` 16945/16945、`common/decisions/RUS decisions (Russia).txt` 7640/7640 括号平衡；RHoiScribe 未闭合块/括号全绿（其余红项为既有误报）。未实机验证。
+
+
+## 2026-09-22 — 清理旧军备自动推进
+
+- 删除已停用的军备自动调度、29项启动效果及专用可用条件；保留军队整肃自动链。
+- 旧事件100/400保留禁用空入口供存档识别；101/401仅保留已排队项目收尾，101不再排入下一项。
+- 当前物资足够立即完成、物资不足正常推进的国策逻辑保持不变；仅测试版。
