@@ -2859,3 +2859,9 @@ mio:RUS_example_organization = {
 - 覆盖内容涵盖：`RUS_future_foreign_policy_effects.txt`（北欧关系分段）、`on_actions_Russia.txt`（卡缅涅夫误入修复）、`RUS_national_agriculture_effects.txt`（农业 4000/8000 新数值）与配套 `RUS_agri_development_effects.txt`、`RUS_national_agriculture_triggers/loc/gui`、`RUS stalin dynamic_modifiers.txt`（VST 派系变量与 `RUS_stalin_psr_balance_collapse_modifier`）、`RUS_ukr_underground_triggers/decisions`、`cosmetic.txt`（RUS_sov_5）、`stalin_form_sov.txt`（第五选项）与三语文案、`music/music.asset`（《共产国际之歌》主题曲）、`interface/frontendmainviewbg.gfx`（4:3 画布）、`RUS characters.txt`、`RUS ideas (Russia).txt`、三语 `RUS_stalin_kamenev_focus_tree_replace_*`、卡缅涅夫国策图标 22 张等。
 - 因此开发目录现在等于「测试版内容 + 军事线重排」；开发目录独有的卡缅涅夫脚本文件（`RUS_kamenev_politics_*`）仍在，未删除。
 - 校验：括号与未闭合块全绿（`RUS ideas` 3107/3107、事件文件 16942/16942）。未实机验证。
+
+### 2026-09-21 新外交线右移 7、上移 5
+
+- `common/national_focus/00_RUS_future_foreign_policy_skeleton.txt`：58 门国策全部是绝对坐标，统一 `x += 7`、`y -= 5`；横向范围 19–35 → **26–42**，纵向 17–31 → **12–26**（改了 58 行 x、58 行 y，共 116 行）。
+- 与主树 `RUS focus (Russia).txt` 的重叠格子：移动前 18 处 → 移动后 **17 处**（其余重叠是主树内部既有的，未处理）。
+- 括号平衡 651/651。未实机验证。
