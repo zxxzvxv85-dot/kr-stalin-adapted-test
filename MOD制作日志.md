@@ -3065,3 +3065,12 @@ mio:RUS_example_organization = {
 - 「按测试版覆盖」时，`common/national_focus/00_RUS_future_foreign_policy_skeleton.txt` 里的 `russia_foreign_policy_events.105` 派发被带回了 `INT`（= 第三国际领袖别名，本模组里俄罗斯接管后会解析成俄罗斯自己）；现改回 `FRA`。
 - 现在三处派发全部一致：`RUS focus (Russia).txt` 两处（`RUS_each_according_ability`、`RUS_franco_russian_treaty`）＋ `00_RUS_future_foreign_policy_skeleton.txt` 一处（`RUS_future_foreign_047`），都是发给**法国**（`days = 2`）与**英国**（`days = 4`）。
 - 注意：测试版本身不含这个修复（它打包在修复之前），以后若再整体同步测试版，需要重新确认这一行。未实机验证。
+
+### 2026-09-22 社会主义侧恢复空军/海军连线，其它路线改走隐藏标记（不画线）
+
+- 按作者要求：社会主义路线上「国家军事委员会 → 评估俄罗斯空军 / 评估俄罗斯海军」的连线恢复；其它路线（萨文科夫等）进入这两棵树时不画任何线。（上一个提交 `bbcd21a` 只留军事委员会前置，会把非社会主义路线彻底锁死，本次一并修掉。）
+- 原因：`prerequisite` 是静态的，同一门国策没法按路线写两套前置。旧写法 `prerequisite = { 军事委员会 处理陆军 }` 在一个块里是「或」，但两条线都会画出来——作者看到的那条「处理陆军 → 评估俄罗斯海军」就是这么来的。
+- 做法：新增两门隐藏标记国策 `RUS_air_navy_entry_army_air` / `RUS_air_navy_entry_army_navy`（`allow_branch = { always = no }`，坐标相对各自根节点 0/0，所以即使引擎画线也是零长度）。两个根的前置改成「军事委员会 **或** 对应隐藏标记」；`RUS_address_the_army` 完成时用隐藏效果顺带把两个标记补完（`complete_national_focus`），因此非社会主义路线的进入条件与测试版完全一致。
+- 结果：社会主义路线只保留军事委员会那一条线；非社会主义路线没有连线，但空军/海军树照旧能开（依旧需要先点「处理陆军」）。
+- 本地化：新增 `localisation/english|russian|simp_chinese/RUS_air_navy_markers_l_*.yml`，避免工具提示里露出原始 key。
+- 校验：`RUS focus (Russia).txt` 括号 11961/11961；RHoiScribe 的未闭合块/括号检查全绿（其余红项为既有误报）。未实机验证。
