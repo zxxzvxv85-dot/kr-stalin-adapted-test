@@ -18673,7 +18673,7 @@ focus_tree = {
 				factor = 0
 				has_country_flag = RUS_socialist_ai
 				NOT = {
-					has_completed_focus = RUS_evaluate_VVFR
+					OR = { has_completed_focus = RUS_evaluate_VVFR has_completed_focus = RUS_ns_evaluate_VVFR }
 					has_completed_focus = RUS_voskhod
 				}
 			}
@@ -26111,32 +26111,6 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_ARMY_BONUS }
 	}
 
-	### Hidden markers for the non-socialist air and navy entries ###
-	# These two never show up in the tree and are completed at game start (see
-	# common/on_actions/on_actions_Russia.txt). They only satisfy the prerequisite of the
-	# socialist branch below, which gives the other Russian paths a free entry with no line,
-	# and they sit exactly on top of their own root so no line could ever become visible.
-	focus = {
-		id = RUS_air_navy_entry_army_air
-		icon = GFX_goal_RUS_airforce
-		cost = 1
-		relative_position_id = RUS_evaluate_VVFR
-		x = 0
-		y = 0
-		allow_branch = { always = no }
-		ai_will_do = { factor = 0 }
-	}
-	focus = {
-		id = RUS_air_navy_entry_army_navy
-		icon = GFX_goal_RUS_navy
-		cost = 1
-		relative_position_id = RUS_inspect_VMFR
-		x = 0
-		y = 0
-		allow_branch = { always = no }
-		ai_will_do = { factor = 0 }
-	}
-
 	### Air Tree ###
 	focus = {
 		id = RUS_evaluate_VVFR
@@ -26160,8 +26134,7 @@ focus_tree = {
 		trigger = { has_country_flag = RUS_lost_wk2 }
 	}
 
-		# Socialists unlock the air force directly below the National Military Council;
-		# other Russian paths keep the army-line entry through the conditional offset.
+		# Socialists unlock the air force directly below the National Military Council.
 		available = {
 			if = {
 				limit = { has_socialist_government = yes }
@@ -26169,12 +26142,9 @@ focus_tree = {
 			}
 		}
 		# Socialists draw the line from the National Military Council. The other Russian
-		# paths have no requirement and no line at all: they come in through the invisible
-		# marker above, which is already completed by the time the tree is shown.
-		prerequisite = {
-			focus = RUS_fr_rebuild_revolutionary_military_council
-			focus = RUS_air_navy_entry_army_air
-		}
+		# paths use their own copy of this focus (RUS_ns_evaluate_VVFR), which has no
+		# prerequisite at all.
+		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
 
 		ai_will_do = {
 			base = 0
@@ -26220,6 +26190,65 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_AIR_XP }
 	}
 
+	# Non-socialist entry for the air force line: same focus, no prerequisite at all.
+	# Both copies sit on top of each other, and only one of them is visible per route.
+	focus = {
+		id = RUS_ns_evaluate_VVFR
+		icon = {
+			GFX_goal_RUS_airforce = { has_socialist_government = no }
+			GFX_goal_RUS_airforce_socialist = yes
+		}
+		cost = 4
+		allow_branch = { has_socialist_government = no }
+
+		relative_position_id = RUS_evaluate_VVFR
+		x = 0
+		y = 0
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 15
+				date > 1939.1.1
+			}
+			modifier = {
+				factor = 2
+				any_enemy_country = {
+					has_deployed_air_force_size = { size > var:ROOT.num_deployed_planes }
+				}
+			}
+			modifier = {
+				add = 1000
+				has_country_flag = RUS_socialist_ai
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					has_country_flag = RUS_savinkov_ai
+					has_country_flag = RUS_republic_ai
+					has_country_flag = RUS_empire_ai
+					has_country_flag = RUS_socialist_ai
+					has_country_flag = RUS_stalin_ai
+					has_country_flag = RUS_kamenev_ai
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetLogRoot]: Focus Completed RUS_ns_evaluate_VVFR"
+			if = {
+				limit = { RUS_savinkov = yes }
+				custom_effect_tooltip = RUS_evalute_VVFR_tt
+				custom_effect_tooltip = tooltip_white_line
+			}
+			air_experience = 30
+			country_event = russia_flavour_events.8
+			hidden_effect = {
+				country_event = { id = russia_events.267 days = 20 } #Terror Bombing Question
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIR_XP }
+	}
+
 	focus = {
 		id = RUS_state_aviation_bureau
 		icon = GFX_goal_industry_air
@@ -26231,6 +26260,7 @@ focus_tree = {
 
 		prerequisite = {
 			focus = RUS_evaluate_VVFR
+			focus = RUS_ns_evaluate_VVFR
 		}
 		available = {
 			RUS_fpc_plane_tier_3 = yes
@@ -26267,6 +26297,7 @@ focus_tree = {
 
 		prerequisite = {
 			focus = RUS_evaluate_VVFR
+			focus = RUS_ns_evaluate_VVFR
 		}
 		ai_will_do = {
 			base = 0
@@ -26346,6 +26377,7 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = RUS_evaluate_VVFR
+			focus = RUS_ns_evaluate_VVFR
 		}
 		ai_will_do = {
 			base = 0
@@ -27364,8 +27396,7 @@ focus_tree = {
 			trigger = { has_socialist_government = no }
 		}
 
-		# Socialists enter directly below the National Military Council alongside the air branch;
-		# other routes retain the original army-line prerequisite.
+		# Socialists enter directly below the National Military Council alongside the air branch.
 		available = {
 			if = {
 				limit = { has_socialist_government = yes }
@@ -27373,12 +27404,9 @@ focus_tree = {
 			}
 		}
 		# Socialists draw the line from the National Military Council. The other Russian
-		# paths have no requirement and no line at all: they come in through the invisible
-		# marker above, which is already completed by the time the tree is shown.
-		prerequisite = {
-			focus = RUS_fr_rebuild_revolutionary_military_council
-			focus = RUS_air_navy_entry_army_navy
-		}
+		# paths use their own copy of this focus (RUS_ns_inspect_VMFR), which has no
+		# prerequisite at all.
+		prerequisite = { focus = RUS_fr_rebuild_revolutionary_military_council }
 
 		ai_will_do = {
 			base = 0
@@ -27418,6 +27446,59 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_NAVY_XP }
 	}
 
+	# Non-socialist entry for the navy line: same focus, no prerequisite at all.
+	# Both copies sit on top of each other, and only one of them is visible per route.
+	focus = {
+		id = RUS_ns_inspect_VMFR
+		icon = {
+			GFX_goal_RUS_navy = { has_socialist_government = no }
+			GFX_goal_RUS_navy_socialist = yes
+		}
+		cost = 4
+		allow_branch = { has_socialist_government = no }
+
+		relative_position_id = RUS_inspect_VMFR
+		x = 0
+		y = 0
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 5
+				date > 1940.1.1
+			}
+			modifier = {
+				add = 1000
+				has_active_mission = RUS_navy_focus_demand
+			}
+			modifier = {
+				factor = 0
+				date < 1936.2.1
+				NOT = {
+					has_country_flag = RUS_savinkov_ai
+					has_country_flag = RUS_republic_ai
+					has_country_flag = RUS_empire_ai
+					has_country_flag = RUS_socialist_ai
+					has_country_flag = RUS_stalin_ai
+					has_country_flag = RUS_kamenev_ai
+				}
+			}
+			modifier = {
+				factor = 100
+				OR = {
+					has_war_with = ENG
+					has_war_with = JAP
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetLogRoot]: Focus Completed RUS_ns_inspect_VMFR"
+			navy_experience = 20
+			country_event = russia_flavour_events.9
+		}
+		search_filters = { FOCUS_FILTER_NAVY_XP }
+	}
+
 	focus = {
 		id = RUS_promote_new_blood
 		icon = GFX_goal_navy_hat_ships
@@ -27428,7 +27509,7 @@ focus_tree = {
 		y = 1
 
 		# Entry gate only: the line from the navy root is omitted on purpose.
-		available = { has_completed_focus = RUS_inspect_VMFR }
+		available = { OR = { has_completed_focus = RUS_inspect_VMFR has_completed_focus = RUS_ns_inspect_VMFR } }
 		ai_will_do = {
 			factor = 3
 			modifier = {
@@ -27537,6 +27618,7 @@ focus_tree = {
 
 		prerequisite = {
 			focus = RUS_inspect_VMFR
+			focus = RUS_ns_inspect_VMFR
 		}
 		ai_will_do = {
 			factor = 3
@@ -27596,6 +27678,7 @@ focus_tree = {
 
 		prerequisite = {
 			focus = RUS_inspect_VMFR
+			focus = RUS_ns_inspect_VMFR
 		}
 		ai_will_do = {
 			factor = 3
@@ -28429,6 +28512,7 @@ focus_tree = {
 		y = 1
 		prerequisite = {
 			focus = RUS_inspect_VMFR
+			focus = RUS_ns_inspect_VMFR
 		}
 		ai_will_do = {
 			factor = 3

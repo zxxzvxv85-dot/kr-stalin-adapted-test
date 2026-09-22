@@ -1008,7 +1008,12 @@ unit_leader_event = { #Navy demands funds
 	desc = russia_events.32.d
 	is_triggered_only = yes
 	trigger = {
-		NOT = { has_completed_focus = RUS_inspect_VMFR }
+		NOT = {
+			OR = {
+				has_completed_focus = RUS_inspect_VMFR
+				has_completed_focus = RUS_ns_inspect_VMFR
+			}
+		}
 		RUS_aleksandr_kolchak = { is_navy_chief = yes }
 		has_socialist_government = no
 	}
@@ -1035,8 +1040,12 @@ unit_leader_event = { #Kolchak furious
 	trigger = {
 		RUS_savinkov = yes
 		NOT = {
-			has_completed_focus = RUS_inspect_VMFR
-			focus_progress = { focus = RUS_inspect_VMFR progress > 0 }
+			OR = {
+				has_completed_focus = RUS_inspect_VMFR
+				has_completed_focus = RUS_ns_inspect_VMFR
+				focus_progress = { focus = RUS_inspect_VMFR progress > 0 }
+				focus_progress = { focus = RUS_ns_inspect_VMFR progress > 0 }
+			}
 		}
 	}
 

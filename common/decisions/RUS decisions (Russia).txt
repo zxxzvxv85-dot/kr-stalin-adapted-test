@@ -4478,7 +4478,10 @@ RUS_stavka_cat_decisions = {
 		icon = GFX_decision_SWE_set_navy_budget
 		activation = { always = no }
 		available = {
-			focus_progress = { focus = RUS_inspect_VMFR progress > 0.5 }
+			OR = {
+				focus_progress = { focus = RUS_inspect_VMFR progress > 0.5 }
+				focus_progress = { focus = RUS_ns_inspect_VMFR progress > 0.5 }
+			}
 		}
 		is_good = no
 		selectable_mission = no

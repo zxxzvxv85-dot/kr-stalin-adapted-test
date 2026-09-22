@@ -3082,3 +3082,14 @@ mio:RUS_example_organization = {
 - 标记本身是 `allow_branch = { always = no }` 的隐藏国策、坐标又贴在各自根节点上，所以两条路由都不会多出连线：非社会主义是「无前置、无线」，社会主义是「军事委员会一条线」。
 - 顺带撤掉 `RUS_address_the_army` 里补完标记的那两行效果（不再需要）。
 - 校验：`RUS focus (Russia).txt` 括号 11959/11959、`on_actions_Russia.txt` 1181/1181；RHoiScribe 的未闭合块/括号检查全绿（其余红项为既有误报）。未实机验证。
+
+### 2026-09-22 海空军入口拆成两套：社会主义挂军事委员会，萨文科夫零前置
+
+- 根因：本作引擎里 **当一门国策的所有前置国策都不可见时，这门国策自己也会被隐藏**。上一版把海空军根的前置改成「军事委员会 or 隐藏标记」后，萨文科夫侧两个前置都不可见 → 整条海空军线被藏起来（就是「还是没有海空军国策」）。测试版里能看见，是因为前置里还有「处理陆军」这个可见项。
+- 现在做法（按作者要求「复制两套」）：两个入口各拆成两门国策，子树（空军 21 门＋海军 22 门）不动、仍是同一套，第一排前置改成「或」：
+  - `RUS_evaluate_VVFR` / `RUS_inspect_VMFR`：社会主义用，保留 `prerequisite = { RUS_fr_rebuild_revolutionary_military_council }`，军事委员会那条连线保留。
+  - `RUS_ns_evaluate_VVFR` / `RUS_ns_inspect_VMFR`：非社会主义（萨文科夫/共和国/帝国）用，`allow_branch = { has_socialist_government = no }`，**没有任何前置、也没有额外要求**；坐标用 `relative_position_id` 指向对应的社会主义入口、x/y 为 0，所以两条路线的入口位置完全一致（父节点的 offset 会自动带过来），不会出现两个图标、也不会多线。
+- 兼容：`RUS_address_the_army` 的 AI 权重、`common/decisions/RUS decisions (Russia).txt` 的 `RUS_navy_focus_demand`、`events/RUS events (Russia).txt` 的 `russia_events.32/33` 里对海空军根的判定全部改成「任一入口」，避免非社会主义路线点完入口后相关判定失灵。
+- 本地化：新增 `localisation/english|simp_chinese/RUS_ns_air_navy_entries_l_*.yml`（英文沿用 KR 本体、中文沿用中文包文案；KR 本体没有这两个 key 的俄语，保持一致）。
+- 清理：删除上一版的隐藏标记国策、`on_actions_Russia.txt` 里补完标记的效果（弹窗「国策完成 陆军分支入口（海军）」就是它触发的）以及对应的三个 loc 文件。
+- 校验：`RUS focus (Russia).txt` 11986/11986、`on_actions_Russia.txt` 1172/1172、`events/RUS events (Russia).txt` 16945/16945、`common/decisions/RUS decisions (Russia).txt` 7640/7640 括号平衡；RHoiScribe 未闭合块/括号全绿（其余红项为既有误报）。未实机验证。
