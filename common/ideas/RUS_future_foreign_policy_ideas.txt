@@ -20,6 +20,15 @@ ideas = {
 			}
 		}
 
+		RUS_zlatoust_chromium_concession = {
+			picture = generic_exploit_mines
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				country_resource_chromium = 45
+			}
+		}
+
 		RUS_future_foreign_military_aid_idea = {
 			picture = generic_army
 			allowed = { always = no }
@@ -28,6 +37,46 @@ ideas = {
 				experience_gain_army_factor = 0.05
 				army_org_factor = 0.05
 			}
+		}
+
+		RUS_future_foreign_balkan_military_aid = {
+			picture = generic_army
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				army_org_factor = 0.10
+				army_attack_against_major_factor = 0.10
+				army_defence_against_major_factor = 0.10
+			}
+		}
+
+		# Effects applied to Nordic countries when the Northern Alliance focus resolves.
+		RUS_future_foreign_nordic_relation_low_negative = {
+			picture = generic_agrarian_reform
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = { stability_factor = -0.02 }
+		}
+
+		RUS_future_foreign_nordic_relation_low = {
+			picture = generic_agrarian_reform
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = { stability_factor = -0.05 }
+		}
+
+		RUS_future_foreign_nordic_relation_mid = {
+			picture = generic_agrarian_reform
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = { stability_factor = -0.08 }
+		}
+
+		RUS_future_foreign_nordic_relation_faction = {
+			picture = generic_agrarian_reform
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = { stability_factor = -0.12 }
 		}
 	}
 }

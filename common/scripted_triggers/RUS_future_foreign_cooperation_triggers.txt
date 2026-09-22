@@ -1,12 +1,54 @@
+RUS_future_foreign_balkan_socialist_target = {
+	OR = { tag = SER tag = ROM tag = GRE tag = ALB tag = BUL }
+	has_socialist_government = yes
+}
+
+RUS_future_foreign_has_balkan_aid_discount = {
+	has_completed_focus = RUS_future_foreign_019
+	FROM = { RUS_future_foreign_balkan_socialist_target = yes }
+}
+
 RUS_future_foreign_can_pay_aid_pp = {
 	OR = {
 		AND = {
+			RUS_future_foreign_has_balkan_aid_discount = yes
+			RUS_diplomacy_can_pay_15 = yes
+		}
+		AND = {
+			NOT = { RUS_future_foreign_has_balkan_aid_discount = yes }
 			has_completed_focus = RUS_future_foreign_056
 			RUS_diplomacy_can_pay_24 = yes
 		}
 		AND = {
+			NOT = { RUS_future_foreign_has_balkan_aid_discount = yes }
 			NOT = { has_completed_focus = RUS_future_foreign_056 }
 			RUS_diplomacy_can_pay_30 = yes
+		}
+	}
+}
+
+RUS_future_foreign_can_pay_military_aid_materials = {
+	OR = {
+		AND = {
+			RUS_future_foreign_has_balkan_aid_discount = yes
+			NOT = { check_variable = { RUS_fr_military_reform_materials < 10 } }
+		}
+		AND = {
+			NOT = { RUS_future_foreign_has_balkan_aid_discount = yes }
+			NOT = { check_variable = { RUS_fr_military_reform_materials < 20 } }
+		}
+	}
+}
+
+RUS_future_foreign_can_pay_civil_aid_score = {
+	OR = {
+		AND = {
+			RUS_future_foreign_has_balkan_aid_discount = yes
+			NOT = { check_variable = { RUS_first_five_year_plan_score < 0.5 } }
+		}
+		AND = {
+			NOT = { RUS_future_foreign_has_balkan_aid_discount = yes }
+			NOT = { check_variable = { RUS_first_five_year_plan_score < 1 } }
 		}
 	}
 }

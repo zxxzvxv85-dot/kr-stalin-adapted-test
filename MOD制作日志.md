@@ -2839,3 +2839,10 @@ mio:RUS_example_organization = {
 - 处理：删掉部委事件的 `= no` 旧副本，保留 `= yes` 那份原文并去掉路线判定——`.302`、`.304`、`.330`、`.361` 直接去判定，`.338`（Right/Left）只去掉外层路线判定、保留内层条件。此前处理的 `.2`、`.332`、`.335` 同属一类。
 - `.132`（布莱赫尔报告）是**整条事件**按路线分版（事件级 `trigger = { OR = { AND = { 是 } AND = { 否 } } }`），不是重复副本，保持原样未动。
 - 括号平衡 17714/17714。未实机验证。
+
+### 2026-09-21 找回回滚时被撤掉的纯新增内容
+
+- 复核 `wip/kamenev-refactor-20260921` 与当前分支的差异，发现回滚把一批**纯新增**（只有增加、没有删除）的内容也一起撤掉了，现按文件原样恢复，共 22 个文件 +799 行：
+- `common/military_industrial_organization/organizations/RUS_organization.txt`（+405，新的军工联合体内容）、`interface/RUS_future_foreign_focus_icons.gfx`（+205，新国策图标定义，PNG 素材本来就在）、`common/ideas/RUS_future_foreign_policy_ideas.txt`（+49）、`common/scripted_triggers/RUS_future_foreign_cooperation_triggers.txt`（+42）、`common/scripted_effects/RUS_future_foreign_cooperation_effects.txt` 与 `..._scripted_loc.txt`（各 +22）、`localisation/replace/zzz_RUS_populist_terminology_l_simp_chinese.yml`（+22）、若干三语本地化与 MIO 名称键（各 +1～3）、`common/synchronized_dynamic_tokens/RUS_stalin_tokens.txt`、`common/dynamic_modifiers/RUS_future_foreign_policy_dynamic_modifiers.txt`、`common/technologies/RUS_stalin_air_assault.txt`、`events/zzzz_RUS_stalin_kamenev_takes_office.txt`。
+- 仍有「增删混在一起」的文件待定：`common/scripted_effects/RUS_future_foreign_policy_effects.txt`（+226/−5，北欧关系整套效果）、`common/on_actions/on_actions_Russia.txt`（+55/−19，卡缅涅夫误入修复）、`common/scripted_effects/RUS_national_agriculture_effects.txt`（+27/−17，农业系统新数值 4000/8000 与产能变量）、`common/dynamic_modifiers/RUS stalin dynamic_modifiers.txt`（+13/−4，VST 派系斗争变量）、`events/stalin_form_sov.txt`（+13/−11）、`common/scripted_triggers/RUS_ukr_underground_triggers.txt`（+20/−11）等，改哪几处需要你点头。
+- 恢复的文件括号平衡（如 `RUS_organization.txt` 4729/4729）。未实机验证。

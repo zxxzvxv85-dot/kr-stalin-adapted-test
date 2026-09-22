@@ -42,8 +42,30 @@ RUS_future_foreign_refresh_red_flags = {
 
 RUS_future_foreign_pay_aid_pp = {
 	if = {
+		limit = { RUS_future_foreign_has_balkan_aid_discount = yes }
+		RUS_diplomacy_pay_15 = yes
+	}
+	else_if = {
 		limit = { has_completed_focus = RUS_future_foreign_056 }
 		RUS_diplomacy_pay_24 = yes
 	}
 	else = { RUS_diplomacy_pay_30 = yes }
+}
+
+RUS_future_foreign_pay_military_aid_materials = {
+	if = {
+		limit = { RUS_future_foreign_has_balkan_aid_discount = yes }
+		add_to_variable = { RUS_fr_military_reform_materials = -10 }
+	}
+	else = { add_to_variable = { RUS_fr_military_reform_materials = -20 } }
+	RUS_fr_refresh_military_reform_materials = yes
+}
+
+RUS_future_foreign_pay_civil_aid_score = {
+	if = {
+		limit = { RUS_future_foreign_has_balkan_aid_discount = yes }
+		add_to_variable = { RUS_first_five_year_plan_score = -0.5 }
+	}
+	else = { add_to_variable = { RUS_first_five_year_plan_score = -1 } }
+	RUS_stalin_refresh_first_five_year_plan_stage = yes
 }

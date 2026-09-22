@@ -258,6 +258,87 @@ RUS_putilovets_organisation = {
 	}
 
 	trait = {
+		token = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		name = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		icon = GFX_generic_mio_trait_icon_maximum_speed
+		special_trait_background = yes
+
+		position = { x = 9 y = 2 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_breakthrough_chassis_program
+				NOT = { has_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			maximum_speed = 0.05
+			reliability = 0.05
+			breakthrough = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_standardised_armoured_components
+		name = RUS_fr_mio_trait_standardised_armoured_components
+		icon = GFX_generic_mio_trait_icon_production_capacity
+		special_trait_background = yes
+
+		position = { x = 9 y = 3 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_universal_hull_standards
+				NOT = { has_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+		}
+
+		production_bonus = {
+			production_capacity_factor = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_high_velocity_firepower_integration
+		name = RUS_fr_mio_trait_high_velocity_firepower_integration
+		icon = GFX_generic_mio_trait_icon_soft_attack
+		special_trait_background = yes
+
+		position = { x = 9 y = 4 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program
+				NOT = { has_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			soft_attack = 0.05
+			hard_attack = 0.05
+		}
+	}
+
+	trait = {
 		token = putilovets_upgrade_1
 		name = KR_MIO_Trait_bvt_armour
 		icon = GFX_generic_mio_trait_icon_armor_value
@@ -506,6 +587,87 @@ RUS_okmo_kr_organisation = {
 
 		organization_modifier = {
 			military_industrial_organization_size_up_requirement = -0.25
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		name = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		icon = GFX_generic_mio_trait_icon_maximum_speed
+		special_trait_background = yes
+
+		position = { x = 9 y = 2 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_breakthrough_chassis_program
+				NOT = { has_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			maximum_speed = 0.05
+			reliability = 0.05
+			breakthrough = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_standardised_armoured_components
+		name = RUS_fr_mio_trait_standardised_armoured_components
+		icon = GFX_generic_mio_trait_icon_production_capacity
+		special_trait_background = yes
+
+		position = { x = 9 y = 3 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_universal_hull_standards
+				NOT = { has_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+		}
+
+		production_bonus = {
+			production_capacity_factor = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_high_velocity_firepower_integration
+		name = RUS_fr_mio_trait_high_velocity_firepower_integration
+		icon = GFX_generic_mio_trait_icon_soft_attack
+		special_trait_background = yes
+
+		position = { x = 9 y = 4 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program
+				NOT = { has_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			soft_attack = 0.05
+			hard_attack = 0.05
 		}
 	}
 
@@ -1095,6 +1257,87 @@ RUS_uztm_organisation = {
 
 		organization_modifier = {
 			military_industrial_organization_size_up_requirement = -0.25
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		name = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		icon = GFX_generic_mio_trait_icon_maximum_speed
+		special_trait_background = yes
+
+		position = { x = 9 y = 2 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_breakthrough_chassis_program
+				NOT = { has_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			maximum_speed = 0.05
+			reliability = 0.05
+			breakthrough = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_standardised_armoured_components
+		name = RUS_fr_mio_trait_standardised_armoured_components
+		icon = GFX_generic_mio_trait_icon_production_capacity
+		special_trait_background = yes
+
+		position = { x = 9 y = 3 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_universal_hull_standards
+				NOT = { has_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+		}
+
+		production_bonus = {
+			production_capacity_factor = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_high_velocity_firepower_integration
+		name = RUS_fr_mio_trait_high_velocity_firepower_integration
+		icon = GFX_generic_mio_trait_icon_soft_attack
+		special_trait_background = yes
+
+		position = { x = 9 y = 4 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program
+				NOT = { has_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			soft_attack = 0.05
+			hard_attack = 0.05
 		}
 	}
 
@@ -1868,6 +2111,87 @@ RUS_tstz_organisation = {
 
 		organization_modifier = {
 			military_industrial_organization_funds_gain = 0.25
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		name = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		icon = GFX_generic_mio_trait_icon_maximum_speed
+		special_trait_background = yes
+
+		position = { x = 9 y = 2 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_breakthrough_chassis_program
+				NOT = { has_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			maximum_speed = 0.05
+			reliability = 0.05
+			breakthrough = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_standardised_armoured_components
+		name = RUS_fr_mio_trait_standardised_armoured_components
+		icon = GFX_generic_mio_trait_icon_production_capacity
+		special_trait_background = yes
+
+		position = { x = 9 y = 3 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_universal_hull_standards
+				NOT = { has_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+		}
+
+		production_bonus = {
+			production_capacity_factor = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_high_velocity_firepower_integration
+		name = RUS_fr_mio_trait_high_velocity_firepower_integration
+		icon = GFX_generic_mio_trait_icon_soft_attack
+		special_trait_background = yes
+
+		position = { x = 9 y = 4 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program
+				NOT = { has_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			soft_attack = 0.05
+			hard_attack = 0.05
 		}
 	}
 
@@ -4671,6 +4995,87 @@ RUS_chtz_organisation = {
 
 	initial_trait = {
 		name = RUS_chtz_mio_desc
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		name = RUS_fr_mio_trait_breakthrough_chassis_coordination
+		icon = GFX_generic_mio_trait_icon_maximum_speed
+		special_trait_background = yes
+
+		position = { x = 9 y = 2 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_breakthrough_chassis_program
+				NOT = { has_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_breakthrough_chassis_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			maximum_speed = 0.05
+			reliability = 0.05
+			breakthrough = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_standardised_armoured_components
+		name = RUS_fr_mio_trait_standardised_armoured_components
+		icon = GFX_generic_mio_trait_icon_production_capacity
+		special_trait_background = yes
+
+		position = { x = 9 y = 3 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_universal_hull_standards
+				NOT = { has_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_standardised_components_mio_trait_selected }
+		}
+
+		production_bonus = {
+			production_capacity_factor = 0.05
+		}
+	}
+
+	trait = {
+		token = RUS_fr_mio_trait_high_velocity_firepower_integration
+		name = RUS_fr_mio_trait_high_velocity_firepower_integration
+		icon = GFX_generic_mio_trait_icon_soft_attack
+		special_trait_background = yes
+
+		position = { x = 9 y = 4 }
+
+		visible = { FROM = { original_tag = RUS } }
+		available = {
+			FROM = {
+				has_completed_focus = RUS_fr_high_velocity_kinetic_gun_program
+				NOT = { has_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+			}
+		}
+
+		on_complete = {
+			custom_effect_tooltip = generic_trait_will_not_be_available_in_other_organizations
+			FROM = { set_country_flag = RUS_fr_high_velocity_firepower_mio_trait_selected }
+		}
+
+		equipment_bonus = {
+			soft_attack = 0.05
+			hard_attack = 0.05
+		}
 	}
 
 	trait = {
