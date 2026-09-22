@@ -2846,3 +2846,9 @@ mio:RUS_example_organization = {
 - `common/military_industrial_organization/organizations/RUS_organization.txt`（+405，新的军工联合体内容）、`interface/RUS_future_foreign_focus_icons.gfx`（+205，新国策图标定义，PNG 素材本来就在）、`common/ideas/RUS_future_foreign_policy_ideas.txt`（+49）、`common/scripted_triggers/RUS_future_foreign_cooperation_triggers.txt`（+42）、`common/scripted_effects/RUS_future_foreign_cooperation_effects.txt` 与 `..._scripted_loc.txt`（各 +22）、`localisation/replace/zzz_RUS_populist_terminology_l_simp_chinese.yml`（+22）、若干三语本地化与 MIO 名称键（各 +1～3）、`common/synchronized_dynamic_tokens/RUS_stalin_tokens.txt`、`common/dynamic_modifiers/RUS_future_foreign_policy_dynamic_modifiers.txt`、`common/technologies/RUS_stalin_air_assault.txt`、`events/zzzz_RUS_stalin_kamenev_takes_office.txt`。
 - 仍有「增删混在一起」的文件待定：`common/scripted_effects/RUS_future_foreign_policy_effects.txt`（+226/−5，北欧关系整套效果）、`common/on_actions/on_actions_Russia.txt`（+55/−19，卡缅涅夫误入修复）、`common/scripted_effects/RUS_national_agriculture_effects.txt`（+27/−17，农业系统新数值 4000/8000 与产能变量）、`common/dynamic_modifiers/RUS stalin dynamic_modifiers.txt`（+13/−4，VST 派系斗争变量）、`events/stalin_form_sov.txt`（+13/−11）、`common/scripted_triggers/RUS_ukr_underground_triggers.txt`（+20/−11）等，改哪几处需要你点头。
 - 恢复的文件括号平衡（如 `RUS_organization.txt` 4729/4729）。未实机验证。
+
+### 2026-09-21 修复电台音乐挂错电台的问题
+
+- 根因：`music/zzz_RUS_stalin_radio.txt` 里写的是 `music_station = "kr_main_music"`，但 KR 与本模组都没有这个电台（全库只有这一行引用了它），于是 56 首曲子被挂到了一个不存在的电台上；而模组自己的电台 `rus_stalin_radio`（界面 `interface/music_station_rus_stalin_radio.gui`、封面图 `GFX_RUS_stalin_radio_album_art`、名字键 `rus_stalin_radio_TITLE`「布尔什维克的奇妙冒险」）反而是空的。
+- 修复：改为 `music_station = "rus_stalin_radio"`，与界面/封面/本地化完全对应；`<电台名>_TITLE` 的命名也与原版（`base_music_TITLE`、`comintern_TITLE`）一致。
+- 复核：播放列表 56 首 ↔ `zzz_RUS_stalin_radio.asset` 56 条定义 ↔ 对应 `.ogg` 全部存在，无缺项、无多余条目；RUS 限定（`chance = { base = 0 modifier = { add = 20 tag = RUS } }`）保持原样。未实机验证。
