@@ -2935,3 +2935,35 @@ mio:RUS_example_organization = {
 - 「按测试版覆盖」时，`common/national_focus/00_RUS_future_foreign_policy_skeleton.txt` 里的 `russia_foreign_policy_events.105` 派发被带回了 `INT`（= 第三国际领袖别名，本模组里俄罗斯接管后会解析成俄罗斯自己）；现改回 `FRA`。
 - 现在三处派发全部一致：`RUS focus (Russia).txt` 两处（`RUS_each_according_ability`、`RUS_franco_russian_treaty`）＋ `00_RUS_future_foreign_policy_skeleton.txt` 一处（`RUS_future_foreign_047`），都是发给**法国**（`days = 2`）与**英国**（`days = 4`）。
 - 注意：测试版本身不含这个修复（它打包在修复之前），以后若再整体同步测试版，需要重新确认这一行。未实机验证。
+
+### 2026-09-22 分离萨文科夫路线的海空军（非社会主义偏移）
+
+- 问题：KR 原版里海军根 `RUS_inspect_VMFR` 是挂在空军根 `RUS_evaluate_VVFR` 下面的（相对 +8, 0），而本模组给「非社会主义路线」写的海军 `offset` 是 `(18, -4)`，与 KR 原位置不符——于是在萨文科夫等非社会主义路线下，海军树压住了空军树的末排（`RUS_garden_of_explosives` 撞 `RUS_rds_1`），并且撞上 KR 政治树的「俄罗斯大会」。
+- 修复：把 `RUS_inspect_VMFR` 里那个 `offset`（带 `trigger = { has_socialist_government = no }`）从 `x = 18 / y = -4` 改为 `x = 21 / y = -3`，正好等于 KR 原位置（= 空军根 + (8, 0)）。
+- 验证：社会主义视图下海军根仍是 (22,18)、空军根 (26,12)，**全部国策坐标 0 处变化**（该 offset 对社会主义政府不生效）；非社会主义视图下海军根 (40,14) → (43,15)，海军相关撞格 **2 → 0**。
+- 未实机验证。
+
+### 2026-09-21 修复电台音乐挂错电台的问题
+
+- 根因：`music/zzz_RUS_stalin_radio.txt` 里写的是 `music_station = "kr_main_music"`，但 KR 与本模组都没有这个电台（全库只有这一行引用了它），于是 56 首曲子被挂到了一个不存在的电台上；而模组自己的电台 `rus_stalin_radio`（界面 `interface/music_station_rus_stalin_radio.gui`、封面图 `GFX_RUS_stalin_radio_album_art`、名字键 `rus_stalin_radio_TITLE`「布尔什维克的奇妙冒险」）反而是空的。
+- 修复：改为 `music_station = "rus_stalin_radio"`，与界面/封面/本地化完全对应；`<电台名>_TITLE` 的命名也与原版（`base_music_TITLE`、`comintern_TITLE`）一致。
+- 复核：播放列表 56 首 ↔ `zzz_RUS_stalin_radio.asset` 56 条定义 ↔ 对应 `.ogg` 全部存在，无缺项、无多余条目；RUS 限定（`chance = { base = 0 modifier = { add = 20 tag = RUS } }`）保持原样。未实机验证。
+
+### 2026-09-21 以测试版为准同步内容（只保留军事线重排）
+
+- 按作者要求：除 `common/national_focus/RUS focus (Russia).txt`（军事线重排，保留开发目录版本）之外，其余**真实内容差异**一律按已发布的测试版（Workshop `3746983015`）覆盖，共 **67 个文件**（+1252/−2917 行）。
+- 覆盖内容涵盖：`RUS_future_foreign_policy_effects.txt`（北欧关系分段）、`on_actions_Russia.txt`（卡缅涅夫误入修复）、`RUS_national_agriculture_effects.txt`（农业 4000/8000 新数值）与配套 `RUS_agri_development_effects.txt`、`RUS_national_agriculture_triggers/loc/gui`、`RUS stalin dynamic_modifiers.txt`（VST 派系变量与 `RUS_stalin_psr_balance_collapse_modifier`）、`RUS_ukr_underground_triggers/decisions`、`cosmetic.txt`（RUS_sov_5）、`stalin_form_sov.txt`（第五选项）与三语文案、`music/music.asset`（《共产国际之歌》主题曲）、`interface/frontendmainviewbg.gfx`（4:3 画布）、`RUS characters.txt`、`RUS ideas (Russia).txt`、三语 `RUS_stalin_kamenev_focus_tree_replace_*`、卡缅涅夫国策图标 22 张等。
+- 因此开发目录现在等于「测试版内容 + 军事线重排」；开发目录独有的卡缅涅夫脚本文件（`RUS_kamenev_politics_*`）仍在，未删除。
+- 校验：括号与未闭合块全绿（`RUS ideas` 3107/3107、事件文件 16942/16942）。未实机验证。
+
+### 2026-09-21 新外交线右移 7、上移 5
+
+- `common/national_focus/00_RUS_future_foreign_policy_skeleton.txt`：58 门国策全部是绝对坐标，统一 `x += 7`、`y -= 5`；横向范围 19–35 → **26–42**，纵向 17–31 → **12–26**（改了 58 行 x、58 行 y，共 116 行）。
+- 与主树 `RUS focus (Russia).txt` 的重叠格子：移动前 18 处 → 移动后 **17 处**（其余重叠是主树内部既有的，未处理）。
+- 括号平衡 651/651。未实机验证。
+
+### 2026-09-21 恢复新外交线的对法贸易事件派发
+
+- 「按测试版覆盖」时，`common/national_focus/00_RUS_future_foreign_policy_skeleton.txt` 里的 `russia_foreign_policy_events.105` 派发被带回了 `INT`（= 第三国际领袖别名，本模组里俄罗斯接管后会解析成俄罗斯自己）；现改回 `FRA`。
+- 现在三处派发全部一致：`RUS focus (Russia).txt` 两处（`RUS_each_according_ability`、`RUS_franco_russian_treaty`）＋ `00_RUS_future_foreign_policy_skeleton.txt` 一处（`RUS_future_foreign_047`），都是发给**法国**（`days = 2`）与**英国**（`days = 4`）。
+- 注意：测试版本身不含这个修复（它打包在修复之前），以后若再整体同步测试版，需要重新确认这一行。未实机验证。
