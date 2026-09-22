@@ -48,6 +48,7 @@ $excludePatterns = @(
     '^tools/',
     '^output/',
     '^tmp/',
+    '^\.vscode/',
     '(?i)(?:^|/)[^/]*(?:_source|_preview(?:_v?\d+)?|_draft)[^/]*\.(?:png|jpe?g|dds|tga|psd)$',
     '(?i)^thumbnail_before_.*$',
     '(?i)^thumbnail_old\.(?:png|jpe?g)$',
