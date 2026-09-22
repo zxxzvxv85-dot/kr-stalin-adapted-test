@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$SourceRoot = (Split-Path -Parent $PSScriptRoot),
     [string]$DestinationRoot = ""
@@ -139,7 +139,27 @@ catch {
 if ($null -ne $backup) {
     Write-Host "Previous upload retained at: $backup"
 }
-# Backups are retained; a failed build must never destroy the recovery source.
+
+# 每次重建都会留下一个约 400 MB 的 _upload.previous.*；只保留最近几份，
+# 更早的自动清掉（历史上曾累积到 184 份 / 73 GB）。清理失败不影响打包结果。
+$backupKeep = 3
+$backups = @(
+    Get-ChildItem -LiteralPath $destinationParent -Directory |
+        Where-Object { $_.Name -like "$destinationName.previous.*" } |
+        Sort-Object Name -Descending
+)
+if ($backups.Count -gt $backupKeep) {
+    foreach ($old in $backups[$backupKeep..($backups.Count - 1)]) {
+        $resolved = [System.IO.Path]::GetFullPath($old.FullName)
+        if (-not $resolved.StartsWith($destinationParent + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+            Write-Warning "Skip pruning outside the upload parent: $resolved"
+            continue
+        }
+        Remove-Item -LiteralPath $resolved -Recurse -Force
+        Write-Host "Pruned old backup: $($old.Name)"
+    }
+}
+# A failed build must never destroy the newest recovery source.
 
 $totalBytes = (Get-ChildItem -LiteralPath $destination -Recurse -File | Measure-Object -Property Length -Sum).Sum
 [pscustomobject]@{
