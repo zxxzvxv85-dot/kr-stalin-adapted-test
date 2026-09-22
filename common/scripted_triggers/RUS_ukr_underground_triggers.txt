@@ -3,7 +3,7 @@ RUS_ukr_target_valid = {
  GER = { exists = yes }
 }
 RUS_ukr_route_valid = {
- original_tag = RUS has_socialist_government = yes is_subject = no
+ hidden_trigger = { original_tag = RUS has_socialist_government = yes is_subject = no }
  has_completed_focus = RUS_future_foreign_037 RUS_ukr_target_valid = yes
 }
 RUS_ukr_page_visible = {
@@ -49,4 +49,13 @@ RUS_ukr_can_reduce_land_score = {
 RUS_ukr_can_reduce_strike_score = {
  check_variable = { RUS_ukr_strike_score_hits < 3 }
  UKR = { has_active_mission = UKR_industrialisation_mission check_variable = { UKR_industrial_score > 0 } }
+}
+
+# Ongoing operations: prerequisites stay enforced without repeating route checks in cancellation text.
+RUS_ukr_ongoing_route_valid = {
+ hidden_trigger = {
+  original_tag = RUS has_socialist_government = yes is_subject = no
+  has_completed_focus = RUS_future_foreign_037
+ }
+ RUS_ukr_target_valid = yes
 }

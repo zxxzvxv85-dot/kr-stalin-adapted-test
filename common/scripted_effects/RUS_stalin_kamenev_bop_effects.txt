@@ -93,7 +93,6 @@ RUS_stalin_kamenev_migrate_legacy_balance = {
 }
 
 RUS_stalin_kamenev_balance_refresh = {
-if = { limit = { RUS_uses_kamenev_politics = yes }
 	clamp_variable = { var = RUS_kamenev_party_balance min = -100 max = 100 }
 	set_variable = { RUS_kamenev_balance_gui_x = RUS_kamenev_party_balance }
 	multiply_variable = { RUS_kamenev_balance_gui_x = 1.8 }
@@ -170,8 +169,6 @@ if = { limit = { RUS_uses_kamenev_politics = yes }
 		add_dynamic_modifier = { modifier = RUS_kamenev_party_balance_modifier }
 	}
 	force_update_dynamic_modifier = yes
- }
-else = {  }
 }
 
 RUS_stalin_kamenev_balance_freeze = {
@@ -195,13 +192,10 @@ RUS_stalin_kamenev_balance_freeze = {
 }
 
 RUS_stalin_kamenev_bop_refresh_runtime_effects = {
-if = { limit = { RUS_uses_kamenev_politics = yes }
 	RUS_stalin_sverdlov_refresh_sic_trait = yes
 	RUS_stalin_kamenev_bop_refresh_vst_idea_modifier = yes
 	RUS_stalin_enforce_kamenev_advisor_locks = yes
 	RUS_stalin_refresh_advisor_relationship_effects = yes
- }
-else = {  }
 }
 
 RUS_stalin_psr_balance_collapse = {
@@ -240,7 +234,6 @@ RUS_stalin_migrate_psr_collapse_direction = {
 }
 
 RUS_stalin_enforce_kamenev_advisor_locks = {
-if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = {
 			RUS_stalin_psr_advisors_locked = yes
@@ -279,12 +272,9 @@ if = { limit = { RUS_uses_kamenev_politics = yes }
 			RUS_mikhail_kalinin_advisor
 		}
 	}
- }
-else = {  }
 }
 
 RUS_stalin_sverdlov_refresh_sic_trait = {
-if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = {
 			RUS_yakov_sverdlov = {
@@ -297,12 +287,9 @@ if = { limit = { RUS_uses_kamenev_politics = yes }
 			add_trait = { trait = RUS_red_eminence_sverdlov_sic slot = second_in_command }
 		}
 	}
- }
-else = {  }
 }
 
 RUS_stalin_kamenev_bop_refresh_vst_idea_modifier = {
- if = { limit = { RUS_uses_kamenev_politics = yes }
 	if = {
 		limit = {
 			has_country_flag = RUS_kamenev_bop_active
@@ -331,7 +318,6 @@ RUS_stalin_kamenev_bop_refresh_vst_idea_modifier = {
 		}
 		remove_dynamic_modifier = { modifier = RUS_kamenev_vst_party_unity_bop_modifier }
 	}
- }
 }
 
 RUS_stalin_kamenev_calculate_weekly_drift = {
@@ -407,7 +393,6 @@ RUS_stalin_kamenev_calculate_weekly_drift = {
 }
 
 RUS_stalin_kamenev_apply_advisor_drift = {
- if = { limit = { RUS_uses_kamenev_politics = yes }
 	RUS_stalin_kamenev_calculate_weekly_drift = yes
 
 	if = {
@@ -415,7 +400,6 @@ RUS_stalin_kamenev_apply_advisor_drift = {
 		add_to_variable = { RUS_kamenev_party_balance = RUS_kamenev_weekly_balance_drift }
 		RUS_stalin_kamenev_balance_refresh = yes
 	}
- }
 }
 
 RUS_stalin_kamenev_bop_move_left_005 = {

@@ -2852,3 +2852,10 @@ mio:RUS_example_organization = {
 - 根因：`music/zzz_RUS_stalin_radio.txt` 里写的是 `music_station = "kr_main_music"`，但 KR 与本模组都没有这个电台（全库只有这一行引用了它），于是 56 首曲子被挂到了一个不存在的电台上；而模组自己的电台 `rus_stalin_radio`（界面 `interface/music_station_rus_stalin_radio.gui`、封面图 `GFX_RUS_stalin_radio_album_art`、名字键 `rus_stalin_radio_TITLE`「布尔什维克的奇妙冒险」）反而是空的。
 - 修复：改为 `music_station = "rus_stalin_radio"`，与界面/封面/本地化完全对应；`<电台名>_TITLE` 的命名也与原版（`base_music_TITLE`、`comintern_TITLE`）一致。
 - 复核：播放列表 56 首 ↔ `zzz_RUS_stalin_radio.asset` 56 条定义 ↔ 对应 `.ogg` 全部存在，无缺项、无多余条目；RUS 限定（`chance = { base = 0 modifier = { add = 20 tag = RUS } }`）保持原样。未实机验证。
+
+### 2026-09-21 以测试版为准同步内容（只保留军事线重排）
+
+- 按作者要求：除 `common/national_focus/RUS focus (Russia).txt`（军事线重排，保留开发目录版本）之外，其余**真实内容差异**一律按已发布的测试版（Workshop `3746983015`）覆盖，共 **67 个文件**（+1252/−2917 行）。
+- 覆盖内容涵盖：`RUS_future_foreign_policy_effects.txt`（北欧关系分段）、`on_actions_Russia.txt`（卡缅涅夫误入修复）、`RUS_national_agriculture_effects.txt`（农业 4000/8000 新数值）与配套 `RUS_agri_development_effects.txt`、`RUS_national_agriculture_triggers/loc/gui`、`RUS stalin dynamic_modifiers.txt`（VST 派系变量与 `RUS_stalin_psr_balance_collapse_modifier`）、`RUS_ukr_underground_triggers/decisions`、`cosmetic.txt`（RUS_sov_5）、`stalin_form_sov.txt`（第五选项）与三语文案、`music/music.asset`（《共产国际之歌》主题曲）、`interface/frontendmainviewbg.gfx`（4:3 画布）、`RUS characters.txt`、`RUS ideas (Russia).txt`、三语 `RUS_stalin_kamenev_focus_tree_replace_*`、卡缅涅夫国策图标 22 张等。
+- 因此开发目录现在等于「测试版内容 + 军事线重排」；开发目录独有的卡缅涅夫脚本文件（`RUS_kamenev_politics_*`）仍在，未删除。
+- 校验：括号与未闭合块全绿（`RUS ideas` 3107/3107、事件文件 16942/16942）。未实机验证。

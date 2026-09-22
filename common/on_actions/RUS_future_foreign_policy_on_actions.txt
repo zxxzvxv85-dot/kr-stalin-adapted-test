@@ -1,6 +1,8 @@
 on_actions = {
 	on_monthly_RUS = {
-		effect = { RUS_revolution_readiness_monthly = yes }
+		effect = {
+			RUS_revolution_readiness_monthly = yes
+		}
 	}
 
 	on_daily_RUS = {
@@ -24,6 +26,12 @@ on_actions = {
 
 	on_weekly_RUS = {
 		effect = {
+			# Keeps the volunteers and Balkan counts of the Gendarme spirit current
+			# so both its status tooltip and the focus preview match the world state.
+			if = {
+				limit = { has_completed_focus = RUS_future_foreign_004 }
+				RUS_future_foreign_refresh_third_international_gendarme = yes
+			}
 			if = {
 				limit = { has_completed_focus = RUS_future_foreign_016 }
 				RUS_future_foreign_refresh_red_country_count = yes

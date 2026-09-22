@@ -903,7 +903,7 @@ RUS_fr_apply_invincible_legendary_final_bonus = {
 			has_completed_focus = RUS_fr_revolutionary_military_system_finalised
 			NOT = { has_country_flag = RUS_fr_invincible_legendary_combat_width_bonus_applied }
 		}
-		add_to_variable = { RUS_fr_unified_combat_width_factor = -0.05 }
+		add_to_variable = { RUS_fr_unified_combat_width_factor = -0.15 }
 		set_country_flag = RUS_fr_invincible_legendary_combat_width_bonus_applied
 		force_update_dynamic_modifier = yes
 	}
@@ -1247,7 +1247,6 @@ RUS_fr_calculate_specialisation_bonus = {
 }
 
 RUS_fr_add_initial_reform_disorganisation = {
-	remove_ideas = { RUS_white_army_red_baron RUS_lack_of_officers RUS_lack_of_officers_2 RUS_lack_of_officers_3 }
 	if = {
 		limit = { has_completed_focus = RUS_comrades_abroad }
 		add_ideas = RUS_fr_reform_disorganisation_4_comrades_abroad

@@ -1,0 +1,106 @@
+defined_text = {
+	name = GetRUSNordicIcelandStatus
+	text = { trigger = { country_exists = ICE } localization_key = RUS_future_foreign_nordic_ice_status }
+	text = { localization_key = RUS_future_foreign_nordic_status_empty }
+}
+defined_text = {
+	name = GetRUSNordicNorwayStatus
+	text = { trigger = { country_exists = NOR } localization_key = RUS_future_foreign_nordic_nor_status }
+	text = { localization_key = RUS_future_foreign_nordic_status_empty }
+}
+defined_text = {
+	name = GetRUSNordicSwedenStatus
+	text = { trigger = { country_exists = SWE } localization_key = RUS_future_foreign_nordic_swe_status }
+	text = { localization_key = RUS_future_foreign_nordic_status_empty }
+}
+defined_text = {
+	name = GetRUSNordicFinlandStatus
+	text = { trigger = { country_exists = FIN } localization_key = RUS_future_foreign_nordic_fin_status }
+	text = { localization_key = RUS_future_foreign_nordic_status_empty }
+}
+defined_text = {
+	name = GetRUSNordicDenmarkStatus
+	text = { trigger = { country_exists = DEN } localization_key = RUS_future_foreign_nordic_den_status }
+	text = { localization_key = RUS_future_foreign_nordic_status_empty }
+}
+
+# The effect text is evaluated in Russia's scope and follows the same precedence
+# as RUS_future_foreign_apply_nordic_relations.
+defined_text = {
+	name = GetRUSNordicIcelandEffect
+	text = { trigger = { ICE = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } } } localization_key = RUS_future_foreign_nordic_effect_faction }
+	text = { trigger = { ICE = { has_opinion = { target = RUS value > 100 } has_socialist_government = yes } } localization_key = RUS_future_foreign_nordic_effect_invite }
+	text = { trigger = { ICE = { has_opinion = { target = RUS value > 100 } NOT = { has_socialist_government = yes } } } localization_key = RUS_future_foreign_nordic_effect_none }
+	text = { trigger = { ICE = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } } } localization_key = RUS_future_foreign_nordic_effect_pact }
+	text = { trigger = { ICE = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } } } localization_key = RUS_future_foreign_nordic_effect_mid }
+	text = { trigger = { ICE = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } } } localization_key = RUS_future_foreign_nordic_effect_low }
+	text = { localization_key = RUS_future_foreign_nordic_effect_negative }
+}
+defined_text = {
+	name = GetRUSNordicNorwayEffect
+	text = { trigger = { NOR = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } } } localization_key = RUS_future_foreign_nordic_effect_faction }
+	text = { trigger = { NOR = { has_opinion = { target = RUS value > 100 } has_socialist_government = yes } } localization_key = RUS_future_foreign_nordic_effect_invite }
+	text = { trigger = { NOR = { has_opinion = { target = RUS value > 100 } NOT = { has_socialist_government = yes } } } localization_key = RUS_future_foreign_nordic_effect_none }
+	text = { trigger = { NOR = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } } } localization_key = RUS_future_foreign_nordic_effect_pact }
+	text = { trigger = { NOR = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } } } localization_key = RUS_future_foreign_nordic_effect_mid }
+	text = { trigger = { NOR = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } } } localization_key = RUS_future_foreign_nordic_effect_low }
+	text = { localization_key = RUS_future_foreign_nordic_effect_negative }
+}
+defined_text = {
+	name = GetRUSNordicSwedenEffect
+	text = { trigger = { SWE = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } } } localization_key = RUS_future_foreign_nordic_effect_faction }
+	text = { trigger = { SWE = { has_opinion = { target = RUS value > 100 } has_socialist_government = yes } } localization_key = RUS_future_foreign_nordic_effect_invite }
+	text = { trigger = { SWE = { has_opinion = { target = RUS value > 100 } NOT = { has_socialist_government = yes } } } localization_key = RUS_future_foreign_nordic_effect_none }
+	text = { trigger = { SWE = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } } } localization_key = RUS_future_foreign_nordic_effect_pact }
+	text = { trigger = { SWE = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } } } localization_key = RUS_future_foreign_nordic_effect_mid }
+	text = { trigger = { SWE = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } } } localization_key = RUS_future_foreign_nordic_effect_low }
+	text = { localization_key = RUS_future_foreign_nordic_effect_negative }
+}
+defined_text = {
+	name = GetRUSNordicFinlandEffect
+	text = { trigger = { FIN = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } } } localization_key = RUS_future_foreign_nordic_effect_faction }
+	text = { trigger = { FIN = { has_opinion = { target = RUS value > 100 } has_socialist_government = yes } } localization_key = RUS_future_foreign_nordic_effect_invite }
+	text = { trigger = { FIN = { has_opinion = { target = RUS value > 100 } NOT = { has_socialist_government = yes } } } localization_key = RUS_future_foreign_nordic_effect_none }
+	text = { trigger = { FIN = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } } } localization_key = RUS_future_foreign_nordic_effect_pact }
+	text = { trigger = { FIN = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } } } localization_key = RUS_future_foreign_nordic_effect_mid }
+	text = { trigger = { FIN = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } } } localization_key = RUS_future_foreign_nordic_effect_low }
+	text = { localization_key = RUS_future_foreign_nordic_effect_negative }
+}
+defined_text = {
+	name = GetRUSNordicDenmarkEffect
+	text = { trigger = { DEN = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } } } localization_key = RUS_future_foreign_nordic_effect_faction }
+	text = { trigger = { DEN = { has_opinion = { target = RUS value > 100 } has_socialist_government = yes } } localization_key = RUS_future_foreign_nordic_effect_invite }
+	text = { trigger = { DEN = { has_opinion = { target = RUS value > 100 } NOT = { has_socialist_government = yes } } } localization_key = RUS_future_foreign_nordic_effect_none }
+	text = { trigger = { DEN = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } } } localization_key = RUS_future_foreign_nordic_effect_pact }
+	text = { trigger = { DEN = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } } } localization_key = RUS_future_foreign_nordic_effect_mid }
+	text = { trigger = { DEN = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } } } localization_key = RUS_future_foreign_nordic_effect_low }
+	text = { localization_key = RUS_future_foreign_nordic_effect_negative }
+}
+
+# "Under the Stars" lists the Balkan socialist countries that currently feed the
+# Gendarme of the Third International bonus and its non-aggression pacts.
+defined_text = {
+	name = GetRUSBalkanGendarmeSerbia
+	text = { trigger = { SER = { exists = yes has_socialist_government = yes } } localization_key = RUS_future_foreign_balkan_serbia_active }
+	text = { localization_key = RUS_future_foreign_balkan_status_empty }
+}
+defined_text = {
+	name = GetRUSBalkanGendarmeRomania
+	text = { trigger = { ROM = { exists = yes has_socialist_government = yes } } localization_key = RUS_future_foreign_balkan_romania_active }
+	text = { localization_key = RUS_future_foreign_balkan_status_empty }
+}
+defined_text = {
+	name = GetRUSBalkanGendarmeGreece
+	text = { trigger = { GRE = { exists = yes has_socialist_government = yes } } localization_key = RUS_future_foreign_balkan_greece_active }
+	text = { localization_key = RUS_future_foreign_balkan_status_empty }
+}
+defined_text = {
+	name = GetRUSBalkanGendarmeAlbania
+	text = { trigger = { ALB = { exists = yes has_socialist_government = yes } } localization_key = RUS_future_foreign_balkan_albania_active }
+	text = { localization_key = RUS_future_foreign_balkan_status_empty }
+}
+defined_text = {
+	name = GetRUSBalkanGendarmeBulgaria
+	text = { trigger = { BUL = { exists = yes has_socialist_government = yes } } localization_key = RUS_future_foreign_balkan_bulgaria_active }
+	text = { localization_key = RUS_future_foreign_balkan_status_empty }
+}

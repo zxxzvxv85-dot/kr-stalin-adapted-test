@@ -3,7 +3,9 @@ spriteTypes = {
 		name = "GFX_frontend_bg"
 		texturefile = "gfx/loadingscreens/RUS_stalin_main_menu.dds"
 		borderSize = { x = 0 y = 0 }
-		size = { x = 1920 y = 1080 }
+		# Native KR / vanilla frontend canvas: 4:3, anchored centre, so a 16:9 screen
+		# shows the middle 1920x1080 rows of the texture without distorting it.
+		size = { x = 1920 y = 1440 }
 		tilingCenter = no
 		effectFile = "gfx/FX/buttonstate.shader"
 	}

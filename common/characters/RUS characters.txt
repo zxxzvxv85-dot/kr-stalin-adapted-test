@@ -27,7 +27,8 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_yakov_sverdlov_advisor
 			desc = RUS_yakov_sverdlov_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				OR = {
@@ -35,15 +36,9 @@ characters = {
 					has_country_flag = RUS_maximalist_bolshevik_alliance
 				}
 				is_country_leader = no
-			 } AND = { RUS_uses_kamenev_politics = no
-				OR = {
-					has_completed_focus = RUS_invite_sverdlov
-					has_country_flag = RUS_maximalist_bolshevik_alliance
-				}
-				is_country_leader = no
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_red_eminence }
+			traits = { RUS_relationship_display_sverdlov KR_bolshevik_sverdlov }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
 				RUS_RKP_relation = yes
@@ -72,9 +67,9 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_mikhail_tomsky_advisor
 			desc = RUS_mikhail_tomsky_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				is_country_leader = no
-			}
+			 }
 			visible = {
 				has_socialist_government = yes
 			}
@@ -107,19 +102,15 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_lev_kamenev_advisor
 			desc = RUS_lev_kamenev_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				set_temp_variable = { RUS_relation_check = 1 }
 				RUS_vst_left_check = yes
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			 } AND = { RUS_uses_kamenev_politics = no
-				set_temp_variable = { RUS_relation_check = 1 }
-				RUS_vst_left_check = yes
-				not_already_hired_except_as = political_advisor
-				is_country_leader = no
-			 } } }
+			}
 			visible = {
 				OR = {
 					has_government = syndicalist
@@ -150,9 +141,10 @@ characters = {
 			slot = second_in_command
 			idea_token = RUS_lev_kamenev_sic
 			desc = RUS_lev_kamenev_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_bolshevik_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = {
 				has_socialist_government = yes
 				is_country_leader = no
@@ -187,9 +179,10 @@ characters = {
 			slot = second_in_command
 			idea_token = RUS_grigory_zinovyev_sic
 			desc = RUS_grigory_zinovyev_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_bolshevik_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = {
 				has_socialist_government = yes
 				NOT = { has_country_leader = { character = RUS_grigory_zinovyev } }
@@ -224,7 +217,8 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_rafail_abramovich_advisor
 			desc = RUS_rafail_abramovich_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { RUS_VST = yes }
 					OR = {
@@ -237,15 +231,7 @@ characters = {
 				}
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			 } AND = { RUS_uses_kamenev_politics = no
-				if = {
-					limit = { RUS_VST = yes }
-					set_temp_variable = { RUS_relation_check = 1 }
-					RUS_vst_right_check = yes
-				}
-				not_already_hired_except_as = political_advisor
-				is_country_leader = no
-			 } } }
+			}
 			visible = {
 				OR = {
 					has_government = radical_socialist
@@ -305,13 +291,13 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_vladimir_levitsky_advisor
 			desc = RUS_vladimir_levitsky_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_government = social_democrat
 					RUS_rikhter = yes
 				}
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = {
 				has_soclib_or_socdem_government = yes
 				is_monarchy = no
@@ -399,7 +385,7 @@ characters = {
 		#	visible = {
 		#		RUS_is_demrus = yes
 		#	}
-		#	available = {
+		#	available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 		#		has_socialist_government = yes
 		#		is_hired_as_advisor = no
 		#		is_country_leader = no
@@ -441,11 +427,11 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_aleksandr_titov_advisor
 			desc = RUS_aleksandr_titov_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_socdem_advisor = yes
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 				NOT = { has_country_flag = RUS_purged_social_democrats }
@@ -512,11 +498,11 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_vladimir_rikhter_advisor
 			desc = RUS_vladimir_rikhter_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_soclib_advisor = yes
 				is_monarchy = no
 				is_country_leader = no
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_heir_of_chernov }
 			on_add = {
@@ -574,11 +560,11 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_ilya_fondaminsky_advisor
 			desc = RUS_ilya_fondaminsky_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_soclib_advisor = yes
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 			}
@@ -624,12 +610,12 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_pitirim_sorokin_advisor
 			desc = RUS_pitirim_sorokin_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_completed_focus = RUS_sorokin_reforms
 				has_liberal_government = yes
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_administrative_genius }
 			on_add = {
@@ -702,14 +688,14 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_anton_kartashyov_advisor
 			desc = RUS_anton_kartashyov_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_soccon_or_marlib_government = yes
 					is_in_coalition_with_market_liberal = yes
 				}
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_orthodox_faithful }
 		}
@@ -740,11 +726,11 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_pyotr_dolgorukov_advisor
 			desc = RUS_pyotr_dolgorukov_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_marlib_advisor = yes
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_cons_zemstvoist }
 			on_add = {
@@ -817,14 +803,14 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_ivan_solonevich_advisor
 			desc = RUS_ivan_solonevich_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { tag = RUS }
 					has_completed_focus = RUS_stabs_captain_movement
 				}
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 				NOT = { has_country_flag = RUS_lost_wk2 }
@@ -870,7 +856,7 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_vasily_shulgin_advisor
 			desc = RUS_vasily_shulgin_leader_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_dictatorship_government = yes
 					RUS_authdem_advisor = yes
@@ -882,7 +868,7 @@ characters = {
 					has_completed_focus = FER_return_to_kremlin
 				}
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = { has_socialist_government = no }
 			traits = { KR_reactionary_monarchist }
 			ai_will_do = { base = 0 }
@@ -967,7 +953,7 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_vladimir_romanov_advisor
-			available = { is_country_leader = no }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } is_country_leader = no  }
 			visible = {
 				OR = {
 					is_monarchy = yes
@@ -995,10 +981,10 @@ characters = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_dmitry_romanov_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				is_country_leader = no
 				is_second_in_command = no
-			}
+			 }
 			visible = {
 				OR = {
 					is_monarchy = yes
@@ -1190,7 +1176,7 @@ characters = {
 			slot = high_command
 			idea_token = RUS_pavel_shatilov_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_savinkov = no
 				not_already_hired_except_as = high_command
 			}
@@ -1201,7 +1187,7 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_pavel_shatilov_advisor
 			desc = RUS_pavel_shatilov_high_command_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_authdem_advisor = yes
 				OR = {
 					has_completed_focus = RUS_invite_SOR
@@ -1215,7 +1201,7 @@ characters = {
 					}
 				}
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 				has_soclib_or_socdem_government = no
@@ -1287,7 +1273,7 @@ characters = {
 			slot = high_command
 			idea_token = RUS_vladimir_manstein_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_government = national_populist
 				not_already_hired_except_as = high_command
 			}
@@ -1546,9 +1532,9 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_karl_gopper_advisor
 			desc = RUS_karl_gopper_army_chief_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = { has_government = national_populist }
 			traits = { KR_tireless_recruiter }
 			on_add = {
@@ -1608,7 +1594,7 @@ characters = {
 		advisor = {
 			slot = army_chief
 			idea_token = RUS_karl_gopper_army_chief
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = army_chief
 			}
 			traits = { KR_army_chief_organisational_1 }
@@ -1655,7 +1641,7 @@ characters = {
 			slot = high_command
 			idea_token = RUS_lev_dovator_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 			}
 			traits = { KR_MHC_irregular_3 }
@@ -1682,7 +1668,7 @@ characters = {
 		advisor = {
 			slot = army_chief
 			idea_token = RUS_aleksandr_vasilevsky_army_chief
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = army_chief
 			}
 			traits = { KR_army_chief_offensive_2 }
@@ -1694,7 +1680,7 @@ characters = {
 			idea_token = RUS_aleksandr_vasilevsky_high_command
 			desc = RUS_aleksandr_vasilevsky_army_chief_desc
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_completed_focus = RUS_academy_of_black_epaulettes
 					has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
@@ -1877,7 +1863,7 @@ characters = {
 					has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
 				}
 			}
-			available = { not_already_hired_except_as = high_command }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } not_already_hired_except_as = high_command }
 			traits = { KR_MHC_artillery_2 }
 			cost = 100
 		}
@@ -1931,7 +1917,7 @@ characters = {
 		advisor = {
 			slot = army_chief
 			idea_token = RUS_mikhail_levandovsky_army_chief
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = army_chief
 			}
 			traits = { KR_army_chief_manoeuvre_3 }
@@ -1943,7 +1929,7 @@ characters = {
 			idea_token = RUS_mikhail_levandovsky_high_command
 			desc = RUS_mikhail_levandovsky_army_chief_desc
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 			}
 			traits = { KR_MHC_CombinedArms_2 }
@@ -1971,7 +1957,7 @@ characters = {
 			slot = army_chief
 			idea_token = RUS_aleksandr_yegorov_army_chief
 			desc = RUS_aleksandr_yegorov_high_command_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = army_chief
 			}
 			visible = {
@@ -1987,7 +1973,7 @@ characters = {
 			slot = high_command
 			idea_token = RUS_aleksandr_yegorov_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 			}
 			visible = {
@@ -2021,7 +2007,7 @@ characters = {
 			slot = high_command
 			idea_token = RUS_mikhail_tukhachevsky_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { original_tag = RUS }
 					OR = {
@@ -2055,22 +2041,18 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_mikhail_frunze_advisor
 			desc = RUS_mikhail_frunze_army_chief_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				OR = {
 					RUS_completed_focus_invite_sverdlov = yes
 					has_country_flag = RUS_maximalist_bolshevik_alliance
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				OR = {
-					has_completed_focus = RUS_invite_sverdlov
-					has_country_flag = RUS_maximalist_bolshevik_alliance
-				}
-			 } } }
+			}
 			visible = { original_tag = RUS }
-			traits = { KR_ideological_crusader }
-			on_add = { if = { limit = { RUS_uses_kamenev_politics = yes }
+			traits = { RUS_relationship_display_frunze KR_bolshevik_frunze }
+			on_add = {
 				ROOT = {
 					if = {
 						limit = { RUS_completed_focus_bolshevik_gamble = yes }
@@ -2082,21 +2064,8 @@ characters = {
 						RUS_RKP_relation = yes
 					}
 				}
-			 }
-else = {
-				ROOT = {
-					if = {
-						limit = { has_completed_focus = RUS_bolshevik_gamble }
-						set_temp_variable = { RUS_relation_change = 1 }
-						RUS_VST_left_relation = yes
-					}
-					else = {
-						set_temp_variable = { RUS_relation_change = 1 }
-						RUS_RKP_relation = yes
-					}
-				}
-			 } }
-			on_remove = { if = { limit = { RUS_uses_kamenev_politics = yes }
+			}
+			on_remove = {
 				ROOT = {
 					if = {
 						limit = { RUS_completed_focus_bolshevik_gamble = yes }
@@ -2108,20 +2077,7 @@ else = {
 						RUS_RKP_relation = yes
 					}
 				}
-			 }
-else = {
-				ROOT = {
-					if = {
-						limit = { has_completed_focus = RUS_bolshevik_gamble }
-						set_temp_variable = { RUS_relation_change = -1 }
-						RUS_VST_left_relation = yes
-					}
-					else = {
-						set_temp_variable = { RUS_relation_change = -1 }
-						RUS_RKP_relation = yes
-					}
-				}
-			 } }
+			}
 		}
 		advisor = {
 			slot = army_chief
@@ -2159,7 +2115,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_vasily_blyukher_high_command
 			ledger = army
-			available = { has_completed_focus = RUS_fr_red_commander_system }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = RUS_fr_red_commander_system }
 			traits = { KR_MHC_commando_2 }
 			cost = 100
 		}
@@ -2217,7 +2173,7 @@ else = {
 			idea_token = RUS_iosif_stalin_high_command
 			ledger = army
 			desc = RUS_iosif_stalin_leader_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				if = {
 					limit = { original_tag = RUS }
@@ -2251,10 +2207,10 @@ else = {
 			slot = second_in_command
 			idea_token = RUS_iosif_stalin_sic
 			desc = RUS_iosif_stalin_sic_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 			}
-			visible = { RUS_uses_kamenev_politics = yes  has_socialist_government = yes  }
+			visible = { has_socialist_government = yes }
 			traits = { RUS_stalin_general_secretary_sic KR_bolshevik_stalin_bop }
 			cost = 0
 			can_be_fired = no
@@ -2272,16 +2228,16 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_lazar_kaganovich_advisor
 			desc = RUS_lazar_kaganovich_advisor_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				has_country_leader = { character = RUS_iosif_stalin }
 				has_completed_focus = RUS_reverse_the_october_revolution
 				not_already_hired_except_as = political_advisor
 			}
-			visible = { RUS_uses_kamenev_politics = yes
+			visible = {
 				has_socialist_government = yes
-			 }
+			}
 			traits = { RUS_relationship_display_kaganovich KR_bolshevik_kaganovich }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
@@ -2306,15 +2262,15 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_andrei_zhdanov_advisor
 			desc = RUS_andrei_zhdanov_advisor_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				RUS_completed_focus_invite_sverdlov = yes
 				not_already_hired_except_as = political_advisor
 			}
-			visible = { RUS_uses_kamenev_politics = yes
+			visible = {
 				has_socialist_government = yes
-			 }
+			}
 			traits = { RUS_relationship_display_zhdanov KR_bolshevik_zhdanov }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
@@ -2388,15 +2344,15 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_yezhov_advisor
 			desc = RUS_nikolay_yezhov_advisor_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				RUS_completed_focus_invite_sverdlov = yes
 				not_already_hired_except_as = political_advisor
 			}
-			visible = { RUS_uses_kamenev_politics = yes
+			visible = {
 				has_socialist_government = yes
-			 }
+			}
 			traits = { RUS_relationship_display_yezhov KR_bolshevik_yezhov }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
@@ -2420,13 +2376,13 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_bukharin_advisor
 			desc = RUS_nikolay_bukharin_advisor_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				RUS_completed_focus_invite_sverdlov = yes
 				not_already_hired_except_as = political_advisor
 			}
-			visible = { RUS_uses_kamenev_politics = yes  has_socialist_government = yes  }
+			visible = { has_socialist_government = yes }
 			traits = { RUS_relationship_display_bukharin KR_bolshevik_bukharin }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
@@ -2450,13 +2406,13 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_mikhail_kalinin_advisor
 			desc = RUS_mikhail_kalinin_advisor_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				has_completed_focus = RUS_kamenev_marxist_education
 				not_already_hired_except_as = political_advisor
 			}
-			visible = { RUS_uses_kamenev_politics = yes  has_socialist_government = yes  }
+			visible = { has_socialist_government = yes }
 			traits = { RUS_kalinin_engineer_of_human_souls KR_bolshevik_kalinin }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
@@ -2518,7 +2474,7 @@ else = {
 			slot = theorist
 			idea_token = RUS_vladimir_triandafillov_theorist
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { is_russian_tag = yes }
 					OR = {
@@ -2607,7 +2563,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_kirill_meretskov_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_completed_focus = RUS_fr_red_commander_system
 			}
 			traits = { KR_MHC_army_logistics_1 }
@@ -2689,7 +2645,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_semyon_timoshenko_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_completed_focus = RUS_fr_red_commander_system
 			}
 			traits = { KR_MHC_cavalry_1 }
@@ -2703,7 +2659,7 @@ else = {
 			visible = {
 				has_country_flag = RUS_fr_frunze_defence_report_delivered
 			}
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = theorist
 			}
 			traits = { RUS_fr_timoshenko_reform_theorist }
@@ -2886,9 +2842,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_ernst_august_kostring_advisor
 			desc = RUS_ernst_august_kostring_high_command_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			traits = { KR_heer_advocate }
 			cost = 100
 			on_add = {
@@ -2901,7 +2857,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_ernst_august_kostring_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 			}
 			traits = { KR_MHC_army_logistics_2 }
@@ -2929,7 +2885,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_sergey_pavlov_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_completed_focus = RSA_free_cossacks
 			}
 			visible = {
@@ -2986,7 +2942,7 @@ else = {
 			idea_token = RUS_grigory_semyonov_high_command
 			desc = RUS_grigory_semyonov_leader_desc
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 				is_country_leader = no
 			}
@@ -2996,7 +2952,7 @@ else = {
 			slot = army_chief
 			idea_token = RUS_grigory_semyonov_army_chief
 			desc = RUS_grigory_semyonov_leader_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = army_chief
 			}
 			traits = { KR_army_chief_manoeuvre_2 }
@@ -3030,7 +2986,7 @@ else = {
 			idea_token = RUS_mikhail_diterikhs_high_command
 			desc = RUS_mikhail_diterikhs_leader_desc
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 				is_country_leader = no
 			}
@@ -3059,7 +3015,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_pavel_bermondt_avalov_high_command
 			ledger = army
-			available = { not_already_hired_except_as = high_command }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } not_already_hired_except_as = high_command }
 			traits = { KR_MHC_army_regrouping_1 }
 			cost = 50
 		}
@@ -3067,7 +3023,7 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_pavel_bermondt_avalov_advisor
 			desc = RUS_pavel_bermondt_avalov_high_command_desc
-			available = { not_already_hired_except_as = political_advisor }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } not_already_hired_except_as = political_advisor  }
 			traits = { KR_adventurous_daredevil }
 			cost = 150
 		}
@@ -3191,7 +3147,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_nikolay_bredov_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 			}
 			traits = { KR_MHC_entrenchment_2 }
@@ -3207,9 +3163,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_bredov_advisor
 			desc = RUS_nikolay_bredov_high_command_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			traits = { KR_old_general }
 			cost = 150
 			on_add = {
@@ -3224,7 +3180,7 @@ else = {
 			idea_token = RUS_nikolay_bredov_theorist
 			desc = RUS_nikolay_bredov_high_command_desc
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = theorist
 			}
 			traits = { KR_military_theorist }
@@ -3329,7 +3285,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_yury_glushko_advisor
-			available = { has_completed_focus = FER_green_ukrainian_army }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = FER_green_ukrainian_army  }
 			traits = { RUS_green_ukrainian_nationalist }
 			cost = 100
 			on_add = {
@@ -3352,7 +3308,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_pavel_ksenofontov_advisor
-			available = { has_completed_focus = FER_liberty_declaration }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = FER_liberty_declaration  }
 			traits = { RUS_guerilla_organiser }
 			cost = 100
 			on_add = {
@@ -3375,7 +3331,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_mordin_advisor
-			available = { has_completed_focus = FER_consolidate_businesses }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = FER_consolidate_businesses  }
 			traits = { KR_resource_industrialist }
 			cost = 100
 			on_add = {
@@ -3400,10 +3356,10 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_sergey_n_markov_advisor
-			available = { has_completed_focus = FER_proper_statehood }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = FER_proper_statehood  }
 			traits = { RUS_siberian_regionalist }
 			cost = 100
-			on_add = { if = { limit = { RUS_uses_kamenev_politics = yes }
+			on_add = {
 				if = {
 					limit = { NOT = { has_character_flag = hired_once } }
 					every_state = {
@@ -3416,22 +3372,7 @@ else = {
 					}
 					set_character_flag = hired_once
 				}
-			 }
-else = {
-				if = {
-					limit = { NOT = { has_character_flag = hired_once } }
-					ROOT = {
-						every_controlled_state = {
-							limit = {
-								is_siberia = yes
-								NOT = { is_core_of = ROOT }
-							}
-							add_compliance = 5
-						}
-					}
-					set_character_flag = hired_once
-				}
-			 } }
+			}
 		}
 	}
 	RUS_gurgen_asriyants = {
@@ -3445,7 +3386,7 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_gurgen_asriyants_advisor
 			allowed = { has_dlc_lar = yes }
-			available = { has_intelligence_agency = yes }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_intelligence_agency = yes  }
 			traits = { KR_head_of_intelligence }
 			cost = 150
 		}
@@ -3461,7 +3402,7 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_FER_metropolitan_advisor
 			desc = RUS_metropolitan_advisor_desc
-			available = { has_completed_focus = FER_patriarch_of_east }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = FER_patriarch_of_east  }
 			traits = { KR_spiritual_leader }
 			cost = 100
 		}
@@ -3503,7 +3444,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_naoki_hoshino_advisor
-			available = { has_completed_focus = FER_trade_agreement }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = FER_trade_agreement  }
 			traits = { RUS_shady_business_connection }
 			cost = 100
 			on_add = {
@@ -3600,7 +3541,7 @@ else = {
 		advisor = {
 			slot = navy_chief
 			idea_token = RUS_mikhail_kedrov_navy_chief
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = navy_chief
 			}
 			traits = { KR_navy_chief_old_guard }
@@ -3611,7 +3552,7 @@ else = {
 			idea_token = RUS_mikhail_kedrov_high_command
 			desc = RUS_mikhail_kedrov_navy_chief_desc
 			ledger = navy
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = high_command
 			}
 			traits = { KR_MHC_fleet_logistics_2 }
@@ -3875,9 +3816,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_pyotr_savitsky_advisor
 			desc = RUS_pyotr_savitsky_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = {
 				has_government = national_populist
 			}
@@ -3940,9 +3881,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_maksimilian_filonenko_advisor
 			desc = RUS_maksimilian_filonenko_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = {
 				has_government = national_populist
 			}
@@ -4026,9 +3967,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_karol_vendzyagolsky_advisor
 			desc = RUS_karol_vendzyagolsky_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = { has_government = national_populist }
 			traits = { RUS_chief_commissar }
 			on_add = {
@@ -4074,7 +4015,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_anastasy_vonsyatsky_advisor
-			available = { has_completed_focus = RUS_svobodniks }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = RUS_svobodniks  }
 			visible = { has_government = national_populist }
 			traits = { KR_ultranationalist_agitator }
 			on_add = {
@@ -4145,9 +4086,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_viktor_larionov_advisor
 			desc = RUS_viktor_larionov_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = { has_government = national_populist }
 			traits = { KR_prince_of_terror }
 			on_add = {
@@ -4194,7 +4135,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_flegont_klepikov_advisor
-			available = { has_completed_focus = RUS_expand_okhrana }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = RUS_expand_okhrana  }
 			visible = { has_government = national_populist }
 			traits = { KR_savinkovs_shadow }
 			on_add = {
@@ -4232,7 +4173,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_pavel_agyeyev_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = {
 						tag = RUS
@@ -4240,10 +4181,10 @@ else = {
 					}
 					RUS_pyotr_krasnov = { is_hired_as_advisor = no }
 				}
-			}
+			 }
 			visible = { has_government = national_populist }
 			traits = { KR_reformist_cossack }
-			on_add = { if = { limit = { RUS_uses_kamenev_politics = yes }
+			on_add = {
 				if = {
 					limit = { ROOT = { tag = RUS } }
 					add_power_balance_value = {
@@ -4263,31 +4204,7 @@ else = {
 						retire_character = RUS_pyotr_krasnov
 					}
 				}
-			 }
-else = {
-				if = {
-					limit = { ROOT = { tag = RUS } }
-					add_power_balance_value = {
-						id = RUS_power_balance
-						value = -0.1
-					}
-				}
-				ROOT = {
-					if = {
-						limit = { has_idea = RUS_cossack_resistance }
-						add_trait = {
-							character = RUS_pavel_agyeyev
-							slot = political_advisor
-							trait = RUS_cossack_ataman
-						}
-						remove_ideas = RUS_cossack_resistance
-						if = {
-							limit = { has_character = RUS_pyotr_krasnov }
-							retire_character = RUS_pyotr_krasnov
-						}
-					}
-				}
-			 } }
+			}
 			ai_will_do = {
 				base = 1
 				modifier = {
@@ -4316,12 +4233,12 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_mikhail_georgiyevsky_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_completed_focus = RUS_national_solidarism
 					tag = RSA
 				}
-			}
+			 }
 			visible = {
 				OR = {
 					has_government = national_populist
@@ -4364,7 +4281,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_dmitry_merezhovsky_advisor
-			available = { has_completed_focus = RUS_revolution_in_spirit }
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = RUS_revolution_in_spirit  }
 			visible = { has_government = national_populist }
 			traits = { KR_spiritual_leader }
 			cost = 50
@@ -4431,11 +4348,11 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_sergey_melgunov_advisor
 			desc = RUS_sergey_melgunov_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
 				RUS_socdem_advisor = yes
 				RUS_purged_social_democrats = no
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 			}
@@ -4485,9 +4402,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_vladimir_zenzinov_advisor
 			desc = RUS_vladimir_zenzinov_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = { RUS_soclib_advisor = yes }
 			traits = { KR_compassionate_gentleman }
 			ai_will_do = { base = 0 }
@@ -4540,7 +4457,7 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_nekrasov_advisor
 			desc = RUS_nikolay_nekrasov_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { has_government = market_liberal }
 					has_completed_focus = RUS_republican_constitutional_clubs
@@ -4550,7 +4467,7 @@ else = {
 				}
 				not_already_hired_except_as = political_advisor
 				is_country_leader = no
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_administrative_genius }
 			on_add = {
@@ -4585,9 +4502,9 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_pavel_gronsky_advisor
 			desc = RUS_pavel_gronsky_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = { RUS_marlib_advisor = yes }
 			traits = { KR_brilliant_lawyer }
 			on_add = {
@@ -4624,10 +4541,10 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_mikhail_kalugin_advisor
 			desc = RUS_mikhail_kalugin_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_marlib_advisor = yes
 				not_already_hired_except_as = political_advisor
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_dynamic_moderniser }
 		}
@@ -4667,7 +4584,7 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_boris_suvorin_advisor
 			desc = RUS_boris_suvorin_sic_desc
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = political_advisor
 				OR = {
 					RUS_solonevich = yes
@@ -4677,7 +4594,7 @@ else = {
 						RUS_soccon_advisor = yes
 					}
 				}
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 			}
@@ -4710,7 +4627,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_patriarch_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { tag = RUS }
 					OR = {
@@ -4729,7 +4646,7 @@ else = {
 					limit = { tag = RSA }
 					has_completed_focus = RSA_resistance_of_faithful
 				}
-			}
+			 }
 			visible = {
 				has_socialist_government = no
 				RUS_boldyrev = no
@@ -4765,13 +4682,13 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_kondratyev_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_completed_focus = RUS_new_russian_capitalism
 					has_completed_focus = RUS_negotiate_with_srs
 				}
 				RUS_soclib_advisor = yes
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_minister_of_everything }
 		}
@@ -4786,9 +4703,9 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_oganovsky_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_socdem_advisor = yes
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 				NOT = { has_country_flag = RUS_purged_social_democrats }
@@ -4806,7 +4723,8 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_gergard_zeller_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				NOT = { has_government = totalist }
 				OR = {
 					has_completed_focus = RUS_invite_zeller
@@ -4815,15 +4733,7 @@ else = {
 					has_completed_focus = RUS_kamenev_majority_rule
 					has_country_flag = RUS_sds_agree
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				NOT = { has_government = totalist }
-				OR = {
-					has_completed_focus = RUS_invite_zeller
-					has_completed_focus = RUS_democratisation_of_artels
-					has_completed_focus = RSA_enemies_of_vozhd
-					has_country_flag = RUS_sds_agree
-				}
-			 } } }
+			}
 			visible = {
 				OR = {
 					has_soclib_or_socdem_government = yes
@@ -4856,14 +4766,13 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_vasily_grabin_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_completed_focus = RUS_update_equipment
 					has_completed_focus = RUS_fr_small_arms_standardisation_committee
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				has_completed_focus = RUS_update_equipment
-			 } } }
+			}
 			visible = {
 				RUS_is_demrus = yes
 				NOT = { has_country_flag = RUS_lost_wk2 }
@@ -4896,9 +4805,9 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_aleksandr_kamenka_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_country_flag = RUS_business_deal
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_bank_president }
 			on_add = {
@@ -4927,11 +4836,11 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_trubetskoy_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_soccon_advisor = yes
 				has_country_flag = RUS_supported_eurasianism
 				has_completed_focus = RUS_moscow_economic_council
-			}
+			 }
 			visible = {
 				RUS_is_demrus = yes
 				RUS_boldyrev = no
@@ -5002,7 +4911,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_pavel_buryshkin_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { NOT = { original_tag = FER } }
 					OR = {
@@ -5011,7 +4920,7 @@ else = {
 					}
 					NOT = { has_completed_focus = RUS_denounce_elites }
 				}
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_laissez_faire_capitalist }
 		}
@@ -5026,13 +4935,13 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_aleksandr_trushnovich_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_soccon_advisor = yes
 				OR = {
 					has_completed_focus = RUS_national_education
 					has_completed_focus = RUS_national_russia
 				}
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_panslavist_believer }
 			on_add = {
@@ -5061,12 +4970,12 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_sergey_l_voytsekhovsky_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_completed_focus = RUS_national_russia
 					RUS_soccon_advisor = yes
 				}
-			}
+			 }
 			visible = { RUS_is_demrus = yes }
 			traits = { KR_tireless_organiser }
 			ai_will_do = { base = 0 }
@@ -5082,7 +4991,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_ivan_ilyin_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					has_dictatorship_government = yes
 					RUS_authdem_advisor = yes
@@ -5105,7 +5014,7 @@ else = {
 					limit = { tag = RSA }
 					has_completed_focus = RSA_new_white_movement
 				}
-			}
+			 }
 			visible = { has_socialist_government = no }
 			traits = { KR_christian_nationalist }
 			ai_will_do = { base = 0 }
@@ -5159,7 +5068,8 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_ilya_mayorov_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
 				OR = {
@@ -5167,14 +5077,9 @@ else = {
 					has_government = radical_socialist
 					RUS_completed_focus_worker_and_peasant = yes
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				OR = {
-					has_government = radical_socialist
-					has_completed_focus = RUS_worker_and_peasant
-				}
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_agricultural_economist }
+			traits = { RUS_relationship_display_mayorov KR_spiridonist_mayorov }
 			on_add = {
 				ROOT = {
 					if = {
@@ -5214,19 +5119,20 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_aleksey_ustinov_advisor
 			desc = RUS_aleksey_ustinov_advisor_desc
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				has_country_flag = RUS_VST_MAX_deal
 				RUS_stalin_can_hire_maximalist_advisor = yes
 				not_already_hired_except_as = political_advisor
 			}
-			visible = { RUS_uses_kamenev_politics = yes  has_socialist_government = yes  }
+			visible = { has_socialist_government = yes }
 			traits = { RUS_relationship_display_ustinov KR_maximalist_ustinov }
+			cost = 100
 		}
 		advisor = {
 			slot = second_in_command
 			idea_token = RUS_aleksey_ustinov_sic
-			desc = RUS_aleksey_ustinov_leader_desc
+			desc = RUS_aleksey_ustinov_sic_desc
 			visible = { has_socialist_government = yes }
 			traits = { KR_socialist_maximalist_sic }
 			cost = 0
@@ -5258,13 +5164,14 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_nikolay_zdobnov_advisor
 			desc = RUS_nikolay_zdobnov_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
 				is_country_leader = no
-			 } AND = { RUS_uses_kamenev_politics = no  is_country_leader = no  } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_political_specialist }
+			traits = { RUS_relationship_display_zdobnov KR_spiridonist_zdobnov }
 			can_be_fired = yes
 			on_add = {
 				ROOT = {
@@ -5310,17 +5217,13 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_sergey_medvedev_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					RUS_completed_focus_law_on_unions = yes
 					has_country_flag = RUS_maximalist_bolshevik_alliance
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				OR = {
-					has_completed_focus = RUS_law_on_unions
-					has_country_flag = RUS_maximalist_bolshevik_alliance
-				}
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_council_communist }
 			on_add = {
@@ -5365,9 +5268,10 @@ else = {
 			slot = second_in_command
 			idea_token = RUS_boris_kamkov_sic
 			desc = RUS_boris_kamkov_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_psr_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_socialist_idealist_sic KR_spiridonist_kamkov }
 			cost = 0
@@ -5377,7 +5281,8 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_boris_kamkov_advisor
 			desc = RUS_boris_kamkov_leader_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
 				not_already_hired_except_as = political_advisor
@@ -5395,30 +5300,15 @@ else = {
 					is_in_coalition_with_radical_socialist = yes
 				}
 				is_country_leader = no
-			 } AND = { RUS_uses_kamenev_politics = no
-				not_already_hired_except_as = political_advisor
-				OR = {
-					has_government = radical_socialist
-					has_completed_focus = RUS_eser_deal
-					has_completed_focus = RUS_woo_spiridonova
-				}
-				if = {
-					limit = { RUS_VST = yes }
-					is_in_coalition_with_radical_socialist = yes
-				}
-				is_country_leader = no
-			 } } }
-			visible = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			}
+			visible = {
 				has_socialist_government = yes
 				OR = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
 					RUS_VST_left = no
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				has_socialist_government = yes
-				RUS_VST_left = no
-			 } } }
-			traits = { KR_socialist_idealist }
+			}
+			traits = { RUS_relationship_display_kamkov KR_spiridonist_kamkov }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
 				RUS_PSR_relation = yes
@@ -5447,11 +5337,12 @@ else = {
 		advisor = {
 			slot = second_in_command
 			idea_token = RUS_sergey_kirov_sic
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_bolshevik_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_prince_of_petrograd_sic }
+			traits = { KR_prince_of_petrograd_sic KR_bolshevik_kirov_bop }
 			cost = 0
 			can_be_fired = no
 		}
@@ -5459,25 +5350,15 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_sergey_kirov_advisor
 			desc = RUS_sergey_kirov_sic_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_bolshevik_advisor = yes
 				has_completed_focus = RUS_kamenev_first_five_year_plan
-			 } AND = { RUS_uses_kamenev_politics = no
-				OR = {
-					AND = {
-						has_government = syndicalist
-						has_completed_focus = RUS_4_year_plan
-					}
-					AND = {
-						has_government = radical_socialist
-						has_country_flag = RUS_hired_kirov
-					}
-				}
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_prince_of_petrograd }
-				on_add = { if = { limit = { RUS_uses_kamenev_politics = yes }
+			traits = { RUS_relationship_display_kirov KR_bolshevik_kirov }
+				on_add = {
 					owner = {
 						set_temp_variable = { RUS_relation_change = 1 }
 						RUS_RKP_relation = yes
@@ -5508,42 +5389,13 @@ else = {
 						multiply_variable = { RUS_ic_time_120 = 0.5 }
 					}
 				}
-			 }
-else = {
-				owner = {
-					set_temp_variable = { RUS_relation_change = 1 }
-					RUS_VST_right_relation = yes
-					if = {
-						limit = { NOT = { has_country_flag = RUS_kirov_activated_once } }
-						set_country_flag = RUS_kirov_activated_once
-						custom_effect_tooltip = tooltip_white_line
-						195 = { #Petrograd
-							add_extra_state_shared_building_slots = 1
-							add_building_construction = {
-								type = industrial_complex
-								level = 1
-								instant_build = yes
-							}
-						}
-						custom_effect_tooltip = tooltip_white_line
-						custom_effect_tooltip = RUS_kirov_advisor_tt
-						multiply_variable = { RUS_ic_time_60 = 0.5 }
-						multiply_variable = { RUS_ic_time_120 = 0.5 }
-					}
-				}
-			 } }
-			on_remove = { if = { limit = { RUS_uses_kamenev_politics = yes }
+			}
+			on_remove = {
 				owner = {
 					set_temp_variable = { RUS_relation_change = -1 }
 					RUS_RKP_relation = yes
 				}
-			 }
-else = {
-				owner = {
-					set_temp_variable = { RUS_relation_change = -1 }
-					RUS_VST_right_relation = yes
-				}
-			 } }
+			}
 		}
 	}
 	RUS_sergey_syrtsov = {
@@ -5556,17 +5408,13 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_sergey_syrtsov_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					RUS_completed_focus_labour_and_defence = yes
 					has_country_flag = RUS_maximalist_bolshevik_alliance
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				OR = {
-					has_completed_focus = RUS_labour_and_defence
-					has_country_flag = RUS_maximalist_bolshevik_alliance
-				}
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_technocrat }
 			on_add = {
@@ -5589,17 +5437,13 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_ivan_gronsky_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { RUS_VST = yes }
 					RUS_completed_focus_red_intelligentsia = yes
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				if = {
-					limit = { RUS_VST = yes }
-					has_completed_focus = RUS_red_intelligentsia
-				}
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_socialist_realist }
 			on_add = {
@@ -5622,13 +5466,11 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_vladimir_shatov_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_completed_focus_encourage_innovation = yes
 				not_already_hired_except_as = political_advisor
-			 } AND = { RUS_uses_kamenev_politics = no
-				has_completed_focus = RUS_encourage_innovation
-				not_already_hired_except_as = political_advisor
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_captain_of_industry }
 			on_add = {
@@ -5651,7 +5493,8 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_stanislav_strumilin_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					RUS_completed_focus_science_of_marxism = yes
 					AND = {
@@ -5659,15 +5502,7 @@ else = {
 						has_country_flag = RUS_hired_strumilin
 					}
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				OR = {
-					has_completed_focus = RUS_science_of_marxism
-					AND = {
-						has_government = radical_socialist
-						has_country_flag = RUS_hired_strumilin
-					}
-				}
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_statistician_economist }
 			on_add = {
@@ -5691,11 +5526,10 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_aleksandr_shlyapnikov_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_completed_focus_chamber_of_unions = yes
-			 } AND = { RUS_uses_kamenev_politics = no
-				has_completed_focus = RUS_chamber_of_unions
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_union_advocate }
 			cost = 100
@@ -5737,7 +5571,7 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_aleksandr_finn_yenotayevsky_advisor
-			available = {
+			available = {  NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				OR = {
 					AND = {
 						RUS_VST_left = no
@@ -5755,7 +5589,7 @@ else = {
 						}
 					}
 				}
-			}
+			 }
 			visible = {
 				OR = {
 					has_socialist_government = yes
@@ -5805,7 +5639,8 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_vladimir_karelin_advisor
 			desc = RUS_vladimir_karelin_sic_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
 				not_already_hired_except_as = political_advisor
@@ -5826,21 +5661,7 @@ else = {
 						}
 					}
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				not_already_hired_except_as = political_advisor
-				if = {
-					limit = { RUS_PLSR = yes }
-					has_completed_focus = RUS_our_commitments_to_democracy
-				}
-				else_if = {
-					limit = { RUS_VST = yes }
-					RUS_VST_left = no
-				}
-				else = {
-					has_completed_focus = RUS_woo_spiridonova
-					RUS_purged_social_democrats = no
-				}
-			 } } }
+			}
 			visible = {
 				OR = {
 					has_socialist_government = yes
@@ -5881,9 +5702,10 @@ else = {
 		advisor = {
 			slot = second_in_command
 			idea_token = RUS_vladimir_karelin_sic
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_psr_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_leading_diplomat KR_spiridonist_karelin }
 			cost = 0
@@ -5900,18 +5722,17 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_aleksandr_elyashevich_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
 				OR = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
 					RUS_VST_left = no
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				RUS_VST_left = no
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_industrialiser }
+			traits = { RUS_relationship_display_elyashevich KR_spiridonist_elyashevich }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
 				RUS_PSR_relation = yes
@@ -5932,9 +5753,10 @@ else = {
 		advisor = {
 			slot = second_in_command
 			idea_token = RUS_isaak_steinberg_sic
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_psr_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = { has_socialist_government = yes }
 			traits = { KR_head_of_the_romanticists KR_sr_steinberg }
 			cost = 0
@@ -5962,7 +5784,8 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_isaak_steinberg_advisor
 			desc = RUS_isaak_steinberg_sic_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
 				OR = {
@@ -5970,12 +5793,9 @@ else = {
 					RUS_PLSR = yes
 				}
 				not_already_hired_except_as = political_advisor
-			 } AND = { RUS_uses_kamenev_politics = no
-				RUS_PLSR = yes
-				not_already_hired_except_as = political_advisor
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_cooperatives_proponent_steinberg }
+			traits = { RUS_relationship_display_steinberg KR_sr_steinberg }
 		}
 	}
 	RUS_yevgeny_sattel = {
@@ -5988,12 +5808,13 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_yevgeny_sattel_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_internationalist_propagandist }
+			traits = { RUS_relationship_display_sattel KR_sr_sattel }
 			on_add = {
 				set_temp_variable = { RUS_relation_change = 1 }
 				RUS_PSR_relation = yes
@@ -6016,7 +5837,8 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_andrey_kolegayev_advisor
 			desc = RUS_andrey_kolegayev_sic_desc
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_maximalist_advisor = yes
 				not_already_hired_except_as = political_advisor
@@ -6030,21 +5852,9 @@ else = {
 				else = {
 					has_country_flag = RUS_VST_MAX_deal
 				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				not_already_hired_except_as = political_advisor
-				if = {
-					limit = { RUS_PLSR = yes }
-					OR = {
-						has_completed_focus = RUS_embolden_the_revolutionary_spirit
-						has_country_flag = RUS_appointed_kolegayev
-					}
-				}
-				else = {
-					has_country_flag = RUS_VST_MAX_deal
-				}
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_peasant_populist_3 }
+			traits = { RUS_relationship_display_kolegayev KR_maximalist_kolegayev }
 			on_add = {
 				ROOT = {
 					hidden_effect = {
@@ -6065,13 +5875,14 @@ else = {
 		advisor = {
 			slot = second_in_command
 			idea_token = RUS_andrey_kolegayev_sic
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_maximalist_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  } } }
+			}
 			visible = {
 				has_socialist_government = yes
 			}
-			traits = { KR_peasant_populist }
+			traits = { KR_peasant_populist KR_maximalist_kolegayev }
 			cost = 0
 			can_be_fired = no
 		}
@@ -6087,13 +5898,14 @@ else = {
 		advisor = {
 			slot = political_advisor
 			idea_token = RUS_irina_kakhovskaya_advisor
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				has_socialist_government = yes
 				RUS_stalin_can_hire_maximalist_advisor = yes
-			 } AND = { RUS_uses_kamenev_politics = no  has_socialist_government = yes  } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_princess_of_terror }
+			traits = { RUS_relationship_display_kakhovskaya KR_maximalist_kakhovskaya }
 			on_add = {
 				ROOT = {
 					#custom_effect_tooltip = RUS_ensure_assassination_tt
@@ -6132,24 +5944,22 @@ else = {
 			slot = political_advisor
 			idea_token = RUS_yakov_blyumkin_advisor
 			allowed = {
-				has_dlc_lar = yes #TODO: make non_lar version sicne he is needed for content
+				OR = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_dlc_lar = yes #TODO: make non_lar version since he is needed for content
+				}
 			}
-			available = { OR = { AND = { RUS_uses_kamenev_politics = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_kamenev_post_election_advisors_unlocked = yes
 				RUS_stalin_can_hire_psr_advisor = yes
 				OR = {
 					has_country_flag = RUS_auto_kamenev_vst_left_path
 					has_intelligence_agency = yes
 				}
-				OR = {
-					has_country_flag = RUS_auto_kamenev_vst_left_path
-					has_dlc_lar = yes #TODO: make non_lar version since he is needed for content
-				}
-			 } AND = { RUS_uses_kamenev_politics = no
-				has_intelligence_agency = yes
-			 } } }
+			}
 			visible = { has_socialist_government = yes }
-			traits = { KR_legendary_rogue }
+			traits = { RUS_relationship_display_blyumkin KR_sr_blyumkin }
 			cost = 150
 			on_add = {
 				#custom_effect_tooltip = RUS_ensure_assassination_tt
@@ -6192,7 +6002,7 @@ else = {
 		advisor = {
 			slot = air_chief
 			idea_token = RUS_aleksandr_lapchinsky_air_chief
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = air_chief
 			}
 			traits = { KR_air_chief_ground_support_2 }
@@ -6204,7 +6014,7 @@ else = {
 			desc = RUS_aleksandr_lapchinsky_air_chief_desc
 			ledger = air
 			allowed = { original_tag = RUS }
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = theorist
 			}
 			traits = { KR_air_warfare_theorist }
@@ -6221,7 +6031,7 @@ else = {
 		advisor = {
 			slot = air_chief
 			idea_token = RUS_vasily_khripin_air_chief
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = air_chief
 			}
 			traits = { KR_air_chief_strategic_bomber }
@@ -6251,7 +6061,7 @@ else = {
 			desc = RUS_vasily_khripin_air_chief_desc
 			ledger = air
 			allowed = { original_tag = RUS }
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				not_already_hired_except_as = theorist
 			}
 			traits = { KR_victory_through_airpower }
@@ -6300,7 +6110,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_yakov_slashchyov_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = { tag = RUS }
 					has_completed_focus = RUS_academy_of_black_epaulettes
@@ -6340,7 +6150,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_pyotr_krasnov_high_command
 			ledger = army
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				if = {
 					limit = {
 						tag = RUS
@@ -6396,7 +6206,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_nikolay_zuyev_high_command
 			ledger = army
-			available = { has_completed_focus = RUS_codebreaking }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = RUS_codebreaking }
 			traits = { KR_MHC_commando_2 }
 			cost = 100
 		}
@@ -6412,7 +6222,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_pyotr_glazenap_high_command
 			ledger = army
-			available = { has_socialist_government = no }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_socialist_government = no }
 			traits = { KR_MHC_concealment_2 }
 			cost = 100
 			on_add = {
@@ -6478,7 +6288,7 @@ else = {
 			idea_token = RUS_nikolay_golovin_theorist
 			ledger = army
 			allowed = { original_tag = RUS }
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_completed_focus = RUS_science_of_victory
 				has_socialist_government = no
 			}
@@ -6498,7 +6308,7 @@ else = {
 			idea_token = RUS_yevgeny_messner_theorist
 			ledger = army
 			allowed = { original_tag = RUS }
-			available = {
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				has_completed_focus = RUS_spirit_of_victory
 				has_socialist_government = no
 			}
@@ -6534,14 +6344,14 @@ else = {
 			idea_token = RUS_mikhail_shishmaryov_high_command
 			desc = RUS_mikhail_shishmaryov_air_chief_desc
 			ledger = air
-			available = { not_already_hired_except_as = high_command }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } not_already_hired_except_as = high_command }
 			traits = { KR_MHC_tactical_bombing_2 }
 			cost = 100
 		}
 		advisor = {
 			slot = air_chief
 			idea_token = RUS_mikhail_shishmaryov_air_chief
-			available = { not_already_hired_except_as = air_chief }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } not_already_hired_except_as = air_chief }
 			traits = { KR_air_chief_safety_1 }
 			cost = 50
 		}
@@ -6572,7 +6382,7 @@ else = {
 			slot = high_command
 			idea_token = RUS_pavel_rychagov_high_command
 			ledger = air
-			available = { has_completed_focus = RUS_personal_heroism }
+			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } has_completed_focus = RUS_personal_heroism }
 			traits = { KR_MHC_air_combat_training_2 }
 			cost = 100
 		}

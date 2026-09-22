@@ -22,7 +22,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_families_cooldown_tt NOT = { has_co
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_families = yes } }
   fire_only_once = no
   days_remove = 30
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   days_re_enable = 180
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
@@ -63,7 +63,7 @@ NOT = { has_war_with = UKR }
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_mine = yes } }
   fire_only_once = no
   days_remove = 45
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.03 }
   complete_effect = {
    custom_effect_tooltip = RUS_rd_readiness_gain_tt
@@ -104,7 +104,7 @@ NOT = { has_war_with = UKR }
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_rural = yes } }
   fire_only_once = no
   days_remove = 45
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
    custom_effect_tooltip = RUS_rd_readiness_gain_tt
@@ -148,7 +148,7 @@ NOT = { has_war_with = UKR }
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_rail = yes } }
   fire_only_once = no
   days_remove = 60
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.03 }
   complete_effect = {
    custom_effect_tooltip = RUS_rd_readiness_gain_tt
@@ -190,7 +190,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_relocate_cooldown_tt NOT = { has_co
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_relocate = yes } }
   fire_only_once = no
   days_remove = 30
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   days_re_enable = 60
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
@@ -230,7 +230,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_two_networks_tt RUS_ukr_two_network
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_declaration = yes } }
   fire_only_once = no
   days_remove = 45
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   modifier = { consumer_goods_factor = 0.03 }
   complete_effect = {
    custom_effect_tooltip = RUS_rd_readiness_gain_tt
@@ -272,7 +272,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_strike_cooldown_tt NOT = { has_coun
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_strike = yes } }
   fire_only_once = no
   days_remove = 30
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   days_re_enable = 120
   modifier = { consumer_goods_factor = 0.02 }
   complete_effect = {
@@ -319,7 +319,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_land_cooldown_tt NOT = { has_countr
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_land = yes } }
   fire_only_once = no
   days_remove = 30
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   days_re_enable = 120
   complete_effect = {
    custom_effect_tooltip = RUS_rd_readiness_gain_tt
@@ -365,7 +365,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_slowdown_cooldown_tt NOT = { has_co
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_slowdown = yes } }
   fire_only_once = no
   days_remove = 21
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes NOT = { has_war_with = UKR } } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes NOT = { has_war_with = UKR } } }
   days_re_enable = 120
   complete_effect = {
    custom_effect_tooltip = RUS_rd_readiness_gain_tt
@@ -409,7 +409,7 @@ custom_trigger_tooltip = { tooltip = RUS_ukr_two_networks_tt RUS_ukr_two_network
   custom_cost_trigger = { custom_trigger_tooltip = { tooltip = RUS_ukr_afford_tt RUS_ukr_can_pay_night = yes } }
   fire_only_once = no
   days_remove = 7
-  cancel_trigger = { NOT = { RUS_ukr_route_valid = yes has_war_with = UKR } }
+  cancel_trigger = { NOT = { RUS_ukr_ongoing_route_valid = yes has_war_with = UKR } }
   complete_effect = {
    custom_effect_tooltip = RUS_rd_readiness_gain_tt
    hidden_effect = { RUS_rd_action_readiness = yes }

@@ -23464,38 +23464,9 @@ country_event = { #Law on Workers' Representation (through DemRus)
 		add_popularity = { ideology = radical_socialist popularity = 0.15 }
 		add_popularity = { ideology = social_democrat popularity = 0.1 }
 		complete_national_focus = RUS_revolution_from_above
-		if = {
-			limit = { NOT = { has_country_flag = RUS_socrus_chain_initialised } }
-			set_country_flag = RUS_socrus_chain_initialised
-			RUS_initialise_socrus = yes
-		}
+		RUS_initialise_socrus = yes
 		RUS_maximalist_land_reform_add_initial_stage = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.1 option russia_socialist_events.1.a"
-		name = russia_socialist_events.1.a
-		add_stability = 0.2
-		add_political_power = 150
-		set_politics = {
-			ruling_party = syndicalist
-			elections_allowed = yes
-		}
-		promote_character = {
-			character = RUS_vladimir_levitsky
-			ideology = syndicalist_subtype
-		}
-		activate_advisor = RUS_daniil_sulimov_sic
-		add_popularity = { ideology = radical_socialist popularity = 0.15 }
-		add_popularity = { ideology = social_democrat popularity = 0.1 }
-		complete_national_focus = RUS_revolution_from_above
-		if = {
-			limit = { NOT = { has_country_flag = RUS_socrus_chain_initialised } }
-			set_country_flag = RUS_socrus_chain_initialised
-			RUS_initialise_socrus = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Mass Resignation of the White Generals
@@ -23553,46 +23524,12 @@ country_event = { #Reunification of the Socialist-Revolutionaries
 				name = RUS_SR_unified_party2
 			}
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.3 option russia_socialist_events.3.b"
 		name = russia_socialist_events.3.b
 		country_event = russia_socialist_events.1437
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.3 option russia_socialist_events.3.a"
-		name = russia_socialist_events.3.a
-		effect_tooltip = {
-			set_party_name = {
-				ideology = radical_socialist
-				long_name = RUS_SR_unified_party2_long_tt
-				name = RUS_SR_unified_party2
-			}
-			set_party_name = {
-				ideology = social_liberal
-				long_name = RUS_SR_unified_party2_long_tt
-				name = RUS_SR_unified_party2
-			}
-		}
-		add_popularity = { ideology = radical_socialist popularity = 0.05 }
-		add_popularity = { ideology = social_liberal popularity = -0.05 }
-		add_popularity = { ideology = national_populist popularity = -0.05 }
-		hidden_effect = {
-			set_party_name = {
-				ideology = radical_socialist
-				long_name = RUS_SR_unified_party2_long
-				name = RUS_SR_unified_party2
-			}
-			set_party_name = {
-				ideology = social_liberal
-				long_name = RUS_SR_unified_party2_long
-				name = RUS_SR_unified_party2
-			}
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Current State of the Socialist-Revolutionary Party
@@ -23649,15 +23586,7 @@ country_event = { #Rise of the Workers' Parties
 		name = russia_socialist_events.4.a
 		RUS_stalin_add_totalist_or_communist_popularity_003 = yes
 		add_popularity = { ideology = social_democrat popularity = 0.03 }
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.4 option russia_socialist_events.4.a"
-		name = russia_socialist_events.4.a
-		add_popularity = { ideology = totalist popularity = 0.03 }
-		add_popularity = { ideology = social_democrat popularity = 0.03 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Formation of VST
@@ -23705,15 +23634,7 @@ country_event = { #Zinovyev splits from Bolshies and joins VST
 		name = russia_socialist_events.9.a
 		add_popularity = { ideology = syndicalist popularity = 0.01 }
 		RUS_stalin_add_totalist_or_communist_popularity_002 = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.9 option russia_socialist_events.9.a"
-		name = russia_socialist_events.9.a
-		add_popularity = { ideology = syndicalist popularity = 0.01 }
-		add_popularity = { ideology = totalist popularity = 0.02 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Unstable Coalition
@@ -23814,7 +23735,23 @@ country_event = { #Return of the Exiles
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.30 option russia_socialist_events.30.a"
 		name = russia_socialist_events.30.a
-		RUS_restore_bolshevik_exiles = yes
+		custom_effect_tooltip = RUS_restore_bolshevik_exiles_fixed_tt
+		hidden_effect = { RUS_restore_bolshevik_exiles = yes }
+		# The shared KR effect follows global.russia, which can point to an integrated
+		# Russian successor after annexations. These exiles are returning to RUS itself.
+		hidden_effect = {
+			RUS = {
+				RUS_mikhail_tukhachevsky = { set_nationality = RUS }
+				RUS_vasily_blyukher = { set_nationality = RUS }
+				RUS_boris_shaposhnikov = { set_nationality = RUS }
+				RUS_kirill_meretskov = { set_nationality = RUS }
+				RUS_semyon_timoshenko = { set_nationality = RUS }
+				RUS_mikhail_frunze = { set_nationality = RUS }
+				RUS_iosif_stalin = { set_nationality = RUS }
+				RUS_aleksandr_yegorov = { set_nationality = RUS }
+				RUS_vladimir_triandafillov = { set_nationality = RUS }
+			}
+		}
 		RUS_fr_delay_academy_officers = yes
 		hidden_effect = {
 			if = {
@@ -23823,7 +23760,7 @@ country_event = { #Return of the Exiles
 			}
 			RUS_iosif_stalin = {
 				set_character_flag = RUS_socialist
-				set_nationality = var:global.russia
+				set_nationality = RUS
 			}
 		}
 		RUS_stalin_add_totalist_or_communist_popularity_002 = yes
@@ -23838,17 +23775,7 @@ country_event = { #Return of the Exiles
 			country_event = { id = russia_socialist_events.131 days = 7 }
 		}
 		country_event = { id = russia_socialist_events.31 days = 30 random_days = 30 }
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.30 option russia_socialist_events.30.a"
-		name = russia_socialist_events.30.a
-		RUS_restore_bolshevik_exiles = yes
-		add_popularity = { ideology = totalist popularity = 0.02 }
-		set_country_flag = RUS_exiles_have_returned
-		country_event = { id = russia_socialist_events.31 days = 30 random_days = 30 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Russian Communist Party
@@ -23866,17 +23793,7 @@ country_event = { #Russian Communist Party
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.9 days = 5 }
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.31 option russia_socialist_events.31.a"
-		name = russia_socialist_events.31.a
-		add_popularity = { ideology = totalist popularity = 0.1 }
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.9 days = 5 }
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Bolsheviks in the Officer Corps
@@ -23898,43 +23815,7 @@ country_event = { #Bolsheviks in the Officer Corps
 			set_temp_variable = { RUS_relation_change = -1 }
 			RUS_PSR_relation = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.32 option russia_socialist_events.32.a"
-		name = russia_socialist_events.32.a #Keep them away from important posts
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_RKP_relation = yes
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_SDS_relation = yes
-		}
-		add_stability = 0.05
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.32 option russia_socialist_events.32.b"
-		name = russia_socialist_events.32.b #Promote some
-		RUS_fix_army_soc = yes
-		add_political_power = -40
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.32 option russia_socialist_events.32.c"
-		name = russia_socialist_events.32.c #They have proved capable
-		RUS_fix_army_soc = yes
-		add_popularity = { ideology = totalist popularity = 0.1 }
-		if = {
-			limit = { RUS_VST = yes }
-			RUS_decrease_VST_centre_unity = yes
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_RKP_relation = yes
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_PSR_relation = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #The Krasnaya Gorka Case
@@ -23970,76 +23851,7 @@ country_event = { #The Krasnaya Gorka Case
 			set_temp_variable = { RUS_maximalist_influence_change = 3 }
 			RUS_maximalist_influence = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.33 option russia_socialist_events.33.a"
-		name = russia_socialist_events.33.a #It would be a shame if something happened to him
-		add_popularity = { ideology = radical_socialist popularity = 0.04 }
-		add_political_power = -20
-		if = {
-			limit = { RUS_VST = yes }
-			add_command_power = -15
-			add_political_power = -30
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_RKP_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_suspicion_change = -2 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = -3 }
-			RUS_maximalist_influence = yes
-		}
-		set_country_flag = RUS_remove_stalin
-		hidden_effect = { country_event = { id = russia_socialist_events.34 days = 40 } }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.33 option russia_socialist_events.33.b"
-		name = russia_socialist_events.33.b #Off to Siberia with him
-		add_popularity = { ideology = radical_socialist popularity = 0.02 }
-		add_political_power = -15
-		retire_character = RUS_iosif_stalin
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			RUS_SDS_relation = yes
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_RKP_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_suspicion_change = -1 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = 1 }
-			RUS_maximalist_influence = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.33 option russia_socialist_events.33.c"
-		name = russia_socialist_events.33.c #He is right, though
-		add_political_power = -10
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = -3 }
-			RUS_PSR_relation = yes
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_RKP_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_suspicion_change = 3 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = 3 }
-			RUS_maximalist_influence = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Suicide of Comrade Vissarionovich
@@ -24077,11 +23889,9 @@ country_event = { #The Great Bolshevik Trial #fired by focus
 	desc = russia_socialist_events.35.d
 	picture = GFX_report_event_RUS_trial_2
 	is_triggered_only = yes
-	trigger = { OR = { AND = { RUS_uses_kamenev_politics = yes
+	trigger = {
 		NOT = { RUS_completed_focus_invite_sverdlov = yes }
-	 } AND = { RUS_uses_kamenev_politics = no
-		NOT = { has_completed_focus = RUS_invite_sverdlov }
-	 } } }
+	}
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.35 option russia_socialist_events.35.a"
 		name = russia_socialist_events.35.a
@@ -24158,9 +23968,8 @@ country_event = { #The Green Partisans
 			set_temp_variable = { RUS_spiridonist_influence_change = 2 }
 			RUS_add_faith = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.37 option russia_socialist_events.37.b"
 		name = russia_socialist_events.37.b
 		ai_chance = { base = 0 }
@@ -24184,64 +23993,7 @@ option = {
 			set_temp_variable = { RUS_maximalist_influence_change = 3 }
 			RUS_maximalist_influence = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.37 option russia_socialist_events.37.a"
-		name = russia_socialist_events.37.a
-		add_political_power = -25
-		if = {
-			limit = { is_ai = no }
-			add_ideas = RUS_anti_socialist_resistance_3
-		}
-		else = {
-			add_ideas = RUS_anti_socialist_resistance_1
-		}
-		country_event = { id = russia_socialist_events.38 days = 25 }
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_suspicion_change = -1 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = 1 }
-			RUS_maximalist_influence = yes
-		}
-		else_if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = 2 }
-			RUS_add_faith = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.37 option russia_socialist_events.37.b"
-		name = russia_socialist_events.37.b
-		ai_chance = { base = 0 }
-		add_command_power = -50
-		if = {
-			limit = { is_ai = no }
-			add_ideas = RUS_anti_socialist_resistance_2
-		}
-		else = {
-			add_ideas = RUS_anti_socialist_resistance_1
-		}
-		country_event = { id = russia_socialist_events.44 days = 25 }
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_RKP_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_influence_change = 3 }
-			RUS_maximalist_influence = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #To the Villages!
@@ -24303,70 +24055,12 @@ country_event = { #Murder of Comrade Jurenko
 			set_temp_variable = { RUS_spiridonist_influence_change = -2 }
 			RUS_add_faith = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.39 option russia_socialist_events.39.b"
-		name = russia_socialist_events.39.b #This was an unavoidable tragedy
-		trigger = { RUS_uses_kamenev_politics = yes  RUS_VST_left = no  }
-		RUS_stalin_kamenev_bop_move_right_005 = yes
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.40 days = 7 }
-		}
-		RUS_increase_VST_left_radicalism = yes
-		set_temp_variable = { RUS_relation_change = -1 }
-		RUS_VST_left_relation = yes
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_influence_change = 2 }
-			RUS_maximalist_influence = yes
-		}
-		else_if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = 4 }
-			RUS_add_faith = yes
-		}
 	}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.39 option russia_socialist_events.39.a"
-		name = russia_socialist_events.39.a #Accept Gronsky's proposal
-		if = {
-			limit = {
-				OR = {
-					RUS_VST = yes
-					RUS_is_maximalist = yes
-				}
-			}
-			add_political_power = -20
-			add_command_power = -50
-		}
-		else = {
-			add_political_power = 30
-		}
-		country_event = { id = russia_socialist_events.44 days = 14 }
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_VST_left_relation = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_influence_change = 5 }
-			RUS_maximalist_influence = yes
-			set_temp_variable = { RUS_maximalist_suspicion_change = 4 }
-			RUS_maximalist_suspicion = yes
-		}
-		else_if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = -2 }
-			RUS_add_faith = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.39 option russia_socialist_events.39.b"
 		name = russia_socialist_events.39.b #This was an unavoidable tragedy
-		trigger = { RUS_uses_kamenev_politics = no  RUS_VST_left = no  }
+		trigger = { RUS_VST_left = no }
+		RUS_stalin_kamenev_bop_move_right_005 = yes
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.40 days = 7 }
 		}
@@ -24560,9 +24254,8 @@ country_event = { #Emergency Meeting
 			set_temp_variable = { RUS_maximalist_influence_change = -1 }
 			RUS_maximalist_influence = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.43 option russia_socialist_events.43.b"
 		name = russia_socialist_events.43.b #Prepare to remove Zinovyev
 		ai_chance = {
@@ -24598,67 +24291,7 @@ option = {
 			RUS_maximalist_influence = yes
 		}
 		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.43 option russia_socialist_events.43.a"
-		name = russia_socialist_events.43.a #Call Levitsky to the next meeting
-		ai_chance = { base = 10 }
-		add_political_power = -50
-		add_popularity = { ideology = radical_socialist popularity = -0.1 }
-		add_popularity = { ideology = syndicalist popularity = 0.05 }
-		if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = 1 }
-			RUS_add_faith = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_suspicion_change = -1 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = -1 }
-			RUS_maximalist_influence = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.43 option russia_socialist_events.43.b"
-		name = russia_socialist_events.43.b #Prepare to remove Zinovyev
-		ai_chance = {
-			base = 20
-			modifier = {
-				factor = 0
-				RUS_is_spiridonist = yes
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					has_idea = RUS_anti_socialist_resistance_2
-					has_idea = RUS_anti_socialist_resistance_3
-					has_idea = RUS_anti_socialist_resistance_4
-					has_idea = RUS_anti_socialist_resistance_5
-					has_idea = RUS_anti_socialist_resistance_6
-				}
-			}
-		}
-		retire_character = RUS_grigory_zinovyev
-		if = {
-			limit = { RUS_is_spiridonist = yes }
-			add_popularity = { ideology = totalist popularity = 0.1 }
-			set_temp_variable = { RUS_spiridonist_influence_change = -5 }
-			RUS_add_faith = yes
-		}
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			add_popularity = { ideology = totalist popularity = 0.05 }
-			set_temp_variable = { RUS_maximalist_suspicion_change = 1 }
-			RUS_maximalist_suspicion = yes
-			set_temp_variable = { RUS_maximalist_influence_change = 2 }
-			RUS_maximalist_influence = yes
-		}
-		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Fighting in the Countryside
@@ -24682,23 +24315,7 @@ country_event = { #Fighting in the Countryside
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.45 days = 45 random_days = 15 } #Vozhd i Svoboda!
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.44 option russia_socialist_events.44.a"
-		name = russia_socialist_events.44.a
-		RUS_increase_antisoc_resistance = yes
-		if = {
-			limit = { RUS_PLSR = yes }
-			set_temp_variable = { ideology_change_var = -10 }
-		}
-		else = { set_temp_variable = { ideology_change_var = -5 } }
-		change_ruling_party_popularity = yes
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.45 days = 45 random_days = 15 } #Vozhd i Svoboda!
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Vozhd i Svoboda!
@@ -24722,23 +24339,7 @@ country_event = { #Vozhd i Svoboda!
 			country_event = { id = russia_socialist_events.78 days = 365 } #Marx Against Muhammed
 			country_event = { id = russia_socialist_events.51 days = 280 } #Re-Education Labour Administration
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.45 option russia_socialist_events.45.a"
-		name = russia_socialist_events.45.a
-		RUS_increase_antisoc_resistance = yes
-		add_popularity = { ideology = social_conservative popularity = 0.03 }
-		add_popularity = { ideology = national_populist popularity = 0.03 }
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.46 days = 45 } #Villagers Flock to Matroshka
-			country_event = { id = russia_socialist_events.49 days = 120 } #Opposition of the Faithful
-			country_event = { id = russia_socialist_events.50 days = 160 } #Society of the Godless
-			country_event = { id = russia_socialist_events.78 days = 365 } #Marx Against Muhammed
-			country_event = { id = russia_socialist_events.51 days = 280 } #Re-Education Labour Administration
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Villagers Flock to Matroshka
@@ -24773,56 +24374,11 @@ country_event = { #Villagers Flock to Matroshka
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.47 days = 7 }
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.46 option russia_socialist_events.46.b"
-		name = russia_socialist_events.46.b #Building socialism is a greater goal
-		trigger = { RUS_uses_kamenev_politics = yes  has_government = radical_socialist  }
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_influence_change = -3 }
-			RUS_maximalist_influence = yes
-		}
-		else_if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = -5 }
-			RUS_add_faith = yes
-		}
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.48 days = 45 }
-		}
 	}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.46 option russia_socialist_events.46.a"
-		name = russia_socialist_events.46.a #SRs must stand by the peasants
-		if = {
-			limit = { has_government = radical_socialist }
-			add_political_power = -45
-			if = {
-				limit = { RUS_is_maximalist = yes }
-				set_temp_variable = { RUS_maximalist_influence_change = 3 }
-				RUS_maximalist_influence = yes
-			}
-			else_if = {
-				limit = { RUS_is_spiridonist = yes }
-				set_temp_variable = { RUS_spiridonist_influence_change = 3 }
-				RUS_add_faith = yes
-			}
-		}
-		else = {
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_PSR_relation = yes
-		}
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.47 days = 7 }
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.46 option russia_socialist_events.46.b"
 		name = russia_socialist_events.46.b #Building socialism is a greater goal
-		trigger = { RUS_uses_kamenev_politics = no  has_government = radical_socialist  }
+		trigger = { has_government = radical_socialist }
 		if = {
 			limit = { RUS_is_maximalist = yes }
 			set_temp_variable = { RUS_maximalist_influence_change = -3 }
@@ -24859,9 +24415,8 @@ country_event = { #SRs walk out of Duma
 		RUS_VST_centre_relation = yes
 		RUS_VST_left_relation = yes
 		RUS_RKP_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.47 option russia_socialist_events.47.b"
 		name = russia_socialist_events.47.b #No compromises
 		ai_chance = {
@@ -24883,45 +24438,7 @@ option = {
 		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_VST_left_relation = yes
 		RUS_RKP_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.47 option russia_socialist_events.47.a"
-		name = russia_socialist_events.47.a #Accept some demands
-		ai_chance = { base = 10 }
-		add_political_power = -50
-		RUS_decrease_antisoc_resistance = yes
-		add_popularity = { ideology = radical_socialist popularity = 0.05 }
-		set_temp_variable = { RUS_relation_change = -1 }
-		RUS_VST_centre_relation = yes
-		RUS_VST_left_relation = yes
-		RUS_RKP_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.47 option russia_socialist_events.47.b"
-		name = russia_socialist_events.47.b #No compromises
-		ai_chance = {
-			base = 10
-			modifier = {
-				factor = 0
-				OR = {
-					has_idea = RUS_anti_socialist_resistance_2
-					has_idea = RUS_anti_socialist_resistance_3
-					has_idea = RUS_anti_socialist_resistance_4
-					has_idea = RUS_anti_socialist_resistance_5
-					has_idea = RUS_anti_socialist_resistance_6
-				}
-			}
-		}
-		RUS_increase_antisoc_resistance = yes
-		add_popularity = { ideology = syndicalist popularity = 0.03 }
-		add_popularity = { ideology = totalist popularity = 0.03 }
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_left_relation = yes
-		RUS_RKP_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Peasants losing faith in SRs
@@ -24971,9 +24488,8 @@ country_event = { #Opposition of the Faithful
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_SDS_relation = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.49 option russia_socialist_events.49.b"
 		name = russia_socialist_events.49.b #Imprison non-comformist priests
 		ai_chance = {
@@ -25001,55 +24517,7 @@ option = {
 			RUS_stalin_add_totalist_or_communist_popularity_003 = yes
 		}
 		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.49 option russia_socialist_events.49.a"
-		name = russia_socialist_events.49.a #Pressure the patriarch to act
-		ai_chance = { base = 10 }
-		add_political_power = -65
-		if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = 3 }
-			RUS_add_faith = yes
-		}
-		if = {
-			limit = { RUS_VST = yes }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_SDS_relation = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.49 option russia_socialist_events.49.b"
-		name = russia_socialist_events.49.b #Imprison non-comformist priests
-		ai_chance = {
-			base = 10
-			modifier = {
-				factor = 0
-				OR = {
-					has_idea = RUS_anti_socialist_resistance_2
-					has_idea = RUS_anti_socialist_resistance_3
-					has_idea = RUS_anti_socialist_resistance_4
-					has_idea = RUS_anti_socialist_resistance_5
-					has_idea = RUS_anti_socialist_resistance_6
-				}
-			}
-		}
-		if = {
-			limit = { RUS_PLSR = yes }
-			add_popularity = {
-				ideology = radical_socialist
-				popularity = -0.05
-			}
-		}
-		else = {
-			add_popularity = { ideology = syndicalist popularity = 0.03 }
-			add_popularity = { ideology = totalist popularity = 0.03 }
-		}
-		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Society of the Godless
@@ -25065,9 +24533,8 @@ country_event = { #Society of the Godless
 		ai_chance = { base = 10 }
 		add_stability = 0.02
 		add_political_power = -50
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.50 option russia_socialist_events.50.b"
 		name = russia_socialist_events.50.b #Admirable initiative
 		ai_chance = {
@@ -25088,39 +24555,7 @@ option = {
 		add_popularity = { ideology = syndicalist popularity = 0.03 }
 		RUS_stalin_add_totalist_or_communist_popularity_003 = yes
 		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.50 option russia_socialist_events.50.a"
-		name = russia_socialist_events.50.a #Restrict them
-		ai_chance = { base = 10 }
-		add_stability = 0.02
-		add_political_power = -50
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.50 option russia_socialist_events.50.b"
-		name = russia_socialist_events.50.b #Admirable initiative
-		ai_chance = {
-			base = 10
-			modifier = {
-				factor = 0
-				OR = {
-					has_idea = RUS_anti_socialist_resistance_2
-					has_idea = RUS_anti_socialist_resistance_3
-					has_idea = RUS_anti_socialist_resistance_4
-					has_idea = RUS_anti_socialist_resistance_5
-					has_idea = RUS_anti_socialist_resistance_6
-				}
-			}
-		}
-		RUS_increase_VST_left_radicalism = yes
-		add_political_power = 35
-		add_popularity = { ideology = syndicalist popularity = 0.03 }
-		add_popularity = { ideology = totalist popularity = 0.03 }
-		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Re-Education Labour Administration
@@ -25312,36 +24747,15 @@ country_event = { #Future of the White Army
 			uses = 1
 			category = land_doctrine
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.54 option russia_socialist_events.54.b"
 		name = russia_socialist_events.54.b
 		RUS_stalin_kamenev_bop_move_right_010 = yes
 		set_temp_variable = { ideology_change_var = 5 }
 		change_ruling_party_popularity = yes
 		add_war_support = 0.05
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.54 option russia_socialist_events.54.a"
-		name = russia_socialist_events.54.a
-		add_doctrine_cost_reduction = {
-			name = russia_socialist_events.54.t
-			cost_reduction = 0.5
-			uses = 1
-			category = land_doctrine
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.54 option russia_socialist_events.54.b"
-		name = russia_socialist_events.54.b
-		set_temp_variable = { ideology_change_var = 5 }
-		change_ruling_party_popularity = yes
-		add_war_support = 0.05
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 country_event = { #Abolition of Cavalry?
 	id = russia_socialist_events.55
@@ -25565,9 +24979,8 @@ country_event = { #Radicalisation of the Militsya
 		RUS_decrease_VST_left_radicalism = yes
 		add_political_power = -30
 		add_stability = 0.05
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.59 option russia_socialist_events.59.b"
 		name = russia_socialist_events.59.b
 		RUS_increase_VST_left_radicalism = yes
@@ -25599,50 +25012,7 @@ option = {
 				RUS_RKP_relation = yes
 			}
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.59 option russia_socialist_events.59.a"
-		name = russia_socialist_events.59.a
-		RUS_decrease_VST_left_radicalism = yes
-		add_political_power = -30
-		add_stability = 0.05
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.59 option russia_socialist_events.59.b"
-		name = russia_socialist_events.59.b
-		RUS_increase_VST_left_radicalism = yes
-		if = {
-			limit = {
-				OR = {
-					RUS_VST = yes
-					RUS_is_maximalist = yes
-				}
-			}
-			add_stability = -0.025
-		}
-		add_popularity = { ideology = totalist popularity = 0.05 }
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_influence_change = 1 }
-			RUS_maximalist_influence = yes
-		}
-		if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = -4 }
-			RUS_add_faith = yes
-			add_political_power = 50
-		}
-		else = {
-			if = {
-				limit = { RUS_VST_right = no }
-				set_temp_variable = { RUS_relation_change = 1 }
-				RUS_RKP_relation = yes
-			}
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #The Administrative Reform of [GetYear]
@@ -25703,30 +25073,7 @@ country_event = { #Towards Planned Economy
 		}
 		set_temp_variable = { RUS_relation_change = -1 }
 		RUS_SDS_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.62 option russia_socialist_events.62.a"
-		name = russia_socialist_events.62.a
-		if = {
-			limit = { RUS_VST_centre = no }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_VST_centre_relation = yes
-		}
-		if = {
-			limit = { RUS_VST_left = no }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_VST_left_relation = yes
-		}
-		if = {
-			limit = { RUS_VST_right = no }
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_VST_right_relation = yes
-		}
-		set_temp_variable = { RUS_relation_change = -1 }
-		RUS_SDS_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Economy of Free Association
@@ -25854,35 +25201,15 @@ country_event = { #Sverdlov Storms Out
 		add_stability = -0.05
 		set_temp_variable = { coalition_partner_var = token:totalist }
 		remove_from_coalition = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.67 option russia_socialist_events.67.b"
-		trigger = { RUS_uses_kamenev_politics = yes
+		trigger = {
 			RUS_VST_right = no
-		 }
+		}
 		name = russia_socialist_events.67.b
 		add_political_power = -50
 		RUS_stalin_add_totalist_or_communist_popularity_005 = yes
-		set_temp_variable = { RUS_relation_change = 2 }
-		RUS_RKP_relation = yes
-	}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.67 option russia_socialist_events.67.a"
-		name = russia_socialist_events.67.a
-		add_stability = -0.05
-		set_temp_variable = { coalition_partner_var = token:totalist }
-		remove_from_coalition = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.67 option russia_socialist_events.67.b"
-		trigger = { RUS_uses_kamenev_politics = no
-			RUS_VST_right = no
-		 }
-		name = russia_socialist_events.67.b
-		add_political_power = -50
-		add_popularity = { ideology = totalist popularity = 0.05 }
 		set_temp_variable = { RUS_relation_change = 2 }
 		RUS_RKP_relation = yes
 	}
@@ -25905,17 +25232,7 @@ country_event = { #Bolsheviks Declare Support
 		set_temp_variable = { coalition_partner_var = token:totalist }
 		add_to_coalition = yes
 		RUS_stalin_add_totalist_or_communist_popularity_005 = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.68 option russia_socialist_events.68.a"
-		name = russia_socialist_events.68.a
-		add_political_power = 25
-		set_temp_variable = { coalition_partner_var = token:totalist }
-		add_to_coalition = yes
-		add_popularity = { ideology = totalist popularity = 0.05 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Fate of the Workers' Coalition?
@@ -25935,9 +25252,8 @@ country_event = { #Fate of the Workers' Coalition?
 		add_popularity = { ideology = radical_socialist popularity = 0.1 }
 		set_temp_variable = { RUS_relation_change = 4 }
 		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.69 option russia_socialist_events.69.b"
 		name = russia_socialist_events.69.b
 		RUS_stalin_kamenev_bop_move_left_010 = yes
@@ -25961,43 +25277,7 @@ option = {
 			add_war_support = -0.1
 		}
 		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.69 option russia_socialist_events.69.a"
-		name = russia_socialist_events.69.a
-		ai_chance = { base = 5 }
-		add_political_power = -100
-		add_popularity = { ideology = radical_socialist popularity = 0.1 }
-		set_temp_variable = { RUS_relation_change = 4 }
-		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.69 option russia_socialist_events.69.b"
-		name = russia_socialist_events.69.b
-		ai_chance = {
-			base = 0
-			modifier = {
-				add = 15
-				has_government = totalist
-				NOT = { country_exists = GER }
-			}
-		}
-		set_temp_variable = { coalition_partner_var = token:radical_socialist }
-		remove_from_coalition = yes
-		if = {
-			limit = { RUS_VST_left = no }
-			add_stability = -0.3
-			add_war_support = -0.3
-		}
-		else = {
-			add_stability = -0.15
-			add_war_support = -0.1
-		}
-		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #SR Peasant Resistance
@@ -26016,9 +25296,8 @@ country_event = { #SR Peasant Resistance
 		add_popularity = { ideology = radical_socialist popularity = -0.05 }
 		set_temp_variable = { RUS_relation_change = -2 }
 		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.70 option russia_socialist_events.70.b"
 		name = russia_socialist_events.70.b
 		RUS_stalin_kamenev_bop_move_right_005 = yes
@@ -26026,39 +25305,13 @@ option = {
 		add_popularity = { ideology = radical_socialist popularity = 0.05 }
 		set_temp_variable = { RUS_relation_change = 2 }
 		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.70 option russia_socialist_events.70.c"
 		name = russia_socialist_events.70.c
 		RUS_stalin_kamenev_bop_move_left_010 = yes
 		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.70 option russia_socialist_events.70.a"
-		name = russia_socialist_events.70.a
-		add_manpower = -54000
-		add_popularity = { ideology = radical_socialist popularity = -0.05 }
-		set_temp_variable = { RUS_relation_change = -2 }
-		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.70 option russia_socialist_events.70.b"
-		name = russia_socialist_events.70.b
-		add_political_power = -50
-		add_popularity = { ideology = radical_socialist popularity = 0.05 }
-		set_temp_variable = { RUS_relation_change = 2 }
-		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.70 option russia_socialist_events.70.c"
-		name = russia_socialist_events.70.c
-		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Triumph of Peasant Communism
@@ -26076,16 +25329,7 @@ country_event = { #Triumph of Peasant Communism
 		add_political_power = 100
 		RUS_decrease_antisoc_resistance = yes
 		add_popularity = { ideology = radical_socialist popularity = 0.05 }
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.71 option russia_socialist_events.71.a"
-		name = russia_socialist_events.71.a
-		add_political_power = 100
-		RUS_decrease_antisoc_resistance = yes
-		add_popularity = { ideology = radical_socialist popularity = 0.05 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #The Kamkovites
@@ -26135,29 +25379,7 @@ country_event = { #The Socialist-Revolutionary-Maximalists
 		show_ideas_tooltip = RUS_andrey_kolegayev_advisor
 		show_ideas_tooltip = RUS_aleksey_ustinov_advisor
 		name = russia_socialist_events.73.a
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.73 option russia_socialist_events.73.a"
-		set_country_flag = RUS_VST_MAX_deal
-		custom_effect_tooltip = russia_socialist_events.73.a.tt
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_RKP_relation = yes
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_left_relation = yes
-		custom_effect_tooltip = tooltip_white_line
-		custom_effect_tooltip = available_political_advisor
-		show_ideas_tooltip = RUS_andrey_kolegayev_advisor
-		name = russia_socialist_events.73.a
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.73 option russia_socialist_events.73.b"
-		name = russia_socialist_events.73.b
-		add_political_power = 20
-		ai_chance = { base = 0 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Congress of the Unions
@@ -26423,9 +25645,8 @@ country_event = { #New Premier is chosen
 				can_be_fired = no
 			}
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.81 option russia_socialist_events.81.b"
 		name = russia_socialist_events.81.b
 		ai_chance = {
@@ -26448,9 +25669,8 @@ option = {
 		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_RKP_relation = yes
 		RUS_VST_left_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.81 option russia_socialist_events.81.c"
 		name = russia_socialist_events.81.c
 		ai_chance = {
@@ -26475,79 +25695,7 @@ option = {
 		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_VST_right_relation = yes
 		RUS_VST_left_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.81 option russia_socialist_events.81.a"
-		name = russia_socialist_events.81.a
-		ai_chance = { base = 20 }
-		add_stability = 0.1
-		RUS_daniil_sulimov = { promote_character = { ideology = syndicalist_subtype } }
-		add_advisor_role = {
-			character = RUS_aleksandr_shlyapnikov
-			activate = yes
-			advisor = {
-				slot = second_in_command
-				idea_token = RUS_aleksandr_shlyapnikov_sic
-				desc = RUS_aleksandr_shlyapnikov_advisor_desc
-				traits = { KR_economic_reformer_sic KR_vst_centre_shlyapnikov }
-				can_be_fired = no
-			}
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.81 option russia_socialist_events.81.b"
-		name = russia_socialist_events.81.b
-		ai_chance = {
-			base = 20
-			modifier = {
-				factor = 0
-				NOT = { has_game_rule = { rule = RUS_path option = DEFAULT } }
-			}
-		}
-		add_country_leader_role = {
-			character = RUS_aleksandr_shlyapnikov
-			promote_leader = yes
-			country_leader = {
-				desc = RUS_aleksandr_shlyapnikov_advisor_desc
-				ideology = syndicalist_subtype
-				traits = { KR_union_advocate }
-			}
-		}
-		activate_advisor = RUS_sergey_kirov_sic
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_right_relation = yes
-		RUS_VST_left_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.81 option russia_socialist_events.81.c"
-		name = russia_socialist_events.81.c
-		ai_chance = {
-			base = 20
-			modifier = {
-				factor = 0
-				NOT = { has_game_rule = { rule = RUS_path option = DEFAULT } }
-			}
-		}
-		RUS_mikhail_tomsky = { promote_character = { ideology = syndicalist_subtype } }
-		add_advisor_role = {
-			character = RUS_sergey_syrtsov
-			activate = yes
-			advisor = {
-				slot = second_in_command
-				idea_token = RUS_sergey_syrtsov_sic
-				desc = RUS_sergey_syrtsov_advisor_desc
-				traits = { KR_silent_workhorse_sic KR_vst_left_syrtsov }
-				can_be_fired = no
-			}
-		}
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_right_relation = yes
-		RUS_VST_left_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Comrade Dan's Departure
@@ -26633,6 +25781,7 @@ country_event = { #Besieged Kronstadt
 	desc = russia_socialist_events.101.d
 	picture = "GFX_report_event_RUS_kolchak"
 	is_triggered_only = yes
+	fire_only_once = yes
 	trigger = {
 		RUS_aleksandr_kolchak = { is_navy_chief = yes }
 		has_socialist_government = yes
@@ -27352,115 +26501,7 @@ country_event = { #Appointment of the Interior Minister
 				set_country_flag = RUS_universal_labour_service_buff
 			}
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.130 option russia_socialist_events.130.a"
-		name = russia_socialist_events.130.a
-		country_event = { id = russia_socialist_events.134 days = 14 random_days = 7 }
-		if = {
-			limit = {
-				has_free_political_advisor_slot = yes
-				NOT = { RUS_andrey_kolegayev = { is_hired_as_advisor = yes } }
-			}
-			set_country_flag = RUS_appointed_kolegayev
-			activate_advisor = RUS_andrey_kolegayev_advisor
-		}
-		else = {
-			add_political_power = 150
-		}
-		if = {
-			limit = {
-				check_variable = { RUS_interior_var < 10 }
-			}
-			effect_tooltip = {
-				add_stability = -0.02
-				add_war_support = -0.02
-			}
-		}
-		if = {
-			limit = {
-				check_variable = { RUS_interior_var > 9 }
-				check_variable = { RUS_interior_var < 20 }
-			}
-			add_stability = 0.05
-			add_war_support = 0.05
-		}
-		if = {
-			limit = {
-				check_variable = { RUS_interior_var > 19 }
-				check_variable = { RUS_interior_var < 30 }
-			}
-			add_stability = 0.05
-			add_war_support = 0.05
-			add_popularity = {
-				ideology = totalist
-				popularity = 0.05
-			}
-			set_temp_variable = { RUS_maximalist_influence_change = 5 }
-			RUS_maximalist_influence = yes
-		}
-		if = {
-			limit = {
-				check_variable = { RUS_interior_var > 29 }
-				check_variable = { RUS_interior_var < 40 }
-			}
-			add_stability = 0.05
-			add_war_support = 0.05
-			add_popularity = {
-				ideology = totalist
-				popularity = 0.05
-			}
-			set_temp_variable = { RUS_maximalist_influence_change = 10 }
-			RUS_maximalist_influence = yes
-			set_temp_variable = { RUS_maximalist_suspicion_change = -5 }
-			RUS_maximalist_suspicion = yes
-		}
-		if = {
-			limit = {
-				check_variable = { RUS_interior_var > 39 }
-				check_variable = { RUS_interior_var < 50 }
-			}
-			add_stability = 0.1
-			add_war_support = 0.05
-			add_popularity = {
-				ideology = totalist
-				popularity = 0.1
-			}
-			set_temp_variable = { RUS_maximalist_influence_change = 10 }
-			RUS_maximalist_influence = yes
-			set_temp_variable = { RUS_maximalist_suspicion_change = -5 }
-			RUS_maximalist_suspicion = yes
-		}
-		if = {
-			limit = {
-				check_variable = { RUS_interior_var > 49 }
-			}
-			add_stability = 0.1
-			add_war_support = 0.05
-			add_popularity = {
-				ideology = totalist
-				popularity = 0.1
-			}
-			set_temp_variable = { RUS_maximalist_influence_change = 10 }
-			RUS_maximalist_influence = yes
-			set_temp_variable = { RUS_maximalist_suspicion_change = -5 }
-			RUS_maximalist_suspicion = yes
-			if = {
-				limit = {
-					has_completed_focus = RUS_universal_labour_service
-				}
-				swap_ideas = {
-					remove_idea = RUS_dignity_of_labour
-					add_idea = RUS_dignity_of_labour_2
-				}
-			}
-			else = {
-				set_country_flag = RUS_universal_labour_service_buff
-			}
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Blyukher Report Part 1
@@ -27489,28 +26530,21 @@ country_event = { #Blyukher Report Part 1
 	}
 	is_triggered_only = yes
 	picture = GFX_report_event_generic_diplomacy1
-	trigger = { OR = { AND = { RUS_uses_kamenev_politics = yes
+	trigger = {
 		has_socialist_government = yes
 		has_country_flag = RUS_exiles_have_returned
 		NOT = { has_country_flag = RUS_fr_army_chief_report_shown }
-	 } AND = { RUS_uses_kamenev_politics = no  } } }
-	immediate = { if = { limit = { RUS_uses_kamenev_politics = yes }
+	}
+	immediate = {
 		set_country_flag = RUS_fr_army_chief_report_shown
 		set_country_flag = RUS_fr_army_chief_selection_event_started
-	 }
-else = {  } }
+	}
+
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.131 option russia_socialist_events.131.a"
 		name = russia_socialist_events.131.a
 		country_event = { id = russia_socialist_events.132 days = 7 }
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.131 option russia_socialist_events.131.a"
-		name = russia_socialist_events.131.a
-		country_event = { id = russia_socialist_events.132 days = 1 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Blyukher Report Part 2
@@ -27539,17 +26573,17 @@ country_event = { #Blyukher Report Part 2
 	}
 	is_triggered_only = yes
 	picture = GFX_report_event_generic_diplomacy2
-	trigger = { OR = { AND = { RUS_uses_kamenev_politics = yes
+	trigger = {
 		has_socialist_government = yes
 		has_country_flag = RUS_exiles_have_returned
 		has_country_flag = RUS_fr_army_chief_report_shown
 		NOT = { has_country_flag = RUS_fr_army_chief_selection_event_shown }
-	 } AND = { RUS_uses_kamenev_politics = no  } } }
-	immediate = { if = { limit = { RUS_uses_kamenev_politics = yes }  set_country_flag = RUS_fr_army_chief_selection_event_shown  }
-else = {  } }
+	}
+	immediate = { set_country_flag = RUS_fr_army_chief_selection_event_shown }
+
 	option = { #Levandovsky, Maximalists
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.a"
-		trigger = { RUS_uses_kamenev_politics = yes  RUS_is_maximalist = yes  }
+		trigger = { RUS_is_maximalist = yes }
 		name = russia_socialist_events.132.a
 		add_popularity = {
 			ideology = totalist
@@ -27564,10 +26598,10 @@ else = {  } }
 			RUS_maximalist_suspicion = yes
 		}
 	}
-option = { #Frunze, Maximalists
+	option = { #Frunze, Maximalists
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.b"
 		name = russia_socialist_events.132.b
-		trigger = { RUS_uses_kamenev_politics = yes  RUS_is_maximalist = yes  }
+		trigger = { RUS_is_maximalist = yes }
 		add_popularity = {
 			ideology = totalist
 			popularity = 0.03
@@ -27581,12 +26615,12 @@ option = { #Frunze, Maximalists
 			RUS_maximalist_suspicion = yes
 		}
 	}
-option = { #Tukhachevsky
+	option = { #Tukhachevsky
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.c"
 		name = russia_socialist_events.132.c
-		trigger = { RUS_uses_kamenev_politics = yes
+		trigger = {
 			NOT = { has_country_flag = RUS_sablin_only }
-		 }
+		}
 		activate_advisor = RUS_mikhail_tukhachevsky_army_chief
 		if = {
 			limit = { RUS_is_spiridonist = yes }
@@ -27601,13 +26635,13 @@ option = { #Tukhachevsky
 			RUS_RKP_relation = yes
 		}
 	}
-option = { #Levandonsky, Spiridonovists + VST
+	option = { #Levandonsky, Spiridonovists + VST
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.a2"
 		name = russia_socialist_events.132.a2
-		trigger = { RUS_uses_kamenev_politics = yes
+		trigger = {
 			RUS_is_maximalist = no
 			NOT = { has_country_flag = RUS_sablin_only }
-		 }
+		}
 		activate_advisor = RUS_mikhail_levandovsky_army_chief
 		if = {
 			limit = { RUS_PLSR = yes }
@@ -27626,31 +26660,31 @@ option = { #Levandonsky, Spiridonovists + VST
 			RUS_SDS_relation = yes
 		}
 	}
-option = { #Sablin
+	option = { #Sablin
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.b2"
 		name = russia_socialist_events.132.b2
-		trigger = { RUS_uses_kamenev_politics = yes  RUS_is_spiridonist = yes  }
+		trigger = { RUS_is_spiridonist = yes }
 		set_temp_variable = { RUS_spiridonist_influence_change = 5 }
 		RUS_add_faith = yes
 	}
-option = { #Yegorov
+	option = { #Yegorov
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.e"
 		name = russia_socialist_events.132.e
-		trigger = { RUS_uses_kamenev_politics = yes
+		trigger = {
 			RUS_VST = yes
 			has_character = RUS_aleksandr_yegorov
-		 }
+		}
 		activate_advisor = RUS_aleksandr_yegorov_army_chief
 		add_stability = 0.02
 	}
-option = { #Frunze
+	option = { #Frunze
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.f"
 		name = russia_socialist_events.132.f
-		trigger = { RUS_uses_kamenev_politics = yes
+		trigger = {
 			has_socialist_government = yes
 			RUS_is_maximalist = no
 			has_character = RUS_mikhail_frunze
-		 }
+		}
 		activate_advisor = RUS_mikhail_frunze_army_chief
 		RUS_stalin_add_totalist_or_communist_popularity_0025 = yes
 		set_temp_variable = { RUS_relation_change = 2 }
@@ -27662,135 +26696,13 @@ option = { #Frunze
 		set_temp_variable = { RUS_relation_change = -2 }
 		RUS_PSR_relation = yes
 	}
-option = { #Vasilevsky
+	option = { #Vasilevsky
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.g"
 		name = russia_socialist_events.132.g
-		trigger = { RUS_uses_kamenev_politics = yes
+		trigger = {
 			RUS_VST_right = yes
 			has_character = RUS_aleksandr_vasilevsky
-		 }
-		activate_advisor = RUS_aleksandr_vasilevsky_army_chief
-		add_popularity = { ideology = social_democrat popularity = 0.025 }
-		add_political_power = -40
-	}
-option = { #Levandovsky, Maximalists
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.a"
-		trigger = { RUS_uses_kamenev_politics = no  RUS_is_maximalist = yes  }
-		name = russia_socialist_events.132.a
-		add_popularity = {
-			ideology = totalist
-			popularity = 0.07
 		}
-		activate_advisor = RUS_mikhail_levandovsky_army_chief
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_influence_change = 5 }
-			RUS_maximalist_influence = yes
-			set_temp_variable = { RUS_maximalist_suspicion_change = 7 }
-			RUS_maximalist_suspicion = yes
-		}
-	}
-option = { #Frunze, Maximalists
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.b"
-		name = russia_socialist_events.132.b
-		trigger = { RUS_uses_kamenev_politics = no  RUS_is_maximalist = yes  }
-		add_popularity = {
-			ideology = totalist
-			popularity = 0.03
-		}
-		activate_advisor = RUS_mikhail_frunze_army_chief
-		if = {
-			limit = { RUS_is_maximalist = yes }
-			set_temp_variable = { RUS_maximalist_influence_change = 3 }
-			RUS_maximalist_influence = yes
-			set_temp_variable = { RUS_maximalist_suspicion_change = 5 }
-			RUS_maximalist_suspicion = yes
-		}
-	}
-option = { #Tukhachevsky
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.c"
-		name = russia_socialist_events.132.c
-		trigger = { RUS_uses_kamenev_politics = no
-			NOT = { has_country_flag = RUS_sablin_only }
-		 }
-		activate_advisor = RUS_mikhail_tukhachevsky_army_chief
-		if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = -5 }
-			RUS_add_faith = yes
-		}
-		else = {
-			add_war_support = 0.04
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_PSR_relation = yes
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_RKP_relation = yes
-		}
-	}
-option = { #Levandonsky, Spiridonovists + VST
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.a2"
-		name = russia_socialist_events.132.a2
-		trigger = { RUS_uses_kamenev_politics = no
-			RUS_is_maximalist = no
-			NOT = { has_country_flag = RUS_sablin_only }
-		 }
-		activate_advisor = RUS_mikhail_levandovsky_army_chief
-		if = {
-			limit = { RUS_PLSR = yes }
-			add_popularity = {
-				ideology = totalist
-				popularity = 0.08
-			}
-			set_temp_variable = { RUS_spiridonist_influence_change = -5 }
-			RUS_add_faith = yes
-		}
-		else = {
-			add_popularity = { ideology = totalist popularity = 0.025 }
-			set_temp_variable = { RUS_relation_change = 1 }
-			RUS_PSR_relation = yes
-			set_temp_variable = { RUS_relation_change = -1 }
-			RUS_SDS_relation = yes
-		}
-	}
-option = { #Sablin
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.b2"
-		name = russia_socialist_events.132.b2
-		trigger = { RUS_uses_kamenev_politics = no  RUS_is_spiridonist = yes  }
-		set_temp_variable = { RUS_spiridonist_influence_change = 5 }
-		RUS_add_faith = yes
-	}
-option = { #Yegorov
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.e"
-		name = russia_socialist_events.132.e
-		trigger = { RUS_uses_kamenev_politics = no  RUS_VST = yes  }
-		activate_advisor = RUS_aleksandr_yegorov_army_chief
-		add_stability = 0.02
-	}
-option = { #Frunze
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.f"
-		name = russia_socialist_events.132.f
-		trigger = { RUS_uses_kamenev_politics = no
-			RUS_VST = yes
-			has_character = RUS_mikhail_frunze
-		 }
-		activate_advisor = RUS_mikhail_frunze_army_chief
-		add_popularity = { ideology = totalist popularity = 0.025 }
-		set_temp_variable = { RUS_relation_change = 2 }
-		RUS_RKP_relation = yes
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_left_relation = yes
-		set_temp_variable = { RUS_relation_change = -1 }
-		RUS_VST_right_relation = yes
-		set_temp_variable = { RUS_relation_change = -2 }
-		RUS_PSR_relation = yes
-	}
-option = { #Vasilevsky
-		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.g"
-		name = russia_socialist_events.132.g
-		trigger = { RUS_uses_kamenev_politics = no
-			RUS_VST_right = yes
-			has_character = RUS_aleksandr_vasilevsky
-		 }
 		activate_advisor = RUS_aleksandr_vasilevsky_army_chief
 		add_popularity = { ideology = social_democrat popularity = 0.025 }
 		add_political_power = -40
@@ -28333,9 +27245,8 @@ country_event = { #The Rebellion Spreads to Kuban
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.157 days = 30 }
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.153 option russia_socialist_events.153.b"
 		name = russia_socialist_events.153.b
 		add_to_variable = { RUS_pavlov_unrest = 1 }
@@ -28352,66 +27263,17 @@ option = {
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.157 days = 30 }
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.153 option russia_socialist_events.153.c"
 		name = russia_socialist_events.153.c
-		trigger = { RUS_uses_kamenev_politics = yes
+		trigger = {
 			OR = {
 				has_completed_focus = RUS_future_for_the_rural_regions
 				RUS_completed_focus_healthcare_reform = yes
 				has_completed_focus = RUS_countryside_concession
 			}
-		 }
-		custom_effect_tooltip = RUS_available_because_ruralism_tt
-		custom_effect_tooltip = RUS_pavlov_power_decrease
-		add_to_variable = { RUS_pavlov_unrest = -1 }
-		add_political_power = -50
-		RUS_kuban_resistance = yes
-		country_event = { id = russia_socialist_events.155 days = 30 }
-	}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.153 option russia_socialist_events.153.a"
-		name = russia_socialist_events.153.a
-		add_to_variable = { RUS_pavlov_unrest = 2 }
-		custom_effect_tooltip = RUS_pavlov_power
-		add_manpower = -13500
-		RUS_kuban_resistance = yes
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.157 days = 30 }
 		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.153 option russia_socialist_events.153.b"
-		name = russia_socialist_events.153.b
-		add_to_variable = { RUS_pavlov_unrest = 1 }
-		add_manpower = -43200
-		set_temp_variable = { ideology_change_var = -4 }
-		change_ruling_party_popularity = yes
-		if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = -4 }
-			RUS_add_faith = yes
-		}
-		RUS_decrease_antisoc_resistance = yes
-		RUS_kuban_resistance = yes
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.157 days = 30 }
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.153 option russia_socialist_events.153.c"
-		name = russia_socialist_events.153.c
-		trigger = { RUS_uses_kamenev_politics = no
-			OR = {
-				has_completed_focus = RUS_future_for_the_rural_regions
-				has_completed_focus = RUS_healthcare_reform
-				has_completed_focus = RUS_countryside_concession
-			}
-		 }
 		custom_effect_tooltip = RUS_available_because_ruralism_tt
 		custom_effect_tooltip = RUS_pavlov_power_decrease
 		add_to_variable = { RUS_pavlov_unrest = -1 }
@@ -28447,25 +27309,7 @@ country_event = { #Pavlov's Rebellion Crushed
 		### Possible add other path-specific variables
 		clr_country_flag = RUS_pavlov_rebellion_flag
 		set_variable = { RUS_pavlov_unrest = 1 }
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.154 option russia_socialist_events.154.a"
-		name = russia_socialist_events.154.a
-		add_popularity = { ideology = totalist popularity = 0.05 }
-		add_manpower = -65700
-		remove_ideas = RUS_pavlov_rebellion
-		RUS_decrease_antisoc_resistance = yes
-		if = {
-			limit = { RUS_is_spiridonist = yes }
-			set_temp_variable = { RUS_spiridonist_influence_change = -3 }
-			RUS_add_faith = yes
-		}
-		### Possible add other path-specific variables
-		clr_country_flag = RUS_pavlov_rebellion_flag
-		set_variable = { RUS_pavlov_unrest = 1 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Pavlov's Rebellion Dies Down
@@ -29736,16 +28580,12 @@ country_event = { #Elections to Constituent Assembly
 	picture = GFX_report_event_RUS_soviet_congress
 	is_triggered_only = yes
 
-	immediate = { if = { limit = { RUS_uses_kamenev_politics = yes }
+	immediate = {
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.441 days = 3 }
 		}
-	 }
-else = {
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.301 days = 3 }
-		}
-	 } }
+	}
+
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.300 option russia_socialist_events.300.a"
 		name = russia_socialist_events.300.a
@@ -29762,26 +28602,7 @@ else = {
 			add_popularity = { ideology = social_democrat popularity = 0.02 }
 		}
 		RUS_stalin_add_totalist_or_communist_popularity_004 = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.300 option russia_socialist_events.300.a"
-		name = russia_socialist_events.300.a
-		if = {
-			limit = { has_completed_focus = RUS_red_flag_over_kremlin }
-			add_stability = 0.05
-			add_popularity = { ideology = radical_socialist popularity = 0.08 }
-			add_popularity = { ideology = syndicalist popularity = 0.06 }
-		}
-		else = {
-			add_stability = 0.15
-			add_popularity = { ideology = syndicalist popularity = 0.08 }
-			add_popularity = { ideology = radical_socialist popularity = 0.06 }
-			add_popularity = { ideology = social_democrat popularity = 0.02 }
-		}
-		add_popularity = { ideology = totalist popularity = 0.04 }
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { # A Workers' Revolutionary Alliance?
@@ -29837,9 +28658,9 @@ country_event = { #Matter of the Parliament
 		add_popularity = { ideology = syndicalist popularity = 0.02 }
 		RUS_stalin_add_totalist_or_communist_popularity_001 = yes
 		set_country_flag = RUS_const_left_option
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.301 option russia_socialist_events.301.b"
 		name = russia_socialist_events.301.b
 		ai_chance = {
@@ -29859,9 +28680,9 @@ option = {
 		add_popularity = { ideology = syndicalist popularity = 0.02 }
 		add_popularity = { ideology = radical_socialist popularity = 0.01 }
 		set_country_flag = RUS_const_centre_option
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.301 option russia_socialist_events.301.c"
 		name = russia_socialist_events.301.c
 		ai_chance = {
@@ -29883,75 +28704,7 @@ option = {
 		add_popularity = { ideology = syndicalist popularity = 0.01 }
 		add_popularity = { ideology = social_democrat popularity = 0.01 }
 		set_country_flag = RUS_const_right_option
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.301 option russia_socialist_events.301.a"
-		name = russia_socialist_events.301.a
-		ai_chance = {
-			base = 20
-			modifier = {
-				factor = 0
-				OR = {
-					has_country_flag = RUS_zdobnov_ai
-					has_country_flag = RUS_kamkov_ai
-					has_country_flag = RUS_ustinov_ai
-				}
-			}
-		}
-		custom_effect_tooltip = RUS_const_left_option_tt
-		custom_effect_tooltip = tooltip_white_line
-		add_popularity = { ideology = syndicalist popularity = 0.02 }
-		add_popularity = { ideology = totalist popularity = 0.01 }
-		set_country_flag = RUS_const_left_option
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.301 option russia_socialist_events.301.b"
-		name = russia_socialist_events.301.b
-		ai_chance = {
-			base = 20
-			modifier = {
-				factor = 0
-				has_completed_focus = RUS_revolution_from_above
-				OR = {
-					has_country_flag = RUS_zdobnov_ai
-					has_country_flag = RUS_kamkov_ai
-					has_country_flag = RUS_ustinov_ai
-				}
-			}
-		}
-		custom_effect_tooltip = RUS_const_centre_option_tt
-		custom_effect_tooltip = tooltip_white_line
-		add_popularity = { ideology = syndicalist popularity = 0.02 }
-		add_popularity = { ideology = radical_socialist popularity = 0.01 }
-		set_country_flag = RUS_const_centre_option
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.301 option russia_socialist_events.301.c"
-		name = russia_socialist_events.301.c
-		ai_chance = {
-			base = 40
-			modifier = {
-				factor = 0
-				OR = {
-					has_country_flag = RUS_abramovich_ai
-					has_country_flag = RUS_levitsky_ai
-					has_country_flag = RUS_sulimov_ai
-					has_country_flag = RUS_kamenev_ai
-					has_country_flag = RUS_zinovyev_ai
-				}
-			}
-		}
-		custom_effect_tooltip = RUS_const_right_option_tt
-		custom_effect_tooltip = tooltip_white_line
-		add_popularity = { ideology = radical_socialist popularity = 0.02 }
-		add_popularity = { ideology = syndicalist popularity = 0.01 }
-		add_popularity = { ideology = social_democrat popularity = 0.01 }
-		set_country_flag = RUS_const_right_option
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Matter of the HoS
@@ -30290,9 +29043,9 @@ country_event = { #Choice of Syndie Sub-Path
 country_event = { # Annual Congress of VST
 	id = russia_socialist_events.305
 	title = russia_socialist_events.305.t
-	trigger = { OR = { AND = { RUS_uses_kamenev_politics = yes
+	trigger = {
 		NOT = { has_country_leader = { character = RUS_iosif_stalin } }
-	 } AND = { RUS_uses_kamenev_politics = no  } } }
+	}
 	desc = {
 		trigger = { has_war_with = GER }
 		text = russia_socialist_events.305.d.war
@@ -30369,7 +29122,7 @@ country_event = { # Annual Congress of VST
 	}
 	is_triggered_only = yes
 	picture = GFX_report_event_RUS_soviet_congress
-	immediate = { if = { limit = { RUS_uses_kamenev_politics = yes }
+	immediate = {
 		RUS_VST_party_check = yes
 		hidden_effect = {
 			if = {
@@ -30377,13 +29130,8 @@ country_event = { # Annual Congress of VST
 				country_event = { id = russia_socialist_events.305 days = 365 }
 			}
 		}
-	 }
-else = {
-		RUS_VST_party_check = yes
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.305 days = 365 }
-		}
-	 } }
+	}
+
 	option = { #United front
 		log = "[GetLogInfo]: event russia_socialist_events.305 option russia_socialist_events.305.a"
 		name = russia_socialist_events.305.a
@@ -31650,7 +30398,7 @@ country_event = { # Unions Organise Protests
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.340 option russia_socialist_events.340.a"
 		name = russia_socialist_events.340.a
-		trigger = { RUS_uses_kamenev_politics = yes  RUS_VST_left = yes  }
+		trigger = { RUS_VST_left = yes }
 		add_ideas = RUS_unions_fury
 		RUS_stalin_kamenev_bop_move_left_010 = yes
 		hidden_effect = {
@@ -31662,35 +30410,13 @@ country_event = { # Unions Organise Protests
 		}
 		set_country_flag = socrus340_fired
 	}
-option = {
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.340 option russia_socialist_events.340.a"
 		name = russia_socialist_events.340.a
-		trigger = { RUS_uses_kamenev_politics = yes  RUS_VST_left = no  }
+		trigger = { RUS_VST_left = no }
 		add_stability = -0.05
 		RUS_decrease_VST_centre_unity = yes
 		RUS_stalin_kamenev_bop_move_left_010 = yes
-		set_country_flag = socrus340_fired
-	}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.340 option russia_socialist_events.340.a"
-		name = russia_socialist_events.340.a
-		trigger = { RUS_uses_kamenev_politics = no  RUS_VST_left = yes  }
-		add_ideas = RUS_unions_fury
-		hidden_effect = {
-			remove_ideas = {
-				RUS_congress_of_unions
-				RUS_congress_of_unions_2
-				RUS_congress_of_unions_3
-			}
-		}
-		set_country_flag = socrus340_fired
-	}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.340 option russia_socialist_events.340.a"
-		name = russia_socialist_events.340.a
-		trigger = { RUS_uses_kamenev_politics = no  RUS_VST_left = no  }
-		add_stability = -0.05
-		RUS_decrease_VST_centre_unity = yes
 		set_country_flag = socrus340_fired
 	}
 }
@@ -31826,41 +30552,7 @@ country_event = { #Rebellion of the Left
 			limit = { has_country_flag = RUS_VST_right_revolt }
 			country_event = russia_socialist_events.336 #VST Centre Falling
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.352 option russia_socialist_events.352.a"
-		name = russia_socialist_events.352.a
-		set_country_flag = RUS_VST_left_revolt
-		clr_country_flag = RUS_VST_collapse
-		RUS_grigory_zinovyev = {
-			remove_political_advisor_role = yes
-		}
-		RUS_ivan_gronsky = {
-			remove_political_advisor_role = yes
-		}
-		add_popularity = { ideology = totalist popularity = 0.05 }
-		set_temp_variable = { RUS_relation_change = -6 }
-		RUS_VST_left_relation = yes
-		if = {
-			limit = { has_completed_focus = RUS_communists }
-			uncomplete_national_focus = { focus = RUS_communists }
-			hidden_effect = {
-				uncomplete_national_focus = {
-					focus = RUS_encourage_collectivisation
-				}
-				uncomplete_national_focus = {
-					focus = RUS_invite_sverdlov
-					uncomplete_children = yes
-				}
-			}
-		}
-		if = {
-			limit = { has_country_flag = RUS_VST_right_revolt }
-			country_event = russia_socialist_events.336 #VST Centre Falling
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Rebellion of the Right
@@ -32737,77 +31429,7 @@ country_event = { #Reversed October
 			}
 			promote_leader = yes
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.381 option russia_socialist_events.381.a"
-		name = russia_socialist_events.381.a
-		if = {
-			limit = {
-				has_country_leader = { character = RUS_lev_kamenev }
-			}
-			custom_effect_tooltip = RUS_reversed_october_event_kamenev_tt
-			set_temp_variable = { current_vst_left_radicalism = vst_left_radicalism }
-			multiply_temp_variable = { current_vst_left_radicalism = 0.01 }
-			add_popularity = {
-				ideology = totalist
-				popularity = current_vst_left_radicalism
-			}
-			custom_effect_tooltip = tooltip_white_line
-			RUS_increase_VST_left_radicalism = yes
-		}
-		else_if = {
-			limit = {
-				has_country_leader = { character = RUS_grigory_zinovyev }
-			}
-			add_popularity = {
-				ideology = totalist
-				popularity = 0.05
-			}
-		}
-		custom_effect_tooltip = tooltip_white_line
-		effect_tooltip = {
-			set_party_name = {
-				ideology = totalist
-				name = RUS_totalist5_party
-				long_name = RUS_totalist5_party_long_tt
-			}
-		}
-		custom_effect_tooltip = tooltip_white_line
-		set_country_flag = RUS_rkp_absorbed_by_vst
-		custom_effect_tooltip = RUS_reversed_october_event_bolshevik_purge_tt
-		hidden_effect = {
-			set_party_name = {
-				ideology = totalist
-				name = RUS_totalist5_party
-				long_name = RUS_totalist5_party_long
-			}
-			RUS_yakov_sverdlov = {
-				retire = yes
-			}
-			RUS_mikhail_frunze = {
-				remove_trait = {
-					slot = political_advisor
-					trait = KR_bolshevik_frunze
-				}
-				add_trait = {
-					slot = political_advisor
-					trait = KR_vst_left_frunze
-				}
-			}
-		}
-		custom_effect_tooltip = tooltip_white_line
-		add_country_leader_role = {
-			character = RUS_grigory_zinovyev
-			country_leader = {
-				desc = RUS_grigory_zinovyev_leader_desc
-				ideology = totalist_subtype
-				traits = { RUS_grishka_third_sic KR_bolshevik_zinovyev }
-			}
-			promote_leader = yes
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Bringing Modernity to Russia
@@ -32979,32 +31601,7 @@ country_event = { #Maximalist Takeover of the Socialist-Revolutionaries
 				long_name = RUS_totalist3_party_long
 			}
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.387 option russia_socialist_events.387.a"
-		name = russia_socialist_events.387.a
-		retire_character = RUS_maria_spiridonova
-		add_popularity = { ideology = totalist popularity = 0.05 }
-		add_popularity = { ideology = radical_socialist popularity = -0.05 }
-		effect_tooltip = {
-			set_party_name = {
-				ideology = radical_socialist
-				name = RUS_totalist3_party
-				long_name = RUS_totalist3_party_long_tt
-			}
-		}
-		set_temp_variable = { RUS_relation_change = 2 }
-		RUS_PSR_relation = yes
-		hidden_effect = {
-			set_party_name = {
-				ideology = radical_socialist
-				name = RUS_totalist3_party
-				long_name = RUS_totalist3_party_long
-			}
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #The New Normal
@@ -33109,9 +31706,8 @@ country_event = { #Extent of Centralisation?
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.392 days = 365 } #Bureaucratic Dictatorship
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.391 option russia_socialist_events.391.b"
 		name = russia_socialist_events.391.b
 		custom_effect_tooltip = RUS_centralisation_no_tt
@@ -33121,32 +31717,7 @@ option = {
 		RUS_VST_centre_relation = yes
 		set_temp_variable = { RUS_relation_change = 2 }
 		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.391 option russia_socialist_events.391.a"
-		name = russia_socialist_events.391.a
-		custom_effect_tooltip = RUS_centralisation_yes_tt
-		add_political_power = 75
-		RUS_streamline_VST = yes
-		set_temp_variable = { RUS_relation_change = -1 }
-		RUS_PSR_relation = yes
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.392 days = 365 } #Bureaucratic Dictatorship
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.391 option russia_socialist_events.391.b"
-		name = russia_socialist_events.391.b
-		custom_effect_tooltip = RUS_centralisation_no_tt
-		RUS_decrease_antisoc_resistance = yes
-		set_temp_variable = { RUS_relation_change = 1 }
-		RUS_VST_centre_relation = yes
-		set_temp_variable = { RUS_relation_change = 2 }
-		RUS_PSR_relation = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Bureaucratic Dictatorship
@@ -33169,21 +31740,7 @@ country_event = { #Bureaucratic Dictatorship
 		set_temp_variable = { RUS_relation_change = -1 }
 		RUS_PSR_relation = yes
 		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.392 option russia_socialist_events.392.a"
-		name = russia_socialist_events.392.a
-		add_stability = 0.05
-		set_politics = {
-			ruling_party = syndicalist
-			elections_allowed = no
-		}
-		set_temp_variable = { RUS_relation_change = -1 }
-		RUS_PSR_relation = yes
-		RUS_increase_antisoc_resistance = yes
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Weapons of Peace
@@ -33426,7 +31983,7 @@ country_event = { #Association for Research of Western Totalism
 	title = russia_socialist_events.403.t
 	desc = russia_socialist_events.403.d
 	is_triggered_only = yes
-	trigger = { OR = { AND = { RUS_uses_kamenev_politics = yes  always = no  } AND = { RUS_uses_kamenev_politics = no  } } }
+	trigger = { always = no }
 	picture = GFX_report_event_RUS_gronsky2
 
 	immediate = {
@@ -33474,7 +32031,7 @@ country_event = { #In Defence of Totalism
 	title = russia_socialist_events.404.t
 	desc = russia_socialist_events.404.d
 	is_triggered_only = yes
-	trigger = { OR = { AND = { RUS_uses_kamenev_politics = yes  always = no  } AND = { RUS_uses_kamenev_politics = no  } } }
+	trigger = { always = no }
 	picture = GFX_report_event_RUS_zinovyev
 
 	option = { #Reprimand him
@@ -34337,9 +32894,8 @@ country_event = { #The Union of Socialist Labour Republics
 				}
 			}
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
+	}
+	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.411 option russia_socialist_events.411.b"
 		name = russia_socialist_events.411.b
 		ai_chance = { base = 10 }
@@ -34385,122 +32941,8 @@ option = {
 				drop_cosmetic_tag = yes
 			}
 		}
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.411 option russia_socialist_events.411.a"
-		name = russia_socialist_events.411.a
-		ai_chance = { base = 5 }
-		add_stability = 0.1
-		if = {
-			limit = { NOT = { BUK = { has_cosmetic_tag = TRK_RUS } } } #Puppeted united CA after Central Asia war
-			set_autonomy = {
-				target = KAZ
-				autonomy_state = union_republic
-				end_wars = no
-			}
-			every_owned_state = {
-				limit = {
-					is_core_of = KAZ
-					NOT = {
-						state = 581 #Uralsk
-						state = 583 #Petropavlovsk
-						state = 588 #Pavlodar
-					}
-				}
-				transfer_state_to = KAZ
-				remove_core_of = RUS
-			}
-			hidden_effect = {
-				KAZ = {
-					drop_cosmetic_tag = yes
-					set_country_flag = CA_able_to_repair #Unlocks postwar unification tree
-					remove_ideas = {
-						KAZ_ethnic_tensions_0
-						KAZ_alash_militias_0
-					}
-					add_ideas = {
-						central_asia_economic_destruction_start
-						central_asia_disorganized_military_0
-					}
-				}
-			}
-		}
-		hidden_effect = {
-			787 = { remove_core_of = MNR } #Terek
-		}
-		232 = {
-			if = {
-				limit = { has_dynamic_modifier = { modifier = RUS_ethnic_autonomy } }
-				remove_dynamic_modifier = { modifier = RUS_ethnic_autonomy }
-				clr_state_flag = dagestan_state
-			}
-		}
-		release_puppet = MNR
-		set_autonomy = {
-			target = MNR
-			autonomy_state = union_republic
-			end_wars = no
-		}
-		hidden_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_nationalise_oil_completed } }
-				MNR = {
-					give_resource_rights = { state = 232 receiver = GER } #Dagestan
-					give_resource_rights = { state = 961 receiver = GER } #Chechenya
-				}
-			}
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.411 option russia_socialist_events.411.b"
-		name = russia_socialist_events.411.b
-		ai_chance = { base = 10 }
-		#### Fire World News Event
-		if = {
-			limit = { NOT = { BUK = { has_cosmetic_tag = TRK_RUS } } } #Puppeted united CA after Central Asia war
-			set_autonomy = {
-				target = KAZ
-				autonomy_state = union_republic
-				end_wars = no
-			}
-			every_owned_state = {
-				limit = {
-					is_core_of = KAZ
-					NOT = {
-						state = 581 #Uralsk
-						state = 583 #Petropavlovsk
-						state = 588 #Pavlodar
-					}
-				}
-				transfer_state_to = KAZ
-				remove_core_of = RUS
-			}
-			hidden_effect = {
-				KAZ = {
-					drop_cosmetic_tag = yes
-					set_country_flag = CA_able_to_repair #Unlocks postwar unification tree
-					remove_ideas = {
-						KAZ_ethnic_tensions_0
-						KAZ_alash_militias_0
-					}
-					add_ideas = {
-						central_asia_economic_destruction_start
-						central_asia_disorganized_military_0
-					}
-				}
-			}
-		}
-		hidden_effect = {
-			every_subject_country = {
-				limit = { NOT = { has_cosmetic_tag = TRK_RUS } }
-				drop_cosmetic_tag = yes
-			}
-		}
-trigger = { RUS_uses_kamenev_politics = no  }
-}
-	after = { if = { limit = { RUS_uses_kamenev_politics = yes }
+	}
+	after = {
 		if = {
 			limit = { BUK = { exists = no } }
 			release_puppet = BUK
@@ -34578,80 +33020,7 @@ trigger = { RUS_uses_kamenev_politics = no  }
 				TRK = { RUS_stalin_set_subject_radical_socialist_if_communist_path = yes }
 			}
 		}
-	 }
-else = {
-		if = {
-			limit = { BUK = { exists = no } }
-			release_puppet = BUK
-			set_autonomy = {
-				target = BUK
-				autonomy_state = union_republic
-				end_wars = no
-			}
-		}
-		else_if = {
-			limit = {
-				BUK = {
-					is_subject_of = RUS
-					NOT = { has_autonomy_state = union_republic }
-				}
-			}
-			BUK = { get_current_government_type = yes }
-			set_autonomy = {
-				target = BUK
-				autonomy_state = union_republic
-				end_wars = no
-			}
-			BUK = { restore_previous_government_type = yes }
-		}
-		if = {
-			limit = { NOT = { BUK = { has_cosmetic_tag = TRK_RUS } } }
-			if = {
-				limit = { KHI = { exists = no } }
-				release_puppet = KHI
-				set_autonomy = {
-					target = KHI
-					autonomy_state = union_republic
-					end_wars = no
-				}
-			}
-			else_if = {
-				limit = {
-					KHI = {
-						is_subject_of = RUS
-						NOT = { has_autonomy_state = union_republic }
-					}
-				}
-				set_autonomy = {
-					target = KHI
-					autonomy_state = union_republic
-					end_wars = no
-				}
-			}
-			if = {
-				limit = { TRK = { exists = no } }
-				release_puppet = TRK
-				set_autonomy = {
-					target = TRK
-					autonomy_state = union_republic
-					end_wars = no
-				}
-			}
-			else_if = {
-				limit = {
-					TRK = {
-						is_subject_of = RUS
-						NOT = { has_autonomy_state = union_republic }
-					}
-				}
-				set_autonomy = {
-					target = TRK
-					autonomy_state = union_republic
-					end_wars = no
-				}
-			}
-		}
-	 } }
+	}
 }
 
 country_event = { #Vynnychenko arrives in Moscow
@@ -34900,13 +33269,7 @@ country_event = { #Sverdlov Joins the Government
 		log = "[GetLogInfo]: event russia_socialist_events.421 option russia_socialist_events.421.a"
 		name = russia_socialist_events.421.a
 		RUS_stalin_kamenev_bop_move_right_015 = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.421 option russia_socialist_events.421.a"
-		name = russia_socialist_events.421.a
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Patron of the Red Intelligentsia
@@ -35041,14 +33404,7 @@ country_event = { #Supreme Council of National Economy
 		name = russia_socialist_events.431.a
 		add_stability = 0.04
 		RUS_stalin_kamenev_bop_move_right_005 = yes
-trigger = { RUS_uses_kamenev_politics = yes  }
-}
-option = {
-		log = "[GetLogInfo]: event russia_socialist_events.431 option russia_socialist_events.431.a"
-		name = russia_socialist_events.431.a
-		add_stability = 0.04
-trigger = { RUS_uses_kamenev_politics = no  }
-}
+	}
 }
 
 country_event = { #Immortal in the Revolution
@@ -40169,15 +38525,18 @@ country_event = { #FROM accepts trade deal (for RUS)
 		log = "[GetLogInfo]: event russia_foreign_policy_events.106 option russia_foreign_policy_events.106.a"
 		name = russia_foreign_policy_events.106.a
 		if = {
-			limit = { has_idea = RUS_INT_deal_2 }
-			swap_ideas = {
-				remove_idea = RUS_INT_deal_2
-				add_idea = RUS_INT_deal_3
+			limit = { NOT = { has_completed_focus = RUS_future_foreign_047 } }
+			if = {
+				limit = { has_idea = RUS_INT_deal_2 }
+				swap_ideas = {
+					remove_idea = RUS_INT_deal_2
+					add_idea = RUS_INT_deal_3
+				}
 			}
-		}
-		else = {
-			add_ideas = RUS_INT_deal_2
-			custom_effect_tooltip = tooltip_white_line
+			else = {
+				add_ideas = RUS_INT_deal_2
+				custom_effect_tooltip = tooltip_white_line
+			}
 		}
 		set_temp_variable = { RUS_power_change = 5 }
 		RUS_change_projection = yes
@@ -49477,11 +47836,7 @@ country_event = {
 			ruling_party = radical_socialist
 			elections_allowed = no
 		}
-		if = {
-			limit = { NOT = { has_country_flag = RUS_socrus_chain_initialised } }
-			set_country_flag = RUS_socrus_chain_initialised
-			RUS_initialise_socrus = yes
-		}
+		RUS_initialise_socrus = yes
 		RUS_maximalist_land_reform_add_initial_stage = yes
 		RUS_maria_spiridonova = {
 			promote_character = { ideology = radical_socialist_subtype }
@@ -49523,11 +47878,7 @@ country_event = {
 			ruling_party = syndicalist
 			elections_allowed = no
 		}
-		if = {
-			limit = { NOT = { has_country_flag = RUS_socrus_chain_initialised } }
-			set_country_flag = RUS_socrus_chain_initialised
-			RUS_initialise_socrus = yes
-		}
+		RUS_initialise_socrus = yes
 		RUS_maximalist_land_reform_add_initial_stage = yes
 		activate_advisor = RUS_daniil_sulimov_sic
 		complete_national_focus = RUS_revolution_from_above

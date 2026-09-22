@@ -1,3 +1,165 @@
+RUS_future_foreign_apply_nordic_relations = {
+	# Resolve the relationship bands once when Northern Alliance is completed.
+	# Countries already in another faction take precedence over all other bands.
+	if = {
+		limit = { country_exists = ICE }
+		ICE = {
+			if = {
+				limit = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } }
+				add_ideas = RUS_future_foreign_nordic_relation_faction
+				add_popularity = { ideology = radical_socialist popularity = 0.15 }
+				RUS = { add_intel = { target = ICE civilian_intel = 75 } }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 100 } }
+				# Socialist targets are handled by the invitation decision; other governments receive no band effect.
+				log = "Nordic Alliance relation above 100; invitation eligibility evaluated by decision"
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } }
+				add_political_power = 50
+				diplomatic_relation = { country = RUS relation = non_aggression_pact }
+				RUS = { add_political_power = 50 }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } }
+				add_ideas = RUS_future_foreign_nordic_relation_mid
+				add_popularity = { ideology = radical_socialist popularity = 0.10 }
+				RUS = { add_intel = { target = ICE civilian_intel = 50 } }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } }
+				add_ideas = RUS_future_foreign_nordic_relation_low
+				add_popularity = { ideology = radical_socialist popularity = 0.05 }
+			}
+			else = {
+				add_ideas = RUS_future_foreign_nordic_relation_low_negative
+				add_popularity = { ideology = radical_socialist popularity = 0.02 }
+			}
+		}
+	}
+	if = {
+		limit = { country_exists = NOR }
+		NOR = {
+			if = {
+				limit = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } }
+				add_ideas = RUS_future_foreign_nordic_relation_faction
+				add_popularity = { ideology = radical_socialist popularity = 0.15 }
+				RUS = { add_intel = { target = NOR civilian_intel = 75 } }
+			}
+			else_if = { limit = { has_opinion = { target = RUS value > 100 } } log = "Nordic Alliance relation above 100; invitation eligibility evaluated by decision" }
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } }
+				add_political_power = 50
+				diplomatic_relation = { country = RUS relation = non_aggression_pact }
+				RUS = { add_political_power = 50 }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } }
+				add_ideas = RUS_future_foreign_nordic_relation_mid
+				add_popularity = { ideology = radical_socialist popularity = 0.10 }
+				RUS = { add_intel = { target = NOR civilian_intel = 50 } }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } }
+				add_ideas = RUS_future_foreign_nordic_relation_low
+				add_popularity = { ideology = radical_socialist popularity = 0.05 }
+			}
+			else = { add_ideas = RUS_future_foreign_nordic_relation_low_negative add_popularity = { ideology = radical_socialist popularity = 0.02 } }
+		}
+	}
+	if = {
+		limit = { country_exists = SWE }
+		SWE = {
+			if = {
+				limit = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } }
+				add_ideas = RUS_future_foreign_nordic_relation_faction
+				add_popularity = { ideology = radical_socialist popularity = 0.15 }
+				RUS = { add_intel = { target = SWE civilian_intel = 75 } }
+			}
+			else_if = { limit = { has_opinion = { target = RUS value > 100 } } log = "Nordic Alliance relation above 100; invitation eligibility evaluated by decision" }
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } }
+				add_political_power = 50
+				diplomatic_relation = { country = RUS relation = non_aggression_pact }
+				RUS = { add_political_power = 50 }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } }
+				add_ideas = RUS_future_foreign_nordic_relation_mid
+				add_popularity = { ideology = radical_socialist popularity = 0.10 }
+				RUS = { add_intel = { target = SWE civilian_intel = 50 } }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } }
+				add_ideas = RUS_future_foreign_nordic_relation_low
+				add_popularity = { ideology = radical_socialist popularity = 0.05 }
+			}
+			else = { add_ideas = RUS_future_foreign_nordic_relation_low_negative add_popularity = { ideology = radical_socialist popularity = 0.02 } }
+		}
+	}
+	if = {
+		limit = { country_exists = FIN }
+		FIN = {
+			if = {
+				limit = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } }
+				add_ideas = RUS_future_foreign_nordic_relation_faction
+				add_popularity = { ideology = radical_socialist popularity = 0.15 }
+				RUS = { add_intel = { target = FIN civilian_intel = 75 } }
+			}
+			else_if = { limit = { has_opinion = { target = RUS value > 100 } } log = "Nordic Alliance relation above 100; invitation eligibility evaluated by decision" }
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } }
+				add_political_power = 50
+				diplomatic_relation = { country = RUS relation = non_aggression_pact }
+				RUS = { add_political_power = 50 }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } }
+				add_ideas = RUS_future_foreign_nordic_relation_mid
+				add_popularity = { ideology = radical_socialist popularity = 0.10 }
+				RUS = { add_intel = { target = FIN civilian_intel = 50 } }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } }
+				add_ideas = RUS_future_foreign_nordic_relation_low
+				add_popularity = { ideology = radical_socialist popularity = 0.05 }
+			}
+			else = { add_ideas = RUS_future_foreign_nordic_relation_low_negative add_popularity = { ideology = radical_socialist popularity = 0.02 } }
+		}
+	}
+	if = {
+		limit = { country_exists = DEN }
+		DEN = {
+			if = {
+				limit = { is_in_faction = yes NOT = { is_in_faction_with = RUS } has_opinion = { target = RUS value > 80 } }
+				add_ideas = RUS_future_foreign_nordic_relation_faction
+				add_popularity = { ideology = radical_socialist popularity = 0.15 }
+				RUS = { add_intel = { target = DEN civilian_intel = 75 } }
+			}
+			else_if = { limit = { has_opinion = { target = RUS value > 100 } } log = "Nordic Alliance relation above 100; invitation eligibility evaluated by decision" }
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 80 } has_opinion = { target = RUS value < 101 } }
+				add_political_power = 50
+				diplomatic_relation = { country = RUS relation = non_aggression_pact }
+				RUS = { add_political_power = 50 }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > 40 } has_opinion = { target = RUS value < 81 } }
+				add_ideas = RUS_future_foreign_nordic_relation_mid
+				add_popularity = { ideology = radical_socialist popularity = 0.10 }
+				RUS = { add_intel = { target = DEN civilian_intel = 50 } }
+			}
+			else_if = {
+				limit = { has_opinion = { target = RUS value > -1 } has_opinion = { target = RUS value < 41 } }
+				add_ideas = RUS_future_foreign_nordic_relation_low
+				add_popularity = { ideology = radical_socialist popularity = 0.05 }
+			}
+			else = { add_ideas = RUS_future_foreign_nordic_relation_low_negative add_popularity = { ideology = radical_socialist popularity = 0.02 } }
+		}
+	}
+}
+
 RUS_future_foreign_populate_aid_targets = {
 	clear_array = RUS_future_foreign_aid_targets
 	every_possible_country = {
@@ -8,6 +170,12 @@ RUS_future_foreign_populate_aid_targets = {
 
 RUS_future_foreign_refresh_third_international_gendarme = {
 	RUS_gendarme_refresh_waiting_bonus = yes
+	set_variable = { RUS_third_international_gendarme_political_power = 0 }
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_008 }
+		set_variable = { RUS_third_international_gendarme_political_power = 0.05 }
+	}
+
 	set_variable = { RUS_third_international_gendarme_volunteer_limit = 1 }
 	add_to_variable = {
 		RUS_third_international_gendarme_volunteer_limit = RUS_third_international_gendarme_victories
@@ -29,10 +197,46 @@ RUS_future_foreign_refresh_third_international_gendarme = {
 		RUS_third_international_gendarme_volunteer_experience = RUS_third_international_gendarme_experience_steps
 	}
 	multiply_variable = { RUS_third_international_gendarme_volunteer_experience = 0.05 }
+	# Socialist Balkan countries are counted every refresh so the focus tooltip can preview them;
+	# only "Under the Stars" turns that count into the gendarme bonus.
+	set_variable = { RUS_third_international_gendarme_balkan_socialist_count = 0 }
+	if = {
+		limit = { SER = { exists = yes has_socialist_government = yes } }
+		add_to_variable = { RUS_third_international_gendarme_balkan_socialist_count = 1 }
+	}
+	if = {
+		limit = { ROM = { exists = yes has_socialist_government = yes } }
+		add_to_variable = { RUS_third_international_gendarme_balkan_socialist_count = 1 }
+	}
+	if = {
+		limit = { GRE = { exists = yes has_socialist_government = yes } }
+		add_to_variable = { RUS_third_international_gendarme_balkan_socialist_count = 1 }
+	}
+	if = {
+		limit = { ALB = { exists = yes has_socialist_government = yes } }
+		add_to_variable = { RUS_third_international_gendarme_balkan_socialist_count = 1 }
+	}
+	if = {
+		limit = { BUL = { exists = yes has_socialist_government = yes } }
+		add_to_variable = { RUS_third_international_gendarme_balkan_socialist_count = 1 }
+	}
+	set_variable = { RUS_third_international_gendarme_balkan_count = 0 }
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_035 }
+		set_variable = {
+			RUS_third_international_gendarme_balkan_count = RUS_third_international_gendarme_balkan_socialist_count
+		}
+	}
+	set_temp_variable = { RUS_third_international_gendarme_balkan_experience_bonus = RUS_third_international_gendarme_balkan_count }
+	multiply_temp_variable = { RUS_third_international_gendarme_balkan_experience_bonus = 0.05 }
+	add_to_variable = { RUS_third_international_gendarme_volunteer_experience = RUS_third_international_gendarme_balkan_experience_bonus }
 	set_variable = {
 		RUS_third_international_gendarme_non_core_attack = RUS_third_international_gendarme_victories
 	}
 	multiply_variable = { RUS_third_international_gendarme_non_core_attack = 0.005 }
+	set_temp_variable = { RUS_third_international_gendarme_balkan_attack_bonus = RUS_third_international_gendarme_balkan_count }
+	multiply_temp_variable = { RUS_third_international_gendarme_balkan_attack_bonus = 0.002 }
+	add_to_variable = { RUS_third_international_gendarme_non_core_attack = RUS_third_international_gendarme_balkan_attack_bonus }
 
 	if = {
 		limit = {
@@ -106,6 +310,28 @@ RUS_future_foreign_refresh_red_country_count = {
 	multiply_variable = { RUS_soviets_and_phalanstere_consumer_goods_factor = -0.005 }
 	add_to_variable = {
 		RUS_soviets_and_phalanstere_consumer_goods_factor = RUS_future_foreign_policy_consumer_goods_factor
+	}
+	set_variable = { RUS_soviets_and_phalanstere_research_speed_factor = 0 }
+	set_variable = { RUS_soviets_and_phalanstere_oil = 0 }
+	if = {
+		limit = { has_completed_focus = RUS_future_foreign_047 }
+		if = {
+			limit = { has_idea = RUS_INT_deal_2 }
+			remove_ideas = RUS_INT_deal_2
+		}
+		if = {
+			limit = { has_idea = RUS_INT_deal_3 }
+			remove_ideas = RUS_INT_deal_3
+		}
+	}
+	if = {
+		limit = {
+			has_completed_focus = RUS_future_foreign_047
+			NOT = { has_war_with = GER }
+		}
+		add_to_variable = { RUS_soviets_and_phalanstere_consumer_goods_factor = -0.15 }
+		set_variable = { RUS_soviets_and_phalanstere_research_speed_factor = 0.05 }
+		set_variable = { RUS_soviets_and_phalanstere_oil = -40 }
 	}
 
 	set_variable = {
@@ -387,24 +613,19 @@ RUS_future_foreign_refresh_completed_focus_count = {
 	if = { limit = { has_completed_focus = RUS_future_foreign_030 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_031 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_032 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
-	if = { limit = { has_completed_focus = RUS_future_foreign_033 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_034 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_035 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_036 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_037 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_038 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_039 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
-	if = { limit = { has_completed_focus = RUS_future_foreign_040 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
-	if = { limit = { has_completed_focus = RUS_future_foreign_041 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_042 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_043 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_044 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_045 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_046 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_047 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
-	if = { limit = { has_completed_focus = RUS_future_foreign_048 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_049 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
-	if = { limit = { has_completed_focus = RUS_future_foreign_050 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_051 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_052 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }
 	if = { limit = { has_completed_focus = RUS_future_foreign_053 } add_to_temp_variable = { RUS_future_foreign_current_completed_focus_count = 1 } }

@@ -375,6 +375,60 @@ on_actions = {
 				set_country_flag = RUS_kamenev_focus_tree_retired
 				mark_focus_tree_layout_dirty = yes
 			}
+			# Repair a run that the old daily re-check pulled into the Kamenev transition after it
+			# had already committed to the historical All-Russian Union of Labour line. HOI4 keeps
+			# completed focuses rendered even when their branch is hidden, so the Levitsky and
+			# Sulimov focuses were drawn on top of the Kamenev tree. RUS_internationalists can only
+			# be completed by the historical fallback inside RUS_syndicalists, so seeing it next to
+			# the Kamenev route flag is exactly the broken state. Hand the historical line back,
+			# unless the player already invested in the Kamenev entry row below RUS_syndicalists.
+			if = {
+				limit = {
+					has_country_flag = RUS_auto_kamenev_vst_left_path
+					has_completed_focus = RUS_internationalists
+					NOT = {
+						OR = {
+							has_completed_focus = RUS_kamenev_return_to_leninism
+							has_completed_focus = RUS_kamenev_congress_of_unions
+							has_completed_focus = RUS_kamenev_no_permanent_creditor
+							has_completed_focus = RUS_kamenev_acknowledge_eser_contribution
+							has_completed_focus = RUS_kamenev_one_party_card
+							has_completed_focus = RUS_kamenev_majority_rule
+							has_completed_focus = RUS_kamenev_psr_rebuild_central_committee
+						}
+					}
+				}
+				clr_country_flag = RUS_auto_kamenev_vst_left_path
+				clr_country_flag = RUS_VST_conference_kamenev
+				set_country_flag = RUS_vst_course_committed
+				# The same daily re-check used to hand the office to Kamenev through event
+				# russia_socialist_events.442. Give the historical leader back so the restored
+				# Levitsky-gated focuses stay playable.
+				if = {
+					limit = {
+						has_country_leader = { character = RUS_lev_kamenev }
+						has_character = RUS_vladimir_levitsky
+					}
+					promote_character = {
+						character = RUS_vladimir_levitsky
+						ideology = syndicalist_subtype
+					}
+				}
+				if = {
+					limit = { has_country_flag = RUS_kamenev_bop_active }
+					clr_country_flag = RUS_kamenev_bop_active
+				}
+				log = "[GetLogInfo]: restored the historical All-Russian Union of Labour line after the daily re-check had moved the run into the Kamenev transition"
+				mark_focus_tree_layout_dirty = yes
+			}
+			# Old saves retain their existing branch; never infer the completion-time relations from current values.
+			if = {
+				limit = {
+					NOT = { has_country_flag = RUS_vst_course_committed }
+					has_completed_focus = RUS_syndicalists
+				}
+				set_country_flag = RUS_vst_course_committed
+			}
 			if = {
 				limit = { has_country_flag = RUS_tesla_network_bonus_active }
 				RUS_tesla_refresh_power_grid_bonuses = yes
@@ -682,25 +736,7 @@ on_actions = {
 				activate_advisor = RUS_iosif_stalin_sic
 				RUS_stalin_kamenev_bop_refresh_runtime_effects = yes
 			}
-			if = {
-				limit = {
-					NOT = { has_country_flag = RUS_auto_kamenev_vst_left_path }
-					has_completed_focus = RUS_syndicalists
-					RUS_VST_left = no
-					check_variable = { vst_left_var > 7 }
-					NOT = { check_variable = { vst_centre_unity > 3 } }
-				}
-				set_country_flag = RUS_auto_kamenev_vst_left_path
-				set_country_flag = RUS_VST_conference_kamenev
-				RUS_stalin_enable_kamenev_bop = yes
-				mark_focus_tree_layout_dirty = yes
-				RUS_stalin_kamenev_sync_transferred_industry = yes
-				RUS_stalin_kamenev_dispatch_psr_agenda = yes
-				if = {
-					limit = { NOT = { has_country_leader = { character = RUS_lev_kamenev } } }
-					country_event = { id = russia_socialist_events.442 days = 1 }
-				}
-			}
+
 			if = {
 				limit = {
 					RUS_VST = yes

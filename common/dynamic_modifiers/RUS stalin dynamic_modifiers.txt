@@ -53,12 +53,10 @@ RUS_stalin_red_army_dynamic_modifier = {
 }
 
 RUS_kamenev_vst_party_unity_bop_modifier = {
- enable = { RUS_uses_kamenev_politics = yes }
 	custom_modifier_tooltip = RUS_kamenev_vst_party_unity_balance_drift_tt
 }
 
 RUS_kamenev_party_balance_modifier = {
- enable = { RUS_uses_kamenev_politics = yes }
 	icon = "GFX_idea_SOV_soviet_hegemony"
 	compliance_growth = RUS_kamenev_balance_compliance_growth
 	stability_factor = RUS_kamenev_balance_stability_factor
@@ -74,14 +72,25 @@ RUS_kamenev_party_balance_modifier = {
 	custom_modifier_tooltip = RUS_kamenev_party_balance_modifier_status_tt
 }
 
+RUS_stalin_psr_balance_collapse_modifier = {
+	icon = GFX_idea_SOV_soviet_hegemony
+	stability_factor = -2.00
+}
+
 RUS_vst_party_unity_modifier = {
 	stability_factor = vst_popularity_var
-	political_power_gain = vst_popularity_var
+	political_power_gain = RUS_vst_factionalism_total_pp_gain
+	stability_weekly = RUS_vst_factionalism_weekly_stability
+	global_building_slots_factor = RUS_vst_factionalism_building_slots_factor
+	production_cost_arms_factory_factor = RUS_vst_factionalism_arms_factory_cost_factor
 }
 
 RUS_vst_party_factionalism_modifier = {
 	stability_factor = -0.05
-	political_power_gain = vst_popularity_var
+	political_power_gain = RUS_vst_factionalism_total_pp_gain
+	stability_weekly = RUS_vst_factionalism_weekly_stability
+	global_building_slots_factor = RUS_vst_factionalism_building_slots_factor
+	production_cost_arms_factory_factor = RUS_vst_factionalism_arms_factory_cost_factor
 }
 
 RUS_kamenev_psr_agenda_bop_modifier = {

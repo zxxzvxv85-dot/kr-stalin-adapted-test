@@ -15,8 +15,8 @@ RUS_agri_refresh_score_account = {
 			subtract_from_temp_variable = { RUS_agri_excess = RUS_nat_reform_target }
 			add_to_variable = { RUS_agri_spendable_score = RUS_agri_excess }
 		}
-		set_variable = { RUS_maximalist_land_reform_score = RUS_nat_reform_target }
-		set_variable = { RUS_agri_display_score = RUS_nat_reform_target }
+		clamp_variable = { var = RUS_maximalist_land_reform_score min = 0 max = RUS_nat_reform_target }
+		set_variable = { RUS_agri_display_score = RUS_maximalist_land_reform_score }
 		add_to_variable = { RUS_agri_display_score = RUS_agri_spendable_score }
 	}
 	else = { set_variable = { RUS_agri_display_score = RUS_maximalist_land_reform_score } }
@@ -31,7 +31,8 @@ RUS_agri_credit_score = {
 			NOT = { has_country_flag = RUS_maximalist_land_reform_failure }
 			has_country_flag = RUS_maximalist_land_reform_success
 		}
-		add_to_variable = { RUS_agri_spendable_score = RUS_agri_score_award }
+		add_to_variable = { RUS_maximalist_land_reform_score = RUS_agri_score_award }
+		RUS_maximalist_land_reform_update_stage_idea = yes
 	}
 	else_if = {
 		limit = {
