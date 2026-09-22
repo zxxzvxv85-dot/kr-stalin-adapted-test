@@ -2865,3 +2865,9 @@ mio:RUS_example_organization = {
 - `common/national_focus/00_RUS_future_foreign_policy_skeleton.txt`：58 门国策全部是绝对坐标，统一 `x += 7`、`y -= 5`；横向范围 19–35 → **26–42**，纵向 17–31 → **12–26**（改了 58 行 x、58 行 y，共 116 行）。
 - 与主树 `RUS focus (Russia).txt` 的重叠格子：移动前 18 处 → 移动后 **17 处**（其余重叠是主树内部既有的，未处理）。
 - 括号平衡 651/651。未实机验证。
+
+### 2026-09-21 恢复新外交线的对法贸易事件派发
+
+- 「按测试版覆盖」时，`common/national_focus/00_RUS_future_foreign_policy_skeleton.txt` 里的 `russia_foreign_policy_events.105` 派发被带回了 `INT`（= 第三国际领袖别名，本模组里俄罗斯接管后会解析成俄罗斯自己）；现改回 `FRA`。
+- 现在三处派发全部一致：`RUS focus (Russia).txt` 两处（`RUS_each_according_ability`、`RUS_franco_russian_treaty`）＋ `00_RUS_future_foreign_policy_skeleton.txt` 一处（`RUS_future_foreign_047`），都是发给**法国**（`days = 2`）与**英国**（`days = 4`）。
+- 注意：测试版本身不含这个修复（它打包在修复之前），以后若再整体同步测试版，需要重新确认这一行。未实机验证。
