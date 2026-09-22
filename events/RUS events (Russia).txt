@@ -29980,8 +29980,9 @@ country_event = { #Matter of the HoS
 		add_popularity = { ideology = radical_socialist popularity = 0.01 }
 		RUS_stalin_add_totalist_or_communist_popularity_001 = yes
 		set_country_flag = RUS_const_executive
-}
-option = { #Weak HoS
+	}
+
+	option = { #Weak HoS
 		log = "[GetLogInfo]: event russia_socialist_events.302 option russia_socialist_events.302.b"
 		name = russia_socialist_events.302.b
 		ai_chance = {
@@ -30001,9 +30002,7 @@ option = { #Weak HoS
 		custom_effect_tooltip = tooltip_white_line
 		add_popularity = { ideology = syndicalist popularity = 0.02 }
 		set_country_flag = RUS_const_parliamentarian
-}
-option = 
-option = 
+	}
 }
 
 country_event = { #HoS Election
@@ -30189,7 +30188,7 @@ country_event = { #Choice of Syndie Sub-Path
 	desc = russia_socialist_events.304.d
 	picture = GFX_report_event_RUS_kamenev
 	is_triggered_only = yes
-	immediate = { if = { limit = { RUS_uses_kamenev_politics = yes }
+	immediate = {
 		hidden_effect = {
 			country_event = { id = russia_socialist_events.320 days = 100 random_days = 100 } #Uglanov's Resignation
 			if = {
@@ -30197,13 +30196,8 @@ country_event = { #Choice of Syndie Sub-Path
 				country_event = { id = russia_socialist_events.305 days = 300 } #VST Congress
 			}
 		}
-	 }
-else = {
-		hidden_effect = {
-			country_event = { id = russia_socialist_events.320 days = 100 random_days = 100 } #Uglanov's Resignation
-			country_event = { id = russia_socialist_events.305 days = 300 } #VST Congress
-		}
-	 } }
+	}
+
 	option = { #Zinovyev
 		log = "[GetLogInfo]: event russia_socialist_events.304 option russia_socialist_events.304.a"
 		name = russia_socialist_events.304.a
@@ -30233,8 +30227,9 @@ else = {
 		RUS_SDS_relation = yes
 		add_ideas = RUS_vst_party_unity_idea
 		RUS_VST_party_check = yes
-}
-option = { #Levitsky
+	}
+
+	option = { #Levitsky
 		log = "[GetLogInfo]: event russia_socialist_events.304 option russia_socialist_events.304.b"
 		name = russia_socialist_events.304.b
 		ai_chance = {
@@ -30261,8 +30256,9 @@ option = { #Levitsky
 		RUS_RKP_relation = yes
 		add_ideas = RUS_vst_party_unity_idea
 		RUS_VST_party_check = yes
-}
-option = { #Stalin
+	}
+
+	option = { #Stalin
 		log = "[GetLogInfo]: event russia_socialist_events.304 option russia_socialist_events.304.c"
 		name = russia_socialist_events.304.c
 		ai_chance = {
@@ -30288,10 +30284,7 @@ option = { #Stalin
 		RUS_SDS_relation = yes
 		add_ideas = RUS_vst_party_unity_idea
 		RUS_VST_party_check = yes
-}
-option = 
-option = 
-option = 
+	}
 }
 
 country_event = { # Annual Congress of VST
@@ -31177,16 +31170,18 @@ country_event = { # Ministry - Industry and Trade
 			FOCUS = RUS_new_russian_socialism
 		}
 		set_country_flag = RUS_strumilin_ministry
-}
-option = { #Kamkov (SR)
+	}
+
+	option = { #Kamkov (SR)
 		log = "[GetLogInfo]: event russia_socialist_events.330 option russia_socialist_events.330.b"
 		name = russia_socialist_events.330.b
 		RUS_decrease_VST_centre_unity = yes
 		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_PSR_relation = yes
 		add_popularity = { ideology = radical_socialist popularity = 0.01 }
-}
-option = { #Finn-Yenotayevsky (Right)
+	}
+
+	option = { #Finn-Yenotayevsky (Right)
 		log = "[GetLogInfo]: event russia_socialist_events.330 option russia_socialist_events.330.c"
 		name = russia_socialist_events.330.c
 		RUS_decrease_VST_centre_unity = yes
@@ -31200,8 +31195,9 @@ option = { #Finn-Yenotayevsky (Right)
 			FOCUS = RUS_4_year_plan
 		}
 		set_country_flag = RUS_yenotayevsky_ministry
-}
-option = { #Bukharin (Bolshevik)
+	}
+
+	option = { #Bukharin (Bolshevik)
 		log = "[GetLogInfo]: event russia_socialist_events.330 option russia_socialist_events.330.e"
 		name = russia_socialist_events.330.e
 		RUS_decrease_VST_centre_unity = yes
@@ -31211,11 +31207,7 @@ option = { #Bukharin (Bolshevik)
 		RUS_PSR_relation = yes
 		add_popularity = { ideology = totalist popularity = 0.01 }
 		set_country_flag = RUS_bukharin_ministry
-}
-option = 
-option = 
-option = 
-option = 
+	}
 }
 
 country_event = { # Ministry - Foreign
@@ -31561,7 +31553,7 @@ country_event = { # Change in Leadership
 			else = {
 				has_country_flag = RUS_abramovich_ai
 			}
-		 }
+		}
 		name = russia_socialist_events.338.a
 		promote_character = {
 			character = RUS_rafail_abramovich
@@ -31577,7 +31569,7 @@ country_event = { # Change in Leadership
 		}
 	}
 
-option = { #Left
+	option = { #Left
 		log = "[GetLogInfo]: event russia_socialist_events.338 option russia_socialist_events.338.b"
 		trigger = {
 			if = {
@@ -31595,7 +31587,7 @@ option = { #Left
 					has_country_flag = RUS_zinovyev_ai
 				}
 			}
-		 }
+		}
 		name = russia_socialist_events.338.b
 		promote_character = {
 			character = RUS_lev_kamenev
@@ -31613,8 +31605,6 @@ option = { #Left
 			country_event = { id = russia_socialist_events.307 days = 60 } #Centralisation of Power
 		}
 	}
-option = 
-option = 
 }
 
 country_event = { # Radicalism warning at 8
@@ -32163,8 +32153,9 @@ country_event = { #Socialism through Innovation
 		}
 		RUS_stalin_kamenev_bop_move_left_015 = yes
 		RUS_decrease_antisoc_resistance = yes
-}
-option = { #Full ideologisation
+	}
+
+	option = { #Full ideologisation
 		log = "[GetLogInfo]: event russia_socialist_events.361 option russia_socialist_events.361.b"
 		name = russia_socialist_events.361.b
 		swap_ideas = {
@@ -32177,9 +32168,7 @@ option = { #Full ideologisation
 		RUS_VST_left_relation = yes
 		RUS_RKP_relation = yes
 		RUS_stalin_kamenev_bop_move_right_015 = yes
-}
-option = 
-option = 
+	}
 }
 country_event = { #Defection of the Former Centre
 	id = russia_socialist_events.362
