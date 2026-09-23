@@ -723,7 +723,13 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         "\t\t}",
     ]
 
-    for hotspot_key, (left, top, _, _) in selector_boxes.items():
+    # GUI buttons hit-test as rectangles. Keep the small Lithuania and
+    # Azerbaijan regions above neighbouring country rectangles.
+    ordered_hotspots = sorted(
+        selector_boxes.items(),
+        key=lambda item: item[0] in {"LIT", "AZR"},
+    )
+    for hotspot_key, (left, top, _, _) in ordered_hotspots:
         hotspot = HOTSPOT_BY_KEY[hotspot_key]
         lines.extend([
             "",
