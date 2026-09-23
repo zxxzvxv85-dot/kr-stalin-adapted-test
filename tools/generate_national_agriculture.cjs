@@ -39,16 +39,16 @@ for(let i=7;i>=0;i--)reformSelection=iff(`check_variable = { RUS_maximalist_land
 effect('update_reform_stage',reformSelection);
 const reformBase=[
  {stability_factor:-.2,political_power_factor:-.2},
- {stability_factor:-.16,political_power_factor:-.16},
+ {stability_factor:-.18,political_power_factor:-.18},
+ {stability_factor:-.15,political_power_factor:-.15},
+ {stability_factor:-.12,political_power_factor:-.12},
  {stability_factor:-.1,political_power_factor:-.1},
- {stability_factor:-.06,monthly_population:.05},
- {stability_factor:-.02,monthly_population:.06},
- {stability_factor:0,monthly_population:.08,conscription_factor:.02},
- {stability_factor:.03,monthly_population:.08,conscription_factor:.03},
- {stability_factor:.05,monthly_population:.1,conscription_factor:.04},
+ {stability_factor:-.06,political_power_factor:-.06,monthly_population:.03},
+ {stability_factor:-.02,political_power_factor:-.02,monthly_population:.06,conscription_factor:.02},
+ {stability_factor:.02,monthly_population:.08,conscription_factor:.04},
 ];
 const finalReformBase={stability_factor:.05,monthly_population:.1,conscription_factor:.05,supply_consumption_factor:-.05,no_supply_grace:72};
-const reformConsumers=[.2,.14,.08,.02,.01,0,-.03,-.07,-.1];
+const reformConsumers=[.2,.18,.15,.12,.1,.06,.02,-.04,-.1];
 const reformArms=[0,0,0,0,0,0,.05,.1,.15];
 function reformIdea(id,i,tractor=false){
  const modifiers={...(i===8?finalReformBase:reformBase[i]),consumer_goods_expected_value:tractor?-.12:reformConsumers[i]};

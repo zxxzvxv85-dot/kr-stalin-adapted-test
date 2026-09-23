@@ -22,10 +22,25 @@ test('all nine thresholds and fractional boundaries select one spirit, not addit
   assert.ok(c.ideas.RUS_agri_annual_surplus);
  }
 });
-test('consumer expectations, military construction and absolute slots match the approved table',()=>{
- const consumer=[.2,.14,.08,.02,.01,0,-.03,-.07,-.1],arms=[0,0,0,0,0,0,.05,.1,.15],slots=[0,0,0,0,0,0,0,1,2];
- ids.forEach((id,i)=>{const m=mods(ideas,id);assert.equal(m.consumer_goods_expected_value,consumer[i]);assert.equal(m.production_speed_arms_factory_factor||0,arms[i]);assert.equal(m.global_building_slots||0,slots[i]);assert.equal(m.global_building_slots_factor,undefined);assert.equal(m.supply_node_range||0,i===8?.1:i===7?.05:0);});
- for(let i=0;i<4;i++)assert.deepEqual(mods(ideas,ids[i]),mods(original,'RUS_maximalist_land_reform_stage_'+i));
+test('all nine stage modifiers match the approved progression and final tier remains unchanged',()=>{
+ const stability=[-.2,-.18,-.15,-.12,-.1,-.06,-.02,.02,.05];
+ const political=[-.2,-.18,-.15,-.12,-.1,-.06,-.02,0,0];
+ const consumer=[.2,.18,.15,.12,.1,.06,.02,-.04,-.1];
+ const population=[0,0,0,0,0,.03,.06,.08,.1];
+ const conscription=[0,0,0,0,0,0,.02,.04,.05];
+ const arms=[0,0,0,0,0,0,.05,.1,.15],slots=[0,0,0,0,0,0,0,1,2];
+ ids.forEach((id,i)=>{
+  const m=mods(ideas,id);
+  assert.equal(m.stability_factor,stability[i]);
+  assert.equal(m.political_power_factor||0,political[i]);
+  assert.equal(m.consumer_goods_expected_value,consumer[i]);
+  assert.equal(m.monthly_population||0,population[i]);
+  assert.equal(m.conscription_factor||0,conscription[i]);
+  assert.equal(m.production_speed_arms_factory_factor||0,arms[i]);
+  assert.equal(m.global_building_slots||0,slots[i]);
+  assert.equal(m.global_building_slots_factor,undefined);
+  assert.equal(m.supply_node_range||0,i===8?.1:i===7?.05:0);
+ });
  const final=mods(ideas,ids[8]);for(const [key,value] of Object.entries(mods(original,'RUS_maximalist_land_reform_stage_5')))if(key!=='consumer_goods_expected_value')assert.equal(final[key],value);
 });
 test('completed machinery promise gives minus 12 percent, not a second stacked spirit',()=>{
