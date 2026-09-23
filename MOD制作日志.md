@@ -3113,3 +3113,10 @@ mio:RUS_example_organization = {
 - 原图为 1254×1254 RGBA，保留透明通道并制作 64×64 游戏图标；已检查原图和游戏原生尺寸。
 - 保留旧图，以新版文件接入原有 GFX 图标键，企业与相关民族精神共用引用。完整提示词保存在 tools/assets/tesla_electrical_v2_prompt.txt。
 - 仅测试版；当前游戏正在运行，上传目录待游戏退出后重建；未实机验证。
+
+## 2026-09-22 — 特斯拉电气改为 KR 企业厂徽风格
+
+- 按用户反馈撤换上一版写实线圈与齿轮构图，参考 KR 原版 CZE_tesla、SWI_brown_boveri、HUN_orion_electronics 等公司图标。
+- 使用内置 image_gen 重绘为黑色/旧米白平面厂徽，以 TESLA 字样、无线输电塔和交流电符号体现特斯拉特色，去除写实金属高光与蓝色发光特效。
+- 原图 1254×1254 RGBA，游戏图标 64×64 RGBA；检查透明通道及原生尺寸辨识度，共用 GFX 键改指向 v3，保留旧图。完整提示词：tools/assets/tesla_electrical_v3_prompt.txt。
+- 仅测试版；未实机验证。
