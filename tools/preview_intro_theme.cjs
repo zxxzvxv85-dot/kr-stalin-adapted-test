@@ -71,7 +71,7 @@ async function main() {
   ctx.fillStyle='#746b58';ctx.fillRect(703,464,1,300);ctx.fillRect(701,471,5,79);
   sprite('page',498,800); sprite('back',476,796); sprite('forward',556,796);
   text(`${page}/${pages}`,536,806,18,'#ece4d3','center');
-  sprite('continue',240,792); text('继续',360,810,24,'#ece4d3','center');
+  sprite('continue',240,792); text(local.mod_options_button_text,360,810,24,'#ece4d3','center');
   ctx.restore();
   text('布局预览 · 非游戏截图；字体与控件状态以游戏内为准',420,902,14,'#d3d0c2','center');
   fs.mkdirSync(out,{recursive:true});
