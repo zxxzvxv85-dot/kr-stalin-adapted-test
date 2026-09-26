@@ -13,7 +13,7 @@
 | `test_intro_header.py`、`test_intro_content.py` | 与当前安装 KR 对比控件和逻辑，检查资源尺寸、帧数、标题完整性、32 组关闭重开状态及五页前后翻页、非俄国回退和配色闭合 |
 | `preview_intro_theme.cjs` | 用实际纹理和 KR 简中文本生成离线布局图；需要 `@napi-rs/canvas`，仅作布局参考 |
 
-打开和关闭均使用主窗口的 `fade_time=1200`、`fade_type=linear`，即 1.2 秒原位整体淡入、淡出。保留原来的 720×840 主窗口、中心对齐和 `position={x=0 y=-20}`，不再设置位移动画。标题、背景、正文与按钮均随同一个主窗口改变透明度；没有反向补偿、额外裁切或新增脚本父窗口。切页时主窗口不重新隐藏，四个标签页仍是实时控件，游戏日期不参与动画计时。这是整体透明度过渡，不是从左到右的空间渐变遮罩。
+打开和关闭均使用主窗口的 `fade_time=2000`、`fade_type=linear`，即 2 秒原位整体淡入、淡出。保留原来的 720×840 主窗口、中心对齐和 `position={x=0 y=-20}`，不再设置位移动画。标题、背景、正文与按钮均随同一个主窗口改变透明度；没有反向补偿、额外裁切或新增脚本父窗口。切页时主窗口不重新隐藏，四个标签页仍是实时控件，游戏日期不参与动画计时。这是整体透明度过渡，不是从左到右的空间渐变遮罩。
 
 KR 的关闭入口会清除 `kr_intro_screen_variable`，使对应正文页立刻不可见。最小覆盖在顶栏开关、继续按钮关闭时先把当前标签页保存至国家变量 `RUS_intro_fading_tab`；四页只在主窗口已关闭时读取这个缓存，使最后一页随主窗口一起淡出。重新打开时清除缓存，按 KR 原逻辑显示第一个标签页；正文页码与路线剧透状态继续保留。主窗口可见条件仍只取决于 KR 原变量，所以残留缓存不会独立打开界面；不要向四页各自添加淡入淡出，否则普通切页也会交叠。
 
@@ -27,7 +27,7 @@ KR 的关闭入口会清除 `kr_intro_screen_variable`，使对应正文页立�
 
 面板改用内置 `image_gen` 新绘制的完整印刷边框，原图为 1532×1026 RGBA，保存于 `art_sources/intro_frame_v2_source.png`，实际提示词在 `intro_frame_v2_prompt.txt`。构建时将整张素材等比近似缩至 728×488，不裁切或重画图案；原比例差低于 0.1%。由于原图带半透明磨损，GUI 在它下面另放全不透明的深色底板，确保地图和地名不会透过正文。页签、按钮、勾选框和翻页箭头由代码绘制分层细线、切角及细微油墨变化，文字仍由游戏显示。
 
-布局和交互参照 KR 1.7 的 `interface/kaiserreich/intro_screen.gui/.gfx`、`common/scripted_guis/00_intro_screen_gui.txt`。淡出方式参照本机“帝国雄心（重置/世界线）”4.0（工坊 ID `3206158781`）的 `interface/TNO_Country_Info_Screen.gui` 中主窗口：原参考为 `fade_time=15000`、`fade_type=linear`，本界面保持原有的 1.2 秒节奏。参考文件 SHA-256 为 `0465f6523e699413f716250e48612faafd237c7b436f0c2bb1f1eb8a909f146f`；没有复制其图片、电视信号装饰或专属玩法逻辑。
+布局和交互参照 KR 1.7 的 `interface/kaiserreich/intro_screen.gui/.gfx`、`common/scripted_guis/00_intro_screen_gui.txt`。淡出方式参照本机“帝国雄心（重置/世界线）”4.0（工坊 ID `3206158781`）的 `interface/TNO_Country_Info_Screen.gui` 中主窗口：原参考为 `fade_time=15000`、`fade_type=linear`，本界面按用户要求使用 2 秒时长。参考文件 SHA-256 为 `0465f6523e699413f716250e48612faafd237c7b436f0c2bb1f1eb8a909f146f`；没有复制其图片、电视信号装饰或专属玩法逻辑。
 
 本次 KR 覆盖源文件 SHA-256 为 `9d8dc0c954845bec76221055d8d15afa7087f715367b4df355beca7025a2b859`。覆盖与当前安装 KR 的行为差异由回归检查约束；KR 更新后先审查测试报告，不能自动覆盖本模组逻辑。
 

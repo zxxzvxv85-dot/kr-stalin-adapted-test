@@ -194,7 +194,7 @@ def main():
     assert canvas.one("size").norm() == old.one("size").norm()
     assert canvas.value("orientation") == old.value("orientation")
     assert canvas.value("origo") == old.value("origo")
-    assert canvas.value("fade_time") == "1200"
+    assert canvas.value("fade_time") == "2000"
     assert canvas.value("fade_type") == "linear"
     for field in ("show_position", "hide_position", "show_animation_type", "hide_animation_type", "animation_time"):
         assert canvas.one(field) is None, f"Unexpected movement alongside opacity fade: {field}"
