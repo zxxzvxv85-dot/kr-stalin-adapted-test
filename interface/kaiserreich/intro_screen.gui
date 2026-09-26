@@ -19,12 +19,11 @@ guiTypes = {
 	containerWindowType = {
 		name = "kr_intro_screen_container"
 		# Keep KR's main window as the direct parent of every scripted tab.
-		# A single native window animation carries the skin and all live controls.
-		position = { x = -100% y = -20 }
-		show_position = { x = 0 y = -20 }
-		show_animation_type = decelerated
-		hide_animation_type = accelerated
-		animation_time = 1200
+		# Native stationary fade, as in Imperial Ambition's country introduction.
+		# The closing-tab cache keeps live text present until this parent finishes fading.
+		position = { x = 0 y = -20 }
+		fade_time = 1200
+		fade_type = linear
 		size = { width = 720 height = 840 }
 		moveable = yes
 		orientation = CENTER

@@ -1,4 +1,4 @@
-"""Intro skin regression: live controls, KR behaviour and whole-window reveal.
+"""Intro skin regression: live controls, KR behaviour and stationary window fade.
 
 These checks validate scripts/assets and animation geometry, not engine playback.
 """
@@ -56,6 +56,93 @@ def xy(node, field):
     return tuple(float(node.one(field).value(k)) for k in ("x", "y"))
 
 
+def check_closing_tabs(original, current):
+    """Exercise both real close actions; the hidden parent must retain just its last tab."""
+    cache = "RUS_intro_fading_tab"
+    active = "kr_intro_screen_variable"
+
+    def condition(node, state):
+        if node.k == "has_variable":
+            return node.v in state
+        if node.k == "check_variable":
+            return all(state.get(n.k, 0) == int(n.v) for n in node.v)
+        values = [condition(n, state) for n in node.v]
+        if node.k == "OR":
+            return any(values)
+        if node.k == "NOT":
+            return not all(values)
+        assert node.k in {"visible", "limit", "AND"}, node.k
+        return all(values)
+
+    def execute(block, state):
+        branch_taken = None
+        for node in block.v:
+            if node.k == "set_variable":
+                for assignment in node.v:
+                    value = assignment.v
+                    state[assignment.k] = state[value] if value in state else int(value)
+            elif node.k == "clear_variable":
+                state.pop(node.v, None)
+            elif node.k == "set_variable_to_random":
+                state[node.v] = state.get(node.v, 0) + 1
+            elif node.k == "if":
+                branch_taken = condition(node.one("limit"), state)
+                if branch_taken:
+                    execute(node, state)
+            elif node.k == "else":
+                assert branch_taken is not None
+                if not branch_taken:
+                    execute(node, state)
+            else:
+                assert node.k == "limit", f"Unsupported close action: {node.k}"
+
+    def selected(state):
+        return [i for i in range(1, 5)
+                if condition(current.one(f"kr_intro_screen_tab_{i}").one("visible"), state)]
+
+    main = current.one("kr_intro_screen")
+    toggle = current.one("kr_intro_screen_button").one("effects").one("kr_intro_screen_button_click")
+    close = main.one("effects").one("mod_options_button_click")
+    assert not condition(main.one("visible"), {}) and selected({}) == []
+    for tab in range(1, 5):
+        for action in (toggle, close):
+            for stale_cache in range(1, 5):
+                state = {active: tab, cache: stale_cache, "curr_page_country": 3,
+                         "kr_intro_screen_spoilers_revealed": 1}
+                assert selected(state) == [tab], "A stale cache must not show an extra open tab"
+                execute(action, state)
+                assert not condition(main.one("visible"), state), "Close must still hide the parent"
+                assert selected(state) == [tab], "Text must survive the parent's fade without overlapping tabs"
+                execute(toggle, state)
+                assert condition(main.one("visible"), state) and selected(state) == [1]
+                assert cache not in state, "Reopen must retire the closing-tab cache"
+                for destination in range(1, 5):
+                    execute(main.one("effects").one(f"tab_{destination}_click"), state)
+                    assert selected(state) == [destination], "Tab switches must remain immediate and exclusive"
+                assert state["curr_page_country"] == 3 and state["kr_intro_screen_spoilers_revealed"] == 1
+
+    # Strip only the declared visual additions, then compare the complete upstream AST.
+    # This catches changes to parent bindings, dirty refresh, conditions and click effects.
+    def without_cache(node):
+        if node.k == "set_variable" and node.one(cache):
+            assert len(node.v) == 1 and node.value(cache) == active
+            return None
+        if node.k == "clear_variable" and node.v == cache:
+            return None
+        if isinstance(node.v, list):
+            nodes = node.v
+            if node.k == "visible" and node.one("OR"):
+                branches = node.one("OR").v
+                assert branches[0].k == "check_variable" and branches[0].one(active)
+                nodes = branches[:1]
+            value = tuple(result for child in nodes if (result := without_cache(child)) is not None)
+        else:
+            value = node.v
+        return node.k, node.op, value
+
+    assert without_cache(current) == original.norm(), "Unrelated KR intro behaviour changed"
+
+
 def main():
     check_intro_content()
     original = named(data(KR / "interface/kaiserreich/intro_screen.gui", "guiTypes"))
@@ -70,20 +157,15 @@ def main():
     # Functional panel subtree, including every click target, is unchanged.
     assert norm(old.one("containerWindowType")) == norm(canvas.one("containerWindowType"))
     assert canvas.value("clipping") == "no"
-    assert canvas.one("position").value("x") == "-100%"
-    assert canvas.one("position").value("y") == "-20"
-    assert xy(canvas, "show_position") == xy(old, "position")
+    assert xy(canvas, "position") == xy(old, "position"), "Fading must leave the whole window stationary"
     assert canvas.one("size").norm() == old.one("size").norm()
     assert canvas.value("orientation") == old.value("orientation")
     assert canvas.value("origo") == old.value("origo")
-    assert canvas.value("animation_time") == "1200"
-    assert canvas.value("show_animation_type") == "decelerated"
-    assert canvas.value("hide_animation_type") == "accelerated"
+    assert canvas.value("fade_time") == "1200"
+    assert canvas.value("fade_type") == "linear"
+    for field in ("show_position", "hide_position", "show_animation_type", "hide_animation_type", "animation_time"):
+        assert canvas.one(field) is None, f"Unexpected movement alongside opacity fade: {field}"
     width = int(canvas.one("size").value("width"))
-    # The main window itself moves; tab coordinates never acquire a second offset.
-    for screen_width in (1280, 1920, 2560, 3840):
-        start_left = screen_width / 2 - width / 2 - screen_width
-        assert start_left + 751 < 0, "The complete title begins off the left edge"
     title = next(n for n in canvas.children("iconType") if n.value("name") == '"RUS_intro_title"')
     x, y = xy(title, "position")
     scale = float(title.value("scale"))
@@ -95,14 +177,15 @@ def main():
     assert 356 < y + h * scale < 382, "Title tail should join the panel without reaching tabs"
 
     # Regression for the actual 2026-09-25 'Parent window ... is not found' error:
-    # use KR's original registration, with every tab directly attached to its root.
+    # preserve KR's original registration, with every tab directly attached to its root.
     base_gui = data(KR / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui")
-    assert not (R / "common/scripted_guis/00_intro_screen_gui.txt").exists()
-    main_gui = base_gui.one("kr_intro_screen")
+    live_gui = data(R / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui")
+    check_closing_tabs(base_gui, live_gui)
+    main_gui = live_gui.one("kr_intro_screen")
     assert main_gui.value("window_name") == '"kr_intro_screen_container"'
     assert main_gui.one("parent_window_name") is None
     for i in range(1, 5):
-        tab = base_gui.one(f"kr_intro_screen_tab_{i}")
+        tab = live_gui.one(f"kr_intro_screen_tab_{i}")
         assert tab.value("parent_window_name") == '"kr_intro_screen_container"'
         assert tab.value("window_name").strip('"') in mod
     backfill = canvas.one("containerWindowType")
@@ -130,7 +213,7 @@ def main():
             assert size == Image.open(game / "gfx/interface" / native).size, short
             assert int(sprite.value("noOfFrames", "1")) == frames
     subprocess.run([sys.executable, "-B", str(R / "tools/build_intro_theme.py"), "--check"], check=True)
-    print("PASS: original KR parent bindings and control geometry, byte-exact title, opaque reading background, native hitbox/frame sizes and one-window entrance. Engine playback still requires in-game verification.")
+    print("PASS: original KR parent bindings and controls; stationary parent fade; 32 close/reopen scenarios retain only the active tab; byte-exact art and native hitboxes. Engine playback still requires in-game verification.")
 
 
 if __name__ == "__main__":

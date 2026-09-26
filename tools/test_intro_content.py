@@ -45,7 +45,7 @@ def check_intro_content():
     counts = [n.value("country_intro_page_count") for n in history
               if n.k == "set_variable" and n.one("country_intro_page_count")]
     assert counts == ["4"], "RUS needs five pages; KR stores the last zero-based index"
-    controls = data(KR / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui").one("kr_intro_screen_tab_1")
+    controls = data(R / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui").one("kr_intro_screen_tab_1")
     triggers, effects = controls.one("triggers"), controls.one("effects")
 
     # Traverse using the actual KR button conditions and increments, including ends.
