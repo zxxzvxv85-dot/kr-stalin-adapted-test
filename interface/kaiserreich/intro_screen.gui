@@ -169,6 +169,23 @@ guiTypes = {
 				spriteType = "GFX_KR_default_intro"
 				position = { x = 2 y = 2 }
 			}
+
+			# RUS: fit the complete painting by height and clip only its right side.
+			# This decorative viewport keeps the source intact and the original hitboxes.
+			containerWindowType = {
+				name = "RUS_intro_lenin_crop"
+				position = { x = 2 y = 2 }
+				size = { width = 168 height = 376 }
+				clipping = yes
+
+				iconType = {
+					name = "RUS_intro_lenin_painting"
+					spriteType = "GFX_RUS_intro_lenin_painting"
+					position = { x = 0 y = 0 }
+					scale = 0.344638
+					alwaystransparent = yes
+				}
+			}
 		}
 
 		## Options

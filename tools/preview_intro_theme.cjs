@@ -28,7 +28,7 @@ async function main() {
     if (file.endsWith('.png')) assets[file.slice(0,-4)] = await loadImage(path.join(root,'gfx/interface/rus_intro_theme',file));
   }
   const title = await loadImage(path.join(root,'gfx/interface/rus_intro_header/constructivist_title.png'));
-  const country = await loadImage(path.join(root,'../1521695605/gfx/introscreen/RUS_intro.png'));
+  const country = await loadImage(path.join(root,'gfx/interface/rus_intro_portrait/lenin_painting.png'));
   // One native KR root; offline proof adds margins around its 720x840 contents.
   ctx.save(); ctx.translate(60, 40);
   function sprite(name,x,y,frame=0,frames=1) {
@@ -46,7 +46,11 @@ async function main() {
     sprite('tab',45+i*170,382,i===0?1:0,2);
     text(label,106.5+i*170,389,18,'#ece4d3','center');
   });
-  sprite('portrait_back',16,436); ctx.drawImage(country,18,438);
+  sprite('portrait_back',16,436);
+  // Match the GUI viewport: original painting, uniform scale, only right-side clipping.
+  ctx.save(); ctx.beginPath(); ctx.rect(18,438,168,376); ctx.clip();
+  ctx.drawImage(country,18,438,country.width*.344638,country.height*.344638);
+  ctx.restore();
   text('— 选项 —',102,692,20,'#ece4d3','center');
   ['自定义成就','地区/胜利点重命名','事件音乐','地区新闻事件','世界新闻事件'].forEach((label,i)=>{
     sprite('checkbox',18,714+i*22,i===4?0:1,2); text(label,48,717+i*22,14);

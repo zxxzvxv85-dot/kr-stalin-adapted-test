@@ -2,6 +2,7 @@
 # RUS_intro_fading_tab is a visual cache, saved by both close buttons and cleared on reopen.
 # It never keeps the main window open; that still requires kr_intro_screen_variable.
 # Keep the original root and direct tab parent bindings to avoid detached content.
+# The RUS portrait viewport replaces only this country's decorative illustration.
 scripted_gui = {
 	kr_intro_screen_button = {
 		context_type = player_context
@@ -92,6 +93,9 @@ scripted_gui = {
 		}
 
 		triggers = {
+			kr_intro_screen_tab_1_background_icon_visible = { NOT = { tag = RUS } }
+			RUS_intro_lenin_crop_visible = { tag = RUS }
+
 			sound_events_button_visible = { has_kr_music_submod = yes }
 			sound_events_text_visible = { has_kr_music_submod = yes }
 

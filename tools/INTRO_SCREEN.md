@@ -8,7 +8,7 @@
 | `common/scripted_guis/00_intro_screen_gui.txt` | 最小覆盖 KR：两处关闭入口缓存当前标签页，四页在主窗口淡出期间保留内容；原父窗口和其他逻辑不变 |
 | `common/scripted_localisation/RUS_country_intro_scripted_loc.txt`、`localisation/replace/RUS_country_intro_l_*.yml` | 在国家标签页插入俄国新首页；后四页继续引用 KR 原本地化键，其他国家转回 KR 原选择函数 |
 | `history/countries/RUS - Russia.txt` 的 `country_intro_page_count` | KR 使用从零开始的末页索引；值为 4，即新开局俄国共有五页 |
-| `interface/RUS_intro_header.gfx`、`interface/RUS_intro_theme.gfx` | 专用精灵定义，不改共享按钮 |
+| `interface/RUS_intro_header.gfx`、`interface/RUS_intro_theme.gfx`、`interface/RUS_intro_portrait.gfx` | 专用精灵定义，不改共享按钮；列宁插画只在 RUS 的国家介绍中显示 |
 | `build_intro_theme.py` | 显式 `--write` 生成 12 张纹理；默认或 `--check` 只校验哈希，不重画；支持 `--output-root` |
 | `test_intro_header.py`、`test_intro_content.py` | 与当前安装 KR 对比控件和逻辑，检查资源尺寸、帧数、标题完整性、32 组关闭重开状态及五页前后翻页、非俄国回退和配色闭合 |
 | `preview_intro_theme.cjs` | 用实际纹理和 KR 简中文本生成离线布局图；需要 `@napi-rs/canvas`，仅作布局参考 |
@@ -17,7 +17,9 @@
 
 KR 的关闭入口会清除 `kr_intro_screen_variable`，使对应正文页立刻不可见。最小覆盖在顶栏开关、继续按钮关闭时先把当前标签页保存至国家变量 `RUS_intro_fading_tab`；四页只在主窗口已关闭时读取这个缓存，使最后一页随主窗口一起淡出。重新打开时清除缓存，按 KR 原逻辑显示第一个标签页；正文页码与路线剧透状态继续保留。主窗口可见条件仍只取决于 KR 原变量，所以残留缓存不会独立打开界面；不要向四页各自添加淡入淡出，否则普通切页也会交叠。
 
-俄国国家介绍依次为“未竟的十月”、原国家概况、“白卫往事”、“通往第三俄罗斯之路”、“和平与面包”。首页中文为用户定稿，仅将用户确认的列宁遇刺日期改为 1918 年 8 月，并加入原生颜色标记；英俄文本使用对应翻译。KR 原文、滚动框、插画与所有窗口结构不变。页数通过国家历史初始化，以新开局为基线，没有新增旧存档迁移或重置当前页码的钩子。
+俄国国家介绍依次为“未竟的十月”、原国家概况、“白卫往事”、“通往第三俄罗斯之路”、“和平与面包”。首页中文为用户定稿，仅将用户确认的列宁遇刺日期改为 1918 年 8 月，并加入原生颜色标记；英俄文本使用对应翻译。KR 原文、滚动框和交互结构不变。页数通过国家历史初始化，以新开局为基线，没有新增旧存档迁移或重置当前页码的钩子。
+
+左侧插画使用用户提供的列宁原画，完整 JPG 保存在 `tools/art_sources/intro_lenin_source.jpg`（800×1091，SHA-256 `adb3a8b7488b0f1ee8a5e46c679edf5f7a90677b0619f1e866d62b9292525e20`）。运行文件 `gfx/interface/rus_intro_portrait/lenin_painting.png` 仅由 `@napi-rs/canvas` 完整转为 PNG，已核对同一解码器下的像素一致，没有重绘、修色或栅格裁剪。GUI 的装饰性子容器保持原插画 168×376 的尺寸，以 `scale=0.344638` 等比缩放并裁掉右侧，保留原图左侧约 487.47 像素及完整高度，覆盖列宁的头部、双手和身体。此子容器没有单独 scripted GUI 注册，也不承载按钮或文字。两条可见性条件只替换 RUS 五页国家介绍的插画；其他国家继续使用 KR 原图选择器。调整取景时改 GUI 并同步离线预览，不修改原画。
 
 2026-09-25 的实机日志已经证明上一版额外嵌套存在缺陷：四条 `Parent window for kr_intro_screen_tab_N is not found` 对应正文脱离主框。失败的额外父窗口结构已移除；本次为关闭缓存引入的覆盖仍保留 KR 原有的全部直接父子关系，不能恢复旧的嵌套。回归检查要求原主窗口名称、原脚本挂接关系和原控件局部坐标一致，并在剔除本次缓存逻辑后逐节点比较整个 KR 原脚本。
 

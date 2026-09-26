@@ -37,7 +37,8 @@ def norm(node):
         no_fill = bare in {"splash_border", "content_bkgr_bottom_layer", "content_bkgr_top_layer"}
         value = tuple(norm(n) for n in node.v
                       if not (no_fill and n.k == "background")
-                      and not (n.k == "iconType" and n.value("name") == '"RUS_intro_printed_plate"'))
+                      and not (n.k == "iconType" and n.value("name") == '"RUS_intro_printed_plate"')
+                      and not (n.k == "containerWindowType" and n.value("name") == '"RUS_intro_lenin_crop"'))
     else:
         value = node.v
         if node.k in ("quadTextureSprite", "spriteType") and value:
@@ -62,6 +63,8 @@ def check_closing_tabs(original, current):
     active = "kr_intro_screen_variable"
 
     def condition(node, state):
+        if node.k == "tag":
+            return state.get("tag") == node.v
         if node.k == "has_variable":
             return node.v in state
         if node.k == "check_variable":
@@ -71,7 +74,7 @@ def check_closing_tabs(original, current):
             return any(values)
         if node.k == "NOT":
             return not all(values)
-        assert node.k in {"visible", "limit", "AND"}, node.k
+        assert node.k in {"visible", "limit", "AND"} or node.k.endswith("_visible"), node.k
         return all(values)
 
     def execute(block, state):
@@ -104,6 +107,12 @@ def check_closing_tabs(original, current):
     toggle = current.one("kr_intro_screen_button").one("effects").one("kr_intro_screen_button_click")
     close = main.one("effects").one("mod_options_button_click")
     assert not condition(main.one("visible"), {}) and selected({}) == []
+    portrait_triggers = current.one("kr_intro_screen_tab_1").one("triggers")
+    for country in ("RUS", "CAN", "GBR", "FRA", "GER", "RSA"):
+        state = {"tag": country}
+        custom = condition(portrait_triggers.one("RUS_intro_lenin_crop_visible"), state)
+        original_portrait = condition(portrait_triggers.one("kr_intro_screen_tab_1_background_icon_visible"), state)
+        assert custom == (country == "RUS") and original_portrait != custom
     for tab in range(1, 5):
         for action in (toggle, close):
             for stale_cache in range(1, 5):
@@ -124,6 +133,8 @@ def check_closing_tabs(original, current):
     # Strip only the declared visual additions, then compare the complete upstream AST.
     # This catches changes to parent bindings, dirty refresh, conditions and click effects.
     def without_cache(node):
+        if node.k in {"RUS_intro_lenin_crop_visible", "kr_intro_screen_tab_1_background_icon_visible"}:
+            return None  # RUS-only illustration visibility checked above.
         if node.k == "set_variable" and node.one(cache):
             assert len(node.v) == 1 and node.value(cache) == active
             return None
@@ -141,6 +152,28 @@ def check_closing_tabs(original, current):
         return node.k, node.op, value
 
     assert without_cache(current) == original.norm(), "Unrelated KR intro behaviour changed"
+
+
+def check_portrait(tab):
+    background = tab.one("containerWindowType")
+    viewport = background.one("containerWindowType")
+    assert viewport.value("name") == '"RUS_intro_lenin_crop"'
+    assert viewport.value("clipping") == "yes"
+    assert xy(viewport, "position") == xy(background.one("iconType"), "position")
+    bounds = tuple(int(viewport.one("size").value(k)) for k in ("width", "height"))
+    assert bounds == Image.open(KR / "gfx/introscreen/RUS_intro.png").size
+    painting = viewport.one("iconType")
+    assert painting.value("alwaystransparent") == "yes", "Decorative artwork must not intercept clicks"
+    assert xy(painting, "position") == (0, 0), "Cropping must leave the top and left intact"
+    sprites = data(R / "interface/RUS_intro_portrait.gfx", "spriteTypes")
+    sprite = sprites.one("spriteType")
+    assert painting.value("spriteType") == sprite.value("name")
+    full = Image.open(R / sprite.value("texturefile").strip('"'))
+    source = Image.open(R / "tools/art_sources/intro_lenin_source.jpg")
+    assert full.size == source.size == (800, 1091), "Keep the entire source painting in the runtime asset"
+    scale = float(painting.value("scale"))
+    assert isclose(full.height * scale, bounds[1], abs_tol=.01)
+    assert bounds[0] / scale >= 480, "The visible region must include Lenin's head, hands and coat"
 
 
 def main():
@@ -181,6 +214,7 @@ def main():
     base_gui = data(KR / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui")
     live_gui = data(R / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui")
     check_closing_tabs(base_gui, live_gui)
+    check_portrait(mod["kr_intro_screen_tab_1_container"])
     main_gui = live_gui.one("kr_intro_screen")
     assert main_gui.value("window_name") == '"kr_intro_screen_container"'
     assert main_gui.one("parent_window_name") is None
