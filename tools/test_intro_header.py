@@ -12,6 +12,7 @@ import sys
 
 from PIL import Image
 from hoi4_politics_blocks import KR, R, data
+from test_intro_content import check_intro_content
 
 SKIN = {
     "GFX_RUS_intro_underlay": "GFX_tiled_window_pol_goal",
@@ -56,6 +57,7 @@ def xy(node, field):
 
 
 def main():
+    check_intro_content()
     original = named(data(KR / "interface/kaiserreich/intro_screen.gui", "guiTypes"))
     mod = named(data(R / "interface/kaiserreich/intro_screen.gui", "guiTypes"))
     assert set(mod) == set(original), "Do not introduce a scripted parent chain around KR's tabs"

@@ -1,0 +1,52 @@
+# KR intro tab 1 calls these selectors through localisation/replace.
+# RUS page 0 is the mod introduction; pages 1-4 reuse KR's untouched text keys.
+# Other countries delegate to KR, including its special cases and culture lookup.
+defined_text = {
+	name = RUSGetCountryIntroHeader
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 4 } }
+		localization_key = RUS_country_intro_header_3
+	}
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 3 } }
+		localization_key = RUS_country_intro_header_2
+	}
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 2 } }
+		localization_key = RUS_country_intro_header_1
+	}
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 1 } }
+		localization_key = RUS_country_intro_header
+	}
+	text = {
+		trigger = { tag = RUS }
+		localization_key = RUS_unfinished_october_intro_header
+	}
+	text = { localization_key = "[GetCountryIntroHeader]" }
+}
+
+defined_text = {
+	name = RUSGetCountryIntroContent
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 4 } }
+		localization_key = RUS_country_intro_content_3
+	}
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 3 } }
+		localization_key = RUS_country_intro_content_2
+	}
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 2 } }
+		localization_key = RUS_country_intro_content_1
+	}
+	text = {
+		trigger = { tag = RUS check_variable = { curr_page_country = 1 } }
+		localization_key = RUS_country_intro_content
+	}
+	text = {
+		trigger = { tag = RUS }
+		localization_key = RUS_unfinished_october_intro_content
+	}
+	text = { localization_key = "[GetCountryIntroContent]" }
+}

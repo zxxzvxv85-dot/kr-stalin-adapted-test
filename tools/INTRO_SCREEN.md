@@ -5,13 +5,17 @@
 | 入口 | 用途 |
 | --- | --- |
 | `interface/kaiserreich/intro_screen.gui` | 原控件布局、配色资源、标题与面板衔接；只在 KR 原主窗口增加整体滑入动画 |
-| KR 的 `common/scripted_guis/00_intro_screen_gui.txt` | 本模组不再覆盖；四页均沿原关系直接挂在 `kr_intro_screen_container` 上，复用上游全部逻辑 |
+| KR 的 `common/scripted_guis/00_intro_screen_gui.txt` | 本模组不再覆盖；四个标签页均沿原关系直接挂在 `kr_intro_screen_container` 上，复用上游全部逻辑 |
+| `common/scripted_localisation/RUS_country_intro_scripted_loc.txt`、`localisation/replace/RUS_country_intro_l_*.yml` | 在国家标签页插入俄国新首页；后四页继续引用 KR 原本地化键，其他国家转回 KR 原选择函数 |
+| `history/countries/RUS - Russia.txt` 的 `country_intro_page_count` | KR 使用从零开始的末页索引；值为 4，即新开局俄国共有五页 |
 | `interface/RUS_intro_header.gfx`、`interface/RUS_intro_theme.gfx` | 专用精灵定义，不改共享按钮 |
 | `build_intro_theme.py` | 显式 `--write` 生成 12 张纹理；默认或 `--check` 只校验哈希，不重画；支持 `--output-root` |
-| `test_intro_header.py` | 与当前安装 KR 对比控件和逻辑，检查资源尺寸、帧数、标题完整性及动画几何 |
+| `test_intro_header.py`、`test_intro_content.py` | 与当前安装 KR 对比控件和逻辑，检查资源尺寸、帧数、标题完整性、动画几何及五页前后翻页、非俄国回退和配色闭合 |
 | `preview_intro_theme.cjs` | 用实际纹理和 KR 简中文本生成离线布局图；需要 `@napi-rs/canvas`，仅作布局参考 |
 
-入场时长 1,200 毫秒，使用引擎界面时间，暂停游戏也不依赖游戏日推进。保留原来的 720×840 主窗口及中心对齐，以 `position.x=-100%` 从画面左侧进入，`show_position={x=0 y=-20}` 恢复 KR 原位置。标题、背景与各页文字只有同一个主窗口位移；没有反向补偿、额外裁切或新增脚本父窗口。切页时主窗口不重新隐藏，四页仍是实时控件。
+入场时长 1,200 毫秒，使用引擎界面时间，暂停游戏也不依赖游戏日推进。保留原来的 720×840 主窗口及中心对齐，以 `position.x=-100%` 从画面左侧进入，`show_position={x=0 y=-20}` 恢复 KR 原位置。标题、背景与各页文字只有同一个主窗口位移；没有反向补偿、额外裁切或新增脚本父窗口。切页时主窗口不重新隐藏，四个标签页仍是实时控件。
+
+俄国国家介绍依次为“未竟的十月”、原国家概况、“白卫往事”、“通往第三俄罗斯之路”、“和平与面包”。首页中文为用户定稿，仅将用户确认的列宁遇刺日期改为 1918 年 8 月，并加入原生颜色标记；英俄文本使用对应翻译。KR 原文、滚动框、插画与所有窗口结构不变。页数通过国家历史初始化，以新开局为基线，没有新增旧存档迁移或重置当前页码的钩子。
 
 2026-09-25 的实机日志已经证明上一版额外嵌套存在缺陷：四条 `Parent window for kr_intro_screen_tab_N is not found` 对应正文脱离主框。该覆盖脚本已移除，不应仅凭离线排版或两个位移相消的数学检查重新引入它。回归检查要求原主窗口名称、原脚本挂接关系和原控件局部坐标一致。
 

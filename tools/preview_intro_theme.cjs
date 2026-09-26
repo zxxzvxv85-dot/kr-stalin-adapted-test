@@ -4,6 +4,21 @@ const path = require('node:path');
 const {createCanvas, loadImage, GlobalFonts} = require('@napi-rs/canvas');
 const root = path.resolve(__dirname, '..');
 const out = path.join(root, 'output/intro-theme');
+const pageArg = process.argv.indexOf('--page');
+const page = pageArg < 0 ? 1 : Number(process.argv[pageArg + 1]);
+const history = fs.readFileSync(path.join(root, 'history/countries/RUS - Russia.txt'), 'utf8');
+const pages = Number(history.match(/country_intro_page_count\s*=\s*(\d+)/)[1]) + 1;
+if (!Number.isInteger(page) || page < 1 || page > pages) throw new Error(`Page must be between 1 and ${pages}`);
+function readLoc(file) {
+  return Object.fromEntries([...fs.readFileSync(file, 'utf8').matchAll(/^\s*([^#\s:]+):(?:\d+)?\s*"(.*)"\s*$/gm)].map(m => [m[1], m[2]]));
+}
+const local = readLoc(path.join(root, 'localisation/replace/RUS_country_intro_l_simp_chinese.yml'));
+const upstream = readLoc(path.join(root, '../2946487287/localisation/simp_chinese/KR_country_specific/RUS - Russia l_simp_chinese.yml'));
+const key = kind => page === 1 ? `RUS_unfinished_october_intro_${kind}` : `RUS_country_intro_${kind}${page === 2 ? '' : `_${page - 2}`}`;
+const pageLoc = page === 1 ? local : upstream;
+const core = fs.readFileSync(path.join(root, '../1521695605/interface/core.gfx'), 'utf8');
+const colors = Object.fromEntries([...core.matchAll(/^\s*([A-Za-z0-9])\s*=\s*\{\s*(\d+)\s+(\d+)\s+(\d+)\s*\}/gm)].map(m => [m[1], `rgb(${m[2]},${m[3]},${m[4]})`]));
+colors['!'] = '#ece4d3';
 GlobalFonts.registerFromPath('C:/Windows/Fonts/msyh.ttc', 'Microsoft YaHei');
 async function main() {
   const canvas = createCanvas(840, 932), ctx = canvas.getContext('2d');
@@ -36,12 +51,10 @@ async function main() {
   ['自定义成就','地区/胜利点重命名','事件音乐','地区新闻事件','世界新闻事件'].forEach((label,i)=>{
     sprite('checkbox',18,714+i*22,i===4?0:1,2); text(label,48,717+i*22,14);
   });
-  text('俄罗斯民主联邦共和国',196,442,18);
-  const loc=fs.readFileSync(path.join(root,'../2946487287/localisation/simp_chinese/KR_country_specific/RUS - Russia l_simp_chinese.yml'),'utf8');
-  const raw=loc.match(/^ RUS_country_intro_content:\s*"(.*)"$/m)[1].replace(/\\n/g,'\n');
+  text(pageLoc[key('header')],196,442,18);
+  const raw=pageLoc[key('content')].replace(/\\n/g,'\n');
   let x=196,y=470,color='#ece4d3';
   ctx.save(); ctx.beginPath(); ctx.rect(196,464,500,325); ctx.clip();
-  const colors={'!':'#ece4d3',P:'#8f958b',o:'#be3426',a:'#9aaca7',l:'#d5b331',m:'#ebe127',t:'#d44c33'};
   for (let i=0;i<raw.length;i++) {
     const ch=raw[i];
     if(ch==='§') { color=colors[raw[++i]]||'#ece4d3'; continue; }
@@ -53,12 +66,13 @@ async function main() {
   ctx.restore();
   ctx.fillStyle='#746b58';ctx.fillRect(703,464,1,300);ctx.fillRect(701,471,5,79);
   sprite('page',498,800); sprite('back',476,796); sprite('forward',556,796);
-  text('1/4',536,806,18,'#ece4d3','center');
+  text(`${page}/${pages}`,536,806,18,'#ece4d3','center');
   sprite('continue',240,792); text('继续',360,810,24,'#ece4d3','center');
   ctx.restore();
   text('布局预览 · 非游戏截图；字体与控件状态以游戏内为准',420,902,14,'#d3d0c2','center');
   fs.mkdirSync(out,{recursive:true});
-  fs.writeFileSync(path.join(out,'intro-theme-layout.png'),canvas.toBuffer('image/png'));
-  console.log(path.join(out,'intro-theme-layout.png'));
+  const output = path.join(out, page === 1 ? 'intro-theme-layout.png' : `intro-theme-page-${page}.png`);
+  fs.writeFileSync(output,canvas.toBuffer('image/png'));
+  console.log(output);
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});
