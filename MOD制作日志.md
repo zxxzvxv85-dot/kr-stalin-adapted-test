@@ -3237,3 +3237,12 @@ mio:RUS_example_organization = {
 - 单文件 CWT 保持原有 1 条效果自身引用索引提示，三个本地化文件无诊断；项目括号和未闭合块通过，repair 仅 dry-run。仅修正本次改写行的行尾检查，保留其他历史字节和空白诊断。本次作用域、上限与其他材料逻辑逐项核对，无新增兼容事件。
 - 修改前参考保留在 C:/Users/Administrator/AppData/Local/Temp/codex-military-materiel-gain-l0wuvv6c/。按主题仅提取本次公式、四处显示文本及本条日志创建本地 Git 提交；保留既有未提交删除和其他改动，尚未同步 GitHub。
 - 游戏仍在运行，上传目录等待用户结束测试后构建；实际游戏内档位由用户抽查。
+
+### 2026-09-26 增加 NKVD 与 KGB 情报机构徽章
+
+- 在测试版独立 intelligence_agencies 文件中追加两个原始标签 RUS 可选徽章：原版 NKVD 直接复用 GFX_intelligence_agency_logo_sov；KGB 使用用户提供的盾剑徽章。两项 default 均为 always=no，保留 KR 既有 OON／VGPU 默认选择，不覆盖原机构列表、现有机构名称或游戏 GUI。
+- KGB 使用内置 image_gen 去除外部白底，工具未返回模型标识。完整提示词、用户原图、1254×1254 透明母图和生成来源保存在 tools/art_sources/intelligence_agencies/，运行 PNG 位于 gfx/interface/operatives/agencies/agency_logo_RUS_KGB.png。源图与记录不进入上传包。
+- 按 KR／原版同类资源导出 233×119 RGBA 双帧贴图，两帧保持同一主体比例与位置，主体高度 106 像素，对齐 VGPU 现有主体高度；保留剑柄和剑尖，不拉伸宽高。选择框沿用原版 0.7 缩放，并在这个实际比例下并排检查 VGPU、NKVD、KGB 的边界与可读性。
+- 新增 build_intelligence_agency_logos.cjs，仅负责已生成母图的引擎排版，默认只读 --check，支持 --write 与 --output-root；重复生成结果一致。原版 NKVD DDS 不复制、不重画。配置和资源引用、两帧尺寸、透明边缘、RUS 限定及默认选择检查通过；两个脚本文件 CWT 无诊断，项目括号与未闭合块通过，repair 仅 dry-run。全量维护检查 51/51 通过。
+- 修改前 Git 状态、差异和日志参考保留在 C:/Users/Administrator/AppData/Local/Temp/codex-agency-logos-t2q8fywo/。本项独立文件、美术源、构建工具和本条日志按任务创建本地提交，尚未同步 GitHub；其他未提交修改保留。
+- 钢四仍在运行，本项和前面的中国援助、军改档位修改均已落入源码，上传目录待游戏退出后通过现有脚本生成。未进行游戏内选择、悬停或存档实测，按约定由用户验证。
