@@ -1274,6 +1274,34 @@ shared_focus = {
 	y = 20
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_024 focus = RUS_future_foreign_023 }
+	completion_reward = {
+		if = {
+			limit = { PER = { exists = yes has_socialist_government = yes } }
+			PER = {
+				if = {
+					limit = { is_in_faction = yes NOT = { is_in_faction_with = ROOT } }
+					if = {
+						limit = { is_faction_leader = yes }
+						dismantle_faction = yes
+					}
+					else = { leave_faction = yes }
+				}
+			}
+			if = {
+				limit = { NOT = { is_in_faction_with = PER } }
+				add_to_faction = PER
+			}
+			add_political_power = 50
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
+			PER = {
+				add_political_power = 50
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
+			}
+		}
+		else = {
+			activate_targeted_decision = { target = PER decision = RUS_Socialist_Attack_Middle_East }
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -1287,6 +1315,34 @@ shared_focus = {
 	y = 20
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_024 focus = RUS_future_foreign_023 }
+	completion_reward = {
+		if = {
+			limit = { AFG = { exists = yes has_socialist_government = yes } }
+			AFG = {
+				if = {
+					limit = { is_in_faction = yes NOT = { is_in_faction_with = ROOT } }
+					if = {
+						limit = { is_faction_leader = yes }
+						dismantle_faction = yes
+					}
+					else = { leave_faction = yes }
+				}
+			}
+			if = {
+				limit = { NOT = { is_in_faction_with = AFG } }
+				add_to_faction = AFG
+			}
+			add_political_power = 50
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
+			AFG = {
+				add_political_power = 50
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
+			}
+		}
+		else = {
+			activate_targeted_decision = { target = AFG decision = RUS_Socialist_Attack_Middle_East }
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 
