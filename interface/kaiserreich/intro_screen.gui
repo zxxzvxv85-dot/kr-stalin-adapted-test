@@ -1,0 +1,549 @@
+guiTypes = {
+	containerWindowType = {
+		name = "kr_intro_screen_button_container"
+		position = { x = -131 y = 62 }
+		orientation = upper_right
+
+		buttonType = {
+			name = "kr_intro_screen_button"
+			position = { x = 0 y = 0 }
+			quadTextureSprite = "GFX_kr_intro_screen_icon"
+			clicksound = click_ok
+			oversound = ui_menu_over
+			pdx_tooltip = kr_intro_screen_button_title
+			pdx_tooltip_delayed = kr_intro_screen_button_tooltip
+			shortcut = "ctrl+i"
+		}
+	}
+
+	containerWindowType = {
+		name = "kr_intro_screen_container"
+		# The viewport travels right while its canvas travels left by the same amount.
+		# Both are explicitly shown by scripted GUIs; all four tabs live inside the canvas.
+		position = { x = -800 y = -20 }
+		show_position = { x = 0 y = -20 }
+		show_animation_type = decelerated
+		hide_animation_type = accelerated
+		animation_time = 1200
+		size = { width = 800 height = 880 }
+		moveable = yes
+		orientation = CENTER
+		origo = center
+		clipping = yes
+	}
+
+	containerWindowType = {
+		name = "RUS_intro_canvas"
+		position = { x = 840 y = 20 }
+		show_position = { x = 40 y = 20 }
+		show_animation_type = decelerated
+		hide_animation_type = accelerated
+		animation_time = 1200
+		size = { width = 720 height = 840 }
+		clipping = no
+
+		# The backing connects the sloping title to the flat panel, behind the artwork.
+		iconType = {
+			name = "RUS_intro_title_bridge"
+			spriteType = "GFX_RUS_intro_bridge"
+			position = { x = -4 y = 324 }
+			alwaystransparent = yes
+		}
+
+		iconType = {
+			name = "RUS_intro_title"
+			spriteType = "GFX_RUS_intro_constructivist_title"
+			position = { x = -31 y = 18 }
+			scale = 0.42
+			alwaystransparent = yes
+		}
+
+		containerWindowType = {
+			name = "splash_backfill"
+			position = { x = 0 y = 356 }
+			size = { width = 728 height = 488 }
+			orientation = CENTER_UP
+			origo = center_up
+			clipping = no
+
+			background = { quadTextureSprite = "GFX_RUS_intro_frame" }
+
+			containerWindowType = {
+				name = "splash_border"
+				position = { x = 0 y = 4 }
+				size = { width = 720 height = 480 }
+				orientation = CENTER_UP
+				origo = center_up
+				clipping = no
+
+				background = { quadTextureSprite = "GFX_RUS_intro_panel" }
+
+				containerWindowType = {
+					name = kr_intro_screen_tab_button_container
+					position = { x = -315 y = 22 }
+					size = { width = 630 height = 60 }
+					orientation = CENTER_UP
+
+					buttonType = {
+						name = "tab_1"
+						position = { x = 0 y = 0 }
+						quadTextureSprite = "GFX_RUS_intro_tab"
+						buttonText = "kr_intro_screen_tab_1"
+						font = "hoi_18mbs"
+						clicksound = click_default
+					}
+
+					buttonType = {
+						name = "tab_2"
+						position = { x = 170 y = 0 }
+						quadTextureSprite = "GFX_RUS_intro_tab"
+						buttonText = "kr_intro_screen_tab_2"
+						font = "hoi_18mbs"
+						clicksound = click_default
+					}
+
+					buttonType = {
+						name = "tab_3"
+						position = { x = 340 y = 0 }
+						quadTextureSprite = "GFX_RUS_intro_tab"
+						buttonText = "kr_intro_screen_tab_3"
+						font = "hoi_18mbs"
+						clicksound = click_default
+					}
+
+					buttonType = {
+						name = "tab_4"
+						position = { x = 510 y = 0 }
+						quadTextureSprite = "GFX_RUS_intro_tab"
+						buttonText = "kr_intro_screen_tab_4"
+						font = "hoi_18mbs"
+						clicksound = click_default
+					}
+				}
+
+				containerWindowType = {
+					name = content_bkgr_bottom_layer
+					position = { x = 0 y = 72 }
+					size = { width = 696 height = 400 }
+					orientation = CENTER_UP
+					origo = center_up
+
+					background = { quadTextureSprite = GFX_RUS_intro_content_border }
+
+					containerWindowType = {
+						name = content_bkgr_top_layer
+						position = { x = 0 y = 4 }
+						size = { width = 688 height = 392 }
+						orientation = CENTER_UP
+						origo = center_up
+
+						background = { quadTextureSprite = GFX_RUS_intro_content }
+					}
+				}
+
+				buttonType = {
+					name = "mod_options_button"
+					position = { x = -120 y = -48 }
+					orientation = center_down
+
+					quadTextureSprite = "GFX_RUS_intro_continue"
+					buttonText = "mod_options_button_text"
+					buttonFont = "hoi_24header"
+					clicksound = click_default
+					oversound = ui_menu_over
+					shortcut = "c"
+				}
+			}
+		}
+	}
+
+	containerWindowType = {
+		name = kr_intro_screen_tab_1_container
+		position = { x = 0 y = 436 }
+		size = { width = 720 height = 400 }
+		margin = { left = 16 right = 16 }
+		clipping = yes
+
+		## backdrop texticon scripted loc textbox
+		containerWindowType = {
+			name = "kr_intro_screen_tab_1_background"
+			size = { width = 172 height = 392 }
+
+			background = { quadTextureSprite = "GFX_RUS_intro_portrait_back" }
+
+			iconType = {
+				name = "kr_intro_screen_tab_1_background_icon"
+				spriteType = "GFX_KR_default_intro"
+				position = { x = 2 y = 2 }
+			}
+		}
+
+		## Options
+		@container_pos_x = 2
+
+		@container_pos_slot_0_y = 22
+		@container_pos_slot_1_y = 44
+		@container_pos_slot_2_y = 66
+		@container_pos_slot_3_y = 88
+		@container_pos_slot_4_y = 110
+
+		@checkbox_pos_x = 0
+		@checkbox_pos_y = 0
+
+		@label_pos_x = 30
+		@label_pos_y = 3
+		@label_width = 150
+
+		containerWindowType = {
+			name = "kr_options_container"
+			position = { x = 0 y = 256 }
+
+			instantTextboxType = {
+				name = "title"
+				position = { x = 0 y = 0 }
+				textureFile = ""
+				font = "hoi_24header"
+				borderSize = { x = 0 y = 0 }
+				text = "kr_options_title"
+				maxWidth = 172 #== (window size - 10)
+				format = center
+			}
+
+			## Custom Achievements toggle
+			containerWindowType = {
+				name = "custom_achievements_container"
+				position = { x = @container_pos_x y = @container_pos_slot_0_y }
+				Orientation = upper_left
+
+				buttonType = {
+					name = "custom_achievements_button"
+					position = { x = @checkbox_pos_x y = @checkbox_pos_y }
+					quadTextureSprite = "GFX_RUS_intro_checkbox"
+					clicksound = decisions_ui_button
+					pdx_tooltip = custom_achievements_tooltip
+				}
+
+				instantTextboxType = {
+					name = "custom_achievements_text"
+					position = { x = @label_pos_x y = @label_pos_y }
+					textureFile = ""
+					font = "hoi_16mbs"
+					borderSize = { x = 0 y = 0 }
+					text = "custom_achievements_text"
+					maxWidth = @label_width
+					format = left
+				}
+			}
+
+			## State/VP Renames toggle
+			containerWindowType = {
+				name = "rename_container"
+				position = { x = @container_pos_x y = @container_pos_slot_1_y }
+				Orientation = upper_left
+
+				buttonType = {
+					name = "rename_button"
+					position = { x = @checkbox_pos_x y = @checkbox_pos_y }
+					quadTextureSprite = "GFX_RUS_intro_checkbox"
+					clicksound = decisions_ui_button
+					pdx_tooltip = rename_tooltip
+				}
+
+				instantTextboxType = {
+					name = "rename_text"
+					position = { x = @label_pos_x y = @label_pos_y }
+					textureFile = ""
+					font = "hoi_16mbs"
+					borderSize = { x = 0 y = 0 }
+					text = "rename_text"
+					maxWidth = @label_width
+					format = left
+				}
+			}
+
+			## Sound Events toggle
+			containerWindowType = {
+				name = "sound_events_container"
+				position = { x = @container_pos_x y = @container_pos_slot_2_y }
+				Orientation = upper_left
+
+				buttonType = {
+					name = "sound_events_button"
+					position = { x = @checkbox_pos_x y = @checkbox_pos_y }
+					quadTextureSprite = "GFX_RUS_intro_checkbox"
+					clicksound = decisions_ui_button
+					pdx_tooltip = sound_events_tooltip
+				}
+
+				instantTextboxType = {
+					name = "sound_events_text"
+					position = { x = @label_pos_x y = @label_pos_y }
+					textureFile = ""
+					font = "hoi_16mbs"
+					borderSize = { x = 0 y = 0 }
+					text = "sound_events_text"
+					maxWidth = @label_width
+					format = left
+				}
+			}
+
+			## Regional News Events toggle
+			containerWindowType = {
+				name = "regional_news_container"
+				position = { x = @container_pos_x y = @container_pos_slot_3_y }
+				Orientation = upper_left
+
+				buttonType = {
+					name = "regional_news_button"
+					position = { x = @checkbox_pos_x y = @checkbox_pos_y }
+					quadTextureSprite = "GFX_RUS_intro_checkbox"
+					clicksound = decisions_ui_button
+					pdx_tooltip = regional_news_tooltip
+				}
+
+				instantTextboxType = {
+					name = "regional_news_text"
+					position = { x = @label_pos_x y = @label_pos_y }
+					textureFile = ""
+					font = "hoi_16mbs"
+					borderSize = { x = 0 y = 0 }
+					text = "regional_news_text"
+					maxWidth = @label_width
+					format = left
+				}
+			}
+
+			## World News Events toggle
+			containerWindowType = {
+				name = "world_news_container"
+				position = { x = @container_pos_x y = @container_pos_slot_4_y }
+				Orientation = upper_left
+
+				buttonType = {
+					name = "world_news_button"
+					position = { x = @checkbox_pos_x y = @checkbox_pos_y }
+					quadTextureSprite = "GFX_RUS_intro_checkbox"
+					clicksound = decisions_ui_button
+					pdx_tooltip = world_news_tooltip
+				}
+
+				instantTextboxType = {
+					name = "world_news_text"
+					position = { x = @label_pos_x y = @label_pos_y }
+					textureFile = ""
+					font = "hoi_16mbs"
+					borderSize = { x = 0 y = 0 }
+					text = "world_news_text"
+					maxWidth = @label_width
+					format = left
+				}
+			}
+		}
+
+		## Country intro
+		containerWindowType = {
+			name = "kr_intro_screen_tab_1_text_container"
+			position = { x = 172 y = 0 }
+			margin = { left = 8 right = 8 }
+
+			instantTextboxType = {
+				name = "kr_intro_screen_tab_1_header"
+				text = "kr_intro_screen_tab_1_header"
+				position = { x = 0 y = 6 }
+				font = "hoi_20bs"
+				maxWidth = 500
+			}
+
+			instantTextboxType = {
+				name = "kr_intro_screen_tab_1_content"
+				text = "kr_intro_screen_tab_1_content"
+				position = { x = 0 y = 28 }
+				font = "hoi_18b"
+				maxWidth = 500
+				maxHeight = 325
+				scrollbartype = "standardtext_slider"
+			}
+
+			containerWindowType = {
+				name = "country_intro_page_indicator_box_container"
+				position = { x = 280 y = 360 }
+
+				iconType = {
+					name = "country_intro_page_indicator_box"
+					position = { x = 22 y = 4 }
+					quadTextureSprite = "GFX_RUS_intro_page"
+				}
+
+				instantTextboxType = {
+					name = "country_intro_page_indicator"
+					position = { x = 40 y = 10 }
+					text = "country_intro_page_indicator"
+					font = hoi_18mbs
+					maxWidth = 40
+					format = center
+				}
+
+				buttonType = {
+					name = "country_flip_back"
+					quadTextureSprite = "GFX_RUS_intro_back"
+					position = { x = 0 y = 0 }
+				}
+
+				buttonType = {
+					name = "country_flip_forward"
+					quadTextureSprite = "GFX_RUS_intro_forward"
+					position = { x = 80 y = 0 }
+				}
+			}
+		}
+	}
+
+	containerWindowType = {
+		name = kr_intro_screen_tab_2_container
+		position = { x = 0 y = 440 }
+		size = { width = 720 height = 400 }
+		margin = { left = 40 right = 40 }
+		clipping = yes
+
+		buttonType = {
+			name = "kr_intro_screen_tab_2_reveal_spoilers_button"
+			quadTextureSprite = "GFX_RUS_intro_spoilers"
+			position = { x = -132 y = -78 }
+			orientation = center_down
+
+			buttonText = "kr_intro_screen_tab_2_reveal_spoilers_button"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			oversound = ui_menu_over
+		}
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_2_header"
+			text = "kr_intro_screen_tab_2_header"
+			position = { x = 0 y = 6 }
+			font = "hoi_20bs"
+			maxWidth = 642
+		}
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_2_content"
+			text = "kr_intro_screen_tab_2_content"
+			position = { x = 0 y = 28 }
+			font = "hoi_18b"
+			maxWidth = 642
+			maxHeight = 325
+			scrollbartype = "standardtext_slider"
+		}
+
+		containerWindowType = {
+			name = "country_guide_page_indicator_box_container"
+			position = { x = 436 y = 356 }
+
+			iconType = {
+				name = "country_guide_page_indicator_box"
+				position = { x = 22 y = 4 }
+				quadTextureSprite = "GFX_RUS_intro_page"
+			}
+
+			instantTextboxType = {
+				name = "country_guide_page_indicator"
+				position = { x = 40 y = 10 }
+				text = "country_guide_page_indicator"
+				font = hoi_18mbs
+				maxWidth = 40
+				format = center
+			}
+
+			buttonType = {
+				name = "guide_flip_back"
+				quadTextureSprite = "GFX_RUS_intro_back"
+				position = { x = 0 y = 0 }
+			}
+
+			buttonType = {
+				name = "guide_flip_forward"
+				quadTextureSprite = "GFX_RUS_intro_forward"
+				position = { x = 80 y = 0 }
+			}
+		}
+	}
+
+	containerWindowType = {
+		name = kr_intro_screen_tab_3_container
+		position = { x = 0 y = 440 }
+		size = { width = 720 height = 392 }
+		margin = { left = 40 right = 40 }
+		clipping = yes
+
+		verticalScrollbar = "right_vertical_slider"
+		smooth_scrolling = yes
+
+		background = { spriteType = GFX_empty_paper } #dummy to enable scrollbar
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_3_content"
+			text = "kr_intro_screen_tab_3_content"
+			position = { x = 0 y = 54 }
+			font = "hoi_18b"
+			maxWidth = 640
+		}
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_3_content_0"
+			text = "kr_intro_screen_tab_3_content_0"
+			position = { x = 18 y = 72 }
+			font = "hoi_18b"
+			maxWidth = 622
+		}
+	}
+
+	containerWindowType = {
+		name = kr_intro_screen_tab_4_container
+		position = { x = 0 y = 440 }
+		size = { width = 720 height = 392 }
+		margin = { left = 40 right = 40 }
+		clipping = yes
+
+		#verticalScrollbar = "right_vertical_slider"
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_4_upper_header"
+			text = "kr_intro_screen_tab_4_upper_header"
+			position = { x = -320 y = 32 }
+			orientation = center_up
+			format = centre
+			font = "hoi_20bs"
+			maxWidth = 640
+		}
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_4_content_0"
+			text = "kr_intro_screen_tab_4_content_0"
+			position = { x = -320 y = 54 }
+			orientation = center_up
+			format = centre
+			font = "hoi_18b"
+			maxWidth = 640
+		}
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_4_lower_header"
+			text = "kr_intro_screen_tab_4_lower_header"
+			position = { x = -320 y = 146 }
+			orientation = center_up
+			format = centre
+			font = "hoi_20bs"
+			maxWidth = 640
+		}
+
+		instantTextboxType = {
+			name = "kr_intro_screen_tab_4_content"
+			text = "kr_intro_screen_tab_4_content"
+			position = { x = -320 y = 168 }
+			orientation = center_up
+			format = centre
+			font = "hoi_18b"
+			maxWidth = 640
+		}
+	}
+}
