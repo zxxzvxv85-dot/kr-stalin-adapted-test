@@ -14,7 +14,7 @@ async function main() {
   }
   const title = await loadImage(path.join(root,'gfx/interface/rus_intro_header/constructivist_title.png'));
   const country = await loadImage(path.join(root,'../1521695605/gfx/introscreen/RUS_intro.png'));
-  // Final canvas starts at (40,20) inside the 800x880 viewport; add 20px proof margin.
+  // One native KR root; offline proof adds margins around its 720x840 contents.
   ctx.save(); ctx.translate(60, 40);
   function sprite(name,x,y,frame=0,frames=1) {
     const im=assets[name], w=im.width/frames;
@@ -26,8 +26,7 @@ async function main() {
   }
   sprite('bridge',-4,324);
   ctx.drawImage(title,-31,18,title.width*.42,title.height*.42);
-  sprite('frame',-4,356); sprite('panel',0,360);
-  sprite('content_border',12,432); sprite('content',16,436);
+  sprite('underlay',-4,356); sprite('frame',-4,356);
   ['国家','路线指南','游戏教学','鸣谢'].forEach((label,i)=>{
     sprite('tab',45+i*170,382,i===0?1:0,2);
     text(label,106.5+i*170,389,18,'#ece4d3','center');

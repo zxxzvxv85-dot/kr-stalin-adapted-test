@@ -1,7 +1,7 @@
-"""Build the flat, geometric intro skin; default checks hashes without drawing.
+"""Fit the printed intro plate and build its controls; default only checks hashes.
 
-The title is copied byte-for-byte from the approved ImageGen source. Everything
-else is a blank UI surface drawn from geometry; text remains live HOI4 content.
+The approved title is copied byte-for-byte. The ImageGen plate is fitted to its
+native GUI rectangle without cropping; controls remain code-native live UI.
 Use --write to rebuild, or --output-root to render a separate review copy.
 """
 from __future__ import annotations
@@ -14,13 +14,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = "tools/art_sources/intro_header_v2_source.png"
+FRAME_SOURCE = "tools/art_sources/intro_frame_v2_source.png"
 MANIFEST = "tools/art_sources/intro_theme_manifest.json"
 FOLDER = "gfx/interface/rus_intro_theme/"
 TITLE = "gfx/interface/rus_intro_header/constructivist_title.png"
-INK = "#181917"
+INK = "#161713"
 PAPER = "#e4d2ad"
-RED = "#ad251c"
-LINE = "#746b58"
+RED = "#862b1f"
+LINE = "#6b604e"
 BODY = "#101210"
 
 
@@ -31,6 +32,7 @@ def digest(content: bytes) -> str:
 def inputs() -> dict[str, str]:
     return {
         SOURCE: digest((ROOT / SOURCE).read_bytes()),
+        FRAME_SOURCE: digest((ROOT / FRAME_SOURCE).read_bytes()),
         "tools/build_intro_theme.py": digest(Path(__file__).read_bytes().replace(b"\r\n", b"\n")),
     }
 
@@ -50,35 +52,44 @@ def render_outputs() -> dict[str, bytes]:
         im.save(stream, format="PNG", optimize=False)
         output[FOLDER + name + ".png"] = stream.getvalue()
 
-    im, d = canvas("frame", (728, 488), INK)
-    d.rectangle((0, 0, 727, 487), outline=PAPER, width=2)
-    d.rectangle((3, 3, 724, 484), outline=LINE, width=1)
-    d.rectangle((4, 4, 723, 10), fill=RED)
-    d.polygon([(5, 482), (191, 482), (178, 487), (0, 487)], fill=RED)
-    for x in (645, 667, 689):
-        d.polygon([(x, 487), (x + 15, 487), (x + 28, 472), (x + 13, 472)], fill=PAPER)
-    save("frame", im)
+    def print_grain(im):
+        # Repeatable ink variation for code-drawn controls, never the source artwork.
+        pixels = im.load()
+        for y in range(im.height):
+            for x in range(im.width):
+                r, g, b, a = pixels[x, y]
+                if not a:
+                    continue
+                h = ((x + 71) * 374761393 + (y + 19) * 668265263) & 0xffffffff
+                h = ((h ^ (h >> 13)) * 1274126177) & 0xffffffff
+                noise = (h % 9) - 4
+                if h % 103 == 0:
+                    noise = 16
+                pixels[x, y] = tuple(max(0, min(255, c + noise)) for c in (r, g, b)) + (a,)
+
+    # Technical fit only. Alpha stays intact; a separate opaque GUI underlay
+    # stops the source's worn ink from letting map labels show through the text.
+    with Image.open(ROOT / FRAME_SOURCE) as plate:
+        save("frame", plate.convert("RGBA").resize((728, 488), Image.Resampling.LANCZOS))
+    im, d = canvas("underlay", (728, 488), BODY)
+    save("underlay", im)
 
     im, d = canvas("bridge", (728, 36))
-    d.polygon([(0, 36), (0, 25), (71, 6), (533, 18), (672, 0), (728, 25), (728, 36)], fill=INK)
-    d.polygon([(0, 25), (71, 6), (145, 8), (0, 34)], fill=RED)
-    d.polygon([(576, 22), (672, 0), (714, 18), (614, 30)], fill=RED)
-    d.line([(1, 32), (150, 9)], fill=PAPER, width=2)
+    d.polygon([(0, 36), (0, 31), (107, 8), (513, 20), (671, 8), (728, 31), (728, 36)], fill=INK)
+    d.polygon([(0, 32), (105, 9), (149, 10), (24, 36)], fill=RED)
+    d.line([(7, 33), (111, 11)], fill="#b7a27e", width=1)
+    print_grain(im)
     save("bridge", im)
 
     for name, size, fill, border in [
-        ("panel", (720, 480), INK, None),
-        ("content_border", (696, 400), BODY, LINE),
-        ("content", (688, 392), BODY, None),
         ("portrait_back", (172, 392), BODY, LINE),
         ("page", (76, 31), INK, LINE),
     ]:
         im, d = canvas(name, size, fill)
         if border:
             d.rectangle((0, 0, size[0] - 1, size[1] - 1), outline=border)
-        if name == "panel":
-            d.rectangle((4, 3, 715, 6), fill=RED)
-            d.line([(12, 65), (708, 65)], fill=LINE)
+        d.line([(2, 1), (size[0] - 3, 1)], fill="#9c8a69")
+        print_grain(im)
         save(name, im)
 
     # Original logical frame sizes: 123x34 tabs, 241x60 continue, 41x45 arrows.
@@ -91,27 +102,39 @@ def render_outputs() -> dict[str, bytes]:
         im, d = canvas(name, (w * frames, h))
         for frame in range(frames):
             x = w * frame
-            fill = RED if name == "continue" or frame == 1 else INK
-            box = (x + 1, 1, x + w - 2, h - 2)
             if name == "checkbox":
-                d.rectangle((x + 2, 2, x + 22, 21), fill=INK, outline=LINE)
+                d.rectangle((x + 3, 3, x + 21, 21), fill=INK, outline=LINE)
+                d.line([(x + 4, 4), (x + 20, 4)], fill="#988663")
                 if frame:
-                    d.rectangle((x + 3, 3, x + 21, 20), fill=RED)
-                    d.line([(x + 6, 12), (x + 10, 16), (x + 19, 7)], fill=PAPER, width=2)
+                    d.rectangle((x + 5, 5, x + 19, 19), fill=RED)
+                    d.line([(x + 6, 12), (x + 10, 16), (x + 19, 7)], fill="#e3d1ae", width=2)
+            elif name == "continue":
+                # Smaller printed plaque inside the original 241x60 hitbox.
+                d.polygon([(8, 10), (14, 5), (227, 5), (233, 10), (233, 50), (227, 55), (14, 55), (8, 50)], fill="#13130f", outline="#b7a382")
+                d.rectangle((12, 9, 229, 51), fill="#72251c", outline="#4a2018")
+                d.line([(15, 10), (226, 10)], fill="#b48461")
+                d.line([(15, 49), (226, 49)], fill="#ac9271")
+                d.line([(17, 46), (224, 46)], fill="#491912")
+                for origin in (24, 211):
+                    d.polygon([(origin, 24), (origin + 5, 30), (origin, 36), (origin - 5, 30)], fill="#c6ae86")
+            elif name in ("back", "forward"):
+                d.polygon([(5, 6), (35, 6), (38, 9), (38, 36), (35, 39), (5, 39), (2, 36), (2, 9)], fill="#222018", outline=LINE)
+                d.line([(6, 8), (34, 8)], fill="#a4906c")
+                d.line([(6, 37), (34, 37)], fill="#862b1f")
+                tip = 13 if name == "back" else 28
+                tail = 25 if name == "back" else 16
+                d.polygon([(tip, 22), (tail, 14), (tail, 30)], fill="#cfbd98")
             else:
-                d.rectangle(box, fill=fill, outline=PAPER if frame or name == "continue" else LINE, width=1)
-                d.rectangle((x + 1, h - 5, x + w - 2, h - 2), fill=PAPER if frame else RED)
-                if name in ("back", "forward"):
-                    tip = 12 if name == "back" else 29
-                    tail = 28 if name == "back" else 13
-                    d.polygon([(x + tip, 21), (x + tail, 11), (x + tail, 31)], fill=PAPER)
-                elif name == "continue":
-                    d.polygon([(17, 14), (29, 14), (40, 30), (29, 45), (17, 45), (28, 30)], fill=PAPER)
-                    d.polygon([(206, 14), (218, 14), (229, 30), (218, 45), (206, 45), (217, 30)], fill=PAPER)
-                elif name == "spoilers":
+                fill = "#733025" if frame else "#29281f"
+                d.polygon([(x + 4, 2), (x + w - 5, 2), (x + w - 2, 5), (x + w - 2, h - 6), (x + w - 5, h - 3), (x + 4, h - 3), (x + 1, h - 6), (x + 1, 5)], fill=fill, outline="#8f7e5e")
+                d.line([(x + 6, 4), (x + w - 7, 4)], fill="#b09b77" if frame else "#6e6650")
+                d.line([(x + 6, h - 6), (x + w - 7, h - 6)], fill="#221913")
+                d.line([(x + 6, h - 4), (x + w - 7, h - 4)], fill="#a3442a")
+                if name == "spoilers":
                     d.rectangle((x + 8, 9, x + 23, 24), outline=PAPER)
                     if frame:
                         d.line([(x + 10, 17), (x + 15, 22), (x + 23, 11)], fill=PAPER, width=2)
+        print_grain(im)
         save(name, im)
     return output
 

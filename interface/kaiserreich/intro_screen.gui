@@ -18,28 +18,17 @@ guiTypes = {
 
 	containerWindowType = {
 		name = "kr_intro_screen_container"
-		# The viewport travels right while its canvas travels left by the same amount.
-		# Both are explicitly shown by scripted GUIs; all four tabs live inside the canvas.
-		position = { x = -800 y = -20 }
+		# Keep KR's main window as the direct parent of every scripted tab.
+		# A single native window animation carries the skin and all live controls.
+		position = { x = -100% y = -20 }
 		show_position = { x = 0 y = -20 }
 		show_animation_type = decelerated
 		hide_animation_type = accelerated
 		animation_time = 1200
-		size = { width = 800 height = 880 }
+		size = { width = 720 height = 840 }
 		moveable = yes
 		orientation = CENTER
 		origo = center
-		clipping = yes
-	}
-
-	containerWindowType = {
-		name = "RUS_intro_canvas"
-		position = { x = 840 y = 20 }
-		show_position = { x = 40 y = 20 }
-		show_animation_type = decelerated
-		hide_animation_type = accelerated
-		animation_time = 1200
-		size = { width = 720 height = 840 }
 		clipping = no
 
 		# The backing connects the sloping title to the flat panel, behind the artwork.
@@ -66,7 +55,14 @@ guiTypes = {
 			origo = center_up
 			clipping = no
 
-			background = { quadTextureSprite = "GFX_RUS_intro_frame" }
+			background = { quadTextureSprite = "GFX_RUS_intro_underlay" }
+
+			iconType = {
+				name = "RUS_intro_printed_plate"
+				spriteType = "GFX_RUS_intro_frame"
+				position = { x = 0 y = 0 }
+				alwaystransparent = yes
+			}
 
 			containerWindowType = {
 				name = "splash_border"
@@ -76,7 +72,7 @@ guiTypes = {
 				origo = center_up
 				clipping = no
 
-				background = { quadTextureSprite = "GFX_RUS_intro_panel" }
+				# The printed outer plate also supplies the header and reading field.
 
 				containerWindowType = {
 					name = kr_intro_screen_tab_button_container
@@ -128,7 +124,6 @@ guiTypes = {
 					orientation = CENTER_UP
 					origo = center_up
 
-					background = { quadTextureSprite = GFX_RUS_intro_content_border }
 
 					containerWindowType = {
 						name = content_bkgr_top_layer
@@ -137,7 +132,6 @@ guiTypes = {
 						orientation = CENTER_UP
 						origo = center_up
 
-						background = { quadTextureSprite = GFX_RUS_intro_content }
 					}
 				}
 

@@ -14,7 +14,7 @@ from PIL import Image
 from hoi4_politics_blocks import KR, R, data
 
 SKIN = {
-    "GFX_RUS_intro_frame": "GFX_tiled_window_pol_goal",
+    "GFX_RUS_intro_underlay": "GFX_tiled_window_pol_goal",
     "GFX_RUS_intro_panel": "GFX_tiled_generic_bg_1",
     "GFX_RUS_intro_content": "GFX_tiled_generic_bg_1",
     "GFX_RUS_intro_content_border": "GFX_tiled_window_thin_border",
@@ -31,7 +31,12 @@ SKIN = {
 
 def norm(node):
     if isinstance(node.v, list):
-        value = tuple(norm(n) for n in node.v)
+        # The single printed plate replaces only these three cosmetic fills.
+        bare = node.value("name").strip('"')
+        no_fill = bare in {"splash_border", "content_bkgr_bottom_layer", "content_bkgr_top_layer"}
+        value = tuple(norm(n) for n in node.v
+                      if not (no_fill and n.k == "background")
+                      and not (n.k == "iconType" and n.value("name") == '"RUS_intro_printed_plate"'))
     else:
         value = node.v
         if node.k in ("quadTextureSprite", "spriteType") and value:
@@ -53,38 +58,30 @@ def xy(node, field):
 def main():
     original = named(data(KR / "interface/kaiserreich/intro_screen.gui", "guiTypes"))
     mod = named(data(R / "interface/kaiserreich/intro_screen.gui", "guiTypes"))
-    assert set(mod) == set(original) | {"RUS_intro_canvas"}
+    assert set(mod) == set(original), "Do not introduce a scripted parent chain around KR's tabs"
     for name, node in original.items():
         if name != "kr_intro_screen_container":
             assert norm(node) == norm(mod[name]), f"Controls/text/layout changed: {name}"
 
     old = original["kr_intro_screen_container"]
-    canvas = mod["RUS_intro_canvas"]
+    canvas = mod["kr_intro_screen_container"]
     # Functional panel subtree, including every click target, is unchanged.
     assert norm(old.one("containerWindowType")) == norm(canvas.one("containerWindowType"))
-    wrapper = mod["kr_intro_screen_container"]
-    assert wrapper.value("clipping") == "yes"
     assert canvas.value("clipping") == "no"
-    assert xy(wrapper, "position") == (-800, -20)
-    assert xy(wrapper, "show_position") == (0, -20)
-    assert xy(canvas, "position") == (840, 20)
-    assert xy(canvas, "show_position") == (40, 20)
-    for n in (wrapper, canvas):
-        assert n.value("animation_time") == "1200"
-        assert n.value("show_animation_type") == "decelerated"
-        assert n.value("hide_animation_type") == "accelerated"
-    width = int(wrapper.one("size").value("width"))
-    height = int(wrapper.one("size").value("height"))
-    # Sum stays fixed for any equal easing fraction, not just a chosen curve.
-    for step in range(101):
-        t = step / 100
-        viewport_x = -800 * (1 - t)
-        canvas_x = 840 - 800 * t
-        assert isclose(viewport_x + canvas_x, 40, abs_tol=1e-10)
-        assert isclose(viewport_x + width, 800 * t, abs_tol=1e-10)
-    assert 40 - width / 2 == -360
-    assert 20 - height / 2 == -420
-    assert 20 + 852 < height, "Do not clip the bottom of the live Continue button"
+    assert canvas.one("position").value("x") == "-100%"
+    assert canvas.one("position").value("y") == "-20"
+    assert xy(canvas, "show_position") == xy(old, "position")
+    assert canvas.one("size").norm() == old.one("size").norm()
+    assert canvas.value("orientation") == old.value("orientation")
+    assert canvas.value("origo") == old.value("origo")
+    assert canvas.value("animation_time") == "1200"
+    assert canvas.value("show_animation_type") == "decelerated"
+    assert canvas.value("hide_animation_type") == "accelerated"
+    width = int(canvas.one("size").value("width"))
+    # The main window itself moves; tab coordinates never acquire a second offset.
+    for screen_width in (1280, 1920, 2560, 3840):
+        start_left = screen_width / 2 - width / 2 - screen_width
+        assert start_left + 751 < 0, "The complete title begins off the left edge"
     title = next(n for n in canvas.children("iconType") if n.value("name") == '"RUS_intro_title"')
     x, y = xy(title, "position")
     scale = float(title.value("scale"))
@@ -92,32 +89,23 @@ def main():
     title_png = R / "gfx/interface/rus_intro_header/constructivist_title.png"
     assert source.read_bytes() == title_png.read_bytes(), "Approved title must remain byte-exact"
     w, h = Image.open(source).size
-    assert 0 <= 40 + x and 40 + x + w * scale < width
+    assert isclose(x + w * scale / 2, width / 2, abs_tol=1)
     assert 356 < y + h * scale < 382, "Title tail should join the panel without reaching tabs"
 
-    # Window hierarchy alone changes. All KR conditions, effects, properties,
-    # texts, page counters and option flags must stay exactly as installed.
+    # Regression for the actual 2026-09-25 'Parent window ... is not found' error:
+    # use KR's original registration, with every tab directly attached to its root.
     base_gui = data(KR / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui")
-    theme_gui = data(R / "common/scripted_guis/00_intro_screen_gui.txt", "scripted_gui")
-    assert len(theme_gui.v) == len(base_gui.v) + 1
-    reveal = theme_gui.one("RUS_intro_reveal")
-    assert reveal.one("effects") is None
-    assert reveal.value("window_name") == '"kr_intro_screen_container"'
-    for orig in base_gui.v:
-        current = theme_gui.one(orig.k)
-        assert current is not None
-        if orig.k == "kr_intro_screen":
-            assert current.value("window_name") == '"RUS_intro_canvas"'
-            assert current.value("parent_window_name") == '"kr_intro_screen_container"'
-            omit = {"window_name", "parent_window_name"}
-            assert reveal.one("visible").norm() == current.one("visible").norm()
-            assert reveal.value("dirty") == current.value("dirty")
-        elif orig.k.startswith("kr_intro_screen_tab_"):
-            assert current.value("parent_window_name") == '"RUS_intro_canvas"'
-            omit = {"parent_window_name"}
-        else:
-            omit = set()
-        assert [n.norm() for n in orig.v if n.k not in omit] == [n.norm() for n in current.v if n.k not in omit], orig.k
+    assert not (R / "common/scripted_guis/00_intro_screen_gui.txt").exists()
+    main_gui = base_gui.one("kr_intro_screen")
+    assert main_gui.value("window_name") == '"kr_intro_screen_container"'
+    assert main_gui.one("parent_window_name") is None
+    for i in range(1, 5):
+        tab = base_gui.one(f"kr_intro_screen_tab_{i}")
+        assert tab.value("parent_window_name") == '"kr_intro_screen_container"'
+        assert tab.value("window_name").strip('"') in mod
+    backfill = canvas.one("containerWindowType")
+    assert backfill.one("background").value("quadTextureSprite") == '"GFX_RUS_intro_underlay"'
+    assert Image.open(R / "gfx/interface/rus_intro_theme/underlay.png").getchannel("A").getextrema() == (255, 255)
 
     # Match native texture dimensions and scripted frame counts, preserving hitboxes.
     game = Path(os.environ.get("HOI4_GAME_ROOT", R.parents[3] / "common/Hearts of Iron IV"))
@@ -140,7 +128,7 @@ def main():
             assert size == Image.open(game / "gfx/interface" / native).size, short
             assert int(sprite.value("noOfFrames", "1")) == frames
     subprocess.run([sys.executable, "-B", str(R / "tools/build_intro_theme.py"), "--check"], check=True)
-    print("PASS: KR behaviour/control parity, byte-exact title, native hitbox/frame sizes, stationary content and 1.2s whole-window reveal geometry. Engine playback still requires in-game verification.")
+    print("PASS: original KR parent bindings and control geometry, byte-exact title, opaque reading background, native hitbox/frame sizes and one-window entrance. Engine playback still requires in-game verification.")
 
 
 if __name__ == "__main__":
