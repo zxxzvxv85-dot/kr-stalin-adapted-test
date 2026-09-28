@@ -71,7 +71,11 @@ def render(finished=False, help_page=False, idle=False, supply_page=False):
         assert depth<12, key
         text=loc.get(key,key)
         text=re.sub(r'\$([^$]+)\$',lambda m:resolve(m[1],depth+1),text)
-        text=re.sub(r'\[\?(\w+)\|(\d)\]',lambda m:f'{state["vars"].get(m[1],0):.{m[2]}f}',text)
+        def variable(m):
+            value=state['vars'].get(m[1],0)
+            if m[2]:return f'§{"G" if value>0 else "R" if value<0 else "Y"}{value:+.{m[3]}f}§!'
+            return f'{value:.{m[3]}f}'
+        text=re.sub(r'\[\?(\w+)\|(\+?)(\d)\]',variable,text)
         text=re.sub(r'\[(\d+)\.GetName\]',lambda m:resolve('STATE_'+m[1],depth+1),text)
         def scripted(m):
             definition=definitions[m[1]]
@@ -112,12 +116,25 @@ def render(finished=False, help_page=False, idle=False, supply_page=False):
             for char,c in line:
                 draw.text((px,y+row*line_height),char,font=font,fill='#77776d' if disabled else c,anchor='lt',stroke_width=0)
                 px+=draw.textlength(char,font=font)
-    for widget in window.v:
+    def drawables(container,ox=0,oy=0,clip=None):
+        for widget in container.v:
+            if not isinstance(widget.v,list):continue
+            name=field(widget,'name')
+            assert not (widget.k=='containerWindowType' and name+'_visible' in triggers), \
+                f'{name}: page-dependent backgrounds must be iconType; child windows leaked in-game'
+            position=widget.one('position')
+            if position is None:continue
+            x=ox+int(field(position,'x'));y=oy+int(field(position,'y'))
+            if widget.k=='containerWindowType' and widget.one('background') is None:
+                bounds=clip
+                if field(widget,'clipping')=='yes':
+                    size=widget.one('size');bounds=(x,y,x+int(field(size,'width')),y+int(field(size,'height')))
+                    assert clip is None,'Nested clip intersection not implemented'
+                yield from drawables(widget,x,y,bounds)
+            else:yield widget,x,y,clip
+    for widget,x,y,clip in drawables(window):
         name=field(widget,'name') if isinstance(widget.v,list) else ''
         if name+'_visible' in triggers and not check(triggers[name+'_visible'],state):continue
-        position=widget.one('position') if isinstance(widget.v,list) else None
-        if position is None:continue
-        x=int(field(position,'x'));y=int(field(position,'y'))
         if widget.k=='containerWindowType':
             size=widget.one('size');sz=(int(field(size,'width')),int(field(size,'height')))
             canvas.alpha_composite(nine_slice(asset('gfx/interface/tiles/tiled_research_bg.dds'),sz,32),(x,y))
@@ -129,6 +146,10 @@ def render(finished=False, help_page=False, idle=False, supply_page=False):
                 selected_frame=1
                 if name in properties:selected_frame=int(state['vars'].get(field(properties[name],'frame'),1))
                 if frames>1:img=img.crop(((selected_frame-1)*img.width//frames,0,selected_frame*img.width//frames,img.height))
+                if meta.k=='corneredTileSpriteType':
+                    size=meta.one('size');border=meta.one('borderSize')
+                    assert field(border,'x')==field(border,'y'),sprite
+                    img=nine_slice(img,(int(field(size,'x')),int(field(size,'y'))),int(field(border,'x')))
             elif sprite=='GFX_closebutton':img=asset('gfx/interface/closebutton.dds')
             elif sprite=='GFX_button_123x34':img=asset('gfx/interface/button_123x34.dds')
             else:raise AssertionError(sprite)
@@ -137,6 +158,10 @@ def render(finished=False, help_page=False, idle=False, supply_page=False):
             assert 0<=x and x+img.width<=width and 0<=y and y+img.height<=height,(name,x,y,img.size)
             disabled=name+'_click_enabled' in triggers and not check(triggers[name+'_click_enabled'],state)
             if disabled:img=Image.blend(img,Image.new('RGBA',img.size,'#252824'),.4)
+            if clip:
+                left,top=max(x,clip[0]),max(y,clip[1]);right,bottom=min(x+img.width,clip[2]),min(y+img.height,clip[3])
+                if right<=left or bottom<=top:continue
+                img=img.crop((left-x,top-y,right-x,bottom-y));x,y=left,top
             canvas.alpha_composite(img,(x,y))
             label=field(widget,'buttonText')
             if label:text_box(resolve(label),x,y+7,img.width,img.height-7,centre=True,disabled=disabled)

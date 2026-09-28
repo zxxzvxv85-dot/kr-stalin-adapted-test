@@ -28,7 +28,6 @@ def render_outputs():
         return P+key
     L('title','国家计划委员会 · 工业建设','State Planning Commission · Industrial Construction','Госплан · Промышленное строительство')
     L('subtitle','俄罗斯工业布局  /  1800 天建设计划','Russian industrial development / 1800-day programme')
-    L('map_northern_limit','§gKR 地图北部边界§!','§gNorthern boundary of the KR map§!','§gСеверная граница карты KR§!')
     L('open_tt','§Y工业建设§!\n在俄罗斯地图上安排工程，按游戏日期建设真实工厂、资源与交通设施。','§YIndustrial construction§!\nPlan real factories, resources and transport on the Russian map. Construction follows game time.')
     L('summary','[GetRUSIPPlanStatus]   |   已完成 §G[?RUS_ip_completed|0]§! 项工程','[GetRUSIPPlanStatus]  |  §G[?RUS_ip_completed|0]§! projects completed')
     L('not_started','§Y计划尚未启动§!','§YProgramme not started§!')
@@ -62,12 +61,15 @@ def render_outputs():
     for k,zh,en in statuses: L(f'status_{k}',zh,en)
     for k,s in PROJECTS.items():
         L(f'type_{k}',s['zh'],s['en']); L(f'build_{k}',s['zh'],s['en'])
-        requirement={1:'须有煤矿潜力，最多扩建三次。',2:'须有铁矿潜力，最多扩建三次。',3:'须有强化电网建设空间；地区供电能力增加 8。',4:'发展度至少 20，须有民工槽位并接通莫斯科。',5:'发展度至少 35，须有军工槽位并接通莫斯科。',6:'须有基础设施空间；内陆地区需相邻已接通地区作为铁路起点。',7:'每区最多三次；增加 2 点劳动力容量与 1 点运力。',8:'每区最多三次；培训收益随发展度提高，重复培训的收益递减。'}[k]
-        requirement_en={1:'Requires coal deposits; three expansions maximum.',2:'Requires iron deposits; three expansions maximum.',3:'Requires a power grid slot. Adds 8 local power capacity.',4:'Development 20, a civilian factory slot and connection to Moscow.',5:'Development 35, an arms factory slot and connection to Moscow.',6:'Requires infrastructure space; inland rail starts at a connected domestic neighbour.',7:'Maximum three per district; adds 2 labour and 1 freight capacity.',8:'Maximum three per district; adds [?RUS_ip_forecast_8_training_gain|1] labour. Higher development improves training, repeated courses yield less.'}[k]
-        training=f'\n工业劳动力容量 +[?RUS_ip_forecast_{k}_training_gain|1]。' if k==8 else ''
-        native_zh='\n竣工效果：' if k<=6 else ''
-        native_en='\nOn completion:' if k<=6 else ''
-        L(f'build_{k}_tt',f'§Y{s["zh"]}§!\n开工扣除 [?RUS_ip_forecast_{k}_cost|1] 计划资金，持续占用 {s["civs"]} 座民工。\n每日仓储需求：钢 {s["steel"]*.1:.2f}、煤 {s["coal"]*.1:.2f}；缺料按供给比例施工，无料等待。\n地区需求：用工 {s["workers"]}、电力 {s["power"]}、基础运输 {s["freight"]}；在途货物另占运力。\n{requirement}\n发展度 +[?RUS_ip_forecast_{k}_gain|1]；同类工程收益递减。{training}\n供料充足时约 [?RUS_ip_forecast_{k}_days|0] 天；瓶颈：[GetRUSIPForecast{k}]。\n估计不含待料与排队。{native_zh}',f'§Y{s["en"]}§!\nUpfront [?RUS_ip_forecast_{k}_cost|1] funds; reserves {s["civs"]} civs.\nDaily warehouse demand: ST {s["steel"]*.1:.2f}, CO {s["coal"]*.1:.2f}. Shortages slow or halt work.\nLocal demand: {s["workers"]} labour, {s["power"]} power, {s["freight"]} freight, plus cargo.\n{requirement_en}\nDevelopment +[?RUS_ip_forecast_{k}_gain|1], diminishing for repeated projects.\nSupplied estimate: [?RUS_ip_forecast_{k}_days|0] days. [GetRUSIPForecast{k}].\nExcludes waiting for materials and capacity.{native_en}')
+        requirement={1:'须有煤矿潜力，最多扩建三次。',2:'须有铁矿潜力，最多扩建三次。',3:'须有强化电网建设空间。',4:'发展度至少 20，须有民工槽位并接通莫斯科。',5:'发展度至少 35，须有军工槽位并接通莫斯科。',6:'须有基础设施空间；内陆地区需相邻已接通地区作为铁路起点。',7:'每区最多三次。',8:'每区最多三次；培训收益随发展度提高，重复培训的收益递减。'}[k]
+        requirement_en={1:'Requires coal deposits; three expansions maximum.',2:'Requires iron deposits; three expansions maximum.',3:'Requires a power grid slot.',4:'Development 20, a civilian factory slot and connection to Moscow.',5:'Development 35, an arms factory slot and connection to Moscow.',6:'Requires infrastructure space; inland rail starts at a connected domestic neighbour.',7:'Maximum three per district.',8:'Maximum three per district; higher development improves training, repeated courses yield less.'}[k]
+        extra_zh={3:'\n地区供电容量：§G+8.0§!',7:'\n工业劳动力容量基础值：§G+2.0§!\n地区运输容量基础值：§G+1.0§!',8:'\n培训劳动力：§G+[?RUS_ip_forecast_8_training_gain|1]§!'}.get(k,'')
+        extra_en={3:'\nLocal power capacity: §G+8.0§!',7:'\nBase industrial labour capacity: §G+2.0§!\nBase local freight capacity: §G+1.0§!',8:'\nTrained labour: §G+[?RUS_ip_forecast_8_training_gain|1]§!'}.get(k,'')
+        L(f'build_{k}_tt',f'§Y{s["zh"]}§!\n\n§Y竣工后获得：§!\n地区发展度：§G+[?RUS_ip_forecast_{k}_gain|1]§!{extra_zh}',f'§Y{s["en"]}§!\n\n§YOn completion:§!\nDistrict development: §G+[?RUS_ip_forecast_{k}_gain|1]§!{extra_en}')
+        L(f'build_{k}_cost_tt',f'\n§Y开工与施工：§!\n开工扣除 §Y[?RUS_ip_forecast_{k}_cost|1]§! 计划资金，持续占用 §Y{s["civs"]}§! 座民工。\n每日仓储需求：钢 {s["steel"]*.1:.2f}、煤 {s["coal"]*.1:.2f}；缺料按供给比例施工，无料等待。\n地区需求：用工 {s["workers"]}、电力 {s["power"]}、基础运输 {s["freight"]}；在途货物另占运力。\n{requirement}\n同类工程的发展度收益递减。\n供料充足时约 §Y[?RUS_ip_forecast_{k}_days|0]§! 天；瓶颈：[GetRUSIPForecast{k}]。\n估计不含待料与排队。',f'\n§YConstruction:§!\nUpfront §Y[?RUS_ip_forecast_{k}_cost|1]§! funds; reserves §Y{s["civs"]}§! civs.\nDaily warehouse demand: ST {s["steel"]*.1:.2f}, CO {s["coal"]*.1:.2f}. Shortages slow or halt work.\nLocal demand: {s["workers"]} labour, {s["power"]} power, {s["freight"]} freight, plus cargo.\n{requirement_en}\nRepeated projects yield less development.\nSupplied estimate: §Y[?RUS_ip_forecast_{k}_days|0]§! days. [GetRUSIPForecast{k}].\nExcludes waiting for materials and capacity.')
+        # KR's scripted GUI tooltips explicitly bind [!<button>_click] to pdx_tooltip.
+        # Keeping this wrapper separate from build_*_tt avoids recursive expansion.
+        L(f'build_{k}_hover',f'[!ip_build_{k}_click]',f'[!ip_build_{k}_click]')
         L(f'estimate_{k}',f'资金 [?RUS_ip_forecast_{k}_cost|0] · [?RUS_ip_forecast_{k}_days|0] 天',f'[?RUS_ip_forecast_{k}_cost|0] funds · [?RUS_ip_forecast_{k}_days|0]d')
         L(f'cost_{k}',f'资金 [?RUS_ip_forecast_{k}_cost|0] · 民工 {s["civs"]}',f'[?RUS_ip_forecast_{k}_cost|0] funds · {s["civs"]} CIV')
     for key,zh,en in [('start','启动建设计划','Start programme'),('refresh','刷新状态','Refresh'),('help','玩法介绍','How to play'),('back','返回地图','Back to map'),('pause','暂停／继续','Pause / resume'),('cancel','取消工程','Cancel project'),('confirm_cancel','确认取消','Confirm cancel')]: L(key,zh,en)
@@ -133,7 +135,7 @@ def render_outputs():
     for suffix,y,condition in [('',-121,'NOT = { GER_is_in_mitteleuropa = yes }'),('_above_mitteleuropa',-198,'GER_is_in_mitteleuropa = yes')]:
         launchers.append(block('containerWindowType',f'name = "RUS_industrial_planning_launcher{suffix}"\nposition = {{ x = -79 y = {y} }}\nsize = {{ width = 77 height = 77 }}\nbackground = {{ name = "Background" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }}\nbackground = {{ name = "Background" quadTextureSprite = "GFX_tiled_research_bg" }}\nbuttonType = {{ name = "ip_open" position = {{ x = 9 y = 7 }} scale = 1.8 quadTextureSprite = "GFX_decision_generic_industry" pdx_tooltip = "RUS_ip_open_tt" clicksound = click_ok }}\n'))
         launcher_scripts.append(block('RUS_industrial_planning_launcher'+suffix,f'context_type = player_context\nparent_window_name = raid_filter\nwindow_name = "RUS_industrial_planning_launcher{suffix}"\nai_enabled = {{ always = no }}\n'+block('visible','RUS_ip_available = yes\n'+condition)+block('effects','ip_open_click = { hidden_effect = { RUS_ip_toggle = yes } }')))
-    widgets=[]; gt={}; geffects=[]
+    widgets=[]; gt={}; geffects=[]; card_sizes=set()
     def visibility(name,condition='',page='board'):
         base='NOT = { has_country_flag = RUS_ip_help_open }\nNOT = { has_country_flag = RUS_ip_supply_open }\n' if page=='board' else f'has_country_flag = RUS_ip_{page}_open\n' if page in ('help','supply') else ''
         if base+condition: gt[name+'_visible']=base+condition
@@ -150,15 +152,23 @@ def render_outputs():
         if enable: gt[name+'_click_enabled']=enable
         visibility(name,condition,page); geffects.append(block(name+'_click',preview+block('hidden_effect',action)))
     def background(name,x,y,w,h,page='board'):
-        widgets.append(block('containerWindowType',f'name = "{name}"\nposition = {{ x = {x} y = {y} }}\nsize = {{ width = {w} height = {h} }}\nbackground = {{ name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }}\n'));visibility(name,page=page)
+        # Nested window backgrounds leaked across pages in-game. Use a visible
+        # icon with a native nine-slice sprite, as KR's UPC_party_ban_bg does.
+        card_sizes.add((w,h))
+        icon(name,f'GFX_RUS_ip_card_{w}x{h}',x,y,page=page)
     text('ip_title',P+'title',24,16,1712,32,'hoi_24header',True,page='all')
     text('ip_summary',P+'summary',60,56,810,27,'hoi_20b',page='all')
+    text('ip_budget_projection',P+'budget_projection',60,80,810,24,tip=P+'funds_tt',condition='has_country_flag = RUS_ip_active',page='all')
     text('ip_capacity',P+'capacity',940,80,760,24,tip=P+'commitments')
     icon('ip_funds_icon','GFX_RUS_ip_funds',900,56,SUPPLY_ICONS['funds'][1],page='all',tip=P+'funds_tt')
     text('ip_funds',P+'funds_summary',944,57,750,27,tip=P+'funds_tt',page='all')
-    mx,my,zoom=150,98,1.25; icon('ip_map','GFX_RUS_ip_map',mx,my,zoom)
-    if data.get('northern_map_limit_y'):
-        text('ip_map_northern_limit',P+'map_northern_limit',mx+430,my+12,600,24,center=True)
+    mx,my,zoom=150,98,1.25
+    # Clip the atlas' non-geographic northern padding in the GUI. The viewport
+    # has no background; the inner icon owns page visibility, as in KR's intro.
+    # Keep all map coordinates and the registered source art unchanged.
+    map_cut=round(data.get('northern_map_limit_y',0)*zoom)
+    widgets.append(block('containerWindowType',f'name = "ip_map_viewport"\nposition = {{ x = {mx} y = {my+map_cut} }}\nsize = {{ width = {round(data["width"]*zoom)} height = {round(data["height"]*zoom)-map_cut} }}\nclipping = yes\n'+f'iconType = {{ name = "ip_map" position = {{ x = 0 y = {-map_cut} }} spriteType = "GFX_RUS_ip_map" scale = {zoom} alwaystransparent = yes }}\n'))
+    visibility('ip_map')
     for e in data['edge_sprites']:
         a,b=e['a'],e['b']; icon(f'ip_link_{a}_{b}',f'GFX_RUS_ip_link_{a}_{b}',mx+round(e['x']*zoom),my+round(e['y']*zoom),zoom,condition=cv(f'edge_{a}_{b}_live','=',1))
     for c in cells:
@@ -177,7 +187,7 @@ def render_outputs():
     text('ip_selected',P+'site_summary',220,646,1320,28,'hoi_20b',True,tip=P+'detail')
     for idx,(key,_,_,_) in enumerate(metrics):
         x=218+332*idx
-        widgets.append(block('containerWindowType',f'name = "ip_metric_bg_{key}"\nposition = {{ x = {x} y = 679 }}\nsize = {{ width = 326 height = 64 }}\nbackground = {{ name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }}\n')); visibility('ip_metric_bg_'+key)
+        background('ip_metric_bg_'+key,x,679,326,64)
         icon('ip_metric_icon_'+key,'GFX_RUS_ip_metric_'+key,x+14,695,1.05*(.5 if key=='workers' else 1),tip=P+'metric_'+key+'_tt')
         text('ip_metric_'+key,P+'metric_'+key,x+60,692,258,44,tip=P+'metric_'+key+'_tt')
     icon('ip_stock_icon','GFX_RUS_ip_warehouse',374,748,.64,tip=P+'warehouse_tt')
@@ -196,9 +206,11 @@ def render_outputs():
                     cond=cv(f'n{j}_connected','=',1)+f'RUS_ip_owned_{j} = yes\n'+block('can_build_railway',rail_spec(cells[j]['state'],c['state']))
                     branches+=block('if' if not branches else 'else_if',block('limit',cond)+block('build_railway','level = 1\n'+rail_spec(cells[j]['state'],c['state'])))
                 payout+=iff(cv(f'n{c["id"]}_project','=',0),branches)
-            preview_rewards.append(iff(cv('selected','=',c['id']),payout))
-        preview=f'custom_effect_tooltip = {P}build_{k}_tt\n'+block('effect_tooltip',''.join(preview_rewards))
-        button(f'ip_build_{k}','',x,y,'',f'RUS_ip_build_{k} = yes',f'RUS_ip_can_build_{k} = yes',preview=preview,sprite='GFX_RUS_ip_action')
+            if payout: preview_rewards.append(iff(cv('selected','=',c['id']),payout))
+        preview=f'custom_effect_tooltip = {P}build_{k}_tt\n'
+        if preview_rewards: preview+=block('effect_tooltip',''.join(preview_rewards))
+        preview+=f'custom_effect_tooltip = {P}build_{k}_cost_tt\n'
+        button(f'ip_build_{k}','',x,y,P+f'build_{k}_hover',f'RUS_ip_build_{k} = yes',f'RUS_ip_can_build_{k} = yes',preview=preview,sprite='GFX_RUS_ip_action')
         icon(f'ip_build_icon_{k}',f'GFX_RUS_ip_facility_{k}',x+24,y+15,ICON_SCALE.get(k,1))
         text(f'ip_build_label_{k}',P+f'build_{k}',x+65,y+10,150,22,center=True)
         text(f'ip_build_estimate_{k}',P+f'estimate_{k}',x+65,y+33,150,22,center=True,condition=cv('sel_project','=',0))
@@ -224,6 +236,8 @@ def render_outputs():
     script='context_type = player_context\nwindow_name = "RUS_industrial_planning_window"\ndirty = RUS_ip_dirty\nai_enabled = { always = no }\n'+block('visible','RUS_ip_available = yes\nhas_country_flag = RUS_ip_open')
     script+=block('triggers',''.join(block(k,v) for k,v in gt.items()))+block('properties','ip_progressbar = { frame = RUS_ip_progress_frame }\n')+block('effects',''.join(geffects))
     gfx=[]
+    for w,h in sorted(card_sizes):
+        gfx.append(block('corneredTileSpriteType',f'name = "GFX_RUS_ip_card_{w}x{h}"\nsize = {{ x = {w} y = {h} }}\ntextureFile = "gfx/interface/tiles/tiled_research_bg.dds"\nborderSize = {{ x = 32 y = 32 }}\ntilingCenter = yes\neffectFile = "gfx/FX/buttonstate_nodowneffect.lua"\nalwaystransparent = yes\n'))
     for name in ['map','selected','offline','connected','cell_button','progress']+[f'region_{c["id"]}' for c in cells]+[f'link_{e["a"]}_{e["b"]}' for e in data['edge_sprites']]:
         frames={'cell_button':3,'progress':21}.get(name,1)
         gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{name}"\ntexturefile = "gfx/interface/RUS_industrial_planning/{name}.png"\nnoOfFrames = {frames}\ntransparencecheck = yes\n'))

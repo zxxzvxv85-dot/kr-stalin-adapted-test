@@ -169,6 +169,28 @@ def supply_tests():
     assert v(s,'funds')==base and v(s,'budget_day')==29
     call(s,'daily');assert v(s,'budget_day')==0 and v(s,'last_budget')==25 and v(s,'last_support')>0
     assert v(s,'funds')==base+25;invariant(s);count+=30
+    # The nearest settlement includes past accruals; the 30-day figure is a run
+    # rate. Neither forecast can credit funds or advance the simulation.
+    for monthly,day,accrued in [(-270,0,0),(-75,0,0),(0,0,0),(150,0,0),(150,17,-120),(-270,17,300)]:
+        q=started(False)
+        for c in DATA['cells']:put(q,f'n{c["id"]}_net_month',0)
+        put(q,'n5_net_month',monthly);put(q,'budget_day',day);put(q,'budget_net',accrued)
+        before=ledger(q);call(q,'cargo_totals');call(q,'cargo_totals')
+        assert ledger(q)==before
+        assert math.isclose(v(q,'projected_operating'),monthly)
+        assert math.isclose(v(q,'projected_settlement'),max(25,monthly+100))
+        expected=accrued+monthly*(30-day)/30+100
+        assert math.isclose(v(q,'next_support'),max(0,25-expected))
+        assert math.isclose(v(q,'next_settlement'),max(25,expected))
+        assert math.isclose(v(q,'next_balance'),v(q,'funds')+max(25,expected))
+        put(q,'budget_net',expected-100);put(q,'budget_day',29);call(q,'budget_daily')
+        assert math.isclose(v(q,'last_budget'),v(q,'next_settlement'))
+        invariant(q);count+=1
+    q=quiet();old=v(q,'projected_operating')
+    q['states'][219].update(industrial_complex=4,energy_infrastructure=1)
+    put(q,'n5_development',90);stock(q,5,'steel',20);stock(q,5,'coal',20)
+    cash=v(q,'funds');call(q,'refresh')
+    assert v(q,'projected_operating')!=old and v(q,'funds')==cash;count+=1
     # Mature civilian hubs can contribute a positive balance; empty frontier
     # districts need funds for public services rather than generating free cash.
     s=quiet();s['states'][219].update(industrial_complex=4,energy_infrastructure=1)

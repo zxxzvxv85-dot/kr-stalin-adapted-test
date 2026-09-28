@@ -264,6 +264,59 @@ def regional_tests():
     return scenarios+5
 
 
+def gui_tests():
+    """Check page isolation and native-tooltip binding, not screenshots."""
+    def field(node,key):
+        item=node.one(key)
+        return item.v.strip('"') if item else ''
+    roots=parse((ROOT/'interface/RUS_industrial_planning.gui').read_text(encoding='utf-8'))[0]
+    window=next(n for n in roots.v if field(n,'name')=='RUS_industrial_planning_window')
+    def elements(node):
+        for child in node.v:
+            if not isinstance(child.v,list):continue
+            if child.one('name'):yield child
+            if child.k=='containerWindowType':yield from elements(child)
+    widgets={field(n,'name'):n for n in elements(window)}
+    panel=next(n for n in parse((ROOT/'common/scripted_guis/RUS_industrial_planning.txt').read_text(encoding='utf-8'))[0].v if n.k=='RUS_industrial_planning_gui')
+    triggers=panel.one('triggers');effects=panel.one('effects')
+    cards={name:n for name,n in widgets.items() if name.startswith(('ip_metric_bg_','ip_supply_bg_'))}
+    assert len(cards)==8 and all(n.k=='iconType' for n in cards.values()),'Child-window backgrounds do not follow page visibility in-game'
+    assert all(n.k!='containerWindowType' or triggers.one(name+'_visible') is None for name,n in widgets.items())
+    s=started();count=0
+    for action,page in [(None,'board'),('toggle_supply','supply'),('toggle_supply','board'),('toggle_help','help'),('toggle_help','board')]:
+        if action:call(s,action)
+        shown={name for name in cards if check(triggers.one(name+'_visible').v,s)}
+        expected={name for name in cards if name.startswith('ip_metric_bg_' if page=='board' else 'ip_supply_bg_')} if page!='help' else set()
+        assert shown==expected,(page,shown)
+        assert check(triggers.one('ip_map_visible').v,s)==(page=='board')
+        count+=1
+    viewport=widgets['ip_map_viewport'];map_icon=widgets['ip_map']
+    assert field(viewport,'clipping')=='yes' and viewport.one('background') is None
+    assert 'ip_map_northern_limit' not in widgets
+    assert int(field(map_icon.one('position'),'y'))==-round(DATA['northern_map_limit_y']*1.25)
+    count+=1
+    for lang in ('simp_chinese','english','russian'):
+        text=(ROOT/f'localisation/{lang}/RUS_industrial_planning_l_{lang}.yml').read_text(encoding='utf-8-sig')
+        loc=dict(re.findall(r'^ (\w+):\d* "(.*)"$',text,re.M))
+        for kind in PROJECTS:
+            name=f'ip_build_{kind}';tooltip=field(widgets[name],'pdx_tooltip')
+            assert loc[tooltip]==f'[!{name}_click]',(name,tooltip)
+            effect=effects.one(name+'_click')
+            assert all(n.v!=tooltip for n in effect.v if n.k=='custom_effect_tooltip'),'Recursive tooltip'
+            assert (effect.one('effect_tooltip') is not None)==(kind<=6)
+            for prefix in ('ip_build_icon_','ip_build_label_','ip_build_estimate_','ip_build_cost_'):
+                assert field(widgets[prefix+str(kind)],'alwaystransparent')=='yes'
+        count+=1
+    for kind in PROJECTS:
+        q=started();select(q,5);before=copy.deepcopy(q['states']);reward_count=len(q['rewards'])
+        run(effects.one(f'ip_build_{kind}_click').v,q)
+        assert v(q,'n5_project')==kind,(kind,'Button did not queue project')
+        assert q['states']==before and len(q['rewards'])==reward_count,'Hover/click must not award completed assets'
+        assert v(q,'completed')==0
+        count+=1
+    return count
+
+
 def tests():
     # The new testing decision is required; simply loading Russia exposes no GUI.
     gate=fixture(False);call(gate,'open_effect');call(gate,'start')
@@ -403,6 +456,7 @@ def tests():
     scenarios+=regional_tests()
     from test_industrial_planning_supply import supply_tests
     scenarios+=supply_tests()
+    scenarios+=gui_tests()
     print(f'PASS: {scenarios} construction / finance / freight scenarios; aggregation, cash and material conservation, finite capacities, forecasts, daily progress, one-time completion, deadline and old-plan isolation. Not an HOI4 runtime test.')
 
 

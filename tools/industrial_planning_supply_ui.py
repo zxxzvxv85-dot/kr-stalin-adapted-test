@@ -14,13 +14,20 @@ SUPPLY_ICONS = {
 def localisation(L, defined, hub):
     L('funds_summary','计划资金 §Y[?RUS_ip_funds|1]§!  |  [GetRUSIPBudgetStatus]  |  [GetRUSIPPolicy]',
       'Funds §Y[?RUS_ip_funds|1]§!  |  [GetRUSIPBudgetStatus]  |  [GetRUSIPPolicy]')
-    L('budget_status','[?RUS_ip_budget_next|0] 天后结算','Settlement in [?RUS_ip_budget_next|0] days')
+    L('budget_status','[?RUS_ip_budget_next|0] 天后结算：预计 [?RUS_ip_next_settlement|+1]','[?RUS_ip_budget_next|0]d to settlement: est. [?RUS_ip_next_settlement|+1]')
     L('budget_frozen','账本封存','Account frozen')
     L('budget_pending','等待启动','Awaiting start')
     L('policy_peace','和平经营','Peacetime industry')
     L('policy_war','§Y战时优先施工§!','§YWartime construction priority§!')
     defined('GetRUSIPBudgetStatus',[('has_country_flag = RUS_ip_active',P+'budget_status'),('has_country_flag = RUS_ip_ended',P+'budget_frozen'),('',P+'budget_pending')])
     defined('GetRUSIPPolicy',[('has_war = yes',P+'policy_war'),('',P+'policy_peace')])
+    L('budget_projection','当前方案 / 30 天：经营 [?RUS_ip_projected_operating|+1]  |  含拨款及补助后 [?RUS_ip_projected_settlement|+1]',
+      'Current plan / 30d: operating [?RUS_ip_projected_operating|+1] | with funding [?RUS_ip_projected_settlement|+1]')
+    L('budget_projection_tt','§Y按当前方案预估§!\n30 天经营净额：[?RUS_ip_projected_operating|+1]\n固定拨款：§G+100.0§!\n预计应急补助：[?RUS_ip_projected_support|+1]\n30 天合计资金变动：[?RUS_ip_projected_settlement|+1]\n\n§Y最近一次结算§!\n本期已累计经营净额：[?RUS_ip_budget_net|+1]\n距结算还有 [?RUS_ip_budget_next|0] 天，按当前经营状态延续计算：\n预计资金变动：[?RUS_ip_next_settlement|+1]，其中补助 [?RUS_ip_next_support|+1]\n预计结算后余额：§Y[?RUS_ip_next_balance|1]§!\n\n每日及操作后刷新；不含未来开工、取消退款、竣工、供料与战局变化。30 天数值是当前方案的经营折算，最近一次结算另计本期已经发生的收支。',
+      '§YCurrent-plan forecast§!\n30-day operating balance: [?RUS_ip_projected_operating|+1]\nAppropriation: §G+100.0§!\nEmergency support: [?RUS_ip_projected_support|+1]\n30-day funds change: [?RUS_ip_projected_settlement|+1]\n\n§YNext settlement§!\nAccrued operating balance: [?RUS_ip_budget_net|+1]\n[?RUS_ip_budget_next|0] days remaining at the current operating rate:\nFunds change: [?RUS_ip_next_settlement|+1], including support [?RUS_ip_next_support|+1]\nExpected balance: §Y[?RUS_ip_next_balance|1]§!\n\nUpdates daily and after actions. Excludes future starts, refunds, completions, supply and war changes. The 30-day figure is a run rate; the next settlement includes actual accruals.')
+    L('budget_projection_pending','启动建设计划后显示资金预估。','Start the programme to see the funds forecast.')
+    L('budget_projection_frozen','建设期已结束，账本封存，不再结算。','Programme ended; the account is frozen and no longer settles.')
+    defined('GetRUSIPBudgetForecast',[('has_country_flag = RUS_ip_active',P+'budget_projection_tt'),('has_country_flag = RUS_ip_ended',P+'budget_projection_frozen'),('',P+'budget_projection_pending')])
     L('supply','仓储与预算','Supply / budget')
     L('supply_title','计划资金 · 仓储与调拨','Programme funds · Warehouses and freight')
     L('stock_ribbon','库存：钢 [?RUS_ip_sel_stock_steel|1] / 煤 [?RUS_ip_sel_stock_coal|1]  ·  日需求 [?RUS_ip_sel_need_steel|2] / [?RUS_ip_sel_need_coal|2]  |  [GetRUSIPArrival]  |  净收支 [?RUS_ip_sel_net_month|1] / 30 天',
@@ -34,8 +41,8 @@ def localisation(L, defined, hub):
     defined('GetRUSIPRouteDetail',[(cv('selected','=',hub),P+'route_hub'),('',P+'route_district')])
     defined('GetRUSIPArrival',[(cv('sel_route_live','=',0),P+'arrival_blocked'),(cv('sel_arrival','>',0),P+'arrival_pending'),
                              (cv('sel_view_in_steel','>',0),P+'arrival_waiting'),(cv('sel_view_in_coal','>',0),P+'arrival_waiting'),('',P+'arrival_none')])
-    L('funds_tt','§Y计划资金§!\n独立建设账户，初始 1000；不与原有经济盈余互换。开工一次扣款，发展度越低费用越高。每 30 天结算经营收支并拨款 100；当合计低于 25 时补足至 25。点击“仓储与预算”查看账本。',
-      '§YProgramme funds§!\nSeparate account, starting at 1000. Upfront costs are higher in less developed regions. Every 30 days: operating balance + 100 appropriation, with emergency support to ensure at least 25 net. No exchange with the existing economy surplus.')
+    L('funds_tt','§Y计划资金§!\n独立建设账户，初始 1000；不与原有经济盈余互换。开工一次扣款，发展度越低费用越高。每 30 天结算经营收支并拨款 100；当合计低于 25 时补足至 25。\n\n[GetRUSIPBudgetForecast]',
+      '§YProgramme funds§!\nSeparate account, starting at 1000. Upfront costs are higher in less developed regions. Every 30 days: operating balance + 100 appropriation, with emergency support to ensure at least 25 net. No exchange with the existing economy surplus.\n\n[GetRUSIPBudgetForecast]')
     L('warehouse_tt','§Y地区仓库§!\n钢、煤分别存放，各有容量上限。原生资源每占用 1 点，生产日入库 0.25 单位；全国至多使用可调配资源的一半。施工和经营每日消耗仓库，出库与在途物资不能再次使用。库存不足会减速或等待。',
       '§YRegional warehouse§!\nSeparate steel/coal capacities. Booking one native resource point yields 0.25 warehouse units that day, using at most half the national available flow. Daily operation and construction consume stocks. Dispatched cargo cannot be spent twice.')
     L('transit_tt','§Y自动调拨§!\n地区保留 21 天需求量后向莫斯科运送余料，总仓向缺料地区补至 14 天需求量。每个方向、每种物资最多一批；沿固定规划路线逐日运输，拥堵减速、断路停运。途中物资不计入可用库存。',
@@ -49,8 +56,11 @@ def localisation(L, defined, hub):
         'balance':('本区净收支 / 30 天\n§Y[?RUS_ip_sel_net_month|1]§!', 'Local balance / 30 days\n§Y[?RUS_ip_sel_net_month|1]§!'),
     }
     for k,(zh,en) in cards.items():L('supply_card_'+k,zh,en)
-    L('budget_ledger','§Y全国计划账本§!\n距下次结算：[?RUS_ip_budget_next|0] 天\n本期已累计经营净额：[?RUS_ip_budget_net|1]\n按当前经营状态预计净额：[?RUS_ip_projected_net|1] / 30 天（含拨款）\n上期实际入账：[?RUS_ip_last_budget|1]，其中应急补助 [?RUS_ip_last_support|1]\n累计开工扣款：[?RUS_ip_funds_spent|1]；取消与期满退款：[?RUS_ip_funds_refunded|1]\n全国库存：钢 [?RUS_ip_total_stock_steel|1] / 煤 [?RUS_ip_total_stock_coal|1]\n全国在途：钢 [?RUS_ip_total_transit_steel|1] / 煤 [?RUS_ip_total_transit_coal|1]',
-      '§YNational account§!\nNext settlement: [?RUS_ip_budget_next|0] days\nAccrued operating net: [?RUS_ip_budget_net|1]\nProjected net: [?RUS_ip_projected_net|1] / 30 days (with appropriation)\nLast settlement: [?RUS_ip_last_budget|1], emergency aid [?RUS_ip_last_support|1]\nSpent: [?RUS_ip_funds_spent|1]; refunded: [?RUS_ip_funds_refunded|1]\nStock: steel [?RUS_ip_total_stock_steel|1] / coal [?RUS_ip_total_stock_coal|1]\nTransit: steel [?RUS_ip_total_transit_steel|1] / coal [?RUS_ip_total_transit_coal|1]')
+    L('budget_ledger_projection','距下次结算：[?RUS_ip_budget_next|0] 天；预计资金变动 [?RUS_ip_next_settlement|+1]\n预计结算后余额：[?RUS_ip_next_balance|1]\n本期已累计经营净额：[?RUS_ip_budget_net|+1]\n当前方案 / 30 天：经营 [?RUS_ip_projected_operating|+1]；合计 [?RUS_ip_projected_settlement|+1]\n合计包括固定拨款 100、预计应急补助 [?RUS_ip_projected_support|1]',
+      'Next settlement: [?RUS_ip_budget_next|0] days; funds change [?RUS_ip_next_settlement|+1]\nExpected balance: [?RUS_ip_next_balance|1]\nAccrued operating net: [?RUS_ip_budget_net|+1]\nCurrent plan / 30d: operating [?RUS_ip_projected_operating|+1]; total [?RUS_ip_projected_settlement|+1]\nIncludes 100 appropriation, [?RUS_ip_projected_support|1] support')
+    defined('GetRUSIPLedgerForecast',[('has_country_flag = RUS_ip_active',P+'budget_ledger_projection'),('has_country_flag = RUS_ip_ended',P+'budget_projection_frozen'),('',P+'budget_projection_pending')])
+    L('budget_ledger','§Y全国计划账本§!\n[GetRUSIPLedgerForecast]\n上期实际入账：[?RUS_ip_last_budget|1]，其中应急补助 [?RUS_ip_last_support|1]\n累计开工扣款：[?RUS_ip_funds_spent|1]；取消与期满退款：[?RUS_ip_funds_refunded|1]\n全国库存：钢 [?RUS_ip_total_stock_steel|1] / 煤 [?RUS_ip_total_stock_coal|1]\n全国在途：钢 [?RUS_ip_total_transit_steel|1] / 煤 [?RUS_ip_total_transit_coal|1]',
+      '§YNational account§!\n[GetRUSIPLedgerForecast]\nLast settlement: [?RUS_ip_last_budget|1], emergency aid [?RUS_ip_last_support|1]\nSpent: [?RUS_ip_funds_spent|1]; refunded: [?RUS_ip_funds_refunded|1]\nStock: steel [?RUS_ip_total_stock_steel|1] / coal [?RUS_ip_total_stock_coal|1]\nTransit: steel [?RUS_ip_total_transit_steel|1] / coal [?RUS_ip_total_transit_coal|1]')
     L('supply_local','§Y所选经济区§!\n统计 [?RUS_ip_sel_members|0] 个本国控制的州，人口 [?RUS_ip_sel_pop_k|0] 千\n每种物资仓容 [?RUS_ip_sel_warehouse_cap|1]；库存可用约 [?RUS_ip_sel_cover|1] 天\n工业日需求：钢 [?RUS_ip_sel_base_steel|2] / 煤 [?RUS_ip_sel_base_coal|2]\n施工日需求：钢 [?RUS_ip_sel_project_steel|2] / 煤 [?RUS_ip_sel_project_coal|2]\n民工经营收入 [?RUS_ip_sel_income_month|1] / 30 天\n矿业收入折算 [?RUS_ip_sel_mining_month|1] / 30 天（按当日入库）\n维持支出 [?RUS_ip_sel_upkeep_month|1] / 30 天\n本工程已付款 [?RUS_ip_sel_paid|1]；现在取消可退 [?RUS_ip_sel_refund|1]',
       '§YSelected economic region§!\n[?RUS_ip_sel_members|0] owned/controlled states, [?RUS_ip_sel_pop_k|0] thousand people\nCapacity per resource [?RUS_ip_sel_warehouse_cap|1]; cover ~[?RUS_ip_sel_cover|1] days\nIndustry/day: ST [?RUS_ip_sel_base_steel|2] / CO [?RUS_ip_sel_base_coal|2]\nConstruction/day: ST [?RUS_ip_sel_project_steel|2] / CO [?RUS_ip_sel_project_coal|2]\nCivilian income [?RUS_ip_sel_income_month|1] / 30 days\nMining run rate [?RUS_ip_sel_mining_month|1] / 30 days\nUpkeep [?RUS_ip_sel_upkeep_month|1] / 30 days\nProject paid [?RUS_ip_sel_paid|1]; refund now [?RUS_ip_sel_refund|1]')
     L('supply_route','§Y调拨与线路§!\n[GetRUSIPArrival]\n[GetRUSIPRouteDetail]\n从本区发出：钢 [?RUS_ip_sel_view_out_steel|1] / 煤 [?RUS_ip_sel_view_out_coal|1]\n本区在途货物占用运力 [?RUS_ip_sel_delivery_load|1]\n全部负荷 [?RUS_ip_sel_freight_used|1] / 容量 [?RUS_ip_sel_freight|1]\n目的地失守会损失对应库存与入境批次；中途断路只暂停运输。',

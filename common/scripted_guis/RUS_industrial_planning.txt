@@ -36,15 +36,14 @@ scripted_gui = {
 			has_country_flag = RUS_ip_open
 		}
 		triggers = {
+			ip_budget_projection_visible = {
+				has_country_flag = RUS_ip_active
+			}
 			ip_capacity_visible = {
 				NOT = { has_country_flag = RUS_ip_help_open }
 				NOT = { has_country_flag = RUS_ip_supply_open }
 			}
 			ip_map_visible = {
-				NOT = { has_country_flag = RUS_ip_help_open }
-				NOT = { has_country_flag = RUS_ip_supply_open }
-			}
-			ip_map_northern_limit_visible = {
 				NOT = { has_country_flag = RUS_ip_help_open }
 				NOT = { has_country_flag = RUS_ip_supply_open }
 			}
@@ -5710,6 +5709,7 @@ scripted_gui = {
 						}
 					}
 				}
+				custom_effect_tooltip = RUS_ip_build_1_cost_tt
 				hidden_effect = {
 					RUS_ip_build_1 = yes
 				}
@@ -6006,6 +6006,7 @@ scripted_gui = {
 						}
 					}
 				}
+				custom_effect_tooltip = RUS_ip_build_2_cost_tt
 				hidden_effect = {
 					RUS_ip_build_2 = yes
 				}
@@ -6302,6 +6303,7 @@ scripted_gui = {
 						}
 					}
 				}
+				custom_effect_tooltip = RUS_ip_build_3_cost_tt
 				hidden_effect = {
 					RUS_ip_build_3 = yes
 				}
@@ -6634,6 +6636,7 @@ scripted_gui = {
 						}
 					}
 				}
+				custom_effect_tooltip = RUS_ip_build_4_cost_tt
 				hidden_effect = {
 					RUS_ip_build_4 = yes
 				}
@@ -6930,6 +6933,7 @@ scripted_gui = {
 						}
 					}
 				}
+				custom_effect_tooltip = RUS_ip_build_5_cost_tt
 				hidden_effect = {
 					RUS_ip_build_5 = yes
 				}
@@ -11886,382 +11890,21 @@ scripted_gui = {
 						}
 					}
 				}
+				custom_effect_tooltip = RUS_ip_build_6_cost_tt
 				hidden_effect = {
 					RUS_ip_build_6 = yes
 				}
 			}
 			ip_build_7_click = {
 				custom_effect_tooltip = RUS_ip_build_7_tt
-				effect_tooltip = {
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 0 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 1 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 2 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 3 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 4 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 5 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 6 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 7 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 8 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 9 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 10 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 11 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 12 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 13 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 14 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 15 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 16 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 17 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 18 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 19 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 20 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 21 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 22 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 23 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 24 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 25 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 26 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 27 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 28 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 29 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 30 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 31 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 32 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 33 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 34 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 35 }
-						}
-					}
-				}
+				custom_effect_tooltip = RUS_ip_build_7_cost_tt
 				hidden_effect = {
 					RUS_ip_build_7 = yes
 				}
 			}
 			ip_build_8_click = {
 				custom_effect_tooltip = RUS_ip_build_8_tt
-				effect_tooltip = {
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 0 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 1 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 2 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 3 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 4 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 5 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 6 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 7 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 8 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 9 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 10 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 11 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 12 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 13 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 14 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 15 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 16 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 17 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 18 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 19 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 20 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 21 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 22 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 23 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 24 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 25 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 26 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 27 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 28 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 29 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 30 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 31 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 32 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 33 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 34 }
-						}
-					}
-					if = {
-						limit = {
-							check_variable = { RUS_ip_selected = 35 }
-						}
-					}
-				}
+				custom_effect_tooltip = RUS_ip_build_8_cost_tt
 				hidden_effect = {
 					RUS_ip_build_8 = yes
 				}

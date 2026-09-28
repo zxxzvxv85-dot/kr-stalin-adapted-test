@@ -28,11 +28,17 @@ guiTypes = {
 		background = { name = "frame" quadTextureSprite = "GFX_tiled_plain_bg" }
 		instantTextBoxType = { name = "ip_title" position = { x = 24 y = 16 } text = "RUS_ip_title" font = "hoi_24header" maxWidth = 1712 maxHeight = 32 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_summary" position = { x = 60 y = 56 } text = "RUS_ip_summary" font = "hoi_20b" maxWidth = 810 maxHeight = 27 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_budget_projection" position = { x = 60 y = 80 } text = "RUS_ip_budget_projection" font = "hoi_16mbs" maxWidth = 810 maxHeight = 24 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_capacity" position = { x = 940 y = 80 } text = "RUS_ip_capacity" font = "hoi_16mbs" maxWidth = 760 maxHeight = 24 format = left fixedsize = yes pdx_tooltip = "RUS_ip_commitments" alwaystransparent = no }
 		iconType = { name = "ip_funds_icon" position = { x = 900 y = 56 } spriteType = "GFX_RUS_ip_funds" scale = 1.6 pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_funds" position = { x = 944 y = 57 } text = "RUS_ip_funds_summary" font = "hoi_16mbs" maxWidth = 750 maxHeight = 27 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
-		iconType = { name = "ip_map" position = { x = 150 y = 98 } spriteType = "GFX_RUS_ip_map" scale = 1.25 alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_map_northern_limit" position = { x = 580 y = 110 } text = "RUS_ip_map_northern_limit" font = "hoi_16mbs" maxWidth = 600 maxHeight = 24 format = center fixedsize = yes alwaystransparent = yes }
+		containerWindowType = {
+			name = "ip_map_viewport"
+			position = { x = 150 y = 168 }
+			size = { width = 1460 height = 470 }
+			clipping = yes
+			iconType = { name = "ip_map" position = { x = 0 y = -70 } spriteType = "GFX_RUS_ip_map" scale = 1.25 alwaystransparent = yes }
+		}
 		iconType = { name = "ip_link_0_1" position = { x = 214 y = 233 } spriteType = "GFX_RUS_ip_link_0_1" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_link_0_3" position = { x = 242 y = 233 } spriteType = "GFX_RUS_ip_link_0_3" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_link_1_2" position = { x = 201 y = 274 } spriteType = "GFX_RUS_ip_link_1_2" scale = 1.25 alwaystransparent = yes }
@@ -581,76 +587,56 @@ guiTypes = {
 		iconType = { name = "ip_facility_35_8" position = { x = 613 y = 513 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_network" position = { x = 410 y = 600 } text = "RUS_ip_network" font = "hoi_16mbs" maxWidth = 1040 maxHeight = 24 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_selected" position = { x = 220 y = 646 } text = "RUS_ip_site_summary" font = "hoi_20b" maxWidth = 1320 maxHeight = 28 format = center fixedsize = yes pdx_tooltip = "RUS_ip_detail" alwaystransparent = no }
-		containerWindowType = {
-			name = "ip_metric_bg_development"
-			position = { x = 218 y = 679 }
-			size = { width = 326 height = 64 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_metric_bg_development" position = { x = 218 y = 679 } spriteType = "GFX_RUS_ip_card_326x64" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_metric_icon_development" position = { x = 232 y = 695 } spriteType = "GFX_RUS_ip_metric_development" scale = 1.05 pdx_tooltip = "RUS_ip_metric_development_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_metric_development" position = { x = 278 y = 692 } text = "RUS_ip_metric_development" font = "hoi_16mbs" maxWidth = 258 maxHeight = 44 format = left fixedsize = yes pdx_tooltip = "RUS_ip_metric_development_tt" alwaystransparent = no }
-		containerWindowType = {
-			name = "ip_metric_bg_workers"
-			position = { x = 550 y = 679 }
-			size = { width = 326 height = 64 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_metric_bg_workers" position = { x = 550 y = 679 } spriteType = "GFX_RUS_ip_card_326x64" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_metric_icon_workers" position = { x = 564 y = 695 } spriteType = "GFX_RUS_ip_metric_workers" scale = 0.525 pdx_tooltip = "RUS_ip_metric_workers_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_metric_workers" position = { x = 610 y = 692 } text = "RUS_ip_metric_workers" font = "hoi_16mbs" maxWidth = 258 maxHeight = 44 format = left fixedsize = yes pdx_tooltip = "RUS_ip_metric_workers_tt" alwaystransparent = no }
-		containerWindowType = {
-			name = "ip_metric_bg_power"
-			position = { x = 882 y = 679 }
-			size = { width = 326 height = 64 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_metric_bg_power" position = { x = 882 y = 679 } spriteType = "GFX_RUS_ip_card_326x64" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_metric_icon_power" position = { x = 896 y = 695 } spriteType = "GFX_RUS_ip_metric_power" scale = 1.05 pdx_tooltip = "RUS_ip_metric_power_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_metric_power" position = { x = 942 y = 692 } text = "RUS_ip_metric_power" font = "hoi_16mbs" maxWidth = 258 maxHeight = 44 format = left fixedsize = yes pdx_tooltip = "RUS_ip_metric_power_tt" alwaystransparent = no }
-		containerWindowType = {
-			name = "ip_metric_bg_freight"
-			position = { x = 1214 y = 679 }
-			size = { width = 326 height = 64 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_metric_bg_freight" position = { x = 1214 y = 679 } spriteType = "GFX_RUS_ip_card_326x64" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_metric_icon_freight" position = { x = 1228 y = 695 } spriteType = "GFX_RUS_ip_metric_freight" scale = 1.05 pdx_tooltip = "RUS_ip_metric_freight_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_metric_freight" position = { x = 1274 y = 692 } text = "RUS_ip_metric_freight" font = "hoi_16mbs" maxWidth = 258 maxHeight = 44 format = left fixedsize = yes pdx_tooltip = "RUS_ip_metric_freight_tt" alwaystransparent = no }
 		iconType = { name = "ip_stock_icon" position = { x = 374 y = 748 } spriteType = "GFX_RUS_ip_warehouse" scale = 0.64 pdx_tooltip = "RUS_ip_warehouse_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_stock" position = { x = 409 y = 746 } text = "RUS_ip_stock_ribbon" font = "hoi_16mbs" maxWidth = 1135 maxHeight = 24 format = left fixedsize = yes pdx_tooltip = "RUS_ip_warehouse_tt" alwaystransparent = no }
-		buttonType = { name = "ip_build_1" position = { x = 374 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_1" position = { x = 374 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_1_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_1" position = { x = 398 y = 791 } spriteType = "GFX_RUS_ip_facility_1" scale = 1 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_1" position = { x = 439 y = 786 } text = "RUS_ip_build_1" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_1" position = { x = 439 y = 809 } text = "RUS_ip_estimate_1" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_1" position = { x = 439 y = 809 } text = "RUS_ip_cost_1" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_2" position = { x = 631 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_2" position = { x = 631 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_2_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_2" position = { x = 655 y = 791 } spriteType = "GFX_RUS_ip_facility_2" scale = 1 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_2" position = { x = 696 y = 786 } text = "RUS_ip_build_2" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_2" position = { x = 696 y = 809 } text = "RUS_ip_estimate_2" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_2" position = { x = 696 y = 809 } text = "RUS_ip_cost_2" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_3" position = { x = 888 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_3" position = { x = 888 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_3_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_3" position = { x = 912 y = 791 } spriteType = "GFX_RUS_ip_facility_3" scale = 1 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_3" position = { x = 953 y = 786 } text = "RUS_ip_build_3" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_3" position = { x = 953 y = 809 } text = "RUS_ip_estimate_3" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_3" position = { x = 953 y = 809 } text = "RUS_ip_cost_3" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_4" position = { x = 1145 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_4" position = { x = 1145 y = 776 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_4_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_4" position = { x = 1169 y = 791 } spriteType = "GFX_RUS_ip_facility_4" scale = 1 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_4" position = { x = 1210 y = 786 } text = "RUS_ip_build_4" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_4" position = { x = 1210 y = 809 } text = "RUS_ip_estimate_4" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_4" position = { x = 1210 y = 809 } text = "RUS_ip_cost_4" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_5" position = { x = 374 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_5" position = { x = 374 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_5_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_5" position = { x = 398 y = 857 } spriteType = "GFX_RUS_ip_facility_5" scale = 1 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_5" position = { x = 439 y = 852 } text = "RUS_ip_build_5" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_5" position = { x = 439 y = 875 } text = "RUS_ip_estimate_5" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_5" position = { x = 439 y = 875 } text = "RUS_ip_cost_5" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_6" position = { x = 631 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_6" position = { x = 631 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_6_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_6" position = { x = 655 y = 857 } spriteType = "GFX_RUS_ip_facility_6" scale = 1 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_6" position = { x = 696 y = 852 } text = "RUS_ip_build_6" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_6" position = { x = 696 y = 875 } text = "RUS_ip_estimate_6" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_6" position = { x = 696 y = 875 } text = "RUS_ip_cost_6" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_7" position = { x = 888 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_7" position = { x = 888 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_7_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_7" position = { x = 912 y = 857 } spriteType = "GFX_RUS_ip_facility_7" scale = 1 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_7" position = { x = 953 y = 852 } text = "RUS_ip_build_7" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_7" position = { x = 953 y = 875 } text = "RUS_ip_estimate_7" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_7" position = { x = 953 y = 875 } text = "RUS_ip_cost_7" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_8" position = { x = 1145 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_build_8" position = { x = 1145 y = 842 } scale = 1 quadTextureSprite = "GFX_RUS_ip_action" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_8_hover" clicksound = click_default }
 		iconType = { name = "ip_build_icon_8" position = { x = 1169 y = 857 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.5 alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_label_8" position = { x = 1210 y = 852 } text = "RUS_ip_build_8" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_8" position = { x = 1210 y = 875 } text = "RUS_ip_estimate_8" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
@@ -675,36 +661,16 @@ guiTypes = {
 		instantTextBoxType = { name = "ip_extraction" position = { x = 170 y = 837 } text = "RUS_ip_extraction" font = "hoi_16mbs" maxWidth = 1400 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_supply_title" position = { x = 160 y = 125 } text = "RUS_ip_supply_title" font = "hoi_24header" maxWidth = 1440 maxHeight = 36 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_supply_selected" position = { x = 170 y = 174 } text = "RUS_ip_site_summary" font = "hoi_20b" maxWidth = 1420 maxHeight = 28 format = center fixedsize = yes alwaystransparent = yes }
-		containerWindowType = {
-			name = "ip_supply_bg_funds"
-			position = { x = 170 y = 218 }
-			size = { width = 340 height = 82 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_supply_bg_funds" position = { x = 170 y = 218 } spriteType = "GFX_RUS_ip_card_340x82" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_supply_icon_funds" position = { x = 188 y = 242 } spriteType = "GFX_RUS_ip_funds" scale = 1.6 pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_supply_card_funds" position = { x = 240 y = 236 } text = "RUS_ip_supply_card_funds" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
-		containerWindowType = {
-			name = "ip_supply_bg_warehouse"
-			position = { x = 530 y = 218 }
-			size = { width = 340 height = 82 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_supply_bg_warehouse" position = { x = 530 y = 218 } spriteType = "GFX_RUS_ip_card_340x82" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_supply_icon_warehouse" position = { x = 548 y = 242 } spriteType = "GFX_RUS_ip_warehouse" scale = 0.9411764705882353 pdx_tooltip = "RUS_ip_warehouse_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_supply_card_warehouse" position = { x = 600 y = 236 } text = "RUS_ip_supply_card_warehouse" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_warehouse_tt" alwaystransparent = no }
-		containerWindowType = {
-			name = "ip_supply_bg_transit"
-			position = { x = 890 y = 218 }
-			size = { width = 340 height = 82 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_supply_bg_transit" position = { x = 890 y = 218 } spriteType = "GFX_RUS_ip_card_340x82" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_supply_icon_transit" position = { x = 908 y = 242 } spriteType = "GFX_RUS_ip_transit" scale = 0.9696969696969697 pdx_tooltip = "RUS_ip_transit_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_supply_card_transit" position = { x = 960 y = 236 } text = "RUS_ip_supply_card_transit" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_transit_tt" alwaystransparent = no }
-		containerWindowType = {
-			name = "ip_supply_bg_balance"
-			position = { x = 1250 y = 218 }
-			size = { width = 340 height = 82 }
-			background = { name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }
-		}
+		iconType = { name = "ip_supply_bg_balance" position = { x = 1250 y = 218 } spriteType = "GFX_RUS_ip_card_340x82" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_supply_icon_balance" position = { x = 1268 y = 242 } spriteType = "GFX_RUS_ip_balance" scale = 0.9696969696969697 pdx_tooltip = "RUS_ip_balance_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_supply_card_balance" position = { x = 1320 y = 236 } text = "RUS_ip_supply_card_balance" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_balance_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_budget_ledger" position = { x = 180 y = 335 } text = "RUS_ip_budget_ledger" font = "hoi_16mbs" maxWidth = 660 maxHeight = 230 format = left fixedsize = yes alwaystransparent = yes }

@@ -279,5 +279,14 @@ def render_supply(data):
         for c in cells:
             n=f'n{c["id"]}_';totals+=add('total_stock_'+r,P+n+'stock_'+r)+add('total_transit_'+r,P+n+'in_'+r)+add('total_transit_'+r,P+n+'out_'+r)
     for c in cells:totals+=iff(f'RUS_ip_owned_{c["id"]} = yes',add('projected_net',P+f'n{c["id"]}_net_month'))
+    # Display-only forecasts. Use the same appropriation/support rule as the
+    # real settlement, without advancing the clock or crediting the account.
+    totals+=setv('projected_operating',P+'projected_net')+sub('projected_operating',100)
+    totals+=setv('projected_support',25)+sub('projected_support',P+'projected_net')+clamp('projected_support',0,99999)
+    totals+=setv('projected_settlement',P+'projected_net')+add('projected_settlement',P+'projected_support')
+    totals+=setv('next_operating',P+'projected_operating')+div('next_operating',30)+mul('next_operating',P+'budget_next')+add('next_operating',P+'budget_net')
+    totals+=setv('next_settlement',P+'next_operating')+add('next_settlement',100)
+    totals+=setv('next_support',25)+sub('next_support',P+'next_settlement')+clamp('next_support',0,99999)
+    totals+=add('next_settlement',P+'next_support')+setv('next_balance',P+'funds')+add('next_balance',P+'next_settlement')
     effects.append(fx('cargo_totals',totals))
     return effects

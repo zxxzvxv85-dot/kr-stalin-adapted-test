@@ -60367,6 +60367,25 @@ RUS_ip_cargo_totals = {
 		}
 		add_to_variable = { RUS_ip_projected_net = RUS_ip_n35_net_month }
 	}
+	set_variable = { RUS_ip_projected_operating = RUS_ip_projected_net }
+	subtract_from_variable = { RUS_ip_projected_operating = 100 }
+	set_variable = { RUS_ip_projected_support = 25 }
+	subtract_from_variable = { RUS_ip_projected_support = RUS_ip_projected_net }
+	clamp_variable = { var = RUS_ip_projected_support min = 0 max = 99999 }
+	set_variable = { RUS_ip_projected_settlement = RUS_ip_projected_net }
+	add_to_variable = { RUS_ip_projected_settlement = RUS_ip_projected_support }
+	set_variable = { RUS_ip_next_operating = RUS_ip_projected_operating }
+	divide_variable = { RUS_ip_next_operating = 30 }
+	multiply_variable = { RUS_ip_next_operating = RUS_ip_budget_next }
+	add_to_variable = { RUS_ip_next_operating = RUS_ip_budget_net }
+	set_variable = { RUS_ip_next_settlement = RUS_ip_next_operating }
+	add_to_variable = { RUS_ip_next_settlement = 100 }
+	set_variable = { RUS_ip_next_support = 25 }
+	subtract_from_variable = { RUS_ip_next_support = RUS_ip_next_settlement }
+	clamp_variable = { var = RUS_ip_next_support min = 0 max = 99999 }
+	add_to_variable = { RUS_ip_next_settlement = RUS_ip_next_support }
+	set_variable = { RUS_ip_next_balance = RUS_ip_funds }
+	add_to_variable = { RUS_ip_next_balance = RUS_ip_next_settlement }
 }
 
 RUS_ip_speeds = {

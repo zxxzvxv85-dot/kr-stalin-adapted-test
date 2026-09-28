@@ -65,6 +65,8 @@ refresh / supply_refresh 仅重算派生值及原生修正，不生产、发车�
 
 资金初始 1000；每 30 天结算累计经营净额与 100 拨款，合计不足 25 时应急补足，上期补助单列。与农业、经济盈余、旧一五计划不兑换。
 
+cargo_totals 只刷新显示预估：projected_operating 为各区当前 net_month 合计；projected_settlement 加 100 拨款与补至 25 的 projected_support。next_settlement 使用 budget_net 加当前日净额乘 budget_next，再应用同样的拨款与补助规则；next_balance 为现款加该预估。以上变量不写资金账本，不推进预算日。顶部及资金悬浮提示同时列经营净额与实际含补助变动；未启动和结束状态不宣称将来会结算。
+
 - 资金：funds = 1000 − funds_spent + funds_refunded + funds_settled。
 - 每种材料：produced = 所有 stock + 所有 in/out 批次 + consumed + lost。
 
@@ -113,6 +115,12 @@ routes() 按 KR 邻接与固定地图距离计算莫斯科至各区的规划路�
 原生依据：游戏 documentation 下 dynamic_variables_documentation.md、effects_documentation.md、triggers_documentation.md；KR common/scripted_effects/00_wiki_scripted_effects.txt 的 state_population_k；原版 common/dynamic_modifiers/TAOG_dynamic_modifiers.txt 的资源成本与民工占用；KR common/decisions/01 KMT decisions.txt 的采矿、建筑、铁路；KR common/buildings/00_buildings.txt 的强化电网；KR interface/kaiserreich/gui_mitteleuropa.gui 的 iconType/pdx_tooltip。原生名称与效果由引擎及现有汉化显示。
 
 ## 验证边界
+
+页面卡片背景必须使用受 `_visible` 控制的 `iconType`，通过专用 `corneredTileSpriteType` 复用原版九宫格边框。不能给嵌套 `containerWindowType` 写页面 `_visible` 来隐藏背景：实机出现过地图页与仓储页互相残留四个空框。参考 KR 的 `interface/kaiserreich/gui_china.gfx` 中 `GFX_party_banned_overlay` 与 `gui_china.gui` / `01 chinese scripted guis.txt` 中 `UPC_party_ban_bg`。布局预览会拒绝该错误结构，但不替代引擎验收。
+
+地图用无背景、`clipping=yes` 的固定视口裁去顶端 `northern_map_limit_y` 非地理斜纹区；`ip_map` 图标自己受页面显隐控制。嵌套图标引用参考 KR 开局介绍的 `country_intro_page_indicator_box`。删去边界标签，不重画底图或改地区坐标，保留登记美术与 120 张贴图哈希。
+
+工程悬浮提示显式绑定 `pdx_tooltip` → `RUS_ip_build_*_hover` → `[!ip_build_*_click]`，参考 KR 的 `st manager l_english.yml`、对应简中汉化和 `00_st_state_transfer.txt`。先显示自定义完工收益，再用 `effect_tooltip` 预览实际原生奖励，最后显示成本与工期；真实开工操作仍在 `hidden_effect` 内。公共设施、培训不伪造原生建筑。标签和图标保持鼠标穿透，避免遮挡整个按钮热区；本地化外层键与内层说明分离，禁止循环展开。
 
 施工回归显式注入测试库存以独立验证原有建设规则；真实开局测试验证初始空仓。新增回归覆盖聚合、资金和材料守恒、生产上限、公平额度、发车/到货、断路、目的地失守、拥堵、取消防重、战时先后、预算周期和期满。不得把测试注入库存误写成免费起始奖励。
 
