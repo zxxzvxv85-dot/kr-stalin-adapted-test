@@ -45,9 +45,13 @@ def nine_slice(source, size, border):
     return result
 
 
-def render(finished=False, help_page=False, idle=False):
+def render(finished=False, help_page=False, idle=False, supply_page=False):
     state=fixture();call(state,'open_effect')
     call(state,'start')
+    if not idle:
+        for resource in ('steel','coal'):
+            for c in DATA['cells']:put(state,f'n{c["id"]}_stock_{resource}',15)
+            put(state,'produced_'+resource,15*len(DATA['cells']))
     for i,kind in ([] if idle else [(5,5),(16,1),(4,2),(2,4),(3,3)]):
         select(state,i);call(state,f'build_{kind}')
     select(state,5)
@@ -56,6 +60,7 @@ def render(finished=False, help_page=False, idle=False):
     if finished:
         put(state,'days_left',1);call(state,'daily')
     if help_page:call(state,'toggle_help')
+    if supply_page:call(state,'toggle_supply')
     loc={}
     for root in [CN/'localisation',ROOT/'localisation/simp_chinese']:
         for path in root.rglob('*.yml'):
@@ -147,10 +152,10 @@ def render(finished=False, help_page=False, idle=False):
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');parser.add_argument('--idle',action='store_true');args=parser.parse_args()
-    image,issues=render(args.finished,args.help_page,args.idle)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');parser.add_argument('--idle',action='store_true');parser.add_argument('--supply-page',action='store_true');args=parser.parse_args()
+    image,issues=render(args.finished,args.help_page,args.idle,args.supply_page)
     folder=ROOT/'output/industrial_planning';folder.mkdir(parents=True,exist_ok=True)
-    path=folder/('help.png' if args.help_page else 'finished.png' if args.finished else 'idle.png' if args.idle else 'preview.png');image.save(path)
+    path=folder/('supply.png' if args.supply_page else 'help.png' if args.help_page else 'finished.png' if args.finished else 'idle.png' if args.idle else 'preview.png');image.save(path)
     (folder/(path.stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(str(path));print(f'Text height warnings (approximate font): {len(issues)}')
 

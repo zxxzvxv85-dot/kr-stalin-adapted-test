@@ -21,11 +21,12 @@ TR={n.k:n.v for n in parse((ROOT/'common/scripted_triggers/RUS_industrial_planni
 
 def fixture(unlocked=True):
     ids={c['state'] for c in DATA['cells']}
-    return dict(tag='RUS',ai=False,vars={'RUS_first_five_year_plan_score':37,'political_power':200},flags={'RUS_ip_ui_unlocked'} if unlocked else set(),
+    all_ids={i for c in DATA['cells'] for i in c['states']}
+    return dict(tag='RUS',ai=False,war=False,opening_funds=1000,vars={'RUS_first_five_year_plan_score':37,'political_power':200},flags={'RUS_ip_ui_unlocked'} if unlocked else set(),
                 owned=set(ids),controlled=set(ids),connected=set(ids),convoys=20,energy=1,civs=40,steel=100,coal=100,
                 applied={'civs':0,'steel':0,'coal':0},modifier=False,extraction_modifier=False,extraction=0,rewards=[],commands=0,scope=None,
                 states={i:dict(infrastructure=2,industrial_complex=2,arms_factory=1,energy_infrastructure=0,
-                               naval_base=1,rail_way=1,slots=20,coal=8,steel=8,state_population_k=4800) for i in ids})
+                               naval_base=1,rail_way=1,slots=20,coal=8,steel=8,state_population_k=4800) for i in all_ids})
 
 
 def value(s,v):
@@ -56,6 +57,7 @@ def check(nodes,s):
         if k=='always':return v=='yes'
         if k=='original_tag':return s['tag']==v
         if k=='is_ai':return s['ai']==(v=='yes')
+        if k=='has_war':return s['war']==(v=='yes')
         if k=='has_country_flag':return v in s['flags']
         if k=='has_dynamic_modifier':return s['extraction_modifier'] if n.value('modifier')=='RUS_ip_extraction_bottleneck' else s['modifier']
         if k=='owns_state':return int(v) in s['owned']
@@ -134,8 +136,16 @@ def call(s,name):run(FX['RUS_ip_'+name],s)
 def v(s,name):return value(s,'RUS_ip_'+name)
 def put(s,name,number):s['vars']['RUS_ip_'+name]=number
 def select(s,i):put(s,'selected',i);s['flags'].discard('RUS_ip_cancel_armed');call(s,'refresh')
-def started():
-    s=fixture();call(s,'open_effect');call(s,'start');return s
+def supply_fixture(s):
+    """Pre-stock older construction-only scenarios; real-start tests stay empty."""
+    s['opening_funds']=10000;put(s,'funds',10000)
+    for r in ('steel','coal'):
+        for c in DATA['cells']:put(s,f'n{c["id"]}_stock_{r}',10)
+        put(s,'produced_'+r,10*len(DATA['cells']))
+    call(s,'refresh');return s
+def started(supplied=True):
+    s=fixture();call(s,'open_effect');call(s,'start')
+    return supply_fixture(s) if supplied else s
 def finish(s,i):
     put(s,f'n{i}_work',v(s,f'n{i}_required')-.01);call(s,'daily')
 def invariant(s):
@@ -154,6 +164,12 @@ def invariant(s):
         assert v(s,n+'power_export')<=max(0,v(s,n+'local_power')-v(s,n+'power_need'))+1e-7,'Re-exported borrowed power'
         imported+=v(s,n+'power_import');exported+=v(s,n+'power_export')
     assert math.isclose(imported,exported,abs_tol=1e-7),'Power created by transport'
+    assert v(s,'funds')>=-1e-7
+    assert math.isclose(v(s,'funds'),s['opening_funds']-v(s,'funds_spent')+v(s,'funds_refunded')+v(s,'funds_settled'),abs_tol=1e-5),'Cash conservation'
+    for r in ('steel','coal'):
+        stored=sum(v(s,f'n{c["id"]}_{kind}_{r}') for c in DATA['cells'] for kind in ('stock','in','out'))
+        assert all(v(s,f'n{c["id"]}_{kind}_{r}')>=-1e-7 for c in DATA['cells'] for kind in ('stock','in','out'))
+        assert math.isclose(v(s,'produced_'+r),stored+v(s,'consumed_'+r)+v(s,'lost_'+r),abs_tol=1e-5),('Material conservation',r,v(s,'produced_'+r),stored,v(s,'consumed_'+r),v(s,'lost_'+r))
 
 
 def regional_tests():
@@ -161,7 +177,7 @@ def regional_tests():
     # Seeded native geography differentiates mature and frontier districts.
     q=fixture();frontier=DATA['cells'][16]['state']
     q['states'][frontier].update(state_population_k=90,infrastructure=0,industrial_complex=0,arms_factory=0,rail_way=0)
-    call(q,'open_effect');call(q,'start');select(q,16)
+    call(q,'open_effect');call(q,'start');supply_fixture(q);select(q,16)
     initial=v(q,'n16_development');assert initial<20<v(q,'n5_development')
     call(q,'build_5');assert v(q,'n16_project')==0
     call(q,'build_1');assert v(q,'n16_project')==1
@@ -216,7 +232,7 @@ def regional_tests():
     q=started();select(q,5);q['states'][219].update(coal=0,steel=0,energy_infrastructure=0);call(q,'refresh')
     remote=v(q,'forecast_5_days')
     q['states'][219].update(coal=30,steel=30,energy_infrastructure=1);call(q,'refresh')
-    assert v(q,'forecast_5_days')<remote*.8
+    assert v(q,'forecast_5_days')<remote and v(q,'forecast_5_bottleneck')==0
     # Supporting work remains viable under severe regional shortages.
     for kind in (3,6,7,8):
         q=started();select(q,5);q['states'][219].update(state_population_k=0,industrial_complex=12,arms_factory=20,infrastructure=0,slots=60)
@@ -265,11 +281,11 @@ def tests():
         other=fixture();other['tag']=tag;other['ai']=ai;call(other,'open_effect');call(other,'start')
         assert 'RUS_ip_economy_initialized' not in other['flags'];assert not other['rewards'];scenarios+=1
     for kind in PROJECTS:
-        for failure in ['none','cash','steel','coal','control','owned','slots','closed','inactive','occupied']:
+        for failure in ['none','civs','funds','control','owned','slots','closed','inactive','occupied']:
             q=started();i=next(c['id'] for c in DATA['cells'] if kind>2 or c['coal' if kind==1 else 'iron'])
             select(q,i);sid=DATA['cells'][i]['state']
-            if failure=='cash':put(q,'capacity_civs',0)
-            if failure in ('steel','coal'):put(q,'capacity_'+failure,0)
+            if failure=='civs':put(q,'capacity_civs',0)
+            if failure=='funds':put(q,'funds',0);q['opening_funds']=0
             if failure=='control':q['controlled'].discard(sid)
             if failure=='owned':q['owned'].discard(sid)
             if failure=='slots':
@@ -279,7 +295,7 @@ def tests():
             if failure=='inactive':q['flags'].discard('RUS_ip_active')
             if failure=='occupied':put(q,f'n{i}_project',3);put(q,f'n{i}_required',180)
             call(q,f'build_{kind}')
-            if failure=='none' or (failure in ('steel','coal') and PROJECTS[kind][failure]==0):
+            if failure=='none':
                 assert v(q,f'n{i}_project')==kind,(kind,failure)
                 assert not q['rewards'];old=v(q,f'n{i}_required');call(q,'refresh');assert v(q,f'n{i}_work')==0
                 finish(q,i);assert v(q,'completed')==1 and (q['rewards'] or kind in (7,8))
@@ -299,18 +315,18 @@ def tests():
     assert v(q,'queued')==1 and v(q,'reserved_civs')==5 and v(q,'free_civs')==0;scenarios+=1
     # Pauses release all commitments, retain work, and cannot be used as a refund.
     q=started();select(q,5);call(q,'build_5');call(q,'daily');progress=v(q,'n5_work')
-    call(q,'pause');assert not q['modifier'];call(q,'daily');assert v(q,'n5_work')==progress
+    call(q,'pause');assert v(q,'reserved_civs')==0;call(q,'daily');assert v(q,'n5_work')==progress
     call(q,'pause');call(q,'daily');assert v(q,'n5_work')>progress
     call(q,'cancel');assert v(q,'n5_project')==5
-    q['flags'].add('RUS_ip_cancel_armed');call(q,'cancel');assert v(q,'queued')==0 and not q['modifier'] and not q['rewards'];scenarios+=4
+    q['flags'].add('RUS_ip_cancel_armed');call(q,'cancel');assert v(q,'queued')==0 and v(q,'reserved_civs')==0 and not q['rewards'];scenarios+=4
     # Ownership / slot loss / severed rail pause existing work and release it.
-    for reason in ['territory','slots','rail','civs','steel','coal']:
+    for reason in ['territory','slots','rail','civs']:
         q=started();select(q,5);call(q,'build_4');call(q,'daily');progress=v(q,'n5_work');sid=219
         if reason=='territory':q['controlled'].discard(sid)
         if reason=='slots':q['states'][sid]['slots']=3
         if reason=='rail':q['controlled'].discard(219) # losing the Moscow hub breaks all industrial connections
         if reason in ('civs','steel','coal'):q[reason]=0
-        call(q,'daily');assert v(q,'n5_work')==progress and not q['modifier'],reason
+        call(q,'daily');assert v(q,'n5_work')==progress and v(q,'reserved_civs')==0,reason
         invariant(q);scenarios+=1
     # Local factors increase speed; power and freight shortages reduce it.
     q=started();select(q,5);call(q,'build_5');slow=v(q,'n5_speed')
@@ -385,7 +401,9 @@ def tests():
         for p in (ROOT/folder).glob('*industrial_planning*'):
             assert set(walk(parse(p.read_text(encoding='utf-8')))) <= FX.keys() | TR.keys(),p
     scenarios+=regional_tests()
-    print(f'PASS: {scenarios} construction scenarios; regional development, finite labour/power/freight, neighbour conservation, forecasts, real reservations, daily progress, one-time completion, deadline and old-plan isolation. Not an HOI4 runtime test.')
+    from test_industrial_planning_supply import supply_tests
+    scenarios+=supply_tests()
+    print(f'PASS: {scenarios} construction / finance / freight scenarios; aggregation, cash and material conservation, finite capacities, forecasts, daily progress, one-time completion, deadline and old-plan isolation. Not an HOI4 runtime test.')
 
 
 if __name__=='__main__':tests()

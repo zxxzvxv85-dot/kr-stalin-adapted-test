@@ -8,6 +8,7 @@ import argparse
 import json
 from pathlib import Path
 from industrial_planning_economy import P, PROJECTS, block, setv, add, cv, iff, rail_spec, render_economy
+from industrial_planning_supply_ui import SUPPLY_ICONS, localisation as supply_localisation, widgets as supply_widgets
 
 ROOT = Path(__file__).resolve().parents[1]
 LANGS = ('simp_chinese', 'english', 'russian')
@@ -34,7 +35,7 @@ def render_outputs():
     L('active','剩余 §Y[?RUS_ip_days_left|0]§! 天','§Y[?RUS_ip_days_left|0]§! days remaining')
     L('ended','§Y本期建设计划已结束§!','§YConstruction programme concluded§!')
     L('network','接通莫斯科 [?RUS_ip_connected_count|0] / 36 区   |   全国供电满足率 [?RUS_ip_energy_percent|0]%   |   施工 [?RUS_ip_running|0] / 排队 [?RUS_ip_queued|0]','Linked to Moscow [?RUS_ip_connected_count|0] / 36  |  Power [?RUS_ip_energy_percent|0]%  |  Working [?RUS_ip_running|0] / queued [?RUS_ip_queued|0]')
-    L('capacity','可用于新工程：民工 §Y[?RUS_ip_free_civs|0]§!   钢 §Y[?RUS_ip_free_steel|0]§!   煤 §Y[?RUS_ip_free_coal|0]§!','Available: civs §Y[?RUS_ip_free_civs|0]§!  steel §Y[?RUS_ip_free_steel|0]§!  coal §Y[?RUS_ip_free_coal|0]§!')
+    L('capacity','可用民工 §Y[?RUS_ip_free_civs|0]§!   |   物资入库占用：钢 [?RUS_ip_reserved_steel|1] / 煤 [?RUS_ip_reserved_coal|1]','Available civs §Y[?RUS_ip_free_civs|0]§!  |  Stock production: ST [?RUS_ip_reserved_steel|1] / CO [?RUS_ip_reserved_coal|1]')
     L('footnote','每区可同时安排一项工程。已竣工的工厂与资源保留在地图上。','One queued project per district. Completed buildings and resources remain on the world map.')
     L('selected','[GetRUSIPDistrict]','[GetRUSIPDistrict]')
     L('detail','基础设施 [?RUS_ip_sel_infra|0]   民工 [?RUS_ip_sel_civs|0]   军工 [?RUS_ip_sel_mil|0]\n煤 [?RUS_ip_sel_coal|0]   钢 [?RUS_ip_sel_steel|0]   电网 [?RUS_ip_sel_grid|0]\n铁路 [?RUS_ip_sel_rail|0] 级   [GetRUSIPConnection]\n当地运力 [?RUS_ip_sel_freight|1]','Infrastructure [?RUS_ip_sel_infra|0]  Civs [?RUS_ip_sel_civs|0]  Arms [?RUS_ip_sel_mil|0]\nCoal [?RUS_ip_sel_coal|0]  Steel [?RUS_ip_sel_steel|0]  Grid [?RUS_ip_sel_grid|0]\nRail level [?RUS_ip_sel_rail|0]  [GetRUSIPConnection]\nLocal freight [?RUS_ip_sel_freight|1]')
@@ -42,7 +43,7 @@ def render_outputs():
     L('project','[GetRUSIPSelectedType]  ·  [GetRUSIPSelectedStatus]','[GetRUSIPSelectedType] · [GetRUSIPSelectedStatus]')
     L('progress','进度 [?RUS_ip_sel_percent|0]%   [GetRUSIPEstimate]\n当前速度：每日 [?RUS_ip_sel_speed|2] 工作量','Progress [?RUS_ip_sel_percent|0]%  [GetRUSIPEstimate]\nDaily work: [?RUS_ip_sel_speed|2]')
     L('eta','约 [?RUS_ip_sel_eta|0] 天','About [?RUS_ip_sel_eta|0] days'); L('eta_unknown','工期暂无法估计','Duration unavailable')
-    L('commitments','施工占用（全国）\n民工 [?RUS_ip_reserved_civs|0]   钢 [?RUS_ip_reserved_steel|0]   煤 [?RUS_ip_reserved_coal|0]\n暂停、取消或竣工后释放。','Construction commitments\nCivs [?RUS_ip_reserved_civs|0]  Steel [?RUS_ip_reserved_steel|0]  Coal [?RUS_ip_reserved_coal|0]\nReleased on pause, cancellation or completion.')
+    L('commitments','全国调拨\n施工占用民工 [?RUS_ip_reserved_civs|0]；暂停、取消或竣工释放。\n钢 [?RUS_ip_reserved_steel|1] / 煤 [?RUS_ip_reserved_coal|1] 为生产仓储物资时的原生资源占用，每日调整；自动仓储与经营会在无施工时继续。','National commitments\nConstruction reserves [?RUS_ip_reserved_civs|0] civs until pause, cancellation or completion.\nST [?RUS_ip_reserved_steel|1] / CO [?RUS_ip_reserved_coal|1] is native flow booked for warehouse production, updated daily even when no construction is queued.')
     L('construction_commitment','工业建设物资调拨','Industrial construction commitments')
     L('construction_commitment_desc','建设队伍与材料由国家计划委员会统一调拨。','The planning commission coordinates construction teams and material deliveries.')
     L('extraction_bottleneck','落后的资源开采体系','Outdated Resource Extraction')
@@ -57,7 +58,7 @@ def render_outputs():
     L('enable_gui_desc','以各地区实际的工业条件为基础，筹划矿业、能源、交通与制造业建设。','Plan mining, energy, transport and manufacturing around the actual conditions of each region.')
     L('enable_gui_tt','启用地图上的工业建设入口并打开界面。建设期将在窗口内点击“启动建设计划”后开始。','Unlock the industrial map button and open the window. The programme begins only after selecting Start programme inside it.')
     L('type_0','待安排','No project')
-    statuses=[(0,'空闲','Idle'),(1,'§G施工中§!','§GBuilding§!'),(2,'§R建设条件不符§!','§RSite unavailable§!'),(3,'§Y已暂停§!','§YPaused§!'),(4,'§R铁路未接通§!','§RRail disconnected§!'),(5,'§R等待工厂或物资§!','§RAwaiting capacity§!')]
+    statuses=[(0,'空闲','Idle'),(1,'§G施工中§!','§GBuilding§!'),(2,'§R建设条件不符§!','§RSite unavailable§!'),(3,'§Y已暂停§!','§YPaused§!'),(4,'§R铁路未接通§!','§RRail disconnected§!'),(5,'§R等待民工§!','§RAwaiting civs§!'),(6,'§Y等待物资到货§!','§YAwaiting materials§!')]
     for k,zh,en in statuses: L(f'status_{k}',zh,en)
     for k,s in PROJECTS.items():
         L(f'type_{k}',s['zh'],s['en']); L(f'build_{k}',s['zh'],s['en'])
@@ -66,59 +67,60 @@ def render_outputs():
         training=f'\n工业劳动力容量 +[?RUS_ip_forecast_{k}_training_gain|1]。' if k==8 else ''
         native_zh='\n竣工效果：' if k<=6 else ''
         native_en='\nOn completion:' if k<=6 else ''
-        L(f'build_{k}_tt',f'§Y{s["zh"]}§!\n施工持续占用 {s["civs"]} 座民工、{s["steel"]} 钢、{s["coal"]} 煤。\n地区需求：用工 {s["workers"]}、电力 {s["power"]}、基础运输 {s["freight"]}；外调材料另占运力。\n{requirement}\n发展度 +[?RUS_ip_forecast_{k}_gain|1]；同类工程收益递减。{training}\n空闲地区预计 [?RUS_ip_forecast_{k}_days|0] 天；瓶颈：[GetRUSIPForecast{k}]。\n估计随物资、相邻地区工程与领土条件变化。{native_zh}',f'§Y{s["en"]}§!\nReserves {s["civs"]} civs, {s["steel"]} steel, {s["coal"]} coal.\nLocal demand: {s["workers"]} labour, {s["power"]} power, {s["freight"]} freight, plus material imports.\n{requirement_en}\nDevelopment +[?RUS_ip_forecast_{k}_gain|1], diminishing for repeated projects.\nIdle-site estimate: [?RUS_ip_forecast_{k}_days|0] days. Bottleneck: [GetRUSIPForecast{k}].\nRechecked when national capacity or neighbouring projects change.{native_en}')
-        L(f'estimate_{k}',f'预计 [?RUS_ip_forecast_{k}_days|0] 天',f'~[?RUS_ip_forecast_{k}_days|0] days')
-        L(f'cost_{k}',f'民工 {s["civs"]} · 钢 {s["steel"]} · 煤 {s["coal"]}',f'{s["civs"]} CIV · {s["steel"]} ST · {s["coal"]} CO')
+        L(f'build_{k}_tt',f'§Y{s["zh"]}§!\n开工扣除 [?RUS_ip_forecast_{k}_cost|1] 计划资金，持续占用 {s["civs"]} 座民工。\n每日仓储需求：钢 {s["steel"]*.1:.2f}、煤 {s["coal"]*.1:.2f}；缺料按供给比例施工，无料等待。\n地区需求：用工 {s["workers"]}、电力 {s["power"]}、基础运输 {s["freight"]}；在途货物另占运力。\n{requirement}\n发展度 +[?RUS_ip_forecast_{k}_gain|1]；同类工程收益递减。{training}\n供料充足时约 [?RUS_ip_forecast_{k}_days|0] 天；瓶颈：[GetRUSIPForecast{k}]。\n估计不含待料与排队。{native_zh}',f'§Y{s["en"]}§!\nUpfront [?RUS_ip_forecast_{k}_cost|1] funds; reserves {s["civs"]} civs.\nDaily warehouse demand: ST {s["steel"]*.1:.2f}, CO {s["coal"]*.1:.2f}. Shortages slow or halt work.\nLocal demand: {s["workers"]} labour, {s["power"]} power, {s["freight"]} freight, plus cargo.\n{requirement_en}\nDevelopment +[?RUS_ip_forecast_{k}_gain|1], diminishing for repeated projects.\nSupplied estimate: [?RUS_ip_forecast_{k}_days|0] days. [GetRUSIPForecast{k}].\nExcludes waiting for materials and capacity.{native_en}')
+        L(f'estimate_{k}',f'资金 [?RUS_ip_forecast_{k}_cost|0] · [?RUS_ip_forecast_{k}_days|0] 天',f'[?RUS_ip_forecast_{k}_cost|0] funds · [?RUS_ip_forecast_{k}_days|0]d')
+        L(f'cost_{k}',f'资金 [?RUS_ip_forecast_{k}_cost|0] · 民工 {s["civs"]}',f'[?RUS_ip_forecast_{k}_cost|0] funds · {s["civs"]} CIV')
     for key,zh,en in [('start','启动建设计划','Start programme'),('refresh','刷新状态','Refresh'),('help','玩法介绍','How to play'),('back','返回地图','Back to map'),('pause','暂停／继续','Pause / resume'),('cancel','取消工程','Cancel project'),('confirm_cancel','确认取消','Confirm cancel')]: L(key,zh,en)
     L('start_tt','开始本期 1800 天建设计划，仅能启动一次。每完成一项煤矿或铁矿工程，恢复 2 个百分点的战略资源获取效率，累计 15 项后清除下述惩罚；建设期结束时清除剩余惩罚。','Begin this independent 1800-day programme once. Each completed coal or iron mine restores 2 percentage points of extraction efficiency; 15 mines clear the penalty. Any remaining penalty ends with the programme.')
     L('refresh_tt','重新核对领土、铁路与施工状态，不推进时间。全国可用建设物资每日更新。','Recheck territory, rail and work without advancing time. National capacity updates daily.')
-    L('pause_tt','暂停或恢复选中工程；暂停时释放占用的工厂和物资，保留进度。','Pause or resume. Paused work releases commitments and preserves progress.')
-    L('cancel_tt','再次确认后取消选中工程，清空施工进度并释放占用。已建成设施不受影响。','Confirm to discard this project progress and release commitments. Completed facilities remain.')
+    L('pause_tt','暂停或恢复选中工程；暂停释放民工、停止施工耗料并保留进度。地区工业与仓库仍照常经营。','Pause or resume. Releases project civs and stops its material use; local industry and warehousing continue.')
+    L('cancel_tt','确认取消后清空施工进度并释放民工，退还未完工部分所对应开工费的 75%。当前可退 [?RUS_ip_sel_refund|1] 资金；已消耗物资不退。','Confirm to release civs and discard progress. Refunds 75% of the uncompleted share of the upfront cost: [?RUS_ip_sel_refund|1] now. Consumed materials are not refunded.')
     L('help_title','工业建设 · 玩法介绍','Industrial construction · How to play')
     help_zh=[
         '§Y一、启动与选址§!\n先执行“启用工业建设界面（测试）”决议，再在窗口点击“启动建设计划”，开始独立的 1800 天建设期。圆点代表经济区，工程落在所示中心州；每区同时一项，可跨区并行。关闭窗口后工程继续。',
         '§Y二、真实建设与资源链§!\n启动时战略资源获取效率 −30%，每竣工一项煤矿或铁矿恢复 2 个百分点，15 项清除。煤矿产煤、铁矿产钢；电网降低工厂能耗，钢铁厂增加民工与钢，机械军工厂增加军工。具体收益见按钮原生提示。',
-        '§Y三、持续占用§!\n施工持续占用真实民工与煤钢资源。缺少领土、槽位、物资或铁路条件时工程暂停。暂停、取消、完工均释放占用。国家可用物资每日核对；短缺时按地区编号依次保障施工。可手动暂停工程来调整优先级。',
-        '§Y四、发展与工人§!\n发展度由中心州人口、基础设施和工业基础决定，范围 0—100；影响工期和培训收益。钢铁厂要求 20，机械军工厂要求 35。公共设施增加发展度、用工容量与运力；培训增加工业劳动力。同类工程的发展收益递减，反复采矿不能代替城市配套。',
-        '§Y五、电力与运输§!\n新工厂增加当地用工、供电和运输压力。电网提供地区电力；相邻已接通地区可调入余电，但两端都要有空余运力。地图亮线表示可用的规划调拨联系，不是逐省铁路。矿区就地建厂可减少材料运输压力；重工业仍须接通莫斯科。配套工程在短缺时保留最低施工速度。',
-        '§Y六、竣工与期限§!\n每天自动推进一次，完工后增加真实建筑或资源；每区两类矿业各可扩建三次。建设期结束时停止未完成工程、释放占用并清除剩余开采惩罚，保留竣工成果。本窗口独立运行，暂不改变旧一五计划任务、分数与结算奖励。',
+        '§Y三、资金与仓储§!\n初始资金 1000，开工扣费、施工占用真实民工并每日消耗仓库煤钢。地区原料生产占用原生资源，出库、到货不重复收费。每 30 天结算工业、矿业收入与维持费，并拨款 100；低于 25 时补足到 25。低发展区投入更贵，成熟民工区可反哺计划。',
+        '§Y四、经济区与劳动力§!\n统计全经济区内本国拥有且控制的州：人口、工厂、煤钢与电网累加，基础设施加权平均。发展度 0—100；钢铁厂要求 20、机械厂 35。公共设施提高发展、劳动力与运力，培训扩充劳动力。同类工程发展收益递减。实际竣工建筑仍落在中心州。',
+        '§Y五、自动物流与规划§!\n本地先供料；超过 21 天储备的余料发往莫斯科，总仓向缺料区补至 14 天。在途货物沿固定规划路线运输，拥堵延迟、断路暂停。可指定一个优先地区。电网与相邻余电支援仍保留，调电占运力；重工业必须接通莫斯科。仓库无料时，配套工程也会等待。',
+        '§Y六、战时与期满§!\n和平先供本区工业，开战后自动优先供给在建工程，不需要新增调车操作。计时与账本照常运行；取消或期满退回剩余开工费的 75%。期满清除原生占用与开采惩罚，保留完工资产并封存仓库。在“仓储与预算”查看明细。本原型尚未接管旧一五计划。',
     ]
     help_en=[
         '§Y1. Start and choose a site§!\nFirst take Enable Industrial Construction GUI (Test), then Start programme in this window for an independent 1800-day period. Work is delivered to the selected central state. One queued project per district, several districts at once. Closing the window does not stop work.',
         '§Y2. Real assets and supply chains§!\nStarting applies -30% extraction efficiency. Each completed coal or iron mine restores 2 percentage points; 15 clear it. Coal mines add coal, iron mines add steel; grids lower energy needs, steelworks add civs and steel, machine works add arms factories. See native reward tooltips.',
-        '§Y3. Commitments§!\nWork reserves real civilian factories, coal and steel. Invalid sites and shortages pause work. Pausing, cancelling or finishing releases commitments. Capacity updates daily; lower district numbers have priority during shortages. Pause projects to adjust priority.',
-        '§Y4. Development and workers§!\nDevelopment (0–100) starts from central-state population, infrastructure and factories; it improves work speed and training yields. Steelworks require 20, machinery 35. Public facilities develop settlements and increase labour and freight capacity. Training expands industrial labour. Repeated projects yield less development.',
-        '§Y5. Power and transport§!\nFactories increase local labour, power and freight demand. Grids supply local power. Connected neighbours share spare power using spare freight at both ends. Lines are planning links, not province-level rail routes. Local deposits reduce material shipping. Supporting projects retain a minimum work rate during shortages.',
-        '§Y6. Completion and deadline§!\nProgress advances once per day, delivering real buildings or resources. Each mine type allows three expansions. The deadline cancels unfinished work and releases commitments; completed assets remain. The original Five-Year Plan mission, score and rewards are unchanged.',
+        '§Y3. Funds and stock§!\nStart with 1000 funds. Projects charge upfront, reserve native civs and consume warehouse materials daily. Warehouse production alone books native resources. Every 30 days settle income and upkeep plus 100 appropriation, topped up to at least 25 net. Less developed sites cost more.',
+        '§Y4. Economic regions and workers§!\nSum population, factories, raw materials and grids in all owned AND controlled member states; infrastructure is weighted. Development is 0–100; steelworks need 20, machinery 35. Public facilities and training develop workforce and capacity. Completed buildings still go to the central state.',
+        '§Y5. Automatic freight and planning§!\nUse local stocks first. Export beyond 21 days to Moscow; the hub supplies up to 14 days. Fixed routes carry finite cargo; congestion delays and route cuts pause it. Select one priority district. Power sharing uses freight. Heavy industry needs Moscow access. No materials means no work.',
+        '§Y6. War and conclusion§!\nPeace favours local industry; war automatically favours current construction. Accounts and time continue. Cancellation or expiry refunds 75% of unused upfront cost. Expiry releases native commitments and the extraction penalty; finished assets remain and stocks freeze. The old Five-Year Plan is separate.',
     ]
     for idx,(zh,en) in enumerate(zip(help_zh,help_en)): L(f'help_{idx}',zh,en)
     definitions=[]
     def defined(name,branches):
         definitions.append(block('defined_text',f'name = {name}\n'+''.join(block('text',(block('trigger',c) if c else '')+f'localization_key = {k}\n') for c,k in branches)))
+    supply_localisation(L,defined,hub)
     metrics=[('development','发展度','Development','[?RUS_ip_sel_development|1] / 100'),
              ('workers','工业劳动力 · 供给／需求','Labour · supply / need','[?RUS_ip_sel_workers|1] / [?RUS_ip_sel_workers_need|1]'),
              ('power','地区电力 · 可用／需求','Power · available / need','[?RUS_ip_sel_power|1] / [?RUS_ip_sel_power_need|1]'),
              ('freight','运输负荷 · 使用／容量','Freight · load / capacity','[?RUS_ip_sel_freight_used|1] / [?RUS_ip_sel_freight|1]')]
     tips={
-        'development':('由中心州初始人口、基础设施和工厂播种，后续由工程积累。发展度提高施工速度与培训效果；钢铁厂要求 20，机械军工厂要求 35。公共设施提升最多；同类重复建设的增量递减。鼠标移到工程按钮查看预计工期与发展收益。','Seeded once from central-state population and industry. Improves work and training. Steelworks need 20, machinery 35. Public facilities yield the most development; repeated projects yield less.'),
+        'development':('由经济区初始人口、加权基础设施和每州工厂密度决定，后续由工程积累。发展度提高施工速度与培训效果、降低开工费并提高经营收入；钢铁厂要求 20，机械军工厂要求 35。同类重复建设收益递减。','Seeded once from regional population, weighted infrastructure and industry per state. Improves work, training and income while reducing upfront costs. Steelworks need 20, machinery 35. Repeated projects yield less development.'),
         'workers':('工业劳动力容量点数，不扣征兵人力。现有民工、军工、矿业与施工共同占用；短缺会拖慢工程。建设公共设施、安排培训或提高发展度可缓解。公共设施 [?RUS_ip_sel_urban|0]/3，培训 [?RUS_ip_sel_training|0]/3。','Programme labour points, not recruitable manpower. Existing industry, mines and current work consume capacity. Public facilities, training and development improve it.'),
         'power':('用于本建设计划的地区供电能力，不改写全国原生电力市场。基础设施、煤炭条件与电网提供能力；工厂和施工增加需求。当前调入 [?RUS_ip_sel_power_import|1]、调出 [?RUS_ip_sel_power_export|1]。调拨只走陆上相邻可用联系，每点电力消耗两端各 0.5 运力；不能转手重复输出，也不跨海输电。','Programme power capacity. Infrastructure, coal and grids support it; factories and work consume it. Imports [?RUS_ip_sel_power_import|1], exports [?RUS_ip_sel_power_export|1]. Land neighbours only; each transferred point uses 0.5 freight at both endpoints. Imports cannot be re-exported.'),
-        'freight':('基础设施、铁路与公共设施增加容量；未接通莫斯科时容量为 60%。工厂、矿业、施工、外调材料和电力占用运力。本地煤钢减少材料运输需求，但不会减少全国实际物资占用。交通建设增加基础设施，内陆还会修建接驳铁路。','Infrastructure, rail and public facilities add capacity. Disconnected districts retain 60%. Industry, construction, material imports and power transfers use freight. Local deposits reduce shipping, not actual national resource costs.')}
+        'freight':('基础设施、铁路与公共设施增加容量；未接通莫斯科时容量为 60%。工厂、矿业、施工、在途物资和调电占用运力。货物沿途各区都计入负荷；拥堵时到货延迟，最低按正常速度的 5% 运输。新发车保留 10% 容量的应急通道，避免配套工程永远缺料。','Infrastructure, rail and facilities add capacity; disconnected regions retain 60%. Industry, work, power and cargo along the whole route use freight. Congestion slows arrivals, down to 5% speed. New dispatches retain a 10% emergency allowance to avoid supply deadlock.')}
     for key,zh,en,val in metrics:
         L('metric_'+key,zh+'\n§Y'+val+'§!',en+'\n§Y'+val+'§!')
         L('metric_'+key+'_tt','§Y'+zh+'§!\n'+tips[key][0],'§Y'+en+'§!\n'+tips[key][1])
-    for k,zh,en in [(0,'§G配套充足§!','§GSufficient capacity§!'),(1,'§R用工不足：安排培训或公共设施§!','§RLabour: train workers§!'),(2,'§R供电不足：建设电网或邻区调拨§!','§RPower: grid or neighbour support§!'),(3,'§R运输拥挤：完善交通或就近选址§!','§RFreight: improve transport§!')]:
+    for k,zh,en in [(0,'§G配套充足§!','§GSufficient capacity§!'),(1,'§R用工不足：安排培训或公共设施§!','§RLabour: train workers§!'),(2,'§R供电不足：建设电网或邻区调拨§!','§RPower: grid or neighbour support§!'),(3,'§R运输拥挤：完善交通或就近选址§!','§RFreight: improve transport§!'),(4,'§R仓储供料不足：查看仓储与预算§!','§RMaterials: see Supply / budget§!')]:
         L(f'bottleneck_{k}',zh,en)
     L('bottleneck','地区瓶颈：[GetRUSIPBottleneck]','Regional bottleneck: [GetRUSIPBottleneck]')
     L('idle_bottleneck','选择工程，悬浮查看工期与瓶颈预测。','Hover over a project for its work estimate and bottleneck.')
     L('site_summary','[GetRUSIPDistrict]  |  基建 [?RUS_ip_sel_infra|0] · 民工 [?RUS_ip_sel_civs|0] · 军工 [?RUS_ip_sel_mil|0]  |  [GetRUSIPConnection]','[GetRUSIPDistrict]  |  Infra [?RUS_ip_sel_infra|0] · Civs [?RUS_ip_sel_civs|0] · Arms [?RUS_ip_sel_mil|0]  |  [GetRUSIPConnection]')
     L('progress_compact','[GetRUSIPSelectedType] · [GetRUSIPSelectedStatus]  |  [?RUS_ip_sel_percent|0]% · [GetRUSIPEstimate]','[GetRUSIPSelectedType] · [GetRUSIPSelectedStatus]  |  [?RUS_ip_sel_percent|0]% · [GetRUSIPEstimate]')
-    defined('GetRUSIPBottleneck',[(cv('sel_project','=',0),P+'idle_bottleneck')]+[(cv('sel_bottleneck','=',k),P+f'bottleneck_{k}') for k in range(4)])
+    defined('GetRUSIPBottleneck',[(cv('sel_project','=',0),P+'idle_bottleneck')]+[(cv('sel_bottleneck','=',k),P+f'bottleneck_{k}') for k in range(5)])
     for kind in PROJECTS: defined(f'GetRUSIPForecast{kind}',[(cv(f'forecast_{kind}_bottleneck','=',k),P+f'bottleneck_{k}') for k in range(4)])
     defined('GetRUSIPPlanStatus',[('has_country_flag = RUS_ip_active',P+'active'),('has_country_flag = RUS_ip_ended',P+'ended'),('',P+'not_started')])
     defined('GetRUSIPSelectedType',[(cv('sel_project','=',k),P+f'type_{k}') for k in PROJECTS]+[('',P+'type_0')])
     defined('GetRUSIPSelectedStatus',[(cv('sel_status','=',k),P+f'status_{k}') for k,_,_ in statuses]+[('',P+'status_0')])
-    defined('GetRUSIPEstimate',[(cv('sel_running','=',1),P+'eta'),('',P+'eta_unknown')])
+    defined('GetRUSIPEstimate',[(cv('sel_speed','>',0),P+'eta'),('',P+'eta_unknown')])
     defined('GetRUSIPConnection',[(cv('sel_connected','=',1),P+'connected'),('',P+'disconnected')])
     defined('GetRUSIPExtractionStatus',[('NOT = { has_country_flag = RUS_ip_started }',P+'extraction_pending'),(cv('resource_penalty','<',0),P+'extraction_active'),('',P+'extraction_clear')])
     for c in cells:
@@ -133,7 +135,7 @@ def render_outputs():
         launcher_scripts.append(block('RUS_industrial_planning_launcher'+suffix,f'context_type = player_context\nparent_window_name = raid_filter\nwindow_name = "RUS_industrial_planning_launcher{suffix}"\nai_enabled = {{ always = no }}\n'+block('visible','RUS_ip_available = yes\n'+condition)+block('effects','ip_open_click = { hidden_effect = { RUS_ip_toggle = yes } }')))
     widgets=[]; gt={}; geffects=[]
     def visibility(name,condition='',page='board'):
-        base='NOT = { has_country_flag = RUS_ip_help_open }\n' if page=='board' else 'has_country_flag = RUS_ip_help_open\n' if page=='help' else ''
+        base='NOT = { has_country_flag = RUS_ip_help_open }\nNOT = { has_country_flag = RUS_ip_supply_open }\n' if page=='board' else f'has_country_flag = RUS_ip_{page}_open\n' if page in ('help','supply') else ''
         if base+condition: gt[name+'_visible']=base+condition
     def text(name,key,x,y,w,h=24,font='hoi_16mbs',center=False,condition='',page='board',tip=''):
         tooltip=f'pdx_tooltip = "{tip}" ' if tip else ''
@@ -147,9 +149,13 @@ def render_outputs():
         widgets.append(f'buttonType = {{ name = "{name}" position = {{ x = {x} y = {y} }} scale = {scale} quadTextureSprite = "{sprite}" buttonText = "{key}" buttonFont = "hoi_16mbs" {tooltip}{shortcut}clicksound = click_default }}\n')
         if enable: gt[name+'_click_enabled']=enable
         visibility(name,condition,page); geffects.append(block(name+'_click',preview+block('hidden_effect',action)))
+    def background(name,x,y,w,h,page='board'):
+        widgets.append(block('containerWindowType',f'name = "{name}"\nposition = {{ x = {x} y = {y} }}\nsize = {{ width = {w} height = {h} }}\nbackground = {{ name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }}\n'));visibility(name,page=page)
     text('ip_title',P+'title',24,16,1712,32,'hoi_24header',True,page='all')
     text('ip_summary',P+'summary',60,56,810,27,'hoi_20b',page='all')
-    text('ip_capacity',P+'capacity',920,56,790,27,'hoi_20b',tip=P+'commitments')
+    text('ip_capacity',P+'capacity',940,80,760,24,tip=P+'commitments')
+    icon('ip_funds_icon','GFX_RUS_ip_funds',900,56,SUPPLY_ICONS['funds'][1],page='all',tip=P+'funds_tt')
+    text('ip_funds',P+'funds_summary',944,57,750,27,tip=P+'funds_tt',page='all')
     mx,my,zoom=150,98,1.25; icon('ip_map','GFX_RUS_ip_map',mx,my,zoom)
     if data.get('northern_map_limit_y'):
         text('ip_map_northern_limit',P+'map_northern_limit',mx+430,my+12,600,24,center=True)
@@ -174,7 +180,8 @@ def render_outputs():
         widgets.append(block('containerWindowType',f'name = "ip_metric_bg_{key}"\nposition = {{ x = {x} y = 679 }}\nsize = {{ width = 326 height = 64 }}\nbackground = {{ name = "metric" quadTextureSprite = "GFX_tiled_research_bg" }}\n')); visibility('ip_metric_bg_'+key)
         icon('ip_metric_icon_'+key,'GFX_RUS_ip_metric_'+key,x+14,695,1.05*(.5 if key=='workers' else 1),tip=P+'metric_'+key+'_tt')
         text('ip_metric_'+key,P+'metric_'+key,x+60,692,258,44,tip=P+'metric_'+key+'_tt')
-    text('ip_bottleneck',P+'bottleneck',300,746,1160,24,center=True)
+    icon('ip_stock_icon','GFX_RUS_ip_warehouse',374,748,.64,tip=P+'warehouse_tt')
+    text('ip_stock',P+'stock_ribbon',409,746,1135,24,tip=P+'warehouse_tt')
     for k in PROJECTS:
         x,y=374+257*((k-1)%4),776+66*((k-1)//4)
         preview_rewards=[]
@@ -198,17 +205,19 @@ def render_outputs():
         text(f'ip_build_cost_{k}',P+f'cost_{k}',x+65,y+33,150,22,center=True,condition=cv('sel_project','>',0))
     text('ip_progress',P+'progress_compact',550,910,810,24)
     icon('ip_progressbar','GFX_RUS_ip_progress',242,911)
-    button('ip_pause',P+'pause',662,948,P+'pause_tt','RUS_ip_pause = yes','RUS_ip_editing = yes\n'+cv('sel_project','>',0))
-    button('ip_cancel',P+'cancel',799,948,P+'cancel_tt','set_country_flag = RUS_ip_cancel_armed\n'+add('dirty',1),cv('sel_project','>',0),condition='NOT = { has_country_flag = RUS_ip_cancel_armed }')
-    button('ip_cancel_confirm',P+'confirm_cancel',799,948,P+'cancel_tt','RUS_ip_cancel = yes',condition='has_country_flag = RUS_ip_cancel_armed')
-    button('ip_refresh',P+'refresh',936,948,P+'refresh_tt','RUS_ip_refresh = yes')
+    button('ip_pause',P+'pause',525,948,P+'pause_tt','RUS_ip_pause = yes','RUS_ip_editing = yes\n'+cv('sel_project','>',0))
+    button('ip_cancel',P+'cancel',662,948,P+'cancel_tt','set_country_flag = RUS_ip_cancel_armed\n'+add('dirty',1),cv('sel_project','>',0),condition='NOT = { has_country_flag = RUS_ip_cancel_armed }')
+    button('ip_cancel_confirm',P+'confirm_cancel',662,948,P+'cancel_tt','RUS_ip_cancel = yes',condition='has_country_flag = RUS_ip_cancel_armed')
+    button('ip_refresh',P+'refresh',799,948,P+'refresh_tt','RUS_ip_refresh = yes')
+    button('ip_supply',P+'supply',936,948,'','RUS_ip_toggle_supply = yes')
     button('ip_help',P+'help',1073,948,'','RUS_ip_toggle_help = yes',page='board')
     button('ip_back',P+'back',818,948,'','RUS_ip_toggle_help = yes',page='help')
-    button('ip_start',P+'start',525,948,'','RUS_ip_start = yes',condition='NOT = { has_country_flag = RUS_ip_started }',
+    button('ip_start',P+'start',388,948,'','RUS_ip_start = yes',condition='NOT = { has_country_flag = RUS_ip_started }',
            preview='custom_effect_tooltip = RUS_ip_start_tt\neffect_tooltip = { add_dynamic_modifier = { modifier = RUS_ip_extraction_bottleneck } }\n')
     text('ip_help_title',P+'help_title',160,140,1440,36,'hoi_24header',True,page='help')
     for idx in range(6): text(f'ip_help_{idx}',P+f'help_{idx}',170+(730 if idx>=3 else 0),215+190*(idx%3),660,170,page='help')
     text('ip_extraction',P+'extraction',170,837,1400,24,page='help')
+    supply_widgets(text,icon,button,background)
     button('ip_close','',1714,9,'CLOSE','RUS_ip_close_effect = yes',sprite='GFX_closebutton',page='all')
     frame='name = "RUS_industrial_planning_window"\nposition = { x = -880 y = -500 }\nsize = { width = 1760 height = 1000 }\norientation = center\nmoveable = yes\nclick_to_front = yes\nshow_sound = menu_open_window\nhide_sound = menu_close_window\nbackground = { name = "frame" quadTextureSprite = "GFX_tiled_plain_bg" }\n'
     gui=block('guiTypes',''.join(launchers)+block('containerWindowType',frame+''.join(widgets)))
@@ -221,6 +230,8 @@ def render_outputs():
     for k,asset in ICONS.items():
         path='gfx/interface/ideas/generic_syndicalist_worker.png' if k==8 else f'gfx/interface/decisions/{asset}.dds'
         gfx.append(block('spriteType',f'name = "GFX_RUS_ip_facility_{k}"\ntexturefile = "{path}"\n'))
+    for key,(path,_) in SUPPLY_ICONS.items():
+        gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{key}"\ntexturefile = "{path}"\n'))
     for key,asset in [('development',ICONS[7]),('workers',ICONS[8]),('power',ICONS[3]),('freight',ICONS[6])]:
         path='gfx/interface/ideas/generic_syndicalist_worker.png' if key=='workers' else f'gfx/interface/decisions/{asset}.dds'
         gfx.append(block('spriteType',f'name = "GFX_RUS_ip_metric_{key}"\ntexturefile = "{path}"\n'))

@@ -21,12 +21,15 @@ def term(dst, src, factor):
 
 
 def seed(cells):
-    out = '# Seed once from the centre state; later refreshes never reset development.\n'
+    out = '# Seed once from the owned regional economy; later refreshes never reset development.\n'
     for c in cells:
-        n, state = f'n{c["id"]}_', c['state']
-        out += setv(n + 'development', f'{state}.state_population_k') + div(n + 'development', 400) + clamp(n + 'development', 0, 12)
-        for native, factor in [('infrastructure_level', 5), ('industrial_complex_level', 2), ('building_level@arms_factory', 2)]:
-            out += setv('region_term', f'{state}.{native}') + mul('region_term', factor) + add(n + 'development', P + 'region_term')
+        n = f'n{c["id"]}_'
+        out += setv(n + 'development', P+n+'pop_k') + div(n + 'development', 400) + clamp(n + 'development', 0, 12)
+        out += setv('region_members',P+n+'members')+clamp('region_members',1,999)
+        for key, factor in [('infra', 5), ('civs', 2), ('mil', 2)]:
+            out += setv('region_term', P+n+key)
+            if key in ('civs','mil'):out+=div('region_term',P+'region_members')
+            out += mul('region_term', factor) + add(n + 'development', P + 'region_term')
         out += add(n + 'development', 8) + clamp(n + 'development', 8, 70)
         for key in ('trained', 'urban', 'training', *(f'done_{k}' for k in PROJECTS)):
             out += setv(n + key, 0)
@@ -37,11 +40,7 @@ def demand(n, kind):
     """Same demand calculation is used by the live queue and its forecast."""
     s = PROJECTS[kind]
     out = add(n + 'workers_need', s['workers']) + add(n + 'power_need', s['power']) + add(n + 'freight_used', s['freight'])
-    # Native materials are reserved nationally; local deposits reduce the
-    # programme's shipping burden, never its actual resource cost.
-    for resource in ('steel', 'coal'):
-        out += setv('region_term', P + n + resource) + mul('region_term', -.25) + add('region_term', s[resource]) + clamp('region_term', 0, s[resource])
-        out += mul('region_term', .7) + add(n + 'freight_used', P + 'region_term')
+    # The actual finite cargo ledger accounts for imported materials separately.
     return out
 
 
@@ -95,7 +94,7 @@ def render_regions(data):
     effects = []; setup = ''
     for c in cells:
         i = c['id']; n = f'n{i}_'
-        setup += setv(n + 'population', f'{c["state"]}.state_population_k') + div(n + 'population', 300) + clamp(n + 'population', 0, 12)
+        setup += setv(n + 'population', P+n+'pop_k') + div(n + 'population', 300) + clamp(n + 'population', 0, 60)
         setup += setv(n + 'workers', 4) + add(n + 'workers', P + n + 'population') + term(n + 'workers', n + 'development', .18)
         setup += add(n + 'workers', P + n + 'trained') + term(n + 'workers', n + 'urban', 2)
         setup += setv(n + 'power', 3) + term(n + 'power', n + 'infra', .5) + term(n + 'power', n + 'grid', 8)
@@ -108,6 +107,8 @@ def render_regions(data):
             setup += setv(n + key, 0)
             for field, factor in factors: setup += term(n + key, n + field, factor)
             setup += setv(n + 'base_' + key, P + n + key)
+        setup += add(n+'freight_used',P+n+'delivery_load')
+        setup += add(n+'base_freight_used',P+n+'delivery_load')
         for kind in PROJECTS:
             setup += iff(cv(n + 'running', '=', 1) + cv(n + 'project', '=', kind), demand(n, kind))
         setup += setv(n + 'local_power', P + n + 'power') + setv(n + 'power_import', 0) + setv(n + 'power_export', 0)
@@ -163,7 +164,8 @@ def render_regions(data):
     effects.append(fx('regional_forecast_imports', imports))
     # An advisory for idle sites; unused neighbour capacity is read without
     # changing any queue, reservation, transfer ledger or persistent reward.
-    forecasts = cache
+    from industrial_planning_supply import price_forecasts
+    forecasts = cache + price_forecasts('preview_')
     for kind, spec in PROJECTS.items():
         forecasts += ''.join(setv('preview_' + key, P + 'preview_base_' + key) for key in ('workers_need', 'power_need', 'freight_used'))
         forecasts += setv('preview_power', P + 'preview_local_power') + demand('preview_', kind) + 'RUS_ip_regional_forecast_imports = yes\n'
