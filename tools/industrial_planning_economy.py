@@ -8,12 +8,14 @@ from __future__ import annotations
 P = 'RUS_ip_'
 # work days at speed 1, reserved civilian factories / steel / coal, freight demand
 PROJECTS = {
-    1: dict(days=120, civs=2, steel=2, coal=0, freight=1, zh='煤矿', en='Coal mine'),
-    2: dict(days=120, civs=2, steel=2, coal=1, freight=1, zh='铁矿', en='Iron mine'),
-    3: dict(days=180, civs=3, steel=4, coal=2, freight=1, zh='强化电网', en='Power grid'),
-    4: dict(days=240, civs=4, steel=4, coal=4, freight=2, zh='钢铁厂', en='Steelworks'),
-    5: dict(days=300, civs=5, steel=6, coal=2, freight=3, zh='机械军工厂', en='Machine works'),
-    6: dict(days=120, civs=2, steel=2, coal=1, freight=1, zh='交通建设', en='Transport'),
+    1: dict(days=120, civs=2, steel=2, coal=0, freight=1, workers=2, power=1, zh='煤矿', en='Coal mine'),
+    2: dict(days=120, civs=2, steel=2, coal=1, freight=1, workers=2, power=1, zh='铁矿', en='Iron mine'),
+    3: dict(days=180, civs=3, steel=4, coal=2, freight=1, workers=3, power=1, zh='强化电网', en='Power grid'),
+    4: dict(days=240, civs=4, steel=4, coal=4, freight=2, workers=5, power=5, zh='钢铁厂', en='Steelworks'),
+    5: dict(days=300, civs=5, steel=6, coal=2, freight=3, workers=6, power=6, zh='机械军工厂', en='Machine works'),
+    6: dict(days=120, civs=2, steel=2, coal=1, freight=1, workers=2, power=1, zh='交通建设', en='Transport'),
+    7: dict(days=100, civs=2, steel=1, coal=1, freight=1, workers=2, power=1, zh='公共设施', en='Public facilities'),
+    8: dict(days=90, civs=2, steel=0, coal=1, freight=.5, workers=1, power=.5, zh='工人培训', en='Worker training'),
 }
 
 
@@ -44,6 +46,7 @@ def rail_spec(a, b):
 
 
 def render_economy(data):
+    from industrial_planning_regions import METRICS, RATE_INPUTS, RATE_OUTPUTS, seed, completion, render_regions
     cells, hub = data['cells'], data['hub']
     sea = {tuple(edge) for edge in data['sea_edges']}
     sea_terminals = {b: a for a, b in sea}
@@ -62,7 +65,10 @@ def render_economy(data):
             elif kind in (3, 4, 5):
                 building = {3:'energy_infrastructure', 4:'industrial_complex', 5:'arms_factory'}[kind]
                 cond += block(str(state), f'free_building_slots = {{ building = {building} size > 0 include_locked = no }}\n')
-            else:
+                if kind in (4, 5): cond += ge(f'n{i}_development', 20 if kind == 4 else 35)
+            elif kind in (7, 8):
+                cond += cv(f'n{i}_{"urban" if kind == 7 else "training"}', '<', 3)
+            elif kind == 6:
                 cond += block(str(state), 'free_building_slots = { building = infrastructure size > 0 }\n')
                 if i != hub and i not in sea_terminals:
                     neighbors = []
@@ -99,7 +105,7 @@ def render_economy(data):
     for c in cells:
         for key in ('project', 'work', 'required', 'paused', 'running', 'mine_1', 'mine_2', 'last_kind'):
             init += setv(f'n{c["id"]}_{key}', 0)
-    init += 'RUS_ip_capture_capacity = yes\nRUS_ip_refresh = yes\n'
+    init += seed(cells) + 'RUS_ip_capture_capacity = yes\nRUS_ip_refresh = yes\n'
     effects.append(fx('initialize', iff('NOT = { has_country_flag = RUS_ip_economy_initialized }', init)))
     effects.append(fx('enable_gui', iff('original_tag = RUS\nis_ai = no\nNOT = { has_country_flag = RUS_ip_ui_unlocked }',
         'set_country_flag = RUS_ip_ui_unlocked\nRUS_ip_open_effect = yes\n')))
@@ -153,8 +159,6 @@ def render_economy(data):
     for c in cells:
         i = c['id']
         survey += iff(cv(f'n{i}_connected', '=', 1), add('connected_count', 1))
-        survey += setv(f'n{i}_freight', P + f'n{i}_infra') + add(f'n{i}_freight', P + f'n{i}_rail') + add(f'n{i}_freight', 1)
-        survey += iff(cv(f'n{i}_connected', '=', 0), mul(f'n{i}_freight', .25))
     effects.append(fx('survey', survey))
 
     # Only funded, unpaused projects occupy native factories and resources.
@@ -188,19 +192,14 @@ def render_economy(data):
                               'remove_dynamic_modifier = { modifier = RUS_ip_construction_commitment }\n'))
     apply += 'force_update_dynamic_modifier = yes\n'
     effects.append(fx('apply_reservations', apply))
+    effects.extend(render_regions(data))
 
     speeds = ''
     for c in cells:
         i = c['id']
-        body = setv(f'n{i}_speed', P + f'n{i}_infra') + mul(f'n{i}_speed', .12) + add(f'n{i}_speed', 1)
-        body += setv('speed_part', P + f'n{i}_civs') + clamp('speed_part', 0, 20) + mul('speed_part', .025) + add(f'n{i}_speed', P + 'speed_part')
-        for kind, spec in PROJECTS.items():
-            resource = 'coal' if kind in (1, 3) else 'steel'
-            part = setv('speed_part', P + f'n{i}_{resource}') + clamp('speed_part', 0, 40) + mul('speed_part', .005) + add(f'n{i}_speed', P + 'speed_part')
-            part += setv('speed_part', P + f'n{i}_freight') + div('speed_part', spec['freight']) + clamp('speed_part', .1, 1) + mul(f'n{i}_speed', P + 'speed_part')
-            if kind in (4, 5):
-                part += setv('speed_part', P + 'energy') + mul('speed_part', .75) + add('speed_part', .25) + mul(f'n{i}_speed', P + 'speed_part')
-            body += iff(cv(f'n{i}_project', '=', kind), part)
+        body = ''.join(setv('calc_' + key, P + f'n{i}_' + key) for key in RATE_INPUTS)
+        body += 'RUS_ip_regional_rate = yes\n'
+        body += ''.join(setv(f'n{i}_' + key, P + 'calc_' + key) for key in RATE_OUTPUTS)
         body += setv(f'n{i}_eta', P + f'n{i}_required') + sub(f'n{i}_eta', P + f'n{i}_work') + div(f'n{i}_eta', P + f'n{i}_speed')
         speeds += setv(f'n{i}_speed', 0) + setv(f'n{i}_eta', 0) + iff(cv(f'n{i}_running', '=', 1), body)
         speeds += setv(f'n{i}_percent', 0)
@@ -211,12 +210,12 @@ def render_economy(data):
     for c in cells:
         i = c['id']
         cache += iff(cv('selected', '=', i), ''.join(setv('sel_' + key, P + f'n{i}_{key}') for key in
-                         ('project', 'work', 'required', 'running', 'status', 'infra', 'civs', 'mil', 'coal', 'steel', 'grid', 'rail', 'connected', 'freight', 'speed', 'eta', 'percent', 'paused')))
+                         ('project', 'work', 'required', 'running', 'status', 'infra', 'civs', 'mil', 'coal', 'steel', 'grid', 'rail', 'connected', 'speed', 'eta', 'percent', 'paused', *METRICS)))
     # 21 frames are under the engine texture size limit; exact percent is text.
     cache += setv('progress_frame', P + 'sel_percent') + div('progress_frame', 5) + 'round_variable = RUS_ip_progress_frame\n' + add('progress_frame', 1) + clamp('progress_frame', 1, 21)
     cache += iff(cv('sel_project', '=', 0), 'clr_country_flag = RUS_ip_cancel_armed\n')
     effects.append(fx('selection_cache', cache))
-    effects.append(fx('refresh', 'RUS_ip_refresh_extraction = yes\nRUS_ip_survey = yes\nRUS_ip_allocate = yes\nRUS_ip_speeds = yes\nRUS_ip_apply_reservations = yes\nRUS_ip_selection_cache = yes\n' + add('dirty', 1)))
+    effects.append(fx('refresh', 'RUS_ip_refresh_extraction = yes\nRUS_ip_survey = yes\nRUS_ip_allocate = yes\nRUS_ip_regional_setup = yes\nRUS_ip_regional_trade = yes\nRUS_ip_speeds = yes\nRUS_ip_regional_forecasts = yes\nRUS_ip_apply_reservations = yes\nRUS_ip_selection_cache = yes\n' + add('dirty', 1)))
 
     rewards = {}
     for c in cells:
@@ -228,6 +227,7 @@ def render_economy(data):
             elif kind == 3: reward = block(str(state), 'add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }\n')
             elif kind == 4: reward = block(str(state), 'add_building_construction = { type = industrial_complex level = 1 instant_build = yes }\nadd_resource = { type = steel amount = 2 }\n')
             elif kind == 5: reward = block(str(state), 'add_building_construction = { type = arms_factory level = 1 instant_build = yes }\n')
+            elif kind in (7, 8): reward = ''  # Custom programme capacities; no invented native buildings.
             else:
                 reward = block(str(state), 'add_building_construction = { type = infrastructure level = 1 instant_build = yes }\n')
                 if i != hub and i not in sea_terminals:
@@ -235,13 +235,13 @@ def render_economy(data):
                         if tuple(sorted((i, j))) in sea: continue
                         reward += iff(cv(f'n{i}_anchor', '=', j + 1), block('build_railway', 'level = 1\n' + rail_spec(cells[j]['state'], state)))
             rewards[i, kind] = reward
-            completion = setv(f'n{i}_project', 0) + setv(f'n{i}_running', 0) + setv(f'n{i}_work', 0) + setv(f'n{i}_required', 0)
-            completion += setv(f'n{i}_last_kind', kind) + add('completed', 1)
-            if kind in (1, 2): completion += add(f'n{i}_mine_{kind}', 1) + add('mining_completed', 1) + clamp('mining_completed', 0, 15)
+            payout = setv(f'n{i}_project', 0) + setv(f'n{i}_running', 0) + setv(f'n{i}_work', 0) + setv(f'n{i}_required', 0)
+            payout += setv(f'n{i}_last_kind', kind) + add('completed', 1) + completion(f'n{i}_', kind)
+            if kind in (1, 2): payout += add(f'n{i}_mine_{kind}', 1) + add('mining_completed', 1) + clamp('mining_completed', 0, 15)
             # Clear the queue before awarding; GUI/refresh/reload never calls it.
-            completion += reward
+            payout += reward
             effects.append(fx(f'complete_{i}_{kind}', iff('has_country_flag = RUS_ip_active\n' + cv(f'n{i}_project', '=', kind)
-                           + cv(f'n{i}_running', '=', 1) + ge(f'n{i}_work', P + f'n{i}_required') + f'RUS_ip_site_{i}_{kind} = yes', completion)))
+                           + cv(f'n{i}_running', '=', 1) + ge(f'n{i}_work', P + f'n{i}_required') + f'RUS_ip_site_{i}_{kind} = yes', payout)))
 
     for kind, spec in PROJECTS.items():
         body = ''

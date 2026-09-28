@@ -11,6 +11,7 @@ import random
 import re
 from pathlib import Path
 from hoi4_politics_blocks import parse
+from industrial_planning_economy import PROJECTS
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=json.loads((ROOT/'tools/data/industrial_planning_map.json').read_text(encoding='utf-8'))
@@ -24,7 +25,7 @@ def fixture(unlocked=True):
                 owned=set(ids),controlled=set(ids),connected=set(ids),convoys=20,energy=1,civs=40,steel=100,coal=100,
                 applied={'civs':0,'steel':0,'coal':0},modifier=False,extraction_modifier=False,extraction=0,rewards=[],commands=0,scope=None,
                 states={i:dict(infrastructure=2,industrial_complex=2,arms_factory=1,energy_infrastructure=0,
-                               naval_base=1,rail_way=1,slots=20,coal=8,steel=8) for i in ids})
+                               naval_base=1,rail_way=1,slots=20,coal=8,steel=8,state_population_k=4800) for i in ids})
 
 
 def value(s,v):
@@ -145,6 +146,106 @@ def invariant(s):
     assert -.30001<=s['extraction']<=0
     assert s['vars']['RUS_first_five_year_plan_score']==37 and s['vars']['political_power']==200
     assert all(0<=v(s,f'n{c["id"]}_percent')<=100 for c in DATA['cells'])
+    imported=exported=0
+    for c in DATA['cells']:
+        n=f'n{c["id"]}_'
+        assert 0<=v(s,n+'development')<=100
+        assert v(s,n+'surplus')>=-1e-7 and v(s,n+'spare_freight')>=-1e-7
+        assert v(s,n+'power_export')<=max(0,v(s,n+'local_power')-v(s,n+'power_need'))+1e-7,'Re-exported borrowed power'
+        imported+=v(s,n+'power_import');exported+=v(s,n+'power_export')
+    assert math.isclose(imported,exported,abs_tol=1e-7),'Power created by transport'
+
+
+def regional_tests():
+    scenarios=0
+    # Seeded native geography differentiates mature and frontier districts.
+    q=fixture();frontier=DATA['cells'][16]['state']
+    q['states'][frontier].update(state_population_k=90,infrastructure=0,industrial_complex=0,arms_factory=0,rail_way=0)
+    call(q,'open_effect');call(q,'start');select(q,16)
+    initial=v(q,'n16_development');assert initial<20<v(q,'n5_development')
+    call(q,'build_5');assert v(q,'n16_project')==0
+    call(q,'build_1');assert v(q,'n16_project')==1
+    mine_time=v(q,'n16_eta');assert 0<mine_time<500
+    finish(q,16);mine_gain=v(q,'n16_development')-initial
+    call(q,'build_1');finish(q,16);assert math.isclose(v(q,'n16_development')-initial,1.5)
+    call(q,'build_1');finish(q,16);assert v(q,'n16_development')<20
+    before=v(q,'n16_development');call(q,'build_7');finish(q,16)
+    assert v(q,'n16_development')-before>mine_gain*5 and v(q,'n16_urban')==1
+    assert v(q,'n16_development')>=20
+    for _ in range(3):call(q,'refresh');call(q,'open_effect')
+    assert v(q,'n16_development')>before and v(q,'n16_urban')==1
+    scenarios+=8
+    # Paused/cancelled work grants neither development nor trained workers.
+    q=started();select(q,5);dev=v(q,'n5_development');workers=v(q,'n5_workers')
+    call(q,'build_8');call(q,'pause');call(q,'daily');assert v(q,'n5_development')==dev
+    q['flags'].add('RUS_ip_cancel_armed');call(q,'cancel');assert v(q,'n5_workers')==workers
+    previous_gain=None
+    for _ in range(3):
+        before=v(q,'n5_trained');call(q,'build_8');finish(q,5);increment=v(q,'n5_trained')-before
+        if previous_gain is not None:assert increment<previous_gain
+        previous_gain=increment
+    call(q,'build_8');assert v(q,'n5_project')==0 and v(q,'n5_training')==3
+    before=copy.deepcopy(q['vars']);call(q,'complete_5_8');assert q['vars']==before
+    put(q,'n5_development',99.8);call(q,'build_7');finish(q,5);assert v(q,'n5_development')==100
+    scenarios+=7
+    # A shared neighbour is finite: two recipients cannot spend its surplus twice.
+    q=started();a=5;neighbors=[j for j in DATA['cells'][a]['neighbors'] if j not in (28,31)][:2];assert len(neighbors)==2
+    for c in DATA['cells']:
+        q['states'][c['state']].update(industrial_complex=0,arms_factory=0,coal=0,steel=0,energy_infrastructure=0,infrastructure=4,rail_way=3)
+        put(q,f'n{c["id"]}_development',40)
+    q['states'][219]['energy_infrastructure']=1
+    # Only the chosen three nodes are permitted to exchange.
+    q['controlled']={219,*[DATA['cells'][j]['state'] for j in neighbors]}
+    for j in neighbors:
+        q['states'][DATA['cells'][j]['state']]['industrial_complex']=6
+        select(q,j);call(q,'build_5')
+    call(q,'refresh');invariant(q)
+    total=sum(v(q,f'n{j}_power_import') for j in neighbors)
+    assert total>0 and total<=v(q,'n5_local_power')+1e-7
+    recipient=neighbors[0];before=v(q,f'n{recipient}_speed')
+    q['controlled'].discard(219);call(q,'refresh')
+    assert v(q,f'n{recipient}_power_import')==0 and v(q,f'n{recipient}_running')==0
+    scenarios+=3
+    # Forecast of an idle site equals the queued speed when no other queue changes.
+    for kind in PROJECTS:
+        q=started();i=next(c['id'] for c in DATA['cells'] if kind>2 or c['coal' if kind==1 else 'iron'])
+        select(q,i);forecast=v(q,f'forecast_{kind}_days');call(q,f'build_{kind}')
+        assert math.isclose(forecast,v(q,f'n{i}_eta'),rel_tol=1e-8),(kind,forecast,v(q,f'n{i}_eta'))
+        scenarios+=1
+    # Placement matters; an electrified resource site outperforms a distant importer.
+    q=started();select(q,5);q['states'][219].update(coal=0,steel=0,energy_infrastructure=0);call(q,'refresh')
+    remote=v(q,'forecast_5_days')
+    q['states'][219].update(coal=30,steel=30,energy_infrastructure=1);call(q,'refresh')
+    assert v(q,'forecast_5_days')<remote*.8
+    # Supporting work remains viable under severe regional shortages.
+    for kind in (3,6,7,8):
+        q=started();select(q,5);q['states'][219].update(state_population_k=0,industrial_complex=12,arms_factory=20,infrastructure=0,slots=60)
+        put(q,'n5_development',8);call(q,f'build_{kind}');assert v(q,'n5_speed')>.3
+        scenarios+=1
+    # Same native output and time budget, different investment order. With
+    # constant inputs between completions, summing ceil(remaining / rate) is an
+    # exact analytical duration; finish() only exercises each completion guard.
+    def sequence_time(sequence):
+        s=started();s['controlled']={219};select(s,5);days=0
+        for kind in sequence:
+            call(s,f'build_{kind}');assert v(s,'n5_project')==kind
+            days+=math.ceil(v(s,'n5_eta'));finish(s,5)
+        return days,s
+    direct,a=sequence_time([5,5,5]);supported,b=sequence_time([3,5,5,5])
+    assert a['states'][219]['arms_factory']==b['states'][219]['arms_factory']==4
+    assert supported<direct*.75 and supported<1800,(direct,supported)
+    # Labour can independently bind: training improves work when power and
+    # freight are adequate. The same investment cannot substitute for rails.
+    q=started();q['controlled']={219};q['states'][219].update(state_population_k=0,industrial_complex=0,arms_factory=6,
+        infrastructure=4,rail_way=5,coal=100,steel=100,energy_infrastructure=1)
+    select(q,5);before=v(q,'forecast_5_days');assert v(q,'forecast_5_bottleneck')==1
+    call(q,'build_8');finish(q,5);assert v(q,'forecast_5_days')<before*.8
+    # Sea transport never invents a cable; state loss cannot keep an old flow.
+    q=started();q['states'][DATA['cells'][27]['state']]['energy_infrastructure']=1
+    q['states'][DATA['cells'][28]['state']]['industrial_complex']=8
+    call(q,'refresh');assert v(q,'edge_27_28_live')==1 and v(q,'edge_27_28_flow')==0
+    q['controlled'].discard(DATA['cells'][27]['state']);call(q,'refresh');assert v(q,'edge_27_28_live')==0
+    return scenarios+5
 
 
 def tests():
@@ -163,7 +264,7 @@ def tests():
     for tag,ai in [('FRA',False),('RUS',True)]:
         other=fixture();other['tag']=tag;other['ai']=ai;call(other,'open_effect');call(other,'start')
         assert 'RUS_ip_economy_initialized' not in other['flags'];assert not other['rewards'];scenarios+=1
-    for kind in range(1,7):
+    for kind in PROJECTS:
         for failure in ['none','cash','steel','coal','control','owned','slots','closed','inactive','occupied']:
             q=started();i=next(c['id'] for c in DATA['cells'] if kind>2 or c['coal' if kind==1 else 'iron'])
             select(q,i);sid=DATA['cells'][i]['state']
@@ -171,15 +272,17 @@ def tests():
             if failure in ('steel','coal'):put(q,'capacity_'+failure,0)
             if failure=='control':q['controlled'].discard(sid)
             if failure=='owned':q['owned'].discard(sid)
-            if failure=='slots':q['states'][sid].update(slots=0,infrastructure=5,energy_infrastructure=1);put(q,f'n{i}_mine_{kind}',3)
+            if failure=='slots':
+                q['states'][sid].update(slots=0,infrastructure=5,energy_infrastructure=1);put(q,f'n{i}_mine_{kind}',3)
+                put(q,f'n{i}_urban',3);put(q,f'n{i}_training',3)
             if failure=='closed':call(q,'close_effect')
             if failure=='inactive':q['flags'].discard('RUS_ip_active')
             if failure=='occupied':put(q,f'n{i}_project',3);put(q,f'n{i}_required',180)
             call(q,f'build_{kind}')
-            if failure=='none' or (failure=='coal' and kind==1):
+            if failure=='none' or (failure in ('steel','coal') and PROJECTS[kind][failure]==0):
                 assert v(q,f'n{i}_project')==kind,(kind,failure)
                 assert not q['rewards'];old=v(q,f'n{i}_required');call(q,'refresh');assert v(q,f'n{i}_work')==0
-                finish(q,i);assert v(q,'completed')==1 and q['rewards']
+                finish(q,i);assert v(q,'completed')==1 and (q['rewards'] or kind in (7,8))
                 rewards=copy.deepcopy(q['rewards']);call(q,'daily');call(q,'refresh');call(q,f'complete_{i}_{kind}')
                 assert q['rewards']==rewards,'Duplicate completion';assert v(q,f'n{i}_project')==0
             elif failure!='occupied':assert v(q,f'n{i}_project')==0,(kind,failure)
@@ -248,7 +351,7 @@ def tests():
     # Seeded interaction sequences cover allocator conservation and negative pools.
     rng=random.Random(219);q=started()
     for _ in range(140):
-        select(q,rng.randrange(36));kind=rng.randrange(1,7);call(q,f'build_{kind}')
+        select(q,rng.randrange(36));kind=rng.randrange(1,9);call(q,f'build_{kind}')
         if rng.random()<.3:call(q,'pause')
         if rng.random()<.2:q['flags'].add('RUS_ip_cancel_armed');call(q,'cancel')
         if rng.random()<.5:call(q,'daily')
@@ -281,7 +384,8 @@ def tests():
     for folder in ('common/scripted_effects','common/scripted_triggers','common/scripted_guis','common/on_actions'):
         for p in (ROOT/folder).glob('*industrial_planning*'):
             assert set(walk(parse(p.read_text(encoding='utf-8')))) <= FX.keys() | TR.keys(),p
-    print(f'PASS: {scenarios} construction scenarios; real reservations, daily progress, site/rail/slot loss, power/freight, one-time completion, deadline, country and old-plan isolation; localisation and geography. Not an HOI4 runtime test.')
+    scenarios+=regional_tests()
+    print(f'PASS: {scenarios} construction scenarios; regional development, finite labour/power/freight, neighbour conservation, forecasts, real reservations, daily progress, one-time completion, deadline and old-plan isolation. Not an HOI4 runtime test.')
 
 
 if __name__=='__main__':tests()

@@ -38,19 +38,20 @@ def nine_slice(source, size, border):
     dx=[0,border,dw-border,dw];dy=[0,border,dh-border,dh]
     for x in range(3):
         for y in range(3):
+            if dx[x+1]==dx[x] or dy[y+1]==dy[y]:continue
             piece=source.crop((sx[x],sy[y],sx[x+1],sy[y+1]))
             piece=piece.resize((dx[x+1]-dx[x],dy[y+1]-dy[y]))
             result.alpha_composite(piece,(dx[x],dy[y]))
     return result
 
 
-def render(finished=False, help_page=False):
+def render(finished=False, help_page=False, idle=False):
     state=fixture();call(state,'open_effect')
     call(state,'start')
-    for i,kind in [(5,5),(16,1),(4,2),(2,4),(3,3)]:
+    for i,kind in ([] if idle else [(5,5),(16,1),(4,2),(2,4),(3,3)]):
         select(state,i);call(state,f'build_{kind}')
     select(state,5)
-    put(state,'n5_work',118)
+    if not idle:put(state,'n5_work',118)
     call(state,'refresh')
     if finished:
         put(state,'days_left',1);call(state,'daily')
@@ -146,10 +147,10 @@ def render(finished=False, help_page=False):
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');args=parser.parse_args()
-    image,issues=render(args.finished,args.help_page)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');parser.add_argument('--idle',action='store_true');args=parser.parse_args()
+    image,issues=render(args.finished,args.help_page,args.idle)
     folder=ROOT/'output/industrial_planning';folder.mkdir(parents=True,exist_ok=True)
-    path=folder/('help.png' if args.help_page else 'finished.png' if args.finished else 'preview.png');image.save(path)
+    path=folder/('help.png' if args.help_page else 'finished.png' if args.finished else 'idle.png' if args.idle else 'preview.png');image.save(path)
     (folder/(path.stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(str(path));print(f'Text height warnings (approximate font): {len(issues)}')
 
