@@ -1,0 +1,11 @@
+# Called as [POL.GetRUSWarsawHeadOfGovernment] before the day-fourteen regime change.
+# Use KR's active head-of-government helper; its missing-advisor error string must
+# not leak into an event if the slot is vacant during a political transition.
+defined_text = {
+	name = GetRUSWarsawHeadOfGovernment
+	text = {
+		trigger = { any_character = { is_second_in_command = yes } }
+		localization_key = "[GetSecondInCommand]"
+	}
+	text = { localization_key = "[GetLeader]" }
+}
