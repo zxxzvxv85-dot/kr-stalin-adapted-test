@@ -1,0 +1,218 @@
+"""Build a data-derived Russian planning map; no runtime game files are edited.
+
+The raster is a diagram of installed KR state/province data, not generated art.
+Run explicitly with --write; ordinary text generation never redraws this map.
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import hashlib
+import json
+import os
+import re
+from collections import Counter, deque
+from pathlib import Path
+
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
+
+ROOT = Path(__file__).resolve().parents[1]
+KR = Path(os.environ.get('HOI4_KR_ROOT', ROOT.parent / '1521695605'))
+DATA = 'tools/data/industrial_planning_map.json'
+ASSETS = 'gfx/interface/RUS_industrial_planning'
+MAP_W, MAP_H = 816, 432
+# Economic catchments follow existing KR state boundaries. Dense western areas
+# are grouped around industrial centres; the sparsely settled east uses larger
+# river/transport catchments. Never partition the country into equal squares.
+DISTRICTS = [
+    (213,[213,722]), (215,[215,216]), (195,[195,208,209,210,263,264]),
+    (214,[214,351,397,262]), (242,[242,243,246,755,880]),
+    (219,[219,205,223,224,247,248,253,254]), (260,[220,222,240,257,258,260]),
+    (252,[244,252]), (249,[249,250,256]), (239,[239,255,401,265]),
+    (251,[251,652]), (217,[217,236,237]), (218,[218,245,238]),
+    (234,[1006,234,235]), (233,[232,233,787,961]),
+    (653,[398,399,400,653]), (572,[572,573,651,582]),
+    (403,[403,580]), (571,[571,583]), (570,[570,578]),
+    (569,[569,40,654]), (568,[568,576,516]), (811,[811,329]),
+    (566,[566,567,575,565]), (563,[563,564]), (574,[574,644]),
+    (657,[657,561]), (562,[562,560]), (637,[637]),
+    (409,[409]), (408,[408]), (577,[577]),
+    (581,[581,406,587]), (402,[402]), (404,[404,590,588,810]), (589,[589]),
+]
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def build():
+    states, palette, dependencies = {}, {}, {}
+    for path in sorted((KR / 'history/states').glob('*.txt')):
+        text = path.read_text(encoding='utf-8-sig')
+        owner = re.search(r'\bowner\s*=\s*(\w+)', text)
+        if not owner or owner[1] not in ('RUS', 'TRM'):
+            continue
+        sid = int(re.search(r'\bid\s*=\s*(\d+)', text)[1])
+        province_ids = list(map(int, re.findall(r'\d+', re.search(r'\bprovinces\s*=\s*\{([^}]+)', text)[1])))
+        resources = re.search(r'\bresources\s*=\s*\{([^}]+)', text)
+        resources = dict(re.findall(r'(\w+)\s*=\s*([\d.]+)', resources[1])) if resources else {}
+        states[sid] = dict(provinces=province_ids, owner=owner[1], coal=float(resources.get('coal', 0)), iron=float(resources.get('steel', 0)))
+        dependencies[path.relative_to(KR).as_posix()] = digest(path)
+    province_state = {p: s for s, values in states.items() for p in values['provinces']}
+    definition = KR / 'map/definition.csv'
+    for row in csv.reader(definition.read_text(encoding='utf-8-sig').splitlines(), delimiter=';'):
+        if len(row) >= 4 and row[0].isdigit() and int(row[0]) in province_state:
+            palette[tuple(map(int, row[1:4]))] = province_state[int(row[0])]
+    source = KR / 'map/provinces.bmp'
+    image = Image.open(source).convert('RGB').resize((2816, 1024), Image.Resampling.NEAREST)
+    state_map = Image.new('I', image.size)
+    state_map.putdata([palette.get(pixel, 0) for pixel in image.getdata()])
+    mask = Image.new('L', state_map.size)
+    mask.putdata([255 if value else 0 for value in state_map.getdata()])
+    occupied = [mask.crop((x,0,x+1,mask.height)).getbbox() is not None for x in range(mask.width)]
+    best = length = 0
+    cut = 0
+    for x, present in enumerate(occupied + occupied):
+        length = 0 if present else length + 1
+        if length > best:
+            best, cut = length, (x+1) % mask.width
+    # KR puts a small part of Chukotka across the horizontal map seam.
+    # Unwrap at the largest empty longitude interval before taking the crop.
+    for target in (state_map, mask):
+        shifted = Image.new(target.mode, target.size)
+        shifted.paste(target.crop((cut,0,target.width,target.height)),(0,0))
+        shifted.paste(target.crop((0,0,cut,target.height)),(target.width-cut,0))
+        target.paste(shifted)
+    bbox = mask.getbbox()
+    # Map geometry keeps its native aspect ratio. Padding is outside the country.
+    cropped = state_map.crop(bbox)
+    scale = min((MAP_W - 20) / cropped.width, (MAP_H - 20) / cropped.height)
+    fitted = cropped.resize((round(cropped.width * scale), round(cropped.height * scale)), Image.Resampling.NEAREST)
+    map_states = Image.new('I', (MAP_W, MAP_H))
+    map_states.paste(fitted, ((MAP_W-fitted.width)//2, (MAP_H-fitted.height)//2))
+    assigned=[sid for _,group in DISTRICTS for sid in group]
+    assert len(assigned)==len(set(assigned)) and set(assigned)==set(states), 'Review district definitions after KR changes'
+    group_of={sid:i for i,(_,group) in enumerate(DISTRICTS) for sid in group}
+    pixels=list(map_states.getdata())
+    groups=[group_of.get(s,-1) for s in pixels]
+    cells=[];edges=set();masks=[]
+    for i,(centre,group) in enumerate(DISTRICTS):
+        hits=[(index%MAP_W,index//MAP_W) for index,sid in enumerate(pixels) if sid==centre]
+        cx=sum(x for x,y in hits)/len(hits);cy=sum(y for x,y in hits)/len(hits)
+        m=Image.new('L',(MAP_W,MAP_H));m.putdata([255 if g==i else 0 for g in groups]);masks.append(m)
+        cells.append(dict(id=i,state=centre,states=group,x=round(cx),y=round(cy),geo_x=round(cx),geo_y=round(cy),
+                          coal=int(any(states[s]['coal']>0 for s in group)),iron=int(any(states[s]['iron']>0 for s in group)),bbox=m.getbbox()))
+    for index,g in enumerate(groups):
+        if g<0:continue
+        for other in ([index+1] if index%MAP_W<MAP_W-1 else [])+([index+MAP_W] if index//MAP_W<MAP_H-1 else []):
+            if groups[other]>=0 and groups[other]!=g:edges.add(tuple(sorted((g,groups[other]))))
+    # Two explicit maritime connections, rendered differently from land routes.
+    by_state={c['state']:c['id'] for c in cells}
+    sea_edges={tuple(sorted((by_state[a],by_state[b]))) for a,b in [(562,637),(409,577)]}
+    edges|=sea_edges
+    hub=by_state[219]
+    for c in cells:c['neighbors']=sorted(b if a==c['id'] else a for a,b in edges if c['id'] in (a,b))
+    # Marker callouts can move slightly to remain readable; borders never move.
+    for _ in range(120):
+        for i,a in enumerate(cells):
+            for b in cells[i+1:]:
+                dx,dy=b['x']-a['x'],b['y']-a['y']
+                if abs(dx)<45 and abs(dy)<43:
+                    if abs(dx)/45>abs(dy)/43:
+                        shift=(45-abs(dx))/2+0.1;sign=1 if dx>=0 else -1
+                        a['x']-=sign*shift;b['x']+=sign*shift
+                    else:
+                        shift=(43-abs(dy))/2+0.1;sign=1 if dy>=0 else -1
+                        a['y']-=sign*shift;b['y']+=sign*shift
+            a['x']=max(22,min(MAP_W-22,a['x']));a['y']=max(22,min(MAP_H-22,a['y']))
+    for c in cells:c['x']=round(c['x']);c['y']=round(c['y'])
+    paths = {hub:[hub]};queue = deque([hub])
+    while queue:
+        i = queue.popleft()
+        for j in cells[i]['neighbors']:
+            if j not in paths:paths[j]=paths[i]+[j];queue.append(j)
+    assert len(paths)==len(cells), 'Economic network has unreachable districts: '+str(set(range(len(cells)))-set(paths))
+    near = sorted(range(len(cells)), key=lambda i:(len(paths[i]),i))
+    # A playable seed with separate mines, power and processing, all in 1936 Russia.
+    starter = {hub:3}
+    for kind, potential in ((1,'coal'),(2,'iron'),(4,None),(5,None)):
+        options = [i for i in near if i not in starter and states[cells[i]['state']]['owner']=='RUS' and (not potential or cells[i][potential])]
+        assert options, (kind,potential)
+        starter[options[0]] = kind
+    rails = sorted({j for i in starter for j in paths[i]})
+    dependencies['map/definition.csv'] = digest(definition)
+    dependencies['map/provinces.bmp'] = digest(source)
+    data = dict(schema=2, width=MAP_W, height=MAP_H, marker_width=40, marker_height=38,
+                hub=hub, cells=cells, starter={str(k):v for k,v in starter.items()}, starter_rails=rails,
+                kr_dependencies=dependencies, source_crop=bbox, longitude_cut=cut,
+                sea_edges=sorted(sea_edges),edges=sorted(edges),
+                note='Economic districts follow KR states, with control checked at their named centre. Potential is for the exercise, not extra native resources. Moscow is the logistics hub.')
+    land = Image.new('L', map_states.size)
+    land.putdata([255 if value else 0 for value in map_states.getdata()])
+    board = Image.new('RGBA', (MAP_W, MAP_H), '#17262c')
+    draw = ImageDraw.Draw(board)
+    for x in range(0,MAP_W,22):draw.line((x,0,x,MAP_H),fill='#1c3036')
+    for y in range(0,MAP_H,22):draw.line((0,y,MAP_W,y),fill='#1c3036')
+    board.paste('#52615a',mask=land)
+    # Coastline first, grid district tint second. Six bands help orient the reader.
+    outline = ImageChops.subtract(land.filter(ImageFilter.MaxFilter(3)),land)
+    board.paste('#cbbf9b',mask=outline)
+    for c,m in zip(cells,masks):
+        tint=['#626d5a','#6d6b54','#646e68','#5e706d','#5b6873','#666178'][c['id']%6]
+        board.paste(tint,mask=m)
+        edge=ImageChops.subtract(m,m.filter(ImageFilter.MinFilter(3)))
+        board.paste('#c1b48b',mask=edge)
+        draw.line((c['geo_x'],c['geo_y'],c['x'],c['y']),fill='#d6ceb7',width=1)
+    board=board.convert('RGBA')
+    images={'map.png':board}
+    # UI diagrams are deterministic vector primitives, with button states in a strip.
+    for name, color in [('selected','#dfba62'),('offline','#bc594e'),('connected','#9cae80')]:
+        img=Image.new('RGBA',(40,38));d=ImageDraw.Draw(img)
+        d.rectangle((1,1,38,36),outline=color,width=3 if name=='selected' else 2)
+        images[name+'.png']=img
+    hit=Image.new('RGBA',(40*3,38))
+    d=ImageDraw.Draw(hit)
+    for frame,color in enumerate(['#1c2528','#454c43','#716040']):
+        d.rectangle((frame*40,0,frame*40+39,37),fill=color,outline='#aca27f',width=1)
+    images['cell_button.png']=hit
+    for c,m in zip(cells,masks):
+        edge=ImageChops.subtract(m.filter(ImageFilter.MaxFilter(5)),m.filter(ImageFilter.MinFilter(3)))
+        img=Image.new('RGBA',m.size);img.paste('#f1ce79',mask=edge)
+        images[f'region_{c["id"]}.png']=img.crop(c['bbox'])
+    data['edge_sprites']=[]
+    for a,b in sorted(edges):
+        x0,y0=cells[a]['x'],cells[a]['y'];x1,y1=cells[b]['x'],cells[b]['y']
+        left,top=min(x0,x1)-2,min(y0,y1)-2;w,h=abs(x1-x0)+5,abs(y1-y0)+5
+        img=Image.new('RGBA',(w,h));d=ImageDraw.Draw(img)
+        if (a,b) in sea_edges:
+            for segment in range(0,20,2):
+                t,u=segment/20,(segment+1)/20
+                d.line((x0+(x1-x0)*t-left,y0+(y1-y0)*t-top,x0+(x1-x0)*u-left,y0+(y1-y0)*u-top),fill='#87c5d2',width=2)
+        else:d.line((x0-left,y0-top,x1-left,y1-top),fill='#e5ce8f',width=2)
+        images[f'link_{a}_{b}.png']=img
+        data['edge_sprites'].append(dict(a=a,b=b,x=left,y=top,width=w,height=h,sea=(a,b) in sea_edges))
+    return data,images
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    mode=parser.add_mutually_exclusive_group();mode.add_argument('--write',action='store_true');mode.add_argument('--check',action='store_true')
+    parser.add_argument('--output-root',type=Path)
+    args=parser.parse_args()
+    if args.check and args.output_root:parser.error('--check cannot write --output-root')
+    out=args.output_root or ROOT
+    if not args.write and not args.output_root:
+        data=json.loads((ROOT/DATA).read_text(encoding='utf-8'))
+        bad=[p for p,h in data['kr_dependencies'].items() if not (KR/p).is_file() or digest(KR/p)!=h]
+        assert not bad, 'KR map dependencies changed; review before rebuilding: '+str(bad)
+        for p,h in data['asset_hashes'].items():assert digest(ROOT/ASSETS/p)==h,p
+        print(f"PASS map dependencies and {len(data['asset_hashes'])} asset hashes; {len(data['cells'])} districts")
+        return
+    data,images=build();folder=out/ASSETS;folder.mkdir(parents=True,exist_ok=True)
+    for name,img in images.items():img.save(folder/name)
+    data['asset_hashes']={name:digest(folder/name) for name in images}
+    p=out/DATA;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    print(f"Built {len(data['cells'])} districts, hub {data['hub']}, starter {data['starter']}; {folder}")
+
+
+if __name__=='__main__':main()
