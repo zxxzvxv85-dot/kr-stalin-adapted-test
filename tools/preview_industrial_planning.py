@@ -14,7 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 from hoi4_politics_blocks import parse
-from test_industrial_planning import ROOT, fixture, call, check
+from test_industrial_planning import ROOT, fixture, call, check, select, put, DATA
 
 GAME = Path(os.environ.get('HOI4_GAME_ROOT', ROOT.parents[3] / 'common/Hearts of Iron IV'))
 KR = Path(os.environ.get('HOI4_KR_ROOT', ROOT.parent / '1521695605'))
@@ -44,10 +44,17 @@ def nine_slice(source, size, border):
     return result
 
 
-def render(finished=False):
+def render(finished=False, help_page=False):
     state=fixture();call(state,'open_effect')
+    call(state,'start')
+    for i,kind in [(5,5),(16,1),(4,2),(2,4),(3,3)]:
+        select(state,i);call(state,f'build_{kind}')
+    select(state,5)
+    put(state,'n5_work',118)
+    call(state,'refresh')
     if finished:
-        for _ in range(5):call(state,'settle')
+        put(state,'days_left',1);call(state,'daily')
+    if help_page:call(state,'toggle_help')
     loc={}
     for root in [CN/'localisation',ROOT/'localisation/simp_chinese']:
         for path in root.rglob('*.yml'):
@@ -58,7 +65,8 @@ def render(finished=False):
         assert depth<12, key
         text=loc.get(key,key)
         text=re.sub(r'\$([^$]+)\$',lambda m:resolve(m[1],depth+1),text)
-        text=re.sub(r'\[\?(\w+)\|0\]',lambda m:str(int(state['vars'].get(m[1],0))),text)
+        text=re.sub(r'\[\?(\w+)\|(\d)\]',lambda m:f'{state["vars"].get(m[1],0):.{m[2]}f}',text)
+        text=re.sub(r'\[(\d+)\.GetName\]',lambda m:resolve('STATE_'+m[1],depth+1),text)
         def scripted(m):
             definition=definitions[m[1]]
             for item in definition.v:
@@ -72,6 +80,7 @@ def render(finished=False):
     width=int(field(window.one('size'),'width'));height=int(field(window.one('size'),'height'))
     panel=next(n for n in entries(ROOT/'common/scripted_guis/RUS_industrial_planning.txt')[0].v if n.k=='RUS_industrial_planning_gui')
     triggers={n.k:n.v for n in panel.one('triggers').v}
+    properties={n.k:n for n in panel.one('properties').v}
     gfx={field(n,'name'):n for n in entries(ROOT/'interface/RUS_industrial_planning.gfx')[0].v}
     def asset(rel):
         return Image.open(next(root/rel for root in [ROOT,KR,GAME] if (root/rel).is_file())).convert('RGBA')
@@ -111,10 +120,14 @@ def render(finished=False):
             if sprite in gfx:
                 meta=gfx[sprite];img=asset(field(meta,'texturefile',field(meta,'textureFile')))
                 frames=int(field(meta,'noOfFrames','1'))
-                if frames>1:img=img.crop((0,0,img.width//frames,img.height))
+                selected_frame=1
+                if name in properties:selected_frame=int(state['vars'].get(field(properties[name],'frame'),1))
+                if frames>1:img=img.crop(((selected_frame-1)*img.width//frames,0,selected_frame*img.width//frames,img.height))
             elif sprite=='GFX_closebutton':img=asset('gfx/interface/closebutton.dds')
             elif sprite=='GFX_button_123x34':img=asset('gfx/interface/button_123x34.dds')
             else:raise AssertionError(sprite)
+            scale=float(field(widget,'scale','1'))
+            if scale!=1:img=img.resize((round(img.width*scale),round(img.height*scale)),Image.Resampling.LANCZOS)
             assert 0<=x and x+img.width<=width and 0<=y and y+img.height<=height,(name,x,y,img.size)
             disabled=name+'_click_enabled' in triggers and not check(triggers[name+'_click_enabled'],state)
             if disabled:img=Image.blend(img,Image.new('RGBA',img.size,'#252824'),.4)
@@ -128,15 +141,15 @@ def render(finished=False):
     # Separate caption outside the game window, so it cannot be mistaken for a screenshot.
     result=Image.new('RGB',(width,height+32),'#101719');result.paste(canvas,(0,32),canvas)
     d=ImageDraw.Draw(result)
-    d.text((15,5),'布局预览 · 根据实际 GUI 坐标与脚本初始状态绘制，非游戏截图',font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',15),fill='#abbcaf')
+    d.text((15,5),'布局预览 · 实际 GUI 坐标 / 示例施工状态，非游戏截图',font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',15),fill='#abbcaf')
     return result,issues
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');args=parser.parse_args()
-    image,issues=render(args.finished)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');args=parser.parse_args()
+    image,issues=render(args.finished,args.help_page)
     folder=ROOT/'output/industrial_planning';folder.mkdir(parents=True,exist_ok=True)
-    path=folder/('finished.png' if args.finished else 'preview.png');image.save(path)
+    path=folder/('help.png' if args.help_page else 'finished.png' if args.finished else 'preview.png');image.save(path)
     (folder/(path.stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(str(path));print(f'Text height warnings (approximate font): {len(issues)}')
 

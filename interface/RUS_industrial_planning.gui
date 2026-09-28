@@ -18,377 +18,541 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "RUS_industrial_planning_window"
-		position = { x = -592 y = -363 }
-		size = { width = 1184 height = 726 }
+		position = { x = -768 y = -363 }
+		size = { width = 1536 height = 726 }
 		orientation = center
 		moveable = yes
 		click_to_front = yes
 		show_sound = menu_open_window
 		hide_sound = menu_close_window
 		background = { name = "frame" quadTextureSprite = "GFX_tiled_plain_bg" }
+		instantTextBoxType = { name = "ip_title" position = { x = 24 y = 12 } text = "RUS_ip_title" font = "hoi_24header" maxWidth = 1488 maxHeight = 32 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_subtitle" position = { x = 24 y = 48 } text = "RUS_ip_subtitle" font = "hoi_16mbs" maxWidth = 1120 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_summary" position = { x = 24 y = 79 } text = "RUS_ip_summary" font = "hoi_20b" maxWidth = 1150 maxHeight = 27 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_network" position = { x = 24 y = 112 } text = "RUS_ip_network" font = "hoi_16mbs" maxWidth = 1160 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_map" position = { x = 20 y = 144 } spriteType = "GFX_RUS_ip_map" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_map_northern_limit" position = { x = 304 y = 160 } text = "RUS_ip_map_northern_limit" font = "hoi_16mbs" maxWidth = 600 maxHeight = 24 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_link_0_1" position = { x = 71 y = 252 } spriteType = "GFX_RUS_ip_link_0_1" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_0_3" position = { x = 94 y = 252 } spriteType = "GFX_RUS_ip_link_0_3" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_1_2" position = { x = 61 y = 285 } spriteType = "GFX_RUS_ip_link_1_2" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_1_3" position = { x = 71 y = 285 } spriteType = "GFX_RUS_ip_link_1_3" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_1_7" position = { x = 71 y = 285 } spriteType = "GFX_RUS_ip_link_1_7" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_2_3" position = { x = 61 y = 305 } spriteType = "GFX_RUS_ip_link_2_3" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_2_4" position = { x = 61 y = 341 } spriteType = "GFX_RUS_ip_link_2_4" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_2_5" position = { x = 61 y = 341 } spriteType = "GFX_RUS_ip_link_2_5" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_2_7" position = { x = 61 y = 341 } spriteType = "GFX_RUS_ip_link_2_7" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_3_5" position = { x = 112 y = 305 } spriteType = "GFX_RUS_ip_link_3_5" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_3_7" position = { x = 139 y = 305 } spriteType = "GFX_RUS_ip_link_3_7" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_3_15" position = { x = 139 y = 305 } spriteType = "GFX_RUS_ip_link_3_15" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_3_16" position = { x = 139 y = 305 } spriteType = "GFX_RUS_ip_link_3_16" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_3_21" position = { x = 139 y = 305 } spriteType = "GFX_RUS_ip_link_3_21" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_4_5" position = { x = 77 y = 386 } spriteType = "GFX_RUS_ip_link_4_5" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_5_6" position = { x = 112 y = 386 } spriteType = "GFX_RUS_ip_link_5_6" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_5_7" position = { x = 112 y = 382 } spriteType = "GFX_RUS_ip_link_5_7" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_5_9" position = { x = 112 y = 386 } spriteType = "GFX_RUS_ip_link_5_9" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_6_9" position = { x = 129 y = 419 } spriteType = "GFX_RUS_ip_link_6_9" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_6_12" position = { x = 124 y = 423 } spriteType = "GFX_RUS_ip_link_6_12" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_7_8" position = { x = 158 y = 382 } spriteType = "GFX_RUS_ip_link_7_8" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_7_9" position = { x = 158 y = 382 } spriteType = "GFX_RUS_ip_link_7_9" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_7_15" position = { x = 158 y = 354 } spriteType = "GFX_RUS_ip_link_7_15" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_8_9" position = { x = 164 y = 382 } spriteType = "GFX_RUS_ip_link_8_9" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_8_10" position = { x = 201 y = 382 } spriteType = "GFX_RUS_ip_link_8_10" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_8_15" position = { x = 205 y = 354 } spriteType = "GFX_RUS_ip_link_8_15" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_8_16" position = { x = 205 y = 382 } spriteType = "GFX_RUS_ip_link_8_16" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_9_10" position = { x = 164 y = 415 } spriteType = "GFX_RUS_ip_link_9_10" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_9_11" position = { x = 164 y = 419 } spriteType = "GFX_RUS_ip_link_9_11" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_9_12" position = { x = 124 y = 419 } spriteType = "GFX_RUS_ip_link_9_12" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_9_32" position = { x = 164 y = 419 } spriteType = "GFX_RUS_ip_link_9_32" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_10_16" position = { x = 201 y = 387 } spriteType = "GFX_RUS_ip_link_10_16" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_10_32" position = { x = 197 y = 415 } spriteType = "GFX_RUS_ip_link_10_32" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_10_33" position = { x = 201 y = 415 } spriteType = "GFX_RUS_ip_link_10_33" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_11_12" position = { x = 124 y = 452 } spriteType = "GFX_RUS_ip_link_11_12" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_11_13" position = { x = 121 y = 452 } spriteType = "GFX_RUS_ip_link_11_13" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_11_14" position = { x = 154 y = 452 } spriteType = "GFX_RUS_ip_link_11_14" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_11_32" position = { x = 165 y = 450 } spriteType = "GFX_RUS_ip_link_11_32" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_12_13" position = { x = 121 y = 455 } spriteType = "GFX_RUS_ip_link_12_13" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_13_14" position = { x = 121 y = 487 } spriteType = "GFX_RUS_ip_link_13_14" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_15_16" position = { x = 287 y = 354 } spriteType = "GFX_RUS_ip_link_15_16" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_15_17" position = { x = 287 y = 354 } spriteType = "GFX_RUS_ip_link_15_17" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_16_17" position = { x = 297 y = 363 } spriteType = "GFX_RUS_ip_link_16_17" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_16_18" position = { x = 297 y = 380 } spriteType = "GFX_RUS_ip_link_16_18" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_16_21" position = { x = 297 y = 371 } spriteType = "GFX_RUS_ip_link_16_21" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_16_33" position = { x = 270 y = 387 } spriteType = "GFX_RUS_ip_link_16_33" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_16_34" position = { x = 297 y = 387 } spriteType = "GFX_RUS_ip_link_16_34" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_17_18" position = { x = 339 y = 363 } spriteType = "GFX_RUS_ip_link_17_18" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_17_19" position = { x = 339 y = 363 } spriteType = "GFX_RUS_ip_link_17_19" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_17_21" position = { x = 339 y = 363 } spriteType = "GFX_RUS_ip_link_17_21" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_18_19" position = { x = 371 y = 380 } spriteType = "GFX_RUS_ip_link_18_19" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_18_34" position = { x = 336 y = 380 } spriteType = "GFX_RUS_ip_link_18_34" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_19_20" position = { x = 413 y = 388 } spriteType = "GFX_RUS_ip_link_19_20" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_19_21" position = { x = 413 y = 371 } spriteType = "GFX_RUS_ip_link_19_21" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_19_34" position = { x = 336 y = 388 } spriteType = "GFX_RUS_ip_link_19_34" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_20_21" position = { x = 473 y = 371 } spriteType = "GFX_RUS_ip_link_20_21" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_20_22" position = { x = 473 y = 399 } spriteType = "GFX_RUS_ip_link_20_22" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_20_34" position = { x = 336 y = 399 } spriteType = "GFX_RUS_ip_link_20_34" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_21_22" position = { x = 509 y = 371 } spriteType = "GFX_RUS_ip_link_21_22" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_21_23" position = { x = 509 y = 371 } spriteType = "GFX_RUS_ip_link_21_23" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_21_25" position = { x = 509 y = 338 } spriteType = "GFX_RUS_ip_link_21_25" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_22_23" position = { x = 510 y = 403 } spriteType = "GFX_RUS_ip_link_22_23" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_23_24" position = { x = 590 y = 404 } spriteType = "GFX_RUS_ip_link_23_24" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_23_25" position = { x = 590 y = 338 } spriteType = "GFX_RUS_ip_link_23_25" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_23_26" position = { x = 590 y = 404 } spriteType = "GFX_RUS_ip_link_23_26" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_24_26" position = { x = 672 y = 424 } spriteType = "GFX_RUS_ip_link_24_26" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_25_26" position = { x = 742 y = 338 } spriteType = "GFX_RUS_ip_link_25_26" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_25_27" position = { x = 742 y = 331 } spriteType = "GFX_RUS_ip_link_25_27" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_25_28" position = { x = 742 y = 338 } spriteType = "GFX_RUS_ip_link_25_28" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_26_27" position = { x = 783 y = 331 } spriteType = "GFX_RUS_ip_link_26_27" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_26_29" position = { x = 783 y = 437 } spriteType = "GFX_RUS_ip_link_26_29" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_27_28" position = { x = 885 y = 331 } spriteType = "GFX_RUS_ip_link_27_28" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_27_29" position = { x = 828 y = 331 } spriteType = "GFX_RUS_ip_link_27_29" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_29_30" position = { x = 802 y = 446 } spriteType = "GFX_RUS_ip_link_29_30" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_29_31" position = { x = 828 y = 422 } spriteType = "GFX_RUS_ip_link_29_31" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_32_33" position = { x = 197 y = 450 } spriteType = "GFX_RUS_ip_link_32_33" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_33_34" position = { x = 270 y = 454 } spriteType = "GFX_RUS_ip_link_33_34" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_link_34_35" position = { x = 336 y = 461 } spriteType = "GFX_RUS_ip_link_34_35" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_0" position = { x = 49 y = 226 } spriteType = "GFX_RUS_ip_region_0" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_1" position = { x = 57 y = 261 } spriteType = "GFX_RUS_ip_region_1" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_2" position = { x = 42 y = 331 } spriteType = "GFX_RUS_ip_region_2" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_3" position = { x = 87 y = 200 } spriteType = "GFX_RUS_ip_region_3" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_4" position = { x = 30 y = 361 } spriteType = "GFX_RUS_ip_region_4" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_5" position = { x = 79 y = 353 } spriteType = "GFX_RUS_ip_region_5" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_6" position = { x = 85 y = 407 } spriteType = "GFX_RUS_ip_region_6" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_7" position = { x = 68 y = 339 } spriteType = "GFX_RUS_ip_region_7" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_8" position = { x = 167 y = 368 } spriteType = "GFX_RUS_ip_region_8" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_9" position = { x = 139 y = 396 } spriteType = "GFX_RUS_ip_region_9" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_10" position = { x = 190 y = 397 } spriteType = "GFX_RUS_ip_region_10" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_11" position = { x = 150 y = 436 } spriteType = "GFX_RUS_ip_region_11" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_12" position = { x = 115 y = 444 } spriteType = "GFX_RUS_ip_region_12" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_13" position = { x = 108 y = 468 } spriteType = "GFX_RUS_ip_region_13" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_14" position = { x = 137 y = 486 } spriteType = "GFX_RUS_ip_region_14" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_15" position = { x = 165 y = 319 } spriteType = "GFX_RUS_ip_region_15" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_16" position = { x = 225 y = 281 } spriteType = "GFX_RUS_ip_region_16" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_17" position = { x = 273 y = 289 } spriteType = "GFX_RUS_ip_region_17" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_18" position = { x = 275 y = 357 } spriteType = "GFX_RUS_ip_region_18" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_19" position = { x = 381 y = 333 } spriteType = "GFX_RUS_ip_region_19" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_20" position = { x = 400 y = 376 } spriteType = "GFX_RUS_ip_region_20" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_21" position = { x = 281 y = 200 } spriteType = "GFX_RUS_ip_region_21" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_22" position = { x = 480 y = 387 } spriteType = "GFX_RUS_ip_region_22" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_23" position = { x = 527 y = 304 } spriteType = "GFX_RUS_ip_region_23" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_24" position = { x = 574 y = 401 } spriteType = "GFX_RUS_ip_region_24" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_25" position = { x = 647 y = 200 } spriteType = "GFX_RUS_ip_region_25" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_26" position = { x = 694 y = 385 } spriteType = "GFX_RUS_ip_region_26" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_27" position = { x = 775 y = 283 } spriteType = "GFX_RUS_ip_region_27" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_28" position = { x = 944 y = 287 } spriteType = "GFX_RUS_ip_region_28" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_29" position = { x = 805 y = 411 } spriteType = "GFX_RUS_ip_region_29" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_30" position = { x = 776 y = 465 } spriteType = "GFX_RUS_ip_region_30" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_31" position = { x = 855 y = 400 } spriteType = "GFX_RUS_ip_region_31" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_32" position = { x = 178 y = 426 } spriteType = "GFX_RUS_ip_region_32" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_33" position = { x = 238 y = 431 } spriteType = "GFX_RUS_ip_region_33" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_34" position = { x = 277 y = 400 } spriteType = "GFX_RUS_ip_region_34" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_region_35" position = { x = 369 y = 464 } spriteType = "GFX_RUS_ip_region_35" scale = 1 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_0" position = { x = 83 y = 241 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_0_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_0" position = { x = 83 y = 241 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_0" position = { x = 83 y = 241 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_0" position = { x = 84 y = 245 } text = "01" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_1" position = { x = 86 y = 244 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_2" position = { x = 86 y = 244 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_3" position = { x = 86 y = 244 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_4" position = { x = 86 y = 244 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_5" position = { x = 86 y = 244 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_6" position = { x = 86 y = 244 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_1" position = { x = 60 y = 274 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_1_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_1" position = { x = 60 y = 274 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_1" position = { x = 60 y = 274 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_1" position = { x = 61 y = 278 } text = "02" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_1" position = { x = 63 y = 277 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_2" position = { x = 63 y = 277 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_3" position = { x = 63 y = 277 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_4" position = { x = 63 y = 277 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_5" position = { x = 63 y = 277 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_6" position = { x = 63 y = 277 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_2" position = { x = 50 y = 330 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_2_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_2" position = { x = 50 y = 330 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_2" position = { x = 50 y = 330 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_2" position = { x = 51 y = 334 } text = "03" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_1" position = { x = 53 y = 333 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_2" position = { x = 53 y = 333 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_3" position = { x = 53 y = 333 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_4" position = { x = 53 y = 333 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_5" position = { x = 53 y = 333 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_6" position = { x = 53 y = 333 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_3" position = { x = 128 y = 294 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_3_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_3" position = { x = 128 y = 294 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_3" position = { x = 128 y = 294 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_3" position = { x = 129 y = 298 } text = "04" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_1" position = { x = 131 y = 297 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_2" position = { x = 131 y = 297 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_3" position = { x = 131 y = 297 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_4" position = { x = 131 y = 297 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_5" position = { x = 131 y = 297 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_6" position = { x = 131 y = 297 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_4" position = { x = 66 y = 380 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_4_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_4" position = { x = 66 y = 380 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_4" position = { x = 66 y = 380 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_4" position = { x = 67 y = 384 } text = "05" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_1" position = { x = 69 y = 383 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_2" position = { x = 69 y = 383 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_3" position = { x = 69 y = 383 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_4" position = { x = 69 y = 383 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_5" position = { x = 69 y = 383 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_6" position = { x = 69 y = 383 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_5" position = { x = 101 y = 375 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_5_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_5" position = { x = 101 y = 375 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_5" position = { x = 101 y = 375 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_5" position = { x = 102 y = 379 } text = "06" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_1" position = { x = 104 y = 378 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_2" position = { x = 104 y = 378 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_3" position = { x = 104 y = 378 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_4" position = { x = 104 y = 378 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_5" position = { x = 104 y = 378 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_6" position = { x = 104 y = 378 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_6" position = { x = 118 y = 412 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_6_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_6" position = { x = 118 y = 412 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_6" position = { x = 118 y = 412 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_6" position = { x = 119 y = 416 } text = "07" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_1" position = { x = 121 y = 415 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_2" position = { x = 121 y = 415 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_3" position = { x = 121 y = 415 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_4" position = { x = 121 y = 415 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_5" position = { x = 121 y = 415 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_6" position = { x = 121 y = 415 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_7" position = { x = 147 y = 371 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_7_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_7" position = { x = 147 y = 371 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_7" position = { x = 147 y = 371 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_7" position = { x = 148 y = 375 } text = "08" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_1" position = { x = 150 y = 374 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_2" position = { x = 150 y = 374 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_3" position = { x = 150 y = 374 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_4" position = { x = 150 y = 374 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_5" position = { x = 150 y = 374 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_6" position = { x = 150 y = 374 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_8" position = { x = 194 y = 371 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_8_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_8" position = { x = 194 y = 371 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_8" position = { x = 194 y = 371 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_8" position = { x = 195 y = 375 } text = "09" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_1" position = { x = 197 y = 374 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_2" position = { x = 197 y = 374 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_3" position = { x = 197 y = 374 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_4" position = { x = 197 y = 374 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_5" position = { x = 197 y = 374 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_6" position = { x = 197 y = 374 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_9" position = { x = 153 y = 408 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_9_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_9" position = { x = 153 y = 408 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_9" position = { x = 153 y = 408 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_9" position = { x = 154 y = 412 } text = "10" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_1" position = { x = 156 y = 411 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_2" position = { x = 156 y = 411 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_3" position = { x = 156 y = 411 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_4" position = { x = 156 y = 411 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_5" position = { x = 156 y = 411 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_6" position = { x = 156 y = 411 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_10" position = { x = 190 y = 404 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_10_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_10" position = { x = 190 y = 404 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_10" position = { x = 190 y = 404 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_10" position = { x = 191 y = 408 } text = "11" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_1" position = { x = 193 y = 407 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_2" position = { x = 193 y = 407 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_3" position = { x = 193 y = 407 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_4" position = { x = 193 y = 407 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_5" position = { x = 193 y = 407 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_6" position = { x = 193 y = 407 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_11" position = { x = 154 y = 441 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_11_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_11" position = { x = 154 y = 441 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_11" position = { x = 154 y = 441 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_11" position = { x = 155 y = 445 } text = "12" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_1" position = { x = 157 y = 444 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_2" position = { x = 157 y = 444 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_3" position = { x = 157 y = 444 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_4" position = { x = 157 y = 444 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_5" position = { x = 157 y = 444 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_6" position = { x = 157 y = 444 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_12" position = { x = 113 y = 444 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_12_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_12" position = { x = 113 y = 444 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_12" position = { x = 113 y = 444 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_12" position = { x = 114 y = 448 } text = "13" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_1" position = { x = 116 y = 447 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_2" position = { x = 116 y = 447 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_3" position = { x = 116 y = 447 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_4" position = { x = 116 y = 447 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_5" position = { x = 116 y = 447 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_6" position = { x = 116 y = 447 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_13" position = { x = 110 y = 476 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_13_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_13" position = { x = 110 y = 476 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_13" position = { x = 110 y = 476 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_13" position = { x = 111 y = 480 } text = "14" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_1" position = { x = 113 y = 479 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_2" position = { x = 113 y = 479 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_3" position = { x = 113 y = 479 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_4" position = { x = 113 y = 479 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_5" position = { x = 113 y = 479 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_6" position = { x = 113 y = 479 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_14" position = { x = 143 y = 487 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_14_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_14" position = { x = 143 y = 487 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_14" position = { x = 143 y = 487 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_14" position = { x = 144 y = 491 } text = "15" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_1" position = { x = 146 y = 490 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_2" position = { x = 146 y = 490 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_3" position = { x = 146 y = 490 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_4" position = { x = 146 y = 490 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_5" position = { x = 146 y = 490 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_6" position = { x = 146 y = 490 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_15" position = { x = 276 y = 343 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_15_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_15" position = { x = 276 y = 343 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_15" position = { x = 276 y = 343 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_15" position = { x = 277 y = 347 } text = "16" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_1" position = { x = 279 y = 346 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_2" position = { x = 279 y = 346 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_3" position = { x = 279 y = 346 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_4" position = { x = 279 y = 346 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_5" position = { x = 279 y = 346 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_6" position = { x = 279 y = 346 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_16" position = { x = 286 y = 376 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_16_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_16" position = { x = 286 y = 376 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_16" position = { x = 286 y = 376 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_16" position = { x = 287 y = 380 } text = "17" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_1" position = { x = 289 y = 379 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_2" position = { x = 289 y = 379 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_3" position = { x = 289 y = 379 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_4" position = { x = 289 y = 379 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_5" position = { x = 289 y = 379 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_6" position = { x = 289 y = 379 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_17" position = { x = 328 y = 352 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_17_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_17" position = { x = 328 y = 352 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_17" position = { x = 328 y = 352 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_17" position = { x = 329 y = 356 } text = "18" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_1" position = { x = 331 y = 355 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_2" position = { x = 331 y = 355 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_3" position = { x = 331 y = 355 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_4" position = { x = 331 y = 355 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_5" position = { x = 331 y = 355 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_6" position = { x = 331 y = 355 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_18" position = { x = 360 y = 369 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_18_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_18" position = { x = 360 y = 369 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_18" position = { x = 360 y = 369 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_18" position = { x = 361 y = 373 } text = "19" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_1" position = { x = 363 y = 372 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_2" position = { x = 363 y = 372 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_3" position = { x = 363 y = 372 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_4" position = { x = 363 y = 372 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_5" position = { x = 363 y = 372 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_6" position = { x = 363 y = 372 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_19" position = { x = 402 y = 377 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_19_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_19" position = { x = 402 y = 377 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_19" position = { x = 402 y = 377 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_19" position = { x = 403 y = 381 } text = "20" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_1" position = { x = 405 y = 380 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_2" position = { x = 405 y = 380 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_3" position = { x = 405 y = 380 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_4" position = { x = 405 y = 380 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_5" position = { x = 405 y = 380 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_6" position = { x = 405 y = 380 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_20" position = { x = 462 y = 388 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_20_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_20" position = { x = 462 y = 388 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_20" position = { x = 462 y = 388 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_20" position = { x = 463 y = 392 } text = "21" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_1" position = { x = 465 y = 391 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_2" position = { x = 465 y = 391 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_3" position = { x = 465 y = 391 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_4" position = { x = 465 y = 391 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_5" position = { x = 465 y = 391 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_6" position = { x = 465 y = 391 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_21" position = { x = 498 y = 360 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_21_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_21" position = { x = 498 y = 360 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_21" position = { x = 498 y = 360 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_21" position = { x = 499 y = 364 } text = "22" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_1" position = { x = 501 y = 363 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_2" position = { x = 501 y = 363 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_3" position = { x = 501 y = 363 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_4" position = { x = 501 y = 363 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_5" position = { x = 501 y = 363 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_6" position = { x = 501 y = 363 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_22" position = { x = 499 y = 392 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_22_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_22" position = { x = 499 y = 392 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_22" position = { x = 499 y = 392 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_22" position = { x = 500 y = 396 } text = "23" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_1" position = { x = 502 y = 395 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_2" position = { x = 502 y = 395 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_3" position = { x = 502 y = 395 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_4" position = { x = 502 y = 395 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_5" position = { x = 502 y = 395 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_6" position = { x = 502 y = 395 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_23" position = { x = 579 y = 393 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_23_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_23" position = { x = 579 y = 393 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_23" position = { x = 579 y = 393 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_23" position = { x = 580 y = 397 } text = "24" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_1" position = { x = 582 y = 396 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_2" position = { x = 582 y = 396 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_3" position = { x = 582 y = 396 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_4" position = { x = 582 y = 396 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_5" position = { x = 582 y = 396 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_6" position = { x = 582 y = 396 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_24" position = { x = 661 y = 413 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_24_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_24" position = { x = 661 y = 413 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_24" position = { x = 661 y = 413 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_24" position = { x = 662 y = 417 } text = "25" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_1" position = { x = 664 y = 416 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_2" position = { x = 664 y = 416 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_3" position = { x = 664 y = 416 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_4" position = { x = 664 y = 416 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_5" position = { x = 664 y = 416 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_6" position = { x = 664 y = 416 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_25" position = { x = 731 y = 327 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_25_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_25" position = { x = 731 y = 327 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_25" position = { x = 731 y = 327 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_25" position = { x = 732 y = 331 } text = "26" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_1" position = { x = 734 y = 330 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_2" position = { x = 734 y = 330 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_3" position = { x = 734 y = 330 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_4" position = { x = 734 y = 330 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_5" position = { x = 734 y = 330 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_6" position = { x = 734 y = 330 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_26" position = { x = 772 y = 426 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_26_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_26" position = { x = 772 y = 426 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_26" position = { x = 772 y = 426 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_26" position = { x = 773 y = 430 } text = "27" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_1" position = { x = 775 y = 429 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_2" position = { x = 775 y = 429 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_3" position = { x = 775 y = 429 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_4" position = { x = 775 y = 429 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_5" position = { x = 775 y = 429 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_6" position = { x = 775 y = 429 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_27" position = { x = 874 y = 320 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_27_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_27" position = { x = 874 y = 320 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_27" position = { x = 874 y = 320 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_27" position = { x = 875 y = 324 } text = "28" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_1" position = { x = 877 y = 323 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_2" position = { x = 877 y = 323 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_3" position = { x = 877 y = 323 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_4" position = { x = 877 y = 323 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_5" position = { x = 877 y = 323 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_6" position = { x = 877 y = 323 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_28" position = { x = 978 y = 344 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_28_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_28" position = { x = 978 y = 344 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_28" position = { x = 978 y = 344 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_28" position = { x = 979 y = 348 } text = "29" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_1" position = { x = 981 y = 347 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_2" position = { x = 981 y = 347 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_3" position = { x = 981 y = 347 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_4" position = { x = 981 y = 347 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_5" position = { x = 981 y = 347 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_6" position = { x = 981 y = 347 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_29" position = { x = 817 y = 435 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_29_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_29" position = { x = 817 y = 435 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_29" position = { x = 817 y = 435 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_29" position = { x = 818 y = 439 } text = "30" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_1" position = { x = 820 y = 438 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_2" position = { x = 820 y = 438 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_3" position = { x = 820 y = 438 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_4" position = { x = 820 y = 438 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_5" position = { x = 820 y = 438 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_6" position = { x = 820 y = 438 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_30" position = { x = 791 y = 473 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_30_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_30" position = { x = 791 y = 473 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_30" position = { x = 791 y = 473 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_30" position = { x = 792 y = 477 } text = "31" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_1" position = { x = 794 y = 476 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_2" position = { x = 794 y = 476 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_3" position = { x = 794 y = 476 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_4" position = { x = 794 y = 476 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_5" position = { x = 794 y = 476 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_6" position = { x = 794 y = 476 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_31" position = { x = 850 y = 411 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_31_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_31" position = { x = 850 y = 411 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_31" position = { x = 850 y = 411 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_31" position = { x = 851 y = 415 } text = "32" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_1" position = { x = 853 y = 414 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_2" position = { x = 853 y = 414 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_3" position = { x = 853 y = 414 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_4" position = { x = 853 y = 414 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_5" position = { x = 853 y = 414 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_6" position = { x = 853 y = 414 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_32" position = { x = 186 y = 439 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_32_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_32" position = { x = 186 y = 439 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_32" position = { x = 186 y = 439 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_32" position = { x = 187 y = 443 } text = "33" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_1" position = { x = 189 y = 442 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_2" position = { x = 189 y = 442 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_3" position = { x = 189 y = 442 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_4" position = { x = 189 y = 442 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_5" position = { x = 189 y = 442 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_6" position = { x = 189 y = 442 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_33" position = { x = 259 y = 443 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_33_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_33" position = { x = 259 y = 443 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_33" position = { x = 259 y = 443 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_33" position = { x = 260 y = 447 } text = "34" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_1" position = { x = 262 y = 446 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_2" position = { x = 262 y = 446 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_3" position = { x = 262 y = 446 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_4" position = { x = 262 y = 446 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_5" position = { x = 262 y = 446 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_6" position = { x = 262 y = 446 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_34" position = { x = 325 y = 450 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_34_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_34" position = { x = 325 y = 450 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_34" position = { x = 325 y = 450 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_34" position = { x = 326 y = 454 } text = "35" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_1" position = { x = 328 y = 453 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_2" position = { x = 328 y = 453 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_3" position = { x = 328 y = 453 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_4" position = { x = 328 y = 453 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_5" position = { x = 328 y = 453 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_6" position = { x = 328 y = 453 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		buttonType = { name = "ip_cell_35" position = { x = 387 y = 473 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_35_tt" clicksound = click_default }
+		iconType = { name = "ip_selected_35" position = { x = 387 y = 473 } spriteType = "GFX_RUS_ip_selected" scale = 1 alwaystransparent = yes }
+		iconType = { name = "ip_offline_35" position = { x = 387 y = 473 } spriteType = "GFX_RUS_ip_offline" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_number_35" position = { x = 388 y = 477 } text = "36" font = "hoi_16mbs" maxWidth = 24 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_1" position = { x = 390 y = 476 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_2" position = { x = 390 y = 476 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_3" position = { x = 390 y = 476 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_4" position = { x = 390 y = 476 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_5" position = { x = 390 y = 476 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.625 alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_6" position = { x = 390 y = 476 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.625 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_capacity" position = { x = 24 y = 599 } text = "RUS_ip_capacity" font = "hoi_20b" maxWidth = 1150 maxHeight = 27 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_extraction" position = { x = 24 y = 638 } text = "RUS_ip_extraction" font = "hoi_16mbs" maxWidth = 1150 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_footnote" position = { x = 24 y = 684 } text = "RUS_ip_footnote" font = "hoi_16mbs" maxWidth = 1000 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_help" position = { x = 1064 y = 680 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_help" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "ip_back" position = { x = 24 y = 680 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_back" buttonFont = "hoi_16mbs" clicksound = click_default }
 		containerWindowType = {
 			name = "ip_details_bg"
-			position = { x = 852 y = 49 }
-			size = { width = 316 height = 668 }
+			position = { x = 1204 y = 50 }
+			size = { width = 316 height = 667 }
 			background = { name = "detail" quadTextureSprite = "GFX_tiled_research_bg" }
 		}
-		instantTextBoxType = { name = "ip_title" position = { x = 24 y = 12 } text = "RUS_ip_title" font = "hoi_24header" maxWidth = 1092 maxHeight = 32 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_subtitle" position = { x = 24 y = 46 } text = "RUS_ip_subtitle" font = "hoi_16mbs" maxWidth = 812 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_summary" position = { x = 24 y = 77 } text = "RUS_ip_summary" font = "hoi_20b" maxWidth = 812 maxHeight = 25 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_network" position = { x = 24 y = 108 } text = "RUS_ip_network" font = "hoi_16mbs" maxWidth = 812 maxHeight = 23 format = left fixedsize = yes alwaystransparent = yes }
-		iconType = { name = "ip_map" position = { x = 20 y = 140 } spriteType = "GFX_RUS_ip_map" alwaystransparent = yes }
-		iconType = { name = "ip_link_0_1" position = { x = 58 y = 260 } spriteType = "GFX_RUS_ip_link_0_1" alwaystransparent = yes }
-		iconType = { name = "ip_link_0_3" position = { x = 74 y = 260 } spriteType = "GFX_RUS_ip_link_0_3" alwaystransparent = yes }
-		iconType = { name = "ip_link_1_2" position = { x = 40 y = 304 } spriteType = "GFX_RUS_ip_link_1_2" alwaystransparent = yes }
-		iconType = { name = "ip_link_1_3" position = { x = 58 y = 304 } spriteType = "GFX_RUS_ip_link_1_3" alwaystransparent = yes }
-		iconType = { name = "ip_link_1_7" position = { x = 58 y = 304 } spriteType = "GFX_RUS_ip_link_1_7" alwaystransparent = yes }
-		iconType = { name = "ip_link_2_3" position = { x = 40 y = 306 } spriteType = "GFX_RUS_ip_link_2_3" alwaystransparent = yes }
-		iconType = { name = "ip_link_2_4" position = { x = 40 y = 347 } spriteType = "GFX_RUS_ip_link_2_4" alwaystransparent = yes }
-		iconType = { name = "ip_link_2_5" position = { x = 40 y = 347 } spriteType = "GFX_RUS_ip_link_2_5" alwaystransparent = yes }
-		iconType = { name = "ip_link_2_7" position = { x = 40 y = 347 } spriteType = "GFX_RUS_ip_link_2_7" alwaystransparent = yes }
-		iconType = { name = "ip_link_3_5" position = { x = 85 y = 306 } spriteType = "GFX_RUS_ip_link_3_5" alwaystransparent = yes }
-		iconType = { name = "ip_link_3_7" position = { x = 105 y = 306 } spriteType = "GFX_RUS_ip_link_3_7" alwaystransparent = yes }
-		iconType = { name = "ip_link_3_15" position = { x = 105 y = 306 } spriteType = "GFX_RUS_ip_link_3_15" alwaystransparent = yes }
-		iconType = { name = "ip_link_3_16" position = { x = 105 y = 306 } spriteType = "GFX_RUS_ip_link_3_16" alwaystransparent = yes }
-		iconType = { name = "ip_link_3_21" position = { x = 105 y = 306 } spriteType = "GFX_RUS_ip_link_3_21" alwaystransparent = yes }
-		iconType = { name = "ip_link_4_5" position = { x = 40 y = 349 } spriteType = "GFX_RUS_ip_link_4_5" alwaystransparent = yes }
-		iconType = { name = "ip_link_5_6" position = { x = 80 y = 349 } spriteType = "GFX_RUS_ip_link_5_6" alwaystransparent = yes }
-		iconType = { name = "ip_link_5_7" position = { x = 85 y = 349 } spriteType = "GFX_RUS_ip_link_5_7" alwaystransparent = yes }
-		iconType = { name = "ip_link_5_9" position = { x = 85 y = 349 } spriteType = "GFX_RUS_ip_link_5_9" alwaystransparent = yes }
-		iconType = { name = "ip_link_6_9" position = { x = 80 y = 392 } spriteType = "GFX_RUS_ip_link_6_9" alwaystransparent = yes }
-		iconType = { name = "ip_link_6_12" position = { x = 80 y = 404 } spriteType = "GFX_RUS_ip_link_6_12" alwaystransparent = yes }
-		iconType = { name = "ip_link_7_8" position = { x = 130 y = 348 } spriteType = "GFX_RUS_ip_link_7_8" alwaystransparent = yes }
-		iconType = { name = "ip_link_7_9" position = { x = 124 y = 349 } spriteType = "GFX_RUS_ip_link_7_9" alwaystransparent = yes }
-		iconType = { name = "ip_link_7_15" position = { x = 130 y = 340 } spriteType = "GFX_RUS_ip_link_7_15" alwaystransparent = yes }
-		iconType = { name = "ip_link_8_9" position = { x = 124 y = 348 } spriteType = "GFX_RUS_ip_link_8_9" alwaystransparent = yes }
-		iconType = { name = "ip_link_8_10" position = { x = 175 y = 348 } spriteType = "GFX_RUS_ip_link_8_10" alwaystransparent = yes }
-		iconType = { name = "ip_link_8_15" position = { x = 175 y = 340 } spriteType = "GFX_RUS_ip_link_8_15" alwaystransparent = yes }
-		iconType = { name = "ip_link_8_16" position = { x = 175 y = 348 } spriteType = "GFX_RUS_ip_link_8_16" alwaystransparent = yes }
-		iconType = { name = "ip_link_9_10" position = { x = 124 y = 391 } spriteType = "GFX_RUS_ip_link_9_10" alwaystransparent = yes }
-		iconType = { name = "ip_link_9_11" position = { x = 124 y = 392 } spriteType = "GFX_RUS_ip_link_9_11" alwaystransparent = yes }
-		iconType = { name = "ip_link_9_12" position = { x = 80 y = 392 } spriteType = "GFX_RUS_ip_link_9_12" alwaystransparent = yes }
-		iconType = { name = "ip_link_9_32" position = { x = 124 y = 392 } spriteType = "GFX_RUS_ip_link_9_32" alwaystransparent = yes }
-		iconType = { name = "ip_link_10_16" position = { x = 210 y = 384 } spriteType = "GFX_RUS_ip_link_10_16" alwaystransparent = yes }
-		iconType = { name = "ip_link_10_32" position = { x = 170 y = 391 } spriteType = "GFX_RUS_ip_link_10_32" alwaystransparent = yes }
-		iconType = { name = "ip_link_10_33" position = { x = 210 y = 391 } spriteType = "GFX_RUS_ip_link_10_33" alwaystransparent = yes }
-		iconType = { name = "ip_link_11_12" position = { x = 80 y = 392 } spriteType = "GFX_RUS_ip_link_11_12" alwaystransparent = yes }
-		iconType = { name = "ip_link_11_13" position = { x = 125 y = 392 } spriteType = "GFX_RUS_ip_link_11_13" alwaystransparent = yes }
-		iconType = { name = "ip_link_11_14" position = { x = 125 y = 392 } spriteType = "GFX_RUS_ip_link_11_14" alwaystransparent = yes }
-		iconType = { name = "ip_link_11_32" position = { x = 167 y = 392 } spriteType = "GFX_RUS_ip_link_11_32" alwaystransparent = yes }
-		iconType = { name = "ip_link_12_13" position = { x = 80 y = 435 } spriteType = "GFX_RUS_ip_link_12_13" alwaystransparent = yes }
-		iconType = { name = "ip_link_13_14" position = { x = 125 y = 435 } spriteType = "GFX_RUS_ip_link_13_14" alwaystransparent = yes }
-		iconType = { name = "ip_link_15_16" position = { x = 220 y = 340 } spriteType = "GFX_RUS_ip_link_15_16" alwaystransparent = yes }
-		iconType = { name = "ip_link_15_17" position = { x = 220 y = 340 } spriteType = "GFX_RUS_ip_link_15_17" alwaystransparent = yes }
-		iconType = { name = "ip_link_16_17" position = { x = 254 y = 341 } spriteType = "GFX_RUS_ip_link_16_17" alwaystransparent = yes }
-		iconType = { name = "ip_link_16_18" position = { x = 254 y = 384 } spriteType = "GFX_RUS_ip_link_16_18" alwaystransparent = yes }
-		iconType = { name = "ip_link_16_21" position = { x = 254 y = 346 } spriteType = "GFX_RUS_ip_link_16_21" alwaystransparent = yes }
-		iconType = { name = "ip_link_16_33" position = { x = 216 y = 384 } spriteType = "GFX_RUS_ip_link_16_33" alwaystransparent = yes }
-		iconType = { name = "ip_link_16_34" position = { x = 254 y = 384 } spriteType = "GFX_RUS_ip_link_16_34" alwaystransparent = yes }
-		iconType = { name = "ip_link_17_18" position = { x = 265 y = 341 } spriteType = "GFX_RUS_ip_link_17_18" alwaystransparent = yes }
-		iconType = { name = "ip_link_17_19" position = { x = 265 y = 341 } spriteType = "GFX_RUS_ip_link_17_19" alwaystransparent = yes }
-		iconType = { name = "ip_link_17_21" position = { x = 265 y = 341 } spriteType = "GFX_RUS_ip_link_17_21" alwaystransparent = yes }
-		iconType = { name = "ip_link_18_19" position = { x = 297 y = 374 } spriteType = "GFX_RUS_ip_link_18_19" alwaystransparent = yes }
-		iconType = { name = "ip_link_18_34" position = { x = 261 y = 384 } spriteType = "GFX_RUS_ip_link_18_34" alwaystransparent = yes }
-		iconType = { name = "ip_link_19_20" position = { x = 341 y = 374 } spriteType = "GFX_RUS_ip_link_19_20" alwaystransparent = yes }
-		iconType = { name = "ip_link_19_21" position = { x = 341 y = 346 } spriteType = "GFX_RUS_ip_link_19_21" alwaystransparent = yes }
-		iconType = { name = "ip_link_19_34" position = { x = 261 y = 374 } spriteType = "GFX_RUS_ip_link_19_34" alwaystransparent = yes }
-		iconType = { name = "ip_link_20_21" position = { x = 385 y = 346 } spriteType = "GFX_RUS_ip_link_20_21" alwaystransparent = yes }
-		iconType = { name = "ip_link_20_22" position = { x = 385 y = 389 } spriteType = "GFX_RUS_ip_link_20_22" alwaystransparent = yes }
-		iconType = { name = "ip_link_20_34" position = { x = 261 y = 395 } spriteType = "GFX_RUS_ip_link_20_34" alwaystransparent = yes }
-		iconType = { name = "ip_link_21_22" position = { x = 386 y = 346 } spriteType = "GFX_RUS_ip_link_21_22" alwaystransparent = yes }
-		iconType = { name = "ip_link_21_23" position = { x = 386 y = 346 } spriteType = "GFX_RUS_ip_link_21_23" alwaystransparent = yes }
-		iconType = { name = "ip_link_21_25" position = { x = 386 y = 340 } spriteType = "GFX_RUS_ip_link_21_25" alwaystransparent = yes }
-		iconType = { name = "ip_link_22_23" position = { x = 430 y = 385 } spriteType = "GFX_RUS_ip_link_22_23" alwaystransparent = yes }
-		iconType = { name = "ip_link_23_24" position = { x = 474 y = 385 } spriteType = "GFX_RUS_ip_link_23_24" alwaystransparent = yes }
-		iconType = { name = "ip_link_23_25" position = { x = 474 y = 340 } spriteType = "GFX_RUS_ip_link_23_25" alwaystransparent = yes }
-		iconType = { name = "ip_link_23_26" position = { x = 474 y = 385 } spriteType = "GFX_RUS_ip_link_23_26" alwaystransparent = yes }
-		iconType = { name = "ip_link_24_26" position = { x = 519 y = 399 } spriteType = "GFX_RUS_ip_link_24_26" alwaystransparent = yes }
-		iconType = { name = "ip_link_25_26" position = { x = 523 y = 340 } spriteType = "GFX_RUS_ip_link_25_26" alwaystransparent = yes }
-		iconType = { name = "ip_link_25_27" position = { x = 523 y = 335 } spriteType = "GFX_RUS_ip_link_25_27" alwaystransparent = yes }
-		iconType = { name = "ip_link_25_28" position = { x = 523 y = 340 } spriteType = "GFX_RUS_ip_link_25_28" alwaystransparent = yes }
-		iconType = { name = "ip_link_26_27" position = { x = 564 y = 335 } spriteType = "GFX_RUS_ip_link_26_27" alwaystransparent = yes }
-		iconType = { name = "ip_link_26_29" position = { x = 564 y = 403 } spriteType = "GFX_RUS_ip_link_26_29" alwaystransparent = yes }
-		iconType = { name = "ip_link_27_28" position = { x = 622 y = 335 } spriteType = "GFX_RUS_ip_link_27_28" alwaystransparent = yes }
-		iconType = { name = "ip_link_27_29" position = { x = 609 y = 335 } spriteType = "GFX_RUS_ip_link_27_29" alwaystransparent = yes }
-		iconType = { name = "ip_link_29_30" position = { x = 565 y = 408 } spriteType = "GFX_RUS_ip_link_29_30" alwaystransparent = yes }
-		iconType = { name = "ip_link_29_31" position = { x = 609 y = 398 } spriteType = "GFX_RUS_ip_link_29_31" alwaystransparent = yes }
-		iconType = { name = "ip_link_32_33" position = { x = 170 y = 434 } spriteType = "GFX_RUS_ip_link_32_33" alwaystransparent = yes }
-		iconType = { name = "ip_link_33_34" position = { x = 216 y = 427 } spriteType = "GFX_RUS_ip_link_33_34" alwaystransparent = yes }
-		iconType = { name = "ip_link_34_35" position = { x = 261 y = 427 } spriteType = "GFX_RUS_ip_link_34_35" alwaystransparent = yes }
-		iconType = { name = "ip_region_0" position = { x = 43 y = 263 } spriteType = "GFX_RUS_ip_region_0" alwaystransparent = yes }
-		iconType = { name = "ip_region_1" position = { x = 49 y = 287 } spriteType = "GFX_RUS_ip_region_1" alwaystransparent = yes }
-		iconType = { name = "ip_region_2" position = { x = 38 y = 336 } spriteType = "GFX_RUS_ip_region_2" alwaystransparent = yes }
-		iconType = { name = "ip_region_3" position = { x = 70 y = 245 } spriteType = "GFX_RUS_ip_region_3" alwaystransparent = yes }
-		iconType = { name = "ip_region_4" position = { x = 30 y = 357 } spriteType = "GFX_RUS_ip_region_4" alwaystransparent = yes }
-		iconType = { name = "ip_region_5" position = { x = 64 y = 351 } spriteType = "GFX_RUS_ip_region_5" alwaystransparent = yes }
-		iconType = { name = "ip_region_6" position = { x = 68 y = 388 } spriteType = "GFX_RUS_ip_region_6" alwaystransparent = yes }
-		iconType = { name = "ip_region_7" position = { x = 56 y = 342 } spriteType = "GFX_RUS_ip_region_7" alwaystransparent = yes }
-		iconType = { name = "ip_region_8" position = { x = 125 y = 361 } spriteType = "GFX_RUS_ip_region_8" alwaystransparent = yes }
-		iconType = { name = "ip_region_9" position = { x = 105 y = 381 } spriteType = "GFX_RUS_ip_region_9" alwaystransparent = yes }
-		iconType = { name = "ip_region_10" position = { x = 141 y = 381 } spriteType = "GFX_RUS_ip_region_10" alwaystransparent = yes }
-		iconType = { name = "ip_region_11" position = { x = 114 y = 409 } spriteType = "GFX_RUS_ip_region_11" alwaystransparent = yes }
-		iconType = { name = "ip_region_12" position = { x = 89 y = 414 } spriteType = "GFX_RUS_ip_region_12" alwaystransparent = yes }
-		iconType = { name = "ip_region_13" position = { x = 84 y = 431 } spriteType = "GFX_RUS_ip_region_13" alwaystransparent = yes }
-		iconType = { name = "ip_region_14" position = { x = 104 y = 443 } spriteType = "GFX_RUS_ip_region_14" alwaystransparent = yes }
-		iconType = { name = "ip_region_15" position = { x = 124 y = 328 } spriteType = "GFX_RUS_ip_region_15" alwaystransparent = yes }
-		iconType = { name = "ip_region_16" position = { x = 165 y = 301 } spriteType = "GFX_RUS_ip_region_16" alwaystransparent = yes }
-		iconType = { name = "ip_region_17" position = { x = 198 y = 307 } spriteType = "GFX_RUS_ip_region_17" alwaystransparent = yes }
-		iconType = { name = "ip_region_18" position = { x = 200 y = 354 } spriteType = "GFX_RUS_ip_region_18" alwaystransparent = yes }
-		iconType = { name = "ip_region_19" position = { x = 274 y = 337 } spriteType = "GFX_RUS_ip_region_19" alwaystransparent = yes }
-		iconType = { name = "ip_region_20" position = { x = 288 y = 367 } spriteType = "GFX_RUS_ip_region_20" alwaystransparent = yes }
-		iconType = { name = "ip_region_21" position = { x = 205 y = 245 } spriteType = "GFX_RUS_ip_region_21" alwaystransparent = yes }
-		iconType = { name = "ip_region_22" position = { x = 343 y = 374 } spriteType = "GFX_RUS_ip_region_22" alwaystransparent = yes }
-		iconType = { name = "ip_region_23" position = { x = 375 y = 317 } spriteType = "GFX_RUS_ip_region_23" alwaystransparent = yes }
-		iconType = { name = "ip_region_24" position = { x = 408 y = 385 } spriteType = "GFX_RUS_ip_region_24" alwaystransparent = yes }
-		iconType = { name = "ip_region_25" position = { x = 458 y = 245 } spriteType = "GFX_RUS_ip_region_25" alwaystransparent = yes }
-		iconType = { name = "ip_region_26" position = { x = 491 y = 373 } spriteType = "GFX_RUS_ip_region_26" alwaystransparent = yes }
-		iconType = { name = "ip_region_27" position = { x = 546 y = 302 } spriteType = "GFX_RUS_ip_region_27" alwaystransparent = yes }
-		iconType = { name = "ip_region_28" position = { x = 664 y = 306 } spriteType = "GFX_RUS_ip_region_28" alwaystransparent = yes }
-		iconType = { name = "ip_region_29" position = { x = 567 y = 391 } spriteType = "GFX_RUS_ip_region_29" alwaystransparent = yes }
-		iconType = { name = "ip_region_30" position = { x = 547 y = 429 } spriteType = "GFX_RUS_ip_region_30" alwaystransparent = yes }
-		iconType = { name = "ip_region_31" position = { x = 602 y = 383 } spriteType = "GFX_RUS_ip_region_31" alwaystransparent = yes }
-		iconType = { name = "ip_region_32" position = { x = 133 y = 402 } spriteType = "GFX_RUS_ip_region_32" alwaystransparent = yes }
-		iconType = { name = "ip_region_33" position = { x = 175 y = 405 } spriteType = "GFX_RUS_ip_region_33" alwaystransparent = yes }
-		iconType = { name = "ip_region_34" position = { x = 202 y = 383 } spriteType = "GFX_RUS_ip_region_34" alwaystransparent = yes }
-		iconType = { name = "ip_region_35" position = { x = 265 y = 428 } spriteType = "GFX_RUS_ip_region_35" alwaystransparent = yes }
-		buttonType = { name = "ip_cell_0" position = { x = 56 y = 243 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_0_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_0" position = { x = 56 y = 243 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_0" position = { x = 56 y = 243 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_0" position = { x = 56 y = 243 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_0" position = { x = 57 y = 244 } text = "01" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_0" position = { x = 57 y = 261 } text = "RUS_ip_node_0" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_1" position = { x = 40 y = 287 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_1_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_1" position = { x = 40 y = 287 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_1" position = { x = 40 y = 287 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_1" position = { x = 40 y = 287 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_1" position = { x = 41 y = 288 } text = "02" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_1" position = { x = 41 y = 305 } text = "RUS_ip_node_1" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_2" position = { x = 22 y = 330 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_2_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_2" position = { x = 22 y = 330 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_2" position = { x = 22 y = 330 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_2" position = { x = 22 y = 330 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_2" position = { x = 23 y = 331 } text = "03" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_2" position = { x = 23 y = 348 } text = "RUS_ip_node_2" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_3" position = { x = 87 y = 289 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_3_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_3" position = { x = 87 y = 289 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_3" position = { x = 87 y = 289 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_3" position = { x = 87 y = 289 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_3" position = { x = 88 y = 290 } text = "04" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_3" position = { x = 88 y = 307 } text = "RUS_ip_node_3" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_4" position = { x = 22 y = 373 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_4_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_4" position = { x = 22 y = 373 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_4" position = { x = 22 y = 373 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_4" position = { x = 22 y = 373 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_4" position = { x = 23 y = 374 } text = "05" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_4" position = { x = 23 y = 391 } text = "RUS_ip_node_4" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_5" position = { x = 67 y = 332 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_5_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_5" position = { x = 67 y = 332 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_5" position = { x = 67 y = 332 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_5" position = { x = 67 y = 332 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_5" position = { x = 68 y = 333 } text = "06" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_5" position = { x = 68 y = 350 } text = "RUS_ip_node_5" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_6" position = { x = 62 y = 387 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_6_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_6" position = { x = 62 y = 387 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_6" position = { x = 62 y = 387 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_6" position = { x = 62 y = 387 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_6" position = { x = 63 y = 388 } text = "07" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_6" position = { x = 63 y = 405 } text = "RUS_ip_node_6" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_7" position = { x = 112 y = 332 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_7_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_7" position = { x = 112 y = 332 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_7" position = { x = 112 y = 332 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_7" position = { x = 112 y = 332 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_7" position = { x = 113 y = 333 } text = "08" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_7" position = { x = 113 y = 350 } text = "RUS_ip_node_7" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_8" position = { x = 157 y = 331 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_8_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_8" position = { x = 157 y = 331 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_8" position = { x = 157 y = 331 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_8" position = { x = 157 y = 331 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_8" position = { x = 158 y = 332 } text = "09" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_8" position = { x = 158 y = 349 } text = "RUS_ip_node_8" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_9" position = { x = 106 y = 375 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_9_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_9" position = { x = 106 y = 375 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_9" position = { x = 106 y = 375 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_9" position = { x = 106 y = 375 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_9" position = { x = 107 y = 376 } text = "10" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_9" position = { x = 107 y = 393 } text = "RUS_ip_node_9" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_10" position = { x = 192 y = 374 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_10_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_10" position = { x = 192 y = 374 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_10" position = { x = 192 y = 374 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_10" position = { x = 192 y = 374 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_10" position = { x = 193 y = 375 } text = "11" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_10" position = { x = 193 y = 392 } text = "RUS_ip_node_10" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_11" position = { x = 149 y = 375 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_11_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_11" position = { x = 149 y = 375 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_11" position = { x = 149 y = 375 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_11" position = { x = 149 y = 375 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_11" position = { x = 150 y = 376 } text = "12" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_11" position = { x = 150 y = 393 } text = "RUS_ip_node_11" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_12" position = { x = 62 y = 461 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_12_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_12" position = { x = 62 y = 461 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_12" position = { x = 62 y = 461 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_12" position = { x = 62 y = 461 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_12" position = { x = 63 y = 462 } text = "13" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_12" position = { x = 63 y = 479 } text = "RUS_ip_node_12" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_13" position = { x = 107 y = 418 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_13_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_13" position = { x = 107 y = 418 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_13" position = { x = 107 y = 418 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_13" position = { x = 107 y = 418 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_13" position = { x = 108 y = 419 } text = "14" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_13" position = { x = 108 y = 436 } text = "RUS_ip_node_13" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_14" position = { x = 107 y = 461 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_14_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_14" position = { x = 107 y = 461 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_14" position = { x = 107 y = 461 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_14" position = { x = 107 y = 461 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_14" position = { x = 108 y = 462 } text = "15" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_14" position = { x = 108 y = 479 } text = "RUS_ip_node_14" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_15" position = { x = 202 y = 323 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_15_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_15" position = { x = 202 y = 323 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_15" position = { x = 202 y = 323 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_15" position = { x = 202 y = 323 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_15" position = { x = 203 y = 324 } text = "16" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_15" position = { x = 203 y = 341 } text = "RUS_ip_node_15" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_16" position = { x = 236 y = 367 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_16_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_16" position = { x = 236 y = 367 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_16" position = { x = 236 y = 367 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_16" position = { x = 236 y = 367 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_16" position = { x = 237 y = 368 } text = "17" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_16" position = { x = 237 y = 385 } text = "RUS_ip_node_16" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_17" position = { x = 247 y = 324 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_17_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_17" position = { x = 247 y = 324 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_17" position = { x = 247 y = 324 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_17" position = { x = 247 y = 324 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_17" position = { x = 248 y = 325 } text = "18" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_17" position = { x = 248 y = 342 } text = "RUS_ip_node_17" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_18" position = { x = 279 y = 367 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_18_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_18" position = { x = 279 y = 367 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_18" position = { x = 279 y = 367 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_18" position = { x = 279 y = 367 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_18" position = { x = 280 y = 368 } text = "19" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_18" position = { x = 280 y = 385 } text = "RUS_ip_node_18" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_19" position = { x = 323 y = 357 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_19_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_19" position = { x = 323 y = 357 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_19" position = { x = 323 y = 357 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_19" position = { x = 323 y = 357 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_19" position = { x = 324 y = 358 } text = "20" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_19" position = { x = 324 y = 375 } text = "RUS_ip_node_19" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_20" position = { x = 367 y = 378 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_20_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_20" position = { x = 367 y = 378 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_20" position = { x = 367 y = 378 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_20" position = { x = 367 y = 378 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_20" position = { x = 368 y = 379 } text = "21" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_20" position = { x = 368 y = 396 } text = "RUS_ip_node_20" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_21" position = { x = 368 y = 329 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_21_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_21" position = { x = 368 y = 329 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_21" position = { x = 368 y = 329 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_21" position = { x = 368 y = 329 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_21" position = { x = 369 y = 330 } text = "22" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_21" position = { x = 369 y = 347 } text = "RUS_ip_node_21" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_22" position = { x = 412 y = 372 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_22_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_22" position = { x = 412 y = 372 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_22" position = { x = 412 y = 372 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_22" position = { x = 412 y = 372 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_22" position = { x = 413 y = 373 } text = "23" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_22" position = { x = 413 y = 390 } text = "RUS_ip_node_22" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_23" position = { x = 456 y = 368 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_23_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_23" position = { x = 456 y = 368 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_23" position = { x = 456 y = 368 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_23" position = { x = 456 y = 368 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_23" position = { x = 457 y = 369 } text = "24" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_23" position = { x = 457 y = 386 } text = "RUS_ip_node_23" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_24" position = { x = 501 y = 382 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_24_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_24" position = { x = 501 y = 382 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_24" position = { x = 501 y = 382 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_24" position = { x = 501 y = 382 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_24" position = { x = 502 y = 383 } text = "25" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_24" position = { x = 502 y = 400 } text = "RUS_ip_node_24" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_25" position = { x = 505 y = 323 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_25_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_25" position = { x = 505 y = 323 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_25" position = { x = 505 y = 323 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_25" position = { x = 505 y = 323 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_25" position = { x = 506 y = 324 } text = "26" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_25" position = { x = 506 y = 341 } text = "RUS_ip_node_25" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_26" position = { x = 546 y = 386 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_26_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_26" position = { x = 546 y = 386 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_26" position = { x = 546 y = 386 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_26" position = { x = 546 y = 386 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_26" position = { x = 547 y = 387 } text = "27" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_26" position = { x = 547 y = 404 } text = "RUS_ip_node_26" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_27" position = { x = 604 y = 318 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_27_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_27" position = { x = 604 y = 318 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_27" position = { x = 604 y = 318 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_27" position = { x = 604 y = 318 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_27" position = { x = 605 y = 319 } text = "28" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_27" position = { x = 605 y = 336 } text = "RUS_ip_node_27" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_28" position = { x = 676 y = 335 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_28_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_28" position = { x = 676 y = 335 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_28" position = { x = 676 y = 335 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_28" position = { x = 676 y = 335 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_28" position = { x = 677 y = 336 } text = "29" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_28" position = { x = 677 y = 353 } text = "RUS_ip_node_28" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_29" position = { x = 591 y = 391 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_29_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_29" position = { x = 591 y = 391 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_29" position = { x = 591 y = 391 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_29" position = { x = 591 y = 391 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_29" position = { x = 592 y = 392 } text = "30" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_29" position = { x = 592 y = 409 } text = "RUS_ip_node_29" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_30" position = { x = 547 y = 435 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_30_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_30" position = { x = 547 y = 435 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_30" position = { x = 547 y = 435 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_30" position = { x = 547 y = 435 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_30" position = { x = 548 y = 436 } text = "31" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_30" position = { x = 548 y = 453 } text = "RUS_ip_node_30" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_31" position = { x = 636 y = 381 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_31_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_31" position = { x = 636 y = 381 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_31" position = { x = 636 y = 381 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_31" position = { x = 636 y = 381 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_31" position = { x = 637 y = 382 } text = "32" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_31" position = { x = 637 y = 399 } text = "RUS_ip_node_31" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_32" position = { x = 152 y = 418 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_32_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_32" position = { x = 152 y = 418 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_32" position = { x = 152 y = 418 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_32" position = { x = 152 y = 418 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_32" position = { x = 153 y = 419 } text = "33" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_32" position = { x = 153 y = 436 } text = "RUS_ip_node_32" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_33" position = { x = 198 y = 417 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_33_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_33" position = { x = 198 y = 417 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_33" position = { x = 198 y = 417 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_33" position = { x = 198 y = 417 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_33" position = { x = 199 y = 418 } text = "34" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_33" position = { x = 199 y = 435 } text = "RUS_ip_node_33" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_34" position = { x = 243 y = 410 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_34_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_34" position = { x = 243 y = 410 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_34" position = { x = 243 y = 410 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_34" position = { x = 243 y = 410 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_34" position = { x = 244 y = 411 } text = "35" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_34" position = { x = 244 y = 428 } text = "RUS_ip_node_34" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_cell_35" position = { x = 288 y = 424 } quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_35_tt" clicksound = click_default }
-		iconType = { name = "ip_selected_35" position = { x = 288 y = 424 } spriteType = "GFX_RUS_ip_selected" alwaystransparent = yes }
-		iconType = { name = "ip_connected_35" position = { x = 288 y = 424 } spriteType = "GFX_RUS_ip_connected" alwaystransparent = yes }
-		iconType = { name = "ip_offline_35" position = { x = 288 y = 424 } spriteType = "GFX_RUS_ip_offline" alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_number_35" position = { x = 289 y = 425 } text = "36" font = "hoi_16mbs" maxWidth = 38 maxHeight = 18 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_node_35" position = { x = 289 y = 442 } text = "RUS_ip_node_35" font = "hoi_16mbs" maxWidth = 38 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_hub" position = { x = 50 y = 339 } text = "★" font = "hoi_20b" maxWidth = 20 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_legend" position = { x = 24 y = 579 } text = "RUS_ip_legend" font = "hoi_16mbs" maxWidth = 817 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_target" position = { x = 24 y = 610 } text = "RUS_ip_target" font = "hoi_16mbs" maxWidth = 817 maxHeight = 45 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_instructions" position = { x = 24 y = 668 } text = "RUS_ip_instructions" font = "hoi_16mbs" maxWidth = 817 maxHeight = 42 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_selected" position = { x = 868 y = 62 } text = "RUS_ip_selected" font = "hoi_20b" maxWidth = 288 maxHeight = 42 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_detail" position = { x = 868 y = 105 } text = "RUS_ip_detail" font = "hoi_16mbs" maxWidth = 285 maxHeight = 160 format = left fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_build_1" position = { x = 868 y = 268 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_build_1" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_1_tt" clicksound = click_default }
-		buttonType = { name = "ip_build_2" position = { x = 1008 y = 268 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_build_2" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_2_tt" clicksound = click_default }
-		buttonType = { name = "ip_build_3" position = { x = 868 y = 309 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_build_3" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_3_tt" clicksound = click_default }
-		buttonType = { name = "ip_build_4" position = { x = 1008 y = 309 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_build_4" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_4_tt" clicksound = click_default }
-		buttonType = { name = "ip_build_5" position = { x = 868 y = 350 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_build_5" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_5_tt" clicksound = click_default }
-		buttonType = { name = "ip_rail" position = { x = 1008 y = 350 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_rail" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_rail_tt" clicksound = click_default }
-		buttonType = { name = "ip_remove" position = { x = 868 y = 392 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_remove" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_remove_tt" clicksound = click_default }
-		buttonType = { name = "ip_remove_rail" position = { x = 1008 y = 392 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_remove_rail" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_remove_rail_tt" clicksound = click_default }
-		instantTextBoxType = { name = "ip_stocks" position = { x = 868 y = 443 } text = "RUS_ip_stocks" font = "hoi_16mbs" maxWidth = 285 maxHeight = 55 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_bottlenecks" position = { x = 868 y = 504 } text = "RUS_ip_bottlenecks" font = "hoi_16mbs" maxWidth = 285 maxHeight = 66 format = left fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_refresh" position = { x = 868 y = 578 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_refresh" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_refresh_tt" clicksound = click_default }
-		buttonType = { name = "ip_settle" position = { x = 1008 y = 578 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_settle" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_settle_tt" clicksound = click_default }
-		buttonType = { name = "ip_restart" position = { x = 868 y = 620 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_restart" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_restart_tt" clicksound = click_default }
-		buttonType = { name = "ip_restart_confirm" position = { x = 868 y = 620 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_restart_confirm" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_restart_tt" clicksound = click_default }
-		instantTextBoxType = { name = "ip_sandbox_note" position = { x = 868 y = 663 } text = "RUS_ip_sandbox_note" font = "hoi_16mbs" maxWidth = 285 maxHeight = 53 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_final" position = { x = 24 y = 610 } text = "RUS_ip_finished" font = "hoi_16mbs" maxWidth = 817 maxHeight = 46 format = left fixedsize = yes alwaystransparent = yes }
-		buttonType = { name = "ip_close" position = { x = 1138 y = 9 } spriteType = "GFX_closebutton" pdx_tooltip = "CLOSE" shortcut = "ESCAPE" clicksound = click_close }
+		instantTextBoxType = { name = "ip_selected" position = { x = 1220 y = 65 } text = "RUS_ip_selected" font = "hoi_20b" maxWidth = 284 maxHeight = 42 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_detail" position = { x = 1220 y = 113 } text = "RUS_ip_detail" font = "hoi_16mbs" maxWidth = 288 maxHeight = 85 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_project" position = { x = 1220 y = 207 } text = "RUS_ip_project" font = "hoi_16mbs" maxWidth = 285 maxHeight = 26 format = left fixedsize = yes alwaystransparent = yes }
+		iconType = { name = "ip_progressbar" position = { x = 1220 y = 239 } spriteType = "GFX_RUS_ip_progress" scale = 1 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_progress" position = { x = 1220 y = 260 } text = "RUS_ip_progress" font = "hoi_16mbs" maxWidth = 285 maxHeight = 42 format = left fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_build_1" position = { x = 1220 y = 312 } quadTextureSprite = "GFX_button_123x34" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		iconType = { name = "ip_build_icon_1" position = { x = 1226 y = 317 } spriteType = "GFX_RUS_ip_facility_1" scale = 0.75 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_build_label_1" position = { x = 1252 y = 320 } text = "RUS_ip_build_1" font = "hoi_16mbs" maxWidth = 86 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_build_2" position = { x = 1364 y = 312 } quadTextureSprite = "GFX_button_123x34" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		iconType = { name = "ip_build_icon_2" position = { x = 1370 y = 317 } spriteType = "GFX_RUS_ip_facility_2" scale = 0.75 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_build_label_2" position = { x = 1396 y = 320 } text = "RUS_ip_build_2" font = "hoi_16mbs" maxWidth = 86 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_build_3" position = { x = 1220 y = 353 } quadTextureSprite = "GFX_button_123x34" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		iconType = { name = "ip_build_icon_3" position = { x = 1226 y = 358 } spriteType = "GFX_RUS_ip_facility_3" scale = 0.75 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_build_label_3" position = { x = 1252 y = 361 } text = "RUS_ip_build_3" font = "hoi_16mbs" maxWidth = 86 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_build_4" position = { x = 1364 y = 353 } quadTextureSprite = "GFX_button_123x34" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		iconType = { name = "ip_build_icon_4" position = { x = 1370 y = 358 } spriteType = "GFX_RUS_ip_facility_4" scale = 0.75 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_build_label_4" position = { x = 1396 y = 361 } text = "RUS_ip_build_4" font = "hoi_16mbs" maxWidth = 86 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_build_5" position = { x = 1220 y = 394 } quadTextureSprite = "GFX_button_123x34" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		iconType = { name = "ip_build_icon_5" position = { x = 1226 y = 399 } spriteType = "GFX_RUS_ip_facility_5" scale = 0.75 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_build_label_5" position = { x = 1252 y = 402 } text = "RUS_ip_build_5" font = "hoi_16mbs" maxWidth = 86 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_build_6" position = { x = 1364 y = 394 } quadTextureSprite = "GFX_button_123x34" buttonText = "" buttonFont = "hoi_16mbs" clicksound = click_default }
+		iconType = { name = "ip_build_icon_6" position = { x = 1370 y = 399 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.75 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_build_label_6" position = { x = 1396 y = 402 } text = "RUS_ip_build_6" font = "hoi_16mbs" maxWidth = 86 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_pause" position = { x = 1220 y = 443 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_pause" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_pause_tt" clicksound = click_default }
+		buttonType = { name = "ip_cancel" position = { x = 1364 y = 443 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_cancel" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_cancel_tt" clicksound = click_default }
+		buttonType = { name = "ip_cancel_confirm" position = { x = 1364 y = 443 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_confirm_cancel" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_cancel_tt" clicksound = click_default }
+		instantTextBoxType = { name = "ip_commitments" position = { x = 1220 y = 493 } text = "RUS_ip_commitments" font = "hoi_16mbs" maxWidth = 284 maxHeight = 75 format = left fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_refresh" position = { x = 1220 y = 588 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_refresh" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_refresh_tt" clicksound = click_default }
+		buttonType = { name = "ip_start" position = { x = 1364 y = 588 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_ip_start" buttonFont = "hoi_16mbs" clicksound = click_default }
+		instantTextBoxType = { name = "ip_help_title" position = { x = 44 y = 135 } text = "RUS_ip_help_title" font = "hoi_24header" maxWidth = 1440 maxHeight = 36 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_help_0" position = { x = 44 y = 191 } text = "RUS_ip_help_0" font = "hoi_16mbs" maxWidth = 686 maxHeight = 146 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_help_1" position = { x = 44 y = 345 } text = "RUS_ip_help_1" font = "hoi_16mbs" maxWidth = 686 maxHeight = 146 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_help_2" position = { x = 44 y = 499 } text = "RUS_ip_help_2" font = "hoi_16mbs" maxWidth = 686 maxHeight = 146 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_help_3" position = { x = 772 y = 191 } text = "RUS_ip_help_3" font = "hoi_16mbs" maxWidth = 686 maxHeight = 146 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_help_4" position = { x = 772 y = 345 } text = "RUS_ip_help_4" font = "hoi_16mbs" maxWidth = 686 maxHeight = 146 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_help_5" position = { x = 772 y = 499 } text = "RUS_ip_help_5" font = "hoi_16mbs" maxWidth = 686 maxHeight = 146 format = left fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_close" position = { x = 1490 y = 9 } quadTextureSprite = "GFX_closebutton" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "CLOSE" shortcut = "ESCAPE" clicksound = click_default }
 	}
 }

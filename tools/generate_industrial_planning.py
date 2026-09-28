@@ -1,258 +1,205 @@
-"""Deterministic, read-only-by-default Russian industrial planning prototype.
+"""Render independent industrial construction. Read-only unless --write.
 
-Map/assets have a separate builder. This renderer only returns relative text
-paths and content. The exercise deliberately has no rewards in the real economy.
+The map builder and economy renderer are separate; the original Five-Year Plan
+is deliberately neither an input nor an output of this prototype.
 """
 from __future__ import annotations
-
 import argparse
 import json
 from pathlib import Path
+from industrial_planning_economy import P, PROJECTS, block, setv, add, cv, iff, rail_spec, render_economy
 
 ROOT = Path(__file__).resolve().parents[1]
-P = 'RUS_ip_'
-COST = {1:2, 2:2, 3:3, 4:4, 5:5}
-TARGETS = [2,6,12,18,25]
-LANGS = ('simp_chinese','english','russian')
-
-
-def block(name, content):
-    return name+' = {\n'+''.join('\t'+line+'\n' if line else '\n' for line in content.rstrip().splitlines())+'}\n'
-
-
-def setv(key, value):return f'set_variable = {{ {P+key} = {value} }}\n'
-def add(key, value):return f'add_to_variable = {{ {P+key} = {value} }}\n'
-def sub(key, value):return f'subtract_from_variable = {{ {P+key} = {value} }}\n'
-def cv(key, op, value):return f'check_variable = {{ {P+key} {op} {value} }}'
-def at_least(key, value):return f'NOT = {{ {cv(key,"<",value)} }}'
-def iff(condition, body):return block('if',block('limit',condition)+body)
-def fx(name,body):return block(P+name,body)
+LANGS = ('simp_chinese', 'english', 'russian')
+ICONS = {1:'decision_coal', 2:'decision_steel', 3:'decision_generic_electricity',
+         4:'decision_generic_factory', 5:'decision_generic_industry', 6:'decision_generic_train'}
 
 
 def render_outputs():
-    data=json.loads((ROOT/'tools/data/industrial_planning_map.json').read_text(encoding='utf-8'))
-    cells=data['cells'];hub=data['hub'];n=len(cells)
-    loc={lang:{} for lang in LANGS}
-    def L(key,zh,en,ru=None):
-        key=P+key
-        for lang,text in zip(LANGS,(zh,en,ru or en)):loc[lang][key]=text
-        return key
-    L('title','国家计划委员会 · 工业蓝图','State Planning Commission · Industrial Blueprint','Госплан · Промышленный план')
-    L('subtitle','俄罗斯工业布局沙盘  /  五轮规划与生产考核','Russian industrial planning exercise / Five production rounds','Промышленная карта России / Пять этапов')
-    L('open_tt','§Y工业规划沙盘§!\n在俄罗斯地图上建设工业与铁路，完成五轮生产目标。独立演算，可随时关闭并继续。','§YIndustrial planning§!\nBuild industry and rail on the Russian map. Complete five production rounds. Closing preserves your exercise.')
-    L('summary','第 §Y[?RUS_ip_round|0]§! / 5 轮   |   投资 §Y[?RUS_ip_budget|0]§!   |   累计机械 §G[?RUS_ip_machines|0]§!   |   考核 §Y[?RUS_ip_score|0]§! 分','Round §Y[?RUS_ip_round|0]§! / 5  |  Investment §Y[?RUS_ip_budget|0]§!  |  Machines §G[?RUS_ip_machines|0]§!  |  Score §Y[?RUS_ip_score|0]§!')
-    L('stocks','库存    煤 [?RUS_ip_coal|0]    铁 [?RUS_ip_iron|0]    钢 [?RUS_ip_steel|0]\n本轮预计    钢 +[?RUS_ip_steel_output|0]    机械 +[?RUS_ip_machine_output|0]','Stocks    Coal [?RUS_ip_coal|0]    Iron [?RUS_ip_iron|0]    Steel [?RUS_ip_steel|0]\nForecast    Steel +[?RUS_ip_steel_output|0]    Machines +[?RUS_ip_machine_output|0]')
-    L('network','接通地块 [?RUS_ip_connected_count|0] / '+str(n)+'    |    供电 [?RUS_ip_power_total|0] / 需求 [?RUS_ip_power_demand|0]    |    加工运力 [?RUS_ip_transport_total|0]','Connected [?RUS_ip_connected_count|0] / '+str(n)+'  |  Power [?RUS_ip_power_total|0] / demand [?RUS_ip_power_demand|0]  |  Processing transport [?RUS_ip_transport_total|0]')
-    L('target','本轮目标：累计交付 §Y[?RUS_ip_target|0]§! 单位机械。预计结算后达到 §Y[?RUS_ip_next_machines|0]§!。\n达到目标获得 20 分；每轮后追加 18 投资，共五轮。','Target: §Y[?RUS_ip_target|0]§! cumulative machines. Forecast: §Y[?RUS_ip_next_machines|0]§!.\nMeet the target for 20 points. Next round grants 18 investment. Five rounds total.')
-    L('instructions','点击地区编号 → 建设或升级 → 检查预测 → 结算本轮\n相邻地区的铁路接通莫斯科后投产；蓝色虚线为两处海运接驳。编号位置有引线对应地区。','Click district number → Build or upgrade → Review forecast → Resolve round\nConnect adjacent districts to Moscow. Blue dashed links represent maritime transfer. Callout lines locate compact western districts.')
-    L('sandbox_note','本沙盘独立计分与投资，可重开练习；暂不改变国家工厂或一五计划正式奖励。','This exercise uses its own investment and score. It can be replayed and does not alter national factories or Five-Year Plan rewards.')
-    L('legend','煤：煤矿   铁：铁矿   电：电站   钢：钢铁厂   机：机械厂   ★：莫斯科枢纽','C: coal  I: iron  P: power  S: steel  M: machinery  ★: Moscow hub')
+    data = json.loads((ROOT/'tools/data/industrial_planning_map.json').read_text(encoding='utf-8'))
+    cells, hub = data['cells'], data['hub']
+    triggers, effects, actions, modifier, rewards = render_economy(data)
+    loc = {lang:{} for lang in LANGS}
+    def L(key, zh, en, ru=None):
+        for lang, content in zip(LANGS, (zh, en, ru or en)): loc[lang][P+key] = content
+        return P+key
+    L('title','国家计划委员会 · 工业建设','State Planning Commission · Industrial Construction','Госплан · Промышленное строительство')
+    L('subtitle','俄罗斯工业布局  /  1800 天建设计划','Russian industrial development / 1800-day programme')
+    L('map_northern_limit','§gKR 地图北部边界§!','§gNorthern boundary of the KR map§!','§gСеверная граница карты KR§!')
+    L('open_tt','§Y工业建设§!\n在俄罗斯地图上安排工程，按游戏日期建设真实工厂、资源与交通设施。','§YIndustrial construction§!\nPlan real factories, resources and transport on the Russian map. Construction follows game time.')
+    L('summary','[GetRUSIPPlanStatus]   |   已完成 §G[?RUS_ip_completed|0]§! 项工程','[GetRUSIPPlanStatus]  |  §G[?RUS_ip_completed|0]§! projects completed')
+    L('not_started','§Y计划尚未启动§!','§YProgramme not started§!')
+    L('active','剩余 §Y[?RUS_ip_days_left|0]§! 天','§Y[?RUS_ip_days_left|0]§! days remaining')
+    L('ended','§Y本期建设计划已结束§!','§YConstruction programme concluded§!')
+    L('network','接通莫斯科 [?RUS_ip_connected_count|0] / 36 区   |   全国供电满足率 [?RUS_ip_energy_percent|0]%   |   施工 [?RUS_ip_running|0] / 排队 [?RUS_ip_queued|0]','Linked to Moscow [?RUS_ip_connected_count|0] / 36  |  Power [?RUS_ip_energy_percent|0]%  |  Working [?RUS_ip_running|0] / queued [?RUS_ip_queued|0]')
+    L('capacity','可用于新工程：民工 §Y[?RUS_ip_free_civs|0]§!   钢 §Y[?RUS_ip_free_steel|0]§!   煤 §Y[?RUS_ip_free_coal|0]§!','Available: civs §Y[?RUS_ip_free_civs|0]§!  steel §Y[?RUS_ip_free_steel|0]§!  coal §Y[?RUS_ip_free_coal|0]§!')
+    L('footnote','每区可同时安排一项工程。已竣工的工厂与资源保留在地图上。','One queued project per district. Completed buildings and resources remain on the world map.')
     L('selected','[GetRUSIPDistrict]','[GetRUSIPDistrict]')
-    L('detail','设施：[GetRUSIPSelectedType]  §Y[?RUS_ip_sel_level|0]§! 级\n铁路：§Y[?RUS_ip_sel_rail|0]§! 级    [GetRUSIPSelectedStatus]\n煤矿潜力：[GetRUSIPCoalPotential]\n铁矿潜力：[GetRUSIPIronPotential]\n\n经营资格以地区中心的控制权为准。\n设施与铁路分别建设，最高三级。','Facility: [GetRUSIPSelectedType]  level §Y[?RUS_ip_sel_level|0]§!\nRail: level §Y[?RUS_ip_sel_rail|0]§!  [GetRUSIPSelectedStatus]\nCoal potential: [GetRUSIPCoalPotential]\nIron potential: [GetRUSIPIronPotential]\n\nControl is checked at the named centre.\nFacility and rail each have three levels.')
-    L('status_0','§g无铁路§!','§gNo rail§!');L('status_1','§R不在控制下§!','§RNot controlled§!');L('status_2','§R尚未连通§!','§RDisconnected§!');L('status_3','§G已接通枢纽§!','§GConnected§!')
-    L('yes','§G有§!','§GYes§!');L('no','§g无§!','§gNo§!')
-    names=[('空地','Empty','Пусто'),('煤矿','Coal mine','Угольная шахта'),('铁矿','Iron mine','Железный рудник'),('电站','Power station','Электростанция'),('钢铁厂','Steelworks','Металлургия'),('机械厂','Machinery works','Машиностроение')]
-    short=['·','煤','铁','电','钢','机'];short_en=['·','C','I','P','S','M']
-    for kind,(zh,en,ru) in enumerate(names):
-        L(f'type_{kind}',zh,en,ru);L(f'short_{kind}',short[kind],short_en[kind])
-    rates={1:('每级每轮生产 3 煤。需要煤矿潜力。','Each level produces 3 coal per round. Requires coal potential.'),2:('每级每轮生产 3 铁。需要铁矿潜力。','Each level produces 3 iron per round. Requires iron potential.'),3:('每级每轮消耗 1 煤，提供 6 电力。','Each level burns 1 coal for 6 power per round.'),4:('每级每轮最多生产 2 钢。每单位消耗 1 煤、1 铁、2 电力、1 运力。','Each level produces up to 2 steel. Each unit uses 1 coal, 1 iron, 2 power and 1 transport.'),5:('每级每轮最多生产 2 机械。每单位消耗 2 钢、1 电力、1 运力。','Each level produces up to 2 machines. Each unit uses 2 steel, 1 power and 1 transport.')}
-    for kind in COST:
-        L(f'build_{kind}',names[kind][0]+f'  {COST[kind]}',names[kind][1]+f'  {COST[kind]}')
-        L(f'build_{kind}_tt',f'§Y建设或升级{names[kind][0]}§!\n消耗 {COST[kind]} 投资。{rates[kind][0]}\n须为空地或同类设施，且由俄罗斯拥有并控制。设施与铁路均最高三级。',f'§YBuild or upgrade {names[kind][1]}§!\nCost: {COST[kind]} investment. {rates[kind][1]}\nRequires an empty district or the same facility, owned and controlled by Russia. Maximum level 3.')
-    L('rail','铁路  2','Rail  2','Ж/д  2');L('rail_tt','§Y建设或升级铁路§!\n消耗 2 投资。相邻有铁路的地块自动连通；连接莫斯科后，每级增加 2 加工运力。','§YBuild or upgrade rail§!\nCosts 2 investment. Adjacent rail connects automatically. Each level connected to Moscow adds 2 processing transport.')
-    L('remove','拆除设施','Remove facility','Снести завод');L('remove_rail','拆除铁路','Remove rail','Снять ж/д')
-    L('remove_tt','移除选中设施，返还本局在该设施上实际支付的投资。起始设施不产生退款。','Remove this facility and refund investment actually paid into it this exercise. Free starting facilities have no refund.')
-    L('remove_rail_tt','移除选中地块的铁路，返还实际支付的投资。下游设施可能失去连接。','Remove this rail and refund investment actually paid. Downstream districts may lose their connection.')
-    L('settle','结算本轮','Resolve round','Завершить этап');L('settle_tt','重新核对领土与铁路连接，按预测生产并消耗原料。\n本轮只结算一次；五轮结束后显示总成绩。','Recheck territorial control and rail connections, then consume inputs and resolve production.\nEach round resolves once; the exercise ends after five rounds.')
-    L('refresh','刷新预测','Refresh forecast','Обновить прогноз');L('refresh_tt','重新核对领土、铁路和产量预测，不推进轮次、不结算生产。','Recheck territory, rail and output forecasts without advancing or producing.')
-    L('restart','重新规划','New exercise','Новый план');L('restart_confirm','确认重新规划','Confirm restart','Подтвердить')
-    L('restart_tt','重新开始五轮演算。第一次点击显示确认按钮；再次确认后，清空本沙盘的布局、库存与成绩。','Start a new five-round exercise. Click once to reveal confirmation; confirm again to clear only this exercise layout, stocks and score.')
-    L('finished','§Y五轮规划结束§!   累计机械：[?RUS_ip_machines|0]   考核：[?RUS_ip_score|0] / 100 分\n可继续查看地图，或点击“重新规划”再进行一局。','§YFive rounds complete§!   Machines: [?RUS_ip_machines|0]   Score: [?RUS_ip_score|0] / 100\nInspect the map or start another exercise.')
-    L('bottlenecks','瓶颈：[GetRUSIPBottleneck]\n采矿 → 发电 → 炼钢 → 机械\n电力当轮使用，原料与成品留存。','Bottleneck: [GetRUSIPBottleneck]\nMining → Power → Steel → Machinery\nPower expires. Material stocks persist.')
-    for key,zh,en in [('power','§R电力不足§!','§RPower shortage§!'),('coal','§R煤炭不足§!','§RCoal shortage§!'),('iron','§R铁矿不足§!','§RIron shortage§!'),('steel','§R钢材不足§!','§RSteel shortage§!'),('transport','§R加工运力不足§!','§RTransport shortage§!'),('clear','§G当前生产能力均可利用§!','§GAll connected production capacity can be used§!'),('idle','§g尚无接通的加工设施§!','§gNo connected processing facilities§!')]:L('bottleneck_'+key,zh,en)
-
-    triggers=[fx('available','original_tag = RUS\nis_ai = no\n'),fx('editing','RUS_ip_available = yes\nhas_country_flag = RUS_ip_initialized\nhas_country_flag = RUS_ip_open\nNOT = { has_country_flag = RUS_ip_finished }\n')]
+    L('detail','基础设施 [?RUS_ip_sel_infra|0]   民工 [?RUS_ip_sel_civs|0]   军工 [?RUS_ip_sel_mil|0]\n煤 [?RUS_ip_sel_coal|0]   钢 [?RUS_ip_sel_steel|0]   电网 [?RUS_ip_sel_grid|0]\n铁路 [?RUS_ip_sel_rail|0] 级   [GetRUSIPConnection]\n当地运力 [?RUS_ip_sel_freight|1]','Infrastructure [?RUS_ip_sel_infra|0]  Civs [?RUS_ip_sel_civs|0]  Arms [?RUS_ip_sel_mil|0]\nCoal [?RUS_ip_sel_coal|0]  Steel [?RUS_ip_sel_steel|0]  Grid [?RUS_ip_sel_grid|0]\nRail level [?RUS_ip_sel_rail|0]  [GetRUSIPConnection]\nLocal freight [?RUS_ip_sel_freight|1]')
+    L('connected','§G接通莫斯科§!','§GConnected§!'); L('disconnected','§R尚未接通§!','§RDisconnected§!')
+    L('project','[GetRUSIPSelectedType]  ·  [GetRUSIPSelectedStatus]','[GetRUSIPSelectedType] · [GetRUSIPSelectedStatus]')
+    L('progress','进度 [?RUS_ip_sel_percent|0]%   [GetRUSIPEstimate]\n当前速度：每日 [?RUS_ip_sel_speed|2] 工作量','Progress [?RUS_ip_sel_percent|0]%  [GetRUSIPEstimate]\nDaily work: [?RUS_ip_sel_speed|2]')
+    L('eta','约 [?RUS_ip_sel_eta|0] 天','About [?RUS_ip_sel_eta|0] days'); L('eta_unknown','工期暂无法估计','Duration unavailable')
+    L('commitments','施工占用（全国）\n民工 [?RUS_ip_reserved_civs|0]   钢 [?RUS_ip_reserved_steel|0]   煤 [?RUS_ip_reserved_coal|0]\n暂停、取消或竣工后释放。','Construction commitments\nCivs [?RUS_ip_reserved_civs|0]  Steel [?RUS_ip_reserved_steel|0]  Coal [?RUS_ip_reserved_coal|0]\nReleased on pause, cancellation or completion.')
+    L('construction_commitment','工业建设物资调拨','Industrial construction commitments')
+    L('construction_commitment_desc','建设队伍与材料由国家计划委员会统一调拨。','The planning commission coordinates construction teams and material deliveries.')
+    L('extraction_bottleneck','落后的资源开采体系','Outdated Resource Extraction')
+    L('extraction_bottleneck_desc','老旧设备、粗放的开采方式与薄弱的勘探体系，阻碍着地下财富转化为工业原料。矿区扩建与开采整顿将逐步缓解这一困境。','Obsolete equipment, wasteful methods and weak prospecting prevent mineral wealth from reaching industry. Mine development and modernisation will gradually ease these problems.')
+    L('extraction','[GetRUSIPExtractionStatus]','[GetRUSIPExtractionStatus]')
+    L('extraction_active','战略资源获取效率惩罚 §R[?RUS_ip_resource_penalty_percent|0]%§!   |   矿业恢复目标 [?RUS_ip_mining_completed|0] / 15','Resource extraction penalty §R[?RUS_ip_resource_penalty_percent|0]%§!  |  Mine recovery [?RUS_ip_mining_completed|0] / 15')
+    L('extraction_pending','开采整顿将在启动建设计划后开始。','Extraction reform begins when the programme starts.')
+    L('extraction_clear','§G已消除资源开采惩罚。§!','§GExtraction penalty cleared.§!')
+    L('test_category','工业建设测试','Industrial Construction Test')
+    L('test_category_desc','国家计划委员会正在试行新的地区工业建设与资源调配方式。','The planning commission is testing a new approach to regional construction and resource allocation.')
+    L('enable_gui','启用工业建设界面（测试）','Enable Industrial Construction GUI (Test)')
+    L('enable_gui_desc','以各地区实际的工业条件为基础，筹划矿业、能源、交通与制造业建设。','Plan mining, energy, transport and manufacturing around the actual conditions of each region.')
+    L('enable_gui_tt','启用地图上的工业建设入口并打开界面。建设期将在窗口内点击“启动建设计划”后开始。','Unlock the industrial map button and open the window. The programme begins only after selecting Start programme inside it.')
+    L('type_0','待安排','No project')
+    statuses=[(0,'空闲','Idle'),(1,'§G施工中§!','§GBuilding§!'),(2,'§R建设条件不符§!','§RSite unavailable§!'),(3,'§Y已暂停§!','§YPaused§!'),(4,'§R铁路未接通§!','§RRail disconnected§!'),(5,'§R等待工厂或物资§!','§RAwaiting capacity§!')]
+    for k,zh,en in statuses: L(f'status_{k}',zh,en)
+    for k,s in PROJECTS.items():
+        L(f'type_{k}',s['zh'],s['en']); L(f'build_{k}',s['zh'],{1:'Coal',2:'Iron',3:'Grid',4:'Steel',5:'Machinery',6:'Transport'}[k])
+        requirement={1:'须有煤矿潜力，最多扩建三次。',2:'须有铁矿潜力，最多扩建三次。',3:'须有强化电网建设空间。',4:'须有民工槽位并接通莫斯科；缺电会减速。',5:'须有军工槽位并接通莫斯科；缺电会减速。',6:'须有基础设施空间；内陆地区需相邻已接通地区作为铁路起点。'}[k]
+        L(f'build_{k}_tt',f'§Y{s["zh"]}§!\n施工期间占用 {s["civs"]} 座民工、{s["steel"]} 钢、{s["coal"]} 煤。\n基础工作量 {s["days"]}；所需当地运力 {s["freight"]}。\n{requirement}\n工程完成时获得：',f'§Y{s["en"]}§!\nReserves {s["civs"]} civilian factories, {s["steel"]} steel and {s["coal"]} coal.\nBase work {s["days"]}; freight demand {s["freight"]}.\nRequires an owned, controlled eligible site and an empty queue.\nOn completion:')
+    for key,zh,en in [('start','启动建设计划','Start programme'),('refresh','刷新状态','Refresh'),('help','玩法介绍','How to play'),('back','返回地图','Back to map'),('pause','暂停／继续','Pause / resume'),('cancel','取消工程','Cancel project'),('confirm_cancel','确认取消','Confirm cancel')]: L(key,zh,en)
+    L('start_tt','开始本期 1800 天建设计划，仅能启动一次。每完成一项煤矿或铁矿工程，恢复 2 个百分点的战略资源获取效率，累计 15 项后清除下述惩罚；建设期结束时清除剩余惩罚。','Begin this independent 1800-day programme once. Each completed coal or iron mine restores 2 percentage points of extraction efficiency; 15 mines clear the penalty. Any remaining penalty ends with the programme.')
+    L('refresh_tt','重新核对领土、铁路与施工状态，不推进时间。全国可用建设物资每日更新。','Recheck territory, rail and work without advancing time. National capacity updates daily.')
+    L('pause_tt','暂停或恢复选中工程；暂停时释放占用的工厂和物资，保留进度。','Pause or resume. Paused work releases commitments and preserves progress.')
+    L('cancel_tt','再次确认后取消选中工程，清空施工进度并释放占用。已建成设施不受影响。','Confirm to discard this project progress and release commitments. Completed facilities remain.')
+    L('help_title','工业建设 · 玩法介绍','Industrial construction · How to play')
+    help_zh=[
+        '§Y一、启动与选址§!\n先执行“启用工业建设界面（测试）”决议，再在窗口点击“启动建设计划”，开始独立的 1800 天建设期。圆点代表经济区，工程落在所示中心州；每区同时一项，可跨区并行。关闭窗口后工程继续。',
+        '§Y二、真实建设与资源链§!\n启动时战略资源获取效率 −30%，每竣工一项煤矿或铁矿恢复 2 个百分点，15 项清除。煤矿产煤、铁矿产钢；电网降低工厂能耗，钢铁厂增加民工与钢，机械军工厂增加军工。具体收益见按钮原生提示。',
+        '§Y三、持续占用§!\n施工持续占用真实民工与煤钢资源。缺少领土、槽位、物资或铁路条件时工程暂停。暂停、取消、完工均释放占用。国家可用物资每日核对；短缺时按地区编号依次保障施工。可手动暂停工程来调整优先级。',
+        '§Y四、工期与瓶颈§!\n每日基础进度 = 1 + 基础设施 × 0.12 + 民工数量（最多 20）× 0.025 + 相关资源（最多 40）× 0.005，再乘运力与供电系数。煤矿、电网参考煤，其余参考钢。全国缺电使钢铁与机械工程减速，最低保留 25% 速度。',
+        '§Y五、铁路与运输§!\n读取实际铁路是否接通莫斯科。当地运力 = 1 + 基础设施 + 铁路等级，未接通时仅为四分之一；运力不足进一步拖慢工程。钢铁与机械工程必须接通。交通建设增加基础设施并从相邻已接通的国内地区铺设一级铁路。两处海运接驳需要两端港口和至少 10 艘运输船。',
+        '§Y六、竣工与期限§!\n每天自动推进一次，完工后增加真实建筑或资源；每区两类矿业各可扩建三次。建设期结束时停止未完成工程、释放占用并清除剩余开采惩罚，保留竣工成果。本窗口独立运行，暂不改变旧一五计划任务、分数与结算奖励。',
+    ]
+    help_en=[
+        '§Y1. Start and choose a site§!\nFirst take Enable Industrial Construction GUI (Test), then Start programme in this window for an independent 1800-day period. Work is delivered to the selected central state. One queued project per district, several districts at once. Closing the window does not stop work.',
+        '§Y2. Real assets and supply chains§!\nStarting applies -30% extraction efficiency. Each completed coal or iron mine restores 2 percentage points; 15 clear it. Coal mines add coal, iron mines add steel; grids lower energy needs, steelworks add civs and steel, machine works add arms factories. See native reward tooltips.',
+        '§Y3. Commitments§!\nWork reserves real civilian factories, coal and steel. Invalid sites and shortages pause work. Pausing, cancelling or finishing releases commitments. Capacity updates daily; lower district numbers have priority during shortages. Pause projects to adjust priority.',
+        '§Y4. Speed and bottlenecks§!\nBase daily work = 1 + infrastructure x 0.12 + civilian factories (cap 20) x 0.025 + resources (cap 40) x 0.005, multiplied by freight and power factors. Coal mines and grids use coal; others use steel. Low national power slows steel and machine works to a minimum of 25%.',
+        '§Y5. Rail and transport§!\nUses real rail connections to Moscow. Freight = 1 + infrastructure + rail level, quartered if disconnected. Steel/machine works require connection. Transport adds infrastructure and a level-1 railway from a connected domestic neighbour. Maritime links require ports at both ends and at least 10 convoys.',
+        '§Y6. Completion and deadline§!\nProgress advances once per day, delivering real buildings or resources. Each mine type allows three expansions. The deadline cancels unfinished work and releases commitments; completed assets remain. The original Five-Year Plan mission, score and rewards are unchanged.',
+    ]
+    for idx,(zh,en) in enumerate(zip(help_zh,help_en)): L(f'help_{idx}',zh,en)
+    definitions=[]
+    def defined(name,branches):
+        definitions.append(block('defined_text',f'name = {name}\n'+''.join(block('text',(block('trigger',c) if c else '')+f'localization_key = {k}\n') for c,k in branches)))
+    defined('GetRUSIPPlanStatus',[('has_country_flag = RUS_ip_active',P+'active'),('has_country_flag = RUS_ip_ended',P+'ended'),('',P+'not_started')])
+    defined('GetRUSIPSelectedType',[(cv('sel_project','=',k),P+f'type_{k}') for k in PROJECTS]+[('',P+'type_0')])
+    defined('GetRUSIPSelectedStatus',[(cv('sel_status','=',k),P+f'status_{k}') for k,_,_ in statuses]+[('',P+'status_0')])
+    defined('GetRUSIPEstimate',[(cv('sel_running','=',1),P+'eta'),('',P+'eta_unknown')])
+    defined('GetRUSIPConnection',[(cv('sel_connected','=',1),P+'connected'),('',P+'disconnected')])
+    defined('GetRUSIPExtractionStatus',[('NOT = { has_country_flag = RUS_ip_started }',P+'extraction_pending'),(cv('resource_penalty','<',0),P+'extraction_active'),('',P+'extraction_clear')])
     for c in cells:
-        i=c['id'];triggers.append(fx(f'owned_{i}',f'owns_state = {c["state"]}\ncontrols_state = {c["state"]}\n'))
-    def eligible(i,kind):
-        out=f'RUS_ip_owned_{i} = yes\n'+cv(f'n{i}_level','<',3)+'\n'+block('OR',cv(f'n{i}_type','=',0)+'\n'+cv(f'n{i}_type','=',kind))
-        if kind in (1,2) and not cells[i]['coal' if kind==1 else 'iron']:out+='always = no\n'
-        return out
-    for kind,cost in COST.items():
-        cond='RUS_ip_editing = yes\n'+at_least('budget',cost)+'\n'+block('OR',''.join(block('AND',cv('selected','=',c['id'])+'\n'+eligible(c['id'],kind)) for c in cells))
-        triggers.append(fx(f'can_build_{kind}',cond))
-    for name,cell_cond,money in [('rail',lambda i:cv(f'n{i}_rail','<',3),2),('remove',lambda i:cv(f'n{i}_level','>',0),0),('remove_rail',lambda i:cv(f'n{i}_rail','>',0),0)]:
-        cond='RUS_ip_editing = yes\n'+at_least('budget',money)+'\n'+block('OR',''.join(block('AND',cv('selected','=',c['id'])+f'\nRUS_ip_owned_{c["id"]} = yes\n'+cell_cond(c['id'])) for c in cells))
-        triggers.append(fx('can_'+name,cond))
-
-    init='set_country_flag = RUS_ip_initialized\nclr_country_flag = RUS_ip_finished\nclr_country_flag = RUS_ip_restart_armed\n'
-    for k,v in dict(round=1,budget=24,coal=6,iron=4,steel=2,machines=0,score=0,target=2,selected=hub).items():init+=setv(k,v)
-    for c in cells:
-        i=c['id'];kind=data['starter'].get(str(i),0)
-        for k,v in dict(type=kind,level=int(kind>0),paid=0,rail=int(i in data['starter_rails']),rail_paid=0).items():init+=setv(f'n{i}_{k}',v)
-    effects=[fx('initialize',init+'RUS_ip_refresh = yes\n')]
-    effects.append(fx('open_effect',iff('RUS_ip_available = yes',iff('NOT = { has_country_flag = RUS_ip_initialized }','RUS_ip_initialize = yes\n')+'set_country_flag = RUS_ip_open\nclr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n')))
-    effects.append(fx('close_effect','clr_country_flag = RUS_ip_open\nclr_country_flag = RUS_ip_restart_armed\n'+add('dirty',1)))
-    effects.append(fx('toggle',iff('RUS_ip_available = yes',iff('has_country_flag = RUS_ip_open','RUS_ip_close_effect = yes\n')+block('else','RUS_ip_open_effect = yes\n'))))
-
-    # Reachability is recomputed only on interaction. No daily/global polling.
-    refresh=''
-    for c in cells:
-        i=c['id'];refresh+=setv(f'n{i}_connected',0)+setv(f'n{i}_status',1)+iff(f'RUS_ip_owned_{i} = yes',setv(f'n{i}_status',0)+iff(cv(f'n{i}_rail','>',0),setv(f'n{i}_status',2)))
-    refresh+=iff(f'RUS_ip_owned_{hub} = yes\n'+cv(f'n{hub}_rail','>',0),setv(f'n{hub}_connected',1))
-    refresh+=setv('changed',1)+setv('iterations',0)
-    flood=''
-    for c in cells:
-        i=c['id'];neighbors=block('OR','\n'.join(cv(f'n{j}_connected','=',1) for j in c['neighbors']))
-        cond=f'RUS_ip_owned_{i} = yes\n'+cv(f'n{i}_rail','>',0)+'\n'+cv(f'n{i}_connected','=',0)+'\n'+neighbors
-        flood+=iff(cond,setv(f'n{i}_connected',1)+setv('changed',1))
-    refresh+=block('while_loop_effect',block('limit',cv('changed','=',1)+'\n'+cv('iterations','<',n))+setv('changed',0)+flood+add('iterations',1))
-    for k in ['connected_count','coal_capacity','iron_capacity','power_capacity','steel_capacity','machine_capacity','transport_total']:refresh+=setv(k,0)
-    for c in cells:
-        i=c['id'];body=setv(f'n{i}_status',3)+add('connected_count',1)+add('transport_total',P+f'n{i}_rail')+add('transport_total',P+f'n{i}_rail')
-        for kind,key,mult in [(1,'coal_capacity',3),(2,'iron_capacity',3),(3,'power_capacity',1),(4,'steel_capacity',2),(5,'machine_capacity',2)]:
-            body+=iff(cv(f'n{i}_type','=',kind),''.join(add(key,P+f'n{i}_level') for _ in range(mult)))
-        refresh+=iff(cv(f'n{i}_connected','=',1),body)
-    refresh+='RUS_ip_forecast = yes\nRUS_ip_selection_cache = yes\n'+add('dirty',1)
-    effects.append(fx('refresh',refresh))
-
-    forecast=setv('next_coal',P+'coal')+add('next_coal',P+'coal_capacity')+setv('next_iron',P+'iron')+add('next_iron',P+'iron_capacity')+setv('next_steel',P+'steel')+setv('next_machines',P+'machines')
-    forecast+=setv('power_total',0)+setv('power_left',0)+setv('transport_left',P+'transport_total')+setv('power_runs',0)+setv('steel_output',0)+setv('machine_output',0)+setv('bottleneck',0)
-    forecast+=block('while_loop_effect',block('limit',cv('power_runs','<',P+'power_capacity')+'\n'+at_least('next_coal',1))+sub('next_coal',1)+add('power_total',6)+add('power_runs',1))
-    forecast+=setv('power_left',P+'power_total')+setv('power_demand',P+'steel_capacity')+add('power_demand',P+'steel_capacity')+add('power_demand',P+'machine_capacity')
-    forecast+=block('while_loop_effect',block('limit','\n'.join([cv('steel_output','<',P+'steel_capacity'),at_least('next_coal',1),at_least('next_iron',1),at_least('power_left',2),at_least('transport_left',1)]))+sub('next_coal',1)+sub('next_iron',1)+sub('power_left',2)+sub('transport_left',1)+add('next_steel',1)+add('steel_output',1))
-    forecast+=block('while_loop_effect',block('limit','\n'.join([cv('machine_output','<',P+'machine_capacity'),at_least('next_steel',2),at_least('power_left',1),at_least('transport_left',1)]))+sub('next_steel',2)+sub('power_left',1)+sub('transport_left',1)+add('next_machines',1)+add('machine_output',1))
-    # Show the first actionable shortage. Full requirements remain in tooltips.
-    shortage=block('OR',cv('steel_output','<',P+'steel_capacity')+'\n'+cv('machine_output','<',P+'machine_capacity'))
-    tests=[(1,cv('transport_left','<',1)),(2,cv('power_left','<',1)),(3,cv('next_coal','<',1)+'\n'+cv('steel_output','<',P+'steel_capacity')),(4,cv('next_iron','<',1)+'\n'+cv('steel_output','<',P+'steel_capacity')),(5,cv('next_steel','<',2)+'\n'+cv('machine_output','<',P+'machine_capacity'))]
-    branch=''
-    for index,(value,condition) in enumerate(tests):branch+=block('if' if index==0 else 'else_if',block('limit',condition)+setv('bottleneck',value))
-    # Steel needs two units of power even when one remains.
-    branch+=block('else',setv('bottleneck',2))
-    forecast+=iff(shortage,branch)+iff(cv('steel_capacity','=',0)+'\n'+cv('machine_capacity','=',0),setv('bottleneck',6))
-    effects.append(fx('forecast',forecast))
-    cache=''
-    for c in cells:
-        i=c['id'];body=''.join(setv('sel_'+k,P+f'n{i}_{k}') for k in ['type','level','rail','status'])+setv('sel_coal',c['coal'])+setv('sel_iron',c['iron'])
-        cache+=iff(cv('selected','=',i),body)
-    effects.append(fx('selection_cache',cache))
-    for kind,cost in COST.items():
-        body=''
-        for c in cells:
-            i=c['id'];body+=iff(cv('selected','=',i)+'\n'+eligible(i,kind),setv(f'n{i}_type',kind)+add(f'n{i}_level',1)+add(f'n{i}_paid',cost)+sub('budget',cost))
-        effects.append(fx(f'build_{kind}',iff(f'RUS_ip_can_build_{kind} = yes',body+'clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n')))
-    for action in ['rail','remove','remove_rail']:
-        body=''
-        for c in cells:
-            i=c['id']
-            if action=='rail':change=add(f'n{i}_rail',1)+add(f'n{i}_rail_paid',2)+sub('budget',2)
-            elif action=='remove':change=add('budget',P+f'n{i}_paid')+setv(f'n{i}_paid',0)+setv(f'n{i}_type',0)+setv(f'n{i}_level',0)
-            else:change=add('budget',P+f'n{i}_rail_paid')+setv(f'n{i}_rail_paid',0)+setv(f'n{i}_rail',0)
-            body+=iff(cv('selected','=',i)+f'\nRUS_ip_owned_{i} = yes',change)
-        effects.append(fx(action,iff(f'RUS_ip_can_{action} = yes',body+'clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n')))
-    settle='RUS_ip_refresh = yes\n'+''.join(setv(k,P+'next_'+k) for k in ['coal','iron','steel','machines'])
-    settle+=iff(at_least('machines',P+'target'),add('score',20))
-    settle+=iff(cv('round','<',5),add('round',1)+add('budget',18))+block('else','set_country_flag = RUS_ip_finished\n')
-    for i,target in enumerate(TARGETS,1):settle+=iff(cv('round','=',i),setv('target',target))
-    settle+='clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n'
-    effects.append(fx('settle',iff('RUS_ip_editing = yes',settle)))
-    effects.append(fx('arm_restart',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open','set_country_flag = RUS_ip_restart_armed\n'+add('dirty',1))))
-    effects.append(fx('confirm_restart',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\nhas_country_flag = RUS_ip_restart_armed','RUS_ip_initialize = yes\n')))
-
-    defined=[]
-    def defined_text(name,branches):
-        defined.append(block('defined_text',f'name = {name}\n'+''.join(block('text',(block('trigger',cond) if cond else '')+f'localization_key = {key}\n') for cond,key in branches)))
-    defined_text('GetRUSIPSelectedType',[(cv('sel_type','=',k),P+f'type_{k}') for k in range(1,6)]+[('',P+'type_0')])
-    defined_text('GetRUSIPSelectedStatus',[(cv('sel_status','=',k),P+f'status_{k}') for k in range(1,4)]+[('',P+'status_0')])
-    for key in ['coal','iron']:defined_text('GetRUSIP'+key.title()+'Potential',[(cv('sel_'+key,'=',1),P+'yes'),('',P+'no')])
-    defined_text('GetRUSIPBottleneck',[(cv('bottleneck','=',i),P+'bottleneck_'+key) for i,key in enumerate(['transport','power','coal','iron','steel','idle'],1)]+[('',P+'bottleneck_clear')])
-    for c in cells:
-        i=c['id'];L(f'district_{i}',f'地块 {i+1:02} · $STATE_{c["state"]}$',f'District {i+1:02} · $STATE_{c["state"]}$')
-        L(f'node_{i}',f'[GetRUSIPType{i}]  [?RUS_ip_n{i}_level|0]',f'[GetRUSIPType{i}]  [?RUS_ip_n{i}_level|0]')
-        zh=f'§Y地块 {i+1:02} · $STATE_{c["state"]}$§!\n设施：[GetRUSIPType{i}]  [?RUS_ip_n{i}_level|0] 级\n铁路：[?RUS_ip_n{i}_rail|0] 级\n煤矿潜力：'+('有' if c['coal'] else '无')+'  /  铁矿潜力：'+('有' if c['iron'] else '无')
-        en=f'§YDistrict {i+1:02} · $STATE_{c["state"]}$§!\nFacility: [GetRUSIPType{i}] level [?RUS_ip_n{i}_level|0]\nRail: level [?RUS_ip_n{i}_rail|0]\nCoal potential: {c["coal"]} / Iron potential: {c["iron"]}'
-        L(f'node_{i}_tt',zh,en)
-        defined_text(f'GetRUSIPType{i}',[(cv(f'n{i}_type','=',k),P+f'short_{k}') for k in range(1,6)]+[('',P+'short_0')])
-    defined_text('GetRUSIPDistrict',[(cv('selected','=',c['id']),P+f'district_{c["id"]}') for c in cells]+[('',P+f'district_{hub}')])
-
-    # Same raid-filter attachment as agriculture, one separate slot to its left.
-    launchers=[];launcher_scripts=[]
+        i,state=c['id'],c['state']
+        L(f'district_{i}',f'地区 {i+1:02} · [{state}.GetName]',f'District {i+1:02} · [{state}.GetName]')
+        L(f'node_{i}_tt',f'§Y[{state}.GetName]§!\n工程：[GetRUSIPProject{i}]\n进度 [?RUS_ip_n{i}_percent|0]%\n基础设施 [?RUS_ip_n{i}_infra|0]  民工 [?RUS_ip_n{i}_civs|0]  军工 [?RUS_ip_n{i}_mil|0]\n煤矿潜力：'+('有' if c['coal'] else '无')+'  铁矿潜力：'+('有' if c['iron'] else '无'),f'§Y[{state}.GetName]§!\nProject: [GetRUSIPProject{i}]\nProgress [?RUS_ip_n{i}_percent|0]%\nInfrastructure [?RUS_ip_n{i}_infra|0]  Civs [?RUS_ip_n{i}_civs|0]  Arms [?RUS_ip_n{i}_mil|0]')
+        defined(f'GetRUSIPProject{i}',[(cv(f'n{i}_project','=',k),P+f'type_{k}') for k in PROJECTS]+[('',P+'type_0')])
+    defined('GetRUSIPDistrict',[(cv('selected','=',c['id']),P+f'district_{c["id"]}') for c in cells]+[('',P+f'district_{hub}')])
+    launchers=[]; launcher_scripts=[]
     for suffix,y,condition in [('',-121,'NOT = { GER_is_in_mitteleuropa = yes }'),('_above_mitteleuropa',-198,'GER_is_in_mitteleuropa = yes')]:
         launchers.append(block('containerWindowType',f'name = "RUS_industrial_planning_launcher{suffix}"\nposition = {{ x = -79 y = {y} }}\nsize = {{ width = 77 height = 77 }}\nbackground = {{ name = "Background" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }}\nbackground = {{ name = "Background" quadTextureSprite = "GFX_tiled_research_bg" }}\nbuttonType = {{ name = "ip_open" position = {{ x = 9 y = 7 }} scale = 1.8 quadTextureSprite = "GFX_decision_generic_industry" pdx_tooltip = "RUS_ip_open_tt" clicksound = click_ok }}\n'))
         launcher_scripts.append(block('RUS_industrial_planning_launcher'+suffix,f'context_type = player_context\nparent_window_name = raid_filter\nwindow_name = "RUS_industrial_planning_launcher{suffix}"\nai_enabled = {{ always = no }}\n'+block('visible','RUS_ip_available = yes\n'+condition)+block('effects','ip_open_click = { hidden_effect = { RUS_ip_toggle = yes } }')))
-    widgets=[];gt=[];ge=[]
-    def horizontal(x,w=None):
-        # Compact 1184 px window; the detail panel sits beside the 816 px map.
-        return (x-108 if x>=960 else x, w-108 if w is not None and w>900 else w)
-    def text(name,key,x,y,w,h=24,font='hoi_16mbs',center=False):
-        x,w=horizontal(x,w)
-        widgets.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} text = "{key}" font = "{font}" maxWidth = {w} maxHeight = {h} format = {"center" if center else "left"} fixedsize = yes alwaystransparent = yes }}\n')
-    def button(name,key,x,y,tip,action,enable='',sprite='GFX_button_123x34'):
-        x,_=horizontal(x)
-        widgets.append(f'buttonType = {{ name = "{name}" position = {{ x = {x} y = {y} }} quadTextureSprite = "{sprite}" buttonText = "{key}" buttonFont = "hoi_16mbs" pdx_tooltip = "{tip}" clicksound = click_default }}\n')
-        if enable:gt.append(block(name+'_click_enabled',enable))
-        ge.append(block(name+'_click',block('hidden_effect',action)))
-    def icon(name,sprite,x,y):widgets.append(f'iconType = {{ name = "{name}" position = {{ x = {x} y = {y} }} spriteType = "{sprite}" alwaystransparent = yes }}\n')
-    text('ip_title',P+'title',24,12,1200,32,'hoi_24header',True)
-    text('ip_subtitle',P+'subtitle',24,46,920,24)
-    text('ip_summary',P+'summary',24,77,920,25,'hoi_20b')
-    text('ip_network',P+'network',24,108,920,23)
-    mx,my=20,140
-    icon('ip_map','GFX_RUS_ip_map',mx,my)
-    for edge in data['edge_sprites']:
-        i,j=edge['a'],edge['b']
-        icon(f'ip_link_{i}_{j}',f'GFX_RUS_ip_link_{i}_{j}',mx+edge['x'],my+edge['y'])
-        gt.append(block(f'ip_link_{i}_{j}_visible',cv(f'n{i}_rail','>',0)+'\n'+cv(f'n{j}_rail','>',0)+f'\nRUS_ip_owned_{i} = yes\nRUS_ip_owned_{j} = yes'))
+    widgets=[]; gt={}; geffects=[]
+    def visibility(name,condition='',page='board'):
+        base='NOT = { has_country_flag = RUS_ip_help_open }\n' if page=='board' else 'has_country_flag = RUS_ip_help_open\n' if page=='help' else ''
+        if base+condition: gt[name+'_visible']=base+condition
+    def text(name,key,x,y,w,h=24,font='hoi_16mbs',center=False,condition='',page='board'):
+        widgets.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} text = "{key}" font = "{font}" maxWidth = {w} maxHeight = {h} format = {"center" if center else "left"} fixedsize = yes alwaystransparent = yes }}\n'); visibility(name,condition,page)
+    def icon(name,sprite,x,y,scale=1,condition='',page='board'):
+        widgets.append(f'iconType = {{ name = "{name}" position = {{ x = {x} y = {y} }} spriteType = "{sprite}" scale = {scale} alwaystransparent = yes }}\n'); visibility(name,condition,page)
+    def button(name,key,x,y,tip,action,enable='',sprite='GFX_button_123x34',condition='',page='board',preview=''):
+        tooltip=f'pdx_tooltip = "{tip}" ' if tip else ''
+        shortcut='shortcut = "ESCAPE" ' if name=='ip_close' else ''
+        widgets.append(f'buttonType = {{ name = "{name}" position = {{ x = {x} y = {y} }} quadTextureSprite = "{sprite}" buttonText = "{key}" buttonFont = "hoi_16mbs" {tooltip}{shortcut}clicksound = click_default }}\n')
+        if enable: gt[name+'_click_enabled']=enable
+        visibility(name,condition,page); geffects.append(block(name+'_click',preview+block('hidden_effect',action)))
+    text('ip_title',P+'title',24,12,1488,32,'hoi_24header',True,page='all')
+    text('ip_subtitle',P+'subtitle',24,48,1120,page='all')
+    text('ip_summary',P+'summary',24,79,1150,27,'hoi_20b',page='all')
+    text('ip_network',P+'network',24,112,1160)
+    mx,my=20,144; icon('ip_map','GFX_RUS_ip_map',mx,my)
+    if data.get('northern_map_limit_y'):
+        text('ip_map_northern_limit',P+'map_northern_limit',mx+284,my+16,600,24,center=True)
+    for e in data['edge_sprites']:
+        a,b=e['a'],e['b']; icon(f'ip_link_{a}_{b}',f'GFX_RUS_ip_link_{a}_{b}',mx+e['x'],my+e['y'],condition=cv(f'n{a}_connected','=',1)+cv(f'n{b}_connected','=',1))
     for c in cells:
-        i=c['id'];icon(f'ip_region_{i}',f'GFX_RUS_ip_region_{i}',mx+c['bbox'][0],my+c['bbox'][1])
-        gt.append(block(f'ip_region_{i}_visible',cv('selected','=',i)))
+        i=c['id']; icon(f'ip_region_{i}',f'GFX_RUS_ip_region_{i}',mx+c['bbox'][0],my+c['bbox'][1],condition=cv('selected','=',i))
     for c in cells:
-        i=c['id'];x,y=mx+c['x']-20,my+c['y']-19
-        button(f'ip_cell_{i}','',x,y,P+f'node_{i}_tt',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open',setv('selected',i)+'clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n'),sprite='GFX_RUS_ip_cell_button')
-        for status,sprite,cond in [('selected','selected',cv('selected','=',i)),('connected','connected',cv(f'n{i}_connected','=',1)),('offline','offline',block('OR',cv(f'n{i}_status','=',1)+'\n'+block('AND',cv(f'n{i}_level','>',0)+'\n'+cv(f'n{i}_connected','=',0))))]:
-            icon(f'ip_{status}_{i}','GFX_RUS_ip_'+sprite,x,y);gt.append(block(f'ip_{status}_{i}_visible',cond))
-        text(f'ip_number_{i}',f'{i+1:02}',x+1,y+1,38,18,'hoi_16mbs',True)
-        text(f'ip_node_{i}',P+f'node_{i}',x+1,y+18,38,20,'hoi_16mbs',True)
-    text('ip_hub','★',mx+cells[hub]['x']-37,my+cells[hub]['y']-12,20,24,'hoi_20b')
-    text('ip_legend',P+'legend',24,579,925,24)
-    text('ip_target',P+'target',24,610,925,45)
-    text('ip_instructions',P+'instructions',24,668,925,42)
-    text('ip_selected',P+'selected',976,62,288,42,'hoi_20b')
-    text('ip_detail',P+'detail',976,105,285,160)
-    for kind,(x,y) in {1:(976,268),2:(1116,268),3:(976,309),4:(1116,309),5:(976,350)}.items():
-        button(f'ip_build_{kind}',P+f'build_{kind}',x,y,P+f'build_{kind}_tt',f'RUS_ip_build_{kind} = yes',f'RUS_ip_can_build_{kind} = yes')
-    button('ip_rail',P+'rail',1116,350,P+'rail_tt','RUS_ip_rail = yes','RUS_ip_can_rail = yes')
-    button('ip_remove',P+'remove',976,392,P+'remove_tt','RUS_ip_remove = yes','RUS_ip_can_remove = yes')
-    button('ip_remove_rail',P+'remove_rail',1116,392,P+'remove_rail_tt','RUS_ip_remove_rail = yes','RUS_ip_can_remove_rail = yes')
-    text('ip_stocks',P+'stocks',976,443,285,55)
-    text('ip_bottlenecks',P+'bottlenecks',976,504,285,66)
-    button('ip_refresh',P+'refresh',976,578,P+'refresh_tt',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open','RUS_ip_refresh = yes\n'))
-    button('ip_settle',P+'settle',1116,578,P+'settle_tt','RUS_ip_settle = yes','RUS_ip_editing = yes')
-    button('ip_restart',P+'restart',976,620,P+'restart_tt','RUS_ip_arm_restart = yes')
-    button('ip_restart_confirm',P+'restart_confirm',976,620,P+'restart_tt','RUS_ip_confirm_restart = yes')
-    gt.extend([block('ip_restart_visible','NOT = { has_country_flag = RUS_ip_restart_armed }'),block('ip_restart_confirm_visible','has_country_flag = RUS_ip_restart_armed')])
-    text('ip_sandbox_note',P+'sandbox_note',976,663,285,53)
-    # Result replaces the target line, leaving all map inspection controls usable.
-    gt.append(block('ip_target_visible','NOT = { has_country_flag = RUS_ip_finished }'))
-    text('ip_final',P+'finished',24,610,925,46)
-    gt.append(block('ip_final_visible','has_country_flag = RUS_ip_finished'))
-    widgets.append('buttonType = { name = "ip_close" position = { x = 1138 y = 9 } spriteType = "GFX_closebutton" pdx_tooltip = "CLOSE" shortcut = "ESCAPE" clicksound = click_close }\n')
-    ge.append(block('ip_close_click','hidden_effect = { RUS_ip_close_effect = yes }'))
-    frame='name = "RUS_industrial_planning_window"\nposition = { x = -592 y = -363 }\nsize = { width = 1184 height = 726 }\norientation = center\nmoveable = yes\nclick_to_front = yes\nshow_sound = menu_open_window\nhide_sound = menu_close_window\nbackground = { name = "frame" quadTextureSprite = "GFX_tiled_plain_bg" }\n'
-    frame+=block('containerWindowType','name = "ip_details_bg"\nposition = { x = 852 y = 49 }\nsize = { width = 316 height = 668 }\nbackground = { name = "detail" quadTextureSprite = "GFX_tiled_research_bg" }\n')
+        i=c['id']; x,y=mx+c['x']-13,my+c['y']-13
+        action=iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open',setv('selected',i)+'clr_country_flag = RUS_ip_cancel_armed\nRUS_ip_refresh = yes\n')
+        button(f'ip_cell_{i}','',x,y,P+f'node_{i}_tt',action,sprite='GFX_RUS_ip_cell_button')
+        icon(f'ip_selected_{i}','GFX_RUS_ip_selected',x,y,condition=cv('selected','=',i))
+        icon(f'ip_offline_{i}','GFX_RUS_ip_offline',x,y,condition=cv(f'n{i}_project','>',0)+cv(f'n{i}_running','=',0))
+        text(f'ip_number_{i}',f'{i+1:02}',x+1,y+4,24,20,center=True,condition=cv(f'n{i}_project','=',0)+cv(f'n{i}_last_kind','=',0))
+        for k in PROJECTS:
+            cond=block('OR',cv(f'n{i}_project','=',k)+block('AND',cv(f'n{i}_project','=',0)+cv(f'n{i}_last_kind','=',k)))
+            icon(f'ip_facility_{i}_{k}',f'GFX_RUS_ip_facility_{k}',x+3,y+3,.625,cond)
+    text('ip_capacity',P+'capacity',24,599,1150,27,'hoi_20b')
+    text('ip_extraction',P+'extraction',24,638,1150)
+    text('ip_footnote',P+'footnote',24,684,1000)
+    button('ip_help',P+'help',1064,680,'','RUS_ip_toggle_help = yes',page='board')
+    button('ip_back',P+'back',24,680,'','RUS_ip_toggle_help = yes',page='help')
+    widgets.append(block('containerWindowType','name = "ip_details_bg"\nposition = { x = 1204 y = 50 }\nsize = { width = 316 height = 667 }\nbackground = { name = "detail" quadTextureSprite = "GFX_tiled_research_bg" }\n')); visibility('ip_details_bg')
+    text('ip_selected',P+'selected',1220,65,284,42,'hoi_20b')
+    text('ip_detail',P+'detail',1220,113,288,85)
+    text('ip_project',P+'project',1220,207,285,26)
+    icon('ip_progressbar','GFX_RUS_ip_progress',1220,239)
+    text('ip_progress',P+'progress',1220,260,285,42)
+    for k in PROJECTS:
+        x,y=1220+(144 if k%2==0 else 0),312+41*((k-1)//2)
+        preview_rewards=[]
+        for c in cells:
+            payout=rewards[c['id'],k]
+            if k==6 and c['id']!=hub and c['id'] not in {b for a,b in data['sea_edges']}:
+                # Before queueing, preview the same first valid neighbour that
+                # build_6 will store. effect_tooltip never executes construction.
+                branches=''
+                for j in c['neighbors']:
+                    if sorted((c['id'],j)) in data['sea_edges']: continue
+                    cond=cv(f'n{j}_connected','=',1)+f'RUS_ip_owned_{j} = yes\n'+block('can_build_railway',rail_spec(cells[j]['state'],c['state']))
+                    branches+=block('if' if not branches else 'else_if',block('limit',cond)+block('build_railway','level = 1\n'+rail_spec(cells[j]['state'],c['state'])))
+                payout+=iff(cv(f'n{c["id"]}_project','=',0),branches)
+            preview_rewards.append(iff(cv('selected','=',c['id']),payout))
+        preview=f'custom_effect_tooltip = {P}build_{k}_tt\n'+block('effect_tooltip',''.join(preview_rewards))
+        button(f'ip_build_{k}','',x,y,'',f'RUS_ip_build_{k} = yes',f'RUS_ip_can_build_{k} = yes',preview=preview)
+        icon(f'ip_build_icon_{k}',f'GFX_RUS_ip_facility_{k}',x+6,y+5,.75)
+        text(f'ip_build_label_{k}',P+f'build_{k}',x+32,y+8,86,20,center=True)
+    button('ip_pause',P+'pause',1220,443,P+'pause_tt','RUS_ip_pause = yes','RUS_ip_editing = yes\n'+cv('sel_project','>',0))
+    button('ip_cancel',P+'cancel',1364,443,P+'cancel_tt','set_country_flag = RUS_ip_cancel_armed\n'+add('dirty',1),cv('sel_project','>',0),condition='NOT = { has_country_flag = RUS_ip_cancel_armed }')
+    button('ip_cancel_confirm',P+'confirm_cancel',1364,443,P+'cancel_tt','RUS_ip_cancel = yes',condition='has_country_flag = RUS_ip_cancel_armed')
+    text('ip_commitments',P+'commitments',1220,493,284,75)
+    button('ip_refresh',P+'refresh',1220,588,P+'refresh_tt','RUS_ip_refresh = yes')
+    button('ip_start',P+'start',1364,588,'','RUS_ip_start = yes',condition='NOT = { has_country_flag = RUS_ip_started }',
+           preview='custom_effect_tooltip = RUS_ip_start_tt\neffect_tooltip = { add_dynamic_modifier = { modifier = RUS_ip_extraction_bottleneck } }\n')
+    text('ip_help_title',P+'help_title',44,135,1440,36,'hoi_24header',page='help')
+    for idx in range(6): text(f'ip_help_{idx}',P+f'help_{idx}',44+(728 if idx>=3 else 0),191+154*(idx%3),686,146,page='help')
+    button('ip_close','',1490,9,'CLOSE','RUS_ip_close_effect = yes',sprite='GFX_closebutton',page='all')
+    frame='name = "RUS_industrial_planning_window"\nposition = { x = -768 y = -363 }\nsize = { width = 1536 height = 726 }\norientation = center\nmoveable = yes\nclick_to_front = yes\nshow_sound = menu_open_window\nhide_sound = menu_close_window\nbackground = { name = "frame" quadTextureSprite = "GFX_tiled_plain_bg" }\n'
     gui=block('guiTypes',''.join(launchers)+block('containerWindowType',frame+''.join(widgets)))
-    script='context_type = player_context\nwindow_name = "RUS_industrial_planning_window"\ndirty = RUS_ip_dirty\nai_enabled = { always = no }\n'+block('visible','RUS_ip_available = yes\nhas_country_flag = RUS_ip_open')+block('triggers',''.join(gt))+block('effects',''.join(ge))
+    script='context_type = player_context\nwindow_name = "RUS_industrial_planning_window"\ndirty = RUS_ip_dirty\nai_enabled = { always = no }\n'+block('visible','RUS_ip_available = yes\nhas_country_flag = RUS_ip_open')
+    script+=block('triggers',''.join(block(k,v) for k,v in gt.items()))+block('properties','ip_progressbar = { frame = RUS_ip_progress_frame }\n')+block('effects',''.join(geffects))
     gfx=[]
-    for name in ['map','selected','offline','connected','cell_button']+[f'region_{c["id"]}' for c in cells]+[f'link_{e["a"]}_{e["b"]}' for e in data['edge_sprites']]:
-        gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{name}"\ntexturefile = "gfx/interface/RUS_industrial_planning/{name}.png"\n'+('noOfFrames = 3\n' if name=='cell_button' else '')+'transparencecheck = yes\n'))
+    for name in ['map','selected','offline','connected','cell_button','progress']+[f'region_{c["id"]}' for c in cells]+[f'link_{e["a"]}_{e["b"]}' for e in data['edge_sprites']]:
+        frames={'cell_button':3,'progress':21}.get(name,1)
+        gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{name}"\ntexturefile = "gfx/interface/RUS_industrial_planning/{name}.png"\nnoOfFrames = {frames}\ntransparencecheck = yes\n'))
+    for k,asset in ICONS.items(): gfx.append(block('spriteType',f'name = "GFX_RUS_ip_facility_{k}"\ntexturefile = "gfx/interface/decisions/{asset}.dds"\n'))
     header='# Generated by tools/generate_industrial_planning.py. Edit the renderer, then --write.\n'
+    category=block(P+'test_category','icon = GFX_decision_category_generic_industry\nallowed = { original_tag = RUS }\nvisible = { is_ai = no NOT = { has_country_flag = RUS_ip_ui_unlocked } }\n')
+    decisions=block(P+'test_category',block(P+'enable_gui','icon = GFX_decision_generic_industry\nfire_only_once = yes\ncost = 0\nvisible = { is_ai = no NOT = { has_country_flag = RUS_ip_ui_unlocked } }\navailable = { original_tag = RUS is_ai = no }\ncomplete_effect = { custom_effect_tooltip = RUS_ip_enable_gui_tt hidden_effect = { RUS_ip_enable_gui = yes } }\nai_will_do = { base = 0 }\n'))
     outputs={'common/scripted_triggers/RUS_industrial_planning_triggers.txt':header+'\n'.join(triggers),
+             'common/decisions/categories/RUS_industrial_planning_categories.txt':header+category,
+             'common/decisions/RUS_industrial_planning_decisions.txt':header+decisions,
              'common/scripted_effects/RUS_industrial_planning_effects.txt':header+'\n'.join(effects),
+             'common/on_actions/RUS_industrial_planning_on_actions.txt':header+actions,
+             'common/dynamic_modifiers/RUS_industrial_planning_modifiers.txt':header+modifier,
              'common/scripted_guis/RUS_industrial_planning.txt':header+block('scripted_gui',''.join(launcher_scripts)+block('RUS_industrial_planning_gui',script)),
-             'common/scripted_localisation/RUS_industrial_planning_loc.txt':header+'\n'.join(defined),
-             'interface/RUS_industrial_planning.gui':header+gui,
-             'interface/RUS_industrial_planning.gfx':header+block('spriteTypes',''.join(gfx))}
-    for lang,catalog in loc.items():outputs[f'localisation/{lang}/RUS_industrial_planning_l_{lang}.yml']='l_'+lang+':\n'+''.join(f' {key}:0 "{value.replace(chr(10),r"\n")}"\n' for key,value in catalog.items())
+             'common/scripted_localisation/RUS_industrial_planning_loc.txt':header+'\n'.join(definitions),
+             'interface/RUS_industrial_planning.gui':header+gui,'interface/RUS_industrial_planning.gfx':header+block('spriteTypes',''.join(gfx))}
+    for lang,catalog in loc.items(): outputs[f'localisation/{lang}/RUS_industrial_planning_l_{lang}.yml']='l_'+lang+':\n'+''.join(f' {key}:0 "{value.replace(chr(10),r"\n")}"\n' for key,value in catalog.items())
     return outputs
 
 
@@ -260,18 +207,18 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     mode=parser.add_mutually_exclusive_group();mode.add_argument('--check',action='store_true');mode.add_argument('--write',action='store_true')
     parser.add_argument('--output-root',type=Path);args=parser.parse_args()
-    if args.check and args.output_root:parser.error('--check cannot write --output-root')
+    if args.check and args.output_root: parser.error('--check cannot write --output-root')
     out=(args.output_root or ROOT).resolve();outputs=render_outputs();assert outputs==render_outputs(),'Non-deterministic output'
     differences=[]
-    for rel,text in outputs.items():
+    for rel,content in outputs.items():
         target=(out/rel).resolve();assert target.is_relative_to(out)
-        data=text.encode('utf-8-sig' if rel.endswith('.yml') else 'utf-8')
+        encoded=content.encode('utf-8-sig' if rel.endswith('.yml') else 'utf-8')
         actual=target.read_bytes().replace(b'\r\n',b'\n') if target.is_file() else None
-        if data!=actual:
+        if encoded!=actual:
             differences.append(rel)
-            if args.write or args.output_root:target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data)
+            if args.write or args.output_root: target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(encoded)
     print(f'{"Generated" if args.write or args.output_root else "Checked"} {len(outputs)} files; {len(differences)} differences.')
-    if differences and not (args.write or args.output_root):raise SystemExit('\n'.join(differences))
+    if differences and not (args.write or args.output_root): raise SystemExit('\n'.join(differences))
 
 
-if __name__=='__main__':main()
+if __name__=='__main__': main()

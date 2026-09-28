@@ -1,7 +1,7 @@
-"""Build a data-derived Russian planning map; no runtime game files are edited.
+"""Package fixed atlas artwork registered to installed KR state geometry.
 
-The raster is a diagram of installed KR state/province data, not generated art.
-Run explicitly with --write; ordinary text generation never redraws this map.
+KR data determines regions, centres and transport topology. ImageGen supplies
+only the print finish; ordinary checks never redraw or regenerate artwork.
 """
 from __future__ import annotations
 
@@ -20,7 +20,11 @@ ROOT = Path(__file__).resolve().parents[1]
 KR = Path(os.environ.get('HOI4_KR_ROOT', ROOT.parent / '1521695605'))
 DATA = 'tools/data/industrial_planning_map.json'
 ASSETS = 'gfx/interface/RUS_industrial_planning'
-MAP_W, MAP_H = 816, 432
+ART = 'tools/assets/industrial_planning'
+MAP_W, MAP_H = 1168, 432
+MARKER_W = MARKER_H = 26
+# Keep the existing network's sampling independent from the display resolution.
+TOPOLOGY_W, TOPOLOGY_H = 816, 432
 # Economic catchments follow existing KR state boundaries. Dense western areas
 # are grouped around industrial centres; the sparsely settled east uses larger
 # river/transport catchments. Never partition the country into equal squares.
@@ -86,10 +90,13 @@ def build():
     bbox = mask.getbbox()
     # Map geometry keeps its native aspect ratio. Padding is outside the country.
     cropped = state_map.crop(bbox)
-    scale = min((MAP_W - 20) / cropped.width, (MAP_H - 20) / cropped.height)
-    fitted = cropped.resize((round(cropped.width * scale), round(cropped.height * scale)), Image.Resampling.NEAREST)
-    map_states = Image.new('I', (MAP_W, MAP_H))
-    map_states.paste(fitted, ((MAP_W-fitted.width)//2, (MAP_H-fitted.height)//2))
+    def fit(width, height):
+        scale = min((width - 20) / cropped.width, (height - 20) / cropped.height)
+        fitted = cropped.resize((round(cropped.width * scale), round(cropped.height * scale)), Image.Resampling.NEAREST)
+        result = Image.new('I', (width, height))
+        result.paste(fitted, ((width-fitted.width)//2, (height-fitted.height)//2))
+        return result
+    map_states = fit(MAP_W, MAP_H)
     assigned=[sid for _,group in DISTRICTS for sid in group]
     assert len(assigned)==len(set(assigned)) and set(assigned)==set(states), 'Review district definitions after KR changes'
     group_of={sid:i for i,(_,group) in enumerate(DISTRICTS) for sid in group}
@@ -102,10 +109,11 @@ def build():
         m=Image.new('L',(MAP_W,MAP_H));m.putdata([255 if g==i else 0 for g in groups]);masks.append(m)
         cells.append(dict(id=i,state=centre,states=group,x=round(cx),y=round(cy),geo_x=round(cx),geo_y=round(cy),
                           coal=int(any(states[s]['coal']>0 for s in group)),iron=int(any(states[s]['iron']>0 for s in group)),bbox=m.getbbox()))
-    for index,g in enumerate(groups):
+    network_groups=[group_of.get(s,-1) for s in fit(TOPOLOGY_W,TOPOLOGY_H).getdata()]
+    for index,g in enumerate(network_groups):
         if g<0:continue
-        for other in ([index+1] if index%MAP_W<MAP_W-1 else [])+([index+MAP_W] if index//MAP_W<MAP_H-1 else []):
-            if groups[other]>=0 and groups[other]!=g:edges.add(tuple(sorted((g,groups[other]))))
+        for other in ([index+1] if index%TOPOLOGY_W<TOPOLOGY_W-1 else [])+([index+TOPOLOGY_W] if index//TOPOLOGY_W<TOPOLOGY_H-1 else []):
+            if network_groups[other]>=0 and network_groups[other]!=g:edges.add(tuple(sorted((g,network_groups[other]))))
     # Two explicit maritime connections, rendered differently from land routes.
     by_state={c['state']:c['id'] for c in cells}
     sea_edges={tuple(sorted((by_state[a],by_state[b]))) for a,b in [(562,637),(409,577)]}
@@ -117,12 +125,12 @@ def build():
         for i,a in enumerate(cells):
             for b in cells[i+1:]:
                 dx,dy=b['x']-a['x'],b['y']-a['y']
-                if abs(dx)<45 and abs(dy)<43:
-                    if abs(dx)/45>abs(dy)/43:
-                        shift=(45-abs(dx))/2+0.1;sign=1 if dx>=0 else -1
+                if abs(dx)<MARKER_W+6 and abs(dy)<MARKER_H+6:
+                    if abs(dx)>abs(dy):
+                        shift=(MARKER_W+6-abs(dx))/2+0.1;sign=1 if dx>=0 else -1
                         a['x']-=sign*shift;b['x']+=sign*shift
                     else:
-                        shift=(43-abs(dy))/2+0.1;sign=1 if dy>=0 else -1
+                        shift=(MARKER_H+6-abs(dy))/2+0.1;sign=1 if dy>=0 else -1
                         a['y']-=sign*shift;b['y']+=sign*shift
             a['x']=max(22,min(MAP_W-22,a['x']));a['y']=max(22,min(MAP_H-22,a['y']))
     for c in cells:c['x']=round(c['x']);c['y']=round(c['y'])
@@ -132,21 +140,14 @@ def build():
         for j in cells[i]['neighbors']:
             if j not in paths:paths[j]=paths[i]+[j];queue.append(j)
     assert len(paths)==len(cells), 'Economic network has unreachable districts: '+str(set(range(len(cells)))-set(paths))
-    near = sorted(range(len(cells)), key=lambda i:(len(paths[i]),i))
-    # A playable seed with separate mines, power and processing, all in 1936 Russia.
-    starter = {hub:3}
-    for kind, potential in ((1,'coal'),(2,'iron'),(4,None),(5,None)):
-        options = [i for i in near if i not in starter and states[cells[i]['state']]['owner']=='RUS' and (not potential or cells[i][potential])]
-        assert options, (kind,potential)
-        starter[options[0]] = kind
-    rails = sorted({j for i in starter for j in paths[i]})
     dependencies['map/definition.csv'] = digest(definition)
     dependencies['map/provinces.bmp'] = digest(source)
-    data = dict(schema=2, width=MAP_W, height=MAP_H, marker_width=40, marker_height=38,
-                hub=hub, cells=cells, starter={str(k):v for k,v in starter.items()}, starter_rails=rails,
+    data = dict(schema=3, width=MAP_W, height=MAP_H, marker_width=MARKER_W, marker_height=MARKER_H,
+                topology_size=[TOPOLOGY_W,TOPOLOGY_H],
+                hub=hub, cells=cells,
                 kr_dependencies=dependencies, source_crop=bbox, longitude_cut=cut,
                 sea_edges=sorted(sea_edges),edges=sorted(edges),
-                note='Economic districts follow KR states, with control checked at their named centre. Potential is for the exercise, not extra native resources. Moscow is the logistics hub.')
+                note='Economic districts follow KR states. Work is delivered to the named centre; mine eligibility follows deposits in the catchment. Real rail connection to Moscow and real state conditions are read at runtime.')
     land = Image.new('L', map_states.size)
     land.putdata([255 if value else 0 for value in map_states.getdata()])
     board = Image.new('RGBA', (MAP_W, MAP_H), '#17262c')
@@ -163,18 +164,47 @@ def build():
         edge=ImageChops.subtract(m,m.filter(ImageFilter.MinFilter(3)))
         board.paste('#c1b48b',mask=edge)
         draw.line((c['geo_x'],c['geo_y'],c['x'],c['y']),fill='#d6ceb7',width=1)
-    board=board.convert('RGBA')
+    # KR's province raster stops at its northern edge. The padding above that
+    # cut is outside the game map, not an invented strip of Arctic sea.
+    if bbox[1] == 0:
+        limit_y=land.getbbox()[1]
+        data['northern_map_limit_y']=limit_y
+        draw.rectangle((0,0,MAP_W-1,limit_y-1),fill='#252d30')
+        for x in range(-limit_y,MAP_W,16):
+            draw.line((x,limit_y-1,x+limit_y-1,0),fill='#333c3e',width=1)
+        draw.line((0,limit_y-1,MAP_W-1,limit_y-1),fill='#817760',width=1)
+    # A changed KR layout needs a newly registered reference, never silent reuse
+    # of art prepared for another projection or a real-world country outline.
+    reference=Image.open(ROOT/ART/'geography_reference.png').convert('RGBA')
+    assert board.size==reference.size and board.tobytes()==reference.tobytes(), \
+        'KR atlas geometry changed; review and replace its registered reference/art'
+    source_art=Image.open(ROOT/ART/'atlas_source.png').convert('RGBA')
+    assert abs(source_art.width/source_art.height-MAP_W/MAP_H)<0.002, 'Atlas aspect ratio mismatch'
+    board=source_art.resize((MAP_W,MAP_H),Image.Resampling.LANCZOS)
+    data['artwork']=dict(tool='built-in image_gen',model=None,
+                         source=ART+'/atlas_source.png',source_size=list(source_art.size),
+                         reference=ART+'/geography_reference.png',prompt=ART+'/prompt.txt',
+                         note='Printed finish only. All regions and coordinates come from installed KR; northern padding denotes the game-map limit, not sea.')
+    data['art_dependencies']={ART+'/'+name:digest(ROOT/ART/name)
+                              for name in ('atlas_source.png','geography_reference.png','prompt.txt')}
     images={'map.png':board}
     # UI diagrams are deterministic vector primitives, with button states in a strip.
     for name, color in [('selected','#dfba62'),('offline','#bc594e'),('connected','#9cae80')]:
-        img=Image.new('RGBA',(40,38));d=ImageDraw.Draw(img)
-        d.rectangle((1,1,38,36),outline=color,width=3 if name=='selected' else 2)
+        img=Image.new('RGBA',(MARKER_W,MARKER_H));d=ImageDraw.Draw(img)
+        d.ellipse((0,0,MARKER_W-1,MARKER_H-1),outline=color,width=2 if name=='selected' else 1)
         images[name+'.png']=img
-    hit=Image.new('RGBA',(40*3,38))
+    hit=Image.new('RGBA',(MARKER_W*3,MARKER_H))
     d=ImageDraw.Draw(hit)
-    for frame,color in enumerate(['#1c2528','#454c43','#716040']):
-        d.rectangle((frame*40,0,frame*40+39,37),fill=color,outline='#aca27f',width=1)
+    for frame,color in enumerate([(28,37,40,170),(69,76,67,220),(113,96,64,230)]):
+        d.ellipse((frame*MARKER_W,0,frame*MARKER_W+MARKER_W-1,MARKER_H-1),fill=color,outline='#aca27f',width=1)
     images['cell_button.png']=hit
+    progress=Image.new('RGBA',(280*21,12))
+    d=ImageDraw.Draw(progress)
+    for frame in range(21):
+        left=280*frame
+        d.rectangle((left,0,left+279,11),fill='#171f20',outline='#847b61')
+        if frame: d.rectangle((left+2,2,left+2+round(275*frame/20),9),fill='#acb778')
+    images['progress.png']=progress
     for c,m in zip(cells,masks):
         edge=ImageChops.subtract(m.filter(ImageFilter.MaxFilter(5)),m.filter(ImageFilter.MinFilter(3)))
         img=Image.new('RGBA',m.size);img.paste('#f1ce79',mask=edge)
@@ -205,14 +235,16 @@ def main():
         data=json.loads((ROOT/DATA).read_text(encoding='utf-8'))
         bad=[p for p,h in data['kr_dependencies'].items() if not (KR/p).is_file() or digest(KR/p)!=h]
         assert not bad, 'KR map dependencies changed; review before rebuilding: '+str(bad)
+        for p,h in data['art_dependencies'].items():
+            assert (ROOT/p).is_file() and digest(ROOT/p)==h, 'Atlas source changed: '+p
         for p,h in data['asset_hashes'].items():assert digest(ROOT/ASSETS/p)==h,p
-        print(f"PASS map dependencies and {len(data['asset_hashes'])} asset hashes; {len(data['cells'])} districts")
+        print(f"PASS KR map/art dependencies and {len(data['asset_hashes'])} asset hashes; {len(data['cells'])} districts")
         return
     data,images=build();folder=out/ASSETS;folder.mkdir(parents=True,exist_ok=True)
     for name,img in images.items():img.save(folder/name)
     data['asset_hashes']={name:digest(folder/name) for name in images}
     p=out/DATA;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    print(f"Built {len(data['cells'])} districts, hub {data['hub']}, starter {data['starter']}; {folder}")
+    print(f"Built {len(data['cells'])} districts, hub {data['hub']}; {folder}")
 
 
 if __name__=='__main__':main()
