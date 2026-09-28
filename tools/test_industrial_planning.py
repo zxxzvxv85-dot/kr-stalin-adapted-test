@@ -11,7 +11,7 @@ import random
 import re
 from pathlib import Path
 from hoi4_politics_blocks import parse
-from industrial_planning_economy import PROJECTS
+from industrial_planning_economy import PROJECTS, CATEGORIES
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=json.loads((ROOT/'tools/data/industrial_planning_map.json').read_text(encoding='utf-8'))
@@ -24,9 +24,9 @@ def fixture(unlocked=True):
     all_ids={i for c in DATA['cells'] for i in c['states']}
     return dict(tag='RUS',ai=False,war=False,opening_funds=1000,vars={'RUS_first_five_year_plan_score':37,'political_power':200},flags={'RUS_ip_ui_unlocked'} if unlocked else set(),
                 owned=set(ids),controlled=set(ids),connected=set(ids),convoys=20,energy=1,civs=40,steel=100,coal=100,
-                applied={'civs':0,'steel':0,'coal':0},modifier=False,extraction_modifier=False,extraction=0,rewards=[],commands=0,scope=None,
+                applied={'civs':0,'steel':0,'coal':0},modifier=False,extraction_modifier=False,extraction=0,debt_modifier=False,debt_stability=0,debt_construction=0,rewards=[],commands=0,scope=None,
                 states={i:dict(infrastructure=2,industrial_complex=2,arms_factory=1,energy_infrastructure=0,
-                               naval_base=1,rail_way=1,slots=20,coal=8,steel=8,state_population_k=4800) for i in all_ids})
+                               naval_base=1,rail_way=1,category='five',slots=20,coal=8,steel=8,state_population_k=4800) for i in all_ids})
 
 
 def value(s,v):
@@ -47,6 +47,10 @@ def value(s,v):
 def compare(a,op,b):return {'=':a==b,'>':a>b,'<':a<b,'>=':a>=b,'<=':a<=b}[op]
 
 
+def state_id(s,text):
+    return int(value(s,text.removeprefix('var:ROOT.'))) if text.startswith('var:ROOT.') else int(text)
+
+
 def check(nodes,s):
     def one(n):
         k,v=n.k,n.v
@@ -59,9 +63,10 @@ def check(nodes,s):
         if k=='is_ai':return s['ai']==(v=='yes')
         if k=='has_war':return s['war']==(v=='yes')
         if k=='has_country_flag':return v in s['flags']
-        if k=='has_dynamic_modifier':return s['extraction_modifier'] if n.value('modifier')=='RUS_ip_extraction_bottleneck' else s['modifier']
-        if k=='owns_state':return int(v) in s['owned']
-        if k=='controls_state':return int(v) in s['controlled']
+        if k=='has_dynamic_modifier':return s[{'RUS_ip_extraction_bottleneck':'extraction_modifier','RUS_ip_construction_commitment':'modifier','RUS_ip_plan_debt':'debt_modifier'}[n.value('modifier')]]
+        if k=='has_state_category':return s['states'][s['scope']]['category']==v
+        if k=='owns_state':return state_id(s,v) in s['owned']
+        if k=='controls_state':return state_id(s,v) in s['controlled']
         if k=='num_of_convoys':return compare(s['convoys'],n.op,float(v))
         if k=='check_variable':return all(compare(value(s,c.k),c.op,value(s,c.v)) for c in v)
         if k.isdigit():
@@ -75,8 +80,8 @@ def check(nodes,s):
             return compare(free,n.one('size').op,number)
         if k=='has_railway_level':return s['states'][int(n.value('state'))]['rail_way']>=int(n.value('level'))
         if k in ('has_railway_connection','can_build_railway'):
-            a,b=int(n.value('start_state')),int(n.value('target_state'))
-            if k=='can_build_railway':return {a,b}<=s['owned']&s['controlled']
+            a,b=state_id(s,n.value('start_state')),state_id(s,n.value('target_state'))
+            if k=='can_build_railway':return {a,b}<=s['owned']&s['controlled'] and tuple(sorted((a,b))) not in s.get('blocked_paths',set())
             return a==b or {a,b}<=s['connected']
         raise AssertionError(('Unsupported trigger',k))
     return all(one(n) for n in nodes)
@@ -109,26 +114,35 @@ def run(nodes,s):
         elif k=='round_variable':s['vars'][v]=math.floor(value(s,v)+.5)
         elif k=='remove_dynamic_modifier':
             if n.value('modifier')=='RUS_ip_extraction_bottleneck':s['extraction_modifier']=False;s['extraction']=0
+            elif n.value('modifier')=='RUS_ip_plan_debt':s['debt_modifier']=False;s['debt_stability']=0;s['debt_construction']=0
             else:s['modifier']=False;s['applied']={r:0 for r in s['applied']}
         elif k=='add_dynamic_modifier':
             if n.value('modifier')=='RUS_ip_extraction_bottleneck':s['extraction_modifier']=True;s['extraction']=value(s,'RUS_ip_resource_penalty')
+            elif n.value('modifier')=='RUS_ip_plan_debt':s['debt_modifier']=True;s['debt_stability']=value(s,'RUS_ip_debt_stability');s['debt_construction']=value(s,'RUS_ip_debt_construction')
             else:s['modifier']=True;s['applied']={r:value(s,'RUS_ip_reserved_'+r) for r in s['applied']}
         elif k=='force_update_dynamic_modifier':
             if s['modifier']:s['applied']={r:value(s,'RUS_ip_reserved_'+r) for r in s['applied']}
             if s['extraction_modifier']:s['extraction']=value(s,'RUS_ip_resource_penalty')
+            if s['debt_modifier']:s['debt_stability']=value(s,'RUS_ip_debt_stability');s['debt_construction']=value(s,'RUS_ip_debt_construction')
         elif k.isdigit():
             prior=s['scope'];s['scope']=int(k);run(v,s);s['scope']=prior
         elif k=='add_resource':
             r=n.value('type');amount=float(n.value('amount'));s['states'][s['scope']][r]+=amount;s[r]+=amount
             s['rewards'].append((s['scope'],r,amount))
+        elif k=='set_state_category':
+            d=s['states'][s['scope']];before=d['category']
+            d['slots']+=CATEGORIES.index(v)-CATEGORIES.index(before);d['category']=v
+            s['rewards'].append((s['scope'],'category',v))
         elif k=='add_building_construction':
             building=n.value('type');amount=float(n.value('level'));s['states'][s['scope']][building]+=amount
             if building=='industrial_complex':s['civs']+=amount
             s['rewards'].append((s['scope'],building,amount))
         elif k=='build_railway':
-            a,b=int(n.value('start_state')),int(n.value('target_state'));assert {a,b}<=s['owned']&s['controlled']
-            if a in s['connected']:s['connected'].add(b)
-            s['states'][b]['rail_way']=max(1,s['states'][b]['rail_way']);s['rewards'].append((b,'rail',1))
+            a,b=state_id(s,n.value('start_state')),state_id(s,n.value('target_state'));assert {a,b}<=s['owned']&s['controlled']
+            level=int(n.value('level'))
+            if {a,b}&s['connected']:s['connected'].update((a,b))
+            for sid in (a,b):s['states'][sid]['rail_way']=max(level,s['states'][sid]['rail_way'])
+            s.setdefault('rail_orders',[]).append((a,b,level));s['rewards'].append((b,'rail',level))
         else:raise AssertionError(('Unsupported effect',k))
 
 
@@ -136,6 +150,12 @@ def call(s,name):run(FX['RUS_ip_'+name],s)
 def v(s,name):return value(s,'RUS_ip_'+name)
 def put(s,name,number):s['vars']['RUS_ip_'+name]=number
 def select(s,i):put(s,'selected',i);s['flags'].discard('RUS_ip_cancel_armed');call(s,'refresh')
+def gui_click(s,name):
+    panel=next(n for n in parse((ROOT/'common/scripted_guis/RUS_industrial_planning.txt').read_text(encoding='utf-8'))[0].v if n.k=='RUS_industrial_planning_gui')
+    run(panel.one('effects').one(name+'_click').v,s)
+def plan_rail(s,start,end,level=2):
+    gui_click(s,'ip_rail_choose');put(s,'rail_level',level)
+    gui_click(s,f'ip_cell_{start}');gui_click(s,f'ip_cell_{end}')
 def supply_fixture(s):
     """Pre-stock older construction-only scenarios; real-start tests stay empty."""
     s['opening_funds']=10000;put(s,'funds',10000)
@@ -164,7 +184,8 @@ def invariant(s):
         assert v(s,n+'power_export')<=max(0,v(s,n+'local_power')-v(s,n+'power_need'))+1e-7,'Re-exported borrowed power'
         imported+=v(s,n+'power_import');exported+=v(s,n+'power_export')
     assert math.isclose(imported,exported,abs_tol=1e-7),'Power created by transport'
-    assert v(s,'funds')>=-1e-7
+    assert math.isfinite(v(s,'funds'))
+    assert -.500001<=s['debt_stability']<=0 and -.750001<=s['debt_construction']<=0
     assert math.isclose(v(s,'funds'),s['opening_funds']-v(s,'funds_spent')+v(s,'funds_refunded')+v(s,'funds_settled'),abs_tol=1e-5),'Cash conservation'
     for r in ('steel','coal'):
         stored=sum(v(s,f'n{c["id"]}_{kind}_{r}') for c in DATA['cells'] for kind in ('stock','in','out'))
@@ -225,7 +246,9 @@ def regional_tests():
     # Forecast of an idle site equals the queued speed when no other queue changes.
     for kind in PROJECTS:
         q=started();i=next(c['id'] for c in DATA['cells'] if kind>2 or c['coal' if kind==1 else 'iron'])
-        select(q,i);forecast=v(q,f'forecast_{kind}_days');call(q,f'build_{kind}')
+        select(q,i)
+        if kind==10:plan_rail(q,5 if i!=5 else 3,i)
+        forecast=v(q,'rail_days' if kind==10 else f'forecast_{kind}_days');call(q,f'build_{kind}')
         assert math.isclose(forecast,v(q,f'n{i}_eta'),rel_tol=1e-8),(kind,forecast,v(q,f'n{i}_eta'))
         scenarios+=1
     # Placement matters; an electrified resource site outperforms a distant importer.
@@ -234,7 +257,7 @@ def regional_tests():
     q['states'][219].update(coal=30,steel=30,energy_infrastructure=1);call(q,'refresh')
     assert v(q,'forecast_5_days')<remote and v(q,'forecast_5_bottleneck')==0
     # Supporting work remains viable under severe regional shortages.
-    for kind in (3,6,7,8):
+    for kind in (3,6,7,8,9):
         q=started();select(q,5);q['states'][219].update(state_population_k=0,industrial_complex=12,arms_factory=20,infrastructure=0,slots=60)
         put(q,'n5_development',8);call(q,f'build_{kind}');assert v(q,'n5_speed')>.3
         scenarios+=1
@@ -303,17 +326,55 @@ def gui_tests():
             assert loc[tooltip]==f'[!{name}_click]',(name,tooltip)
             effect=effects.one(name+'_click')
             assert all(n.v!=tooltip for n in effect.v if n.k=='custom_effect_tooltip'),'Recursive tooltip'
-            assert (effect.one('effect_tooltip') is not None)==(kind<=6)
-            for prefix in ('ip_build_icon_','ip_build_label_','ip_build_estimate_','ip_build_cost_'):
+            assert (effect.one('effect_tooltip') is not None)==(kind<=6 or kind in (9,10))
+            for prefix in (() if kind==10 else ('ip_build_icon_',) if kind==9 else ('ip_build_icon_','ip_build_label_','ip_build_estimate_','ip_build_cost_')):
                 assert field(widgets[prefix+str(kind)],'alwaystransparent')=='yes'
+        assert loc['RUS_ip_funds_hover']=='[!ip_funds_icon_click]'
+        assert field(widgets['ip_funds'],'pdx_tooltip')=='RUS_ip_funds_hover'
+        assert field(widgets['ip_build_9'],'buttonText')=='RUS_ip_build_9'
         count+=1
     for kind in PROJECTS:
         q=started();select(q,5);before=copy.deepcopy(q['states']);reward_count=len(q['rewards'])
+        if kind==10:plan_rail(q,3,5)
         run(effects.one(f'ip_build_{kind}_click').v,q)
         assert v(q,'n5_project')==kind,(kind,'Button did not queue project')
         assert q['states']==before and len(q['rewards'])==reward_count,'Hover/click must not award completed assets'
         assert v(q,'completed')==0
         count+=1
+    return count
+
+
+def expansion_tests():
+    count=0
+    # Upgrade the actual central state by exactly one level. Fully occupied
+    # building slots do not block expansion; neighbours must remain unchanged.
+    for before,after in zip(CATEGORIES,CATEGORIES[1:]):
+        q=started();select(q,5);d=q['states'][219]
+        d.update(category=before,slots=3);call(q,'refresh')
+        others={sid:copy.deepcopy(st) for sid,st in q['states'].items() if sid!=219}
+        cash=v(q,'funds');cost=v(q,'forecast_9_cost');call(q,'build_9')
+        assert v(q,'n5_project')==9 and v(q,'reserved_civs')==3
+        assert math.isclose(cash-v(q,'funds'),cost) and d['category']==before
+        finish(q,5)
+        assert d['category']==after and d['slots']==4 and v(q,'reserved_civs')==0
+        assert v(q,'consumed_steel')>0 and v(q,'consumed_coal')>0
+        assert others=={sid:st for sid,st in q['states'].items() if sid!=219}
+        rewards=copy.deepcopy(q['rewards']);call(q,'complete_5_9');call(q,'refresh')
+        assert q['rewards']==rewards;invariant(q);count+=1
+    for category in ('twelve','wasteland','major_port','port','minor_port','one_island','zero_island'):
+        q=started();select(q,5);q['states'][219]['category']=category;call(q,'build_9')
+        assert v(q,'n5_project')==0 and not q['rewards'];count+=1
+    # External changes do not downgrade a state or silently grant bonus slots.
+    q=started();select(q,5);call(q,'build_9');paid=v(q,'n5_paid')
+    q['states'][219]['category']='twelve';call(q,'daily')
+    assert v(q,'n5_work')==0 and v(q,'reserved_civs')==0
+    q['flags'].add('RUS_ip_cancel_armed');call(q,'cancel')
+    assert math.isclose(v(q,'funds_refunded'),paid*.75) and not q['rewards'];count+=1
+    q=started();select(q,5);call(q,'build_9');q['states'][219]['category']='eight';finish(q,5)
+    assert q['states'][219]['category']=='nine';count+=1
+    # With no warehouse stock expansion waits rather than creating capacity.
+    q=started(False);q['steel']=q['coal']=0;select(q,5);call(q,'build_9');call(q,'daily')
+    assert v(q,'n5_work')==0 and q['states'][219]['category']=='five';count+=1
     return count
 
 
@@ -335,14 +396,16 @@ def tests():
         assert 'RUS_ip_economy_initialized' not in other['flags'];assert not other['rewards'];scenarios+=1
     for kind in PROJECTS:
         for failure in ['none','civs','funds','control','owned','slots','closed','inactive','occupied']:
+            if kind==10 and failure=='slots':continue  # Railway uses no shared building slot.
             q=started();i=next(c['id'] for c in DATA['cells'] if kind>2 or c['coal' if kind==1 else 'iron'])
             select(q,i);sid=DATA['cells'][i]['state']
+            if kind==10:plan_rail(q,5 if i!=5 else 3,i)
             if failure=='civs':put(q,'capacity_civs',0)
             if failure=='funds':put(q,'funds',0);q['opening_funds']=0
             if failure=='control':q['controlled'].discard(sid)
             if failure=='owned':q['owned'].discard(sid)
             if failure=='slots':
-                q['states'][sid].update(slots=0,infrastructure=5,energy_infrastructure=1);put(q,f'n{i}_mine_{kind}',3)
+                q['states'][sid].update(slots=0,infrastructure=5,energy_infrastructure=1,category='twelve');put(q,f'n{i}_mine_{kind}',3)
                 put(q,f'n{i}_urban',3);put(q,f'n{i}_training',3)
             if failure=='closed':call(q,'close_effect')
             if failure=='inactive':q['flags'].discard('RUS_ip_active')
@@ -420,7 +483,7 @@ def tests():
     # Seeded interaction sequences cover allocator conservation and negative pools.
     rng=random.Random(219);q=started()
     for _ in range(140):
-        select(q,rng.randrange(36));kind=rng.randrange(1,9);call(q,f'build_{kind}')
+        select(q,rng.randrange(36));kind=rng.randrange(1,len(PROJECTS)+1);call(q,f'build_{kind}')
         if rng.random()<.3:call(q,'pause')
         if rng.random()<.2:q['flags'].add('RUS_ip_cancel_armed');call(q,'cancel')
         if rng.random()<.5:call(q,'daily')
@@ -454,6 +517,9 @@ def tests():
         for p in (ROOT/folder).glob('*industrial_planning*'):
             assert set(walk(parse(p.read_text(encoding='utf-8')))) <= FX.keys() | TR.keys(),p
     scenarios+=regional_tests()
+    scenarios+=expansion_tests()
+    from test_industrial_planning_rail import rail_tests
+    scenarios+=rail_tests()
     from test_industrial_planning_supply import supply_tests
     scenarios+=supply_tests()
     scenarios+=gui_tests()

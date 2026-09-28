@@ -10,7 +10,7 @@ from industrial_planning_economy import P, PROJECTS, setv, add, sub, mul, div, c
 METRICS = ('development', 'workers', 'workers_need', 'power', 'power_need', 'power_import',
            'power_export', 'freight', 'freight_used', 'worker_ratio', 'power_ratio',
            'freight_ratio', 'bottleneck', 'training', 'urban', 'gain', 'training_gain')
-BASE_GAINS = {1: 1, 2: 1, 3: 3, 4: 2, 5: 2, 6: 4, 7: 10, 8: 2}
+BASE_GAINS = {1: 1, 2: 1, 3: 3, 4: 2, 5: 2, 6: 4, 7: 10, 8: 2, 9: 3, 10: 2}
 RATE_INPUTS = ('project', 'development', 'infra', 'civs', 'coal', 'steel',
                'workers', 'workers_need', 'power', 'power_need', 'freight', 'freight_used')
 RATE_OUTPUTS = ('speed', 'bottleneck', 'worker_ratio', 'power_ratio', 'freight_ratio')
@@ -56,7 +56,7 @@ def speed(n, kind):
         out += iff(cv(n + ratio, '<', P + 'region_factor'), setv('region_factor', P + n + ratio) + setv(n + 'bottleneck', number))
     # Enabling projects can always make progress if actual national costs/site
     # requirements are met. Heavy industry cannot use this recovery floor.
-    floor = .65 if kind in (3, 6, 7, 8) else .30 if kind in (1, 2) else .15
+    floor = .65 if kind in (3, 6, 7, 8, 9, 10) else .30 if kind in (1, 2) else .15
     out += clamp('region_factor', floor, 1)
     out += setv(n + 'speed', P + n + 'infra') + mul(n + 'speed', .12) + add(n + 'speed', 1)
     out += setv('region_term', P + n + 'civs') + clamp('region_term', 0, 20) + mul('region_term', .025) + add(n + 'speed', P + 'region_term')
@@ -66,6 +66,9 @@ def speed(n, kind):
     out += mul(n + 'speed', P + 'region_factor')
     if kind in (4, 5):
         out += setv('region_term', P + 'energy') + mul('region_term', .75) + add('region_term', .25) + mul(n + 'speed', P + 'region_term')
+    # Native construction and GUI projects share the same debt penalty. It is
+    # applied once, after capacity floors, in both live and forecast rates.
+    out += mul(n + 'speed', P + 'debt_speed_factor')
     return out
 
 

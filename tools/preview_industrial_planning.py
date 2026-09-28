@@ -14,7 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 from hoi4_politics_blocks import parse
-from test_industrial_planning import ROOT, fixture, call, check, select, put, DATA
+from test_industrial_planning import ROOT, fixture, call, check, select, put, DATA, plan_rail
 
 GAME = Path(os.environ.get('HOI4_GAME_ROOT', ROOT.parents[3] / 'common/Hearts of Iron IV'))
 KR = Path(os.environ.get('HOI4_KR_ROOT', ROOT.parent / '1521695605'))
@@ -45,7 +45,7 @@ def nine_slice(source, size, border):
     return result
 
 
-def render(finished=False, help_page=False, idle=False, supply_page=False):
+def render(finished=False, help_page=False, idle=False, supply_page=False, debt=False, route=False, railway=False):
     state=fixture();call(state,'open_effect')
     call(state,'start')
     if not idle:
@@ -55,8 +55,17 @@ def render(finished=False, help_page=False, idle=False, supply_page=False):
     for i,kind in ([] if idle else [(5,5),(16,1),(4,2),(2,4),(3,3)]):
         select(state,i);call(state,f'build_{kind}')
     select(state,5)
+    if debt:put(state,'funds',-500)
     if not idle:put(state,'n5_work',118)
     call(state,'refresh')
+    if railway:
+        put(state,'funds',3000);plan_rail(state,3,23,2);call(state,'build_10')
+        # Planning the next order must not alter the stored construction ends.
+        plan_rail(state,5,30,2);select(state,23)
+    if route:
+        select(state,30)
+        put(state,'n21_freight',10);put(state,'n21_freight_used',20)
+        call(state,'cargo_prepare');call(state,'selection_cache')
     if finished:
         put(state,'days_left',1);call(state,'daily')
     if help_page:call(state,'toggle_help')
@@ -72,10 +81,10 @@ def render(finished=False, help_page=False, idle=False, supply_page=False):
         text=loc.get(key,key)
         text=re.sub(r'\$([^$]+)\$',lambda m:resolve(m[1],depth+1),text)
         def variable(m):
-            value=state['vars'].get(m[1],0)
-            if m[2]:return f'§{"G" if value>0 else "R" if value<0 else "Y"}{value:+.{m[3]}f}§!'
-            return f'{value:.{m[3]}f}'
-        text=re.sub(r'\[\?(\w+)\|(\+?)(\d)\]',variable,text)
+            value=state['vars'].get(m[1],0);fmt=f'{"+" if "=" in m[2] else ""}.{m[3]}f'
+            if '+' in m[2]:return f'§{"G" if value>0 else "R" if value<0 else "Y"}{value:{fmt}}§!'
+            return f'{value:{fmt}}'
+        text=re.sub(r'\[\?(\w+)\|([=+]*)(\d)\]',variable,text)
         text=re.sub(r'\[(\d+)\.GetName\]',lambda m:resolve('STATE_'+m[1],depth+1),text)
         def scripted(m):
             definition=definitions[m[1]]
@@ -177,10 +186,11 @@ def render(finished=False, help_page=False, idle=False, supply_page=False):
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');parser.add_argument('--idle',action='store_true');parser.add_argument('--supply-page',action='store_true');args=parser.parse_args()
-    image,issues=render(args.finished,args.help_page,args.idle,args.supply_page)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');parser.add_argument('--idle',action='store_true');parser.add_argument('--supply-page',action='store_true');parser.add_argument('--debt',action='store_true');parser.add_argument('--route',action='store_true');parser.add_argument('--railway',action='store_true');args=parser.parse_args()
+    image,issues=render(args.finished,args.help_page,args.idle,args.supply_page,args.debt,args.route,args.railway)
     folder=ROOT/'output/industrial_planning';folder.mkdir(parents=True,exist_ok=True)
-    path=folder/('supply.png' if args.supply_page else 'help.png' if args.help_page else 'finished.png' if args.finished else 'idle.png' if args.idle else 'preview.png');image.save(path)
+    stem='supply' if args.supply_page else 'help' if args.help_page else 'finished' if args.finished else 'idle' if args.idle else 'preview'
+    path=folder/(stem+('-debt' if args.debt else '')+('-route' if args.route else '')+('-railway' if args.railway else '')+'.png');image.save(path)
     (folder/(path.stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(str(path));print(f'Text height warnings (approximate font): {len(issues)}')
 

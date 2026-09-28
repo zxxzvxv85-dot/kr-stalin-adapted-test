@@ -11,3 +11,9 @@ RUS_ip_extraction_bottleneck = {
 	enable = { has_country_flag = RUS_ip_active }
 	local_resources_factor = RUS_ip_resource_penalty
 }
+RUS_ip_plan_debt = {
+	icon = GFX_idea_generic_industry
+	enable = { has_country_flag = RUS_ip_active check_variable = { RUS_ip_funds < 0 } }
+	stability_factor = RUS_ip_debt_stability
+	production_speed_buildings_factor = RUS_ip_debt_construction
+}

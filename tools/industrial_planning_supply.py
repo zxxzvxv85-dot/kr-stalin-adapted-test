@@ -9,13 +9,14 @@ import math
 from industrial_planning_economy import P, PROJECTS, setv, add, sub, mul, div, cv, ge, iff, fx, clamp, block
 
 RESOURCES = ('steel', 'coal')
-PRICES = {1:80, 2:80, 3:130, 4:180, 5:220, 6:90, 7:100, 8:70}
+PRICES = {1:80, 2:80, 3:130, 4:180, 5:220, 6:90, 7:100, 8:70, 9:150, 10:120}
 SUPPLY_METRICS = ('stock_steel','stock_coal','need_steel','need_coal','in_steel','in_coal',
                   'out_steel','out_coal','arrival','cover','warehouse_cap','income_month',
                   'upkeep_month','net_month','material_factor','members','pop_k','infra',
                   'paid','refund','delivery_load','route_days','route_live','mining_month',
                   'base_steel','base_coal','project_steel','project_coal','operating_factor',
-                  'view_in_steel','view_in_coal','view_out_steel','view_out_coal')
+                  'view_in_steel','view_in_coal','view_out_steel','view_out_coal',
+                  'route_gap','route_focus','route_bottleneck','route_load','route_capacity','route_missing','route_rail','arrival_factor')
 
 
 def routes(data):
@@ -56,7 +57,7 @@ def aggregate(cells):
 
 
 def seed_supply(cells):
-    out=setv('funds',1000)+setv('budget_day',0)+setv('budget_net',0)+setv('last_budget',0)+setv('last_support',0)+setv('priority',-1)
+    out=setv('funds',1000)+setv('budget_day',0)+setv('budget_net',0)+setv('last_budget',0)+setv('priority',-1)
     out+=setv('funds_spent',0)+setv('funds_refunded',0)+setv('funds_settled',0)
     for r in RESOURCES:
         for k in ('booked','produced','consumed','lost'):out+=setv(k+'_'+r,0)
@@ -77,12 +78,30 @@ def price_forecasts(n):
 
 def render_supply(data):
     cells=data['cells'];hub=data['hub'];route_map=routes(data);effects=[]
+    debt=setv('debt',P+'funds')+mul('debt',-1)
+    debt+=iff(cv('debt','<',0),setv('debt',0))
+    debt+=setv('debt_stability',0)+setv('debt_construction',0)
+    penalty=setv('debt_stability',P+'debt')+mul('debt_stability',-.0005)+clamp('debt_stability',-.50,0)
+    penalty+=setv('debt_construction',P+'debt')+mul('debt_construction',-.001)+clamp('debt_construction',-.75,0)
+    penalty+=iff('NOT = { has_dynamic_modifier = { modifier = RUS_ip_plan_debt } }',
+                 'add_dynamic_modifier = { modifier = RUS_ip_plan_debt }\n')
+    debt+=iff('has_country_flag = RUS_ip_active\n'+cv('funds','<',0),penalty)
+    debt+=block('else',iff('has_dynamic_modifier = { modifier = RUS_ip_plan_debt }',
+                          'remove_dynamic_modifier = { modifier = RUS_ip_plan_debt }\n'))
+    debt+=setv('debt_speed_factor',1)+add('debt_speed_factor',P+'debt_construction')+'force_update_dynamic_modifier = yes\n'
+    effects.append(fx('refresh_debt',debt))
     loads='';route_flags=''
     for c in cells:loads+=setv(f'n{c["id"]}_delivery_load',0)
     for i,(path,days) in sorted(route_map.items()):
         n=f'n{i}_';condition=f'RUS_ip_owned_{i} = yes\nRUS_ip_owned_{hub} = yes\n'
         for a,b in zip(path,path[1:]):condition+=cv(f'edge_{min(a,b)}_{max(a,b)}_live','=',1)
         route_flags+=setv(n+'route_live',0)+setv(n+'route_days',days)+iff(condition,setv(n+'route_live',1))
+        route_flags+=setv(n+'route_gap',-1)+setv(n+'route_focus',-1)
+        route_flags+=iff(f'NOT = {{ RUS_ip_owned_{hub} = yes }}',setv(n+'route_gap',-2)+setv(n+'route_focus',hub))
+        for a,b in zip(path,path[1:]):
+            lo,hi=sorted((a,b))
+            route_flags+=iff(cv(n+'route_gap','=',-1)+cv(f'edge_{lo}_{hi}_live','=',0),
+                            setv(n+'route_gap',lo*len(cells)+hi)+setv(n+'route_focus',b))
         if i==hub:continue
         loads+=setv('cargo_load',0)
         for r in RESOURCES:
@@ -114,10 +133,17 @@ def render_supply(data):
         for r in RESOURCES:
             prepare+=iff(cv(n+'need_'+r,'>',0),setv('cargo_part',P+n+'stock_'+r)+div('cargo_part',P+n+'need_'+r)+clamp(n+'cover',0,P+'cargo_part'))
             prepare+=iff(cv(n+'in_'+r,'>',0),iff(cv(n+'arrival','=',0),setv(n+'arrival',P+n+'in_work_'+r))+block('else',clamp(n+'arrival',0,P+n+'in_work_'+r)))
-        prepare+=setv(n+'arrival_factor',1)
+        prepare+=setv(n+'arrival_factor',1)+setv(n+'route_bottleneck',-1)
+        for metric in ('route_load','route_capacity','route_missing','route_rail'):prepare+=setv(n+metric,0)
         for j in route_map[i][0]:
-            prepare+=iff(cv(f'n{j}_freight_used','>',0),setv('cargo_part',P+f'n{j}_freight')+div('cargo_part',P+f'n{j}_freight_used')+clamp(n+'arrival_factor',0,P+'cargo_part'))
+            candidate=setv('cargo_part',P+f'n{j}_freight')+div('cargo_part',P+f'n{j}_freight_used')
+            bottleneck=setv(n+'arrival_factor',P+'cargo_part')+setv(n+'route_bottleneck',j)
+            bottleneck+=setv(n+'route_load',P+f'n{j}_freight_used')+setv(n+'route_capacity',P+f'n{j}_freight')+setv(n+'route_rail',P+f'n{j}_rail')
+            bottleneck+=setv(n+'route_missing',P+n+'route_load')+sub(n+'route_missing',P+n+'route_capacity')
+            candidate+=iff(cv('cargo_part','<',P+n+'arrival_factor'),bottleneck)
+            prepare+=iff(cv(f'n{j}_freight_used','>',0),candidate)
         prepare+=clamp(n+'arrival_factor',.05,1)+div(n+'arrival',P+n+'arrival_factor')
+        prepare+=iff(cv(n+'route_live','=',1),setv(n+'route_focus',P+n+'route_bottleneck' if i!=hub else -1))
         for r in RESOURCES:
             prepare+=setv(n+'view_in_'+r,P+n+'in_'+r)+setv(n+'view_out_'+r,P+n+'out_'+r)
     # Hub display aggregates regional batch slots without duplicating physical
@@ -132,6 +158,8 @@ def render_supply(data):
             candidate+=iff(cv(h+'arrival','=',0),setv(h+'arrival',P+'cargo_part'))+block('else',clamp(h+'arrival',0,P+'cargo_part'))
             prepare+=iff(cv(n+'out_'+r,'>',0)+cv(n+'route_live','=',1),candidate)
     effects.append(fx('cargo_prepare',prepare))
+    effects.append(fx('focus_route',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\n'+ge('sel_route_focus',0),
+        setv('selected',P+'sel_route_focus')+'clr_country_flag = RUS_ip_cancel_armed\nRUS_ip_refresh = yes\n')))
 
     projection=''
     for c in cells:
@@ -259,8 +287,7 @@ def render_supply(data):
         consume+=iff(f'RUS_ip_owned_{i} = yes',body)
     effects.append(fx('cargo_consume',consume))
     settlement=add('budget_day',1)
-    cycle=setv('last_budget',P+'budget_net')+add('last_budget',100)+setv('last_support',25)+sub('last_support',P+'last_budget')+clamp('last_support',0,99999)
-    cycle+=add('last_budget',P+'last_support')+add('funds',P+'last_budget')+add('funds_settled',P+'last_budget')+setv('budget_net',0)+setv('budget_day',0)
+    cycle=setv('last_budget',P+'budget_net')+add('funds',P+'last_budget')+add('funds_settled',P+'last_budget')+setv('budget_net',0)+setv('budget_day',0)
     settlement+=iff(ge('budget_day',30),cycle)
     effects.append(fx('budget_daily',settlement))
     loss=''
@@ -273,20 +300,17 @@ def render_supply(data):
                 loss+=iff(f'NOT = {{ RUS_ip_owned_{hub} = yes }}',add('lost_'+r,P+n+'out_'+r)+setv(n+'out_'+r,0)+setv(n+'out_work_'+r,0))
         loss+=iff(f'NOT = {{ RUS_ip_owned_{i} = yes }}',body)
     effects.append(fx('cargo_losses',loss))
-    totals=setv('budget_next',30)+sub('budget_next',P+'budget_day')+setv('projected_net',100)
+    totals=setv('budget_next',30)+sub('budget_next',P+'budget_day')+setv('projected_net',0)
     for r in RESOURCES:
         totals+=setv('total_stock_'+r,0)+setv('total_transit_'+r,0)
         for c in cells:
             n=f'n{c["id"]}_';totals+=add('total_stock_'+r,P+n+'stock_'+r)+add('total_transit_'+r,P+n+'in_'+r)+add('total_transit_'+r,P+n+'out_'+r)
     for c in cells:totals+=iff(f'RUS_ip_owned_{c["id"]} = yes',add('projected_net',P+f'n{c["id"]}_net_month'))
-    # Display-only forecasts. Use the same appropriation/support rule as the
-    # real settlement, without advancing the clock or crediting the account.
-    totals+=setv('projected_operating',P+'projected_net')+sub('projected_operating',100)
-    totals+=setv('projected_support',25)+sub('projected_support',P+'projected_net')+clamp('projected_support',0,99999)
-    totals+=setv('projected_settlement',P+'projected_net')+add('projected_settlement',P+'projected_support')
+    # Forecast pure operating income/expenses, including negative balances.
+    # No appropriation, minimum, support or account write occurs here.
+    totals+=setv('projected_operating',P+'projected_net')
+    totals+=setv('projected_settlement',P+'projected_net')
     totals+=setv('next_operating',P+'projected_operating')+div('next_operating',30)+mul('next_operating',P+'budget_next')+add('next_operating',P+'budget_net')
-    totals+=setv('next_settlement',P+'next_operating')+add('next_settlement',100)
-    totals+=setv('next_support',25)+sub('next_support',P+'next_settlement')+clamp('next_support',0,99999)
-    totals+=add('next_settlement',P+'next_support')+setv('next_balance',P+'funds')+add('next_balance',P+'next_settlement')
+    totals+=setv('next_settlement',P+'next_operating')+setv('next_balance',P+'funds')+add('next_balance',P+'next_settlement')
     effects.append(fx('cargo_totals',totals))
     return effects

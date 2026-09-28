@@ -162,13 +162,12 @@ def supply_tests():
     assert v(s,'n4_in_steel')==1 and v(s,'n3_in_steel')==0
     invariant(s);count+=2
 
-    # Thirty real daily ticks are required to settle. Central aid prevents a
-    # cash deadlock, but neither opening the page nor pausing generates funding.
+    # Thirty real daily ticks settle pure operations, including losses.
     s=quiet();base=v(s,'funds')
     for _ in range(29):call(s,'daily');invariant(s)
     assert v(s,'funds')==base and v(s,'budget_day')==29
-    call(s,'daily');assert v(s,'budget_day')==0 and v(s,'last_budget')==25 and v(s,'last_support')>0
-    assert v(s,'funds')==base+25;invariant(s);count+=30
+    call(s,'daily');assert v(s,'budget_day')==0 and v(s,'last_budget')<0
+    assert math.isclose(v(s,'funds'),base+v(s,'last_budget'));invariant(s);count+=30
     # The nearest settlement includes past accruals; the 30-day figure is a run
     # rate. Neither forecast can credit funds or advance the simulation.
     for monthly,day,accrued in [(-270,0,0),(-75,0,0),(0,0,0),(150,0,0),(150,17,-120),(-270,17,300)]:
@@ -178,12 +177,11 @@ def supply_tests():
         before=ledger(q);call(q,'cargo_totals');call(q,'cargo_totals')
         assert ledger(q)==before
         assert math.isclose(v(q,'projected_operating'),monthly)
-        assert math.isclose(v(q,'projected_settlement'),max(25,monthly+100))
-        expected=accrued+monthly*(30-day)/30+100
-        assert math.isclose(v(q,'next_support'),max(0,25-expected))
-        assert math.isclose(v(q,'next_settlement'),max(25,expected))
-        assert math.isclose(v(q,'next_balance'),v(q,'funds')+max(25,expected))
-        put(q,'budget_net',expected-100);put(q,'budget_day',29);call(q,'budget_daily')
+        assert math.isclose(v(q,'projected_settlement'),monthly)
+        expected=accrued+monthly*(30-day)/30
+        assert math.isclose(v(q,'next_settlement'),expected)
+        assert math.isclose(v(q,'next_balance'),v(q,'funds')+expected)
+        put(q,'budget_net',expected);put(q,'budget_day',29);call(q,'budget_daily')
         assert math.isclose(v(q,'last_budget'),v(q,'next_settlement'))
         invariant(q);count+=1
     q=quiet();old=v(q,'projected_operating')
@@ -196,6 +194,56 @@ def supply_tests():
     s=quiet();s['states'][219].update(industrial_complex=4,energy_infrastructure=1)
     put(s,'n5_development',90);stock(s,5,'steel',20);stock(s,5,'coal',20);call(s,'refresh')
     assert v(s,'n5_net_month')>0 and v(s,'n4_net_month')<0;count+=1
+    # Negative accounts are not floored; both native penalties scale smoothly,
+    # cap independently, and clear as the account returns to zero or above.
+    for balance,stability,construction in [(0,0,0),(-1,-.0005,-.001),(-100,-.05,-.1),
+            (-500,-.25,-.5),(-750,-.375,-.75),(-1000,-.5,-.75),(-4000,-.5,-.75),(10,0,0)]:
+        q=started();select(q,5);call(q,'build_7');before=v(q,'n5_speed')
+        delta=balance-v(q,'funds');put(q,'budget_net',delta);put(q,'budget_day',29);call(q,'budget_daily');call(q,'refresh')
+        assert math.isclose(v(q,'funds'),balance,abs_tol=1e-8)
+        assert math.isclose(q['debt_stability'],stability) and math.isclose(q['debt_construction'],construction)
+        assert q['debt_modifier']==(balance<0)
+        assert math.isclose(v(q,'n5_speed'),before*(1+construction))
+        if balance<0:
+            select(q,4);call(q,'build_9');assert v(q,'n4_project')==0
+        snapshot=ledger(q)
+        for _ in range(2):call(q,'open_effect');call(q,'refresh')
+        assert ledger(q)==snapshot;invariant(q);count+=1
+    q=started(False);put(q,'budget_net',-1500);put(q,'budget_day',29);call(q,'budget_daily');call(q,'refresh')
+    assert v(q,'funds')==-500 and q['debt_modifier']
+    put(q,'budget_net',400);put(q,'budget_day',29);call(q,'budget_daily');call(q,'refresh')
+    assert v(q,'funds')==-100 and math.isclose(q['debt_construction'],-.1)
+    put(q,'budget_net',100);put(q,'budget_day',29);call(q,'budget_daily');call(q,'refresh')
+    assert v(q,'funds')==0 and not q['debt_modifier'];invariant(q);count+=1
+    # Cancelling refunds only the eligible part and immediately updates debt.
+    q=started();select(q,5);call(q,'build_9');refund=v(q,'n5_refund')
+    put(q,'budget_net',-50-v(q,'funds'));put(q,'budget_day',29);call(q,'budget_daily');call(q,'refresh')
+    q['flags'].add('RUS_ip_cancel_armed');call(q,'cancel')
+    assert math.isclose(v(q,'funds'),refund-50) and not q['debt_modifier'];invariant(q);count+=1
+    q=started(False);put(q,'budget_net',-2000);put(q,'budget_day',29);call(q,'budget_daily');call(q,'refresh')
+    assert q['debt_modifier'];put(q,'days_left',1);call(q,'daily')
+    assert v(q,'funds')<0 and not q['debt_modifier'] and v(q,'debt_speed_factor')==1
+    snapshot=ledger(q);call(q,'refresh');assert ledger(q)==snapshot;invariant(q);count+=1
+    # Route guidance identifies the actual minimum-capacity node on this fixed
+    # planning route. It cannot charge funds, send cargo or advance the clock.
+    q=quiet();target=30;path=routes(DATA)[target][0];bottleneck=path[2];select(q,target)
+    put(q,f'n{bottleneck}_freight',10);put(q,f'n{bottleneck}_freight_used',20)
+    before=ledger(q);call(q,'cargo_prepare');call(q,'selection_cache')
+    assert v(q,'sel_route_bottleneck')==bottleneck and v(q,'sel_route_focus')==bottleneck
+    assert v(q,'sel_route_capacity')==10 and v(q,'sel_route_load')==20 and v(q,'sel_route_missing')==10
+    assert v(q,'sel_arrival_factor')==.5 and ledger(q)==before
+    put(q,f'n{bottleneck}_freight',20);call(q,'cargo_prepare');call(q,'selection_cache')
+    assert v(q,'sel_route_bottleneck')==v(q,'sel_route_focus')==-1 and v(q,'sel_arrival_factor')==1
+    # A node that is even more overloaded but off this route must not appear.
+    off=next(i for i in range(36) if i not in path)
+    put(q,f'n{off}_freight',1);put(q,f'n{off}_freight_used',100)
+    call(q,'cargo_prepare');call(q,'selection_cache');assert v(q,'sel_route_bottleneck')==-1;count+=3
+    # Select the far side of the first broken link, not a random congested node.
+    q['controlled'].discard(DATA['cells'][bottleneck]['state']);call(q,'refresh')
+    assert v(q,'sel_route_live')==0
+    lo,hi=sorted((path[1],path[2]));assert v(q,'sel_route_gap')==lo*36+hi
+    assert v(q,'sel_route_focus')==bottleneck
+    before=ledger(q);call(q,'focus_route');assert v(q,'selected')==bottleneck and ledger(q)==before;count+=1
     # Final day honours completions, refunds only unfinished work and seals the
     # financial/cargo ledger. Repeated daily calls cannot create more income.
     s=started();select(s,5);call(s,'build_5');select(s,4);call(s,'build_7')

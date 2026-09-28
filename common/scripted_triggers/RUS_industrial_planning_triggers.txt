@@ -123,6 +123,44 @@ RUS_ip_site_0_8 = {
 	check_variable = { RUS_ip_n0_training < 3 }
 }
 
+RUS_ip_site_0_9 = {
+	RUS_ip_owned_0 = yes
+	213 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_0_10 = {
+	RUS_ip_owned_0 = yes
+	check_variable = { RUS_ip_n0_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n0_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n0_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n0_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n0_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n0_rail_from_state
+		target_state = var:ROOT.RUS_ip_n0_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_1 = {
 	owns_state = 215
 	controls_state = 215
@@ -275,6 +313,44 @@ RUS_ip_site_1_7 = {
 RUS_ip_site_1_8 = {
 	RUS_ip_owned_1 = yes
 	check_variable = { RUS_ip_n1_training < 3 }
+}
+
+RUS_ip_site_1_9 = {
+	RUS_ip_owned_1 = yes
+	215 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_1_10 = {
+	RUS_ip_owned_1 = yes
+	check_variable = { RUS_ip_n1_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n1_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n1_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n1_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n1_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n1_rail_from_state
+		target_state = var:ROOT.RUS_ip_n1_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_2 = {
@@ -451,6 +527,44 @@ RUS_ip_site_2_7 = {
 RUS_ip_site_2_8 = {
 	RUS_ip_owned_2 = yes
 	check_variable = { RUS_ip_n2_training < 3 }
+}
+
+RUS_ip_site_2_9 = {
+	RUS_ip_owned_2 = yes
+	195 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_2_10 = {
+	RUS_ip_owned_2 = yes
+	check_variable = { RUS_ip_n2_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n2_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n2_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n2_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n2_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n2_rail_from_state
+		target_state = var:ROOT.RUS_ip_n2_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_3 = {
@@ -692,6 +806,44 @@ RUS_ip_site_3_8 = {
 	check_variable = { RUS_ip_n3_training < 3 }
 }
 
+RUS_ip_site_3_9 = {
+	RUS_ip_owned_3 = yes
+	214 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_3_10 = {
+	RUS_ip_owned_3 = yes
+	check_variable = { RUS_ip_n3_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n3_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n3_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n3_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n3_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n3_rail_from_state
+		target_state = var:ROOT.RUS_ip_n3_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_4 = {
 	owns_state = 242
 	controls_state = 242
@@ -804,6 +956,44 @@ RUS_ip_site_4_8 = {
 	check_variable = { RUS_ip_n4_training < 3 }
 }
 
+RUS_ip_site_4_9 = {
+	RUS_ip_owned_4 = yes
+	242 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_4_10 = {
+	RUS_ip_owned_4 = yes
+	check_variable = { RUS_ip_n4_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n4_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n4_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n4_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n4_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n4_rail_from_state
+		target_state = var:ROOT.RUS_ip_n4_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_5 = {
 	owns_state = 219
 	controls_state = 219
@@ -861,6 +1051,44 @@ RUS_ip_site_5_7 = {
 RUS_ip_site_5_8 = {
 	RUS_ip_owned_5 = yes
 	check_variable = { RUS_ip_n5_training < 3 }
+}
+
+RUS_ip_site_5_9 = {
+	RUS_ip_owned_5 = yes
+	219 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_5_10 = {
+	RUS_ip_owned_5 = yes
+	check_variable = { RUS_ip_n5_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n5_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n5_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n5_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n5_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n5_rail_from_state
+		target_state = var:ROOT.RUS_ip_n5_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_6 = {
@@ -994,6 +1222,44 @@ RUS_ip_site_6_7 = {
 RUS_ip_site_6_8 = {
 	RUS_ip_owned_6 = yes
 	check_variable = { RUS_ip_n6_training < 3 }
+}
+
+RUS_ip_site_6_9 = {
+	RUS_ip_owned_6 = yes
+	260 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_6_10 = {
+	RUS_ip_owned_6 = yes
+	check_variable = { RUS_ip_n6_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n6_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n6_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n6_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n6_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n6_rail_from_state
+		target_state = var:ROOT.RUS_ip_n6_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_7 = {
@@ -1214,6 +1480,44 @@ RUS_ip_site_7_8 = {
 	check_variable = { RUS_ip_n7_training < 3 }
 }
 
+RUS_ip_site_7_9 = {
+	RUS_ip_owned_7 = yes
+	252 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_7_10 = {
+	RUS_ip_owned_7 = yes
+	check_variable = { RUS_ip_n7_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n7_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n7_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n7_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n7_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n7_rail_from_state
+		target_state = var:ROOT.RUS_ip_n7_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_8 = {
 	owns_state = 249
 	controls_state = 249
@@ -1387,6 +1691,44 @@ RUS_ip_site_8_7 = {
 RUS_ip_site_8_8 = {
 	RUS_ip_owned_8 = yes
 	check_variable = { RUS_ip_n8_training < 3 }
+}
+
+RUS_ip_site_8_9 = {
+	RUS_ip_owned_8 = yes
+	249 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_8_10 = {
+	RUS_ip_owned_8 = yes
+	check_variable = { RUS_ip_n8_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n8_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n8_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n8_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n8_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n8_rail_from_state
+		target_state = var:ROOT.RUS_ip_n8_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_9 = {
@@ -1627,6 +1969,44 @@ RUS_ip_site_9_8 = {
 	check_variable = { RUS_ip_n9_training < 3 }
 }
 
+RUS_ip_site_9_9 = {
+	RUS_ip_owned_9 = yes
+	239 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_9_10 = {
+	RUS_ip_owned_9 = yes
+	check_variable = { RUS_ip_n9_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n9_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n9_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n9_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n9_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n9_rail_from_state
+		target_state = var:ROOT.RUS_ip_n9_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_10 = {
 	owns_state = 251
 	controls_state = 251
@@ -1800,6 +2180,44 @@ RUS_ip_site_10_7 = {
 RUS_ip_site_10_8 = {
 	RUS_ip_owned_10 = yes
 	check_variable = { RUS_ip_n10_training < 3 }
+}
+
+RUS_ip_site_10_9 = {
+	RUS_ip_owned_10 = yes
+	251 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_10_10 = {
+	RUS_ip_owned_10 = yes
+	check_variable = { RUS_ip_n10_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n10_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n10_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n10_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n10_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n10_rail_from_state
+		target_state = var:ROOT.RUS_ip_n10_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_11 = {
@@ -1978,6 +2396,44 @@ RUS_ip_site_11_8 = {
 	check_variable = { RUS_ip_n11_training < 3 }
 }
 
+RUS_ip_site_11_9 = {
+	RUS_ip_owned_11 = yes
+	217 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_11_10 = {
+	RUS_ip_owned_11 = yes
+	check_variable = { RUS_ip_n11_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n11_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n11_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n11_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n11_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n11_rail_from_state
+		target_state = var:ROOT.RUS_ip_n11_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_12 = {
 	owns_state = 218
 	controls_state = 218
@@ -2133,6 +2589,44 @@ RUS_ip_site_12_8 = {
 	check_variable = { RUS_ip_n12_training < 3 }
 }
 
+RUS_ip_site_12_9 = {
+	RUS_ip_owned_12 = yes
+	218 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_12_10 = {
+	RUS_ip_owned_12 = yes
+	check_variable = { RUS_ip_n12_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n12_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n12_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n12_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n12_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n12_rail_from_state
+		target_state = var:ROOT.RUS_ip_n12_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_13 = {
 	owns_state = 234
 	controls_state = 234
@@ -2267,6 +2761,44 @@ RUS_ip_site_13_8 = {
 	check_variable = { RUS_ip_n13_training < 3 }
 }
 
+RUS_ip_site_13_9 = {
+	RUS_ip_owned_13 = yes
+	234 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_13_10 = {
+	RUS_ip_owned_13 = yes
+	check_variable = { RUS_ip_n13_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n13_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n13_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n13_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n13_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n13_rail_from_state
+		target_state = var:ROOT.RUS_ip_n13_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_14 = {
 	owns_state = 233
 	controls_state = 233
@@ -2378,6 +2910,44 @@ RUS_ip_site_14_7 = {
 RUS_ip_site_14_8 = {
 	RUS_ip_owned_14 = yes
 	check_variable = { RUS_ip_n14_training < 3 }
+}
+
+RUS_ip_site_14_9 = {
+	RUS_ip_owned_14 = yes
+	233 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_14_10 = {
+	RUS_ip_owned_14 = yes
+	check_variable = { RUS_ip_n14_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n14_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n14_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n14_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n14_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n14_rail_from_state
+		target_state = var:ROOT.RUS_ip_n14_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_15 = {
@@ -2554,6 +3124,44 @@ RUS_ip_site_15_7 = {
 RUS_ip_site_15_8 = {
 	RUS_ip_owned_15 = yes
 	check_variable = { RUS_ip_n15_training < 3 }
+}
+
+RUS_ip_site_15_9 = {
+	RUS_ip_owned_15 = yes
+	653 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_15_10 = {
+	RUS_ip_owned_15 = yes
+	check_variable = { RUS_ip_n15_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n15_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n15_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n15_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n15_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n15_rail_from_state
+		target_state = var:ROOT.RUS_ip_n15_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_16 = {
@@ -2814,6 +3422,44 @@ RUS_ip_site_16_8 = {
 	check_variable = { RUS_ip_n16_training < 3 }
 }
 
+RUS_ip_site_16_9 = {
+	RUS_ip_owned_16 = yes
+	572 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_16_10 = {
+	RUS_ip_owned_16 = yes
+	check_variable = { RUS_ip_n16_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n16_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n16_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n16_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n16_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n16_rail_from_state
+		target_state = var:ROOT.RUS_ip_n16_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_17 = {
 	owns_state = 403
 	controls_state = 403
@@ -2990,6 +3636,44 @@ RUS_ip_site_17_8 = {
 	check_variable = { RUS_ip_n17_training < 3 }
 }
 
+RUS_ip_site_17_9 = {
+	RUS_ip_owned_17 = yes
+	403 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_17_10 = {
+	RUS_ip_owned_17 = yes
+	check_variable = { RUS_ip_n17_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n17_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n17_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n17_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n17_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n17_rail_from_state
+		target_state = var:ROOT.RUS_ip_n17_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_18 = {
 	owns_state = 571
 	controls_state = 571
@@ -3143,6 +3827,44 @@ RUS_ip_site_18_7 = {
 RUS_ip_site_18_8 = {
 	RUS_ip_owned_18 = yes
 	check_variable = { RUS_ip_n18_training < 3 }
+}
+
+RUS_ip_site_18_9 = {
+	RUS_ip_owned_18 = yes
+	571 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_18_10 = {
+	RUS_ip_owned_18 = yes
+	check_variable = { RUS_ip_n18_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n18_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n18_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n18_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n18_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n18_rail_from_state
+		target_state = var:ROOT.RUS_ip_n18_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_19 = {
@@ -3319,6 +4041,44 @@ RUS_ip_site_19_8 = {
 	check_variable = { RUS_ip_n19_training < 3 }
 }
 
+RUS_ip_site_19_9 = {
+	RUS_ip_owned_19 = yes
+	570 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_19_10 = {
+	RUS_ip_owned_19 = yes
+	check_variable = { RUS_ip_n19_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n19_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n19_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n19_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n19_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n19_rail_from_state
+		target_state = var:ROOT.RUS_ip_n19_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_20 = {
 	owns_state = 569
 	controls_state = 569
@@ -3470,6 +4230,44 @@ RUS_ip_site_20_7 = {
 RUS_ip_site_20_8 = {
 	RUS_ip_owned_20 = yes
 	check_variable = { RUS_ip_n20_training < 3 }
+}
+
+RUS_ip_site_20_9 = {
+	RUS_ip_owned_20 = yes
+	569 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_20_10 = {
+	RUS_ip_owned_20 = yes
+	check_variable = { RUS_ip_n20_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n20_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n20_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n20_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n20_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n20_rail_from_state
+		target_state = var:ROOT.RUS_ip_n20_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_21 = {
@@ -3711,6 +4509,44 @@ RUS_ip_site_21_8 = {
 	check_variable = { RUS_ip_n21_training < 3 }
 }
 
+RUS_ip_site_21_9 = {
+	RUS_ip_owned_21 = yes
+	568 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_21_10 = {
+	RUS_ip_owned_21 = yes
+	check_variable = { RUS_ip_n21_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n21_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n21_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n21_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n21_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n21_rail_from_state
+		target_state = var:ROOT.RUS_ip_n21_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_22 = {
 	owns_state = 811
 	controls_state = 811
@@ -3843,6 +4679,44 @@ RUS_ip_site_22_7 = {
 RUS_ip_site_22_8 = {
 	RUS_ip_owned_22 = yes
 	check_variable = { RUS_ip_n22_training < 3 }
+}
+
+RUS_ip_site_22_9 = {
+	RUS_ip_owned_22 = yes
+	811 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_22_10 = {
+	RUS_ip_owned_22 = yes
+	check_variable = { RUS_ip_n22_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n22_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n22_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n22_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n22_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n22_rail_from_state
+		target_state = var:ROOT.RUS_ip_n22_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_23 = {
@@ -4020,6 +4894,44 @@ RUS_ip_site_23_8 = {
 	check_variable = { RUS_ip_n23_training < 3 }
 }
 
+RUS_ip_site_23_9 = {
+	RUS_ip_owned_23 = yes
+	566 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_23_10 = {
+	RUS_ip_owned_23 = yes
+	check_variable = { RUS_ip_n23_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n23_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n23_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n23_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n23_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n23_rail_from_state
+		target_state = var:ROOT.RUS_ip_n23_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_24 = {
 	owns_state = 563
 	controls_state = 563
@@ -4130,6 +5042,44 @@ RUS_ip_site_24_7 = {
 RUS_ip_site_24_8 = {
 	RUS_ip_owned_24 = yes
 	check_variable = { RUS_ip_n24_training < 3 }
+}
+
+RUS_ip_site_24_9 = {
+	RUS_ip_owned_24 = yes
+	563 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_24_10 = {
+	RUS_ip_owned_24 = yes
+	check_variable = { RUS_ip_n24_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n24_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n24_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n24_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n24_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n24_rail_from_state
+		target_state = var:ROOT.RUS_ip_n24_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_25 = {
@@ -4308,6 +5258,44 @@ RUS_ip_site_25_8 = {
 	check_variable = { RUS_ip_n25_training < 3 }
 }
 
+RUS_ip_site_25_9 = {
+	RUS_ip_owned_25 = yes
+	574 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_25_10 = {
+	RUS_ip_owned_25 = yes
+	check_variable = { RUS_ip_n25_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n25_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n25_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n25_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n25_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n25_rail_from_state
+		target_state = var:ROOT.RUS_ip_n25_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_26 = {
 	owns_state = 657
 	controls_state = 657
@@ -4483,6 +5471,44 @@ RUS_ip_site_26_8 = {
 	check_variable = { RUS_ip_n26_training < 3 }
 }
 
+RUS_ip_site_26_9 = {
+	RUS_ip_owned_26 = yes
+	657 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_26_10 = {
+	RUS_ip_owned_26 = yes
+	check_variable = { RUS_ip_n26_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n26_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n26_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n26_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n26_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n26_rail_from_state
+		target_state = var:ROOT.RUS_ip_n26_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_27 = {
 	owns_state = 562
 	controls_state = 562
@@ -4616,6 +5642,44 @@ RUS_ip_site_27_8 = {
 	check_variable = { RUS_ip_n27_training < 3 }
 }
 
+RUS_ip_site_27_9 = {
+	RUS_ip_owned_27 = yes
+	562 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_27_10 = {
+	RUS_ip_owned_27 = yes
+	check_variable = { RUS_ip_n27_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n27_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n27_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n27_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n27_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n27_rail_from_state
+		target_state = var:ROOT.RUS_ip_n27_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_28 = {
 	owns_state = 637
 	controls_state = 637
@@ -4676,6 +5740,44 @@ RUS_ip_site_28_7 = {
 RUS_ip_site_28_8 = {
 	RUS_ip_owned_28 = yes
 	check_variable = { RUS_ip_n28_training < 3 }
+}
+
+RUS_ip_site_28_9 = {
+	RUS_ip_owned_28 = yes
+	637 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_28_10 = {
+	RUS_ip_owned_28 = yes
+	check_variable = { RUS_ip_n28_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n28_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n28_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n28_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n28_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n28_rail_from_state
+		target_state = var:ROOT.RUS_ip_n28_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_29 = {
@@ -4812,6 +5914,44 @@ RUS_ip_site_29_8 = {
 	check_variable = { RUS_ip_n29_training < 3 }
 }
 
+RUS_ip_site_29_9 = {
+	RUS_ip_owned_29 = yes
+	409 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_29_10 = {
+	RUS_ip_owned_29 = yes
+	check_variable = { RUS_ip_n29_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n29_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n29_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n29_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n29_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n29_rail_from_state
+		target_state = var:ROOT.RUS_ip_n29_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_30 = {
 	owns_state = 408
 	controls_state = 408
@@ -4904,6 +6044,44 @@ RUS_ip_site_30_8 = {
 	check_variable = { RUS_ip_n30_training < 3 }
 }
 
+RUS_ip_site_30_9 = {
+	RUS_ip_owned_30 = yes
+	408 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_30_10 = {
+	RUS_ip_owned_30 = yes
+	check_variable = { RUS_ip_n30_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n30_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n30_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n30_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n30_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n30_rail_from_state
+		target_state = var:ROOT.RUS_ip_n30_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_31 = {
 	owns_state = 577
 	controls_state = 577
@@ -4963,6 +6141,44 @@ RUS_ip_site_31_7 = {
 RUS_ip_site_31_8 = {
 	RUS_ip_owned_31 = yes
 	check_variable = { RUS_ip_n31_training < 3 }
+}
+
+RUS_ip_site_31_9 = {
+	RUS_ip_owned_31 = yes
+	577 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_31_10 = {
+	RUS_ip_owned_31 = yes
+	check_variable = { RUS_ip_n31_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n31_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n31_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n31_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n31_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n31_rail_from_state
+		target_state = var:ROOT.RUS_ip_n31_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_32 = {
@@ -5120,6 +6336,44 @@ RUS_ip_site_32_8 = {
 	check_variable = { RUS_ip_n32_training < 3 }
 }
 
+RUS_ip_site_32_9 = {
+	RUS_ip_owned_32 = yes
+	581 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_32_10 = {
+	RUS_ip_owned_32 = yes
+	check_variable = { RUS_ip_n32_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n32_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n32_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n32_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n32_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n32_rail_from_state
+		target_state = var:ROOT.RUS_ip_n32_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_33 = {
 	owns_state = 402
 	controls_state = 402
@@ -5273,6 +6527,44 @@ RUS_ip_site_33_7 = {
 RUS_ip_site_33_8 = {
 	RUS_ip_owned_33 = yes
 	check_variable = { RUS_ip_n33_training < 3 }
+}
+
+RUS_ip_site_33_9 = {
+	RUS_ip_owned_33 = yes
+	402 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_33_10 = {
+	RUS_ip_owned_33 = yes
+	check_variable = { RUS_ip_n33_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n33_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n33_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n33_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n33_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n33_rail_from_state
+		target_state = var:ROOT.RUS_ip_n33_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_owned_34 = {
@@ -5470,6 +6762,44 @@ RUS_ip_site_34_8 = {
 	check_variable = { RUS_ip_n34_training < 3 }
 }
 
+RUS_ip_site_34_9 = {
+	RUS_ip_owned_34 = yes
+	404 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_34_10 = {
+	RUS_ip_owned_34 = yes
+	check_variable = { RUS_ip_n34_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n34_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n34_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n34_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n34_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n34_rail_from_state
+		target_state = var:ROOT.RUS_ip_n34_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
 RUS_ip_owned_35 = {
 	owns_state = 589
 	controls_state = 589
@@ -5559,6 +6889,44 @@ RUS_ip_site_35_7 = {
 RUS_ip_site_35_8 = {
 	RUS_ip_owned_35 = yes
 	check_variable = { RUS_ip_n35_training < 3 }
+}
+
+RUS_ip_site_35_9 = {
+	RUS_ip_owned_35 = yes
+	589 = {
+		OR = {
+			has_state_category = one
+			has_state_category = two
+			has_state_category = three
+			has_state_category = four
+			has_state_category = five
+			has_state_category = six
+			has_state_category = seven
+			has_state_category = eight
+			has_state_category = nine
+			has_state_category = ten
+			has_state_category = eleven
+		}
+	}
+}
+
+RUS_ip_site_35_10 = {
+	RUS_ip_owned_35 = yes
+	check_variable = { RUS_ip_n35_rail_from_state > 0 }
+	NOT = {
+		check_variable = { RUS_ip_n35_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_n35_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_n35_rail_from_state
+	controls_state = var:ROOT.RUS_ip_n35_rail_from_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_n35_rail_from_state
+		target_state = var:ROOT.RUS_ip_n35_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
 }
 
 RUS_ip_can_build_1 = {
@@ -7093,6 +8461,855 @@ RUS_ip_can_build_8 = {
 			check_variable = { RUS_ip_selected = 35 }
 			check_variable = { RUS_ip_n35_project = 0 }
 			RUS_ip_site_35_8 = yes
+		}
+	}
+}
+
+RUS_ip_can_build_9 = {
+	RUS_ip_editing = yes
+	NOT = {
+		check_variable = { RUS_ip_free_civs < 3 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_funds < RUS_ip_forecast_9_cost }
+	}
+	OR = {
+		AND = {
+			check_variable = { RUS_ip_selected = 0 }
+			check_variable = { RUS_ip_n0_project = 0 }
+			RUS_ip_site_0_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 1 }
+			check_variable = { RUS_ip_n1_project = 0 }
+			RUS_ip_site_1_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 2 }
+			check_variable = { RUS_ip_n2_project = 0 }
+			RUS_ip_site_2_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 3 }
+			check_variable = { RUS_ip_n3_project = 0 }
+			RUS_ip_site_3_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 4 }
+			check_variable = { RUS_ip_n4_project = 0 }
+			RUS_ip_site_4_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 5 }
+			check_variable = { RUS_ip_n5_project = 0 }
+			RUS_ip_site_5_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 6 }
+			check_variable = { RUS_ip_n6_project = 0 }
+			RUS_ip_site_6_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 7 }
+			check_variable = { RUS_ip_n7_project = 0 }
+			RUS_ip_site_7_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 8 }
+			check_variable = { RUS_ip_n8_project = 0 }
+			RUS_ip_site_8_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 9 }
+			check_variable = { RUS_ip_n9_project = 0 }
+			RUS_ip_site_9_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 10 }
+			check_variable = { RUS_ip_n10_project = 0 }
+			RUS_ip_site_10_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 11 }
+			check_variable = { RUS_ip_n11_project = 0 }
+			RUS_ip_site_11_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 12 }
+			check_variable = { RUS_ip_n12_project = 0 }
+			RUS_ip_site_12_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 13 }
+			check_variable = { RUS_ip_n13_project = 0 }
+			RUS_ip_site_13_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 14 }
+			check_variable = { RUS_ip_n14_project = 0 }
+			RUS_ip_site_14_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 15 }
+			check_variable = { RUS_ip_n15_project = 0 }
+			RUS_ip_site_15_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 16 }
+			check_variable = { RUS_ip_n16_project = 0 }
+			RUS_ip_site_16_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 17 }
+			check_variable = { RUS_ip_n17_project = 0 }
+			RUS_ip_site_17_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 18 }
+			check_variable = { RUS_ip_n18_project = 0 }
+			RUS_ip_site_18_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 19 }
+			check_variable = { RUS_ip_n19_project = 0 }
+			RUS_ip_site_19_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 20 }
+			check_variable = { RUS_ip_n20_project = 0 }
+			RUS_ip_site_20_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 21 }
+			check_variable = { RUS_ip_n21_project = 0 }
+			RUS_ip_site_21_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 22 }
+			check_variable = { RUS_ip_n22_project = 0 }
+			RUS_ip_site_22_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 23 }
+			check_variable = { RUS_ip_n23_project = 0 }
+			RUS_ip_site_23_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 24 }
+			check_variable = { RUS_ip_n24_project = 0 }
+			RUS_ip_site_24_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 25 }
+			check_variable = { RUS_ip_n25_project = 0 }
+			RUS_ip_site_25_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 26 }
+			check_variable = { RUS_ip_n26_project = 0 }
+			RUS_ip_site_26_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 27 }
+			check_variable = { RUS_ip_n27_project = 0 }
+			RUS_ip_site_27_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 28 }
+			check_variable = { RUS_ip_n28_project = 0 }
+			RUS_ip_site_28_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 29 }
+			check_variable = { RUS_ip_n29_project = 0 }
+			RUS_ip_site_29_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 30 }
+			check_variable = { RUS_ip_n30_project = 0 }
+			RUS_ip_site_30_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 31 }
+			check_variable = { RUS_ip_n31_project = 0 }
+			RUS_ip_site_31_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 32 }
+			check_variable = { RUS_ip_n32_project = 0 }
+			RUS_ip_site_32_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 33 }
+			check_variable = { RUS_ip_n33_project = 0 }
+			RUS_ip_site_33_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 34 }
+			check_variable = { RUS_ip_n34_project = 0 }
+			RUS_ip_site_34_9 = yes
+		}
+		AND = {
+			check_variable = { RUS_ip_selected = 35 }
+			check_variable = { RUS_ip_n35_project = 0 }
+			RUS_ip_site_35_9 = yes
+		}
+	}
+}
+
+RUS_ip_rail_path_valid = {
+	NOT = {
+		check_variable = { RUS_ip_rail_from < 0 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_rail_to < 0 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_rail_from = RUS_ip_rail_to }
+	}
+	NOT = {
+		check_variable = { RUS_ip_rail_level < 1 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_rail_level > 5 }
+	}
+	owns_state = var:ROOT.RUS_ip_rail_from_state
+	controls_state = var:ROOT.RUS_ip_rail_from_state
+	owns_state = var:ROOT.RUS_ip_rail_to_state
+	controls_state = var:ROOT.RUS_ip_rail_to_state
+	can_build_railway = {
+		build_only_on_allied = yes
+		start_state = var:ROOT.RUS_ip_rail_from_state
+		target_state = var:ROOT.RUS_ip_rail_to_state
+		controller_priority = { base = -1 modifier = { tag = ROOT add = 2 } }
+	}
+}
+
+RUS_ip_can_build_10 = {
+	RUS_ip_editing = yes
+	RUS_ip_rail_path_valid = yes
+	NOT = {
+		check_variable = { RUS_ip_free_civs < 3 }
+	}
+	NOT = {
+		check_variable = { RUS_ip_funds < RUS_ip_rail_cost }
+	}
+	NOT = {
+		OR = {
+			AND = {
+				check_variable = { RUS_ip_n0_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 0 }
+						check_variable = { RUS_ip_n0_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 0 }
+						check_variable = { RUS_ip_n0_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n1_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 1 }
+						check_variable = { RUS_ip_n1_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 1 }
+						check_variable = { RUS_ip_n1_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n2_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 2 }
+						check_variable = { RUS_ip_n2_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 2 }
+						check_variable = { RUS_ip_n2_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n3_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 3 }
+						check_variable = { RUS_ip_n3_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 3 }
+						check_variable = { RUS_ip_n3_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n4_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 4 }
+						check_variable = { RUS_ip_n4_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 4 }
+						check_variable = { RUS_ip_n4_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n5_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 5 }
+						check_variable = { RUS_ip_n5_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 5 }
+						check_variable = { RUS_ip_n5_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n6_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 6 }
+						check_variable = { RUS_ip_n6_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 6 }
+						check_variable = { RUS_ip_n6_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n7_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 7 }
+						check_variable = { RUS_ip_n7_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 7 }
+						check_variable = { RUS_ip_n7_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n8_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 8 }
+						check_variable = { RUS_ip_n8_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 8 }
+						check_variable = { RUS_ip_n8_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n9_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 9 }
+						check_variable = { RUS_ip_n9_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 9 }
+						check_variable = { RUS_ip_n9_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n10_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 10 }
+						check_variable = { RUS_ip_n10_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 10 }
+						check_variable = { RUS_ip_n10_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n11_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 11 }
+						check_variable = { RUS_ip_n11_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 11 }
+						check_variable = { RUS_ip_n11_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n12_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 12 }
+						check_variable = { RUS_ip_n12_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 12 }
+						check_variable = { RUS_ip_n12_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n13_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 13 }
+						check_variable = { RUS_ip_n13_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 13 }
+						check_variable = { RUS_ip_n13_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n14_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 14 }
+						check_variable = { RUS_ip_n14_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 14 }
+						check_variable = { RUS_ip_n14_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n15_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 15 }
+						check_variable = { RUS_ip_n15_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 15 }
+						check_variable = { RUS_ip_n15_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n16_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 16 }
+						check_variable = { RUS_ip_n16_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 16 }
+						check_variable = { RUS_ip_n16_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n17_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 17 }
+						check_variable = { RUS_ip_n17_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 17 }
+						check_variable = { RUS_ip_n17_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n18_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 18 }
+						check_variable = { RUS_ip_n18_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 18 }
+						check_variable = { RUS_ip_n18_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n19_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 19 }
+						check_variable = { RUS_ip_n19_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 19 }
+						check_variable = { RUS_ip_n19_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n20_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 20 }
+						check_variable = { RUS_ip_n20_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 20 }
+						check_variable = { RUS_ip_n20_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n21_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 21 }
+						check_variable = { RUS_ip_n21_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 21 }
+						check_variable = { RUS_ip_n21_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n22_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 22 }
+						check_variable = { RUS_ip_n22_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 22 }
+						check_variable = { RUS_ip_n22_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n23_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 23 }
+						check_variable = { RUS_ip_n23_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 23 }
+						check_variable = { RUS_ip_n23_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n24_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 24 }
+						check_variable = { RUS_ip_n24_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 24 }
+						check_variable = { RUS_ip_n24_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n25_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 25 }
+						check_variable = { RUS_ip_n25_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 25 }
+						check_variable = { RUS_ip_n25_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n26_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 26 }
+						check_variable = { RUS_ip_n26_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 26 }
+						check_variable = { RUS_ip_n26_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n27_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 27 }
+						check_variable = { RUS_ip_n27_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 27 }
+						check_variable = { RUS_ip_n27_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n28_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 28 }
+						check_variable = { RUS_ip_n28_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 28 }
+						check_variable = { RUS_ip_n28_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n29_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 29 }
+						check_variable = { RUS_ip_n29_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 29 }
+						check_variable = { RUS_ip_n29_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n30_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 30 }
+						check_variable = { RUS_ip_n30_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 30 }
+						check_variable = { RUS_ip_n30_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n31_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 31 }
+						check_variable = { RUS_ip_n31_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 31 }
+						check_variable = { RUS_ip_n31_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n32_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 32 }
+						check_variable = { RUS_ip_n32_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 32 }
+						check_variable = { RUS_ip_n32_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n33_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 33 }
+						check_variable = { RUS_ip_n33_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 33 }
+						check_variable = { RUS_ip_n33_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n34_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 34 }
+						check_variable = { RUS_ip_n34_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 34 }
+						check_variable = { RUS_ip_n34_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+			AND = {
+				check_variable = { RUS_ip_n35_project = 10 }
+				OR = {
+					AND = {
+						check_variable = { RUS_ip_rail_to = 35 }
+						check_variable = { RUS_ip_n35_rail_from_state = RUS_ip_rail_from_state }
+					}
+					AND = {
+						check_variable = { RUS_ip_rail_from = 35 }
+						check_variable = { RUS_ip_n35_rail_from_state = RUS_ip_rail_to_state }
+					}
+				}
+			}
+		}
+	}
+	OR = {
+		AND = {
+			check_variable = { RUS_ip_rail_to = 0 }
+			check_variable = { RUS_ip_n0_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 1 }
+			check_variable = { RUS_ip_n1_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 2 }
+			check_variable = { RUS_ip_n2_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 3 }
+			check_variable = { RUS_ip_n3_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 4 }
+			check_variable = { RUS_ip_n4_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 5 }
+			check_variable = { RUS_ip_n5_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 6 }
+			check_variable = { RUS_ip_n6_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 7 }
+			check_variable = { RUS_ip_n7_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 8 }
+			check_variable = { RUS_ip_n8_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 9 }
+			check_variable = { RUS_ip_n9_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 10 }
+			check_variable = { RUS_ip_n10_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 11 }
+			check_variable = { RUS_ip_n11_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 12 }
+			check_variable = { RUS_ip_n12_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 13 }
+			check_variable = { RUS_ip_n13_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 14 }
+			check_variable = { RUS_ip_n14_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 15 }
+			check_variable = { RUS_ip_n15_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 16 }
+			check_variable = { RUS_ip_n16_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 17 }
+			check_variable = { RUS_ip_n17_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 18 }
+			check_variable = { RUS_ip_n18_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 19 }
+			check_variable = { RUS_ip_n19_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 20 }
+			check_variable = { RUS_ip_n20_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 21 }
+			check_variable = { RUS_ip_n21_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 22 }
+			check_variable = { RUS_ip_n22_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 23 }
+			check_variable = { RUS_ip_n23_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 24 }
+			check_variable = { RUS_ip_n24_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 25 }
+			check_variable = { RUS_ip_n25_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 26 }
+			check_variable = { RUS_ip_n26_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 27 }
+			check_variable = { RUS_ip_n27_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 28 }
+			check_variable = { RUS_ip_n28_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 29 }
+			check_variable = { RUS_ip_n29_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 30 }
+			check_variable = { RUS_ip_n30_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 31 }
+			check_variable = { RUS_ip_n31_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 32 }
+			check_variable = { RUS_ip_n32_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 33 }
+			check_variable = { RUS_ip_n33_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 34 }
+			check_variable = { RUS_ip_n34_project = 0 }
+		}
+		AND = {
+			check_variable = { RUS_ip_rail_to = 35 }
+			check_variable = { RUS_ip_n35_project = 0 }
 		}
 	}
 }

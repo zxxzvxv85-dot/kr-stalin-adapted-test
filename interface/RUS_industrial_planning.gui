@@ -28,10 +28,14 @@ guiTypes = {
 		background = { name = "frame" quadTextureSprite = "GFX_tiled_plain_bg" }
 		instantTextBoxType = { name = "ip_title" position = { x = 24 y = 16 } text = "RUS_ip_title" font = "hoi_24header" maxWidth = 1712 maxHeight = 32 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_summary" position = { x = 60 y = 56 } text = "RUS_ip_summary" font = "hoi_20b" maxWidth = 810 maxHeight = 27 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_budget_projection" position = { x = 60 y = 80 } text = "RUS_ip_budget_projection" font = "hoi_16mbs" maxWidth = 810 maxHeight = 24 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
+		instantTextBoxType = { name = "ip_budget_projection" position = { x = 60 y = 80 } text = "RUS_ip_budget_projection" font = "hoi_16mbs" maxWidth = 810 maxHeight = 24 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_hover" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_capacity" position = { x = 940 y = 80 } text = "RUS_ip_capacity" font = "hoi_16mbs" maxWidth = 760 maxHeight = 24 format = left fixedsize = yes pdx_tooltip = "RUS_ip_commitments" alwaystransparent = no }
-		iconType = { name = "ip_funds_icon" position = { x = 900 y = 56 } spriteType = "GFX_RUS_ip_funds" scale = 1.6 pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
-		instantTextBoxType = { name = "ip_funds" position = { x = 944 y = 57 } text = "RUS_ip_funds_summary" font = "hoi_16mbs" maxWidth = 750 maxHeight = 27 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
+		buttonType = { name = "ip_funds_icon" position = { x = 900 y = 56 } scale = 1.6 quadTextureSprite = "GFX_RUS_ip_funds" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_funds_hover" clicksound = click_default }
+		instantTextBoxType = { name = "ip_funds" position = { x = 944 y = 57 } text = "RUS_ip_funds_summary" font = "hoi_16mbs" maxWidth = 750 maxHeight = 27 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_hover" alwaystransparent = no }
+		instantTextBoxType = { name = "ip_rail_summary" position = { x = 180 y = 116 } text = "RUS_ip_rail_summary" font = "hoi_16mbs" maxWidth = 710 maxHeight = 48 format = left fixedsize = yes pdx_tooltip = "RUS_ip_rail_choose_tt" alwaystransparent = no }
+		buttonType = { name = "ip_rail_choose" position = { x = 930 y = 120 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_rail_choose" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_rail_choose_tt" clicksound = click_default }
+		buttonType = { name = "ip_rail_level" position = { x = 1065 y = 120 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_rail_level_button" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_rail_level_tt" clicksound = click_default }
+		buttonType = { name = "ip_rail_clear" position = { x = 1335 y = 120 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_rail_clear" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_rail_choose_tt" clicksound = click_default }
 		containerWindowType = {
 			name = "ip_map_viewport"
 			position = { x = 150 y = 168 }
@@ -165,6 +169,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_0_6" position = { x = 233 y = 223 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_0_7" position = { x = 233 y = 223 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_0_8" position = { x = 233 y = 223 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_9" position = { x = 233 y = 223 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_0_10" position = { x = 233 y = 223 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_0" position = { x = 225 y = 202 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_0" position = { x = 225 y = 202 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_1" position = { x = 200 y = 260 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_1_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_1" position = { x = 200 y = 260 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_1" position = { x = 200 y = 260 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -177,6 +185,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_1_6" position = { x = 204 y = 264 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_1_7" position = { x = 204 y = 264 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_1_8" position = { x = 204 y = 264 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_9" position = { x = 204 y = 264 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_1_10" position = { x = 204 y = 264 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_1" position = { x = 196 y = 243 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_1" position = { x = 196 y = 243 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_2" position = { x = 188 y = 330 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_2_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_2" position = { x = 188 y = 330 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_2" position = { x = 188 y = 330 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -189,6 +201,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_2_6" position = { x = 192 y = 334 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_2_7" position = { x = 192 y = 334 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_2_8" position = { x = 192 y = 334 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_9" position = { x = 192 y = 334 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_2_10" position = { x = 192 y = 334 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_2" position = { x = 184 y = 313 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_2" position = { x = 184 y = 313 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_3" position = { x = 285 y = 286 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_3_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_3" position = { x = 285 y = 286 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_3" position = { x = 285 y = 286 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -201,6 +217,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_3_6" position = { x = 289 y = 290 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_3_7" position = { x = 289 y = 290 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_3_8" position = { x = 289 y = 290 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_9" position = { x = 289 y = 290 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_3_10" position = { x = 289 y = 290 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_3" position = { x = 281 y = 269 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_3" position = { x = 281 y = 269 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_4" position = { x = 208 y = 393 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_4_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_4" position = { x = 208 y = 393 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_4" position = { x = 208 y = 393 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -213,6 +233,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_4_6" position = { x = 212 y = 397 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_4_7" position = { x = 212 y = 397 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_4_8" position = { x = 212 y = 397 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_9" position = { x = 212 y = 397 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_4_10" position = { x = 212 y = 397 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_4" position = { x = 204 y = 376 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_4" position = { x = 204 y = 376 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_5" position = { x = 251 y = 387 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_5_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_5" position = { x = 251 y = 387 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_5" position = { x = 251 y = 387 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -225,6 +249,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_5_6" position = { x = 255 y = 391 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_5_7" position = { x = 255 y = 391 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_5_8" position = { x = 255 y = 391 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_9" position = { x = 255 y = 391 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_5_10" position = { x = 255 y = 391 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_5" position = { x = 247 y = 370 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_5" position = { x = 247 y = 370 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_6" position = { x = 272 y = 433 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_6_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_6" position = { x = 272 y = 433 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_6" position = { x = 272 y = 433 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -237,6 +265,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_6_6" position = { x = 276 y = 437 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_6_7" position = { x = 276 y = 437 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_6_8" position = { x = 276 y = 437 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_9" position = { x = 276 y = 437 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_6_10" position = { x = 276 y = 437 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_6" position = { x = 268 y = 416 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_6" position = { x = 268 y = 416 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_7" position = { x = 309 y = 382 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_7_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_7" position = { x = 309 y = 382 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_7" position = { x = 309 y = 382 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -249,6 +281,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_7_6" position = { x = 313 y = 386 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_7_7" position = { x = 313 y = 386 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_7_8" position = { x = 313 y = 386 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_9" position = { x = 313 y = 386 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_7_10" position = { x = 313 y = 386 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_7" position = { x = 305 y = 365 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_7" position = { x = 305 y = 365 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_8" position = { x = 368 y = 382 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_8_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_8" position = { x = 368 y = 382 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_8" position = { x = 368 y = 382 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -261,6 +297,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_8_6" position = { x = 372 y = 386 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_8_7" position = { x = 372 y = 386 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_8_8" position = { x = 372 y = 386 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_9" position = { x = 372 y = 386 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_8_10" position = { x = 372 y = 386 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_8" position = { x = 364 y = 365 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_8" position = { x = 364 y = 365 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_9" position = { x = 316 y = 428 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_9_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_9" position = { x = 316 y = 428 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_9" position = { x = 316 y = 428 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -273,6 +313,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_9_6" position = { x = 320 y = 432 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_9_7" position = { x = 320 y = 432 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_9_8" position = { x = 320 y = 432 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_9" position = { x = 320 y = 432 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_9_10" position = { x = 320 y = 432 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_9" position = { x = 312 y = 411 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_9" position = { x = 312 y = 411 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_10" position = { x = 362 y = 423 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_10_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_10" position = { x = 362 y = 423 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_10" position = { x = 362 y = 423 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -285,6 +329,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_10_6" position = { x = 366 y = 427 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_10_7" position = { x = 366 y = 427 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_10_8" position = { x = 366 y = 427 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_9" position = { x = 366 y = 427 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_10_10" position = { x = 366 y = 427 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_10" position = { x = 358 y = 406 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_10" position = { x = 358 y = 406 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_11" position = { x = 318 y = 469 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_11_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_11" position = { x = 318 y = 469 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_11" position = { x = 318 y = 469 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -297,6 +345,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_11_6" position = { x = 322 y = 473 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_11_7" position = { x = 322 y = 473 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_11_8" position = { x = 322 y = 473 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_9" position = { x = 322 y = 473 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_11_10" position = { x = 322 y = 473 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_11" position = { x = 314 y = 452 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_11" position = { x = 314 y = 452 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_12" position = { x = 266 y = 473 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_12_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_12" position = { x = 266 y = 473 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_12" position = { x = 266 y = 473 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -309,6 +361,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_12_6" position = { x = 270 y = 477 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_12_7" position = { x = 270 y = 477 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_12_8" position = { x = 270 y = 477 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_9" position = { x = 270 y = 477 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_12_10" position = { x = 270 y = 477 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_12" position = { x = 262 y = 456 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_12" position = { x = 262 y = 456 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_13" position = { x = 262 y = 513 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_13_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_13" position = { x = 262 y = 513 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_13" position = { x = 262 y = 513 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -321,6 +377,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_13_6" position = { x = 266 y = 517 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_13_7" position = { x = 266 y = 517 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_13_8" position = { x = 266 y = 517 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_9" position = { x = 266 y = 517 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_13_10" position = { x = 266 y = 517 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_13" position = { x = 258 y = 496 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_13" position = { x = 258 y = 496 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_14" position = { x = 304 y = 527 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_14_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_14" position = { x = 304 y = 527 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_14" position = { x = 304 y = 527 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -333,6 +393,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_14_6" position = { x = 308 y = 531 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_14_7" position = { x = 308 y = 531 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_14_8" position = { x = 308 y = 531 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_9" position = { x = 308 y = 531 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_14_10" position = { x = 308 y = 531 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_14" position = { x = 300 y = 510 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_14" position = { x = 300 y = 510 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_15" position = { x = 470 y = 347 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_15_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_15" position = { x = 470 y = 347 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_15" position = { x = 470 y = 347 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -345,6 +409,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_15_6" position = { x = 474 y = 351 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_15_7" position = { x = 474 y = 351 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_15_8" position = { x = 474 y = 351 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_9" position = { x = 474 y = 351 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_15_10" position = { x = 474 y = 351 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_15" position = { x = 466 y = 330 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_15" position = { x = 466 y = 330 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_16" position = { x = 482 y = 388 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_16_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_16" position = { x = 482 y = 388 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_16" position = { x = 482 y = 388 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -357,6 +425,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_16_6" position = { x = 486 y = 392 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_16_7" position = { x = 486 y = 392 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_16_8" position = { x = 486 y = 392 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_9" position = { x = 486 y = 392 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_16_10" position = { x = 486 y = 392 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_16" position = { x = 478 y = 371 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_16" position = { x = 478 y = 371 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_17" position = { x = 535 y = 358 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_17_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_17" position = { x = 535 y = 358 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_17" position = { x = 535 y = 358 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -369,6 +441,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_17_6" position = { x = 539 y = 362 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_17_7" position = { x = 539 y = 362 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_17_8" position = { x = 539 y = 362 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_9" position = { x = 539 y = 362 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_17_10" position = { x = 539 y = 362 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_17" position = { x = 531 y = 341 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_17" position = { x = 531 y = 341 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_18" position = { x = 575 y = 379 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_18_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_18" position = { x = 575 y = 379 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_18" position = { x = 575 y = 379 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -381,6 +457,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_18_6" position = { x = 579 y = 383 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_18_7" position = { x = 579 y = 383 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_18_8" position = { x = 579 y = 383 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_9" position = { x = 579 y = 383 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_18_10" position = { x = 579 y = 383 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_18" position = { x = 571 y = 362 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_18" position = { x = 571 y = 362 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_19" position = { x = 628 y = 389 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_19_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_19" position = { x = 628 y = 389 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_19" position = { x = 628 y = 389 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -393,6 +473,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_19_6" position = { x = 632 y = 393 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_19_7" position = { x = 632 y = 393 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_19_8" position = { x = 632 y = 393 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_9" position = { x = 632 y = 393 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_19_10" position = { x = 632 y = 393 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_19" position = { x = 624 y = 372 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_19" position = { x = 624 y = 372 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_20" position = { x = 702 y = 403 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_20_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_20" position = { x = 702 y = 403 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_20" position = { x = 702 y = 403 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -405,6 +489,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_20_6" position = { x = 706 y = 407 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_20_7" position = { x = 706 y = 407 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_20_8" position = { x = 706 y = 407 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_9" position = { x = 706 y = 407 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_20_10" position = { x = 706 y = 407 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_20" position = { x = 698 y = 386 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_20" position = { x = 698 y = 386 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_21" position = { x = 748 y = 368 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_21_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_21" position = { x = 748 y = 368 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_21" position = { x = 748 y = 368 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -417,6 +505,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_21_6" position = { x = 752 y = 372 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_21_7" position = { x = 752 y = 372 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_21_8" position = { x = 752 y = 372 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_9" position = { x = 752 y = 372 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_21_10" position = { x = 752 y = 372 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_21" position = { x = 744 y = 351 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_21" position = { x = 744 y = 351 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_22" position = { x = 749 y = 408 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_22_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_22" position = { x = 749 y = 408 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_22" position = { x = 749 y = 408 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -429,6 +521,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_22_6" position = { x = 753 y = 412 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_22_7" position = { x = 753 y = 412 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_22_8" position = { x = 753 y = 412 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_9" position = { x = 753 y = 412 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_22_10" position = { x = 753 y = 412 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_22" position = { x = 745 y = 391 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_22" position = { x = 745 y = 391 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_23" position = { x = 849 y = 409 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_23_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_23" position = { x = 849 y = 409 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_23" position = { x = 849 y = 409 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -441,6 +537,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_23_6" position = { x = 853 y = 413 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_23_7" position = { x = 853 y = 413 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_23_8" position = { x = 853 y = 413 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_9" position = { x = 853 y = 413 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_23_10" position = { x = 853 y = 413 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_23" position = { x = 845 y = 392 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_23" position = { x = 845 y = 392 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_24" position = { x = 951 y = 434 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_24_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_24" position = { x = 951 y = 434 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_24" position = { x = 951 y = 434 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -453,6 +553,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_24_6" position = { x = 955 y = 438 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_24_7" position = { x = 955 y = 438 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_24_8" position = { x = 955 y = 438 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_9" position = { x = 955 y = 438 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_24_10" position = { x = 955 y = 438 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_24" position = { x = 947 y = 417 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_24" position = { x = 947 y = 417 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_25" position = { x = 1039 y = 327 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_25_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_25" position = { x = 1039 y = 327 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_25" position = { x = 1039 y = 327 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -465,6 +569,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_25_6" position = { x = 1043 y = 331 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_25_7" position = { x = 1043 y = 331 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_25_8" position = { x = 1043 y = 331 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_9" position = { x = 1043 y = 331 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_25_10" position = { x = 1043 y = 331 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_25" position = { x = 1035 y = 310 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_25" position = { x = 1035 y = 310 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_26" position = { x = 1090 y = 450 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_26_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_26" position = { x = 1090 y = 450 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_26" position = { x = 1090 y = 450 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -477,6 +585,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_26_6" position = { x = 1094 y = 454 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_26_7" position = { x = 1094 y = 454 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_26_8" position = { x = 1094 y = 454 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_9" position = { x = 1094 y = 454 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_26_10" position = { x = 1094 y = 454 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_26" position = { x = 1086 y = 433 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_26" position = { x = 1086 y = 433 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_27" position = { x = 1218 y = 318 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_27_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_27" position = { x = 1218 y = 318 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_27" position = { x = 1218 y = 318 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -489,6 +601,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_27_6" position = { x = 1222 y = 322 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_27_7" position = { x = 1222 y = 322 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_27_8" position = { x = 1222 y = 322 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_9" position = { x = 1222 y = 322 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_27_10" position = { x = 1222 y = 322 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_27" position = { x = 1214 y = 301 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_27" position = { x = 1214 y = 301 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_28" position = { x = 1348 y = 348 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_28_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_28" position = { x = 1348 y = 348 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_28" position = { x = 1348 y = 348 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -501,6 +617,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_28_6" position = { x = 1352 y = 352 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_28_7" position = { x = 1352 y = 352 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_28_8" position = { x = 1352 y = 352 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_9" position = { x = 1352 y = 352 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_28_10" position = { x = 1352 y = 352 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_28" position = { x = 1344 y = 331 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_28" position = { x = 1344 y = 331 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_29" position = { x = 1146 y = 462 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_29_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_29" position = { x = 1146 y = 462 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_29" position = { x = 1146 y = 462 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -513,6 +633,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_29_6" position = { x = 1150 y = 466 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_29_7" position = { x = 1150 y = 466 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_29_8" position = { x = 1150 y = 466 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_9" position = { x = 1150 y = 466 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_29_10" position = { x = 1150 y = 466 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_29" position = { x = 1142 y = 445 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_29" position = { x = 1142 y = 445 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_30" position = { x = 1114 y = 509 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_30_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_30" position = { x = 1114 y = 509 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_30" position = { x = 1114 y = 509 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -525,6 +649,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_30_6" position = { x = 1118 y = 513 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_30_7" position = { x = 1118 y = 513 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_30_8" position = { x = 1118 y = 513 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_9" position = { x = 1118 y = 513 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_30_10" position = { x = 1118 y = 513 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_30" position = { x = 1110 y = 492 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_30" position = { x = 1110 y = 492 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_31" position = { x = 1188 y = 432 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_31_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_31" position = { x = 1188 y = 432 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_31" position = { x = 1188 y = 432 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -537,6 +665,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_31_6" position = { x = 1192 y = 436 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_31_7" position = { x = 1192 y = 436 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_31_8" position = { x = 1192 y = 436 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_9" position = { x = 1192 y = 436 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_31_10" position = { x = 1192 y = 436 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_31" position = { x = 1184 y = 415 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_31" position = { x = 1184 y = 415 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_32" position = { x = 358 y = 467 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_32_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_32" position = { x = 358 y = 467 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_32" position = { x = 358 y = 467 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -549,6 +681,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_32_6" position = { x = 362 y = 471 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_32_7" position = { x = 362 y = 471 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_32_8" position = { x = 362 y = 471 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_9" position = { x = 362 y = 471 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_32_10" position = { x = 362 y = 471 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_32" position = { x = 354 y = 450 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_32" position = { x = 354 y = 450 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_33" position = { x = 449 y = 472 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_33_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_33" position = { x = 449 y = 472 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_33" position = { x = 449 y = 472 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -561,6 +697,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_33_6" position = { x = 453 y = 476 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_33_7" position = { x = 453 y = 476 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_33_8" position = { x = 453 y = 476 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_9" position = { x = 453 y = 476 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_33_10" position = { x = 453 y = 476 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_33" position = { x = 445 y = 455 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_33" position = { x = 445 y = 455 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_34" position = { x = 531 y = 480 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_34_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_34" position = { x = 531 y = 480 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_34" position = { x = 531 y = 480 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -573,6 +713,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_34_6" position = { x = 535 y = 484 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_34_7" position = { x = 535 y = 484 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_34_8" position = { x = 535 y = 484 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_9" position = { x = 535 y = 484 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_34_10" position = { x = 535 y = 484 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_34" position = { x = 527 y = 463 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_34" position = { x = 527 y = 463 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_cell_35" position = { x = 609 y = 509 } scale = 1.25 quadTextureSprite = "GFX_RUS_ip_cell_button" buttonText = "" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_node_35_tt" clicksound = click_default }
 		iconType = { name = "ip_selected_35" position = { x = 609 y = 509 } spriteType = "GFX_RUS_ip_selected" scale = 1.25 alwaystransparent = yes }
 		iconType = { name = "ip_offline_35" position = { x = 609 y = 509 } spriteType = "GFX_RUS_ip_offline" scale = 1.25 alwaystransparent = yes }
@@ -585,6 +729,10 @@ guiTypes = {
 		iconType = { name = "ip_facility_35_6" position = { x = 613 y = 513 } spriteType = "GFX_RUS_ip_facility_6" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_35_7" position = { x = 613 y = 513 } spriteType = "GFX_RUS_ip_facility_7" scale = 0.78 alwaystransparent = yes }
 		iconType = { name = "ip_facility_35_8" position = { x = 613 y = 513 } spriteType = "GFX_RUS_ip_facility_8" scale = 0.39 alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_9" position = { x = 613 y = 513 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.2936470588235294 alwaystransparent = yes }
+		iconType = { name = "ip_facility_35_10" position = { x = 613 y = 513 } spriteType = "GFX_RUS_ip_facility_10" scale = 0.78 alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_origin_35" position = { x = 605 y = 492 } text = "RUS_ip_rail_origin_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_destination_35" position = { x = 605 y = 492 } text = "RUS_ip_rail_destination_marker" font = "hoi_16mbs" maxWidth = 40 maxHeight = 20 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_network" position = { x = 410 y = 600 } text = "RUS_ip_network" font = "hoi_16mbs" maxWidth = 1040 maxHeight = 24 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_selected" position = { x = 220 y = 646 } text = "RUS_ip_site_summary" font = "hoi_20b" maxWidth = 1320 maxHeight = 28 format = center fixedsize = yes pdx_tooltip = "RUS_ip_detail" alwaystransparent = no }
 		iconType = { name = "ip_metric_bg_development" position = { x = 218 y = 679 } spriteType = "GFX_RUS_ip_card_326x64" scale = 1 alwaystransparent = yes }
@@ -641,7 +789,11 @@ guiTypes = {
 		instantTextBoxType = { name = "ip_build_label_8" position = { x = 1210 y = 852 } text = "RUS_ip_build_8" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_estimate_8" position = { x = 1210 y = 875 } text = "RUS_ip_estimate_8" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_build_cost_8" position = { x = 1210 y = 875 } text = "RUS_ip_cost_8" font = "hoi_16mbs" maxWidth = 150 maxHeight = 22 format = center fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_build_9" position = { x = 1566 y = 644 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_build_9" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_9_hover" clicksound = click_default }
+		iconType = { name = "ip_build_icon_9" position = { x = 1535 y = 648 } spriteType = "GFX_RUS_ip_facility_9" scale = 0.32 alwaystransparent = yes }
+		buttonType = { name = "ip_build_10" position = { x = 1200 y = 120 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_rail_queue" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_build_10_hover" clicksound = click_default }
 		instantTextBoxType = { name = "ip_progress" position = { x = 550 y = 910 } text = "RUS_ip_progress_compact" font = "hoi_16mbs" maxWidth = 810 maxHeight = 24 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_rail_queue_detail" position = { x = 550 y = 929 } text = "RUS_ip_rail_queue_detail" font = "hoi_16mbs" maxWidth = 1080 maxHeight = 19 format = left fixedsize = yes alwaystransparent = yes }
 		iconType = { name = "ip_progressbar" position = { x = 242 y = 911 } spriteType = "GFX_RUS_ip_progress" scale = 1 alwaystransparent = yes }
 		buttonType = { name = "ip_pause" position = { x = 525 y = 948 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_pause" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_pause_tt" clicksound = click_default }
 		buttonType = { name = "ip_cancel" position = { x = 662 y = 948 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_cancel" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_cancel_tt" clicksound = click_default }
@@ -662,8 +814,8 @@ guiTypes = {
 		instantTextBoxType = { name = "ip_supply_title" position = { x = 160 y = 125 } text = "RUS_ip_supply_title" font = "hoi_24header" maxWidth = 1440 maxHeight = 36 format = center fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_supply_selected" position = { x = 170 y = 174 } text = "RUS_ip_site_summary" font = "hoi_20b" maxWidth = 1420 maxHeight = 28 format = center fixedsize = yes alwaystransparent = yes }
 		iconType = { name = "ip_supply_bg_funds" position = { x = 170 y = 218 } spriteType = "GFX_RUS_ip_card_340x82" scale = 1 alwaystransparent = yes }
-		iconType = { name = "ip_supply_icon_funds" position = { x = 188 y = 242 } spriteType = "GFX_RUS_ip_funds" scale = 1.6 pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
-		instantTextBoxType = { name = "ip_supply_card_funds" position = { x = 240 y = 236 } text = "RUS_ip_supply_card_funds" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_tt" alwaystransparent = no }
+		iconType = { name = "ip_supply_icon_funds" position = { x = 188 y = 242 } spriteType = "GFX_RUS_ip_funds" scale = 1.6 pdx_tooltip = "RUS_ip_funds_hover" alwaystransparent = no }
+		instantTextBoxType = { name = "ip_supply_card_funds" position = { x = 240 y = 236 } text = "RUS_ip_supply_card_funds" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_funds_hover" alwaystransparent = no }
 		iconType = { name = "ip_supply_bg_warehouse" position = { x = 530 y = 218 } spriteType = "GFX_RUS_ip_card_340x82" scale = 1 alwaystransparent = yes }
 		iconType = { name = "ip_supply_icon_warehouse" position = { x = 548 y = 242 } spriteType = "GFX_RUS_ip_warehouse" scale = 0.9411764705882353 pdx_tooltip = "RUS_ip_warehouse_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_supply_card_warehouse" position = { x = 600 y = 236 } text = "RUS_ip_supply_card_warehouse" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_warehouse_tt" alwaystransparent = no }
@@ -675,7 +827,8 @@ guiTypes = {
 		instantTextBoxType = { name = "ip_supply_card_balance" position = { x = 1320 y = 236 } text = "RUS_ip_supply_card_balance" font = "hoi_16mbs" maxWidth = 260 maxHeight = 52 format = left fixedsize = yes pdx_tooltip = "RUS_ip_balance_tt" alwaystransparent = no }
 		instantTextBoxType = { name = "ip_budget_ledger" position = { x = 180 y = 335 } text = "RUS_ip_budget_ledger" font = "hoi_16mbs" maxWidth = 660 maxHeight = 230 format = left fixedsize = yes alwaystransparent = yes }
 		instantTextBoxType = { name = "ip_supply_local" position = { x = 910 y = 335 } text = "RUS_ip_supply_local" font = "hoi_16mbs" maxWidth = 660 maxHeight = 240 format = left fixedsize = yes alwaystransparent = yes }
-		instantTextBoxType = { name = "ip_supply_route" position = { x = 180 y = 604 } text = "RUS_ip_supply_route" font = "hoi_16mbs" maxWidth = 660 maxHeight = 210 format = left fixedsize = yes alwaystransparent = yes }
+		instantTextBoxType = { name = "ip_supply_route" position = { x = 180 y = 574 } text = "RUS_ip_supply_route" font = "hoi_16mbs" maxWidth = 660 maxHeight = 254 format = left fixedsize = yes alwaystransparent = yes }
+		buttonType = { name = "ip_route_focus" position = { x = 180 y = 838 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_route_focus" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_route_focus_tt" clicksound = click_default }
 		instantTextBoxType = { name = "ip_supply_policy" position = { x = 910 y = 620 } text = "RUS_ip_supply_policy" font = "hoi_16mbs" maxWidth = 660 maxHeight = 180 format = left fixedsize = yes alwaystransparent = yes }
 		buttonType = { name = "ip_priority" position = { x = 910 y = 810 } scale = 1 quadTextureSprite = "GFX_RUS_ip_tab" buttonText = "RUS_ip_priority" buttonFont = "hoi_16mbs" pdx_tooltip = "RUS_ip_priority_tt" clicksound = click_default }
 		instantTextBoxType = { name = "ip_supply_note" position = { x = 180 y = 883 } text = "RUS_ip_supply_note" font = "hoi_16mbs" maxWidth = 1400 maxHeight = 48 format = left fixedsize = yes alwaystransparent = yes }

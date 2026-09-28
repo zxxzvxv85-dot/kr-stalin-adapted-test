@@ -63,9 +63,11 @@ refresh / supply_refresh 仅重算派生值及原生修正，不生产、发车�
 
 ## 资金、物资与原生占用
 
-资金初始 1000；每 30 天结算累计经营净额与 100 拨款，合计不足 25 时应急补足，上期补助单列。与农业、经济盈余、旧一五计划不兑换。
+资金初始 1000；每 30 天只结算累计经营净额，已删除固定拨款与不足 25 的补足。funds 与 last_budget 允许负值，不加非负夹取。与农业、经济盈余、旧一五计划不兑换。
 
-cargo_totals 只刷新显示预估：projected_operating 为各区当前 net_month 合计；projected_settlement 加 100 拨款与补至 25 的 projected_support。next_settlement 使用 budget_net 加当前日净额乘 budget_next，再应用同样的拨款与补助规则；next_balance 为现款加该预估。以上变量不写资金账本，不推进预算日。顶部及资金悬浮提示同时列经营净额与实际含补助变动；未启动和结束状态不宣称将来会结算。
+cargo_totals 只刷新预估：projected_operating/projected_settlement 为各区当前 net_month 合计；next_settlement 使用 budget_net 加当前日净额乘 budget_next，next_balance 为余额加该预估。显示与实际结算都没有拨款/补助/下限。以上变量不写账本、不推进预算日；未启动和结束不宣称将来会结算。
+
+refresh_debt 将负余额转为欠款；active 时 stability_factor = max(−0.50, −debt×0.0005)，production_speed_buildings_factor = max(−0.75, −debt×0.001)，以 RUS_ip_plan_debt 动态修正施加，刷新覆盖数值而不累加。refresh 在计算施工速度前更新 debt_speed_factor = 1 + debt_construction，live 和 forecast 均在配套下限后乘一次。余额恢复至零或期满后移除动态修正。新开工仍要求 funds >= cost；既有工程可以继续。退款后即时刷新惩罚，期满封存负余额但不留下永远无法偿还的测试修正。
 
 - 资金：funds = 1000 − funds_spent + funds_refunded + funds_settled。
 - 每种材料：produced = 所有 stock + 所有 in/out 批次 + consumed + lost。
@@ -96,7 +98,9 @@ routes() 按 KR 邻接与固定地图距离计算莫斯科至各区的规划路�
 | n*_stock_*/in_*/out_*/in_work_*/out_work_* | 库存、在途数量、剩余路程 |
 | booked_*/produced_*/consumed_*/lost_* | 当日生产占用与物资总账 |
 | funds/funds_spent/funds_refunded/funds_settled | 资金余额和累计流水 |
-| budget_day/budget_net/last_budget/last_support | 当前 30 天周期与上期结果 |
+| budget_day/budget_net/last_budget | 当前 30 天周期与上期实际净额，无固定拨款与保底 |
+| debt/debt_stability/debt_construction/debt_speed_factor | 欠款与派生惩罚，不单独扣款；归零或期满清除惩罚 |
+| n*_category/sel_category | 每次刷新读取中心州 KR 普通类型等级；特殊类型为 0 |
 | priority | −1 常规，0—35 指定地区 |
 | capacity_*/reserved_*/free_* | 原生快照与分配台账 |
 | mining_completed/resource_penalty | −30% 开采惩罚，每矿业竣工恢复 2 个百分点，15 次封顶 |
@@ -104,7 +108,29 @@ routes() 按 KR 邻接与固定地图距离计算莫斯科至各区的规划路�
 | preview_*/forecast_*/calc_*/region_*/cargo_* | 临时计算，不作永久账本 |
 | sel_*/progress_frame/dirty | 显示缓存与界面更新 |
 
-期满保存完工成果、发展度、资金与仓库/批次用于查看，但停止运行，清 paid 和原生占用。负资源修正与付费建设不参与简易模式额外发奖。
+期满保存完工成果、发展度、资金与仓库/批次用于查看，但停止运行，清 paid、原生占用及本期负债惩罚。负资源修正与付费建设不参与简易模式额外发奖。
+
+## 地区扩建
+
+PROJECTS[9] 沿用全部付费施工、资源消耗、民工占用、暂停、取消、截止和一地区一队列逻辑。基础 180 工作量、150 资金价、3 民工，每日钢 0.30/煤 0.20，地区用工 3/电力 2/运力 1，发展收益基础 3。费用与重复发展收益仍使用公共公式。
+
+site_9 不要求空槽位，要求中心州属于 KR one 至 eleven；不改变 special ports/islands/wasteland 限制，也不对 twelve 额外加槽。完工在中心州用 if/else_if 将当时原生类型只提升一级，不对其他成员州施工；外部效果先升级时不会降级或连升多级。已经变成最大/特殊类别时队列暂停并允许取消。参考 KR common/scripted_effects/00_useful_scripted_effects.txt 的 increase_state_category_by_one_level，但刻意不复制其 else 的无限额外槽位分支。类型与槽位来自 KR common/state_category/state_categories.txt；名称参考 KR CN 的 00 Map State Categories 汉化。
+
+原生 set_state_category 通过 effect_tooltip 展示，额外槽位说明复用 KR increase_state_category_by_one_level_tt；前后类型用已定义的原生类别本地化。预览与实际奖励分离，不提前改变州。按钮位于 x1566/y644，和八工程网格、进度条错开，复用 KR ITA_urban 建筑图标并缩放至 32 像素。
+
+## 铁路选线与瓶颈提示
+
+`industrial_planning_rail.py` 生成 PROJECTS[10]：点击选线按钮后 rail_pick 从 1（起点）转为 2（终点），完成后归零。地图动作使用 if/else_if，防止同一次点击选中两端。候选端点保存经济区编号、原生州 ID 和地图坐标；开工复制到 n*_rail_from_state/to_state/level，终点承担唯一队列、仓库、施工供需与进度。新的候选线不改已经接受的订单；正反两端重复队列禁用。
+
+等级范围 1—5，基础 90 工作量、120 资金、3 民工、每日钢 0.30/煤 0.20、用工 3/电力 1/基础运输 2；价格与工作量另乘 `level × (1 + (abs(dx)+abs(dy))/200)`。坐标距离只作预算估算，不能当成实际省份路径长度。发展收益基础 2，配套工程能力下限 0.65。forecast 临时选取终点调用公共地区预测，然后恢复原选择，避免候选线预测覆盖普通项目。每日施工重新检查两端所有权/控制权与 can_build_railway，国内通路禁用负权重国家；无共享工厂槽位要求。
+
+原生 `build_railway` 的变量州端点依据原版 `common/scripted_effects/SOV_scripted_effects.txt:8304`；固定 `level` 分支只在竣工奖励和 `effect_tooltip` 中调用。候选与已排队两端分别显示，地图以“起/终”标记候选。顶部工具栏使用裁切后地图上方空位，全部随地图页显隐；已排队线路显示在进度条下方。
+
+用户指定参考的“日共重置：内容拓展”（只读目录 `3254004005`）中，`common/decisions/RGCZ_mod_sov.txt:165/189/214` 调用三组一键队列效果，实现在 `common/scripted_effects/RGCZ_SOV_effects.txt:258/312/463`。其基建、民工、军工用 `add_building_construction` + `instant_build=no` 确实进入原版队列；检查该模组铁路效果只找到 `build_railway`，未找到铁路加入原版队列的实现。因此本铁路按用户已选方案使用 GUI 付费计时，不能把参考模组的一般建筑队列当成“铁路原版排队已证实”，也不能断言所有一键原版队列都做不到。
+
+`cargo_routes/cargo_prepare` 为每区缓存固定总仓路径、第一段断线、最小到达倍率对应地区及该区运力/负载/缺口/铁路等级。账本列出完整地区路线；`focus_route` 只跳转瓶颈或首个断线远端，不推进时间、不花费物资。总仓汇总多路批次，不伪造单一瓶颈。此提示不读取省份铁路路径或整段最低等级；玩家仍需原版铁路地图核对具体修哪一段。人工新铁路不修改固定仓储 Dijkstra 路由。
+
+`test_industrial_planning_rail.py` 执行生成的实际按钮及效果，检查两次点击、相同端点、改选、等级、锁定线路、保存重载、正反重复、施工缺料/失地/断路、满槽可建、付款退款/期满/单次原生奖励。模型只近似原生铁路连通，不替代引擎寻路验收。`preview_industrial_planning.py --railway` 展示一条在建线路和另一条候选线路并存的布局。
 
 ## 地图、图标与布局
 
@@ -121,6 +147,8 @@ routes() 按 KR 邻接与固定地图距离计算莫斯科至各区的规划路�
 地图用无背景、`clipping=yes` 的固定视口裁去顶端 `northern_map_limit_y` 非地理斜纹区；`ip_map` 图标自己受页面显隐控制。嵌套图标引用参考 KR 开局介绍的 `country_intro_page_indicator_box`。删去边界标签，不重画底图或改地区坐标，保留登记美术与 120 张贴图哈希。
 
 工程悬浮提示显式绑定 `pdx_tooltip` → `RUS_ip_build_*_hover` → `[!ip_build_*_click]`，参考 KR 的 `st manager l_english.yml`、对应简中汉化和 `00_st_state_transfer.txt`。先显示自定义完工收益，再用 `effect_tooltip` 预览实际原生奖励，最后显示成本与工期；真实开工操作仍在 `hidden_effect` 内。公共设施、培训不伪造原生建筑。标签和图标保持鼠标穿透，避免遮挡整个按钮热区；本地化外层键与内层说明分离，禁止循环展开。
+
+自定义数字格式参考 KR RUS_change_projection_tt 的 |=+1（带符号和正负颜色）。成本为红色负数，占用/需求为红色正数，库存/门槛为黄色；民工占用名称复用原生 MODIFIER_CIVILIAN_FACTORY_USE。funds/next_balance 用 |+1 随余额变色，禁止外层黄色覆盖负债红色。日期不修改。钱袋使用可点击按钮，funds_hover 绑定其 click；资金说明后用 effect_tooltip 展示实际债务动态修正，点击只切换账本。preview_industrial_planning.py --supply-page --debt 可检查示例负余额布局；并非实际存档或原生提示渲染。
 
 施工回归显式注入测试库存以独立验证原有建设规则；真实开局测试验证初始空仓。新增回归覆盖聚合、资金和材料守恒、生产上限、公平额度、发车/到货、断路、目的地失守、拥堵、取消防重、战时先后、预算周期和期满。不得把测试注入库存误写成免费起始奖励。
 
