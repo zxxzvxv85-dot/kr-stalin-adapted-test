@@ -14,7 +14,8 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 from hoi4_politics_blocks import parse
-from test_factory_planning import ROOT, fixture, call, check, select, put, starter, builds, v
+from test_factory_planning import ROOT, fixture, call, check, select, put, starter, builds, v, sites, expansion_orders
+from industrial_planning_factory import REGIONS
 
 GAME = Path(os.environ.get('HOI4_GAME_ROOT', ROOT.parents[3] / 'common/Hearts of Iron IV'))
 KR = Path(os.environ.get('HOI4_KR_ROOT', ROOT.parent / '1521695605'))
@@ -45,15 +46,16 @@ def nine_slice(source, size, border):
     return result
 
 
-def render(finished=False, help_page=False, idle=False):
-    state=fixture();call(state,'open_effect')
+def render(finished=False, help_page=False, idle=False, region=0, seed=47):
+    state=fixture(seed=seed);call(state,'open_effect')
     if not idle:
-        starter(state)
-        for i,k in [(33,'rail'),(41,'rail'),(42,'rail'),(33,1)]:builds(state,i,k)
-        call(state,'start')
-        for _ in range(120):call(state,'daily')
-        builds(state,46,3);builds(state,41,4)
-        select(state,44)
+        starter(state,region)
+        # Preview-only funds let one screen demonstrate all three grade colours.
+        put(state,'budget',120)
+        for i,k in expansion_orders(state,region):builds(state,i,k)
+        call(state,'start');call(state,'daily')
+        select(state,sites(state,region)['steel'])
+    call(state,f'select_region_{region}')
     if finished:
         put(state,'days_left',1);call(state,'daily')
     if help_page:call(state,'toggle_help')
@@ -137,7 +139,11 @@ def render(finished=False, help_page=False, idle=False):
         elif widget.k in ('iconType','buttonType'):
             sprite=field(widget,'spriteType',field(widget,'quadTextureSprite'))
             if sprite in gfx:
-                meta=gfx[sprite];img=asset(field(meta,'texturefile',field(meta,'textureFile')))
+                meta=gfx[sprite]
+                if meta.k=='progressbartype':
+                    size=meta.one('size');rgb=tuple(round(float(n.k)*255) for n in meta.one('color').v)
+                    img=Image.new('RGBA',(int(field(size,'x')),int(field(size,'y'))),rgb+(255,))
+                else:img=asset(field(meta,'texturefile',field(meta,'textureFile')))
                 frames=int(field(meta,'noOfFrames','1'))
                 selected_frame=1
                 if name in properties:selected_frame=int(state['vars'].get(field(properties[name],'frame'),1))
@@ -177,10 +183,13 @@ def main():
     parser.add_argument('--finished',action='store_true')
     parser.add_argument('--help-page',action='store_true')
     parser.add_argument('--idle',action='store_true')
+    parser.add_argument('--region',type=int,choices=range(6),default=0)
+    parser.add_argument('--seed',type=int,default=47)
     args=parser.parse_args()
-    image,issues=render(args.finished,args.help_page,args.idle)
+    image,issues=render(args.finished,args.help_page,args.idle,args.region,args.seed)
     folder=ROOT/'output/industrial_planning';folder.mkdir(parents=True,exist_ok=True)
     stem='help' if args.help_page else 'finished' if args.finished else 'idle' if args.idle else 'preview'
+    stem+=f'-region{args.region}'
     path=folder/(stem+'.png');image.save(path)
     (folder/(stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(str(path));print(f'Text height warnings (approximate font): {len(issues)}')

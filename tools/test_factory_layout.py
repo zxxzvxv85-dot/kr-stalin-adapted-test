@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 from hoi4_politics_blocks import parse
 from industrial_planning_factory_ui import render_outputs, LANGS
+from industrial_planning_factory import CELLS, REGIONS
 from test_factory_planning import ROOT, P, GUI, FX, TR, opened, check, call, put
 
 GAME=Path(os.environ.get('HOI4_GAME_ROOT',ROOT.parents[3]/'common/Hearts of Iron IV'))
@@ -50,7 +51,7 @@ def main():
     assert not any(w.k=='containerWindowType' for w in widgets),'Nested backgrounds may leak across pages';count+=1
     # Include real rail segments and selected backgrounds in the page leak test.
     s=opened()
-    for i in range(48):put(s,f'n{i}_rail',1)
+    for c in CELLS:put(s,f'n{c["id"]}_rail',1)
     call(s,'refresh');call(s,'toggle_help')
     shared={'ip_title','ip_summary','ip_close'}
     for name in names:
@@ -85,6 +86,11 @@ def main():
     # Every game file is resolved against the active mod, KR, then vanilla.
     sprites={field(n,'name'):n for n in parse(outputs['interface/RUS_industrial_planning.gfx'])[0].v}
     for name,sprite in sprites.items():
+        if sprite.k=='progressbartype':
+            colours=[float(n.k) for n in sprite.one('color').v]
+            assert len(colours)==3 and all(0<=c<=1 for c in colours)
+            assert sprite.one('color').inner()==sprite.one('colortwo').inner()
+            continue
         asset=field(sprite,'textureFile',field(sprite,'texturefile'))
         assert any((root/asset).is_file() for root in (ROOT,KR,GAME)),(name,asset)
     for w in widgets:
@@ -109,14 +115,27 @@ def main():
     assert 'round' not in FX and 'RUS_ip_settle' not in FX;count+=1
     # Independent UI geometry catches actionable overlap, not merely text size.
     tiles=[w for w in widgets if field(w,'name').startswith('ip_cell_')]
-    assert len(tiles)==48
-    rectangles=[]
-    for w in tiles:
-        pos=w.one('position');x,y=int(field(pos,'x')),int(field(pos,'y'))
-        for xx,yy in rectangles:assert x>=xx+80 or xx>=x+80 or y>=yy+80 or yy>=y+80
-        rectangles.append((x,y))
+    assert len(tiles)==len(CELLS)
+    for r in REGIONS:
+        rectangles=[];call(s,f'select_region_{r["id"]}')
+        for w in tiles:
+            name=field(w,'name');i=int(name.rsplit('_',1)[1]);visible=check(triggers[name+'_visible'],s)
+            assert visible==(CELLS[i]['region']==r['id'])
+            if not visible:continue
+            pos=w.one('position');x,y=int(field(pos,'x')),int(field(pos,'y'))
+            assert 32<=x and x+40<=704 and 207<=y and y+40<=711
+            for xx,yy in rectangles:assert x>=xx+40 or xx>=x+40 or y>=yy+40 or yy>=y+40
+            rectangles.append((x,y))
+        assert len(rectangles)==len(r['cells']);count+=1
+    assert field(sprites['GFX_RUS_ip_tile'].one('size'),'x')=='40'
+    for w in widgets:
+        if w.k=='instantTextBoxType' and not field(w,'name').startswith('ip_help_'):
+            pos=w.one('position');x,y=int(field(pos,'x')),int(field(pos,'y'))
+            assert not(32<=x<704 and 207<=y<711),'Tiles must not carry coordinate/status/level labels'
     count+=1
-    print(f'{count} layout/reference checks passed; 48 selectable tiles; no Russia-map dependencies.')
+    assert len({sprites[f'GFX_RUS_ip_grade_{i}'].one('color').inner() for i in (1,2,3)})==3
+    assert all('[GetRUSIPNodeStatus' in catalog[P+f'node_{c["id"]}_tt'] for c in CELLS);count+=1
+    print(f'{count} layout/reference checks passed; {len(CELLS)} selectable tiles across six isolated pages.')
 
 
 if __name__=='__main__':main()

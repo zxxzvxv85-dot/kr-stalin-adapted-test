@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 from industrial_planning_factory import (
-    P, WIDTH, HEIGHT, HUB, COAL, IRON, ROCKS, COST, PROJECTS, CELLS,
+    P, WIDTH, HEIGHT, HUBS, REGIONS, COST, PROJECTS, CELLS,
     block, setv, add, cv, iff, render_economy,
 )
 
 LANGS = ('simp_chinese', 'english', 'russian')
+TILE_SIZE,TILE_STEP=40,42
+LEVEL_COLOURS={0:(.15,.16,.16),1:(.18,.39,.25),2:(.17,.32,.50),3:(.54,.39,.15)}
 
 
 def render_outputs():
@@ -29,17 +31,18 @@ def render_outputs():
     L('not_started', '§Y自由布置 · 尚未计时§!', '§YLayout phase · clock stopped§!')
     L('active', '剩余 §Y[?RUS_ip_days_left|0]§! 天', '§Y[?RUS_ip_days_left|0]§! days remaining')
     L('ended', '§Y本期生产已结束§!', '§YProduction concluded§!')
-    L('board_title', '厂区布局   煤矿／铁矿须建在对应矿点', 'Factory layout · mines require matching deposits')
-    L('board_note', '运输线须从 §YD6 调度站§! 逐格接通。设施与线路最高 §Y3§! 级。\n同一格可同时拥有设施和运输线；点击格子后在右侧建设。', 'Connect tile by tile to the §YD6 depot§!. Facilities and lines reach level §Y3§!.\nA tile can hold both a facility and a line. Select a tile to build on the right.')
-    L('legend', '§Y◆§! 选中   §G●§! 接通   §R×§! 断线   §YⅡ§! 停机', '§Y◆§! selected   §G●§! connected   §R×§! disconnected   §YⅡ§! stopped')
+    L('board_note', '[GetRUSIPRegionSummary]\n各区库存、电力独立；共用建设投资、交付目标与计时。', '[GetRUSIPRegionSummary]\nLocal stocks and power; shared investment, deliveries and clock.')
+    L('legend', '格子底色表示设施等级，详细信息见悬浮提示。', 'Tile colour shows facility level. Hover for details.')
+    for level in (1,2,3):L(f'grade_{level}',f'{level} 级',f'Level {level}')
     L('budget', '建设投资\n§Y[?RUS_ip_budget|1]§!', 'Investment\n§Y[?RUS_ip_budget|1]§!')
-    for key, zh, en in [('coal', '煤炭库存', 'Coal stock'), ('iron', '铁矿库存', 'Iron stock'), ('steel', '钢材库存', 'Steel stock'), ('machines', '累计交付', 'Delivered')]:
+    for key, zh, en in [('coal', '本区煤炭', 'Local coal'), ('iron', '本区铁矿', 'Local iron'), ('steel', '本区钢材', 'Local steel'), ('machines', '六区累计交付', 'Total delivered')]:
         L(key, f'{zh}\n§Y[?RUS_ip_{key}|1]§!', f'{en}\n§Y[?RUS_ip_{key}|1]§!')
-    L('power', '电力／满产需求\n§Y[?RUS_ip_power_total|1] / [?RUS_ip_power_demand|1]§!', 'Power / full demand\n§Y[?RUS_ip_power_total|1] / [?RUS_ip_power_demand|1]§!')
-    L('budget_tt', '§Y建设投资§!\n初始：§Y40§!\n每交付 §Y1§! 单位机械，建设投资：§G+1.00§!\n拆除退还该设施或线路的实付投资。\n投资只用于本沙盘；没有固定拨款。', '§YConstruction investment§!\nInitial: §Y40§!\nEach delivered machine returns §G+1.00§! investment.\nDemolition refunds the actual investment paid.\nThis board has its own budget and no periodic grant.')
-    L('stock_tt', '§Y厂区库存§!\n所有已接通设施共用原料。每日自动采矿、发电、炼钢、制造机械。\n缺料或缺电时按可用数量生产，不产生负库存。', '§YFactory stock§!\nConnected facilities share materials. Mining, power, steel and machinery run each day.\nShortages limit output to available inputs; stocks cannot become negative.')
+    L('power', '本区电力／需求\n§Y[?RUS_ip_power_total|1] / [?RUS_ip_power_demand|1]§!', 'Local power / need\n§Y[?RUS_ip_power_total|1] / [?RUS_ip_power_demand|1]§!')
+    L('budget_tt', '§Y建设投资§!\n六区共享初始投资：§Y40§!\n每交付 §Y1§! 单位机械，建设投资：§G+1.00§!\n拆除退还该设施或线路的实付投资。\n投资只用于本沙盘；没有固定拨款。', '§YConstruction investment§!\nShared initial investment: §Y40§!\nEach delivered machine returns §G+1.00§! investment.\nDemolition refunds the actual investment paid.\nThis board has its own budget and no periodic grant.')
+    L('stock_tt', '§Y[GetRUSIPRegion] · 本区库存§!\n本区已接通设施共用原料，每区初始煤 §Y6§!、铁 §Y4§!、钢 §Y2§!。每日自动生产，缺料、缺电限产。\n各区之间不自动调拨原料或电力；切换地图不重置库存。', '§Y[GetRUSIPRegion] · Local stocks§!\nConnected local facilities share stocks. Each region starts with §Y6§! coal, §Y4§! iron and §Y2§! steel. Shortages limit daily output.\nMaterials and power do not transfer between regions. Changing maps preserves stocks.')
+    L('deliveries_tt','§Y六区累计交付§!\n六个厂区同时生产，机械交付合并计分。\n当前六区日产率折算／30天：§G+[?RUS_ip_total_machine_month|1]§!\n每单位机械回流 §G+1.00§! 共享投资；目标 §Y500§!。','§YCombined deliveries§!\nAll six regions operate simultaneously and contribute to the same score.\nCombined next-day rate × 30: §G+[?RUS_ip_total_machine_month|1]§!\nEach machine returns §G+1.00§! shared investment. Target: §Y500§!.')
     L('power_tt', '§Y电力§!\n电力当日生产、当日使用，不入库。先供炼钢，再供机械制造。\n满产需求按已接通且开机的设施计算；缺煤时电站也会减产。', '§YPower§!\nProduced and used daily; not stored. Steelworks draw power before machine works.\nDemand assumes full production at connected, enabled facilities. Coal shortages reduce generation.')
-    L('selected', '地块 [GetRUSIPTile] · [GetRUSIPTerrain]', 'Tile [GetRUSIPTile] · [GetRUSIPTerrain]')
+    L('selected', '[GetRUSIPRegion] · [GetRUSIPTile] · [GetRUSIPTerrain]', '[GetRUSIPRegion] · [GetRUSIPTile] · [GetRUSIPTerrain]')
     L('detail', '设施：§Y[GetRUSIPType]§!  [?RUS_ip_sel_level|0] 级\n运输线：§Y[?RUS_ip_sel_rail|0]§! 级   接通能力：§Y[?RUS_ip_sel_route|0]§! 级\n有效生产等级：§G[?RUS_ip_sel_effective|0]§!\n[GetRUSIPSelectedStatus]', 'Facility: §Y[GetRUSIPType]§!  Lv [?RUS_ip_sel_level|0]\nLine: §Y[?RUS_ip_sel_rail|0]§!   Route capacity: §Y[?RUS_ip_sel_route|0]§!\nEffective production level: §G[?RUS_ip_sel_effective|0]§!\n[GetRUSIPSelectedStatus]')
     for key, zh, en in [('plain','工业用地','Industrial land'),('coal_site','煤矿点','Coal deposit'),('iron_site','铁矿点','Iron deposit'),('rock','岩壁 · 不可建设','Rock · no construction'),('hub','调度站','Depot')]:
         L('terrain_'+key,zh,en)
@@ -55,13 +58,30 @@ def render_outputs():
         ('limited','§Y沿途线路限制产能，升级最薄弱路段。§!','§YThe route limits output; upgrade its weakest segments.§!'),
         ('ready','§G已接通；产量取决于原料与电力。§!','§GConnected; output depends on materials and power.§!'),
     ]: L('status_'+key,zh,en)
-    L('forecast', '按当前布局折算／30天\n采煤：§G+[?RUS_ip_coal_month|1]§!   采铁：§G+[?RUS_ip_iron_month|1]§!\n炼钢：§G+[?RUS_ip_steel_month|1]§!   交付：§G+[?RUS_ip_machine_month|1]§!\n投资回流：§G+[?RUS_ip_investment_month|1]§!', 'Current daily rates × 30\nCoal: §G+[?RUS_ip_coal_month|1]§!  Iron: §G+[?RUS_ip_iron_month|1]§!\nSteel: §G+[?RUS_ip_steel_month|1]§!  Delivery: §G+[?RUS_ip_machine_month|1]§!\nInvestment return: §G+[?RUS_ip_investment_month|1]§!')
+    L('forecast', '本区当前产量折算／30天\n采煤：§G+[?RUS_ip_coal_month|1]§!   采铁：§G+[?RUS_ip_iron_month|1]§!\n炼钢：§G+[?RUS_ip_steel_month|1]§!   交付：§G+[?RUS_ip_machine_month|1]§!\n投资回流：§G+[?RUS_ip_investment_month|1]§!', 'Local daily rates × 30\nCoal: §G+[?RUS_ip_coal_month|1]§!  Iron: §G+[?RUS_ip_iron_month|1]§!\nSteel: §G+[?RUS_ip_steel_month|1]§!  Delivery: §G+[?RUS_ip_machine_month|1]§!\nInvestment return: §G+[?RUS_ip_investment_month|1]§!')
     L('forecast_tt','§Y产量速览§!\n当前下一日产量乘以 30，并非库存净变化或保证交付。库存耗尽、停机或改建会改变后续产量。\n可用电力、库存和接通能力每天及每次操作后重新计算。','§YProduction forecast§!\nNext-day output multiplied by 30, not net stock change or guaranteed deliveries. Depletion and layout changes affect later output.\nPower, stocks and network capacity refresh daily and after actions.')
     L('results','§Y本期结果§!\n累计交付：§G[?RUS_ip_machines|1]§!／500\n投资回流：§G+[?RUS_ip_earned|1]§!\n§Y生产已停止；可重新规划并开始下一次测试。§!','§YFinal results§!\nDelivered: §G[?RUS_ip_machines|1]§! / 500\nInvestment earned: §G+[?RUS_ip_earned|1]§!\n§YProduction stopped. Reset to try another layout.§!')
     L('bottleneck','当前瓶颈：[GetRUSIPBottleneck]','Bottleneck: [GetRUSIPBottleneck]')
     for number,zh,en in [(0,'§G当前产线正常§!','§GCurrent line is supplied§!'),(1,'§R煤炭不足§!','§RNot enough coal§!'),(2,'§R铁矿不足§!','§RNot enough iron§!'),(3,'§R电力不足§!','§RNot enough power§!'),(4,'§R钢材不足§!','§RNot enough steel§!'),(5,'§Y尚无接通的机械厂§!','§YNo connected machine works§!')]:
         L(f'bottleneck_{number}',zh,en)
     L('network','接通地块 §G[?RUS_ip_connected_count|0]§!   |   断线设施 §R[?RUS_ip_offline_count|0]§!','Connected tiles §G[?RUS_ip_connected_count|0]§!  |  Disconnected facilities §R[?RUS_ip_offline_count|0]§!')
+    profiles=[
+        ('煤铁适中，紧凑的工业腹地。','Moderate coal and iron in a compact industrial hinterland.'),
+        ('煤铁稀少，可用空间紧凑，适合精简产线。','Sparse deposits and limited space favour compact production.'),
+        ('煤少铁略多，厂区沿纵向展开。','Little coal, slightly more iron, and a narrow north–south footprint.'),
+        ('煤铁丰富，铁矿更多，适合扩大钢铁产能。','Rich in both ores, with more iron deposits for steel expansion.'),
+        ('煤铁丰富且较均衡，建设空间最大。','Abundant, balanced ores with the largest building area.'),
+        ('铁多煤少，岩壁较多，煤炭是扩产约束。','Iron-rich, coal-poor and rocky; coal constrains expansion.'),
+    ]
+    for r,(zh,en) in zip(REGIONS,profiles):
+        rid=r['id'];coal,iron,rocks=r['coal'],r['iron'],r['rocks']
+        L(f'region_{rid}',r['zh'],r['en'])
+        L(f'region_{rid}_active','§Y'+r['zh']+'§!','§Y'+r['en']+'§!')
+        L(f'region_{rid}_tab',f'[GetRUSIPRegionTab{rid}]',f'[GetRUSIPRegionTab{rid}]')
+        L(f'region_{rid}_summary',f'§Y{r["zh"]}§! · 煤点 §Y{coal}§! · 铁点 §Y{iron}§! · 岩壁 §Y{rocks}§! · 用地 §Y{len(r["cells"])}§!',f'§Y{r["en"]}§! · Coal §Y{coal}§! · Iron §Y{iron}§! · Rocks §Y{rocks}§! · Tiles §Y{len(r["cells"])}§!')
+        extra='\n少量矿点为沙盘起步储备。' if rid in (1,2) else ''
+        extra_en='\nSmall deposits are sandbox starting reserves.' if rid in (1,2) else ''
+        L(f'region_{rid}_tt',f'§Y{r["zh"]}§!\n{zh}\n煤点：§Y{coal}§!；铁点：§Y{iron}§!；岩壁：§Y{rocks}§!。\n新计划随机分布，当前存档内保持不变。{extra}\n点击切换；其他地区继续自动生产。',f'§Y{r["en"]}§!\n{en}\nCoal: §Y{coal}§!; iron: §Y{iron}§!; rocks: §Y{rocks}§!.\nRandom positions per new plan, saved thereafter.{extra_en}\nSwitch maps; other regions keep producing.')
 
     recipes={
         1:('每日煤炭产出：§G+0.30§!','Daily coal output: §G+0.30§!'),
@@ -78,28 +98,28 @@ def render_outputs():
         L(f'build_{kind}_tt',f'§Y{zh}§!\n\n设施等级：§G+1§!\n建设投资：§R-{COST[kind]}§!\n\n§Y每级满产效果：§!\n{recipes[kind][0]}\n\n须位于{site}，最多 §Y3§! 级；不能覆盖其他设施。\n接通调度站后自动运行，沿途最低线路等级限制产能；缺料、缺电按比例减产。',f'§Y{en}§!\n\nFacility level: §G+1§!\nInvestment: §R-{COST[kind]}§!\n\n§YAt full production, per level:§!\n{recipes[kind][1]}\n\nRequires {site_en}; maximum level §Y3§!. Cannot replace another facility.\nConnect to the depot to operate. Weak route segments limit capacity; shortages limit output.')
     for key,zh,en in [('rail','厂内运输线','Transport line'),('remove','拆除设施','Remove plant'),('remove_rail','拆除线路','Remove line'),('switch','停机／开机','Stop / run'),('refresh','刷新产量','Refresh'),('start','开始生产','Start production'),('help','玩法介绍','How to play'),('back','返回厂区','Back to factory'),('restart','重新规划','Reset board'),('confirm_restart','确认重置','Confirm reset')]:L(key,zh,en)
     L('cost_rail','投资 §R-1§! · 每级','§R-1§! / level')
-    L('rail_tt','§Y厂内运输线§!\n\n线路等级：§G+1§!\n建设投资：§R-1§!\n\n与上下左右的线路相连，须连通 §YD6 调度站§!。\n线路和设施可在同一格，最高 §Y3§! 级。有效产能取设施等级与最佳路线最薄弱等级中的较低值。\n这是沙盘内运输线。','§YFactory transport line§!\n\nLine level: §G+1§!\nInvestment: §R-1§!\n\nConnect through orthogonal neighbours to the §YD6 depot§!.\nShares tiles with facilities; maximum level §Y3§!. Effective capacity is limited by the weakest segment along the best route.')
+    L('rail_tt','§Y厂内运输线§!\n\n线路等级：§G+1§!\n建设投资：§R-1§!\n\n与上下左右的线路相连，须连通 §Y本区调度站§!。\n线路和设施可在同一格，最高 §Y3§! 级。有效产能取设施等级与最佳路线最薄弱等级中的较低值。\n这是沙盘内运输线。','§YFactory transport line§!\n\nLine level: §G+1§!\nInvestment: §R-1§!\n\nConnect through orthogonal neighbours to the §Ylocal depot§!.\nShares tiles with facilities; maximum level §Y3§!. Effective capacity is limited by the weakest segment along the best route.')
     L('remove_tt','§Y拆除设施§!\n返还该设施实际支付的全部建设投资。\n保留运输线、库存和累计交付。调度站不能拆除。','§YRemove facility§!\nRefund all investment paid for this facility.\nKeep the line, stocks and deliveries. The depot cannot be removed.')
     L('remove_rail_tt','§Y拆除线路§!\n返还该线路实际支付的全部建设投资。\n保留设施；依赖此线路的设施可能断线。调度站不能拆除。','§YRemove line§!\nRefund all investment paid for this line.\nKeep its facility; downstream facilities may disconnect. The depot cannot be removed.')
     L('switch_tt','§Y停机／开机§!\n停机后该设施不生产、不消耗原料或电力；该格运输线仍然可用。','§YStop / run§!\nA stopped facility neither produces nor consumes materials or power. Its line still carries traffic.')
     L('refresh_tt','重新计算接通状态、产能和下一日产量。不会推进日期或结算生产。','Recalculate connectivity, capacity and next-day output without advancing time or producing goods.')
     L('start_tt','开始 §Y1800§! 天连续生产。设施按游戏日期自动运行，关闭窗口后也继续。\n目标：累计交付 §Y500§! 单位机械。期满停止生产并保留结果。','Begin §Y1800§! days of continuous production. Facilities run each game day, even with this window closed.\nGoal: deliver §Y500§! machines. Production stops at expiry and results remain visible.')
-    L('restart_tt','§Y重新规划§!\n再次确认后清空本沙盘的设施、线路、库存、累计交付和计时，恢复初始投资。\n本沙盘独立计分，不发放真实工厂，不影响旧一五计划。','§YReset board§!\nConfirm again to clear this board, its stocks, deliveries and clock, and restore initial investment.\nThis independent prototype does not grant real factories or alter the old Five-Year Plan.')
+    L('restart_tt','§Y重新规划§!\n再次确认后清空六区设施、线路、库存、交付与计时，恢复初始投资，并重新随机生成全部六张地图的矿点和岩壁。\n本沙盘独立计分，不发放真实工厂，不影响旧一五计划。','§YReset board§!\nConfirm again to clear all six boards, stocks, deliveries and clock; restore investment and randomise all deposits and rocks.\nThis independent prototype does not grant real factories or alter the old Five-Year Plan.')
     L('footnote','独立测试沙盘 · 机械为交付分数 · 生产随游戏日期推进','Independent test board · machinery counts as delivery score · production follows game time')
     L('help_title','工业规划沙盘 · 玩法介绍','Factory Planning · How to Play')
     help_zh=[
-        '§Y一、先布置，再开工§!\n点击测试决议打开沙盘。初始建设投资 §Y40§!，煤 §Y6§!、铁 §Y4§!、钢 §Y2§!。先布置厂区，再点击“开始生产”：在 §Y1800§! 天内交付 §Y500§! 单位机械。时间随游戏日期推进，关闭窗口不会暂停。',
-        '§Y二、固定矿点与生产链§!\n煤矿和铁矿须建在对应矿点。电站、钢铁厂和机械厂建在普通地块。岩壁不可建设。\n煤铁 → 电力与钢材 → 机械交付。电力当天使用，原料可入库；已接通设施共用库存。',
-        '§Y三、运输线决定布局§!\n在设施所在格及途经格铺设运输线，逐格接到 §YD6 调度站§!。只连上下左右。\n设施和线路最高 §Y3§! 级。三级设施经过一级线路，最多按一级生产；可以升级薄弱路段，也可以另建较好的路线。',
-        '§Y四、找出真正的瓶颈§!\n每级钢铁厂满产需煤 §R-0.20§!、铁 §R-0.20§!、电 §R+0.40§!，产钢 §G+0.20§!／日。每级机械厂需钢 §R-0.40§!、电 §R+0.20§!，交付机械 §G+0.20§!／日。\n先保证煤、电、钢足够，再扩机械厂。按钮悬浮提示列出每级效果。',
+        '§Y一、先布置，再开工§!\n点击测试决议打开沙盘。六区共享投资 §Y40§!，每区煤 §Y6§!、铁 §Y4§!、钢 §Y2§!。先选地区布置厂区，再点击“开始生产”：在 §Y1800§! 天内交付 §Y500§! 单位机械。时间随游戏日期推进，关闭窗口不会暂停。',
+        '§Y二、六区禀赋与随机矿点§!\n三大城、西西伯利亚、中西伯利亚与远东，轮廓参考 KR。每区矿点数量不同，新计划随机位置，切图和读档不重抽。城市贫矿区保留少量起步矿点。\n矿山须建在对应矿点；其他设施用普通地块。一级绿、二级蓝、三级金；深灰岩壁不可建。详情和线路等级见悬浮提示。',
+        '§Y三、运输线决定布局§!\n在设施所在格及途经格铺设运输线，逐格接到 §Y本区调度站§!。只连上下左右。\n设施和线路最高 §Y3§! 级。三级设施经过一级线路，最多按一级生产；可以升级薄弱路段，也可以另建较好的路线。',
+        '§Y四、找出真正的瓶颈§!\n每级钢铁厂满产需煤 §R-0.20§!、铁 §R-0.20§!、电 §R+0.40§!，产钢 §G+0.20§!／日。每级机械厂需钢 §R-0.40§!、电 §R+0.20§!，交付机械 §G+0.20§!／日。\n先保证煤、电、钢足够，再扩机械厂。各区分别计算煤铁、电力和钢材，不跨区调拨；六区同时生产，交付合并计分。',
         '§Y五、扩产与重新布置§!\n每交付 §Y1§! 单位机械，投资回流 §G+1.00§!；积累后扩矿、扩产或升级线路。没有固定拨款。\n拆除退还实际投资，便于调整布局。停机可以节省原料和电力，线路仍然通行。采矿、发电、炼钢、机械按此顺序每日结算。',
-        '§Y六、预估与期满§!\n产量速览显示下一日产量乘以 §Y30§!，不保证原料足够维持整月。库存耗尽后产量会改变；查看瓶颈与库存变化再调整。\n期满停止生产，保留交付量与完成度。两次点击重置后可以重玩。这是独立玩法测试，未接管旧一五计划，也不发放真实工厂。',
+        '§Y六、预估与期满§!\n产量速览显示下一日产量乘以 §Y30§!，不保证原料足够维持整月。库存耗尽后产量会改变；查看瓶颈与库存变化再调整。\n期满停止生产，保留交付量与完成度。重置须再次确认，将重抽六区矿点与岩壁。这是独立玩法测试，未接管旧一五计划，也不发放真实工厂。',
     ]
     help_en=[
-        '§Y1. Plan, then start§!\nTake the test decision. Start with §Y40§! investment, §Y6§! coal, §Y4§! iron and §Y2§! steel. Arrange the factory, then Start production. Deliver §Y500§! machines in §Y1800§! game days. Closing this window does not pause production.',
-        '§Y2. Deposits and production§!\nMines require matching deposits. Power stations, steelworks and machine works use ordinary tiles. Rocks cannot be developed.\nCoal and iron feed power and steel, then machinery. Power is used daily; materials can be stored. Connected facilities share stocks.',
-        '§Y3. Lay out transport§!\nPlace lines under facilities and along a route to the §YD6 depot§!, using orthogonal neighbours.\nFacilities and lines reach level §Y3§!. A level-three plant on a level-one route produces at level one. Upgrade weak segments or build a better route.',
-        '§Y4. Find the bottleneck§!\nA steelworks level uses §R0.20§! coal, §R0.20§! iron and §R0.40§! power to produce §G0.20§! steel daily. A machinery level uses §R0.40§! steel and §R0.20§! power to deliver §G0.20§! machines.\nSupply coal, power and steel before adding machinery. Hover actions for recipes.',
+        '§Y1. Plan, then start§!\nTake the test decision. Share §Y40§! investment; each region starts with §Y6§! coal, §Y4§! iron and §Y2§! steel. Arrange the factory, then Start production. Deliver §Y500§! machines in §Y1800§! game days. Closing this window does not pause production.',
+        '§Y2. Six regional endowments§!\nThree cities, West Siberia, Central Siberia and the Far East use KR-inspired outlines. Each has different deposit quotas, randomised once per new plan. Switching and reloading preserve them. Poor cities retain starter deposits.\nMines need deposits; other plants use plain tiles. Levels are green, blue and gold; dark rocks cannot be developed. Hover for line grades and details.',
+        '§Y3. Lay out transport§!\nPlace lines under facilities and along a route to the §Ylocal depot§!, using orthogonal neighbours.\nFacilities and lines reach level §Y3§!. A level-three plant on a level-one route produces at level one. Upgrade weak segments or build a better route.',
+        '§Y4. Find the bottleneck§!\nA steelworks level uses §R0.20§! coal, §R0.20§! iron and §R0.40§! power to produce §G0.20§! steel daily. A machinery level uses §R0.40§! steel and §R0.20§! power to deliver §G0.20§! machines.\nBalance each region separately: stocks and power do not cross regions. All six factories run together; deliveries add to the shared score.',
         '§Y5. Expand and rearrange§!\nEach delivered machine returns §G1.00§! investment. Expand mines, plants and lines with the proceeds. There are no periodic grants.\nDemolition refunds actual investment. Stopping plants saves resources; lines remain open. Daily order: mines, power, steel, machinery.',
         '§Y6. Forecasts and expiry§!\nThe forecast multiplies next-day output by §Y30§!; it does not guarantee a month of supply. Depleting stocks changes output.\nAt expiry production stops and results remain. Confirm a reset twice to replay. This independent prototype has no native factory rewards and does not replace the old Five-Year Plan.',
     ]
@@ -109,26 +129,34 @@ def render_outputs():
     def defined(name,branches):
         definitions.append(block('defined_text',f'name = {name}\n'+''.join(block('text',(block('trigger',cond) if cond else '')+f'localization_key = {key}\n') for cond,key in branches)))
     defined('GetRUSIPPlanStatus',[('has_country_flag = RUS_ip_finished',P+'ended'),('has_country_flag = RUS_ip_started',P+'active'),('',P+'not_started')])
+    defined('GetRUSIPRegion',[(cv('region','=',r['id']),P+f'region_{r["id"]}') for r in REGIONS])
+    defined('GetRUSIPRegionSummary',[(cv('region','=',r['id']),P+f'region_{r["id"]}_summary') for r in REGIONS])
+    for r in REGIONS:
+        rid=r['id'];defined(f'GetRUSIPRegionTab{rid}',[(cv('region','=',rid),P+f'region_{rid}_active'),('',P+f'region_{rid}')])
     defined('GetRUSIPType',[(cv('sel_type','=',k),P+f'type_{k}') for k in PROJECTS]+[('',P+'type_0')])
     defined('GetRUSIPTile',[(cv('selected','=',c['id']),L(f'tile_{c["id"]}',c['label'],c['label'])) for c in CELLS])
-    def terrain(i):return 'hub' if i==HUB else 'rock' if i in ROCKS else 'coal_site' if i in COAL else 'iron_site' if i in IRON else 'plain'
-    defined('GetRUSIPTerrain',[(cv('selected','=',c['id']),P+'terrain_'+terrain(c['id'])) for c in CELLS])
-    defined('GetRUSIPSelectedStatus',[(cv('selected','=',HUB),P+'status_hub'),(block('OR',''.join(cv('selected','=',i) for i in sorted(ROCKS))),P+'status_rock'),(cv('sel_type','=',0),P+'status_empty'),(cv('sel_paused','=',1),P+'status_paused'),(cv('sel_route','=',0),P+'status_offline'),(cv('sel_route','<',P+'sel_level'),P+'status_limited'),('',P+'status_ready')])
+    terrains={0:'plain',1:'coal_site',2:'iron_site',3:'rock',4:'hub'}
+    defined('GetRUSIPTerrain',[(cv('sel_terrain','=',k),P+'terrain_'+name) for k,name in terrains.items()])
+    defined('GetRUSIPSelectedStatus',[(cv('sel_terrain','=',4),P+'status_hub'),(cv('sel_terrain','=',3),P+'status_rock'),(cv('sel_type','=',0),P+'status_empty'),(cv('sel_paused','=',1),P+'status_paused'),(cv('sel_route','=',0),P+'status_offline'),(cv('sel_route','<',P+'sel_level'),P+'status_limited'),('',P+'status_ready')])
     defined('GetRUSIPBottleneck',[(cv('bottleneck','=',i),P+f'bottleneck_{i}') for i in range(6)])
     for c in CELLS:
         i=c['id']
         defined(f'GetRUSIPType{i}',[(cv(f'n{i}_type','=',k),P+f'type_{k}') for k in PROJECTS]+[('',P+'type_0')])
-        name={'hub':'调度站','rock':'岩壁','coal_site':'煤矿点','iron_site':'铁矿点','plain':'工业用地'}[terrain(i)]
-        L(f'node_{i}_tt',f'§Y{c["label"]} · {name}§!\n设施：[GetRUSIPType{i}]，§Y[?RUS_ip_n{i}_level|0]§! 级\n线路等级：§Y[?RUS_ip_n{i}_rail|0]§!\n接通能力：§Y[?RUS_ip_n{i}_route|0]§!\n有效生产等级：§G[?RUS_ip_n{i}_effective|0]§!\n点击选择，在右侧建设或升级。',f'§Y{c["label"]} · $RUS_ip_terrain_{terrain(i)}$§!\n[GetRUSIPType{i}], level §Y[?RUS_ip_n{i}_level|0]§!\nLine: §Y[?RUS_ip_n{i}_rail|0]§!\nRoute: §Y[?RUS_ip_n{i}_route|0]§!\nEffective level: §G[?RUS_ip_n{i}_effective|0]§!\nSelect to build or upgrade on the right.')
-        L(f'tile_levels_{i}',f'厂[?RUS_ip_n{i}_level|0] · 线[?RUS_ip_n{i}_rail|0]',f'P[?RUS_ip_n{i}_level|0] · L[?RUS_ip_n{i}_rail|0]')
+        defined(f'GetRUSIPTerrain{i}',[(cv(f'n{i}_terrain','=',k),P+'terrain_'+name) for k,name in terrains.items()])
+        L(f'node_{i}_tt',f'§Y$RUS_ip_region_{c["region"]}$ · {c["label"]} · [GetRUSIPTerrain{i}]§!\n设施：[GetRUSIPType{i}]，§Y[?RUS_ip_n{i}_level|0]§! 级\n线路等级：§Y[?RUS_ip_n{i}_rail|0]§!\n接通能力：§Y[?RUS_ip_n{i}_route|0]§!\n有效生产等级：§G[?RUS_ip_n{i}_effective|0]§!\n点击选择，在右侧建设或升级。',f'§Y$RUS_ip_region_{c["region"]}$ · {c["label"]} · [GetRUSIPTerrain{i}]§!\n[GetRUSIPType{i}], level §Y[?RUS_ip_n{i}_level|0]§!\nLine: §Y[?RUS_ip_n{i}_rail|0]§!\nRoute: §Y[?RUS_ip_n{i}_route|0]§!\nEffective level: §G[?RUS_ip_n{i}_effective|0]§!\nSelect to build or upgrade on the right.')
+        status=[(cv(f'n{i}_terrain','=',4),P+'status_hub'),(cv(f'n{i}_terrain','=',3),P+'status_rock'),(cv(f'n{i}_type','=',0),P+'status_empty'),(cv(f'n{i}_paused','=',1),P+'status_paused'),(cv(f'n{i}_route','=',0),P+'status_offline'),(cv(f'n{i}_route','<',P+f'n{i}_level'),P+'status_limited'),('',P+'status_ready')]
+        defined(f'GetRUSIPNodeStatus{i}',status)
+        for catalog in loc.values():
+            catalog[P+f'node_{i}_tt']+=f'\n[GetRUSIPNodeStatus{i}]'
 
     launchers=[]; launcher_scripts=[]
     for suffix,y,condition in [('',-121,'NOT = { GER_is_in_mitteleuropa = yes }'),('_above_mitteleuropa',-198,'GER_is_in_mitteleuropa = yes')]:
         launchers.append(block('containerWindowType',f'name = "RUS_industrial_planning_launcher{suffix}"\nposition = {{ x = -79 y = {y} }}\nsize = {{ width = 77 height = 77 }}\nbackground = {{ name = "Background" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }}\nbackground = {{ name = "Background" quadTextureSprite = "GFX_tiled_research_bg" }}\nbuttonType = {{ name = "ip_open" position = {{ x = 9 y = 7 }} scale = 1.8 quadTextureSprite = "GFX_decision_generic_industry" pdx_tooltip = "RUS_ip_open_tt" clicksound = click_ok }}\n'))
         launcher_scripts.append(block('RUS_industrial_planning_launcher'+suffix,f'context_type = player_context\nparent_window_name = raid_filter\nwindow_name = "RUS_industrial_planning_launcher{suffix}"\nai_enabled = {{ always = no }}\n'+block('visible','RUS_ip_available = yes\n'+condition)+block('effects','ip_open_click = { hidden_effect = { RUS_ip_toggle = yes } }')))
-    widgets=[]; gt={}; geffects=[]; gfx=[]; cards=set()
+    widgets=[]; gt={}; geffects=[]; gfx=[]; cards=set();board_region=''
     def visibility(name,condition='',page='board'):
         base='NOT = { has_country_flag = RUS_ip_help_open }\n' if page=='board' else 'has_country_flag = RUS_ip_help_open\n' if page=='help' else ''
+        if page=='board':base+=board_region
         if base+condition:gt[name+'_visible']=base+condition
     def text(name,key,x,y,w,h=24,font='hoi_16mbs',center=False,condition='',page='board',tip=''):
         tooltip=f'pdx_tooltip = "{tip}" ' if tip else ''
@@ -151,44 +179,49 @@ def render_outputs():
     for index,(key,sprite,scale) in enumerate([('budget','funds',1.6),('coal','facility_1',1),('iron','facility_2',1),('steel','facility_4',1),('machines','facility_5',1),('power','facility_3',1)]):
         x=32+204*index
         card('ip_inventory_bg_'+key,x,97,196,66)
-        tip=P+('budget_tt' if key=='budget' else 'power_tt' if key=='power' else 'stock_tt')
+        tip=P+('budget_tt' if key=='budget' else 'power_tt' if key=='power' else 'deliveries_tt' if key=='machines' else 'stock_tt')
         icon('ip_inventory_icon_'+key,'GFX_RUS_ip_'+sprite,x+12,114,scale,tip=tip)
         text('ip_inventory_'+key,P+key,x+54,109,138,45,tip=tip)
-    text('ip_board_title',P+'board_title',32,175,690,22)
-    bx,by,step=32,207,84
+    for r in REGIONS:
+        rid=r['id']
+        button(f'ip_region_{rid}',P+f'region_{rid}_tab',32+112*rid,170,P+f'region_{rid}_tt',f'RUS_ip_select_region_{rid} = yes\n',scale=.88)
+    bx,by,step=32,207,TILE_STEP
+    def position(c):
+        r=REGIONS[c['region']]
+        return bx+(WIDTH-r['width'])*step//2+c['x']*step,by+(HEIGHT-r['height'])*step//2+c['y']*step
     # Every background has its own page visibility, including the selection.
     for c in CELLS:
-        i=c['id'];x,y=bx+c['x']*step,by+c['y']*step
+        i=c['id'];x,y=position(c);board_region=cv('region','=',c['region'])
         button(f'ip_cell_{i}','',x,y,P+f'node_{i}_tt',setv('selected',i)+'clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n',sprite='GFX_RUS_ip_tile')
-        icon(f'ip_selection_{i}','GFX_RUS_ip_selected_tile',x,y,condition=cv('selected','=',i))
+        for edge,dx,dy,sprite in [('top',0,0,'selection_h'),('bottom',0,38,'selection_h'),('left',0,0,'selection_v'),('right',38,0,'selection_v')]:
+            icon(f'ip_selection_{i}_{edge}','GFX_RUS_ip_'+sprite,x+dx,y+dy,condition=cv('selected','=',i))
+        if i in HUBS:icon(f'ip_hub_fill_{i}','GFX_RUS_ip_hub_fill',x+2,y+2)
+        else:
+            icon(f'ip_rock_fill_{i}','GFX_RUS_ip_rock_fill',x+2,y+2,condition=cv(f'n{i}_terrain','=',3))
+            for level in LEVEL_COLOURS:
+                icon(f'ip_grade_{i}_{level}',f'GFX_RUS_ip_grade_{level}',x+2,y+2,condition=cv(f'n{i}_terrain','<',3)+cv(f'n{i}_level','=',level))
     # Lines join the centres, above tile backgrounds and behind plant icons.
     for c in CELLS:
-        i=c['id'];x,y=bx+c['x']*step,by+c['y']*step
+        i=c['id'];x,y=position(c);board_region=cv('region','=',c['region'])
         for j in c['neighbors']:
             if j<=i:continue
-            vertical=j-i==WIDTH
-            icon(f'ip_link_{i}_{j}','GFX_RUS_ip_line_v' if vertical else 'GFX_RUS_ip_line_h',x+39,y+39,condition=cv(f'n{i}_rail','>',0)+cv(f'n{j}_rail','>',0))
+            vertical=CELLS[j]['y']!=c['y']
+            icon(f'ip_link_{i}_{j}','GFX_RUS_ip_line_v' if vertical else 'GFX_RUS_ip_line_h',x+19,y+19,condition=cv(f'n{i}_rail','>',0)+cv(f'n{j}_rail','>',0))
     for c in CELLS:
-        i=c['id'];x,y=bx+c['x']*step,by+c['y']*step
-        text(f'ip_coordinate_{i}',P+f'tile_{i}',x+6,y+5,33,19,'hoi_16mbs',condition='')
-        if i in ROCKS:
-            text(f'ip_rock_{i}',P+'rock_tile',x+5,y+27,70,45,'hoi_16mbs',True)
-        elif i==HUB:
-            icon(f'ip_hub_icon_{i}','GFX_RUS_ip_hub',x+24,y+24,32/34)
-            text(f'ip_hub_text_{i}',P+'terrain_hub',x+4,y+61,72,18,'hoi_16mbs',True)
+        i=c['id'];x,y=position(c);board_region=cv('region','=',c['region'])
+        if i in HUBS:
+            icon(f'ip_hub_icon_{i}','GFX_RUS_ip_hub',x+6,y+6,28/34)
         else:
-            if i in COAL|IRON:
-                kind=1 if i in COAL else 2
-                icon(f'ip_deposit_{i}','GFX_RUS_ip_facility_'+str(kind),x+24,y+26,condition=cv(f'n{i}_type','=',0))
+            for kind in (1,2):
+                icon(f'ip_deposit_{i}_{kind}','GFX_RUS_ip_facility_'+str(kind),x+6,y+6,.875,condition=cv(f'n{i}_type','=',0)+cv(f'n{i}_terrain','=',kind))
             for kind in PROJECTS:
-                icon(f'ip_plant_{i}_{kind}','GFX_RUS_ip_facility_'+str(kind),x+24,y+26,condition=cv(f'n{i}_type','=',kind))
-            text(f'ip_levels_{i}',P+f'tile_levels_{i}',x+3,y+61,74,18,'hoi_16mbs',True,condition=block('OR',cv(f'n{i}_type','>',0)+cv(f'n{i}_rail','>',0)))
-        for key,label,cond in [
-            ('on','§G●§!',cv(f'n{i}_route','>',0)),
-            ('off','§R×§!',cv(f'n{i}_route','=',0)+cv(f'n{i}_type','>',0)),
-            ('paused','§YⅡ§!',cv(f'n{i}_paused','=',1)),
-        ]:text(f'ip_{key}_{i}',label,x+53,y+4,23,20,center=True,condition=cond)
-    text('ip_legend',P+'legend',32,717,680,22)
+                icon(f'ip_plant_{i}_{kind}','GFX_RUS_ip_facility_'+str(kind),x+6,y+6,.875,condition=cv(f'n{i}_type','=',kind))
+    board_region=''
+    for level in (1,2,3):
+        x=32+(level-1)*80
+        icon(f'ip_grade_legend_{level}',f'GFX_RUS_ip_grade_{level}',x,719,.45)
+        text(f'ip_grade_label_{level}',P+f'grade_{level}',x+22,717,58,22)
+    text('ip_legend',P+'legend',284,717,440,22)
     text('ip_board_note',P+'board_note',32,742,680,42)
     text('ip_selected',P+'selected',738,175,510,26,'hoi_20b')
     card('ip_detail_bg',738,207,510,116)
@@ -223,10 +256,18 @@ def render_outputs():
     def tile_sprite(name,w,h,texture,border):
         gfx.append(block('corneredTileSpriteType',f'name = "GFX_RUS_ip_{name}"\nsize = {{ x = {w} y = {h} }}\ntextureFile = "{texture}"\nborderSize = {{ x = {border} y = {border} }}\ntilingCenter = yes\neffectFile = "gfx/FX/buttonstate_nodowneffect.lua"\n'))
     for w,h in sorted(cards):tile_sprite(f'card_{w}x{h}',w,h,'gfx/interface/tiles/tiled_research_bg.dds',32)
-    tile_sprite('tile',80,80,'gfx/interface/tiles/tiled_plain_bg.dds',24)
-    tile_sprite('selected_tile',80,80,'gfx/interface/tiles/tiled_research_bg.dds',24)
-    tile_sprite('line_h',84,3,'gfx/interface/transp_white.dds',1)
-    tile_sprite('line_v',3,84,'gfx/interface/transp_white.dds',1)
+    tile_sprite('tile',TILE_SIZE,TILE_SIZE,'gfx/interface/tiles/tiled_plain_bg.dds',8)
+    tile_sprite('line_h',TILE_STEP,2,'gfx/interface/transp_white.dds',1)
+    tile_sprite('line_v',2,TILE_STEP,'gfx/interface/transp_white.dds',1)
+    # Native, texture-free colour primitives. Equal foreground/background
+    # colours make their appearance independent of the progress value.
+    colours={f'grade_{k}':rgb for k,rgb in LEVEL_COLOURS.items()}
+    colours.update(rock_fill=(.07,.075,.08),hub_fill=(.39,.17,.14))
+    for key,rgb in colours.items():
+        colour=' '.join(str(x) for x in rgb)
+        gfx.append(block('progressbartype',f'name = "GFX_RUS_ip_{key}"\ncolor = {{ {colour} }}\ncolortwo = {{ {colour} }}\nsize = {{ x = 36 y = 36 }}\nhorizontal = yes\n'))
+    for key,w,h in [('selection_h',40,2),('selection_v',2,40)]:
+        gfx.append(block('progressbartype',f'name = "GFX_RUS_ip_{key}"\ncolor = {{ .95 .76 .35 }}\ncolortwo = {{ .95 .76 .35 }}\nsize = {{ x = {w} y = {h} }}\nhorizontal = yes\n'))
     sprites={f'facility_{k}':(f'gfx/interface/decisions/{asset}.dds',1) for k,(_,_,asset) in PROJECTS.items()}
     sprites.update(line=('gfx/interface/decisions/decision_generic_train.dds',1),funds=('gfx/texticons/bag_of_money.png',1),hub=('gfx/interface/abilitylist/ability_extra_supplies.dds',1),action=('gfx/interface/rus_intro_theme/continue.png',1),tab=('gfx/interface/rus_intro_theme/tab.png',2))
     for key,(path,frames) in sprites.items():gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{key}"\ntexturefile = "{path}"\nnoOfFrames = {frames}\n'))
