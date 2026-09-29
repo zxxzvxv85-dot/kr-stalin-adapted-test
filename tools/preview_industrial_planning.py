@@ -14,7 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 from hoi4_politics_blocks import parse
-from test_industrial_planning import ROOT, fixture, call, check, select, put, DATA, plan_rail
+from test_factory_planning import ROOT, fixture, call, check, select, put, starter, builds, v
 
 GAME = Path(os.environ.get('HOI4_GAME_ROOT', ROOT.parents[3] / 'common/Hearts of Iron IV'))
 KR = Path(os.environ.get('HOI4_KR_ROOT', ROOT.parent / '1521695605'))
@@ -45,31 +45,18 @@ def nine_slice(source, size, border):
     return result
 
 
-def render(finished=False, help_page=False, idle=False, supply_page=False, debt=False, route=False, railway=False):
+def render(finished=False, help_page=False, idle=False):
     state=fixture();call(state,'open_effect')
-    call(state,'start')
     if not idle:
-        for resource in ('steel','coal'):
-            for c in DATA['cells']:put(state,f'n{c["id"]}_stock_{resource}',15)
-            put(state,'produced_'+resource,15*len(DATA['cells']))
-    for i,kind in ([] if idle else [(5,5),(16,1),(4,2),(2,4),(3,3)]):
-        select(state,i);call(state,f'build_{kind}')
-    select(state,5)
-    if debt:put(state,'funds',-500)
-    if not idle:put(state,'n5_work',118)
-    call(state,'refresh')
-    if railway:
-        put(state,'funds',3000);plan_rail(state,3,23,2);call(state,'build_10')
-        # Planning the next order must not alter the stored construction ends.
-        plan_rail(state,5,30,2);select(state,23)
-    if route:
-        select(state,30)
-        put(state,'n21_freight',10);put(state,'n21_freight_used',20)
-        call(state,'cargo_prepare');call(state,'selection_cache')
+        starter(state)
+        for i,k in [(33,'rail'),(41,'rail'),(42,'rail'),(33,1)]:builds(state,i,k)
+        call(state,'start')
+        for _ in range(120):call(state,'daily')
+        builds(state,46,3);builds(state,41,4)
+        select(state,44)
     if finished:
         put(state,'days_left',1);call(state,'daily')
     if help_page:call(state,'toggle_help')
-    if supply_page:call(state,'toggle_supply')
     loc={}
     for root in [CN/'localisation',ROOT/'localisation/simp_chinese']:
         for path in root.rglob('*.yml'):
@@ -99,7 +86,7 @@ def render(finished=False, help_page=False, idle=False, supply_page=False, debt=
     width=int(field(window.one('size'),'width'));height=int(field(window.one('size'),'height'))
     panel=next(n for n in entries(ROOT/'common/scripted_guis/RUS_industrial_planning.txt')[0].v if n.k=='RUS_industrial_planning_gui')
     triggers={n.k:n.v for n in panel.one('triggers').v}
-    properties={n.k:n for n in panel.one('properties').v}
+    properties={n.k:n for n in panel.one('properties').v} if panel.one('properties') else {}
     gfx={field(n,'name'):n for n in entries(ROOT/'interface/RUS_industrial_planning.gfx')[0].v}
     def asset(rel):
         return Image.open(next(root/rel for root in [ROOT,KR,GAME] if (root/rel).is_file())).convert('RGBA')
@@ -123,7 +110,7 @@ def render(finished=False, help_page=False, idle=False, supply_page=False, debt=
             full=''.join(t for t,c in line)
             px=x+(w-draw.textlength(full,font=font))/2 if centre else x
             for char,c in line:
-                draw.text((px,y+row*line_height),char,font=font,fill='#77776d' if disabled else c,anchor='lt',stroke_width=0)
+                draw.text((px,y+row*line_height),char,font=font,fill='#77776d' if disabled else c,anchor='la',stroke_width=0)
                 px+=draw.textlength(char,font=font)
     def drawables(container,ox=0,oy=0,clip=None):
         for widget in container.v:
@@ -181,17 +168,21 @@ def render(finished=False, help_page=False, idle=False, supply_page=False, debt=
     # Separate caption outside the game window, so it cannot be mistaken for a screenshot.
     result=Image.new('RGB',(width,height+32),'#101719');result.paste(canvas,(0,32),canvas)
     d=ImageDraw.Draw(result)
-    d.text((15,5),'布局预览 · 实际 GUI 坐标 / 示例施工状态，非游戏截图',font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',15),fill='#abbcaf')
+    d.text((15,5),'布局预览 · 实际 GUI 坐标 / 示例生产状态，非游戏截图',font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',15),fill='#abbcaf')
     return result,issues
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--finished',action='store_true');parser.add_argument('--help-page',action='store_true');parser.add_argument('--idle',action='store_true');parser.add_argument('--supply-page',action='store_true');parser.add_argument('--debt',action='store_true');parser.add_argument('--route',action='store_true');parser.add_argument('--railway',action='store_true');args=parser.parse_args()
-    image,issues=render(args.finished,args.help_page,args.idle,args.supply_page,args.debt,args.route,args.railway)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--finished',action='store_true')
+    parser.add_argument('--help-page',action='store_true')
+    parser.add_argument('--idle',action='store_true')
+    args=parser.parse_args()
+    image,issues=render(args.finished,args.help_page,args.idle)
     folder=ROOT/'output/industrial_planning';folder.mkdir(parents=True,exist_ok=True)
-    stem='supply' if args.supply_page else 'help' if args.help_page else 'finished' if args.finished else 'idle' if args.idle else 'preview'
-    path=folder/(stem+('-debt' if args.debt else '')+('-route' if args.route else '')+('-railway' if args.railway else '')+'.png');image.save(path)
-    (folder/(path.stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    stem='help' if args.help_page else 'finished' if args.finished else 'idle' if args.idle else 'preview'
+    path=folder/(stem+'.png');image.save(path)
+    (folder/(stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(str(path));print(f'Text height warnings (approximate font): {len(issues)}')
 
 
