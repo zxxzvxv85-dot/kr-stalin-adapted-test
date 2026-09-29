@@ -3,9 +3,11 @@ from __future__ import annotations
 import os
 import re
 from pathlib import Path
+from PIL import Image
 from hoi4_politics_blocks import parse
 from industrial_planning_factory_ui import render_outputs, LANGS
 from industrial_planning_factory import CELLS, REGIONS
+from industrial_planning_factory_assets import ASSET_DIR, COLOUR_SPRITES, render_assets
 from test_factory_planning import ROOT, P, GUI, FX, TR, opened, check, call, put
 
 GAME=Path(os.environ.get('HOI4_GAME_ROOT',ROOT.parents[3]/'common/Hearts of Iron IV'))
@@ -40,6 +42,13 @@ def main():
         catalogs[lang]=dict(rows);count+=1
     catalog=catalogs['simp_chinese']
     assert all(set(cat)==set(catalog) for cat in catalogs.values());count+=1
+    for lang,cat in catalogs.items():
+        for c in CELLS:
+            header=cat[P+f'node_{c["id"]}_tt'].split(r'\n',1)[0]
+            region=REGIONS[c['region']]['zh' if lang=='simp_chinese' else 'en']
+            assert header.startswith('§Y'+region+' · '),(lang,c['id'],header)
+            assert '$' not in header and 'RUS_ip_' not in header,'Nested region keys leaked in game tooltips'
+    count+=1
     gui=parse(outputs['interface/RUS_industrial_planning.gui'])[0]
     window=next(n for n in gui.v if field(n,'name')=='RUS_industrial_planning_window')
     widgets=[n for n in window.v if n.k in ('buttonType','iconType','instantTextBoxType','containerWindowType')]
@@ -86,13 +95,17 @@ def main():
     # Every game file is resolved against the active mod, KR, then vanilla.
     sprites={field(n,'name'):n for n in parse(outputs['interface/RUS_industrial_planning.gfx'])[0].v}
     for name,sprite in sprites.items():
-        if sprite.k=='progressbartype':
-            colours=[float(n.k) for n in sprite.one('color').v]
-            assert len(colours)==3 and all(0<=c<=1 for c in colours)
-            assert sprite.one('color').inner()==sprite.one('colortwo').inner()
-            continue
         asset=field(sprite,'textureFile',field(sprite,'texturefile'))
         assert any((root/asset).is_file() for root in (ROOT,KR,GAME)),(name,asset)
+    assets=render_assets();assert assets==render_assets()
+    for key,(width,height,rgb) in COLOUR_SPRITES.items():
+        path=f'{ASSET_DIR}/{key}.png';sprite=sprites['GFX_RUS_ip_'+key]
+        assert sprite.k=='spriteType' and field(sprite,'texturefile')==path
+        assert (ROOT/path).read_bytes()==assets[path]
+        with Image.open(ROOT/path) as img:
+            assert img.size==(width,height) and img.mode=='RGBA'
+            assert img.getextrema()==tuple((c,c) for c in (*rgb,255))
+    count+=1
     for w in widgets:
         sprite=field(w,'spriteType',field(w,'quadTextureSprite'))
         if sprite.startswith('GFX_RUS_ip_'):assert sprite in sprites,sprite
@@ -133,7 +146,14 @@ def main():
             pos=w.one('position');x,y=int(field(pos,'x')),int(field(pos,'y'))
             assert not(32<=x<704 and 207<=y<711),'Tiles must not carry coordinate/status/level labels'
     count+=1
-    assert len({sprites[f'GFX_RUS_ip_grade_{i}'].one('color').inner() for i in (1,2,3)})==3
+    assert len({COLOUR_SPRITES[f'grade_{i}'][2] for i in (1,2,3)})==3
+    for level in (1,2,3):
+        widget=next(w for w in widgets if field(w,'name')==f'ip_grade_legend_{level}')
+        assert field(widget,'spriteType')==f'GFX_RUS_ip_legend_{level}' and field(widget,'scale')=='1'
+        w,h,rgb=COLOUR_SPRITES[f'legend_{level}']
+        assert (w,h)==(16,16) and rgb==COLOUR_SPRITES[f'grade_{level}'][2]
+        assert int(field(widget.one('position'),'y'))+h<742,'Swatch overlaps the regional text'
+    count+=1
     assert all('[GetRUSIPNodeStatus' in catalog[P+f'node_{c["id"]}_tt'] for c in CELLS);count+=1
     print(f'{count} layout/reference checks passed; {len(CELLS)} selectable tiles across six isolated pages.')
 

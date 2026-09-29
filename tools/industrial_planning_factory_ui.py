@@ -1,5 +1,6 @@
 """Local factory board, native icon reuse and its three localisation catalogs."""
 from __future__ import annotations
+from industrial_planning_factory_assets import ASSET_DIR, COLOUR_SPRITES, LEVEL_COLOURS
 
 from industrial_planning_factory import (
     P, WIDTH, HEIGHT, HUBS, REGIONS, COST, PROJECTS, CELLS,
@@ -8,7 +9,6 @@ from industrial_planning_factory import (
 
 LANGS = ('simp_chinese', 'english', 'russian')
 TILE_SIZE,TILE_STEP=40,42
-LEVEL_COLOURS={0:(.15,.16,.16),1:(.18,.39,.25),2:(.17,.32,.50),3:(.54,.39,.15)}
 
 
 def render_outputs():
@@ -140,10 +140,10 @@ def render_outputs():
     defined('GetRUSIPSelectedStatus',[(cv('sel_terrain','=',4),P+'status_hub'),(cv('sel_terrain','=',3),P+'status_rock'),(cv('sel_type','=',0),P+'status_empty'),(cv('sel_paused','=',1),P+'status_paused'),(cv('sel_route','=',0),P+'status_offline'),(cv('sel_route','<',P+'sel_level'),P+'status_limited'),('',P+'status_ready')])
     defined('GetRUSIPBottleneck',[(cv('bottleneck','=',i),P+f'bottleneck_{i}') for i in range(6)])
     for c in CELLS:
-        i=c['id']
+        i=c['id'];region=REGIONS[c['region']]
         defined(f'GetRUSIPType{i}',[(cv(f'n{i}_type','=',k),P+f'type_{k}') for k in PROJECTS]+[('',P+'type_0')])
         defined(f'GetRUSIPTerrain{i}',[(cv(f'n{i}_terrain','=',k),P+'terrain_'+name) for k,name in terrains.items()])
-        L(f'node_{i}_tt',f'§Y$RUS_ip_region_{c["region"]}$ · {c["label"]} · [GetRUSIPTerrain{i}]§!\n设施：[GetRUSIPType{i}]，§Y[?RUS_ip_n{i}_level|0]§! 级\n线路等级：§Y[?RUS_ip_n{i}_rail|0]§!\n接通能力：§Y[?RUS_ip_n{i}_route|0]§!\n有效生产等级：§G[?RUS_ip_n{i}_effective|0]§!\n点击选择，在右侧建设或升级。',f'§Y$RUS_ip_region_{c["region"]}$ · {c["label"]} · [GetRUSIPTerrain{i}]§!\n[GetRUSIPType{i}], level §Y[?RUS_ip_n{i}_level|0]§!\nLine: §Y[?RUS_ip_n{i}_rail|0]§!\nRoute: §Y[?RUS_ip_n{i}_route|0]§!\nEffective level: §G[?RUS_ip_n{i}_effective|0]§!\nSelect to build or upgrade on the right.')
+        L(f'node_{i}_tt',f'§Y{region["zh"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n设施：[GetRUSIPType{i}]，§Y[?RUS_ip_n{i}_level|0]§! 级\n线路等级：§Y[?RUS_ip_n{i}_rail|0]§!\n接通能力：§Y[?RUS_ip_n{i}_route|0]§!\n有效生产等级：§G[?RUS_ip_n{i}_effective|0]§!\n点击选择，在右侧建设或升级。',f'§Y{region["en"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n[GetRUSIPType{i}], level §Y[?RUS_ip_n{i}_level|0]§!\nLine: §Y[?RUS_ip_n{i}_rail|0]§!\nRoute: §Y[?RUS_ip_n{i}_route|0]§!\nEffective level: §G[?RUS_ip_n{i}_effective|0]§!\nSelect to build or upgrade on the right.')
         status=[(cv(f'n{i}_terrain','=',4),P+'status_hub'),(cv(f'n{i}_terrain','=',3),P+'status_rock'),(cv(f'n{i}_type','=',0),P+'status_empty'),(cv(f'n{i}_paused','=',1),P+'status_paused'),(cv(f'n{i}_route','=',0),P+'status_offline'),(cv(f'n{i}_route','<',P+f'n{i}_level'),P+'status_limited'),('',P+'status_ready')]
         defined(f'GetRUSIPNodeStatus{i}',status)
         for catalog in loc.values():
@@ -219,7 +219,7 @@ def render_outputs():
     board_region=''
     for level in (1,2,3):
         x=32+(level-1)*80
-        icon(f'ip_grade_legend_{level}',f'GFX_RUS_ip_grade_{level}',x,719,.45)
+        icon(f'ip_grade_legend_{level}',f'GFX_RUS_ip_legend_{level}',x,719)
         text(f'ip_grade_label_{level}',P+f'grade_{level}',x+22,717,58,22)
     text('ip_legend',P+'legend',284,717,440,22)
     text('ip_board_note',P+'board_note',32,742,680,42)
@@ -259,15 +259,10 @@ def render_outputs():
     tile_sprite('tile',TILE_SIZE,TILE_SIZE,'gfx/interface/tiles/tiled_plain_bg.dds',8)
     tile_sprite('line_h',TILE_STEP,2,'gfx/interface/transp_white.dds',1)
     tile_sprite('line_v',2,TILE_STEP,'gfx/interface/transp_white.dds',1)
-    # Native, texture-free colour primitives. Equal foreground/background
-    # colours make their appearance independent of the progress value.
-    colours={f'grade_{k}':rgb for k,rgb in LEVEL_COLOURS.items()}
-    colours.update(rock_fill=(.07,.075,.08),hub_fill=(.39,.17,.14))
-    for key,rgb in colours.items():
-        colour=' '.join(str(x) for x in rgb)
-        gfx.append(block('progressbartype',f'name = "GFX_RUS_ip_{key}"\ncolor = {{ {colour} }}\ncolortwo = {{ {colour} }}\nsize = {{ x = 36 y = 36 }}\nhorizontal = yes\n'))
-    for key,w,h in [('selection_h',40,2),('selection_v',2,40)]:
-        gfx.append(block('progressbartype',f'name = "GFX_RUS_ip_{key}"\ncolor = {{ .95 .76 .35 }}\ncolortwo = {{ .95 .76 .35 }}\nsize = {{ x = {w} y = {h} }}\nhorizontal = yes\n'))
+    # Fixed-size texture sprites, including dedicated 16px legend swatches.
+    # Do not restore texture-free progressbartype: it failed in the game.
+    for key in COLOUR_SPRITES:
+        gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{key}"\ntexturefile = "{ASSET_DIR}/{key}.png"\nnoOfFrames = 1\n'))
     sprites={f'facility_{k}':(f'gfx/interface/decisions/{asset}.dds',1) for k,(_,_,asset) in PROJECTS.items()}
     sprites.update(line=('gfx/interface/decisions/decision_generic_train.dds',1),funds=('gfx/texticons/bag_of_money.png',1),hub=('gfx/interface/abilitylist/ability_extra_supplies.dds',1),action=('gfx/interface/rus_intro_theme/continue.png',1),tab=('gfx/interface/rus_intro_theme/tab.png',2))
     for key,(path,frames) in sprites.items():gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{key}"\ntexturefile = "{path}"\nnoOfFrames = {frames}\n'))

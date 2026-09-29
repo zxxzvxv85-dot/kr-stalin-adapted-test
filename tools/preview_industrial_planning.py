@@ -140,10 +140,8 @@ def render(finished=False, help_page=False, idle=False, region=0, seed=47):
             sprite=field(widget,'spriteType',field(widget,'quadTextureSprite'))
             if sprite in gfx:
                 meta=gfx[sprite]
-                if meta.k=='progressbartype':
-                    size=meta.one('size');rgb=tuple(round(float(n.k)*255) for n in meta.one('color').v)
-                    img=Image.new('RGBA',(int(field(size,'x')),int(field(size,'y'))),rgb+(255,))
-                else:img=asset(field(meta,'texturefile',field(meta,'textureFile')))
+                assert meta.k!='progressbartype','Do not simulate missing colour textures; this hid an in-game rendering failure'
+                img=asset(field(meta,'texturefile',field(meta,'textureFile')))
                 frames=int(field(meta,'noOfFrames','1'))
                 selected_frame=1
                 if name in properties:selected_frame=int(state['vars'].get(field(properties[name],'frame'),1))

@@ -9,11 +9,12 @@ python tools/generate_industrial_planning.py --check
 python tools/generate_industrial_planning.py --write
 ```
 
-默认只检查，不写文件。支持 `--output-root <临时目录>` 独立复现 13 份输出，三语本地化使用 UTF-8 BOM。不得直接改生成后的脚本、GUI 或本地化。
+默认只检查，不写文件。支持 `--output-root <临时目录>` 独立复现13份文本与11张纯色UI纹理，三语本地化使用UTF-8 BOM。文本允许换行规范化；PNG按二进制原样比较，不转换CRLF。不得直接改生成后的脚本、GUI 或本地化。
 
 - `tools/build_factory_regions.py`：只读 KR 州/省份栅格，量化为六区格子几何与资源参考；仅输出 JSON，不生成或编辑图片。默认检查，显式 `--write` 更新 `tools/data/industrial_planning_factory_regions.json`。
 - `tools/industrial_planning_factory.py`：加载格子定义、建设限制、连接与产能、每日配方、投资退款、计时与重置。
 - `tools/industrial_planning_factory_ui.py`：GUI/GFX、三语文本、动态名称、入口与帮助页。
+- `tools/industrial_planning_factory_assets.py`：确定性生成不透明纯色UI矩形，包含36×36等级底色、16×16图例、40×2/2×40选中细框。资产位于 `gfx/interface/RUS_factory_planning/`，经统一生成入口显式写入；没有导入副作用。
 - `tools/test_factory_planning.py`：运行生成后的 Clausewitz 脚本，含独立图论判定与守恒检查。
 - `tools/test_industrial_planning.py`：统一验证保留的入口，调用以上测试。
 - `tools/test_factory_layout.py`：引用、三语 BOM/键、字体与资源、按钮绑定、分页残框和沙盘隔离。
@@ -48,16 +49,18 @@ refresh 重算网络、各区产能、纯预测、选择缓存与 dirty。rN_for
 
 ## 界面与提示参考
 
-窗口1280×850，地图最大16×12外框；每格40×40、步长42，各区在672×504视区居中。仅保留图标、底色与线段；坐标和等级数值在 tooltip/detail。没有俄罗斯地图纹理或 STATE 名称。资金、资源、设施及线路图标复用已安装 KR/原版素材，不新增生成图。
+窗口1280×850，地图最大16×12外框；每格40×40、步长42，各区在672×504视区居中。仅保留图标、底色与线段；坐标和等级数值在 tooltip/detail。没有俄罗斯地图纹理或 STATE 名称。资金、资源、设施及线路图标复用已安装 KR/原版素材。等级/岩壁/调度站底色、选中框与图例使用明确尺寸的纯色PNG纹理和普通spriteType；它们是代码定义的UI几何，不是生成式美术。
 
 - KR `interface/core.gfx`：确认 `hoi_16mbs`、`hoi_20b` 等真实字体与数值颜色。
 - KR `common/scripted_effects/00_useful_scripted_effects.txt`：`while_loop_effect`，以及约1708行 random_list + modifier factor=0 的排除抽样写法。
-- 原版 `interface/countryconstructionsview.gfx`：progressbartype 的 color/colortwo/size；用相同两色制作纯色级别底板和两像素选中框，原生图元无需新图片。
+- KR `interface/kaiserreich/countrypoliticsview.gfx` 及本模组已实测开局面板：普通spriteType绑定PNG纹理。无纹理progressbartype曾在实机显示为错尺寸黑框，已移除；预览器禁止自行模拟这类无纹理色块，以免再次掩盖渲染错误。
 - KR UPC 党派背景的 iconType + corneredTileSpriteType：独立控制卡片显隐，避免嵌套窗口背景跨页泄漏。
 - 原版 `interface/core_bare_minimum.gfx`：`gfx/interface/transp_white.dds` 原生线段材质。
 - KR 简中 `KR_common/st manager l_simp_chinese.yml` 与地区管理 GUI：显式 pdx_tooltip 绑定写法。当前奖励全是自定义沙盘值，所以直接使用彩色自定义提示，没有虚构原生工厂效果。
 
 所有卡片、选中细框和连线都随页面显隐；地区专属部件还检查 region，隐藏地图按钮不能穿透；厂区动作在帮助页不能穿透执行。线段在背景之上、设施图标之下，描绘相邻格子的真实运输连接。主界面“30天”是下一日产率折算，不是未来整月模拟。
+
+地块tooltip标题直接由地区元数据写入对应语言名称。不要把地区名写成 `$RUS_ip_region_N$` 再期待pdX工具提示递归展开：实机曾直接露出键名。地形和状态仍使用已经生效的scripted localisation，动态数值保留原生变量显示。
 
 ## 验证与预览
 

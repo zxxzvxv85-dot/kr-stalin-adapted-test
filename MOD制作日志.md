@@ -3383,3 +3383,13 @@ mio:RUS_example_organization = {
 - 243个完整生成脚本场景通过，追加六区各自用40投资开局并生产的6个场景通过（地形/开局子集129项），合计249项；含20种种子×6区精确配额与全地可达、40组独立图论对照、40组六区配方守恒、跨区隔离、隐藏按钮、存档恢复、重置与1800天截止。无注资合法扩建样例交付约646.7机械。38项布局/引用检查及全套57/57维护检查通过；六区初始图、生产/帮助/期满共9份布局预览无文字高度警告，均非游戏截图。KR几何独立重算一致，13份输出在临时目录逐字节复现。
 - RHoiScribe 13份文件核对完毕，GUI/GFX/动态本地化/三语文本绿色，原生random_list与颜色图元无诊断；剩余CWT提示均为已核对实际定义的RUS_ip_*效果索引误报。全项目混合扫描50719项，无括号或未闭合块红项；旧扫描增量仅工业文件的跨语言同名键、未索引progressbartype图元和defined_text名称，实际引用由布局测试核对。其他文件只保留原有CWT基线诊断，未批量修复。repair仅dry_run，118项建议无工业文件且未应用；Git空白检查与修改前基线一致，其他tracked文件SHA-256不变。
 - 本轮备份 C:/Users/Administrator/AppData/Local/Temp/codex-factory-dense-e749c1p8；独立复现 C:/Users/Administrator/AppData/Local/Temp/codex-six-factories-repro-4kfire_x。起始fetch已成功，工作树原有改动保留、未拉取覆盖；仅按本任务范围提交本地Git，尚未同步GitHub。新开局为验收基线，运行时格子颜色、鼠标热区、分页显隐、实际随机/存读档与日度性能仍需用户实机确认。
+
+
+### 2026-09-29 修复厂区悬浮地区键与等级图例黑框
+
+- 按用户两张实机截图修复：地块tooltip中的$RUS_ip_region_0$未在当前提示路径展开；三语标题改由地区元数据直接写入名称，保留已正常显示的动态地形、设施、等级与状态，不改坐标、随机矿点或生产数值。
+- 上轮无纹理progressbartype在引擎中显示为尺寸异常的黑框；将所有等级底色、岩壁/调度站底色、选中细框和三级图例统一改为有真实PNG纹理的普通spriteType。等级底色36×36，图例独立16×16且scale=1，选中框40×2/2×40；颜色保持绿/蓝/金。参考已安装KR interface/kaiserreich/countrypoliticsview.gfx的PNG sprite绑定及本模组已实测开局界面。不生成绘画美术，新增industrial_planning_factory_assets.py用标准PNG编码输出11张不透明纯色UI几何纹理，保存在gfx/interface/RUS_factory_planning/。
+- 统一生成入口现在检查/写入13份文本和11张纹理，PNG保持原始二进制，只有文本做换行规范化。默认与--check仍只读、导入无写入副作用。移除预览器对无纹理progressbar自行画色块的模拟；该模拟曾掩盖实机渲染失败，今后预览必须读取实际贴图。维护说明同步记录故障原因、生成入口和避免嵌套地区键的约定。
+- 41项布局/引用检查通过，新增三语370格标题无地区代码、纹理尺寸/颜色/alpha、16px图例不遮挡下方文本的检查；13文本+11纹理在临时目录逐字节复现，--check零差异且未写盘。生产/帮助两页预览无文字高度警告，预览仍非游戏截图。经济、事件、on_actions、scripted_gui等实际执行文件SHA-256与修复前一致，因此不重复运行不受影响的1800天生产模型。
+- RHoiScribe两份界面文件与三语本地化均绿色；全项目47410项混合诊断，无括号/未闭合块红项，移除3309条由无纹理progressbar未被索引导致的旧提示，其余既有CWT基线不批量处理。repair仅dry_run，118项建议无本功能文件，未应用。Git空白诊断与本轮前一致，其他tracked文件哈希不变。
+- 备份 C:/Users/Administrator/AppData/Local/Temp/codex-factory-display-fix-okeby46h；独立复现 C:/Users/Administrator/AppData/Local/Temp/codex-factory-display-repro-mj7mtaqf。起始fetch因连接GitHub超时失败，未拉取覆盖、不推送。只修改kr_stalin_adapted_test开发目录，不构建上传目录；制作日志仅暂存本条，保留此前未提交内容。按本任务创建本地Git提交，尚未同步GitHub。新贴图和悬浮标题需用户重启游戏后实测，不宣称已在引擎验证。
