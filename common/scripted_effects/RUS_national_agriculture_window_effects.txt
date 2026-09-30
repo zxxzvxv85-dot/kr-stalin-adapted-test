@@ -1,0 +1,13 @@
+# Opening and closing only affect UI state. Plans, orders and timers are preserved.
+RUS_nat_window_open_effect = {
+	if = {
+		limit = { RUS_nat_window_available = yes }
+		set_country_flag = RUS_nat_window_open
+		RUS_nat_refresh = yes
+		RUS_agri_refresh_gui = yes
+	}
+}
+RUS_nat_window_close_effect = {
+	clr_country_flag = RUS_nat_window_open
+	RUS_agri_refresh_gui = yes
+}

@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {parse,get,effects,country,check,exec,read}=require('./test_agri_development.cjs');
+const {parse,get,effects,country,check,exec,read}=require('./test_support/agriculture.cjs');
 const crops=['wheat','rye','beet','flax','cotton'];
 const run=(c,k)=>exec(effects.get('RUS_nat_'+k),c);
 const val=(c,k)=>c.vars['RUS_nat_'+k]||0;
@@ -78,13 +78,15 @@ test('ledger totals include domestic needs, reserves and accepted orders without
  for(const war of [false,true]) for(const doy of [59,100]) {
   const c=fresh(doy);c.war=war;run(c,'start_quarter');click(c,'clear');
   set(c,'generic_crop',1);set(c,'generic_quantity',3);set(c,'fra_crop',3);set(c,'fra_quantity',2);
-  set(c,'eng_crop',4);set(c,'eng_quantity',4);run(c,'refresh');
+  set(c,'eng_crop',4);set(c,'eng_quantity',4);
+  for(const order of ['generic','fra','eng']){assert.equal(val(c,order+'_accept'),0);click(c,'accept_'+order);}
+  run(c,'refresh');
   const before=crops.map(k=>val(c,k+'_stock')),cash=c.surplus,seed=c.seed;
   for(const [g,cs,orders] of [['food',['wheat','rye'],3],['beet',['beet'],2],['textile',['flax','cotton'],4]]) {
    assert.equal(val(c,g+'_stock_now'),cs.reduce((s,k)=>s+val(c,k+'_stock'),0));
    assert.equal(val(c,g+'_order_need'),orders);
    assert.ok(Math.abs(val(c,g+'_need')-val(c,g+'_demand')*val(c,'fraction'))<1e-5);
-   assert.ok(Math.abs(val(c,g+'_target_total')-val(c,g+'_need')-val(c,g+'_reserve')-orders)<1e-5);
+   assert.ok(Math.abs(val(c,g+'_target_total')-val(c,g+'_need')-val(c,g+'_reserve')/val(c,'preview_retention')-orders)<1e-5);
    assert.ok(Math.abs(val(c,g+'_all_gap')-Math.max(0,val(c,g+'_target_total')-val(c,g+'_stock_now')-val(c,g+'_new_yield')))<1e-5);
   }
   const gap=val(c,'food_all_gap');click(c,'priority');assert.equal(val(c,'food_all_gap'),gap);

@@ -1,7 +1,7 @@
 from pathlib import Path
-import re,json
+import re,json,os
 from dataclasses import dataclass
-R=Path(__file__).resolve().parents[1];KR=R.parent/'1521695605'
+R=Path(__file__).resolve().parents[1];KR=Path(os.environ.get('HOI4_KR_ROOT', R.parent/'1521695605'))
 @dataclass
 class N:
  k:str;op:str;v:object;a:int;b:int;s:str;ia:int=0;ib:int=0

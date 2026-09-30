@@ -1,0 +1,56 @@
+# Called once by RUS_future_foreign_038 in the focus owner's scope.
+# KR's india_events.9 sets india_united after the Indian unification wars.
+# Resolve the situation at completion; later unification does not replay rewards.
+RUS_subcontinental_dawn_effect = {
+	if = {
+		limit = { has_global_flag = india_united }
+		every_other_country = {
+			limit = {
+				OR = { tag = HND tag = RAJ tag = PRF }
+				has_socialist_government = yes
+			}
+			diplomatic_relation = {
+				country = ROOT
+				relation = non_aggression_pact
+			}
+			add_ideas = RUS_subcontinental_economic_aid
+			ROOT = { add_ideas = RUS_subcontinental_economic_aid }
+			hidden_effect = {
+				RUS_subcontinental_refresh_easy_aid_effect = yes
+				ROOT = { RUS_subcontinental_refresh_easy_aid_effect = yes }
+			}
+		}
+		every_other_country = {
+			limit = {
+				OR = { tag = HND tag = RAJ tag = PRF }
+				has_socialist_government = no
+			}
+			ROOT = {
+				create_wargoal = {
+					type = annex_everything
+					target = PREV
+				}
+			}
+		}
+	}
+	else = {
+		# Filter recipients here so HOI4's country list also excludes non-socialists.
+		every_other_country = {
+			limit = {
+				OR = { tag = HND tag = RAJ tag = PRF }
+				has_socialist_government = yes
+			}
+			add_ideas = RUS_subcontinental_military_aid
+			hidden_effect = { RUS_subcontinental_refresh_easy_aid_effect = yes }
+		}
+	}
+}
+
+# Refresh after add_ideas so the recipient's new spirit is already present.
+# AI recipients get the base values even when the focus owner uses easy mode.
+RUS_subcontinental_refresh_easy_aid_effect = {
+	if = {
+		limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+		RUS_easy_mode_refresh_ideas = yes
+	}
+}

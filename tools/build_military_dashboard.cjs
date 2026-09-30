@@ -1,11 +1,15 @@
 // Rebuild layout from measured assets. Preserve the actual stage click effects.
 const fs=require('fs'),path=require('path');
-const {parse,get}=require('./test_agri_development.cjs');
-const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
-const write=(p,s)=>fs.writeFileSync(path.join(root,p),s,'utf8');
+const {parse,get}=require('./test_support/agriculture.cjs');
+const root=path.resolve(__dirname,'..');
+
+function render_dashboard() {
+const outputs={};
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const write=(p,s)=>{outputs[p]=s;};
 const sgPath='common/scripted_guis/RUS_fr_military_reform_dashboard.txt';
-const original=get(parse(read(sgPath)),'scripted_gui');
-const old=original[0].value,oldTriggers=get(old,'triggers');
+const old=get(parse(read('tools/data/military_dashboard_logic.txt')),'dashboard_logic');
+const oldTriggers=get(old,'triggers');
 function dump(ns){return ns.map(n=>n.key+' '+(n.op||'=')+' '+(Array.isArray(n.value)?'{ '+dump(n.value)+' }':n.value)).join('\n');}
 const prefix='RUS_fr_dashboard_',widgets=[],conditions=[],sprites=[],layout=[];
 function icon(id,x,y,sprite,w,h,condition){
@@ -80,6 +84,17 @@ write('interface/RUS_fr_military_reform_dashboard.gui',`guiTypes = { containerWi
 write('interface/RUS_fr_military_reform_cards.gfx',`spriteTypes = {\n${sprites.join('\n')}\n}\n`);
 write(sgPath,`scripted_gui = { RUS_fr_military_reform_dashboard = { context_type = decision_category window_name = "RUS_fr_military_reform_dashboard_window"\nproperties = { ${dump(get(old,'properties'))} }\ntriggers = { ${conditions.join('\n')} }\neffects = { ${dump(get(old,'effects'))} }\n} }\n`);
 for(const [lang,entries] of Object.entries(loc))write(`localisation/${lang}/RUS_fr_military_reform_cards_l_${lang}.yml`,'\ufeffl_'+lang+':\n'+Object.entries(entries).map(([k,v])=>' '+k+':0 "'+v.replaceAll('\n','\\n')+'"').join('\n')+'\n');
-fs.mkdirSync(path.join(root,'output/military-dashboard'),{recursive:true});
-write('output/military-dashboard/layout.json',JSON.stringify(layout,null,2));
-console.log('Console layout built: 498x490; four 234x141 hit areas; original effects preserved.');
+return {outputs, layout};
+}
+
+function render_outputs() { return render_dashboard().outputs; }
+function render_layout() { return render_dashboard().layout; }
+
+module.exports = {render_outputs, render_layout};
+if (require.main === module) {
+  if (process.argv.length === 3 && process.argv[2] === '--layout-json') {
+    process.stdout.write(JSON.stringify(render_layout(), null, 2) + '\n');
+  } else {
+    require('./generation_io.cjs').cli(render_outputs, {root});
+  }
+}

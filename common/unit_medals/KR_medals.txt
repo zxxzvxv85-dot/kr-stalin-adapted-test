@@ -1,0 +1,745 @@
+# Valid unit modifiers are not exhaustive
+# Currently supported:
+# army_morale
+# army_morale_factor
+# army_org
+# army_org_factor
+# supply_consumption_factor
+# equipment_capture
+# equipment_capture_factor
+# army_fuel_capacity_factor
+# army_fuel_consumption_factor
+# recon_factor
+# recon_factor_while_entrenched
+# transport_capacity (?)
+# breakthrough_factor
+# armor_factor
+# army_strength_factor
+# experience_loss_factor
+# leader_modifiers applies unit modifiers to all units under them as a general, similarly to traits.
+# army_attack_factor
+# army_defence_factor
+# max_dig_in
+# max_dig_in_factor
+
+# medals can have both ship_modifiers and unit_modifiers. If only one is filled, the medal will not be available to be awarded to the other type.
+# one_time_effect will NOT be run when awarded to a ship.
+
+@cost = 15
+
+unit_medals = {
+	### SIA
+
+	SIA_military_medal_santimala = {
+		available = { should_have_siamese_medals_trigger = yes }
+		frame = 1
+		icon = "GFX_medal_icon_sia"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_morale_factor = 0.05
+			army_org_factor = 0.05
+		}
+
+		ship_modifiers = {
+			naval_morale_factor = 0.5
+			navy_org_factor = 0.05
+		}
+
+		officer_xp = 100
+	}
+
+	SIA_military_medal_klaharn = {
+		available = { should_have_siamese_medals_trigger = yes }
+		frame = 2
+		icon = "GFX_medal_icon_sia"
+
+		cost = @cost
+
+		unit_modifiers = {
+			supply_consumption_factor = -0.1
+		}
+
+		ship_modifiers = {
+			naval_supply_consumption_factor = -0.1
+		}
+
+		officer_xp = 100
+	}
+
+	SIA_military_medal_rammala = {
+		available = { should_have_siamese_medals_trigger = yes }
+		frame = 3
+		icon = "GFX_medal_icon_sia"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.05
+		}
+
+		ship_modifiers = {
+			naval_damage_factor = 0.05
+		}
+
+		officer_xp = 100
+	}
+
+	SIA_military_medal_rammala_gallantry_in_action = {
+		available = { should_have_siamese_medals_trigger = yes }
+		frame = 4
+		icon = "GFX_medal_icon_sia"
+
+		cost = @cost
+
+		unit_modifiers = {
+			experience_loss_factor = -0.2
+		}
+
+		ship_modifiers = {
+			experience_gain_navy_unit_factor = 0.20
+		}
+
+		officer_xp = 100
+	}
+
+	# UKR
+
+	UKR_military_medal_iron_cross = {
+		available = { should_have_ukrainian_medals_trigger = yes }
+		frame = 1
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_org_factor = 0.075
+		}
+
+		ship_modifiers = {
+			navy_org_factor = 0.075
+		}
+
+		officer_xp = 100
+	}
+	UKR_military_medal_liberation_cross = {
+		available = { should_have_ukrainian_medals_trigger = yes }
+		frame = 2
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_morale_factor = 0.15
+		}
+
+		ship_modifiers = {
+			naval_morale_factor = 0.15
+		}
+
+		officer_xp = 100
+	}
+	UKR_military_medal_volodymyr_cross = {
+		available = { should_have_ukrainian_medals_trigger = yes }
+		frame = 3
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_defence_factor = 0.075
+		}
+
+		ship_modifiers = {
+			naval_defense_factor = 0.075
+		}
+
+		officer_xp = 100
+	}
+	UKR_military_medal_rebirth_cross = {
+		available = { should_have_ukrainian_medals_trigger = yes }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.075
+		}
+
+		ship_modifiers = {
+			naval_damage_factor = 0.075
+		}
+
+		officer_xp = 100
+	}
+
+	# RUS medals #
+
+	RUS_order_of_st_george = {
+		available = { NOT = { AND = { original_tag = RUS has_socialist_government = yes } }
+			should_have_russian_medals_trigger = yes
+		}
+		frame = 1
+		icon = "GFX_medal_icon_rus"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.075
+		}
+
+		ship_modifiers = {
+			naval_damage_factor = 0.075
+		}
+
+		officer_xp = 100
+	}
+	RUS_order_of_st_nikolay = {
+		available = { NOT = { AND = { original_tag = RUS has_socialist_government = yes } }
+			should_have_russian_medals_trigger = yes
+		}
+		frame = 2
+		icon = "GFX_medal_icon_rus"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_defence_factor = 0.1
+		}
+
+		ship_modifiers = {
+			naval_defense_factor = 0.1
+		}
+
+		officer_xp = 100
+	}
+	RUS_order_of_st_vladimir = {
+		available = { NOT = { AND = { original_tag = RUS has_socialist_government = yes } }
+			should_have_russian_medals_trigger = yes
+		}
+		frame = 3
+		icon = "GFX_medal_icon_rus"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_org_factor = 0.1
+		}
+
+		ship_modifiers = {
+			navy_org_factor = 0.1
+		}
+
+		officer_xp = 100
+	}
+	RUS_order_of_aleksandr_nevsky = {
+		available = { NOT = { AND = { original_tag = RUS has_socialist_government = yes } } should_have_russian_medals_trigger = yes }
+		frame = 4
+		icon = "GFX_medal_icon_rus"
+
+		cost = @cost
+
+		unit_modifiers = {
+			terrain_penalty_reduction = 0.1
+		}
+
+		ship_modifiers = {
+			naval_detection = 0.1
+			naval_mines_effect_reduction = 0.1
+		}
+
+		officer_xp = 100
+	}
+	RUS_order_of_patriotic_war = {
+		available = { NOT = { AND = { original_tag = RUS has_socialist_government = yes } }
+			should_have_russian_medals_trigger = yes
+		}
+		frame = 5
+		icon = "GFX_medal_icon_rus"
+
+		cost = @cost
+
+		unit_modifiers = {
+			breakthrough_factor = 0.1
+		}
+
+		ship_modifiers = {
+			naval_critical_score_chance_factor = 0.1
+		}
+
+		officer_xp = 100
+	}
+	RUS_order_of_liberty_of_russia = {
+		available = {
+			should_have_russian_medals_trigger = yes
+			has_government = national_populist
+		}
+		frame = 6
+		icon = "GFX_medal_icon_rus"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_morale_factor = 0.2
+			experience_loss_factor = -0.25
+		}
+
+		ship_modifiers = {
+			naval_morale_factor = 0.2
+			experience_gain_navy_unit_factor = 0.25
+		}
+
+		officer_xp = 100
+	}
+
+	# Socialist medals, don't work atm
+	#RUS_order_of_glory = {
+	#	available = {
+	#		should_have_russian_medals_trigger = yes
+	#		has_socialist_government = yes
+	#	}
+	#	frame = 1
+	#	icon = "GFX_medal_icon_rus"
+	#
+	#	cost = @cost
+	#
+	#	unit_modifiers = {
+	#		army_attack_factor = 0.075
+	#	}
+	#
+	#	ship_modifiers = {
+	#		naval_damage_factor = 0.075
+	#	}
+	#
+	#	officer_xp = 100
+	#}
+	#RUS_order_of_victory = {
+	#	available = {
+	#		should_have_russian_medals_trigger = yes
+	#		has_socialist_government = yes
+	#	}
+	#	frame = 2
+	#	icon = "GFX_medal_icon_rus"
+	#
+	#	cost = @cost
+	#
+	#	unit_modifiers = {
+	#		army_defence_factor = 0.1
+	#	}
+	#
+	#	ship_modifiers = {
+	#		naval_defense_factor = 0.1
+	#	}
+	#
+	#	officer_xp = 100
+	#}
+	#RUS_order_of_red_star = {
+	#	available = {
+	#		should_have_russian_medals_trigger = yes
+	#		has_socialist_government = yes
+	#	}
+	#	frame = 3
+	#	icon = "GFX_medal_icon_rus"
+	#
+	#	cost = @cost
+	#
+	#	unit_modifiers = {
+	#		army_org_factor = 0.1
+	#	}
+	#	ship_modifiers = {
+	#		navy_org_factor = 0.1
+	#	}
+	#
+	#	officer_xp = 100
+	#}
+
+	### toz_upgrade_2 = +10% attack
+	### toz_upgrade_4 = +10% defense
+	### toz_upgrade_1_1 = +10% org
+	### toz_upgrade_1_5 = +10% breakthrough
+
+	### How to distinguish medals ###
+	# Each medal has a 4 digit code at the end of it. Each digit with value of either 0 or 1 represents whether the type of upgrade is present.
+	# If value is 1, the upgrade is present
+	# All medals follow the nameing scheme RUS_TOZ_Medal_XXXX where each X is a value that is either 0 or 1
+	# e.g. RUS_TOZ_Medal_0110 represents a TOZ medal with the Defence and organisation upgrades.
+	# First digit = attack medal upgrade
+	# Second digit = Defence medal upgrade
+	# Third Digit = organisation medal upgrade
+	# Fourth Digit = breakthrough medal upgrade
+
+	### One Upgrade
+	RUS_TOZ_Medal_1000 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_0100 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_defence_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_0010 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_org_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_0001 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+
+	### Two Upgrades
+	RUS_TOZ_Medal_1100 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+			army_defence_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_1010 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+			army_org_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_1001 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_0110 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_defence_factor = 0.1
+			army_org_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_0101 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_defence_factor = 0.1
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_0011 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_org_factor = 0.1
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+
+	### Three Upgrades
+	RUS_TOZ_Medal_1110 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+			army_defence_factor = 0.1
+			army_org_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_1101 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+			army_defence_factor = 0.1
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_1011 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+			army_org_factor = 0.1
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+	RUS_TOZ_Medal_0111 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_defence_factor = 0.1
+			army_org_factor = 0.1
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+
+	### All Upgrades
+	RUS_TOZ_Medal_1111 = {
+		available = { always = no }
+		frame = 4
+		icon = "GFX_medal_icon_default"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.1
+			army_defence_factor = 0.1
+			army_org_factor = 0.1
+			breakthrough_factor = 0.1
+		}
+		officer_xp = 100
+	}
+
+	# Socialist Russia uses historical Soviet insignia; original medals remain for other routes.
+	
+	RUS_socialist_battle_merit = {
+		
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_battle_merit"
+		
+		cost = @cost
+		
+		unit_modifiers = {
+			army_morale_factor = 0.15
+		}
+
+		ship_modifiers = {
+			naval_morale_factor = 0.2
+		}
+
+		
+		officer_xp = 100
+		
+	}
+	
+	RUS_socialist_kutuzov = {
+		
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_kutuzov"
+		
+		cost = @cost
+		
+		unit_modifiers = {
+			max_dig_in_factor = 0.15
+		}
+		
+		ship_modifiers = {
+			naval_mines_effect_reduction = 0.15
+		}
+		officer_xp = 100
+	}
+	
+	RUS_socialist_red_banner = {
+		
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_red_banner"
+		
+		cost = @cost
+		
+		unit_modifiers = {
+			army_strength_factor = 0.075
+		}
+
+		ship_modifiers = {
+			naval_critical_effect_factor = -0.1
+		}
+		
+		officer_xp = 100
+		
+	}
+	
+	RUS_socialist_gold_star = {
+		
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_gold_star"
+		
+		cost = @cost
+		
+		unit_modifiers = {
+			army_org_factor = 0.1
+		}
+
+		ship_modifiers = {
+			navy_org_factor = 0.1
+		}
+		
+		officer_xp = 100
+		
+	}
+	RUS_socialist_lenin = {
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_lenin"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_org_factor = 0.1
+		}
+
+		ship_modifiers = {
+			navy_org_factor = 0.1
+		}
+
+		officer_xp = 100
+	}
+	RUS_socialist_nevsky = {
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_nevsky"
+
+		cost = @cost
+
+		unit_modifiers = {
+			terrain_penalty_reduction = 0.1
+		}
+
+		ship_modifiers = {
+			naval_detection = 0.1
+			naval_mines_effect_reduction = 0.1
+		}
+
+		officer_xp = 100
+	}
+	RUS_socialist_patriotic_war = {
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_patriotic_war"
+
+		cost = @cost
+
+		unit_modifiers = {
+			breakthrough_factor = 0.1
+		}
+
+		ship_modifiers = {
+			naval_critical_score_chance_factor = 0.1
+		}
+
+		officer_xp = 100
+	}
+
+	RUS_socialist_suvorov = {
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_suvorov"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_attack_factor = 0.075
+		}
+
+		ship_modifiers = {
+			naval_damage_factor = 0.075
+		}
+
+		officer_xp = 100
+	}
+	RUS_socialist_bohdan = {
+		available = { original_tag = RUS has_socialist_government = yes }
+		frame = 1
+		icon = "GFX_medal_icon_RUS_socialist_bohdan"
+
+		cost = @cost
+
+		unit_modifiers = {
+			army_defence_factor = 0.1
+		}
+
+		ship_modifiers = {
+			naval_defense_factor = 0.1
+		}
+
+		officer_xp = 100
+	}
+}

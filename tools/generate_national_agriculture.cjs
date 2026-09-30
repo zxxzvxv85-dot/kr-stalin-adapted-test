@@ -1,7 +1,11 @@
 // Deterministic expansion of the five-crop national agriculture scripts and UI.
 const fs = require('node:fs');
 const path = require('node:path');
-const root = path.resolve(__dirname, '..');
+const defaultRoot = path.resolve(__dirname, '..');
+
+// Pure text generation; only the explicit CLI writer changes files.
+function render_base_outputs(root = defaultRoot) {
+const outputs = {};
 const crops = ['wheat', 'rye', 'beet', 'flax', 'cotton'];
 const balkanBuyers=['ser','rom','gre','alb','bul'];
 const cropBuyers=['generic','fra','eng',...balkanBuyers];
@@ -20,11 +24,22 @@ const iff = (test, yes, no = '') => `if = { limit = { ${test} }\n${yes}}\n${no ?
 const call = x => `${n(x)} = yes\n`;
 const effects = [];
 const effect = (id, body) => effects.push(`${n(id)} = {\n${body}}\n`);
-const write = (file, text, bom = false) => { fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true }); fs.writeFileSync(path.join(root, file), (bom ? '\uFEFF' : '') + text); };
+const write = (file, text, bom = false) => { outputs[file] = (bom ? '\uFEFF' : '') + text; };
 const mode = flag(n('enabled'));
 const success = flag('RUS_maximalist_land_reform_success');
 const failure = flag('RUS_maximalist_land_reform_failure');
 const active = flag('RUS_maximalist_land_reform_in_progress');
+const easyAdvisorMultiplier = variable => `if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { ${n(variable)} = 1.10 } }
+else = { multiply_variable = { ${n(variable)} = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
+`;
+const advisorRetention = variable => `if = { limit = { has_idea = RUS_irina_kakhovskaya_advisor }
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } set_variable = { ${n(variable)} = 1.00 } }
+else = { set_variable = { ${n(variable)} = 0.98 } }
+} # RUS_EASY_MODE_AGRICULTURE
+`;
+
 
 // The Ustinov route takes 200 points. The first six stages only unwind
 // the initial penalties; meaningful positive bonuses begin in the final three.
@@ -78,23 +93,25 @@ effect('calendar', v('doy', 'global.num_days') + op('modulo', 'doy', 365) + v('s
   iff(ck('doy', '>', 333), v('remaining', 424) + sub('remaining', n('doy'))) +
   [[59,151,1,92],[151,243,2,92],[243,334,3,91]].map(([start,end,season,len]) => iff(`${ck('doy','>',start-1)} ${ck('doy','<',end)}`, v('season',season)+v('season_length',len)+v('remaining',end)+sub('remaining',n('doy')))).join(''));
 effect('enable', iff(`NOT = { ${mode} }`, `set_country_flag = ${n('enabled')}\nset_country_flag = RUS_agri_management_unlocked\n` +
- v('factories',0)+v('efficiency',3000)+v('installed',4000)+v('machine_stock',0)+v('produced',0)+v('reserve',1)+v('page',1)+v('target',8000)+v('last_day','global.num_days')+
+ v('factories',0)+v('base_civilian_factories',0)+v('civilian_use',0)+v('efficiency',3000)+v('installed',4000)+v('machine_stock',0)+v('produced',0)+v('reserve',1)+v('page',1)+v('target',8000)+v('last_day','global.num_days')+
  crops.map((c,i)=>v(c+'_stock',i<2?4:2)).join('')+call('start_quarter')+
  `add_dynamic_modifier = { modifier = RUS_nat_industry }\n`+iff('is_ai = no','country_event = { id = RUS_national_agriculture.2 }\n')));
-effect('parameters', v('score',0)+iff(flag('RUS_first_five_year_plan_mission_started'),v('score','RUS_first_five_year_plan_score'))+cl('score',0,150)+
+effect('parameters', call('reserve_factories')+v('score',0)+iff(flag('RUS_first_five_year_plan_mission_started'),v('score','RUS_first_five_year_plan_score'))+cl('score',0,150)+
  v('output','modifier@industrial_capacity_factory')+mul('output',.5)+add('output',1)+v('tmp',n('score'))+mul('tmp',.002)+add('output',n('tmp'))+cl('output',.5,2)+
  v('cap','modifier@production_factory_max_efficiency_factor')+mul('cap',5000)+add('cap',6500)+v('tmp',n('score'))+mul('tmp',10)+add('cap',n('tmp'))+cl('cap',4500,10000)+
  v('growth','modifier@production_factory_efficiency_gain_factor')+mul('growth',.5)+add('growth',1)+v('tmp',n('score'))+mul('tmp',.002)+add('growth',n('tmp'))+cl('growth',.25,2)+
  cl('efficiency',3000,n('cap'))+v('daily',n('factories'))+mul('daily',1.2)+mul('daily',n('efficiency'))+div('daily',10000)+mul('daily',n('output'))+
  v('room',n('target'))+sub('room',n('installed'))+add('room',5000)+sub('room',n('machine_stock'))+cl('room',0,1001000)+cl('daily',0,n('room'))+
  v('eff_display',n('efficiency'))+div('eff_display',100)+v('cap_display',n('cap'))+div('cap_display',100)+
- v('available','num_of_civilian_factories_available_for_projects')+cl('available',0,1000000));
+ v('available',n('base_civilian_factories'))+sub('available',n('factories'))+cl('available',0,n('base_civilian_factories'))+add('available','num_of_civilian_factories_available_for_projects')+cl('available',0,1000000));
+// Converted capacity is already paid for by demolition; reserve only ordinary civilians.
+effect('reserve_factories',v('civilian_use',n('factories'))+sub('civilian_use',n('base_civilian_factories'))+cl('civilian_use',0,1000000)+`force_update_dynamic_modifier = yes\n`);
 // Query capacity with our own reservation released; the engine may floor free factories at zero.
-effect('factory_capacity',v('held_factories',n('factories'))+v('factories',0)+`force_update_dynamic_modifier = yes\n`+
- v('capacity','num_of_civilian_factories_available_for_projects')+cl('capacity',0,1000000)+v('factories',n('held_factories'))+cl('factories',0,n('capacity'))+`force_update_dynamic_modifier = yes\n`);
+effect('factory_capacity',v('held_factories',n('factories'))+v('factories',0)+call('reserve_factories')+
+ v('capacity','num_of_civilian_factories_available_for_projects')+add('capacity',n('base_civilian_factories'))+cl('capacity',0,1000000)+v('factories',n('held_factories'))+cl('factories',0,n('capacity'))+call('reserve_factories'));
 effect('set_factories', call('factory_capacity')+call('parameters')+v('max_factories',n('capacity'))+cl('requested',0,n('max_factories'))+
  iff(ck('requested','>',n('factories')), v('tmp',n('requested'))+sub('tmp',n('factories'))+mul('tmp',3000)+mul('efficiency',n('factories'))+add('efficiency',n('tmp'))+div('efficiency',n('requested')))+
- v('factories',n('requested'))+`force_update_dynamic_modifier = yes\n`+call('parameters')+`RUS_agri_refresh_gui = yes\n`);
+ v('factories',n('requested'))+call('reserve_factories')+call('parameters')+`RUS_agri_refresh_gui = yes\n`);
 effect('install', v('needed',n('target'))+sub('needed',n('installed'))+cl('needed',0,n('machine_stock'))+sub('machine_stock',n('needed'))+add('installed',n('needed')));
 effect('production_day', call('factory_capacity')+call('parameters')+
  v('room',n('target'))+sub('room',n('installed'))+add('room',5000)+sub('room',n('machine_stock'))+cl('room',0,1001000)+
@@ -102,9 +119,9 @@ effect('production_day', call('factory_capacity')+call('parameters')+
  sub('efficiency',10)+cl('efficiency',3000,n('cap'))+v('daily',0))+
  v('coverage',n('installed'))+div('coverage',n('target'))+cl('coverage',0,1)+add('coverage_sum',n('coverage'))+add('elapsed',1)+
  iff(`${active} NOT = { ${failure} }`,add('eligible_days',1)));
-effect('draw_orders', `clr_country_flag = RUS_nat_order_browser_ready\n`+['SER','ROM','GRE','ALB','BUL'].map(tag=>`clr_country_flag = RUS_nat_order_source_${tag}\n`).join('')+cropBuyers.map((o)=>v(o+'_crop',0)+v(o+'_quantity',0)+v(o+'_shipped',0)+v(o+'_accept',1)+v(o+'_priority',cropBuyers.indexOf(o)+1)).join('')+
+effect('draw_orders', `clr_country_flag = RUS_nat_order_browser_ready\n`+['SER','ROM','GRE','ALB','BUL'].map(tag=>`clr_country_flag = RUS_nat_order_source_${tag}\n`).join('')+cropBuyers.map((o)=>v(o+'_crop',0)+v(o+'_quantity',0)+v(o+'_shipped',0)+v(o+'_accept',0)+v(o+'_priority',cropBuyers.indexOf(o)+1)).join('')+
  v('balkan_order_count',0)+
- ['fra','eng'].map(o=>v(o+'_machine_quantity',0)+v(o+'_machine_shipped',0)+v(o+'_machine_accept',1)).join('')+
+ ['fra','eng'].map(o=>v(o+'_machine_quantity',0)+v(o+'_machine_shipped',0)+v(o+'_machine_accept',0)).join('')+
  [['generic','has_completed_focus = RUS_future_foreign_002'],['fra','has_completed_focus = RUS_future_foreign_017 country_exists = FRA'],['eng','has_completed_focus = RUS_future_foreign_017 country_exists = ENG']].map(([o,t])=>iff(t,
  `random_list = { ${crops.map((c,i)=>`1 = { ${v(o+'_crop',i+1)} }`).join(' ')} }\nrandom_list = { ${[2,3,4].map(x=>`1 = { ${v(o+'_quantity',x)} }`).join(' ')} }\n`+
  (o==='generic'?'':`random_list = { ${[60,80,100].map(x=>`1 = { ${v(o+'_machine_quantity',x)} }`).join(' ')} }\n`))).join('')+
@@ -139,7 +156,7 @@ effect('yield', v('harvest',0)+v('mechanisation',n('coverage_sum'))+
  iff(ck('actual','=',1),add(c+'_rate','RUS_agri_weather'))+cl(c+'_rate',.4,1.5)+
  iff(`${flag('RUS_agri_active_storage')} ${ck(c+'_rate','<',1)}`,add(c+'_rate',.15)+cl(c+'_rate',.4,1))+
  v(c+'_yield',a(c+'_investment'))+mul(c+'_yield',n(c+'_rate'))+mul(c+'_yield',n('mechanisation'))+mul(c+'_yield',n('fraction'))+
- iff('has_idea = RUS_andrey_kolegayev_advisor',mul(c+'_yield',1.05))+iff(ck('technical_support','=',1),mul(c+'_yield',1.05))+add('harvest',n(c+'_yield'))).join(''));
+ easyAdvisorMultiplier(c+'_yield')+iff(ck('technical_support','=',1),mul(c+'_yield',1.05))+add('harvest',n(c+'_yield'))).join(''));
 const groups = [['food',['wheat','rye']],['beet',['beet']],['textile',['flax','cotton']]];
 effect('consume',groups.map(([g,cs])=>v(g+'_available',0)+cs.map(c=>add(g+'_available',n(c+'_work'))).join('')+v(g+'_need',n(g+'_demand'))+mul(g+'_need',n('fraction'))+
  v(g+'_delivered',n(g+'_available'))+cl(g+'_delivered',0,n(g+'_need'))+v(g+'_ratio',1)+iff(ck(g+'_need','>',0),v(g+'_ratio',n(g+'_delivered'))+div(g+'_ratio',n(g+'_need')))+
@@ -164,7 +181,7 @@ effect('refresh',v('remaining',n('quarter_end'))+sub('remaining','global.num_day
  v('fraction',n('elapsed'))+add('fraction',n('remaining'))+div('fraction',n('season_length'))+v('actual',0)+call('yield')+
  crops.map(c=>v(c+'_work',n(c+'_stock'))+add(c+'_work',n(c+'_yield'))).join('')+call('consume')+v('machine_work',n('machine_stock'))+call('trade')+v('preview_income',n('income'))+
  crops.map(c=>v(c+'_preview_income',n(c+'_income'))+v(c+'_preview_rate',n(c+'_rate'))+mul(c+'_preview_rate',n('mechanisation'))+mul(c+'_preview_rate',n('fraction'))+
- iff('has_idea = RUS_andrey_kolegayev_advisor',mul(c+'_preview_rate',1.05))+iff(ck('technical_support','=',1),mul(c+'_preview_rate',1.05))).join('')+
+ easyAdvisorMultiplier(c+'_preview_rate')+iff(ck('technical_support','=',1),mul(c+'_preview_rate',1.05))).join('')+
  groups.map(([g])=>v(g+'_preview',n(g+'_ratio'))+mul(g+'_preview',100)+v(g+'_gap',n(g+'_need'))+sub(g+'_gap',n(g+'_delivered'))+cl(g+'_gap',0,1000)).join('')+
  v('coverage_display',n('mean_coverage'))+mul('coverage_display',100)+
  call('supply_ledger')+call('order_browser_refresh')+
@@ -172,7 +189,7 @@ effect('refresh',v('remaining',n('quarter_end'))+sub('remaining','global.num_day
 effect('supply_ledger',groups.map(([g,cs])=>v(g+'_stock_now',0)+v(g+'_new_yield',0)+v(g+'_order_need',0)+
  cs.map(c=>add(g+'_stock_now',n(c+'_stock'))+add(g+'_new_yield',n(c+'_yield'))+
  cropBuyers.map(o=>iff(`${ck(o+'_accept','=',1)} ${ck(o+'_shipped','=',0)} ${ck(o+'_crop','=',crops.indexOf(c)+1)}`,add(g+'_order_need',n(o+'_quantity')))).join('')).join('')+
- v(g+'_target_total',n(g+'_need'))+add(g+'_target_total',n(g+'_reserve'))+add(g+'_target_total',n(g+'_order_need'))+
+ v(g+'_target_total',n(g+'_need'))+(g==='food'?v('preview_retention',.95)+advisorRetention('preview_retention'):'')+v('preview_reserve',n(g+'_reserve'))+div('preview_reserve',n('preview_retention'))+add(g+'_target_total',n('preview_reserve'))+add(g+'_target_total',n(g+'_order_need'))+
  v(g+'_all_gap',n(g+'_target_total'))+sub(g+'_all_gap',n(g+'_stock_now'))+sub(g+'_all_gap',n(g+'_new_yield'))+cl(g+'_all_gap',0,100000)).join(''));
 // Public-information greedy allocator: prioritise food, processing, textiles, then reserves.
 effect('auto_allocate',crops.map(c=>`set_variable = { ${a(c+'_investment')} = 0 }\n`).join('')+
@@ -184,12 +201,12 @@ effect('auto_allocate',crops.map(c=>`set_variable = { ${a(c+'_investment')} = 0 
 effect('award',v('points',0)+iff(ck('food_ratio','>',.9999),add('points',2),iff(ck('food_ratio','>',.8999),add('points',1)))+
  iff(ck('beet_ratio','>',.9999),add('points',.5))+iff(ck('textile_ratio','>',.9999),add('points',.5))+
  v('domestic_raw',n('points'))+
- iff(`NOT = { ${ck('food_left','<',n('food_demand'))} }`,add('points',2))+iff(ck('mean_coverage','>',.8999),add('points',2))+
+ iff(`${ck('reserve','>',0)} NOT = { ${ck('food_left','<',n('food_reserve'))} }`,[.5,1,2].map(q=>`if = { limit = { ${ck('reserve','=',q)} } add_to_variable = { RUS_nat_points = ${q*2} } }\n`).join(''))+iff(ck('mean_coverage','>',.8999),add('points',2))+
  v('diverse',0)+crops.map(c=>iff(`check_variable = { ${a(c+'_investment')} > 2 }`,add('diverse',1))).join('')+
  v('task_done',0)+iff(`${ck('task','=',1)} ${groups.map(([g])=>ck(g+'_ratio','>',.9999)).join(' ')}`,v('task_done',1))+
  iff(`${ck('task','=',2)} ${groups.map(([g])=>`NOT = { ${ck(g+'_left','<',n(g+'_demand'))} }`).join(' ')}`,v('task_done',1))+
  iff(`${ck('task','=',3)} ${ck('diverse','>',3)}`,v('task_done',1))+
- iff(ck('task_done','=',1),add('points',4)+iff('has_idea = RUS_aleksey_ustinov_advisor',add('points',2)))+
+ iff(ck('task_done','=',1),add('points',4)+`if = { limit = { has_idea = RUS_aleksey_ustinov_advisor }\n${add('points',2)}if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } add_to_variable = { RUS_nat_points = 2 } }\n} # RUS_EASY_MODE_AGRICULTURE\n`)+
  v('score_fraction',n('fraction'))+iff(`NOT = { ${success} }`,v('score_fraction',n('eligible_days'))+div('score_fraction',n('season_length')))+mul('points',n('score_fraction'))+
  mul('domestic_raw',n('score_fraction'))+sub('points',n('domestic_raw'))+v('domestic_room',12)+sub('domestic_room',n('domestic_year'))+cl('domestic_raw',0,n('domestic_room'))+add('points',n('domestic_raw'))+
  `set_variable = { RUS_agri_score_award = ${n('points')} }\nRUS_agri_credit_score = yes\nset_variable = { RUS_agri_last_quarter_score = RUS_agri_score_award }\n`+
@@ -211,7 +228,7 @@ effect('settle',iff(ck('elapsed','>',0),
  v('loss_rate',n('wear'))+iff('check_variable = { RUS_agri_weather < 0 }',add('loss_rate',.025))+sub('loss_rate',n('repair_support'))+cl('loss_rate',0,.125)+v('loss',n('installed'))+mul('loss',n('loss_rate'))+mul('loss',n('fraction'))+sub('installed',n('loss'))+call('install')+
  v('machine_work',n('machine_stock'))+call('trade')+`add_cic = ${n('income')}\n`+v('machine_stock',n('machine_work'))+v('last_income',n('income'))+v('last_loss',n('loss'))+v('last_weather','RUS_agri_weather')+v('last_machine_market',n('machine_market'))+v('last_season',n('season'))+
  v('last_crop_orders',0)+cropBuyers.map(o=>add('last_crop_orders',n(o+'_shipped'))).join('')+v('last_machine_orders',0)+['fra','eng'].map(o=>add('last_machine_orders',n(o+'_machine_shipped'))).join('')+
- v('retention',.95)+iff('has_idea = RUS_irina_kakhovskaya_advisor',v('retention',.98))+
+ v('retention',.95)+advisorRetention('retention')+
  // Prorate losses, and do not let capped inventory manufacture additional goods.
  v('spoil',1)+sub('spoil',n('retention'))+mul('spoil',n('fraction'))+v('retention',1)+sub('retention',n('spoil'))+
  crops.map((c,i)=>v(c+'_stock',n(c+'_work'))+cl(c+'_stock',0,i<2?12:6)+mul(c+'_stock',n('retention'))).join('')+
@@ -230,30 +247,31 @@ effect('remind',iff(`is_ai = no ${ck('remaining','>',0)} ${ck('remaining','<',8)
 effect('deadline',iff(mode,call('daily')+v('boundary',0)+call('settle')+call('refresh')));
 effect('emergency_fill',iff(ck('emergency_purchase','=',1),v('emergency_need',n('food_demand'))+mul('emergency_need',n('fraction'))+mul('emergency_need',.9)+sub('emergency_need',n('wheat_work'))+sub('emergency_need',n('rye_work'))+cl('emergency_need',0,4)+add('wheat_work',n('emergency_need'))+v('emergency_purchase',0)));
 write('common/scripted_effects/RUS_national_agriculture_effects.txt', '# Generated by tools/generate_national_agriculture.cjs\n'+effects.join('\n'));
-write('common/dynamic_modifiers/RUS_national_agriculture_modifiers.txt',`RUS_nat_industry = { enable = { ${mode} } civilian_factory_use = RUS_nat_factories stability_factor = RUS_nat_stability consumer_goods_expected_value = RUS_nat_consumer stability_weekly = RUS_nat_beet_weekly }\n`);
+write('common/dynamic_modifiers/RUS_national_agriculture_modifiers.txt',`RUS_nat_industry = { enable = { ${mode} } civilian_factory_use = RUS_nat_civilian_use stability_factor = RUS_nat_stability consumer_goods_expected_value = RUS_nat_consumer stability_weekly = RUS_nat_beet_weekly }\n`);
 write('common/scripted_triggers/RUS_national_agriculture_triggers.txt',`RUS_nat_reform_complete = { OR = { AND = { ${mode} NOT = { check_variable = { RUS_maximalist_land_reform_score < 180 } } } AND = { NOT = { ${mode} } NOT = { check_variable = { RUS_maximalist_land_reform_score < 100 } } } } }\nRUS_nat_reform_decision_closed = { OR = { RUS_nat_reform_complete = yes AND = { ${mode} NOT = { ${active} } } } }\nRUS_nat_tractor_complete = { check_variable = { RUS_max_landreform_tractor_promise_count > 2 } OR = { NOT = { ${mode} } NOT = { check_variable = { RUS_nat_produced < 4000 } } } }\nRUS_nat_promote_allowed = { OR = { RUS_nat_reform_decision_closed = no AND = { ${mode} NOT = { ${failure} } has_country_flag = RUS_max_landreform_tractor_promise_active check_variable = { RUS_max_landreform_tractor_promise_count < 3 } } } }\n`);
 
 // UI and translations are emitted below; all UI changes route through country-scoped effects.
 const loc = {};
 function label(key, zh, en, ru) { loc[key] = [zh,en,ru]; return key; }
 label(n('support_available'),'本季农业支援少于4项，且本项尚未实施。','Fewer than four agricultural support measures this quarter; this measure not yet used.','Менее четырёх мер поддержки за квартал; эта мера ещё не применялась.');
+const supportPoliticalCost = 10;
 const support = [
- ['food',40,['跨区粮食调运','Interregional Grain Deliveries','Межрегиональные поставки зерна'],['增加4单位小麦库存','Add 4 units of wheat','Добавить 4 ед. пшеницы'],add('wheat_stock',4)+cl('wheat_stock',0,12)],
- ['processing',35,['补充加工原料','Processing Supplies','Сырьё для переработки'],['增加2单位甜菜库存','Add 2 units of beet','Добавить 2 ед. свёклы'],add('beet_stock',2)+cl('beet_stock',0,6)],
- ['textiles',40,['保障纺织原料','Textile Supplies','Сырьё для текстиля'],['亚麻、棉花库存各增加1.5单位','Add 1.5 units each of flax and cotton','Добавить по 1,5 ед. льна и хлопка'],add('flax_stock',1.5)+cl('flax_stock',0,6)+add('cotton_stock',1.5)+cl('cotton_stock',0,6)],
- ['technical',50,['派驻农业技术组','Agronomic Support','Агрономическая поддержка'],['本季作物产量+5%','Crop output +5% this quarter','Урожайность +5% в этом квартале'],v('technical_support',1)],
- ['repair',40,['农机集中检修','Machinery Overhaul','Ремонт сельхозтехники'],['本季农机损耗率降低5个百分点','Machinery wear -5 percentage points this quarter','Износ техники -5 п.п. в этом квартале'],v('repair_support',.05)],
- ['emergency',60,['启动应急粮食采购','Emergency Grain Procurement','Экстренная закупка зерна'],['结算时补粮至90%内需，最多补4单位；不产生可出口余粮','At settlement, cover up to 90% of food needs; maximum 4 units, no export surplus','При расчёте покрыть до 90% потребности в зерне: не более 4 ед., без экспортного излишка'],v('emergency_purchase',1)]
+ ['food',['跨区粮食调运','Interregional Grain Deliveries','Межрегиональные поставки зерна'],['增加4单位小麦库存','Add 4 units of wheat','Добавить 4 ед. пшеницы'],add('wheat_stock',4)+cl('wheat_stock',0,12)],
+ ['processing',['补充加工原料','Processing Supplies','Сырьё для переработки'],['增加2单位甜菜库存','Add 2 units of beet','Добавить 2 ед. свёклы'],add('beet_stock',2)+cl('beet_stock',0,6)],
+ ['textiles',['保障纺织原料','Textile Supplies','Сырьё для текстиля'],['亚麻、棉花库存各增加1.5单位','Add 1.5 units each of flax and cotton','Добавить по 1,5 ед. льна и хлопка'],add('flax_stock',1.5)+cl('flax_stock',0,6)+add('cotton_stock',1.5)+cl('cotton_stock',0,6)],
+ ['technical',['派驻农业技术组','Agronomic Support','Агрономическая поддержка'],['本季作物产量+5%','Crop output +5% this quarter','Урожайность +5% в этом квартале'],v('technical_support',1)],
+ ['repair',['农机集中检修','Machinery Overhaul','Ремонт сельхозтехники'],['本季农机损耗率降低5个百分点','Machinery wear -5 percentage points this quarter','Износ техники -5 п.п. в этом квартале'],v('repair_support',.05)],
+ ['emergency',['启动应急粮食采购','Emergency Grain Procurement','Экстренная закупка зерна'],['结算时补粮至90%内需，最多补4单位；不产生可出口余粮','At settlement, cover up to 90% of food needs; maximum 4 units, no export surplus','При расчёте покрыть до 90% потребности в зерне: не более 4 ед., без экспортного излишка'],v('emergency_purchase',1)]
 ];
 label(n('guide_decision'),'国家农业经营指南','National Agriculture Guide','Руководство по сельскому хозяйству');
 label(n('guide_decision_desc'),'查阅生产配置、国内供给、储备、出口与土地改革的经营流程。','Review allocation, domestic supply, reserves, exports and land reform.','Порядок распределения производства, снабжения, резервов, экспорта и земельной реформы.');
-write('common/decisions/RUS_national_agriculture_decisions.txt',`RUS_agricultural_quarterly_management_category = {\nRUS_nat_guide_decision = { icon = GFX_decision_generic_agriculture cost = 0 fire_only_once = no visible = { ${mode} is_ai = no } complete_effect = { country_event = { id = RUS_national_agriculture.2 } } ai_will_do = { base = 0 } }\n`+support.map(([id,cost,names,desc,body])=>{
+write('common/decisions/RUS_national_agriculture_decisions.txt',`RUS_agricultural_quarterly_management_category = {\nRUS_nat_guide_decision = { icon = GFX_decision_generic_agriculture cost = 0 fire_only_once = no visible = { ${mode} is_ai = no } complete_effect = { country_event = { id = RUS_national_agriculture.2 } } ai_will_do = { base = 0 } }\n`+support.map(([id,names,desc,body])=>{
  label(n('support_'+id),...names);label(n('support_'+id+'_desc'),...desc.map((t,i)=>t+['。每季限一次，农业支援每季最多四项，每项降低2%稳定度，乌斯季诺夫任职时降低1%。','; once per quarter, at most four agricultural support measures per quarter; stability -2% per measure, or -1% with Ustinov.','; один раз за квартал, максимум четыре меры поддержки за квартал; стабильность -2% за меру, с Устиновым -1%.'][i]));
  label(n('support_'+id+'_effect'),...desc);
- return `${n('support_'+id)} = { icon = GFX_decision_generic_agriculture cost = 0 visible = { ${mode} } available = { custom_trigger_tooltip = { tooltip = ${n('support_available')} ${mode} ${ck('support_count','<',4)} ${ck('support_'+id,'=',0)} } } complete_effect = { effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = ${n('support_'+id+'_effect')} hidden_effect = { ${iff(`${mode} ${ck('support_count','<',4)} ${ck('support_'+id,'=',0)}`,v('support_'+id,1)+add('support_count',1)+'if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }\n'+body+call('refresh'))} } } ai_will_do = { base = 0 } }\n`;
+ return `${n('support_'+id)} = { icon = GFX_decision_generic_agriculture cost = ${supportPoliticalCost} visible = { ${mode} } available = { custom_trigger_tooltip = { tooltip = ${n('support_available')} ${mode} ${ck('support_count','<',4)} ${ck('support_'+id,'=',0)} } } complete_effect = { effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = ${n('support_'+id+'_effect')} hidden_effect = { ${iff(`${mode} ${ck('support_count','<',4)} ${ck('support_'+id,'=',0)}`,v('support_'+id,1)+add('support_count',1)+'if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }\n'+body+call('refresh'))} } } ai_will_do = { base = 0 } }\n`;
 }).join('')+`}\n`);
 const ui = [], triggers = [], clicks = [];
-const visible = (id,p) => { if(p) triggers.push(`${id}_visible = { check_variable = { RUS_nat_page = ${p} } }`); };
+const visible = (id,p) => { if(p) triggers.push(id.endsWith('_soil') ? `${id}_visible = { always = no }` : `${id}_visible = { check_variable = { RUS_nat_page ${p===1?'< 2':'= '+p} } }`); };
 // The native decision grid is 502px wide; keep text inside its right padding.
 function text(id,x,y,width,key,p=0,height=26,format='left') { width=Math.min(width,492-x); ui.push(`instantTextBoxType = { name = "${id}" position = { x = ${x} y = ${y} } font = "hoi_16mbs" text = "${key}"${format==='center'?' format = center':''} maxWidth = ${width} maxHeight = ${height} fixedsize = yes alwaystransparent = yes }`); visible(id,p); }
 function button(id,x,y,key,body,p=0,enabled='always = yes',sprite='GFX_button_123x34') { const tooltip=/^nat_(tab|reserve)_/.test(id)?key+'_tt':key; ui.push(`buttonType = { name = "${id}" position = { x = ${x} y = ${y} } quadTextureSprite = "${sprite}" buttonText = "${key}" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = "${tooltip}" }`); visible(id,p); triggers.push(`${id}_click_enabled = { ${enabled} }`); const manual=/^nat_(?:\w+_(?:minus|plus)|clear|confirm)$/.test(id)?'set_country_flag = RUS_nat_manual_plan\n':id==='nat_auto'?'clr_country_flag = RUS_nat_manual_plan\n':''; clicks.push(`${id}_click = { ${manual}${body} RUS_nat_refresh = yes }`); }
@@ -298,7 +316,7 @@ crops.forEach((c,i)=>{
 });
 icon('nat_food_icon','food',8,423,1);
 text('nat_needs',38,425,492,label(n('needs'),'预计满足：粮食[?RUS_nat_food_preview|2]% 加工[?RUS_nat_beet_preview|2]% 纺织[?RUS_nat_textile_preview|2]%','Supply: Food [?RUS_nat_food_preview|2]% Processing [?RUS_nat_beet_preview|2]% Textiles [?RUS_nat_textile_preview|2]%','Снабжение: зерно [?RUS_nat_food_preview|2]% свёкла [?RUS_nat_beet_preview|2]% волокно [?RUS_nat_textile_preview|2]%'),1,20);
-text('nat_task',10,450,520,label(n('task_line'),'季度任务：[GetRUSNatTask]','Quarterly task: [GetRUSNatTask]','Задание: [GetRUSNatTask]'),1,20);
+text('nat_task',10,450,520,label(n('task_line'),'季度任务：[GetRUSNatTask]','Task: [GetRUSNatTask]','Задание: [GetRUSNatTask]'),1,20);
 text('nat_next',10,475,520,label(n('next_line'),'下季投入：[GetRUSNatNext]','Next quarter: [GetRUSNatNext]','Следующий квартал: [GetRUSNatNext]'),1,20);
 icon('nat_preview_income_icon','income',8,498,1);
 text('nat_preview_income',38,500,454,label(n('preview_income_line'),'预计出口收入（经济盈余）：[?RUS_nat_preview_income|0]','Expected export income (surplus): [?RUS_nat_preview_income|0]','Ожидаемый доход от экспорта (профицит): [?RUS_nat_preview_income|0]'),1,20);
@@ -314,12 +332,31 @@ const machineRows=[
  ['拖拉机承诺：推广[?RUS_max_landreform_tractor_promise_count|0]/3次；自产[?RUS_nat_produced|0]/4000','Promise: decisions [?RUS_max_landreform_tractor_promise_count|0]/3; output [?RUS_nat_produced|0]/4000','Обещание: решения [?RUS_max_landreform_tractor_promise_count|0]/3; выпуск [?RUS_nat_produced|0]/4000'],
  ['机械行情预测：[GetRUSNatMachineryMarket]','Machinery market: [GetRUSNatMachineryMarket]','Рынок техники: [GetRUSNatMachineryMarket]']
 ];
-machineRows.forEach((l,i)=>{const kind={0:'factories',1:'machinery',2:'stock'}[i];if(kind)icon('nat_machine_icon_'+i,kind,8,143+i*46,2);text('nat_machine_'+i,kind?38:10,145+i*46,kind?492:520,label(n('machine_'+i),...l),2);});
+machineRows.forEach((l,i)=>{const kind={0:'factories',1:'machinery',2:'stock'}[i];if(kind)icon('nat_machine_icon_'+i,kind,8,143+i*46,2);text('nat_machine_'+i,kind?38:10,145+i*46,kind?492:520,label(n('machine_'+i),...l),2);if(i===0){label(n('convert_mil'),'','','');label(n('convert_mil_tt'),'','','');}});
 text('nat_promise_state',10,397,520,label(n('promise_state'),'[GetRUSNatPromise]','[GetRUSNatPromise]','[GetRUSNatPromise]'),2,20);
 text('nat_machine_coverage',10,452,520,label(n('machine_coverage'),'本季平均覆盖率：[?RUS_nat_coverage_display|1]%','Average machinery coverage: [?RUS_nat_coverage_display|1]%','Средняя обеспеченность техникой: [?RUS_nat_coverage_display|1]%'),2);
-[-10,-1,1,10].forEach((delta,i)=>button('nat_factory_'+i,5+i*123,492,label(n('factory_'+i),`${delta>0?'+':''}${delta} 民工`,`${delta>0?'+':''}${delta} factories`,`${delta>0?'+':''}${delta} зав.`),v('requested',n('factories'))+add('requested',delta)+call('set_factories'),2,delta>0?ck('available','>',0):ck('factories','>',0)));
+[-10,-1,1,10].forEach((delta,i)=>button('nat_factory_'+i,5+i*123,492,label(n('factory_'+i),`${delta>0?'+':''}${delta} 产线`,`${delta>0?'+':''}${delta} lines`,`${delta>0?'+':''}${delta} лин.`),v('requested',n('factories'))+add('requested',delta)+call('set_factories'),2,delta>0?ck('available','>',0):ck('factories','>',0)));
+// The factory conversion is irreversible and capped at five conversions.
+// Require an owned, controlled on-map factory so off-map industry cannot grant free capacity.
+const conversionAllowed = 'num_of_military_factories > 0 check_variable = { RUS_nat_base_civilian_factories < 5 } any_owned_state = { is_controlled_by = ROOT arms_factory > 0 }';
+triggers.push('nat_convert_mil_visible = { check_variable = { RUS_nat_page = 2 } }');
+triggers.push(`nat_convert_mil_click_enabled = { ${conversionAllowed} }`);
+clicks.push(`nat_convert_mil_click = {
+ if = {
+  limit = { ${conversionAllowed} }
+  random_owned_controlled_state = {
+   limit = { arms_factory > 0 }
+   remove_building = { type = arms_factory level = 1 }
+  }
+  add_to_variable = { RUS_nat_base_civilian_factories = 1 }
+  set_variable = { RUS_nat_requested = RUS_nat_factories }
+  add_to_variable = { RUS_nat_requested = 1 }
+  RUS_nat_set_factories = yes
+  RUS_nat_refresh = yes
+ }
+}`);
 button('nat_stop',10,533,label(n('stop'),'停产','Stop','Остановить'),v('requested',0)+call('set_factories'),2);
-button('nat_max',270,533,label(n('max'),'全部可用民工','All Available','Все доступные'),v('requested',n('factories'))+add('requested',n('available'))+call('set_factories'),2);
+button('nat_max',270,533,label(n('max'),'全部产能','All Capacity','Все мощности'),v('requested',n('factories'))+add('requested',n('available'))+call('set_factories'),2);
 crops.forEach((c,i)=>text('nat_stock_'+c,10,141+i*26,190,label(n('stock_'+c),`$${a(c)}$：[?${n(c+'_stock')}|1]/${i<2?12:6}`,`$${a(c)}$: [?${n(c+'_stock')}|1]/${i<2?12:6}`,`$${a(c)}$: [?${n(c+'_stock')}|1]/${i<2?12:6}`),3));
 groups.forEach(([g],i)=>text('nat_supply_'+g,208,141+i*38,284,label(n('supply_'+g),`${['粮食','甜菜','纺织'][i]}内需 [?${n(g+'_delivered')}|1]/[?${n(g+'_need')}|1] ([?${n(g+'_preview')}|2]%)`,`${['Food','Beet','Fibre'][i]} [?${n(g+'_delivered')}|1]/[?${n(g+'_need')}|1] ([?${n(g+'_preview')}|2]%)`,`${['Зерно','Свёкла','Волокно'][i]} [?${n(g+'_delivered')}|1]/[?${n(g+'_need')}|1] ([?${n(g+'_preview')}|2]%)`),3));
 icon('nat_export_icon','export',8,276,3);
@@ -338,7 +375,7 @@ text('nat_reserve',38,278,492,label(n('reserve_line'),'储备目标：[?RUS_nat_
  button('nat_accept_'+o,369,349+i*43,label(n('toggle'),'接单/取消','Accept/Cancel','Заказ/Отмена'),iff(ck(o+'_accept','=',1),v(o+'_accept',0),v(o+'_accept',1)),3,ck(o+'_quantity','>',0));
 });
 ['fra','eng'].forEach((o,i)=>{text('nat_morder_'+o,10,490+i*40,350,label(n('morder_'+o),`[${o.toUpperCase()}.GetName]农机：[?${n(o+'_machine_quantity')}|0]  [GetRUSNatMachineAccept${o}]`,`[${o.toUpperCase()}.GetName] machinery: [?${n(o+'_machine_quantity')}|0] [GetRUSNatMachineAccept${o}]`,`[${o.toUpperCase()}.GetName], техника: [?${n(o+'_machine_quantity')}|0] [GetRUSNatMachineAccept${o}]`),3);button('nat_maccept_'+o,369,487+i*40,n('toggle'),iff(ck(o+'_machine_accept','=',1),v(o+'_machine_accept',0),v(o+'_machine_accept',1)),3,ck(o+'_machine_quantity','>',0));});
-button('nat_priority',10,570,label(n('priority'),'订单顺序轮换','Rotate Priority','Порядок заказов'),cropBuyers.map(o=>add(o+'_priority',1)+iff(ck(o+'_priority','>',cropBuyers.length),v(o+'_priority',1))).join(''),3);
+button('nat_priority',10,570,label(n('priority'),'订单顺序轮换','Rotate Priority','Порядок заказов'),['generic','fra','eng'].map(o=>add(o+'_priority',1)+iff(ck(o+'_priority','>',3),v(o+'_priority',1))).join(''),3);
 icon('nat_income_icon','income',8,141,4);
 text('nat_report_head',38,143,492,label(n('report_head'),'上季：第[?RUS_nat_last_season|0]季  出口：[?RUS_nat_last_income|0]  农机损耗：[?RUS_nat_last_loss|1]','Season: [?RUS_nat_last_season|0]  Exports: [?RUS_nat_last_income|0]  Machinery lost: [?RUS_nat_last_loss|1]','Сезон: [?RUS_nat_last_season|0]  Экспорт: [?RUS_nat_last_income|0]  Износ: [?RUS_nat_last_loss|1]'),4);
 text('nat_report_weather',10,180,520,label(n('report_weather'),'实际天气：[?RUS_nat_last_weather|2]  农机行情：[?RUS_nat_last_machine_market|2]','Actual weather: [?RUS_nat_last_weather|2]  Machinery market: [?RUS_nat_last_machine_market|2]','Погода: [?RUS_nat_last_weather|2]  Рынок техники: [?RUS_nat_last_machine_market|2]'),4);
@@ -391,12 +428,12 @@ scripted('GetRUSNatMachineryMarket',[[ck('machine_forecast','>',0),n('strong')],
 label(n('generic_order'),'一般订单','General Order','Обычный заказ');
 label(n('balkan_order'),'巴尔干合单','Balkan Pool','Заказ Балкан');
 label(n('joint_order'),'联合采购','Joint Order','Общий заказ');
-scripted('GetRUSNatGenericOrderSource',[],n('generic_order'));
+sl.push('defined_text = { name = GetRUSNatGenericOrderSource text = { localization_key = RUS_nat_generic_order } }');
 ['generic','fra','eng'].forEach(o=>{scripted('GetRUSNatOrder'+o,crops.map((c,i)=>[ck(o+'_crop','=',i+1),a(c)]),n('none'));scripted('GetRUSNatAccept'+o,[[ck(o+'_shipped','=',1),n('delivered')],[ck(o+'_accept','=',1),n('accepted')]],n('cancelled'));});
 ['fra','eng'].forEach(o=>scripted('GetRUSNatMachineAccept'+o,[[ck(o+'_machine_shipped','=',1),n('delivered')],[ck(o+'_machine_accept','=',1),n('accepted')]],n('cancelled')));
 label(n('task_1'),'§4全部内需§!达标','Meet §4all domestic needs§!','Обеспечить §4все потребности§!');label(n('task_2'),'§4三类储备§!达到§Y一季§!','§YOne-quarter§! reserves in §4all categories§!','§YКвартальный§! запас §4всех категорий§!');label(n('task_3'),'五种中§4任选四种§!，各配置至少§Y3§!点','Any §4four of five§! crops: §Y3+§! each','§4Любые 4 из 5§! культур: по §Y3+§!');
 scripted('GetRUSNatTask',[[ck('task','=',1),n('task_1')],[ck('task','=',2),n('task_2')]],n('task_3'));
-label(n('target180'),'180','180','180');label(n('target200'),'200','200','200');label(n('target100'),'100','100','100');
+label(n('target200'),'200','200','200');label(n('target180'),'180','180','180');label(n('target100'),'100','100','100');
 label(n('days540'),'540','540','540');label(n('days270'),'270','270','270');
 scripted('GetRUSNatTarget',[[mode,n('target180')]],n('target100'));
 scripted('GetRUSNatTractorDays',[[mode,n('days540')]],n('days270'));
@@ -419,14 +456,14 @@ label(n('tractor_goal_tt'),'完成3次推广拖拉机（当前[?RUS_max_landrefo
  if(lines.length!==keys.length)throw Error('Missing reform localization in '+lang);
  write(`localisation/replace/RUS_national_agriculture_reform_l_${lang}.yml`,`l_${lang}:\n`+lines.join('\n')+'\n',true);
 });
-write('common/scripted_localisation/RUS_national_agriculture_loc.txt',sl.join('\n'));
+write('common/scripted_localisation/RUS_national_agriculture_loc.txt',sl.join('\n')+'\n');
 label('RUS_nat_industry','全国农业供给与农机生产','National Agriculture and Machinery','Снабжение и сельхозмашиностроение');
 label('RUS_national_agriculture.1.t','国家农业年度报告','Annual Agricultural Report','Годовой сельскохозяйственный отчёт');
 label('RUS_national_agriculture.1.d','农业委员会已完成本年度供给评估。平均内需满足率为[?RUS_nat_last_annual|1]%。新一年的农业生产现已开始。','The Agriculture Board has completed its annual assessment. Average domestic supply reached [?RUS_nat_last_annual|1]%. The new agricultural year has begun.','Аграрный комитет завершил годовую оценку. Внутренние потребности удовлетворены на [?RUS_nat_last_annual|1]%. Начался новый сельскохозяйственный год.');
 label('RUS_national_agriculture.1.a','继续建设社会主义农业。','Continue building socialist agriculture.','Продолжим строительство социалистического сельского хозяйства.');
 const overrides={
  RUS_agricultural_quarterly_management_category:['国家农业系统','National Agriculture','Государственное сельское хозяйство'],
- RUS_agricultural_quarterly_management_category_desc:['从田间的耕作与仓库的储备，到农业机械的生产与对外贸易，农业委员会统筹着共和国的粮食安全与农村重建。','From cultivation and reserves to machinery and foreign trade, the Agriculture Board coordinates the republic\'s food security and rural reconstruction.','Аграрный комитет координирует продовольственную безопасность и восстановление села: от посевов и запасов до производства техники и внешней торговли.'],
+ RUS_agricultural_quarterly_management_category_desc:['规划种植，保障内需，调度农机与出口。悬停作物图标查看详情。','Plan crops, secure supplies and manage machinery and exports. Hover crop icons for details.','Планируйте посевы, снабжение, технику и экспорт. Подробности — при наведении на культуры.'],
  RUS_agri_export_orders_unlock_tt:['解锁§Y不列颠联盟与法兰西公社季度订单§!。\\n\\n两国若存在，各增加§Y1§!份农产品订单与§Y1§!份农机订单，从下一季生效。\\n\\n两国已交付订单的§4售价倍率§!额外§G+10%§!。','Unlock §YBritish and French quarterly orders§!: each existing country provides one crop and one machinery order from the next quarter. Delivered orders gain §G+0.10§! to their price multiplier.','Открывает §Yквартальные заказы Британии и Франции§!: каждая существующая страна даёт заказ культур и техники со следующего квартала. Множитель цены выполненных заказов §G+0.10§!.'],
  RUS_agri_annual_shortfall_desc:['上一农业年度的国内供给未能达到安全水平，国家必须调拨更多资源填补缺口。','Domestic supply fell below safe levels in the previous agricultural year, requiring additional state resources.','В прошлом сельскохозяйственном году внутреннее снабжение упало ниже безопасного уровня и требует дополнительных ресурсов.'],
 };
@@ -447,10 +484,27 @@ const expansionHelp=[
 ];
 loc.RUS_nat_tab_3_tt[1]=loc.RUS_nat_tab_3_tt[1].replace(/Beet or fibre shortages .*?output(?:§!)?\./, 'Beet shortfall proportionally reduces weekly stability, down to -0.4% per week at zero supply. Fibre shortages apply -6% stability and +2.5% consumer goods expectations. These recover when supplied and stack with food shortages.');
 loc.RUS_nat_tab_3_tt[2]=loc.RUS_nat_tab_3_tt[2].replace(/Нехватка свёклы или волокна .*?заводов(?:§!)?\./, 'Дефицит свёклы пропорционально снижает стабильность в неделю, до -0.4% при нулевом снабжении. Нехватка волокна: стабильность -6%, ожидания ТНП +2.5%. При восстановлении снабжения штраф снимается; штрафы зерна и волокна суммируются.');
+Object.assign(loc, JSON.parse(fs.readFileSync(path.join(__dirname, 'data/national_agriculture_copy.json'), 'utf8')));
 ['simp_chinese','english','russian'].forEach((language,i)=>write(`localisation/${language}/RUS_national_agriculture_l_${language}.yml`,`l_${language}:\n`+Object.entries(loc).map(([key,values])=>` ${key}:0 "${values[i]}"`).join('\n')+'\n',true));
-console.log('Generated national agriculture scripts, four-page GUI and three locales.');
-
-// Keep the presentation layer when regenerating gameplay scripts.
-if (typeof module !== 'undefined' && require.main === module) {
- require('node:child_process').execFileSync('python', [path.join(__dirname, 'build_agriculture_card_gui.py')], {stdio: 'inherit'});
+return outputs;
 }
+
+function render_outputs(root = defaultRoot) {
+  const base = render_base_outputs(root);
+  const {execFileSync} = require('node:child_process');
+  const cards = JSON.parse(execFileSync('python', ['-B', path.join(__dirname, 'build_agriculture_card_gui.py'), '--render-json', '--source-root', root], {
+    input: JSON.stringify(base), encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
+  }));
+  return {...base, ...cards};
+}
+
+function main(argv = process.argv.slice(2)) {
+  if (argv.length === 1 && argv[0] === '--base-json') {
+    process.stdout.write(JSON.stringify(render_base_outputs()));
+    return;
+  }
+  require('./generation_io.cjs').cli(render_outputs, {root: defaultRoot, argv});
+}
+
+module.exports = {render_base_outputs, render_outputs};
+if (require.main === module) main();

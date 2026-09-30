@@ -1,3 +1,11 @@
+"""Archived one-time migration: reference only; do not run against current scripts.
+
+Originally executed from tools/refactor_fr_armaments_focus_points.py. It replaced
+retired automatic armaments projects with material-funded focus selection. The
+transformation is not idempotent and would duplicate effects if run again.
+The historical implementation below is retained for reference, but direct
+execution is blocked. Current behaviour is maintained in the shipped focus file.
+"""
 from __future__ import annotations
 
 import re
@@ -142,4 +150,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit("Archived migration: do not rerun; it duplicates current focus effects.")

@@ -1,0 +1,18 @@
+on_actions = {
+	on_daily = {
+		effect = {
+			# A former player must also lose this mission's easy-mode bonuses.
+			if = {
+				limit = { OR = { has_idea = RUS_aiding_chinese_comrades has_idea = RUS_russian_officer_mission } }
+				if = {
+					limit = { is_ai = yes }
+					RUS_easy_mode_refresh_ideas = yes
+				}
+				if = {
+					limit = { has_idea = RUS_aiding_chinese_comrades }
+					RUS_china_mission_refresh_volunteers = yes
+				}
+			}
+		}
+	}
+}

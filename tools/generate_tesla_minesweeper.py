@@ -3,7 +3,6 @@ from __future__ import annotations
 import random
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,11 +29,6 @@ def neighbors(index: int) -> list[int]:
             if 0 <= other_row < BOARD_SIZE and 0 <= other_column < BOARD_SIZE:
                 result.append(other_row * BOARD_SIZE + other_column)
     return result
-
-
-def write_text(path: Path, content: str, bom: bool = False) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content.rstrip() + "\n", encoding="utf-8-sig" if bom else "utf-8")
 
 
 def make_layouts() -> list[tuple[int, ...]]:
@@ -94,8 +88,9 @@ def validate_classic_reveal(layouts: list[tuple[int, ...]]) -> int:
     return checked_empty_cells
 
 
-def draw_assets() -> None:
-    output = ROOT / "gfx/interface/tesla_minesweeper"
+def draw_assets(output_root: Path = ROOT) -> None:
+    from PIL import Image, ImageDraw, ImageEnhance, ImageFont
+    output = output_root / "gfx/interface/tesla_minesweeper"
     output.mkdir(parents=True, exist_ok=True)
     font_path = Path("C:/Windows/Fonts/arialbd.ttf")
     number_font = ImageFont.truetype(str(font_path), 21)
@@ -246,70 +241,38 @@ def build_gui() -> str:
     lines = [
         "guiTypes = {",
         "\tcontainerWindowType = {",
-        f'\t\tname = "{PREFIX}_entry_window"',
-        "\t\tposition = { x = 422 y = 397 }",
-        "\t\tsize = { width = 77 height = 77 }",
-        "\t\tclipping = no",
-        "\t\tbackground = { name = \"BackgroundSteel\" quadTextureSprite = \"GFX_equipment_role_selector_tiled_window\" }",
-        "\t\tbackground = { name = \"BackgroundPaper\" quadTextureSprite = \"GFX_tiled_research_bg\" }",
-        "\t\tbuttonType = {",
-        f'\t\t\tname = "{PREFIX}_entry_locked"',
-        "\t\t\tposition = { x = 7 y = 6 }",
-        f'\t\t\tquadTextureSprite = "GFX_{PREFIX}_entry_locked"',
-        f"\t\t\tpdx_tooltip = {PREFIX}_title",
-        f"\t\t\tpdx_tooltip_delayed = {PREFIX}_locked_desc",
-        "\t\t}",
-        "\t\tbuttonType = {",
-        f'\t\t\tname = "{PREFIX}_entry_button"',
-        "\t\t\tposition = { x = 7 y = 6 }",
-        f'\t\t\tquadTextureSprite = "GFX_{PREFIX}_entry_button"',
-        "\t\t\tclicksound = click_ok",
-        "\t\t\toversound = ui_menu_over",
-        f"\t\t\tpdx_tooltip = {PREFIX}_title",
-        f"\t\t\tpdx_tooltip_delayed = {PREFIX}_entry_desc",
-        "\t\t}",
-        "\t}",
-        "",
-        "\tcontainerWindowType = {",
         f'\t\tname = "{PREFIX}_window"',
         "\t\tposition = { x = 0 y = 0 }",
-        "\t\tsize = { width = 540 height = 500 }",
-        "\t\torientation = center",
-        "\t\torigo = center",
+        "\t\tsize = { width = 100% height = 500 }",
         "\t\tclipping = no",
-        "\t\tmoveable = yes",
-        "\t\tclick_to_front = yes",
-        "\t\tshow_sound = menu_open_window",
-        "\t\thide_sound = menu_close_window",
-        "\t\tbackground = { name = \"PanelSteel\" quadTextureSprite = \"GFX_equipment_role_selector_tiled_window\" }",
-        "\t\tbackground = { name = \"PanelPaper\" quadTextureSprite = \"GFX_tiled_research_bg\" }",
-        "\t\tbuttonType = {",
-        f'\t\t\tname = "{PREFIX}_close"',
-        "\t\t\tposition = { x = -42 y = 12 }",
-        "\t\t\torientation = UPPER_RIGHT",
-        "\t\t\tquadTextureSprite = \"GFX_closebutton\"",
-        "\t\t\tclicksound = click_close",
-        "\t\t\tshortcut = \"ESCAPE\"",
-        "\t\t\tpdx_tooltip = \"CLOSE\"",
-        "\t\t}",
-        "\t\tinstantTextBoxType = {",
-        f'\t\t\tname = "{PREFIX}_title_text"',
-        "\t\t\tposition = { x = 0 y = 18 }",
-        "\t\t\tfont = \"hoi_24header\"",
-        f"\t\t\ttext = {PREFIX}_title",
-        "\t\t\tformat = center",
-        "\t\t\tmaxWidth = 540",
-        "\t\t\tmaxHeight = 32",
-        "\t\t\tfixedsize = yes",
-        "\t\t\talwaystransparent = yes",
-        "\t\t}",
+        '\t\tbackground = { name = "PanelSteel" quadTextureSprite = "GFX_equipment_role_selector_tiled_window" }',
+        '\t\tbackground = { name = "PanelPaper" quadTextureSprite = "GFX_tiled_research_bg" }',
+    ]
+    for name, x, y, width, height, font in [
+        ('title', 0, 18, 540, 32, 'hoi_24header'),
+        ('board_desc', 18, 52, 504, 32, 'hoi_16mbs'),
+    ]:
+        lines.extend([
+            "\t\tinstantTextBoxType = {",
+            f'\t\t\tname = "{PREFIX}_{name}_text"',
+            f"\t\t\tposition = {{ x = {x} y = {y} }}",
+            f'\t\t\tfont = "{font}"',
+            f"\t\t\ttext = {PREFIX}_{name}",
+            "\t\t\tformat = center",
+            f"\t\t\tmaxWidth = {width}",
+            f"\t\t\tmaxHeight = {height}",
+            "\t\t\tfixedsize = yes",
+            "\t\t\talwaystransparent = yes",
+            "\t\t}",
+        ])
+    lines.extend([
         "\t\ticonType = {",
         f'\t\t\tname = "{PREFIX}_tesla_mark"',
         "\t\t\tposition = { x = 62 y = 86 }",
-        "\t\t\tspriteType = \"GFX_idea_RUS_tesla_electrical_industries\"",
+        '\t\t\tspriteType = "GFX_idea_RUS_tesla_electrical_industries"',
         "\t\t\talwaystransparent = yes",
         "\t\t}",
-    ]
+    ])
 
     status_items = [
         ("ready", f"NOT = {{ has_country_flag = {PREFIX}_active }} NOT = {{ has_country_flag = {PREFIX}_won }} NOT = {{ has_country_flag = {PREFIX}_lost }}"),
@@ -442,31 +405,15 @@ def build_gui() -> str:
 def build_scripted_gui() -> str:
     lines = [
         "scripted_gui = {",
-        f"\t{PREFIX}_entry = {{",
-        "\t\tcontext_type = player_context",
-        "\t\tparent_window_token = politics_tab",
-        f'\t\twindow_name = "{PREFIX}_entry_window"',
-        "\t\tai_enabled = { always = no }",
-        "\t\tvisible = { original_tag = RUS }",
-        "\t\ttriggers = {",
-        f"\t\t\t{PREFIX}_entry_button_visible = {{ RUS_tesla_minesweeper_is_unlocked = yes }}",
-        f"\t\t\t{PREFIX}_entry_locked_visible = {{ NOT = {{ RUS_tesla_minesweeper_is_unlocked = yes }} }}",
-        f"\t\t\t{PREFIX}_entry_button_click_enabled = {{ RUS_tesla_minesweeper_is_unlocked = yes }}",
-        "\t\t}",
-        "\t\teffects = {",
-        f"\t\t\t{PREFIX}_entry_button_click = {{",
-        f"\t\t\t\tif = {{ limit = {{ NOT = {{ has_country_flag = {PREFIX}_window_open }} }} RUS_tesla_minesweeper_open = yes }}",
-        "\t\t\t\telse = { RUS_tesla_minesweeper_close = yes }",
-        "\t\t\t}",
-        "\t\t}",
-        "\t}",
-        "",
         f"\t{PREFIX}_game = {{",
-        "\t\tcontext_type = player_context",
+        "\t\tcontext_type = decision_category",
         f'\t\twindow_name = "{PREFIX}_window"',
         f"\t\tdirty = global.{PREFIX}_update",
         "\t\tai_enabled = { always = no }",
-        f"\t\tvisible = {{ RUS_tesla_minesweeper_is_unlocked = yes has_country_flag = {PREFIX}_window_open }}",
+        "\t\tvisible = {",
+        "\t\t\toriginal_tag = RUS",
+        "\t\t\tRUS_tesla_minesweeper_is_unlocked = yes",
+        "\t\t}",
         "\t\ttriggers = {",
     ]
     status_conditions = {
@@ -526,7 +473,6 @@ def build_scripted_gui() -> str:
             )
     lines.extend(["\t\t}", "\t\teffects = {"])
     lines.extend([
-        f"\t\t\t{PREFIX}_close_click = {{ RUS_tesla_minesweeper_close = yes }}",
         f"\t\t\t{PREFIX}_start_click = {{ RUS_tesla_minesweeper_start = yes }}",
     ])
     for index in range(BOARD_SIZE * BOARD_SIZE):
@@ -712,7 +658,9 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         "\t\t\t\tindustrial_infrastructure < 1",
         "\t\t\t}",
         "\t\t\tadd_extra_state_shared_building_slots = 1",
+        "\t\t\tif = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD",
         "\t\t\tadd_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }",
+        "\t\t\tif = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes } } # RUS_EASY_MODE_REWARD",
         "\t\t}",
         f"\t\tadd_to_variable = {{ {PREFIX}_reward_grids = 1 }}",
         f"\t\tadd_to_temp_variable = {{ {PREFIX}_rewards_remaining = -1 }}",
@@ -789,9 +737,15 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
 
 LOCALISATIONS = {
     "simp_chinese": {
+        "category": "全俄罗斯电网故障排查",
+        "category_desc": "在§Y8×8§!电网中排查§Y10§!个故障节点。左键检查节点；数字表示周围八格中的故障数量，空白区域会自动展开。右键标记危险节点，再次点击已标记节点即可取消标记。\n\n完成第§Yx§!次连续排障时，将在随机地区建设§Yx§!座§C强化电网§!；每轮结束后冷却§Y60日§!。选择§Y特斯拉电气§!作为工业企业后可进行排查。",
+        "RUS_tesla_state_funding": "国家拨款特斯拉电气",
+        "RUS_tesla_state_funding_desc": "向§Y特斯拉电气§!拨付专项研发经费。",
         "title": "全俄罗斯电网故障排查",
+        "board_desc": "排查8×8电网中的10个故障节点；空白区会自动展开，数字表示相邻故障数。",
         "locked_desc": "§Y任命尼古拉·特斯拉为顾问§!或选择§Y特斯拉电气§!作为工业企业后解锁。",
         "entry_desc": "打开全俄罗斯电网故障排查。\n\n§L工程师们正在全俄罗斯电网中定位故障节点、隔离短路区段，并组织线路抢修。§!",
+        "entry_category_desc": "§L定位故障节点，隔离短路区段并组织线路抢修。§!",
         "status_ready": "§Y检修组待命§!",
         "status_active": "§G电网排查进行中§!",
         "status_won": "§G故障排除§!\n§L连胜[?RUS_tesla_minesweeper_win_streak|0]次 · 新增[?RUS_tesla_minesweeper_reward_grids|0]座§!",
@@ -806,9 +760,15 @@ LOCALISATIONS = {
         "cell_tooltip": "§Y左键§!排查节点\n§Y右键§!标记危险节点\n§Y左键或右键已标记节点§!取消标记\n§L第一次排查必定安全。§!",
     },
     "english": {
+        "category": "All-Russian Grid Fault Inspection",
+        "category_desc": "Inspect an §Y8x8§! grid containing §Y10§! fault nodes. Left-click to inspect a node; numbers show the faults in the eight surrounding nodes, while empty areas open automatically. Right-click to mark a dangerous node and click a marked node again to clear it.\n\nCompleting the §Yx§!th consecutive inspection constructs §Yx§! §CReinforced Electrical Grids§! in random states. Each round is followed by a §Y60-day§! cooldown. Inspection requires §YTesla Electric§! to be retained as the industrial concern.",
+        "RUS_tesla_state_funding": "State Funding for Tesla Electric",
+        "RUS_tesla_state_funding_desc": "Provide §YTesla Electric§! with a dedicated research grant.",
         "title": "All-Russian Grid Fault Inspection",
+        "board_desc": "Inspect 10 faults on an 8x8 grid; empty areas open automatically and numbers show adjacent faults.",
         "locked_desc": "Unlocked by appointing §YNikola Tesla§! as an advisor or retaining §YTesla Electric§! as the industrial concern.",
         "entry_desc": "Open the All-Russian Grid Fault Inspection.\n\n§LEngineers are locating fault nodes, isolating shorted sections, and directing repairs across the Russian electrical grid.§!",
+        "entry_category_desc": "§LLocate fault nodes, isolate shorted sections, and direct grid repairs.§!",
         "status_ready": "§YRepair Crews Standing By§!",
         "status_active": "§GGrid Inspection in Progress§!",
         "status_won": "§GFaults Cleared§!\n§LStreak [?RUS_tesla_minesweeper_win_streak|0] · Built [?RUS_tesla_minesweeper_reward_grids|0] grid(s)§!",
@@ -823,9 +783,15 @@ LOCALISATIONS = {
         "cell_tooltip": "§YLeft-click§! to inspect a node\n§YRight-click§! to mark a dangerous node\n§YLeft- or right-click a marked node§! to clear it\n§LThe first inspection is always safe.§!",
     },
     "russian": {
+        "category": "Всероссийская проверка электросети",
+        "category_desc": "Проверьте сеть §Y8x8§! с §Y10§! аварийными узлами. Левая кнопка проверяет узел; число показывает количество аварий среди восьми соседних узлов, а пустые области открываются автоматически. Правая кнопка отмечает опасный узел, повторное нажатие снимает отметку.\n\nЗа §Yx§!-ю проверку подряд в случайных областях строится §Yx§! §Cусиленных энергосетей§!. После каждого раунда действует перерыв §Y60 дней§!. Для проверки компания §Y«Тесла Электрик»§! должна быть привлечена как промышленный концерн.",
+        "RUS_tesla_state_funding": "Государственное финансирование «Тесла Электрик»",
+        "RUS_tesla_state_funding_desc": "Выделить компании §Y«Тесла Электрик»§! целевой исследовательский грант.",
         "title": "Всероссийская проверка электросети",
+        "board_desc": "Найдите 10 аварий в сети 8x8; пустые области открываются сами, числа показывают соседние аварии.",
         "locked_desc": "Открывается после назначения §YНиколы Теслы§! советником или выбора §Y«Тесла Электрик»§! промышленным концерном.",
         "entry_desc": "Открыть всероссийскую проверку электросети.\n\n§LИнженеры выявляют аварийные узлы, изолируют участки короткого замыкания и руководят ремонтом российской электросети.§!",
+        "entry_category_desc": "§LВыявить аварийные узлы, изолировать замыкания и организовать ремонт сети.§!",
         "status_ready": "§YРемонтные бригады готовы§!",
         "status_active": "§GПроверка электросети идёт§!",
         "status_won": "§GНеисправности устранены§!\n§LСерия [?RUS_tesla_minesweeper_win_streak|0] · Построено [?RUS_tesla_minesweeper_reward_grids|0]§!",
@@ -849,30 +815,50 @@ def escape_localisation(text: str) -> str:
 def build_localisation(language: str, values: dict[str, str]) -> str:
     lines = [f"l_{language}:"]
     for suffix, value in values.items():
-        lines.append(f'  {PREFIX}_{suffix}: "{escape_localisation(value)}"')
+        key = suffix if suffix.startswith('RUS_') else f'{PREFIX}_{suffix}'
+        lines.append(f'  {key}: "{escape_localisation(value)}"')
     return "\n".join(lines)
 
 
-def main() -> None:
+def render_outputs() -> dict[str, str]:
+    """Return maintained text files without rewriting images or source files."""
     layouts = make_layouts()
-    checked_empty_cells = validate_classic_reveal(layouts)
-    draw_assets()
-    write_text(ROOT / f"interface/{PREFIX}.gfx", build_gfx())
-    write_text(ROOT / f"interface/{PREFIX}.gui", build_gui())
-    write_text(ROOT / f"common/scripted_guis/{PREFIX}.txt", build_scripted_gui())
-    write_text(ROOT / f"common/scripted_triggers/{PREFIX}.txt", build_triggers())
-    write_text(ROOT / f"common/scripted_effects/{PREFIX}.txt", build_effects(layouts))
-    write_text(ROOT / "events/RUS_tesla_minesweeper_events.txt", build_events())
+    validate_classic_reveal(layouts)
+    outputs = {
+        f"interface/{PREFIX}.gfx": build_gfx(),
+        f"interface/{PREFIX}.gui": build_gui(),
+        f"common/scripted_guis/{PREFIX}.txt": build_scripted_gui(),
+        f"common/scripted_triggers/{PREFIX}.txt": build_triggers(),
+        f"common/scripted_effects/{PREFIX}.txt": build_effects(layouts),
+        "events/RUS_tesla_minesweeper_events.txt": build_events(),
+    }
     for language, values in LOCALISATIONS.items():
-        write_text(
-            ROOT / f"localisation/{language}/{PREFIX}_l_{language}.yml",
-            build_localisation(language, values),
-            bom=True,
-        )
-    print(
-        f"Generated Tesla Minesweeper with {len(layouts)} synchronized layouts; "
-        f"validated {checked_empty_cells} classic empty-cell reveals."
-    )
+        outputs[f"localisation/{language}/{PREFIX}_l_{language}.yml"] = build_localisation(language, values)
+    return {path: text.rstrip() + "\n" for path, text in outputs.items()}
+
+
+def main() -> None:
+    import sys
+    from generation_io import cli
+
+    if '--assets' not in sys.argv:
+        cli(render_outputs, root=ROOT, description='Check or generate Tesla Minesweeper text')
+        return
+    # Asset rebuilding is deliberately opt-in and cannot be mixed with --check.
+    import argparse
+    parser = argparse.ArgumentParser(description='Explicit Tesla image rebuild')
+    parser.add_argument('--assets', action='store_true', required=True)
+    parser.add_argument('--write', action='store_true')
+    parser.add_argument('--output-root', type=Path)
+    args = parser.parse_args()
+    if not (args.write or args.output_root):
+        parser.error('--assets requires --write or --output-root')
+    if args.output_root and args.output_root.resolve().is_relative_to(ROOT.resolve()) and not args.write:
+        parser.error('Use --write to update assets inside the source root')
+    from generation_io import process_outputs
+    destination = args.output_root or ROOT
+    process_outputs(render_outputs(), destination, write=True)
+    draw_assets(destination)
 
 
 if __name__ == "__main__":

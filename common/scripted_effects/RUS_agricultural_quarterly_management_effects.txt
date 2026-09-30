@@ -539,16 +539,181 @@ RUS_agri_reopen_allocation = {
 	RUS_agri_refresh_gui = yes
 }
 
-RUS_agri_increase_wheat = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } } add_to_variable = { RUS_agri_wheat_investment = 1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_decrease_wheat = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_wheat_investment > 0 } } add_to_variable = { RUS_agri_wheat_investment = -1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_increase_rye = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } } add_to_variable = { RUS_agri_rye_investment = 1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_decrease_rye = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_rye_investment > 0 } } add_to_variable = { RUS_agri_rye_investment = -1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_increase_beet = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } } add_to_variable = { RUS_agri_beet_investment = 1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_decrease_beet = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_beet_investment > 0 } } add_to_variable = { RUS_agri_beet_investment = -1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_increase_flax = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } } add_to_variable = { RUS_agri_flax_investment = 1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_decrease_flax = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_flax_investment > 0 } } add_to_variable = { RUS_agri_flax_investment = -1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_increase_cotton = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment < 10 } check_variable = { RUS_agri_total_investment < RUS_agri_investment_limit } } add_to_variable = { RUS_agri_cotton_investment = 1 } RUS_agri_refresh_totals = yes } }
-RUS_agri_decrease_cotton = { if = { limit = { NOT = { has_country_flag = RUS_agri_allocation_locked } check_variable = { RUS_agri_cotton_investment > 0 } } add_to_variable = { RUS_agri_cotton_investment = -1 } RUS_agri_refresh_totals = yes } }
+RUS_agri_increase_wheat = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_wheat_investment < 10
+			}
+			check_variable = {
+				RUS_agri_total_investment < RUS_agri_investment_limit
+			}
+		}
+		add_to_variable = {
+			RUS_agri_wheat_investment = 1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_decrease_wheat = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_wheat_investment > 0
+			}
+		}
+		add_to_variable = {
+			RUS_agri_wheat_investment = -1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_increase_rye = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_rye_investment < 10
+			}
+			check_variable = {
+				RUS_agri_total_investment < RUS_agri_investment_limit
+			}
+		}
+		add_to_variable = {
+			RUS_agri_rye_investment = 1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_decrease_rye = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_rye_investment > 0
+			}
+		}
+		add_to_variable = {
+			RUS_agri_rye_investment = -1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_increase_beet = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_beet_investment < 10
+			}
+			check_variable = {
+				RUS_agri_total_investment < RUS_agri_investment_limit
+			}
+		}
+		add_to_variable = {
+			RUS_agri_beet_investment = 1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_decrease_beet = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_beet_investment > 0
+			}
+		}
+		add_to_variable = {
+			RUS_agri_beet_investment = -1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_increase_flax = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_flax_investment < 10
+			}
+			check_variable = {
+				RUS_agri_total_investment < RUS_agri_investment_limit
+			}
+		}
+		add_to_variable = {
+			RUS_agri_flax_investment = 1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_decrease_flax = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_flax_investment > 0
+			}
+		}
+		add_to_variable = {
+			RUS_agri_flax_investment = -1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_increase_cotton = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_cotton_investment < 10
+			}
+			check_variable = {
+				RUS_agri_total_investment < RUS_agri_investment_limit
+			}
+		}
+		add_to_variable = {
+			RUS_agri_cotton_investment = 1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
+RUS_agri_decrease_cotton = {
+	if = {
+		limit = {
+			NOT = {
+				has_country_flag = RUS_agri_allocation_locked
+			}
+			check_variable = {
+				RUS_agri_cotton_investment > 0
+			}
+		}
+		add_to_variable = {
+			RUS_agri_cotton_investment = -1
+		}
+		RUS_agri_refresh_totals = yes
+	}
+}
 
 RUS_agri_calculate_final_rates = {
 	set_variable = { RUS_agri_wheat_final = RUS_agri_wheat_base }
@@ -596,19 +761,59 @@ RUS_agri_record_dominant_crop = {
 
 	set_variable = { RUS_agri_concentration_check = RUS_agri_wheat_investment }
 	multiply_variable = { RUS_agri_concentration_check = 2 }
-	if = { limit = { check_variable = { RUS_agri_total_investment > 0 } check_variable = { RUS_agri_concentration_check > RUS_agri_total_investment } } set_country_flag = RUS_agri_previous_dominant_wheat }
+	if = {
+		limit = {
+			check_variable = {
+				RUS_agri_total_investment > 0
+			}
+			check_variable = {
+				RUS_agri_concentration_check > RUS_agri_total_investment
+			}
+		}
+		set_country_flag = RUS_agri_previous_dominant_wheat
+	}
 	set_variable = { RUS_agri_concentration_check = RUS_agri_rye_investment }
 	multiply_variable = { RUS_agri_concentration_check = 2 }
 	if = { limit = { check_variable = { RUS_agri_total_investment > 0 } check_variable = { RUS_agri_concentration_check > RUS_agri_total_investment } } set_country_flag = RUS_agri_previous_dominant_rye }
 	set_variable = { RUS_agri_concentration_check = RUS_agri_beet_investment }
 	multiply_variable = { RUS_agri_concentration_check = 2 }
-	if = { limit = { check_variable = { RUS_agri_total_investment > 0 } check_variable = { RUS_agri_concentration_check > RUS_agri_total_investment } } set_country_flag = RUS_agri_previous_dominant_beet }
+	if = {
+		limit = {
+			check_variable = {
+				RUS_agri_total_investment > 0
+			}
+			check_variable = {
+				RUS_agri_concentration_check > RUS_agri_total_investment
+			}
+		}
+		set_country_flag = RUS_agri_previous_dominant_beet
+	}
 	set_variable = { RUS_agri_concentration_check = RUS_agri_flax_investment }
 	multiply_variable = { RUS_agri_concentration_check = 2 }
-	if = { limit = { check_variable = { RUS_agri_total_investment > 0 } check_variable = { RUS_agri_concentration_check > RUS_agri_total_investment } } set_country_flag = RUS_agri_previous_dominant_flax }
+	if = {
+		limit = {
+			check_variable = {
+				RUS_agri_total_investment > 0
+			}
+			check_variable = {
+				RUS_agri_concentration_check > RUS_agri_total_investment
+			}
+		}
+		set_country_flag = RUS_agri_previous_dominant_flax
+	}
 	set_variable = { RUS_agri_concentration_check = RUS_agri_cotton_investment }
 	multiply_variable = { RUS_agri_concentration_check = 2 }
-	if = { limit = { check_variable = { RUS_agri_total_investment > 0 } check_variable = { RUS_agri_concentration_check > RUS_agri_total_investment } } set_country_flag = RUS_agri_previous_dominant_cotton }
+	if = {
+		limit = {
+			check_variable = {
+				RUS_agri_total_investment > 0
+			}
+			check_variable = {
+				RUS_agri_concentration_check > RUS_agri_total_investment
+			}
+		}
+		set_country_flag = RUS_agri_previous_dominant_cotton
+	}
 }
 
 RUS_agri_apply_annual_result = {

@@ -1,0 +1,53 @@
+# Apply the decree at the tier already reached when its event fires.
+RUS_apply_workers_peasants_defence_mobilisation_law = {
+	if = {
+		limit = { has_country_flag = RUS_fr_reform_stage_4 }
+		if = {
+			limit = { NOT = { has_idea = RUS_workers_peasants_defence_mobilisation_law } }
+			add_ideas = RUS_workers_peasants_defence_mobilisation_law
+		}
+	}
+	else_if = {
+		limit = { has_country_flag = RUS_fr_reform_stage_3 }
+		if = {
+			limit = { NOT = { has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_4 } }
+			add_ideas = RUS_workers_peasants_defence_mobilisation_law_stage_4
+		}
+	}
+	else_if = {
+		limit = { has_country_flag = RUS_fr_reform_stage_2 }
+		if = {
+			limit = { NOT = { has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_3 } }
+			add_ideas = RUS_workers_peasants_defence_mobilisation_law_stage_3
+		}
+	}
+	else_if = {
+		limit = { has_country_flag = RUS_fr_reform_stage_1 }
+		if = {
+			limit = { NOT = { has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_2 } }
+			add_ideas = RUS_workers_peasants_defence_mobilisation_law_stage_2
+		}
+	}
+	else = {
+		if = {
+			limit = { NOT = { has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_1 } }
+			add_ideas = RUS_workers_peasants_defence_mobilisation_law_stage_1
+		}
+	}
+}
+
+# Reform milestones upgrade an existing decree, but never grant it by themselves.
+RUS_refresh_workers_peasants_defence_mobilisation_law = {
+	if = {
+		limit = {
+			OR = {
+				has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_1
+				has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_2
+				has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_3
+				has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_4
+				has_idea = RUS_workers_peasants_defence_mobilisation_law
+			}
+		}
+		RUS_apply_workers_peasants_defence_mobilisation_law = yes
+	}
+}

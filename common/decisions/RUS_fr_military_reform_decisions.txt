@@ -713,7 +713,12 @@ RUS_fr_military_reform_decisions = {
 				add_ideas = RUS_fr_field_regulations_correction
 			}
 			add_doctrine_cost_reduction = { name = RUS_fr_frunze_field_regulations cost_reduction = 0.35 uses = 2 category = land_doctrine }
-			add_tech_bonus = { name = RUS_basis_of_victory bonus = 1 uses = 1 category = cat_mechanized_equipment }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_basis_of_victory bonus = 2 uses = 1 category = cat_mechanized_equipment } }
+			else = { add_tech_bonus = { name = RUS_basis_of_victory bonus = 1 uses = 1 category = cat_mechanized_equipment } }
+			# RUS_EASY_MODE_TECH_END
+			
 			enable_tech_semi_motorised_cav = yes
 			set_country_flag = RUS_fr_field_regulations_decision_complete
 		}
@@ -804,8 +809,11 @@ RUS_fr_military_reform_decisions = {
 				add_ideas = RUS_fr_mobilisation_base_correction
 			}
 			add_manpower = 50000
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_manpower = 50000 } # RUS_EASY_MODE_REWARD
 			add_command_power = 20
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_command_power = 20 } # RUS_EASY_MODE_REWARD
 			add_war_support = 0.03
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.03 } # RUS_EASY_MODE_REWARD
 			set_country_flag = RUS_fr_mobilisation_test_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -825,7 +833,25 @@ RUS_fr_military_reform_decisions = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
 				add_ideas = RUS_fr_armoured_production_correction
 			}
-			add_tech_bonus = { name = RUS_fr_army_mechanisation_torrent bonus = 0.50 uses = 2 category = cat_mechanized_equipment }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = {
+				limit = {
+					hidden_trigger = {
+						has_country_flag = RUS_easy_mode_enabled
+						is_ai = no
+					}
+				}
+				add_tech_bonus = {
+					name = RUS_fr_army_mechanisation_torrent
+					bonus = 1
+					uses = 2
+					category = cat_mechanized_equipment
+				}
+			}
+			else = { add_tech_bonus = { name = RUS_fr_army_mechanisation_torrent bonus = 0.50 uses = 2 category = cat_mechanized_equipment } }
+			# RUS_EASY_MODE_TECH_END
+			
 			set_country_flag = RUS_fr_mechanisation_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -845,7 +871,12 @@ RUS_fr_military_reform_decisions = {
 				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
 				add_ideas = RUS_fr_special_forces_correction
 			}
-			add_tech_bonus = { name = RUS_fr_guards_model_units bonus = 0.50 uses = 1 category = infantry_weapons }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_guards_model_units bonus = 1 uses = 1 category = infantry_weapons } }
+			else = { add_tech_bonus = { name = RUS_fr_guards_model_units bonus = 0.50 uses = 1 category = infantry_weapons } }
+			# RUS_EASY_MODE_TECH_END
+			
 			set_country_flag = RUS_fr_guards_units_decision_complete
 		}
 		ai_will_do = { factor = 10 }

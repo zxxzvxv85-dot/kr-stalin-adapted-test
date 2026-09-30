@@ -1,0 +1,18 @@
+RUS_easy_mode_category = {
+	RUS_enable_easy_mode = {
+		icon = GFX_decision_generic_political_discourse
+		cost = 0
+		fire_only_once = yes
+		visible = {
+			is_ai = no
+			NOT = { has_country_flag = RUS_easy_mode_enabled }
+		}
+		available = { always = yes }
+		complete_effect = {
+			set_country_flag = RUS_easy_mode_enabled
+			RUS_stalin_refresh_easy_advisor_trait_tiers = yes
+			RUS_easy_mode_refresh = yes
+		}
+		ai_will_do = { factor = 0 }
+	}
+}

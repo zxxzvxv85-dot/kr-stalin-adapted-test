@@ -45,6 +45,11 @@ RUS_Spreading_the_Revolution_decisions = {
 							amount = 5000
 							producer = ROOT
 						}
+						if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = 5000
+							producer = ROOT
+						} } # RUS_EASY_MODE_REWARD
 						add_equipment_to_stockpile = {
 							type = artillery_equipment
 							amount = 500
@@ -52,6 +57,7 @@ RUS_Spreading_the_Revolution_decisions = {
 						}
 					}
 					army_experience = 5
+					if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } army_experience = 5 } # RUS_EASY_MODE_REWARD
 				}
 			}
 			else = {
@@ -60,9 +66,12 @@ RUS_Spreading_the_Revolution_decisions = {
 					FROM = {
 						add_offsite_building = { type = arms_factory level = 2 }
 						add_manpower = 10000
+						if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_manpower = 10000 } # RUS_EASY_MODE_REWARD
 					}
 				}
-				else = { FROM = { add_offsite_building = { type = arms_factory level = 1 } } }
+				else = { FROM = { add_offsite_building = { type = arms_factory level = 1 }
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_offsite_building = { type = arms_factory level = 1 } } # RUS_EASY_MODE_REWARD
+				 } }
 				hidden_effect = {
 					if = {
 						limit = { NOT = { has_power_balance = { id = RUS_europe_intervention_power_balance } } }
@@ -119,7 +128,9 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 		remove_effect = {
-			FROM = { add_offsite_building = { type = industrial_complex level = 2 } }
+			FROM = { add_offsite_building = { type = industrial_complex level = 2 }
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_offsite_building = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
+			 }
 			hidden_effect = {
 				if = {
 					limit = { NOT = { has_power_balance = { id = RUS_europe_intervention_power_balance } } }
@@ -266,6 +277,10 @@ RUS_Spreading_the_Revolution_decisions = {
 					type = tungsten
 					amount = 9
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = tungsten
+					amount = 9
+				} } # RUS_EASY_MODE_REWARD
 			}
 			FRA = { add_ideas = RUS_pokrovsk_tungsten_concession }
 		}
@@ -301,6 +316,10 @@ RUS_Spreading_the_Revolution_decisions = {
 					type = chromium
 					amount = 32
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = chromium
+					amount = 32
+				} } # RUS_EASY_MODE_REWARD
 			}
 			FRA = { add_ideas = RUS_zlatoust_chromium_concession }
 		}

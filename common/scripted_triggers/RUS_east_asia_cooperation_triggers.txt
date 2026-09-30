@@ -1,0 +1,32 @@
+# Focus-owner scope. Keep target eligibility visible in focus requirements.
+RUS_east_asia_china_partner = {
+	country_exists = CHI
+	CHI = {
+		has_socialist_government = yes
+		NOT = { has_war_with = ROOT }
+	}
+}
+
+# KR's diplomatic-break flag covers independent Fengtian before it joins a faction.
+RUS_east_asia_pro_japanese_fengtian = {
+	FNG_JAP_influence_active = yes
+	FNG = { has_socialist_government = no }
+	JAP = { has_socialist_government = no }
+}
+
+RUS_east_asia_hostile_japan = {
+	country_exists = JAP
+	JAP = { has_socialist_government = no }
+}
+
+RUS_east_asia_has_cooperation_idea = {
+	OR = {
+		has_idea = RUS_northeast_anti_japanese_network
+		has_idea = RUS_transcontinental_economic_cooperation
+		has_idea = RUS_workers_peasants_military_exchange
+		has_idea = RUS_project_156_sponsor
+		has_idea = RUS_project_156_recipient
+		has_idea = RUS_sino_soviet_friendship_treaty
+		has_idea = RUS_sino_soviet_treaty_easy_equipment
+	}
+}

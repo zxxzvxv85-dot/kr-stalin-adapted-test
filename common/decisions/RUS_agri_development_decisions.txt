@@ -319,6 +319,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			effect_tooltip = {
 				add_timed_idea = { idea = RUS_agri_development_aid_food days = 180 }
 				add_manpower = 10000
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_manpower = 10000 } # RUS_EASY_MODE_REWARD
 				add_threat = 1.0
 			}
 			hidden_effect = {
@@ -337,6 +338,7 @@ RUS_Spreading_the_Revolution_decisions = {
 						FROM = {
 							add_timed_idea = { idea = RUS_agri_development_aid_food days = 180 }
 							add_manpower = 10000
+							if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_manpower = 10000 } # RUS_EASY_MODE_REWARD
 						}
 						add_threat = 1.0
 						clr_country_flag = RUS_agri_purchase_paid

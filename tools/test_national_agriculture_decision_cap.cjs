@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const {parse,get,effects,country,exec,read} = require('./test_agri_development.cjs');
+const {parse,get,effects,country,exec,read} = require('./test_support/agriculture.cjs');
 const run=(c,id)=>exec(effects.get(id),c);
 const fresh=()=>{
  const c=country();c.vars['global.num_days']=706699;

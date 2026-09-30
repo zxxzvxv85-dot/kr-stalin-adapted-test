@@ -1,10 +1,22 @@
-const assert=require('node:assert/strict'),fs=require('fs'),cp=require('child_process');
-const {parse,get}=require('./test_agri_development.cjs');
+const assert=require('node:assert/strict'),fs=require('fs');
+const {parse,get}=require('./test_support/agriculture.cjs');
 const file='common/scripted_guis/RUS_fr_military_reform_dashboard.txt';
 const current=get(parse(fs.readFileSync(file,'utf8')),'scripted_gui')[0].value;
-const previous=get(parse(cp.execFileSync('git',['show','ccbb684:'+file],{encoding:'utf8'})),'scripted_gui')[0].value;
-assert.deepEqual(get(current,'effects'),get(previous,'effects'),'Original guarded click effects must remain byte-semantically identical');
-assert.deepEqual(get(current,'properties'),get(previous,'properties'));
+// Check the maintained click contract without binding results to a Git commit.
+const clicks=get(current,'effects');
+for(const [i,word] of ['one','two','three','four'].entries()) {
+ const action=get(clicks,`RUS_fr_dashboard_stage_${i+1}_button_click`);
+ assert.ok(action,`Missing stage ${i+1} click`);
+ assert.ok(JSON.stringify(action).includes(`RUS_fr_can_start_reform_stage_${word}`));
+ const body=get(action,"if");
+ assert.equal(get(body,"army_experience"),"var:RUS_fr_xp_cost_100_negative");
+ assert.equal(get(body,"set_country_flag"),`RUS_fr_reform_stage_${i+1}_in_progress`);
+ assert.equal(get(get(body,"country_event"),"id"),`RUS_fr_military_reform.${910+i}`);
+ assert.equal(Number(get(get(body,"country_event"),"days")),i<2?120:90);
+}
+const progress=get(get(current,'properties'),'RUS_fr_dashboard_reform_progressbar');
+assert.equal(get(progress,'x'),'RUS_fr_dashboard_reform_progressbar_x');
+assert.equal(get(progress,'frame'),'RUS_fr_dashboard_reform_progressbar_frame');
 const tr=get(current,'triggers');
 const defs=parse(fs.readFileSync('common/scripted_triggers/RUS_fr_military_reform_dashboard_triggers.txt','utf8'));
 function check(block,c){return block.every(n=>{

@@ -1,0 +1,289 @@
+# Focus rewards run once in the focus owner's country. Recipient-scoped easy-mode
+# checks never pass Russia's bonus to an AI partner. Refreshes below grant no rewards.
+RUS_east_asia_fujisan_effect = {
+	if = {
+		limit = { country_exists = JAP }
+		if = {
+			limit = { JAP = { has_socialist_government = no } }
+			JAP = { add_timed_idea = { idea = RUS_japanese_antiwar_movement days = 180 } }
+			add_political_power = 25
+			if = {
+				limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+				add_political_power = 25
+			}
+		}
+		else = {
+			if = {
+				limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+				add_opinion_modifier = { target = JAP modifier = RUS_east_asia_socialist_friendship_easy }
+				add_political_power = 100
+			}
+			else = {
+				add_opinion_modifier = { target = JAP modifier = RUS_east_asia_socialist_friendship }
+				add_political_power = 50
+			}
+			JAP = {
+				if = {
+					limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+					add_opinion_modifier = { target = ROOT modifier = RUS_east_asia_socialist_friendship_easy }
+					add_political_power = 100
+				}
+				else = {
+					add_opinion_modifier = { target = ROOT modifier = RUS_east_asia_socialist_friendship }
+					add_political_power = 50
+				}
+			}
+		}
+	}
+}
+
+RUS_east_asia_northeast_effect = {
+	if = {
+		limit = { RUS_east_asia_pro_japanese_fengtian = yes }
+		FNG = { add_timed_idea = { idea = RUS_active_northeast_resistance days = 180 } }
+	}
+	if = {
+		limit = { RUS_east_asia_china_partner = yes }
+		CHI = {
+			add_timed_idea = { idea = RUS_northeast_anti_japanese_network days = 360 }
+			army_experience = 25
+			if = {
+				limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+				army_experience = 25
+			}
+			# Native relation-effect display, without executing a second award.
+			effect_tooltip = { RUS_east_asia_refresh_network = yes }
+			hidden_effect = { RUS_east_asia_refresh_cooperation = yes }
+		}
+	}
+}
+
+# Called in either partner's scope, after resolving the bilateral focus.
+RUS_east_asia_economic_cooperation_reward = {
+	add_timed_idea = { idea = RUS_transcontinental_economic_cooperation days = 720 }
+	if = {
+		limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+		add_tech_bonus = { name = RUS_transcontinental_economic_cooperation bonus = 1 uses = 1 category = industry }
+	}
+	else = {
+		add_tech_bonus = { name = RUS_transcontinental_economic_cooperation bonus = 0.5 uses = 1 category = industry }
+	}
+	hidden_effect = { RUS_east_asia_refresh_cooperation = yes }
+}
+
+RUS_east_asia_transcontinental_friendship_effect = {
+	if = {
+		limit = { RUS_east_asia_china_partner = yes }
+		diplomatic_relation = { country = CHI relation = non_aggression_pact }
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+			add_opinion_modifier = { target = CHI modifier = RUS_east_asia_transcontinental_friendship_easy }
+		}
+		else = { add_opinion_modifier = { target = CHI modifier = RUS_east_asia_transcontinental_friendship } }
+		RUS_east_asia_economic_cooperation_reward = yes
+		CHI = {
+			if = {
+				limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+				add_opinion_modifier = { target = ROOT modifier = RUS_east_asia_transcontinental_friendship_easy }
+			}
+			else = { add_opinion_modifier = { target = ROOT modifier = RUS_east_asia_transcontinental_friendship } }
+			RUS_east_asia_economic_cooperation_reward = yes
+		}
+	}
+}
+
+RUS_east_asia_integrated_industry_reward = {
+	add_offsite_building = { type = industrial_complex level = 10 }
+	add_offsite_building = { type = arms_factory level = 10 }
+	if = {
+		limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+		add_offsite_building = { type = industrial_complex level = 10 }
+		add_offsite_building = { type = arms_factory level = 10 }
+	}
+}
+
+RUS_east_asia_integration_effect = {
+	if = {
+		limit = { RUS_east_asia_china_partner = yes is_in_faction = yes }
+		# Select the branch BEFORE any invitation. The KR response never grants factories.
+		if = {
+			limit = { is_in_faction_with = CHI }
+			RUS_east_asia_integrated_industry_reward = yes
+			CHI = { RUS_east_asia_integrated_industry_reward = yes }
+		}
+		else = {
+			CHI = { invite_country_to_faction = yes }
+		}
+	}
+}
+
+RUS_east_asia_military_exchange_reward = {
+	army_experience = 50
+	if = {
+		limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+		army_experience = 50
+		add_tech_bonus = { name = RUS_workers_peasants_military_exchange bonus = 1 uses = 1 category = infantry_weapons }
+		add_tech_bonus = { name = RUS_workers_peasants_military_exchange bonus = 1 uses = 1 category = artillery }
+	}
+	else = {
+		add_tech_bonus = { name = RUS_workers_peasants_military_exchange bonus = 0.5 uses = 1 category = infantry_weapons }
+		add_tech_bonus = { name = RUS_workers_peasants_military_exchange bonus = 0.5 uses = 1 category = artillery }
+	}
+	add_timed_idea = { idea = RUS_workers_peasants_military_exchange days = 720 }
+	hidden_effect = { RUS_east_asia_refresh_cooperation = yes }
+}
+
+RUS_east_asia_military_exchange_effect = {
+	if = {
+		limit = { RUS_east_asia_china_partner = yes }
+		RUS_east_asia_military_exchange_reward = yes
+		CHI = { RUS_east_asia_military_exchange_reward = yes }
+	}
+}
+
+RUS_east_asia_project_156_effect = {
+	if = {
+		limit = { RUS_east_asia_china_partner = yes }
+		add_timed_idea = { idea = RUS_project_156_sponsor days = 1800 }
+		hidden_effect = { RUS_east_asia_refresh_cooperation = yes }
+		CHI = {
+			add_timed_idea = { idea = RUS_project_156_recipient days = 1800 }
+			hidden_effect = { RUS_east_asia_refresh_cooperation = yes }
+		}
+	}
+}
+
+RUS_east_asia_storm_operation_effect = {
+	# Recheck on completion: a change of government must never cause a socialist war.
+	if = {
+		limit = { RUS_east_asia_hostile_japan = yes can_declare_war_on = JAP }
+		declare_war_on = { target = JAP type = annex_everything }
+	}
+}
+
+RUS_east_asia_treaty_reward = {
+	add_ideas = RUS_sino_soviet_friendship_treaty
+	if = {
+		limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+		effect_tooltip = { add_ideas = RUS_sino_soviet_treaty_easy_equipment }
+	}
+	hidden_effect = { RUS_east_asia_refresh_cooperation = yes }
+}
+
+RUS_east_asia_treaty_effect = {
+	if = {
+		limit = { RUS_east_asia_china_partner = yes }
+		RUS_east_asia_treaty_reward = yes
+		CHI = { RUS_east_asia_treaty_reward = yes }
+	}
+}
+
+# Calendar-month payments only. Adding/refreshing an idea never calls this effect.
+RUS_east_asia_project_156_monthly = {
+	if = {
+		limit = { has_idea = RUS_project_156_sponsor }
+		add_cic = 7500
+		if = {
+			limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+			add_cic = 7500
+		}
+	}
+	if = {
+		limit = { has_idea = RUS_project_156_recipient }
+		RUS_east_asia_build_core_infrastructure = yes
+		RUS_east_asia_build_core_infrastructure = yes
+		if = {
+			limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+			RUS_east_asia_build_core_infrastructure = yes
+			RUS_east_asia_build_core_infrastructure = yes
+		}
+	}
+}
+
+# Each draw independently rechecks capacity. A state may be selected twice if it
+# still has space; occupied/non-core/full states can never consume an award.
+RUS_east_asia_build_core_infrastructure = {
+	random_owned_controlled_state = {
+		limit = {
+			is_core_of = PREV
+			free_building_slots = { building = infrastructure size > 0 }
+		}
+		add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+	}
+}
+
+# Targeted combat benefits are outside the generic scalar easy-mode aggregator.
+# This function is also safe to run for a country that no longer owns the idea.
+RUS_east_asia_refresh_network = {
+	if = {
+		limit = {
+			has_idea = RUS_northeast_anti_japanese_network
+			NOT = { has_country_flag = RUS_northeast_network_removing }
+			RUS_east_asia_hostile_japan = yes
+		}
+		if = {
+			limit = { NOT = { has_relation_modifier = { target = JAP modifier = RUS_northeast_network_combat } } }
+			add_relation_modifier = { target = JAP modifier = RUS_northeast_network_combat }
+		}
+		if = {
+			limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+			if = {
+				limit = { NOT = { has_relation_modifier = { target = JAP modifier = RUS_northeast_network_combat_easy } } }
+				add_relation_modifier = { target = JAP modifier = RUS_northeast_network_combat_easy }
+			}
+		}
+		else = { remove_relation_modifier = { target = JAP modifier = RUS_northeast_network_combat_easy } }
+	}
+	else = {
+		remove_relation_modifier = { target = JAP modifier = RUS_northeast_network_combat }
+		remove_relation_modifier = { target = JAP modifier = RUS_northeast_network_combat_easy }
+	}
+	if = {
+		limit = {
+			has_idea = RUS_northeast_anti_japanese_network
+			NOT = { has_country_flag = RUS_northeast_network_removing }
+			RUS_east_asia_pro_japanese_fengtian = yes
+		}
+		if = {
+			limit = { NOT = { has_relation_modifier = { target = FNG modifier = RUS_northeast_network_combat } } }
+			add_relation_modifier = { target = FNG modifier = RUS_northeast_network_combat }
+		}
+		if = {
+			limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+			if = {
+				limit = { NOT = { has_relation_modifier = { target = FNG modifier = RUS_northeast_network_combat_easy } } }
+				add_relation_modifier = { target = FNG modifier = RUS_northeast_network_combat_easy }
+			}
+		}
+		else = { remove_relation_modifier = { target = FNG modifier = RUS_northeast_network_combat_easy } }
+	}
+	else = {
+		remove_relation_modifier = { target = FNG modifier = RUS_northeast_network_combat }
+		remove_relation_modifier = { target = FNG modifier = RUS_northeast_network_combat_easy }
+	}
+}
+
+RUS_east_asia_refresh_cooperation = {
+	RUS_easy_mode_refresh_ideas = yes
+	RUS_east_asia_refresh_network = yes
+	# Equipment bonuses cannot live in the scalar dynamic modifier. Keep one
+	# separately displayed extra spirit, removed when the treaty or player is gone.
+	if = {
+		limit = {
+			has_idea = RUS_sino_soviet_friendship_treaty
+			NOT = { has_country_flag = RUS_sino_soviet_treaty_removing }
+			has_country_flag = RUS_easy_mode_enabled
+			is_ai = no
+		}
+		if = {
+			limit = { NOT = { has_idea = RUS_sino_soviet_treaty_easy_equipment } }
+			add_ideas = RUS_sino_soviet_treaty_easy_equipment
+		}
+	}
+	else = {
+		if = {
+			limit = { has_idea = RUS_sino_soviet_treaty_easy_equipment }
+			remove_ideas = RUS_sino_soviet_treaty_easy_equipment
+		}
+	}
+}

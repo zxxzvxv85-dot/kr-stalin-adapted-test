@@ -1,0 +1,25 @@
+RUS_refresh_soviet_union_integration_strain = {
+	if = {
+		limit = { check_variable = { RUS_soviet_union_integration_strain_stacks > 0 } }
+		set_variable = { RUS_soviet_union_integration_strain_stability = RUS_soviet_union_integration_strain_stacks }
+		multiply_variable = { RUS_soviet_union_integration_strain_stability = -0.2 }
+		set_variable = { RUS_soviet_union_integration_strain_compliance = RUS_soviet_union_integration_strain_stacks }
+		multiply_variable = { RUS_soviet_union_integration_strain_compliance = -0.05 }
+		set_variable = { RUS_soviet_union_integration_strain_resistance = RUS_soviet_union_integration_strain_stacks }
+		multiply_variable = { RUS_soviet_union_integration_strain_resistance = 0.4 }
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = RUS_soviet_union_integration_strain } } }
+			add_dynamic_modifier = { modifier = RUS_soviet_union_integration_strain }
+		}
+		force_update_dynamic_modifier = yes
+	}
+	else = {
+		remove_dynamic_modifier = { modifier = RUS_soviet_union_integration_strain }
+	}
+}
+
+RUS_add_soviet_union_integration_strain = {
+	add_to_variable = { RUS_soviet_union_integration_strain_stacks = 1 }
+	RUS_refresh_soviet_union_integration_strain = yes
+	country_event = { id = RUS_future_foreign_policy_events.9 days = 1095 }
+}

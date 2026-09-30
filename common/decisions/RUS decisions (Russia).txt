@@ -1202,9 +1202,16 @@ RUS_first_five_year_plan_industrial_projects = {
 		complete_effect = {
 			log = "[GetLogRoot]: Decision complete RUS_stalin_ffyp_expand_coal_prospecting_mission"
 			add_stability = 0.05
-			569 = { add_resource = { type = coal amount = 9 } }
-			578 = { add_resource = { type = coal amount = 9 } }
-			572 = { add_resource = { type = coal amount = 9 } }
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
+			569 = { add_resource = { type = coal amount = 9 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 9 } } # RUS_EASY_MODE_REWARD
+			 }
+			578 = { add_resource = { type = coal amount = 9 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 9 } } # RUS_EASY_MODE_REWARD
+			 }
+			572 = { add_resource = { type = coal amount = 9 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 9 } } # RUS_EASY_MODE_REWARD
+			 }
 		}
 		timeout_effect = {
 			log = "[GetLogRoot]: Decision timeout RUS_stalin_ffyp_expand_coal_prospecting_mission"
@@ -1290,52 +1297,77 @@ RUS_first_five_year_plan_industrial_projects = {
 			hidden_effect = {
 				263 = {
 					add_resource = { type = coal amount = 2 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 2 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = rubber amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = rubber amount = 4 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = oil amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = oil amount = 4 } } # RUS_EASY_MODE_REWARD
 					if = {
 						limit = { energy_infrastructure < 1 }
 						add_extra_state_shared_building_slots = 1
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes } } # RUS_EASY_MODE_REWARD
 					}
 				}
 				242 = {
 					add_resource = { type = coal amount = 2 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 2 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = rubber amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = rubber amount = 4 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = oil amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = oil amount = 4 } } # RUS_EASY_MODE_REWARD
 					if = {
 						limit = { energy_infrastructure < 1 }
 						add_extra_state_shared_building_slots = 1
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes } } # RUS_EASY_MODE_REWARD
 					}
 				}
 				224 = {
 					add_resource = { type = coal amount = 2 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 2 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = rubber amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = rubber amount = 4 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = oil amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = oil amount = 4 } } # RUS_EASY_MODE_REWARD
 					if = {
 						limit = { energy_infrastructure < 1 }
 						add_extra_state_shared_building_slots = 1
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes } } # RUS_EASY_MODE_REWARD
 					}
 				}
 				220 = {
 					add_resource = { type = coal amount = 2 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 2 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = rubber amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = rubber amount = 4 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = oil amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = oil amount = 4 } } # RUS_EASY_MODE_REWARD
 					if = {
 						limit = { energy_infrastructure < 1 }
 						add_extra_state_shared_building_slots = 1
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes } } # RUS_EASY_MODE_REWARD
 					}
 				}
 				240 = {
 					add_resource = { type = coal amount = 2 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = coal amount = 2 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = rubber amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = rubber amount = 4 } } # RUS_EASY_MODE_REWARD
 					add_resource = { type = oil amount = 4 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = { type = oil amount = 4 } } # RUS_EASY_MODE_REWARD
 					if = {
 						limit = { energy_infrastructure < 1 }
 						add_extra_state_shared_building_slots = 1
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 						add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes }
+						if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = energy_infrastructure level = 1 instant_build = yes } } # RUS_EASY_MODE_REWARD
 					}
 				}
 				RUS_tesla_refresh_power_grid_bonuses = yes
@@ -1426,7 +1458,13 @@ RUS_first_five_year_plan_industrial_projects = {
 						level = 1
 						instant_build = yes
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					} } # RUS_EASY_MODE_REWARD
 					add_extra_state_shared_building_slots = 1
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 					if = {
 						limit = { ROOT = { has_country_flag = RUS_tesla_electrification_chance_active } }
 						random_list = {
@@ -1437,11 +1475,17 @@ RUS_first_five_year_plan_industrial_projects = {
 										industrial_infrastructure < 1
 									}
 									add_extra_state_shared_building_slots = 1
+									if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 									add_building_construction = {
 										type = energy_infrastructure
 										level = 1
 										instant_build = yes
 									}
+									if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = {
+										type = energy_infrastructure
+										level = 1
+										instant_build = yes
+									} } # RUS_EASY_MODE_REWARD
 									add_dynamic_modifier = { modifier = RUS_tesla_electrified_state_bonus }
 								}
 							}
@@ -1647,11 +1691,17 @@ RUS_magnitogorsk = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_magnitogorsk"
 			582 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 				add_resource = {
 					type = steel
 					amount = 42
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = steel
+					amount = 42
+				} } # RUS_EASY_MODE_REWARD
 				custom_effect_tooltip = tooltip_white_line
 				set_global_flag = orsk_state_is_magnitogorsk
 				add_victory_points = { province = 10256 value = 5 }
@@ -1698,6 +1748,10 @@ RUS_second_baku = {
 						type = oil
 						amount = 24
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+						type = oil
+						amount = 24
+					} } # RUS_EASY_MODE_REWARD
 				}
 			}
 			else = {
@@ -1706,6 +1760,10 @@ RUS_second_baku = {
 						type = oil
 						amount = 20
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+						type = oil
+						amount = 20
+					} } # RUS_EASY_MODE_REWARD
 				}
 			}
 			RUS_stalin_industry_effect = yes
@@ -1742,7 +1800,9 @@ RUS_modernisation_of_AMO = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_modernisation_of_AMO"
 			219 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -1810,7 +1870,9 @@ RUS_izhevsk_mechanical_plant = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_izhevsk_mechanical_plant"
 			399 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -1876,7 +1938,9 @@ RUS_tula_arms_factory = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_tula_arms_factory"
 			223 = {
 				add_extra_state_shared_building_slots = 3
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 3 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 3 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 3 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -1942,7 +2006,9 @@ RUS_create_tankograd = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_create_tankograd"
 			572 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 instant_build = yes } } # RUS_EASY_MODE_REWARD
 			}
 			set_country_flag = improve_chtz
 			RUS_stalin_add_first_five_year_plan_tankograd_bonus = yes
@@ -2007,8 +2073,10 @@ RUS_convert_civilian_aviation_industry = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_convert_civilian_aviation_industry"
 			219 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				remove_building = { type = industrial_complex level = 3 }
 				add_building_construction = { type = arms_factory level = 4 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 4 } } # RUS_EASY_MODE_REWARD
 			}
 			if = {
 				limit = { has_dlc_aat = yes }
@@ -2092,8 +2160,11 @@ RUS_tsaritsyn_tractor_plant = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_tsaritsyn_tractor_plant"
 			217 = {
 				add_extra_state_shared_building_slots = 3
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 3 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 3 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 3 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
@@ -2153,12 +2224,18 @@ RUS_chelyabinsk_tractor_plant = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_chelyabinsk_tractor_plant"
 			572 = {
 				add_extra_state_shared_building_slots = 3
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 3 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 3 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 3 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 9292 value = 8 }
 				add_resource = {
 					type = steel
 					amount = 24
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = steel
+					amount = 24
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
@@ -2209,7 +2286,9 @@ RUS_kursk_tractor_plant = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_kursk_tractor_plant"
 			220 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 3580 value = 3 }
 			}
 			RUS_stalin_industry_effect = yes
@@ -2248,11 +2327,17 @@ RUS_rostselmash = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_rostselmash"
 			218 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 				add_resource = {
 					type = steel
 					amount = 10
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = steel
+					amount = 10
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -2288,16 +2373,29 @@ RUS_stavropol_hydroelectric_dam = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_stavropol_hydroelectric_dam"
-			add_tech_bonus = {
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_industrialise_eastern_europe
+				bonus = 2
+				uses = 1
+				category = industry
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_industrialise_eastern_europe
 				bonus = 1
 				uses = 1
 				category = industry
-			}
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
 			235 = {
 				add_extra_state_shared_building_slots = 5
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 748 value = 3 }
 				custom_effect_tooltip = tooltip_white_line
 				add_building_construction = {
@@ -2346,16 +2444,29 @@ RUS_rybinsk_hydroelectric_dam = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_rybinsk_hydroelectric_dam"
-			add_tech_bonus = {
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_rybinsk_hydroelectric_dam
+				bonus = 2
+				uses = 1
+				category = industry
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_rybinsk_hydroelectric_dam
 				bonus = 1
 				uses = 1
 				category = industry
-			}
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
 			248 = {
 				add_extra_state_shared_building_slots = 5
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 2 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 6167 value = 3 }
 				custom_effect_tooltip = tooltip_white_line
 				add_building_construction = {
@@ -2404,16 +2515,29 @@ RUS_zhiguli_hydroelectric_dam = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_zhiguli_hydroelectric_dam"
-			add_tech_bonus = {
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_zhiguli_hydroelectric_dam
+				bonus = 2
+				uses = 1
+				category = industry
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_zhiguli_hydroelectric_dam
 				bonus = 1
 				uses = 1
 				category = industry
-			}
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
 			251 = {
 				add_extra_state_shared_building_slots = 5
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 2 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 9299 value = 3 }
 				custom_effect_tooltip = tooltip_white_line
 				add_building_construction = {
@@ -2462,16 +2586,29 @@ RUS_krasnoyarsk_hydroelectric_dam = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_krasnoyarsk_hydroelectric_dam"
-			add_tech_bonus = {
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_krasnoyarsk_hydroelectric_dam
+				bonus = 2
+				uses = 1
+				category = industry
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_krasnoyarsk_hydroelectric_dam
 				bonus = 1
 				uses = 1
 				category = industry
-			}
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
 			568 = {
 				add_extra_state_shared_building_slots = 5
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 2 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 12691 value = 3 }
 				custom_effect_tooltip = tooltip_white_line
 				add_building_construction = {
@@ -2522,12 +2659,18 @@ RUS_lipetsk_metallurgical_plant = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_lipetsk_metallurgical_plant"
 			258 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 3346 value = 2 }
 				add_resource = {
 					type = steel
 					amount = 35
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = steel
+					amount = 35
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
@@ -2564,7 +2707,9 @@ RUS_uralmash = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_uralmash"
 			653 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 				add_victory_points = { province = 1821 value = 5 }
 			}
 			RUS_stalin_industry_effect = yes
@@ -2616,8 +2761,11 @@ RUS_motovilikha_plants = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_motovilikha_plants"
 			398 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -2655,9 +2803,12 @@ RUS_admiralty_dockyards = { #Unlocked by RUS_yekaterinas_legacy
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_admiralty_dockyards"
 			137 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = dockyard level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = dockyard level = 2 } } # RUS_EASY_MODE_REWARD
 				custom_override_tooltip = {
 					add_building_construction = { type = naval_base level = 2 province = 3686 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = naval_base level = 2 province = 3686 } } # RUS_EASY_MODE_REWARD
 					tooltip = {
 						localization_key = tooltip_add_building_on_victory_point
 						BUILDING = naval_base
@@ -2707,10 +2858,18 @@ RUS_kamensky_uralsky = { #Kachkanar
 					type = steel
 					amount = 10
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = steel
+					amount = 10
+				} } # RUS_EASY_MODE_REWARD
 				add_resource = {
 					type = aluminium
 					amount = 16
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = aluminium
+					amount = 16
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
@@ -2752,19 +2911,29 @@ RUS_grozny_oil = {
 				limit = { has_idea = vostokneft_improved }
 				961 = {
 					add_extra_state_shared_building_slots = 1
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 					add_resource = {
 						type = oil
 						amount = 24
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+						type = oil
+						amount = 24
+					} } # RUS_EASY_MODE_REWARD
 				}
 			}
 			else = {
 				961 = {
 					add_extra_state_shared_building_slots = 1
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 					add_resource = {
 						type = oil
 						amount = 20
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+						type = oil
+						amount = 20
+					} } # RUS_EASY_MODE_REWARD
 				}
 			}
 			RUS_stalin_industry_effect = yes
@@ -2814,12 +2983,20 @@ RUS_arctic_mines = {
 					type = steel
 					amount = 8
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = steel
+					amount = 8
+				} } # RUS_EASY_MODE_REWARD
 			}
 			722 = {
 				add_resource = {
 					type = chromium
 					amount = 20
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = chromium
+					amount = 20
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
@@ -2862,6 +3039,10 @@ RUS_tyrnyauz_tungsten = {
 					type = tungsten
 					amount = 32
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = tungsten
+					amount = 32
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
@@ -2904,19 +3085,29 @@ RUS_romanshkino_oil = {
 				limit = { has_idea = vostokneft_improved }
 				249 = {
 					add_extra_state_shared_building_slots = 1
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 					add_resource = {
 						type = oil
 						amount = 24
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+						type = oil
+						amount = 24
+					} } # RUS_EASY_MODE_REWARD
 				}
 			}
 			else = {
 				249 = {
 					add_extra_state_shared_building_slots = 1
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 					add_resource = {
 						type = oil
 						amount = 20
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+						type = oil
+						amount = 20
+					} } # RUS_EASY_MODE_REWARD
 				}
 			}
 			RUS_stalin_industry_effect = yes
@@ -2963,6 +3154,7 @@ RUS_northern_route = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_northern_route"
 			set_country_flag = RUS_northern_route_completed
 			add_stability = 0.03
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.03 } # RUS_EASY_MODE_REWARD
 			build_railway = {
 				level = 2
 				start_province = 3215
@@ -3004,6 +3196,7 @@ RUS_upgrade_the_railroad_chelyabinsk = {
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_upgrade_the_railroad_chelyabinsk"
 			add_stability = 0.03
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.03 } # RUS_EASY_MODE_REWARD
 			build_railway = {
 				level = 2
 				start_province = 6380
@@ -3045,6 +3238,7 @@ RUS_upgrade_the_railroad_krasnoyarsk = {
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_upgrade_the_railroad_krasnoyarsk"
 			add_stability = 0.03
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.03 } # RUS_EASY_MODE_REWARD
 			build_railway = {
 				level = 2
 				start_province = 9292
@@ -3097,6 +3291,7 @@ RUS_upgrade_the_railroad_vladivostok = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_upgrade_the_railroad_vladivostok"
 			set_country_flag = RUS_upgrade_the_railroad_vladivostok_completed
 			add_stability = 0.03
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.03 } # RUS_EASY_MODE_REWARD
 			effect_tooltip = {
 				build_railway = {
 					level = 2
@@ -3158,12 +3353,19 @@ RUS_kuznetsk_basin = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_kuznetsk_basin"
 			569 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 				add_resource = {
 					type = coal
 					amount = 27
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = coal
+					amount = 27
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -3202,7 +3404,9 @@ RUS_bodaybo_gold_mines = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_bodaybo_gold_mines"
 			565 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -3247,14 +3451,20 @@ RUS_far_eastern_fishing_industry = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_far_eastern_fishing_industry"
 			409 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			560 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = dockyard level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = dockyard level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			add_equipment_to_stockpile = { type = convoy amount = 50 }
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_equipment_to_stockpile = { type = convoy amount = 50 } } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
@@ -3291,8 +3501,11 @@ RUS_krasnoyarskpromstroy = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_krasnoyarskpromstroy"
 			568 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
@@ -3331,7 +3544,9 @@ RUS_dalnremmash = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_dalnremmash"
 			409 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -3374,11 +3589,21 @@ RUS_rudny_altay = {
 				amount = 42
 				state = 810
 			}
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+				type = steel
+				amount = 42
+				state = 810
+			} } # RUS_EASY_MODE_REWARD
 			add_resource = {
 				type = aluminium
 				amount = 12
 				state = 810
 			}
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+				type = aluminium
+				amount = 12
+				state = 810
+			} } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 		}
@@ -3415,18 +3640,30 @@ RUS_tekeli_metallurgical_combine = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_tekeli_metallurgical_combine"
 			589 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			add_resource = {
 				type = tungsten
 				amount = 14
 				state = 589
 			}
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+				type = tungsten
+				amount = 14
+				state = 589
+			} } # RUS_EASY_MODE_REWARD
 			add_resource = {
 				type = aluminium
 				amount = 18
 				state = 589
 			}
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+				type = aluminium
+				amount = 18
+				state = 589
+			} } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 		}
@@ -3474,11 +3711,21 @@ RUS_emba_oil_area = {
 					amount = 10
 					state = 402
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = oil
+					amount = 10
+					state = 402
+				} } # RUS_EASY_MODE_REWARD
 				add_resource = {
 					type = oil
 					amount = 19
 					state = 406
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = oil
+					amount = 19
+					state = 406
+				} } # RUS_EASY_MODE_REWARD
 			}
 			else = {
 				add_resource = {
@@ -3486,11 +3733,21 @@ RUS_emba_oil_area = {
 					amount = 8
 					state = 402
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = oil
+					amount = 8
+					state = 402
+				} } # RUS_EASY_MODE_REWARD
 				add_resource = {
 					type = oil
 					amount = 16
 					state = 406
 				}
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_resource = {
+					type = oil
+					amount = 16
+					state = 406
+				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -3527,7 +3784,9 @@ RUS_verny_cotton_industry = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_verny_cotton_industry"
 			589 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -3559,18 +3818,27 @@ RUS_verny_cotton_industry = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_siberian_timber_industries"
 			578 = {
 				add_extra_state_shared_building_slots = 3
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 3 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 2 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			570 = {
 				add_extra_state_shared_building_slots = 3
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 3 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 2 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			569 = {
 				add_extra_state_shared_building_slots = 3
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 3 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = infrastructure level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 2 } } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_75 = yes
@@ -3620,16 +3888,24 @@ RUS_verny_cotton_industry = {
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_improve_roads_in_central_russia"
 			205 = {
-				add_building_construction = { type = infrastructure level = 1 } #Kaluga
+				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+				 #Kaluga
 			}
 			260 = {
-				add_building_construction = { type = infrastructure level = 1 } #Voronezh
+				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+				 #Voronezh
 			}
 			258 = {
-				add_building_construction = { type = infrastructure level = 1 } #Lipetsk
+				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+				 #Lipetsk
 			}
 			252 = {
-				add_building_construction = { type = infrastructure level = 1 } #Nizhny Novgorod
+				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+				 #Nizhny Novgorod
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
@@ -3674,9 +3950,15 @@ RUS_verny_cotton_industry = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_improve_roads_in_northern_russia"
-			214 = { add_building_construction = { type = infrastructure level = 1 } } #Arkhangelsk
-			351 = { add_building_construction = { type = infrastructure level = 1 } } #Vologda
-			263 = { add_building_construction = { type = infrastructure level = 1 } } #Novgorod
+			214 = { add_building_construction = { type = infrastructure level = 1 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+			 } #Arkhangelsk
+			351 = { add_building_construction = { type = infrastructure level = 1 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+			 } #Vologda
+			263 = { add_building_construction = { type = infrastructure level = 1 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+			 } #Novgorod
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -3720,10 +4002,18 @@ RUS_verny_cotton_industry = {
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_improve_roads_in_the_volga_basin"
-			218 = { add_building_construction = { type = infrastructure level = 1 } } #Rostov
-			236 = { add_building_construction = { type = infrastructure level = 1 } } #Astrakhan
-			237 = { add_building_construction = { type = infrastructure level = 1 } } #Elista
-			238 = { add_building_construction = { type = infrastructure level = 1 } } #Velikoknyazhesk
+			218 = { add_building_construction = { type = infrastructure level = 1 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+			 } #Rostov
+			236 = { add_building_construction = { type = infrastructure level = 1 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+			 } #Astrakhan
+			237 = { add_building_construction = { type = infrastructure level = 1 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+			 } #Elista
+			238 = { add_building_construction = { type = infrastructure level = 1 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
+			 } #Velikoknyazhesk
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
@@ -3768,12 +4058,15 @@ RUS_verny_cotton_industry = {
 			}
 			402 = { #Turgay
 				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			404 = { #Karaganda
 				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			589 = { #Semireche
 				add_building_construction = { type = infrastructure level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
@@ -4399,7 +4692,9 @@ RUS_stavka_cat_decisions = {
 		complete_effect = {
 			log = "[GetLogRoot]: Decision complete RUS_the_rush_for_berlin"
 			add_political_power = 100
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 100 } # RUS_EASY_MODE_REWARD
 			add_stability = 0.1
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.1 } # RUS_EASY_MODE_REWARD
 			clr_country_flag = RUS_taken_kiev_before
 			clr_country_flag = RUS_taken_minsk_before
 			clr_country_flag = RUS_taken_kiev_before
@@ -8062,6 +8357,7 @@ RUS_monarchy_decisions = {
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_NMD_rallies"
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 			set_temp_variable = { RUS_solonevich_pp = party_popularity_100@authoritarian_democrat }
 			add_to_temp_variable = { RUS_solonevich_pp = party_popularity_100@social_conservative }
 			add_political_power = RUS_solonevich_pp
@@ -10832,9 +11128,12 @@ RUS_USNS_decision_cat = {
 			}
 			842 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = dockyard level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = dockyard level = 2 } } # RUS_EASY_MODE_REWARD
 				custom_override_tooltip = {
 					add_building_construction = { type = naval_base level = 1 province = 9340 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = naval_base level = 1 province = 9340 } } # RUS_EASY_MODE_REWARD
 					tooltip = {
 						localization_key = tooltip_add_building_on_victory_point
 						BUILDING = naval_base
@@ -10845,11 +11144,15 @@ RUS_USNS_decision_cat = {
 			}
 			13 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			11 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 		}
 		fixed_random_seed = no
@@ -10893,11 +11196,15 @@ RUS_USNS_decision_cat = {
 			}
 			206 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = industrial_complex level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			207 = {
 				add_extra_state_shared_building_slots = 1
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 1 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 1 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 		}
 		fixed_random_seed = no
@@ -14483,6 +14790,7 @@ RUS_Spreading_the_Revolution_decisions = {
 				has_war = no
 			}
 			FROM = {
+				RUS_is_original_soviet_republic_target = yes
 				NOT = {
 					has_autonomy_state = soviet_socialist_republic
 				}
@@ -14494,11 +14802,15 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
-			has_completed_focus = RUS_what_a_childish_fantasy
+			OR = {
+				has_completed_focus = RUS_what_a_childish_fantasy
+				has_completed_focus = RUS_future_foreign_014
+			}
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
 			FROM = {
+				RUS_is_original_soviet_republic_target = yes
 				is_subject_of = ROOT
 				OR = {
 					has_socialist_government = yes
@@ -14560,6 +14872,10 @@ RUS_Spreading_the_Revolution_decisions = {
 						type = industrial_complex
 						level = 2
 					}
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = {
+						type = industrial_complex
+						level = 2
+					} } # RUS_EASY_MODE_REWARD
 					add_ideas = RUS_soviet_republic_industry_idea
 				}
 			}
@@ -14580,6 +14896,7 @@ RUS_Spreading_the_Revolution_decisions = {
 				has_war = no
 			}
 			FROM = {
+				RUS_is_original_soviet_republic_target = yes
 				has_autonomy_state = soviet_socialist_republic
 				controls_all_owned_states = yes
 			}
@@ -14587,11 +14904,15 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
-			has_completed_focus = RUS_found_sov_union
+			OR = {
+				has_completed_focus = RUS_found_sov_union
+				has_completed_focus = RUS_future_foreign_045
+			}
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
 			FROM = {
+				RUS_is_original_soviet_republic_target = yes
 				is_subject_of = ROOT
 				has_autonomy_state = soviet_socialist_republic
 			}
@@ -14638,6 +14959,174 @@ RUS_Spreading_the_Revolution_decisions = {
 			}
 		}
 	}
+	# Later additions to the union use the higher costs and gradual territorial integration.
+	RUS_add_to_soviet_republic_new = {
+		name = RUS_add_to_soviet_republic
+		icon = GFX_decision_generic_flags
+		available = {
+			OR = {
+				FROM = {
+					OR = {
+						tag = IRE
+						tag = ICE
+						tag = ENG
+						tag = WLS
+						tag = SCO
+						tag = CYP
+					}
+				}
+				FROM = { is_subject_of = ROOT }
+				is_neighbor_of = FROM
+				FROM = {
+					any_neighbor_country = { has_autonomy_state = soviet_socialist_republic }
+				}
+			}
+		}
+		visible = {
+			NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
+			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
+			RUS_europe_intervention_target_selected_or_overview = yes
+			OR = {
+				NOT = { country_exists = GER }
+				has_war = no
+			}
+			FROM = {
+				NOT = { RUS_is_original_soviet_republic_target = yes }
+				NOT = { has_autonomy_state = soviet_socialist_republic }
+				OR = {
+					is_subject_of = ROOT
+					controls_all_owned_states = yes
+				}
+			}
+		}
+		target_array = RUS_SSTR_tags
+		target_root_trigger = {
+			OR = {
+				has_completed_focus = RUS_what_a_childish_fantasy
+				has_completed_focus = RUS_future_foreign_014
+			}
+		}
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			FROM = {
+				NOT = { RUS_is_original_soviet_republic_target = yes }
+				is_subject_of = ROOT
+				OR = {
+					has_socialist_government = yes
+					has_government = communist
+					has_government = totalist
+					has_government = syndicalist
+					has_government = radical_socialist
+				}
+			}
+		}
+		fire_only_once = yes
+		cost = 1000
+		highlight_states = {
+			highlight_states_trigger = {
+				is_owned_by = FROM
+				NOT = { is_owned_by = RUS }
+			}
+		}
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_add_to_soviet_republic_new"
+			set_autonomy = { target = FROM autonomy_state = soviet_socialist_republic }
+			if = {
+				limit = { FROM = { has_cosmetic_tag = TRK_turkestan } }
+				FROM = { set_cosmetic_tag = TRK_soviet }
+			}
+			else = {
+				meta_effect = {
+					text = { FROM = { set_cosmetic_tag = [soviet_socialist_republic_tag] } }
+					soviet_socialist_republic_tag = "[FROM.GetTag]_soviet"
+				}
+			}
+			FROM = { RUS_stalin_set_subject_radical_socialist_if_communist_path = yes }
+			FROM = {
+				if = {
+					limit = {
+						ROOT = { has_completed_focus = RUS_help_allys_industry }
+						NOT = { has_idea = RUS_soviet_republic_industry_idea }
+					}
+					add_building_construction = { type = industrial_complex level = 2 }
+					if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
+					add_ideas = RUS_soviet_republic_industry_idea
+				}
+			}
+		}
+	}
+	RUS_annex_into_soviet_union_new = {
+		name = RUS_annex_into_soviet_union
+		icon = GFX_decision_generic_flags
+		available = { }
+		visible = {
+			NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
+			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
+			RUS_europe_intervention_target_selected_or_overview = yes
+			OR = {
+				NOT = { country_exists = GER }
+				has_war = no
+			}
+			FROM = {
+				NOT = { RUS_is_original_soviet_republic_target = yes }
+				has_autonomy_state = soviet_socialist_republic
+				controls_all_owned_states = yes
+			}
+			has_cosmetic_tag = RUS_sov_union
+		}
+		target_array = RUS_SSTR_tags
+		target_root_trigger = {
+			OR = {
+				has_completed_focus = RUS_found_sov_union
+				has_completed_focus = RUS_future_foreign_045
+			}
+		}
+		target_trigger = {
+			RUS_europe_intervention_target_selected_or_overview = yes
+			FROM = {
+				NOT = { RUS_is_original_soviet_republic_target = yes }
+				is_subject_of = ROOT
+				has_autonomy_state = soviet_socialist_republic
+			}
+		}
+		fire_only_once = yes
+		cost = 2000
+		days_remove = 30
+		highlight_states = {
+			highlight_states_trigger = {
+				is_owned_by = FROM
+				NOT = { is_owned_by = RUS }
+			}
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision complete RUS_annex_into_soviet_union_new"
+			FROM = {
+				every_unit_leader = {
+					if = { limit = { has_advisor_role = second_in_command } remove_advisor_role = { slot = second_in_command } }
+					if = { limit = { has_advisor_role = political_advisor } remove_advisor_role = { slot = political_advisor } }
+					if = { limit = { has_advisor_role = army_chief } remove_advisor_role = { slot = army_chief } }
+					if = { limit = { has_advisor_role = navy_chief } remove_advisor_role = { slot = navy_chief } }
+					if = { limit = { has_advisor_role = air_chief } remove_advisor_role = { slot = air_chief } }
+					if = { limit = { has_advisor_role = high_command } remove_advisor_role = { slot = high_command } }
+					if = { limit = { has_advisor_role = theorist } remove_advisor_role = { slot = theorist } }
+					set_nationality = RUS
+				}
+				every_owned_state = { set_state_flag = RUS_soviet_union_newly_annexed_state }
+			}
+			ROOT = {
+				annex_country = { target = FROM transfer_troops = yes }
+				every_owned_state = {
+					limit = { has_state_flag = RUS_soviet_union_newly_annexed_state }
+					clr_state_flag = RUS_soviet_union_newly_annexed_state
+					if = {
+						limit = { NOT = { is_core_of = ROOT } }
+						enable_state_integration_80_compliance = yes
+					}
+				}
+				RUS_add_soviet_union_integration_strain = yes
+			}
+		}
+	}
 	RUS_add_to_union = {
 		icon = GFX_decision_generic_flags
 		available = {
@@ -14670,7 +15159,10 @@ RUS_Spreading_the_Revolution_decisions = {
 			RUS_europe_intervention_target_selected_or_overview = yes
 			NOT = {
 				AND = {
-					has_completed_focus = RUS_what_a_childish_fantasy
+					OR = {
+						has_completed_focus = RUS_what_a_childish_fantasy
+						has_completed_focus = RUS_future_foreign_014
+					}
 					NOT = { has_completed_focus = RUS_expansion_of_union }
 				}
 			}
@@ -14694,7 +15186,10 @@ RUS_Spreading_the_Revolution_decisions = {
 			has_completed_focus = RUS_self_determination
 			NOT = {
 				AND = {
-					has_completed_focus = RUS_what_a_childish_fantasy
+					OR = {
+						has_completed_focus = RUS_what_a_childish_fantasy
+						has_completed_focus = RUS_future_foreign_014
+					}
 					NOT = { has_completed_focus = RUS_expansion_of_union }
 				}
 			}
@@ -14969,6 +15464,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			OR = {
 				has_completed_focus = RUS_expansion_of_union
 				has_completed_focus = RUS_extend_our_union
+				has_completed_focus = RUS_future_foreign_043
 			}
 			OR = {
 				has_socialist_government = yes
@@ -14984,6 +15480,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			OR = {
 				has_completed_focus = RUS_expansion_of_union
 				has_completed_focus = RUS_extend_our_union
+				has_completed_focus = RUS_future_foreign_043
 			}
 		}
 		target_trigger = {
@@ -15004,7 +15501,12 @@ RUS_Spreading_the_Revolution_decisions = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_control_ally_politics_2"
 			FROM = { get_current_government_type = yes }
 			if = {
-				limit = { has_completed_focus = RUS_what_a_childish_fantasy }
+				limit = {
+					OR = {
+						has_completed_focus = RUS_what_a_childish_fantasy
+						has_completed_focus = RUS_future_foreign_014
+					}
+				}
 				set_autonomy = {
 					target = FROM
 					autonomy_state = soviet_socialist_republic
@@ -15061,7 +15563,10 @@ RUS_Spreading_the_Revolution_decisions = {
 		icon = GFX_decision_generic_agreement
 
 		available = {
-			has_completed_focus = RUS_rival_west
+			OR = {
+				has_completed_focus = RUS_rival_west
+				has_completed_focus = RUS_future_foreign_029
+			}
 			FROM = {
 				controls_all_owned_states = yes
 				NOT = { has_war_with = ROOT }
@@ -15072,7 +15577,10 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
 			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_target_selected_or_overview = yes
-			has_completed_focus = RUS_rival_west
+			OR = {
+				has_completed_focus = RUS_rival_west
+				has_completed_focus = RUS_future_foreign_029
+			}
 			has_socialist_government = yes
 			if = {
 				limit = { has_government = totalist }
@@ -15131,7 +15639,10 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
 			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_target_selected_or_overview = yes
-			has_completed_focus = RUS_rival_west
+			OR = {
+				has_completed_focus = RUS_rival_west
+				has_completed_focus = RUS_future_foreign_029
+			}
 			is_faction_leader = yes
 			OR = {
 				RUS_VST_right = yes
@@ -15584,7 +16095,10 @@ RUS_Spreading_the_Revolution_decisions = {
 
 		targets = { JAP CHN RAJ HND PRF }
 		target_root_trigger = {
-			has_completed_focus = RUS_turn_east
+			OR = {
+				has_completed_focus = RUS_turn_east
+				has_completed_focus = RUS_future_foreign_042
+			}
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
@@ -16918,6 +17432,7 @@ RUS_socrus_coalition_mechanic_decisions = {
 		remove_effect = {
 			log = "[GetLogRoot]: Decision remove RUS_support_proletarian_realism"
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 			if = {
 				limit = { has_country_leader = { character = RUS_grigory_zinovyev } }
 				RUS_stalin_add_totalist_or_communist_popularity_0075 = yes
@@ -17086,6 +17601,7 @@ RUS_socrus_coalition_mechanic_decisions = {
 				remember_old_capital = no
 			}
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 			RUS_stalin_add_totalist_or_communist_popularity_005 = yes
 		}
 		fixed_random_seed = no

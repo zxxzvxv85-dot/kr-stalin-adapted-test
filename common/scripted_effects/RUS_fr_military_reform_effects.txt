@@ -160,12 +160,22 @@ RUS_fr_show_frunze_regulations_legacy_rewards = {
 			remove_idea = RUS_frunze_doctrine_2
 			add_idea = RUS_frunze_doctrine_3
 		}
-		add_tech_bonus = {
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_basis_of_victory
+			bonus = 2
+			uses = 1
+			category = cat_mechanized_equipment
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_basis_of_victory
 			bonus = 1
 			uses = 1
 			category = cat_mechanized_equipment
-		}
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
 		enable_tech_semi_motorised_cav = yes
 	}
 }
@@ -185,26 +195,88 @@ RUS_fr_apply_army_reorganisation_legacy_rewards = {
 		effect_tooltip = {
 			572 = { add_building_construction = { type = land_facility level = 1 province = 9292 instant_build = yes } }
 			239 = { add_building_construction = { type = land_facility level = 1 province = 3578 instant_build = yes } }
-			880 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
-			218 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
-			add_tech_bonus = {
+			880 = { add_building_construction = { type = air_base level = 2 instant_build = yes }
+				if = {
+					limit = {
+						hidden_trigger = {
+							owner = {
+								has_country_flag = RUS_easy_mode_enabled
+								is_ai = no
+							}
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				} # RUS_EASY_MODE_REWARD
+			 }
+			218 = { add_building_construction = { type = air_base level = 2 instant_build = yes }
+				if = {
+					limit = {
+						hidden_trigger = {
+							owner = {
+								has_country_flag = RUS_easy_mode_enabled
+								is_ai = no
+							}
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				} # RUS_EASY_MODE_REWARD
+			 }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_fr_national_military_reform_program
+				bonus = 2
+				uses = 1
+				category = armor
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
 				bonus = 1
 				uses = 1
 				category = armor
-			}
-			add_tech_bonus = {
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_fr_national_military_reform_program
+				bonus = 2
+				uses = 1
+				category = air_equipment
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
 				bonus = 1
 				uses = 1
 				category = air_equipment
-			}
-			add_tech_bonus = {
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_fr_national_military_reform_program
+				bonus = 2
+				uses = 1
+				category = mio_cat_all_artillery_equipment
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
 				bonus = 1
 				uses = 1
 				category = mio_cat_all_artillery_equipment
-			}
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
 		}
 		hidden_effect = {
 			if = {
@@ -255,26 +327,88 @@ RUS_fr_apply_army_reorganisation_legacy_rewards = {
 					construct_building_in_random_province = { land_facility = 1 }
 				}
 			}
-			880 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
-			218 = { add_building_construction = { type = air_base level = 2 instant_build = yes } }
-			add_tech_bonus = {
+			880 = { add_building_construction = { type = air_base level = 2 instant_build = yes }
+				if = {
+					limit = {
+						hidden_trigger = {
+							owner = {
+								has_country_flag = RUS_easy_mode_enabled
+								is_ai = no
+							}
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				} # RUS_EASY_MODE_REWARD
+			 }
+			218 = { add_building_construction = { type = air_base level = 2 instant_build = yes }
+				if = {
+					limit = {
+						hidden_trigger = {
+							owner = {
+								has_country_flag = RUS_easy_mode_enabled
+								is_ai = no
+							}
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				} # RUS_EASY_MODE_REWARD
+			 }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_fr_national_military_reform_program
+				bonus = 2
+				uses = 1
+				category = armor
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
 				bonus = 1
 				uses = 1
 				category = armor
-			}
-			add_tech_bonus = {
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_fr_national_military_reform_program
+				bonus = 2
+				uses = 1
+				category = air_equipment
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
 				bonus = 1
 				uses = 1
 				category = air_equipment
-			}
-			add_tech_bonus = {
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_fr_national_military_reform_program
+				bonus = 2
+				uses = 1
+				category = mio_cat_all_artillery_equipment
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
 				bonus = 1
 				uses = 1
 				category = mio_cat_all_artillery_equipment
-			}
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
 			set_country_flag = RUS_fr_technological_reorganisation_rewards_applied
 		}
 	}
@@ -284,7 +418,9 @@ RUS_fr_show_military_production_legacy_rewards = {
 	effect_tooltip = {
 		653 = {
 			add_extra_state_shared_building_slots = 2
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 			add_building_construction = { type = arms_factory level = 2 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 		}
 		add_ideas = RUS_military_production_idea_1
 	}
@@ -324,18 +460,38 @@ RUS_fr_show_okmo_unlock = {
 
 RUS_fr_show_small_arms_legacy_rewards = {
 	effect_tooltip = {
-		add_tech_bonus = {
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_update_equipment
+			bonus = 2
+			uses = 1
+			category = infantry_weapons
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_update_equipment
 			bonus = 1
 			uses = 1
 			category = infantry_weapons
-		}
-		add_tech_bonus = {
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_update_equipment
+			bonus = 2
+			uses = 1
+			category = support_tech
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_update_equipment
 			bonus = 1
 			uses = 1
 			category = support_tech
-		}
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
 		swap_ideas = {
 			remove_idea = RUS_military_production_idea_1
 			add_idea = RUS_military_production_idea_2
@@ -353,15 +509,28 @@ RUS_fr_show_mechanisation_legacy_rewards = {
 	effect_tooltip = {
 		252 = {
 			add_extra_state_shared_building_slots = 2
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 			add_building_construction = { type = arms_factory level = 2 }
+			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 		}
-		add_tech_bonus = {
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_nizhegorodsky_avtomobilny_focus
+			bonus = 2
+			uses = 1
+			category = cat_mechanized_equipment
+			category = motorized_equipment
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_nizhegorodsky_avtomobilny_focus
 			bonus = 1
 			uses = 1
 			category = cat_mechanized_equipment
 			category = motorized_equipment
-		}
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
 		if = {
 			limit = { has_dlc_aat = yes }
 			mio:RUS_naz_organisation = { unlock_mio_trait_tooltip = { trait = naz_upgrade_4_2 } }
@@ -383,12 +552,22 @@ RUS_fr_show_logistics_legacy_rewards = {
 
 RUS_fr_show_armour_design_legacy_rewards = {
 	effect_tooltip = {
-		add_tech_bonus = {
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_NPP_tanks
+			bonus = 2
+			uses = 2
+			category = mio_cat_tech_all_armor_and_modules
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_NPP_tanks
 			bonus = 1
 			uses = 2
 			category = mio_cat_tech_all_armor_and_modules
-		}
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
 		custom_effect_tooltip = RUS_tanks_design_focus_tt
 		RUS_spawn_breakthrough_tanks = yes
 		if = {
@@ -401,12 +580,22 @@ RUS_fr_show_armour_design_legacy_rewards = {
 RUS_fr_show_land_warfare_legacy_rewards = {
 	effect_tooltip = {
 		572 = { add_building_construction = { type = air_facility level = 1 province = 9292 instant_build = yes } }
-		add_tech_bonus = {
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_expand_ird
+			bonus = 2
+			uses = 2
+			category = rocketry
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_expand_ird
 			bonus = 1
 			uses = 2
 			category = rocketry
-		}
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
 		show_ideas_tooltip = ird
 	}
 }
@@ -461,7 +650,9 @@ RUS_fr_apply_military_production_legacy_rewards = {
 			limit = { NOT = { has_completed_focus = RUS_military_production } }
 			653 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			activate_targeted_decision = { target = 219 decision = RUS_modernisation_of_AMO }
 			activate_targeted_decision = { target = 399 decision = RUS_izhevsk_mechanical_plant }
@@ -489,8 +680,18 @@ RUS_fr_apply_small_arms_legacy_rewards = {
 		limit = { NOT = { has_country_flag = RUS_fr_small_arms_legacy_rewards_applied } }
 		if = {
 			limit = { NOT = { has_completed_focus = RUS_update_equipment } }
-			add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = infantry_weapons }
-			add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = support_tech }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_update_equipment bonus = 2 uses = 1 category = infantry_weapons } }
+			else = { add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = infantry_weapons } }
+			# RUS_EASY_MODE_TECH_END
+			
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_update_equipment bonus = 2 uses = 1 category = support_tech } }
+			else = { add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = support_tech } }
+			# RUS_EASY_MODE_TECH_END
+			
 			if = {
 				limit = { has_idea = RUS_military_production_idea_1 }
 				swap_ideas = { remove_idea = RUS_military_production_idea_1 add_idea = RUS_military_production_idea_2 }
@@ -528,15 +729,28 @@ RUS_fr_apply_mechanisation_legacy_rewards = {
 			limit = { NOT = { has_completed_focus = RUS_nizhegorodsky_avtomobilny_focus } }
 			252 = {
 				add_extra_state_shared_building_slots = 2
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 2 } # RUS_EASY_MODE_REWARD
 				add_building_construction = { type = arms_factory level = 2 }
+				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
-			add_tech_bonus = {
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+				name = RUS_nizhegorodsky_avtomobilny_focus
+				bonus = 2
+				uses = 1
+				category = cat_mechanized_equipment
+				category = motorized_equipment
+			} }
+			else = { add_tech_bonus = {
 				name = RUS_nizhegorodsky_avtomobilny_focus
 				bonus = 1
 				uses = 1
 				category = cat_mechanized_equipment
 				category = motorized_equipment
-			}
+			} }
+			# RUS_EASY_MODE_TECH_END
+			
 			if = {
 				limit = { has_dlc_aat = no has_idea = naz }
 				swap_ideas = { remove_idea = naz add_idea = naz_improved }
@@ -590,7 +804,12 @@ RUS_fr_apply_expand_ird_legacy_rewards = {
 					construct_building_in_random_province = { air_facility = 1 }
 				}
 			}
-			add_tech_bonus = { name = RUS_expand_ird bonus = 1 uses = 2 category = rocketry }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_expand_ird bonus = 2 uses = 2 category = rocketry } }
+			else = { add_tech_bonus = { name = RUS_expand_ird bonus = 1 uses = 2 category = rocketry } }
+			# RUS_EASY_MODE_TECH_END
+			
 		}
 		set_country_flag = RUS_fr_expand_ird_legacy_rewards_applied
 	}
@@ -601,7 +820,25 @@ RUS_fr_apply_armour_design_legacy_rewards = {
 		limit = { NOT = { has_country_flag = RUS_fr_armour_design_legacy_rewards_applied } }
 		if = {
 			limit = { NOT = { has_completed_focus = RUS_NPP_tanks } }
-			add_tech_bonus = { name = RUS_NPP_tanks bonus = 1 uses = 2 category = mio_cat_tech_all_armor_and_modules }
+			
+			# RUS_EASY_MODE_TECH_START
+			if = {
+				limit = {
+					hidden_trigger = {
+						has_country_flag = RUS_easy_mode_enabled
+						is_ai = no
+					}
+				}
+				add_tech_bonus = {
+					name = RUS_NPP_tanks
+					bonus = 2
+					uses = 2
+					category = mio_cat_tech_all_armor_and_modules
+				}
+			}
+			else = { add_tech_bonus = { name = RUS_NPP_tanks bonus = 1 uses = 2 category = mio_cat_tech_all_armor_and_modules } }
+			# RUS_EASY_MODE_TECH_END
+			
 			RUS_spawn_breakthrough_tanks = yes
 			if = {
 				limit = { has_dlc_aat = no has_idea = sormovo }
@@ -702,17 +939,39 @@ RUS_fr_suppress_deep_mobility_production_legacy = {
 RUS_fr_apply_committee_base_bonuses = {
 	if = {
 		limit = { has_dlc_aat = yes }
-		mio:RUS_toz_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_vpoz_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_obukhov_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_bmz_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_amo_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_naz_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_laz_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_putilovets_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_okmo_kr_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_uztm_organisation = { add_mio_funds_gain_factor = 0.05 }
-		mio:RUS_chtz_organisation = { add_mio_funds_gain_factor = 0.05 }
+		mio:RUS_toz_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_vpoz_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_obukhov_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_bmz_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_amo_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_naz_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_laz_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_putilovets_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_okmo_kr_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_uztm_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_chtz_organisation = { add_mio_funds_gain_factor = 0.05
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.05 } # RUS_EASY_MODE_REWARD
+		 }
 	}
 }
 
@@ -722,15 +981,23 @@ RUS_fr_apply_armaments_priority_bonuses = {
 	add_to_variable = { RUS_fr_unified_production_max_efficiency_factor = RUS_fr_specialist_secondary_bonus }
 	if = {
 		limit = { has_dlc_aat = yes }
-		mio:RUS_toz_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_toz_organisation = { add_mio_funds_gain_factor = 0.10
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
+		 }
 		mio:RUS_vpoz_organisation = {
 			add_mio_funds_gain_factor = 0.10
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
 			add_mio_size = 1
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_size = 1 } # RUS_EASY_MODE_REWARD
 		}
-		mio:RUS_obukhov_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_obukhov_organisation = { add_mio_funds_gain_factor = 0.10
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
+		 }
 		mio:RUS_bmz_organisation = {
 			add_mio_funds_gain_factor = 0.10
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
 			add_mio_size = 1
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_size = 1 } # RUS_EASY_MODE_REWARD
 		}
 	}
 }
@@ -752,10 +1019,16 @@ RUS_fr_apply_mobility_priority_bonuses = {
 		limit = { has_dlc_aat = yes }
 		mio:RUS_amo_organisation = {
 			add_mio_funds_gain_factor = 0.10
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
 			add_mio_size = 1
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_size = 1 } # RUS_EASY_MODE_REWARD
 		}
-		mio:RUS_naz_organisation = { add_mio_funds_gain_factor = 0.10 }
-		mio:RUS_laz_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_naz_organisation = { add_mio_funds_gain_factor = 0.10
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_laz_organisation = { add_mio_funds_gain_factor = 0.10
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
+		 }
 		set_country_flag = naz_research_funds_gain
 		set_country_flag = laz_research_funds_gain
 	}
@@ -767,12 +1040,20 @@ RUS_fr_apply_armour_priority_bonuses = {
 	add_to_variable = { RUS_fr_unified_attack_factor = RUS_fr_specialist_secondary_bonus }
 	if = {
 		limit = { has_dlc_aat = yes }
-		mio:RUS_putilovets_organisation = { add_mio_funds_gain_factor = 0.10 }
-		mio:RUS_okmo_kr_organisation = { add_mio_funds_gain_factor = 0.10 }
-		mio:RUS_uztm_organisation = { add_mio_funds_gain_factor = 0.10 }
+		mio:RUS_putilovets_organisation = { add_mio_funds_gain_factor = 0.10
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_okmo_kr_organisation = { add_mio_funds_gain_factor = 0.10
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
+		 }
+		mio:RUS_uztm_organisation = { add_mio_funds_gain_factor = 0.10
+		if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
+		 }
 		mio:RUS_chtz_organisation = {
 			add_mio_funds_gain_factor = 0.10
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_funds_gain_factor = 0.10 } # RUS_EASY_MODE_REWARD
 			add_mio_size = 1
+			if = { limit = { hidden_trigger = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_mio_size = 1 } # RUS_EASY_MODE_REWARD
 		}
 	}
 }
@@ -1329,6 +1610,7 @@ RUS_fr_apply_rectification_stage_one = {
 		}
 	}
 	set_country_flag = RUS_fr_reform_stage_1
+	RUS_refresh_workers_peasants_defence_mobilisation_law = yes
 	clr_country_flag = RUS_fr_reform_stage_1_in_progress
 }
 
@@ -1355,6 +1637,7 @@ RUS_fr_apply_rectification_stage_two = {
 		}
 		set_country_flag = RUS_fr_reform_stage_2
 	}
+	RUS_refresh_workers_peasants_defence_mobilisation_law = yes
 	clr_country_flag = RUS_fr_reform_stage_2_in_progress
 }
 
@@ -1383,6 +1666,7 @@ RUS_fr_apply_rectification_stage_three = {
 		}
 		set_country_flag = RUS_fr_reform_stage_3
 	}
+	RUS_refresh_workers_peasants_defence_mobilisation_law = yes
 	clr_country_flag = RUS_fr_reform_stage_3_in_progress
 }
 
@@ -1441,6 +1725,7 @@ RUS_fr_apply_rectification_stage_four = {
 			}
 		}
 	}
+	RUS_refresh_workers_peasants_defence_mobilisation_law = yes
 	clr_country_flag = RUS_fr_reform_stage_4_in_progress
 }
 

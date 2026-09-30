@@ -1,0 +1,20 @@
+on_actions = {
+	on_monthly = {
+		effect = { RUS_east_asia_project_156_monthly = yes }
+	}
+	on_daily = {
+		effect = {
+			if = {
+				limit = { RUS_east_asia_has_cooperation_idea = yes }
+				RUS_east_asia_refresh_cooperation = yes
+			}
+			if = {
+				limit = {
+					has_idea = RUS_active_northeast_resistance
+					RUS_east_asia_pro_japanese_fengtian = no
+				}
+				remove_ideas = RUS_active_northeast_resistance
+			}
+		}
+	}
+}

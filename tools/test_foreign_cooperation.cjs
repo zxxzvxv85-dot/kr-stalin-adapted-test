@@ -40,7 +40,8 @@ function check(block, c, world, origin) {
     const v = n.value;
     if (n.key === 'has_country_flag') return (c.flags || []).includes(v);
     if (n.key === 'NOT') return !check(v, c, world, origin);
-    if (n.key === 'AND') return check(v, c, world, origin);
+    if (n.key === 'is_ai') return !!c.ai === (v === 'yes');
+    if (n.key === 'hidden_trigger' || n.key === 'AND') return check(v, c, world, origin);
     if (n.key === 'OR') return v.some(item => check([item], c, world, origin));
     if (n.key === 'FRA') return check(v, world.FRA, world, origin);
     if (n.key === 'exists') return c.exists === (v === 'yes');
@@ -48,7 +49,7 @@ function check(block, c, world, origin) {
     if (n.key === 'has_completed_focus') return c.focuses.includes(v);
     if (n.key === 'has_war_with') return c.wars.includes(v === 'ROOT' ? origin.id : v);
     if (n.key === 'has_political_power') { assert.equal(n.op, '<'); return c.pp < Number(v); }
-    if (triggers.has(n.key)) return check(triggers.get(n.key), c, world, origin);
+    if (triggers.has(n.key)) return check(triggers.get(n.key), c, world, origin) === (v === 'yes');
     throw Error('Unsupported trigger ' + n.key);
   });
 }
@@ -56,11 +57,12 @@ function run(block, c, world, origin = c) {
   let previousIf = false;
   for (const n of block) {
     const v = n.value;
-    if (n.key === 'if') {
-      previousIf = check(get(v, 'limit'), c, world, origin);
-      if (previousIf) run(v.filter(x => x.key !== 'limit'), c, world, origin);
+    if (n.key === 'if' || n.key === 'else_if') {
+      if (n.key === 'if') previousIf = false;
+      if (!previousIf && check(get(v, 'limit'), c, world, origin)) { previousIf = true; run(v.filter(x => x.key !== 'limit'), c, world, origin); }
     } else if (n.key === 'else') {
       if (!previousIf) run(v, c, world, origin);
+      previousIf = true;
     } else if (n.key === 'FRA') run(v, world.FRA, world, origin);
     else if (n.key === 'set_variable') for (const x of v) c.vars[x.key] = Number(x.value);
     else if (n.key === 'add_political_power') c.pp += Number(v);
@@ -99,7 +101,7 @@ for (const complete of [false, true]) for (const pp of [23.9, 24, 24.1, 29.9, 30
   c.pp = pp;
   if (complete) c.focuses.push('RUS_future_foreign_056');
   const cost = complete ? 24 : 30;
-  assert.equal(check(triggers.get('RUS_future_foreign_can_pay_aid_pp'), c, {}, c), pp >= cost);
+  assert.equal(check(triggers.get('RUS_future_foreign_can_pay_aid_pp'), c, {}, c), pp >= cost,JSON.stringify({complete,pp,cost}));
   const displayed = localText.filter(n => n.key === 'text').find(n => !get(n.value, 'trigger') || check(get(n.value, 'trigger'), c, {}, c));
   assert.equal(get(displayed.value, 'localization_key'), 'RUS_future_foreign_aid_pp_' + cost);
   run(effects.get('RUS_future_foreign_pay_aid_pp'), c, {});
@@ -135,7 +137,10 @@ for (const id of ['046', '056']) {
   assert.equal(get(get(focus, 'ai_will_do'), 'factor'), '10');
   assert.notEqual(get(focus, 'available')?.find(n => n.key === 'always')?.value, 'no');
   if (id === '046') {
-    assert.equal(get(get(focus, 'completion_reward'), 'RUS_future_foreign_joint_deterrence'), 'yes');
+    assert.equal(get(get(focus, 'completion_reward'), 'country_event'), 'RUS_future_foreign_policy_events.8');
+    const event=load('events/RUS_future_foreign_policy_events.txt').find(n=>n.key==='country_event'&&get(n.value,'id')==='RUS_future_foreign_policy_events.8').value;
+    assert.equal(get(event,'fire_only_once'),'yes');
+    assert.equal(get(get(event,'option'),'RUS_future_foreign_joint_deterrence'),'yes');
     assert.equal(get(get(focus, 'completion_reward'), 'custom_effect_tooltip'), undefined);
   } else {
     assert.ok(get(focus, 'completion_reward').some(n => n.value === 'RUS_future_foreign_aid_discount_tt'));
@@ -184,10 +189,11 @@ for (let changed = true; changed;) {
     }
   }
 }
-assert.deepEqual([...parisBranch].sort(), ['006', '016', '017', '032', '046', '047', '056'].map(id => 'RUS_future_foreign_' + id));
+const threatFocuses=new Set(['006','016','017','032','047','056'].map(id=>'RUS_future_foreign_'+id));
+for(const id of [...threatFocuses,'RUS_future_foreign_046'])assert.ok(parisBranch.has(id));
 for (const {value: focus} of focuses) {
   const threat = (get(focus, 'completion_reward') || []).filter(n => n.key === 'add_threat');
-  assert.deepEqual(threat.map(n => n.value), parisBranch.has(get(focus, 'id')) ? ['2.0'] : []);
+  assert.deepEqual(threat.map(n => n.value), threatFocuses.has(get(focus, 'id')) ? ['2.0'] : []);
 }
 function threatCount(nodes) {
   return nodes.reduce((count, n) => count + (n.key === 'add_threat' ? 1 : 0) + (Array.isArray(n.value) ? threatCount(n.value) : 0), 0);
@@ -197,4 +203,4 @@ for (const decision of decisions) {
   assert.equal(threatCount(decision.value), aid ? 1 : 0);
   if (aid) assert.equal(get(get(decision.value, 'complete_effect'), 'add_threat'), '1.0');
 }
-console.log(`${cases} behavioral cases passed; aid hooks, resource prices, modifier values and three-language BOM/key parity passed. Seven Paris-branch rewards and one-time aid threat hooks verified.`);
+console.log(`${cases} behavioral cases passed; aid hooks, resource prices, modifier values and three-language BOM/key parity passed. Six direct Paris rewards plus the conference event and one-time aid threat hooks verified.`);

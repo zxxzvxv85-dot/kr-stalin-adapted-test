@@ -1,0 +1,19 @@
+RUS_agricultural_quarterly_management_category = {
+	RUS_nat_close_system = {
+		icon = GFX_decision_generic_agriculture
+		visible = {
+			has_country_flag = RUS_nat_enabled
+			has_country_flag = RUS_agri_management_unlocked
+			NOT = { has_country_flag = RUS_nat_system_closed }
+			check_variable = { RUS_agri_display_score > 200 }
+			is_ai = no
+		}
+		cost = 0
+		fire_only_once = yes
+		complete_effect = {
+			custom_effect_tooltip = RUS_nat_close_system_tt
+			hidden_effect = { RUS_nat_close_system_effect = yes }
+		}
+		ai_will_do = { base = 0 }
+	}
+}

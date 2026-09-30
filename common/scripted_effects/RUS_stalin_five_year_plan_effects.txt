@@ -354,6 +354,7 @@ RUS_stalin_industry_effect = {
 		if = {
 			limit = { has_stability < 0.75 }
 			add_stability = 0.005
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.005 } # RUS_EASY_MODE_REWARD
 		}
 		else = {
 			add_popularity = { ideology = national_populist popularity = 0.005 }
@@ -371,6 +372,7 @@ RUS_stalin_industry_effect = {
 	else_if = {
 		limit = { has_completed_focus = RUS_new_russian_capitalism }
 		add_stability = 0.005
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.005 } # RUS_EASY_MODE_REWARD
 	}
 	if = {
 		limit = { RUS_completed_focus_4_year_plan = yes }

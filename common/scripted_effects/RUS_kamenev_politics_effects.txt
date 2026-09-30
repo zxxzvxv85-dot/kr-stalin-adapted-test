@@ -61,24 +61,6 @@ RUS_sync_political_advisor_route = {
    clr_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command
   }
  }
- if = { limit = { has_character = RUS_mikhail_frunze }
-  if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_mikhail_frunze_political_advisor } }
-   remove_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = KR_ideological_crusader }
-   add_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = KR_bolshevik_frunze }
-   add_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = RUS_relationship_display_frunze }
-   set_country_flag = RUS_route_traits_RUS_mikhail_frunze_political_advisor
-   clr_country_flag = RUS_route_traits_RUS_mikhail_frunze_political_advisor_kr
-  }
-  else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_mikhail_frunze_political_advisor_kr } }
-   if = { limit = { has_country_flag = RUS_route_traits_RUS_mikhail_frunze_political_advisor }
-    remove_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = KR_bolshevik_frunze }
-    remove_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = RUS_relationship_display_frunze }
-    add_trait = { character = RUS_mikhail_frunze slot = political_advisor trait = KR_ideological_crusader }
-   }
-   set_country_flag = RUS_route_traits_RUS_mikhail_frunze_political_advisor_kr
-   clr_country_flag = RUS_route_traits_RUS_mikhail_frunze_political_advisor
-  }
- }
  if = { limit = { has_character = RUS_ilya_mayorov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor } }
    remove_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_agricultural_economist }

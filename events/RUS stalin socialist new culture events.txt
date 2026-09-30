@@ -27,12 +27,14 @@ country_event = {
 		custom_effect_tooltip = rus_stalin_new_culture_events.1.a.tt
 		add_stability = -0.03
 		add_political_power = 30
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 30 } # RUS_EASY_MODE_REWARD
 		country_event = { id = rus_stalin_new_culture_events.2 days = 7 }
 	}
 	option = {
 		name = rus_stalin_new_culture_events.1.b
 		custom_effect_tooltip = rus_stalin_new_culture_events.1.b.tt
 		add_stability = 0.03
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.03 } # RUS_EASY_MODE_REWARD
 		add_political_power = -30
 		country_event = { id = rus_stalin_new_culture_events.2 days = 7 }
 	}

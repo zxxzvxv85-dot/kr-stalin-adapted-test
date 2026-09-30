@@ -38,6 +38,7 @@ RUS_white_revolt_category = {
 			hidden_effect = {
 				add_equipment_to_stockpile = { type = infantry_equipment amount = -5000 }
 				add_command_power = 25
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_command_power = 25 } # RUS_EASY_MODE_REWARD
 			}
 		}
 		ai_will_do = {

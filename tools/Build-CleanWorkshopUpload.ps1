@@ -1,12 +1,17 @@
 ﻿[CmdletBinding()]
 param(
-    [string]$SourceRoot = (Split-Path -Parent $PSScriptRoot),
+    [string]$SourceRoot = "",
     [string]$DestinationRoot = ""
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Resolve after parameter binding; Windows PowerShell can leave $PSScriptRoot
+# empty while evaluating a default parameter expression.
+if ([string]::IsNullOrWhiteSpace($SourceRoot)) {
+    $SourceRoot = Split-Path -Parent $PSScriptRoot
+}
 $source = [System.IO.Path]::GetFullPath($SourceRoot).TrimEnd([System.IO.Path]::DirectorySeparatorChar)
 if ([string]::IsNullOrWhiteSpace($DestinationRoot)) {
     $DestinationRoot = "$source" + "_upload"
@@ -43,9 +48,10 @@ if ($LASTEXITCODE -ne 0 -or $insideWorkTree -ne "true") {
 }
 
 $excludePatterns = @(
-    '^(?:\.gitattributes|\.gitignore)$',
+    '^(?:\.gitattributes|\.gitignore|\.editorconfig)$',
     '^[^/]+\.md$',
     '^tools/',
+    '^docs/',
     '^output/',
     '^tmp/',
     '^\.vscode/',
@@ -153,6 +159,10 @@ if ($backups.Count -gt $backupKeep) {
         $resolved = [System.IO.Path]::GetFullPath($old.FullName)
         if (-not $resolved.StartsWith($destinationParent + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
             Write-Warning "Skip pruning outside the upload parent: $resolved"
+            continue
+        }
+        if ($old.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+            Write-Warning "Skip redirected backup: $resolved"
             continue
         }
         Remove-Item -LiteralPath $resolved -Recurse -Force

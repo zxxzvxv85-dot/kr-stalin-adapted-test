@@ -2,19 +2,20 @@ from __future__ import annotations
 
 import colorsys
 import csv
+import json
+import os
 import random
 import re
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageOps
 
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSHOP = ROOT.parent
-KR = WORKSHOP / "1521695605"
-BASE_GAME = Path(r"D:\steam\steamapps\common\Hearts of Iron IV")
+KR = Path(os.environ.get("HOI4_KR_ROOT", WORKSHOP / "1521695605"))
+BASE_GAME = Path(os.environ.get("HOI4_GAME_ROOT", ROOT.parents[3] / "common" / "Hearts of Iron IV"))
 ASSET_DIR = ROOT / "gfx" / "interface" / "RUS_europe_intervention"
 PREVIEW_DIR = WORKSHOP / "tmp" / "europe_gui"
 GENERATED_MAP_SOURCE = ROOT / "output" / "imagegen" / "europe-intervention-soviet-map-v1.png"
@@ -232,6 +233,7 @@ def build_state_pixels(
     width: int,
     height: int,
 ) -> list[int]:
+    from PIL import Image
     provinces = Image.open(KR / "map" / "provinces.bmp").convert("RGB")
     sampled = provinces.crop(SOURCE_CROP).resize(
         (width, height), Image.Resampling.NEAREST
@@ -242,6 +244,7 @@ def build_state_pixels(
 def mask_for_states(
     state_pixels: list[int], state_ids: set[int], width: int, height: int
 ) -> Image.Image:
+    from PIL import Image
     mask = bytearray(width * height)
     for index, state_id in enumerate(state_pixels):
         if state_id in state_ids:
@@ -250,6 +253,7 @@ def mask_for_states(
 
 
 def fallback_mask(lon: float, lat: float) -> Image.Image:
+    from PIL import Image, ImageDraw
     x, y = map_source_to_output(lon, lat)
     mask = Image.new("L", (MAP_WIDTH, MAP_HEIGHT), 0)
     ImageDraw.Draw(mask).ellipse((x - 7, y - 7, x + 7, y + 7), fill=255)
@@ -275,21 +279,24 @@ def muted_country_color(tag: str, colors: dict[str, tuple[int, int, int]]) -> tu
 
 
 def outline_mask(mask: Image.Image, width: int = 1) -> Image.Image:
+    from PIL import ImageChops, ImageFilter
     expanded = mask.filter(ImageFilter.MaxFilter(width * 2 + 1))
     return ImageChops.subtract(expanded, mask)
 
 
-def build_category_icon() -> None:
+def build_category_icon(asset_dir: Path = ASSET_DIR) -> None:
+    from PIL import Image, ImageOps
     source = Image.open(
         KR / "gfx" / "interface" / "goals" / "goal_communist_world_revolution.png"
     ).convert("RGBA")
     fitted = ImageOps.contain(source, (35, 40), Image.Resampling.LANCZOS)
     icon = Image.new("RGBA", (51, 40), (0, 0, 0, 0))
     icon.alpha_composite(fitted, ((icon.width - fitted.width) // 2, 0))
-    icon.save(ASSET_DIR / "category_icon.png")
+    icon.save(asset_dir / "category_icon.png")
 
 
-def build_entry_button() -> None:
+def build_entry_button(asset_dir: Path = ASSET_DIR) -> None:
+    from PIL import Image, ImageDraw, ImageEnhance, ImageOps
     background = Image.open(
         BASE_GAME
         / "gfx"
@@ -323,10 +330,11 @@ def build_entry_button() -> None:
         draw.line((61, 7, 61, height - 8), fill=(19, 18, 15, 235), width=2)
         draw.line((63, 8, 63, height - 9), fill=(113, 101, 72, 180), width=1)
         sheet.alpha_composite(frame, (frame_index * width, 0))
-    sheet.save(ASSET_DIR / "entry_button.png")
+    sheet.save(asset_dir / "entry_button.png")
 
 
-def build_overview_button() -> None:
+def build_overview_button(asset_dir: Path = ASSET_DIR) -> None:
+    from PIL import Image, ImageDraw
     width, height = 96, 28
     sheet = Image.new("RGBA", (width * 4, height), (0, 0, 0, 0))
     fills = ((58, 61, 54), (82, 81, 62), (76, 40, 37), (40, 41, 38))
@@ -337,10 +345,11 @@ def build_overview_button() -> None:
         draw.rectangle((0, 0, width - 1, height - 1), outline=(19, 18, 15, 255), width=2)
         draw.rectangle((3, 3, width - 4, height - 4), outline=(*border, 255), width=1)
         sheet.alpha_composite(frame, (frame_index * width, 0))
-    sheet.save(ASSET_DIR / "overview_button.png")
+    sheet.save(asset_dir / "overview_button.png")
 
 
-def build_map_assets() -> dict[str, tuple[int, int, int, int]]:
+def build_map_assets(asset_dir: Path = ASSET_DIR) -> dict[str, tuple[int, int, int, int]]:
+    from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter
     province_to_state, owner_by_state, cores_by_tag = parse_states()
     color_to_state = parse_definition(province_to_state)
     country_colors = parse_country_colors()
@@ -494,7 +503,7 @@ def build_map_assets() -> dict[str, tuple[int, int, int, int]]:
         )
     else:
         panel = panel.resize((MAP_WIDTH, MAP_HEIGHT), Image.Resampling.LANCZOS)
-    panel.save(ASSET_DIR / "europe_map_panel.png")
+    panel.save(asset_dir / "europe_map_panel.png")
 
     selector_boxes: dict[str, tuple[int, int, int, int]] = {}
     initial_tags = set(owned_states)
@@ -555,7 +564,7 @@ def build_map_assets() -> dict[str, tuple[int, int, int, int]]:
         sheet = Image.new("RGBA", (width * 4, height), (0, 0, 0, 0))
         for frame_index, frame in enumerate((normal, hover, pressed, disabled)):
             sheet.alpha_composite(frame, (frame_index * width, 0))
-        sheet.save(ASSET_DIR / f"{hotspot.key}_button.png")
+        sheet.save(asset_dir / f"{hotspot.key}_button.png")
 
         selected_rng = random.Random(1936 + sum(ord(char) for char in hotspot.key))
         texture_width = max(2, width // 5)
@@ -578,16 +587,16 @@ def build_map_assets() -> dict[str, tuple[int, int, int, int]]:
                 fine_edge,
             )
         )
-        selected.save(ASSET_DIR / f"{hotspot.key}_selected.png")
+        selected.save(asset_dir / f"{hotspot.key}_selected.png")
         selector_boxes[hotspot.key] = bbox
 
-    obsolete = ASSET_DIR / "selected_frame.png"
+    obsolete = asset_dir / "selected_frame.png"
     if obsolete.exists():
         obsolete.unlink()
     return selector_boxes
 
 
-def build_gfx(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
+def build_gfx(selector_boxes: dict[str, tuple[int, int, int, int]]) -> str:
     lines = [
         "spriteTypes = {",
         "\tspriteType = {",
@@ -648,12 +657,10 @@ def build_gfx(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
             "\t}",
         ])
     lines.append("}")
-    (ROOT / "interface" / "RUS_europe_intervention.gfx").write_text(
-        "\n".join(lines) + "\n", encoding="utf-8"
-    )
+    return "\n".join(lines) + "\n"
 
 
-def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
+def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> str:
     lines = [
         "guiTypes = {",
         "\tcontainerWindowType = {",
@@ -683,8 +690,8 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         "\t\t\tposition = { x = 9 y = 2 }",
         '\t\t\tspriteType = "GFX_RUS_europe_intervention_category_icon"',
         "\t\t\tscale = 0.9",
-        '\t\t\tpdx_tooltip = "RUS_readiness_decay_tt"',
         "\t\t\talwaystransparent = no",
+        '\t\t\tpdx_tooltip = "RUS_readiness_decay_tt"',
         "\t\t}",
         "",
         "\t\tinstantTextBoxType = {",
@@ -733,6 +740,7 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
         hotspot = HOTSPOT_BY_KEY[hotspot_key]
         lines.extend([
             "",
+            *(["\t\t# Small regions need the final hit-test priority over neighbouring rectangular buttons."] if hotspot_key == "LIT" else []),
             "\t\tbuttonType = {",
             f'\t\t\tname = "RUS_europe_intervention_{hotspot_key}_button"',
             f"\t\t\tposition = {{ x = {MAP_X + left} y = {MAP_Y + top} }}",
@@ -823,12 +831,10 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> None:
     ])
     category_block = lines[1:-1]
     lines = ["guiTypes = {", *category_block, "}"]
-    (ROOT / "interface" / "RUS_europe_intervention.gui").write_text(
-        "\n".join(lines) + "\n", encoding="utf-8"
-    )
+    return "\n".join(lines) + "\n"
 
 
-def build_scripted_gui() -> None:
+def build_scripted_gui() -> str:
     visible = [
         "\t\t\toriginal_tag = RUS",
         "\t\t\thas_socialist_government = yes",
@@ -916,12 +922,10 @@ def build_scripted_gui() -> None:
             "\t\t\t}",
         ])
     lines.extend(["\t\t}", "\t}", "}"])
-    (ROOT / "common" / "scripted_guis" / "RUS_europe_intervention.txt").write_text(
-        "\n".join(lines) + "\n", encoding="utf-8"
-    )
+    return "\n".join(lines) + "\n"
 
 
-def build_scripted_effect_and_trigger() -> None:
+def build_scripted_effect_and_trigger() -> dict[str, str]:
     effect_lines = [
         "RUS_clear_europe_intervention_selection = {",
         "\tclr_country_flag = RUS_europe_intervention_filter_active",
@@ -931,9 +935,7 @@ def build_scripted_effect_and_trigger() -> None:
     for key in sorted(selection_keys):
         effect_lines.append(f"\tclr_country_flag = RUS_europe_intervention_selected_{key}")
     effect_lines.append("}")
-    (ROOT / "common" / "scripted_effects" / "RUS_europe_intervention_effects.txt").write_text(
-        "\n".join(effect_lines) + "\n", encoding="utf-8"
-    )
+    effects = "\n".join(effect_lines) + "\n"
 
     trigger_lines = [
         "RUS_europe_intervention_target_selected_or_overview = {",
@@ -974,9 +976,10 @@ def build_scripted_effect_and_trigger() -> None:
             for key in selector_keys
         )
         trigger_lines.extend(["\t}", "}", ""])
-    (ROOT / "common" / "scripted_triggers" / "RUS_europe_intervention_triggers.txt").write_text(
-        "\n".join(trigger_lines), encoding="utf-8"
-    )
+    return {
+        "common/scripted_effects/RUS_europe_intervention_effects.txt": effects,
+        "common/scripted_triggers/RUS_europe_intervention_triggers.txt": "\n".join(trigger_lines),
+    }
 
 
 DZERZHINSKY_TOOLTIPS = {
@@ -1050,7 +1053,7 @@ def escape_localisation_value(value: str) -> str:
     return value.replace("\r\n", "\n").replace("\r", "\n").replace("\n", r"\n")
 
 
-def build_localisation() -> None:
+def build_localisation() -> dict[str, str]:
     languages = {
         "simp_chinese": {
             "title": "欧洲革命委员会对外联络与侦察处",
@@ -1131,6 +1134,7 @@ def build_localisation() -> None:
             },
         },
     }
+    outputs = {}
     for language, loc in languages.items():
         dzerzhinsky_tooltip = escape_localisation_value(DZERZHINSKY_TOOLTIPS[language])
         molotov_tooltip = escape_localisation_value(MOLOTOV_TOOLTIPS[language])
@@ -1168,25 +1172,53 @@ def build_localisation() -> None:
                 lines.append(
                     f' RUS_europe_intervention_{selector.key}_tt:0 "§Y[{tag}.GetName]§!\\n{loc["tooltip"]}"'
                 )
-        path = ROOT / "localisation" / language / f"RUS_europe_intervention_l_{language}.yml"
-        path.write_text("\n".join(lines) + "\n", encoding="utf-8-sig")
+        outputs[f"localisation/{language}/RUS_europe_intervention_l_{language}.yml"] = "\n".join(lines) + "\n"
+    return outputs
+
+
+def render_outputs(selector_boxes=None) -> dict[str, str]:
+    """Render text from maintained hotspot geometry without reading game-map images."""
+    if selector_boxes is None:
+        selector_boxes = json.loads((ROOT / "tools/data/europe_selector_boxes.json").read_text(encoding="utf-8"))
+    expected = [hotspot.key for hotspot in HOTSPOTS]
+    if set(selector_boxes) != set(expected):
+        raise ValueError("Hotspot geometry must match the configured country selectors")
+    return {
+        "interface/RUS_europe_intervention.gfx": build_gfx(selector_boxes),
+        "interface/RUS_europe_intervention.gui": build_gui(selector_boxes),
+        "common/scripted_guis/RUS_europe_intervention.txt": build_scripted_gui(),
+        **build_scripted_effect_and_trigger(),
+        **build_localisation(),
+    }
 
 
 def main() -> None:
-    ASSET_DIR.mkdir(parents=True, exist_ok=True)
-    build_category_icon()
-    build_entry_button()
-    build_overview_button()
-    selector_boxes = build_map_assets()
-    build_gfx(selector_boxes)
-    build_gui(selector_boxes)
-    build_scripted_gui()
-    build_scripted_effect_and_trigger()
-    build_localisation()
-    print(
-        f"Generated KR 1936 Europe map ({MAP_WIDTH}x{MAP_HEIGHT}) and "
-        f"{len(selector_boxes)} territory selectors in {ROOT}"
-    )
+    import sys
+    from generation_io import cli, process_outputs
+
+    if '--assets' not in sys.argv:
+        cli(render_outputs, root=ROOT, description='Check or generate European intervention UI text')
+        return
+    import argparse
+    parser = argparse.ArgumentParser(description='Explicit European intervention image rebuild')
+    parser.add_argument('--assets', action='store_true', required=True)
+    parser.add_argument('--write', action='store_true')
+    parser.add_argument('--output-root', type=Path)
+    args = parser.parse_args()
+    if not (args.write or args.output_root):
+        parser.error('--assets requires --write or --output-root')
+    destination = (args.output_root or ROOT).resolve()
+    if args.output_root and destination.is_relative_to(ROOT.resolve()) and not args.write:
+        parser.error('Use --write to update assets inside the source root')
+    asset_dir = destination / 'gfx/interface/RUS_europe_intervention'
+    asset_dir.mkdir(parents=True, exist_ok=True)
+    build_category_icon(asset_dir)
+    build_entry_button(asset_dir)
+    build_overview_button(asset_dir)
+    boxes = build_map_assets(asset_dir)
+    outputs = render_outputs(boxes)
+    outputs['tools/data/europe_selector_boxes.json'] = json.dumps(boxes, indent=2) + "\n"
+    process_outputs(outputs, destination, write=True)
 
 
 if __name__ == "__main__":

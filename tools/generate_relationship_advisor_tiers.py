@@ -25,22 +25,6 @@ ADVISORS = [
     },
     {
         "group": "rkp",
-        "slug": "frunze",
-        "character": "RUS_mikhail_frunze",
-        "sprite": 13,
-        "name": "RUS_relationship_scaled_frunze",
-        "effects": {
-            "send_volunteer_size": 5,
-            "party_popularity_stability_factor": 0.25,
-            "justify_war_goal_time": -0.25,
-            "experience_gain_army_factor": 0.25,
-            "land_night_attack": 0.05,
-        },
-        "bop": 0.01,
-        "legacy": ["RUS_relationship_scaled_frunze", "RUS_frunze_ideological_crusader", "KR_bolshevik_frunze_bop"],
-    },
-    {
-        "group": "rkp",
         "slug": "kaganovich",
         "character": "RUS_lazar_kaganovich",
         "sprite": 10,
@@ -271,7 +255,6 @@ GROUP_TIERS = {"rkp": range(11), "psr": range(11), "max": range(6)}
 GROUP_VARIABLES = {"rkp": "RUS_rkp_advisor_trait_tier", "psr": "RUS_psr_advisor_trait_tier", "max": "RUS_max_advisor_trait_tier"}
 IDENTITY_TRAITS = {
     "sverdlov": "KR_bolshevik_sverdlov",
-    "frunze": "KR_bolshevik_frunze",
     "kaganovich": "KR_bolshevik_kaganovich",
     "zhdanov": "KR_bolshevik_zhdanov",
     "yezhov": "KR_bolshevik_yezhov",
@@ -293,6 +276,38 @@ IDENTITY_TRAITS = {
 
 def trait_id(advisor: dict, tier: int) -> str:
     return f"RUS_relationship_scaled_{advisor['slug']}_tier_{tier}"
+
+
+def easy_trait_id(advisor: dict, tier: int) -> str:
+    return f"{trait_id(advisor, tier)}_easy"
+
+
+# These negative values are benefits to the player; other negative values are
+# penalties and must retain their normal-mode magnitude.
+BENEFICIAL_NEGATIVE_MODIFIERS = {
+    "civilian_intel_to_others",
+    "min_export",
+    "consumer_goods_expected_value",
+    "political_advisor_cost_factor",
+    "justify_war_goal_time",
+    "production_cost_arms_factory_factor",
+    "own_operative_capture_chance_factor",
+    "agency_upgrade_time",
+    "mobilization_laws_cost_factor",
+    "trade_laws_cost_factor",
+    "economy_cost_factor",
+    "production_cost_infrastructure_factor",
+    "resistance_damage_to_garrison",
+    "resistance_target",
+}
+
+
+def easy_modifier_value(modifier: str, value: float) -> float:
+    if value > 0 and modifier not in BENEFICIAL_NEGATIVE_MODIFIERS:
+        return value * 2
+    if value < 0 and modifier in BENEFICIAL_NEGATIVE_MODIFIERS:
+        return value * 2
+    return value
 
 
 def display_trait_id(advisor: dict) -> str:
@@ -325,27 +340,28 @@ def render_traits() -> str:
             "",
         ])
         for tier in GROUP_TIERS[advisor["group"]]:
-            lines.extend([
-                f"\t{trait_id(advisor, tier)} = {{",
-                "\t\trandom = no",
-                f"\t\tsprite = {advisor['sprite']}",
-            ])
             if "stage_effects" in advisor:
                 effects = advisor["stage_effects"][tier]
-                for modifier, value in effects.items():
-                    lines.append(f"\t\t{modifier} = {number(value)}")
             else:
                 factor = effect_factor(advisor["group"], tier)
-                for modifier, base in advisor["effects"].items():
-                    lines.append(f"\t\t{modifier} = {number(base * factor)}")
-            if advisor.get("bop", 0) > 0:
-                lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt")
-            elif advisor.get("bop", 0) < 0:
-                lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt")
-            if advisor["group"] == "max":
-                lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_maximalist_advisor_weekly_tt")
-                lines.append(f"\t\tcustom_modifier_tooltip = RUS_maximalist_advisor_{advisor['slug']}_agriculture_tt")
-            lines.extend(["\t}", ""])
+                effects = {modifier: base * factor for modifier, base in advisor["effects"].items()}
+            for easy in (False, True):
+                lines.extend([
+                    f"\t{easy_trait_id(advisor, tier) if easy else trait_id(advisor, tier)} = {{",
+                    "\t\trandom = no",
+                    f"\t\tsprite = {advisor['sprite']}",
+                ])
+                for modifier, value in effects.items():
+                    displayed = easy_modifier_value(modifier, value) if easy else value
+                    lines.append(f"\t\t{modifier} = {number(displayed)}")
+                if advisor.get("bop", 0) > 0:
+                    lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_bolshevik_advisor_weekly_tt")
+                elif advisor.get("bop", 0) < 0:
+                    lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt")
+                if advisor["group"] == "max":
+                    lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_maximalist_advisor_weekly_tt")
+                    lines.append(f"\t\tcustom_modifier_tooltip = RUS_maximalist_advisor_{advisor['slug']}_agriculture_tt")
+                lines.extend(["\t}", ""])
     lines.append("}")
     return "\n".join(lines) + "\n"
 
@@ -360,10 +376,18 @@ def remove_if_present(advisor: dict, trait: str, indent: str = "\t\t") -> list[s
     ]
 
 
+def advisor_scope_start(advisor: dict) -> list[str]:
+    return [f"\t{advisor['character']} = {{"]
+
+
+def advisor_scope_end(advisor: dict) -> list[str]:
+    return ["\t}"]
+
+
 def render_legacy_cleanup() -> list[str]:
     lines = ["RUS_stalin_clear_legacy_relationship_advisor_traits = {"]
     for advisor in ADVISORS:
-        lines.append(f"\t{advisor['character']} = {{")
+        lines.extend(advisor_scope_start(advisor))
         for trait in advisor["legacy"]:
             lines.extend(remove_if_present(advisor, trait))
         identity = IDENTITY_TRAITS.get(advisor["slug"])
@@ -374,7 +398,7 @@ def render_legacy_cleanup() -> list[str]:
                 f"\t\t\tadd_trait = {{ character = {advisor['character']} slot = political_advisor trait = {identity} }}",
                 "\t\t}",
             ])
-        lines.append("\t}")
+        lines.extend(advisor_scope_end(advisor))
     lines.extend(["}", ""])
     return lines
 
@@ -389,25 +413,36 @@ def render_tier_setters() -> list[str]:
         group_advisors = [advisor for advisor in ADVISORS if advisor["group"] == group]
         lines.append(f"RUS_stalin_clear_{group}_advisor_trait_tiers = {{")
         for advisor in group_advisors:
-            lines.append(f"\t{advisor['character']} = {{")
+            lines.extend(advisor_scope_start(advisor))
             for tier in tiers:
                 lines.extend(remove_if_present(advisor, trait_id(advisor, tier)))
-            lines.append("\t}")
+                lines.extend(remove_if_present(advisor, easy_trait_id(advisor, tier)))
+            lines.extend(advisor_scope_end(advisor))
         lines.extend(["}", ""])
         for tier in tiers:
             lines.append(f"RUS_stalin_set_{group}_advisor_trait_tier_{tier} = {{")
             lines.append(f"\tRUS_stalin_clear_{group}_advisor_trait_tiers = yes")
             for advisor in group_advisors:
+                lines.extend(advisor_scope_start(advisor))
                 lines.extend([
-                    f"\t{advisor['character']} = {{",
-                    f"\t\tadd_trait = {{ character = {advisor['character']} slot = political_advisor trait = {trait_id(advisor, tier)} }}",
-                    "\t}",
+                    "\t\tif = {",
+                    "\t\t\tlimit = { ROOT = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }",
+                    f"\t\t\tadd_trait = {{ character = {advisor['character']} slot = political_advisor trait = {easy_trait_id(advisor, tier)} }}",
+                    "\t\t}",
+                    "\t\telse = {",
+                    f"\t\t\tadd_trait = {{ character = {advisor['character']} slot = political_advisor trait = {trait_id(advisor, tier)} }}",
+                    "\t\t}",
                 ])
+                lines.extend(advisor_scope_end(advisor))
             for old_tier in tiers:
                 lines.append(f"\tclr_country_flag = {tier_flag(group, old_tier)}")
             lines.append(f"\tset_country_flag = {tier_flag(group, tier)}")
             lines.extend(["}", ""])
     return lines
+
+
+def render_selector_refresh_limit(group: str, tier: int) -> list[str]:
+    return [f"\t\t\tlimit = {{ NOT = {{ has_country_flag = {tier_flag(group, tier)} }} }}"]
 
 
 def render_selector(group: str) -> list[str]:
@@ -419,7 +454,7 @@ def render_selector(group: str) -> list[str]:
             lines.extend([
                 "\telse = {",
                 "\t\tif = {",
-                f"\t\t\tlimit = {{ NOT = {{ has_country_flag = {tier_flag(group, tier)} }} }}",
+                *render_selector_refresh_limit(group, tier),
                 f"\t\t\tRUS_stalin_set_{group}_advisor_trait_tier_{tier} = yes",
                 "\t\t}",
                 "\t}",
@@ -430,7 +465,7 @@ def render_selector(group: str) -> list[str]:
             f"\t{keyword} = {{",
             f"\t\tlimit = {{ check_variable = {{ {variable} < {tier + 0.5} }} }}",
             "\t\tif = {",
-            f"\t\t\tlimit = {{ NOT = {{ has_country_flag = {tier_flag(group, tier)} }} }}",
+            *render_selector_refresh_limit(group, tier),
             f"\t\t\tRUS_stalin_set_{group}_advisor_trait_tier_{tier} = yes",
             "\t\t}",
             "\t}",
@@ -464,6 +499,18 @@ def render_effects() -> str:
         "\tRUS_stalin_apply_psr_advisor_trait_tier = yes",
         "\tRUS_stalin_apply_max_advisor_trait_tier = yes",
         "}",
+        "",
+        "RUS_stalin_refresh_easy_advisor_trait_tiers = {",
+        "\tRUS_stalin_clear_rkp_advisor_trait_tiers = yes",
+        "\tRUS_stalin_clear_psr_advisor_trait_tiers = yes",
+        "\tRUS_stalin_clear_max_advisor_trait_tiers = yes",
+    ])
+    for group, tiers in GROUP_TIERS.items():
+        for tier in tiers:
+            lines.append(f"\tclr_country_flag = {tier_flag(group, tier)}")
+    lines.extend([
+        "\tRUS_stalin_apply_relationship_advisor_trait_tiers = yes",
+        "}",
     ])
     return "\n".join(lines) + "\n"
 
@@ -474,6 +521,7 @@ def render_localisation(language: str) -> str:
         lines.append(f"  {display_trait_id(advisor)}: \"${advisor['name']}$\"")
         for tier in GROUP_TIERS[advisor["group"]]:
             lines.append(f"  {trait_id(advisor, tier)}: \"\"")
+            lines.append(f"  {easy_trait_id(advisor, tier)}: \"\"")
     translations = {
         "english": {
             "centre": "Weekly balance of power: §Y1 point toward the centre§!",
@@ -510,6 +558,13 @@ def render_localisation(language: str) -> str:
     for slug, description in agriculture.items():
         lines.append(f'  RUS_maximalist_advisor_{slug}_agriculture_tt: "[GetRUSMaximalistAgriculture{slug}]"')
         lines.append(f'  RUS_maximalist_advisor_{slug}_national_tt: "{description}"')
+        if slug == "ustinov":
+            easy_description = description.replace("§G+1§!", "§G+2§!")
+        elif slug == "kolegayev":
+            easy_description = description.replace("§G+5%§!", "§G+10%§!")
+        else:
+            easy_description = description.replace("§G2%§!", "§G0%§!")
+        lines.append(f'  RUS_maximalist_advisor_{slug}_national_easy_tt: "{easy_description}"')
     lines.append('  RUS_maximalist_advisor_agriculture_empty: ""')
     return "\n".join(lines) + "\n"
 
@@ -540,21 +595,20 @@ def render_agriculture_localisation() -> str:
     return "\n".join(lines) + "\n"
 
 
-def write(path: Path, content: str, bom: bool = False) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8-sig" if bom else "utf-8", newline="\n")
+def render_outputs() -> dict[str, str]:
+    outputs = {
+        "common/country_leader/RUS_stalin_relationship_scaled_advisor_tiers.txt": render_traits(),
+        "common/scripted_effects/RUS_stalin_relationship_scaled_advisor_tier_effects.txt": render_effects(),
+        "common/scripted_localisation/RUS_maximalist_advisor_agriculture_loc.txt": render_agriculture_localisation(),
+    }
+    for language in ("english", "russian", "simp_chinese"):
+        outputs[f"localisation/{language}/RUS_stalin_relationship_scaled_advisor_tiers_l_{language}.yml"] = render_localisation(language)
+    return outputs
 
 
 def main() -> None:
-    write(ROOT / "common/country_leader/RUS_stalin_relationship_scaled_advisor_tiers.txt", render_traits())
-    write(ROOT / "common/scripted_effects/RUS_stalin_relationship_scaled_advisor_tier_effects.txt", render_effects())
-    write(ROOT / "common/scripted_localisation/RUS_maximalist_advisor_agriculture_loc.txt", render_agriculture_localisation())
-    for language in ("english", "russian", "simp_chinese"):
-        write(
-            ROOT / f"localisation/{language}/RUS_stalin_relationship_scaled_advisor_tiers_l_{language}.yml",
-            render_localisation(language),
-            bom=True,
-        )
+    from generation_io import cli
+    cli(render_outputs, root=ROOT, description="Generate advisor relationship tiers")
 
 
 if __name__ == "__main__":

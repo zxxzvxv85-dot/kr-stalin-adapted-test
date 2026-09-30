@@ -1,0 +1,188 @@
+# KR override: RUS effects (Russia).txt / RUS_add_faction_traits.
+# Frunze has military roles only; omit his political-slot write and keep every other KR action.
+# tools/test_frunze_political_advisor.py checks the military-only contract against KR.
+RUS_add_faction_traits = {
+	hidden_effect = {
+		add_trait = {
+			character = RUS_yakov_sverdlov
+			slot = political_advisor
+			trait = KR_bolshevik_sverdlov
+		}
+		# Do not add a political trait to Frunze: that can create a dynamic cabinet role.
+		RUS_gergard_zeller = {
+			remove_trait = { slot = political_advisor trait = KR_union_advocate }
+			add_trait = { slot = political_advisor trait = KR_determined_democrat }
+			add_trait = { slot = political_advisor trait = KR_sds_zeller }
+		}
+		add_trait = {
+			character = RUS_rafail_abramovich
+			slot = political_advisor
+			trait = KR_vst_right_abramovich
+		}
+		add_trait = {
+			character = RUS_aleksandr_finn_yenotayevsky
+			slot = political_advisor
+			trait = KR_vst_right_finn_yenotayevsky
+		}
+		add_trait = {
+			character = RUS_fyodor_dan
+			slot = second_in_command
+			trait = KR_vst_right_dan
+		}
+		add_trait = {
+			character = RUS_sergey_kirov
+			slot = political_advisor
+			trait = KR_vst_right_kirov
+		}
+		add_trait = {
+			character = RUS_sergey_kirov
+			slot = second_in_command
+			trait = KR_vst_right_kirov
+		}
+		add_trait = {
+			character = RUS_daniil_sulimov
+			slot = second_in_command
+			trait = KR_vst_centre_sulimov
+		}
+		add_trait = {
+			character = RUS_vladimir_shatov
+			slot = political_advisor
+			trait = KR_vst_centre_shatov
+		}
+		add_trait = {
+			character = RUS_stanislav_strumilin
+			slot = political_advisor
+			trait = KR_vst_centre_strumilin
+		}
+		add_trait = {
+			character = RUS_grigory_maksimov
+			slot = second_in_command
+			trait = KR_vst_centre_maksimov
+		}
+		add_trait = {
+			character = RUS_aleksandr_shlyapnikov
+			slot = political_advisor
+			trait = KR_vst_centre_shlyapnikov
+		}
+		add_trait = {
+			character = RUS_aleksandra_kollontay
+			slot = political_advisor
+			trait = KR_vst_centre_kollontay
+		}
+		add_trait = {
+			character = RUS_vladimir_levitsky
+			slot = second_in_command
+			trait = KR_vst_centre_levitsky
+		}
+		add_trait = {
+			character = RUS_mikhail_tomsky
+			slot = political_advisor
+			trait = KR_vst_centre_tomsky
+		}
+		add_trait = {
+			character = RUS_lev_kamenev
+			slot = second_in_command
+			trait = KR_vst_left_kamenev
+		}
+		add_trait = {
+			character = RUS_lev_kamenev
+			slot = political_advisor
+			trait = KR_vst_left_kamenev
+		}
+		add_trait = {
+			character = RUS_grigory_zinovyev
+			slot = second_in_command
+			trait = KR_vst_left_zinovyev
+		}
+		add_trait = {
+			character = RUS_sergey_medvedev
+			slot = political_advisor
+			trait = KR_vst_left_medvedev
+		}
+		add_trait = {
+			character = RUS_sergey_syrtsov
+			slot = political_advisor
+			trait = KR_vst_left_syrtsov
+		}
+		add_trait = {
+			character = RUS_ivan_gronsky
+			slot = political_advisor
+			trait = KR_vst_left_gronsky
+		}
+		add_trait = {
+			character = RUS_yakov_blyumkin
+			slot = political_advisor
+			trait = KR_sr_blyumkin
+		}
+		add_trait = {
+			character = RUS_yevgeny_sattel
+			slot = political_advisor
+			trait = KR_sr_sattel
+		}
+		add_trait = {
+			character = RUS_isaak_steinberg
+			slot = political_advisor
+			trait = KR_sr_steinberg
+		}
+		add_trait = {
+			character = RUS_isaak_steinberg
+			slot = second_in_command
+			trait = KR_sr_steinberg
+		}
+		add_trait = {
+			character = RUS_ilya_mayorov
+			slot = political_advisor
+			trait = KR_spiridonist_mayorov
+		}
+		add_trait = {
+			character = RUS_nikolay_zdobnov
+			slot = political_advisor
+			trait = KR_spiridonist_zdobnov
+		}
+		add_trait = {
+			character = RUS_boris_kamkov
+			slot = political_advisor
+			trait = KR_spiridonist_kamkov
+		}
+		add_trait = {
+			character = RUS_boris_kamkov
+			slot = second_in_command
+			trait = KR_spiridonist_kamkov
+		}
+		add_trait = {
+			character = RUS_vladimir_karelin
+			slot = political_advisor
+			trait = KR_spiridonist_karelin
+		}
+		add_trait = {
+			character = RUS_vladimir_karelin
+			slot = second_in_command
+			trait = KR_spiridonist_karelin
+		}
+		add_trait = {
+			character = RUS_aleksandr_elyashevich
+			slot = political_advisor
+			trait = KR_spiridonist_elyashevich
+		}
+		add_trait = {
+			character = RUS_aleksey_ustinov
+			slot = second_in_command
+			trait = KR_maximalist_ustinov
+		}
+		add_trait = {
+			character = RUS_irina_kakhovskaya
+			slot = political_advisor
+			trait = KR_maximalist_kakhovskaya
+		}
+		add_trait = {
+			character = RUS_andrey_kolegayev
+			slot = political_advisor
+			trait = KR_maximalist_kolegayev
+		}
+		add_trait = {
+			character = RUS_andrey_kolegayev
+			slot = second_in_command
+			trait = KR_maximalist_kolegayev
+		}
+	}
+}

@@ -4,9 +4,7 @@ from copy import deepcopy
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-ns = {"__file__": str(ROOT / "tools/test_regional_diplomacy.py")}
-exec((ROOT / "tools/test_regional_diplomacy.py").read_text(encoding="utf-8-sig").split("def country(")[0], ns)
-parse, get = ns["parse"], ns["get"]
+from test_support.regional_diplomacy import parse, get
 focus_id = "RUS_future_foreign_062"
 event_prefix = "RUS_future_foreign_policy_events."
 event_source = (ROOT / "events/RUS_future_foreign_policy_events.txt").read_text(encoding="utf-8-sig")

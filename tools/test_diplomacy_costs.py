@@ -1,6 +1,6 @@
 """Execute actual diplomatic cost helpers and decision costs; does not launch HOI4."""
 import copy,re
-import test_ukr_underground as t
+from test_support import ukr_underground as t
 from hoi4_politics_blocks import load
 R=t.ROOT;cases=0
 for a in [10,15,20,24,25,30,35,40,45,50,60,75,200]:
@@ -50,6 +50,10 @@ for p in (R/'common/decisions').glob('*.txt'):
   for d in cat.v:
    if not isinstance(d.v,list):continue
    cost=d.value('cost')
+   fixed_costs={'RUS_add_to_soviet_republic_new':'1000','RUS_annex_into_soviet_union_new':'2000'}
+   if d.k in fixed_costs:
+    assert cost==fixed_costs[d.k],d.k
+    continue
    if cost and cost!='0':
     m=re.fullmatch(r'RUS_diplomacy_pp_cost_(\d+)\?(\d+)',cost);assert m,d.k;assert m[1]==m[2];count+=1
 assert count>20

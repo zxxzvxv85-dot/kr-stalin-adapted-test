@@ -13,9 +13,22 @@ country_event = {
 	option = {
 		name = RUS_socialist_parallel_flavour.1.a
 		add_war_support = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 		if = {
 			limit = { has_idea = partial_economic_mobilisation }
-			add_ideas = RUS_workers_peasants_defence_mobilisation_law
+			RUS_apply_workers_peasants_defence_mobilisation_law = yes
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_1
+					has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_2
+					has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_3
+					has_idea = RUS_workers_peasants_defence_mobilisation_law_stage_4
+					has_idea = RUS_workers_peasants_defence_mobilisation_law
+				}
+			}
+			RUS_refresh_workers_peasants_defence_mobilisation_law = yes
 		}
 		else = {
 			add_ideas = partial_economic_mobilisation
@@ -36,5 +49,6 @@ country_event = {
 	option = {
 		name = RUS_socialist_parallel_flavour.2.a
 		add_war_support = 0.01
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.01 } # RUS_EASY_MODE_REWARD
 	}
 }

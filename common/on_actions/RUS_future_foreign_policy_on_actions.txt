@@ -7,6 +7,17 @@ on_actions = {
 
 	on_daily_RUS = {
 		effect = {
+			# The focus lasts 42 days; 35 days of progress leaves one week.
+			if = {
+				limit = {
+					has_country_flag = RUS_soviet_anthem_contest_open
+					NOT = { has_country_flag = RUS_soviet_anthem_decision_offered }
+					NOT = { has_completed_focus = RUS_future_foreign_045 }
+					focus_progress = { focus = RUS_future_foreign_045 progress > 0.82 }
+				}
+				set_country_flag = RUS_soviet_anthem_decision_offered
+				country_event = { id = RUS_soviet_anthem.2 }
+			}
 			if = { limit = { has_power_balance = { id = RUS_europe_intervention_power_balance } } RUS_revolution_readiness_refresh = yes }
 			if = {
 				limit = {
@@ -34,6 +45,10 @@ on_actions = {
 			}
 			if = {
 				limit = { has_completed_focus = RUS_future_foreign_016 }
+				if = {
+					limit = { NOT = { has_idea = RUS_soviets_and_phalanstere_research_bonus } }
+					add_ideas = RUS_soviets_and_phalanstere_research_bonus
+				}
 				RUS_future_foreign_refresh_red_country_count = yes
 			}
 		}

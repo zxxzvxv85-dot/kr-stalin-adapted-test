@@ -1,8 +1,8 @@
 from pathlib import Path
-import re
+import re,os
 R=Path(__file__).resolve().parents[1]
-V=Path('D:/steam/steamapps/common/Hearts of Iron IV')
-KR=R.parent/'1521695605';EXT=R.parent/'3105210203';EXT2=R.parent/'3555444820'
+V=Path(os.environ.get('HOI4_GAME_ROOT',R.parents[3]/'common/Hearts of Iron IV'))
+KR=Path(os.environ.get('HOI4_KR_ROOT',R.parent/'1521695605'));EXT=R.parent/'3105210203';EXT2=R.parent/'3555444820'
 def effective(roots,folder):
  files={}
  for root in roots:

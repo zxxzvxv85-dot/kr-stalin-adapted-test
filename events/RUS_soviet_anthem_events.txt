@@ -1,0 +1,54 @@
+add_namespace = RUS_soviet_anthem
+
+# The call for a new anthem opens as soon as the new foreign-policy focus is selected.
+country_event = {
+	id = RUS_soviet_anthem.1
+	title = RUS_soviet_anthem.1.t
+	desc = RUS_soviet_anthem.1.d
+	is_triggered_only = yes
+	trigger = {
+		original_tag = RUS
+		NOT = { has_country_flag = RUS_soviet_anthem_contest_open }
+		NOT = { has_country_flag = RUS_soviet_anthem_decision_offered }
+	}
+	immediate = {
+		set_country_flag = RUS_soviet_anthem_contest_open
+	}
+	option = {
+		name = RUS_soviet_anthem.1.a
+	}
+}
+
+# Offered by the daily focus-progress check when seven days remain.
+country_event = {
+	id = RUS_soviet_anthem.2
+	title = RUS_soviet_anthem.2.t
+	desc = RUS_soviet_anthem.2.d
+	is_triggered_only = yes
+	trigger = {
+		original_tag = RUS
+		has_country_flag = RUS_soviet_anthem_contest_open
+		has_country_flag = RUS_soviet_anthem_decision_offered
+	}
+	option = {
+		name = RUS_soviet_anthem.2.a
+		ai_chance = { factor = 100 }
+		clr_country_flag = RUS_soviet_anthem_chernetsky
+		clr_country_flag = RUS_soviet_anthem_shostakovich
+		set_country_flag = RUS_soviet_anthem_alexandrov
+	}
+	option = {
+		name = RUS_soviet_anthem.2.b
+		ai_chance = { factor = 0 }
+		clr_country_flag = RUS_soviet_anthem_alexandrov
+		clr_country_flag = RUS_soviet_anthem_shostakovich
+		set_country_flag = RUS_soviet_anthem_chernetsky
+	}
+	option = {
+		name = RUS_soviet_anthem.2.c
+		ai_chance = { factor = 0 }
+		clr_country_flag = RUS_soviet_anthem_alexandrov
+		clr_country_flag = RUS_soviet_anthem_chernetsky
+		set_country_flag = RUS_soviet_anthem_shostakovich
+	}
+}

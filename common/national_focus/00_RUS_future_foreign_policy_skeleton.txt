@@ -21,6 +21,7 @@ shared_focus = {
 	completion_reward = {
 		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_001"
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		RUS_stalin_kamenev_migrate_legacy_balance = yes
 		set_power_balance = {
 			id = RUS_europe_intervention_power_balance
@@ -214,7 +215,34 @@ shared_focus = {
 	}
 	prerequisite = { focus = RUS_future_foreign_062 }
 	available = {
-		always = no
+		num_subjects > 4
+		OR = {
+			any_subject_country = { has_autonomy_state = union_republic }
+			AND = {
+				hidden_trigger = { has_country_flag = RUS_stalin_communist_path }
+				any_subject_country = { has_autonomy_state = soviet_socialist_republic }
+			}
+		}
+		NOT = { country_exists = GER }
+	}
+	completion_reward = {
+		add_war_support = -0.1
+		country_event = russia_socialist_events.420
+		country_event = { id = russia_socialist_events.406 days = 20 random_days = 10 }
+		every_subject_country = {
+			limit = {
+				OR = {
+					has_autonomy_state = union_republic
+					has_autonomy_state = soviet_socialist_republic
+				}
+			}
+			country_event = russia_socialist_events.420
+		}
+		hidden_effect = {
+			country_event = { id = russia_socialist_events.178 days = 50 random_days = 50 }
+			country_event = { id = russia_socialist_events.179 days = 100 random_days = 50 }
+			country_event = { id = russia_democratic_events.166 days = 100 random_days = 180 }
+		}
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -238,12 +266,22 @@ shared_focus = {
 			FRA = { add_opinion_modifier = { target = ROOT modifier = KR_trade_agreement } }
 		}
 		add_cic = 5000
-		add_tech_bonus = {
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_future_foreign_006
+			bonus = 1
+			uses = 1
+			category = excavation_tech
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_future_foreign_006
 			bonus = 0.5
 			uses = 1
 			category = excavation_tech
-		}
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
 		country_event = { id = RUS_future_foreign_policy_events.2 }
 	}
 	ai_will_do = { factor = 0 }
@@ -261,6 +299,7 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_foreign_047 }
 	completion_reward = {
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		add_power_balance_value = {
 			id = RUS_europe_intervention_power_balance
 			value = 0.03
@@ -313,6 +352,12 @@ shared_focus = {
   custom_effect_tooltip = RUS_gendarme_political_power_bonus_tt
   hidden_effect = {
    set_variable = { RUS_third_international_gendarme_political_power = 0.05 }
+   if = {
+    limit = {
+     UKR = { NOT = { has_country_leader = { character = UKR_volodymyr_vynnychenko } } }
+    }
+    country_event = { id = russia_socialist_events.182 days = 20 random_days = 20 }
+   }
    if = {
     limit = { NOT = { has_dynamic_modifier = { modifier = RUS_third_international_gendarme } } }
     add_dynamic_modifier = { modifier = RUS_third_international_gendarme }
@@ -372,6 +417,69 @@ shared_focus = {
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_004 }
+	completion_reward = {
+		custom_effect_tooltip = {
+			localization_key = tooltip_modify_dynmod
+			DYNMOD = RUS_third_international_gendarme
+		}
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+			# The easy-mode companion supplies the second copy; this block only previews it.
+			effect_tooltip = {
+				add_to_variable = {
+					RUS_third_international_gendarme_volunteer_limit = 2
+					tooltip = RUS_three_red_banners_volunteers_tt
+				}
+				add_to_variable = {
+					RUS_third_international_gendarme_volunteer_experience = 0.10
+					tooltip = RUS_three_red_banners_volunteer_experience_tt
+				}
+			}
+			hidden_effect = {
+				add_to_variable = { RUS_third_international_gendarme_volunteer_limit = 1 }
+				add_to_variable = { RUS_third_international_gendarme_volunteer_experience = 0.05 }
+			}
+		}
+		else = {
+			add_to_variable = {
+				RUS_third_international_gendarme_volunteer_limit = 1
+				tooltip = RUS_three_red_banners_volunteers_tt
+			}
+			add_to_variable = {
+				RUS_third_international_gendarme_volunteer_experience = 0.05
+				tooltip = RUS_three_red_banners_volunteer_experience_tt
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = { NOT = { has_dynamic_modifier = { modifier = RUS_third_international_gendarme } } }
+				add_dynamic_modifier = { modifier = RUS_third_international_gendarme }
+			}
+			force_update_dynamic_modifier = yes
+			if = {
+				limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+				RUS_easy_mode_refresh_other_dynamic = yes
+			}
+		}
+		every_other_country = {
+			limit = {
+				is_tag_in_china_area = yes
+				has_socialist_government = yes
+			}
+			army_experience = 25
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } army_experience = 25 } # RUS_EASY_MODE_REWARD
+			add_offsite_building = { type = arms_factory level = 1 }
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_offsite_building = { type = arms_factory level = 1 } } # RUS_EASY_MODE_REWARD
+		}
+		if = {
+			limit = { country_exists = JAP }
+			JAP = {
+				add_popularity = { ideology = radical_socialist popularity = 0.05 }
+				add_stability = -0.05
+				add_war_support = -0.05
+			}
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -385,12 +493,17 @@ shared_focus = {
 	y = 16
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_010 }
+	available = {
+		country_exists = JAP
+	}
+	completion_reward = { RUS_east_asia_fujisan_effect = yes }
 	ai_will_do = { factor = 0 }
 }
 
 # 期待已久的联合？
 shared_focus = {
 	id = RUS_future_foreign_012
+	icon = GFX_focus_RUS_found_communist_international
 	cost = 3
 
 	x = 31
@@ -400,8 +513,31 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_005 }
-	available = {
-		always = no
+	completion_reward = {
+		if = {
+			limit = {
+				is_in_faction = yes
+				is_faction_leader = no
+			}
+			leave_faction = yes
+			create_faction = communist_international
+			uncomplete_national_focus = {
+				focus = RUS_abolish_war
+			}
+		}
+		else_if = {
+			limit = {
+				is_in_faction = yes
+				is_faction_leader = yes
+			}
+			set_faction_name = communist_international
+		}
+		else = {
+			create_faction = communist_international
+		}
+		save_global_event_target_as = TCI_leader
+		add_political_power = 100
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 100 } # RUS_EASY_MODE_REWARD
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -409,6 +545,7 @@ shared_focus = {
 # 再无间隙
 shared_focus = {
 	id = RUS_future_foreign_013
+	icon = GFX_focus_generic_authoritarian_government
 	cost = 3
 
 	x = 33
@@ -418,8 +555,28 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_005 }
-	available = {
-		always = no
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_013"
+		country_event = russia_socialist_events.407
+		add_political_power = -75
+		custom_effect_tooltip = tooltip_white_line
+		if = {
+			limit = { has_country_flag = RUS_stalin_communist_path }
+			add_ideas = RUS_centralised_union_government_communist
+		}
+		else = { add_ideas = RUS_centralised_union_government }
+		UKR = {
+			if = {
+				limit = { is_subject_of = ROOT }
+				add_ideas = RUS_centralised_union_government_puppet
+			}
+		}
+		BLR = {
+			if = {
+				limit = { is_subject_of = ROOT }
+				add_ideas = RUS_centralised_union_government_puppet
+			}
+		}
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -427,6 +584,7 @@ shared_focus = {
 # 重建加盟国
 shared_focus = {
 	id = RUS_future_foreign_014
+	icon = GFX_focus_RUS_what_a_childish_fantasy
 	cost = 3
 
 	x = 35
@@ -436,8 +594,47 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_005 }
-	available = {
-		always = no
+	completion_reward = {
+		custom_effect_tooltip = RUS_what_a_childish_fantasy_tt
+		custom_effect_tooltip = tooltip_white_line
+		hidden_effect = {
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = UKR } } } add_to_array = { array = RUS_SSTR_tags value = UKR } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = BLR } } } add_to_array = { array = RUS_SSTR_tags value = BLR } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = LIT } } } add_to_array = { array = RUS_SSTR_tags value = LIT } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = LAT } } } add_to_array = { array = RUS_SSTR_tags value = LAT } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = BAT } } } add_to_array = { array = RUS_SSTR_tags value = BAT } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = EST } } } add_to_array = { array = RUS_SSTR_tags value = EST } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = GEO } } } add_to_array = { array = RUS_SSTR_tags value = GEO } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = AZR } } } add_to_array = { array = RUS_SSTR_tags value = AZR } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = ARM } } } add_to_array = { array = RUS_SSTR_tags value = ARM } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = MNR } } } add_to_array = { array = RUS_SSTR_tags value = MNR } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = TRK } } } add_to_array = { array = RUS_SSTR_tags value = TRK } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = KAZ } } } add_to_array = { array = RUS_SSTR_tags value = KAZ } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = KHI } } } add_to_array = { array = RUS_SSTR_tags value = KHI } }
+			if = { limit = { NOT = { is_in_array = { RUS_SSTR_tags = BUK } } } add_to_array = { array = RUS_SSTR_tags value = BUK } }
+		}
+		if = {
+			limit = {
+				has_government = communist
+			}
+			every_subject_country = {
+				RUS_stalin_set_subject_radical_socialist_if_communist_path = yes
+				add_popularity = {
+					ideology = radical_socialist
+					popularity = 0.2
+				}
+				add_one_random_military_factory = yes
+			}
+		}
+		else = {
+			every_subject_country = {
+				add_popularity = {
+					ideology = syndicalist
+					popularity = 0.2
+				}
+				add_one_random_civilian_factory = yes
+			}
+		}
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -445,6 +642,7 @@ shared_focus = {
 # 治愈伤痛
 shared_focus = {
 	id = RUS_future_foreign_015
+	icon = GFX_cjc_health_organization
 	cost = 3
 
 	x = 37
@@ -454,8 +652,9 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_005 }
-	available = {
-		always = no
+	available = { has_war = no }
+	completion_reward = {
+		add_ideas = RUS_heal_the_pain_idea
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -474,7 +673,10 @@ shared_focus = {
 	completion_reward = {
 		add_threat = 2.0
 		custom_effect_tooltip = RUS_future_foreign_016_effect_tt
-		hidden_effect = { RUS_future_foreign_refresh_completed_focus_count = yes }
+		hidden_effect = {
+			add_ideas = RUS_soviets_and_phalanstere_research_bonus
+			RUS_future_foreign_refresh_completed_focus_count = yes
+		}
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -567,6 +769,7 @@ shared_focus = {
 
 	completion_reward = {
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		unlock_decision_tooltip = RUS_rd_BAT_press
 		unlock_decision_tooltip = RUS_rd_BAT_unions
 		unlock_decision_tooltip = RUS_rd_BAT_boycott
@@ -596,10 +799,13 @@ shared_focus = {
 		else_if = {
 			limit = { has_idea = extensive_conscription }
 			add_political_power = 150
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 150 } # RUS_EASY_MODE_REWARD
 		}
 		else = { increase_conscription = yes }
 		add_war_support = 0.1
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.1 } # RUS_EASY_MODE_REWARD
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		unlock_decision_tooltip = RUS_rd_POL_contact
 		unlock_decision_tooltip = RUS_rd_POL_training
 		unlock_decision_tooltip = RUS_rd_POL_cooperation
@@ -626,6 +832,7 @@ shared_focus = {
 
 	completion_reward = {
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		unlock_decision_tooltip = RUS_rd_GEO_stations
 		unlock_decision_tooltip = RUS_rd_GEO_militias
 		unlock_decision_tooltip = RUS_rd_GEO_fuel
@@ -719,6 +926,10 @@ shared_focus = {
 	y = 17
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_011 }
+	available = {
+		RUS_east_asia_china_partner = yes
+	}
+	completion_reward = { RUS_east_asia_northeast_effect = yes }
 	ai_will_do = { factor = 0 }
 }
 
@@ -732,12 +943,17 @@ shared_focus = {
 	y = 21
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_063 }
+	available = {
+		RUS_east_asia_china_partner = yes
+	}
+	completion_reward = { RUS_east_asia_treaty_effect = yes }
 	ai_will_do = { factor = 0 }
 }
 
 # 团结万岁
 shared_focus = {
 	id = RUS_future_foreign_028
+	icon = GFX_focus_ger_great_red_menace
 	cost = 4
 
 	x = 30
@@ -747,16 +963,54 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_012 }
-	available = {
-		always = no
-	}
 	mutually_exclusive = { focus = RUS_future_foreign_029 }
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_028"
+		add_named_threat = {
+			threat = -25
+			name = RUS_abolish_war
+		}
+		add_stability = 0.15
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.15 } # RUS_EASY_MODE_REWARD
+		add_research_slot = 1
+		set_country_flag = RUS_abolish_war_research_slot_added
+		hidden_effect = {
+			every_allied_country = {
+				limit = { is_subject = no }
+				INT = { add_to_faction = PREV }
+			}
+			dismantle_faction = yes
+			INT = { add_to_faction = ROOT }
+			if = {
+				limit = {
+					has_country_leader = { character = RUS_iosif_stalin }
+				}
+				set_faction_leader = yes
+			}
+			if = {
+				limit = {
+					NOT = { has_country_flag = RUS_bolsheviks_leave_home_event_scheduled }
+				}
+				set_country_flag = RUS_bolsheviks_leave_home_event_scheduled
+				country_event = { id = stalin_form_sov.25 days = 7 }
+			}
+		}
+		if = {
+			limit = {
+				has_country_leader = { character = RUS_iosif_stalin }
+			}
+			custom_effect_tooltip = RUS_stalin_abolish_war_faction_leader_tt
+		}
+		custom_effect_tooltip = RUS_abolish_war_tt
+		add_ideas = RUS_INT_industrialisation
+	}
 	ai_will_do = { factor = 0 }
 }
 
 # 共产主义灯塔
 shared_focus = {
 	id = RUS_future_foreign_029
+	icon = GFX_goal_LAT_soviet_union
 	cost = 4
 
 	x = 32
@@ -766,16 +1020,47 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_012 }
-	available = {
-		always = no
-	}
 	mutually_exclusive = { focus = RUS_future_foreign_028 }
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_029"
+		if = {
+			limit = {
+				has_government = totalist
+				INT = {
+					OR = {
+						has_government = radical_socialist
+						has_government = syndicalist
+					}
+				}
+			}
+			custom_effect_tooltip = RUS_totalist_invite_countries_tt
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_government = syndicalist
+					has_government = radical_socialist
+				}
+				INT = { has_government = totalist }
+			}
+			custom_effect_tooltip = RUS_syndieradsoc_invite_countries_tt
+			unlock_decision_tooltip = RUS_invite_rival_country
+		}
+		if = {
+			limit = { RUS_is_maximalist = yes }
+			country_event = russia_socialist_events.149
+		}
+		set_temp_variable = { ideology_change_var = 10 }
+		change_ruling_party_popularity = yes
+		country_event = russia_socialist_events.460
+	}
 	ai_will_do = { factor = 0 }
 }
 
 # 整合地方党组织
 shared_focus = {
 	id = RUS_future_foreign_030
+	icon = GFX_focus_generic_low_cost_housing
 	cost = 3
 
 	x = 34
@@ -785,8 +1070,25 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_013 }
-	available = {
-		always = no
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_030"
+		hidden_effect = {
+			country_event = { id = russia_socialist_events.393 days = 20 random_days = 20 }
+		}
+		every_faction_member = {
+			limit = {
+				OR = {
+					tag = ROOT
+					has_autonomy_state = union_republic
+					has_autonomy_state = soviet_socialist_republic
+				}
+			}
+			add_timed_idea = {
+				idea = RUS_soc_rebuilding
+				days = 365
+			}
+		}
+		RUS_decrease_antisoc_resistance = yes
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -794,6 +1096,7 @@ shared_focus = {
 # 消灭民族主义流毒
 shared_focus = {
 	id = RUS_future_foreign_031
+	icon = GFX_focus_generic_agricultural_subsidies
 	cost = 3
 
 	x = 36
@@ -803,8 +1106,35 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_015 }
-	available = {
-		always = no
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_031"
+		RUS_activate_central_asia_industry = yes
+		random_subject_country = {
+			limit = {
+				num_of_owned_factories < 40
+				is_baltic_tag = yes
+			}
+			add_one_random_infrastructure = yes
+			add_one_random_civilian_factory = yes
+		}
+		random_subject_country = {
+			limit = {
+				num_of_owned_factories < 40
+				OR = {
+					tag = GEO
+					tag = ARM
+					tag = AZR
+				}
+			}
+			add_one_random_infrastructure = yes
+			add_one_random_civilian_factory = yes
+		}
+		random_subject_country = {
+			limit = { is_central_asian_tag = yes }
+			add_one_random_infrastructure = yes
+			add_one_random_civilian_factory = yes
+		}
+		RUS_decrease_antisoc_resistance = yes
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -831,7 +1161,9 @@ shared_focus = {
 			}
 		}
 		army_experience = 20
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } army_experience = 20 } # RUS_EASY_MODE_REWARD
 		add_war_support = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 		if = {
 			limit = {
 				controls_province = 6338 #Kazan
@@ -867,13 +1199,24 @@ shared_focus = {
 				construct_building_in_random_province = { land_facility = 1 }
 			}
 		}
-		add_tech_bonus = {
+		
+		# RUS_EASY_MODE_TECH_START
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
+			name = RUS_future_foreign_032
+			bonus = 2
+			uses = 1
+			ahead_reduction = 1
+			category = armor
+		} }
+		else = { add_tech_bonus = {
 			name = RUS_future_foreign_032
 			bonus = 1.0
 			uses = 1
 			ahead_reduction = 1
 			category = armor
-		}
+		} }
+		# RUS_EASY_MODE_TECH_END
+		
 		hidden_effect = {
 			FRA = { country_event = russia_foreign_policy_events.11 }
 			ENG = { country_event = russia_foreign_policy_events.11 }
@@ -914,26 +1257,31 @@ shared_focus = {
 				limit = { SER = { exists = yes has_socialist_government = yes } NOT = { tag = SER } }
 				SER = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 			}
 			if = {
 				limit = { ROM = { exists = yes has_socialist_government = yes } NOT = { tag = ROM } }
 				ROM = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 			}
 			if = {
 				limit = { GRE = { exists = yes has_socialist_government = yes } NOT = { tag = GRE } }
 				GRE = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 			}
 			if = {
 				limit = { ALB = { exists = yes has_socialist_government = yes } NOT = { tag = ALB } }
 				ALB = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 			}
 			if = {
 				limit = { BUL = { exists = yes has_socialist_government = yes } NOT = { tag = BUL } }
 				BUL = { diplomatic_relation = { country = ROOT relation = non_aggression_pact } }
 				add_political_power = 50
+				if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 			}
 		}
 	}
@@ -955,6 +1303,7 @@ shared_focus = {
 
 	completion_reward = {
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		unlock_decision_tooltip = RUS_rd_BLR_supplies
 		unlock_decision_tooltip = RUS_rd_BLR_couriers
 		unlock_decision_tooltip = RUS_rd_BLR_raids
@@ -976,6 +1325,7 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 	completion_reward = {
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		unlock_decision_tooltip = RUS_ukr_families
 		unlock_decision_tooltip = RUS_ukr_mine
 		unlock_decision_tooltip = RUS_ukr_rural
@@ -999,6 +1349,9 @@ shared_focus = {
 	y = 21
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_024 focus = RUS_future_foreign_023 }
+	completion_reward = {
+		RUS_subcontinental_dawn_effect = yes
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -1013,12 +1366,38 @@ shared_focus = {
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_025 }
+	available = { country_exists = CHI }
+	completion_reward = {
+		CHI = { add_ideas = RUS_russian_officer_mission }
+		add_timed_idea = { idea = RUS_aiding_chinese_comrades days = 360 }
+		effect_tooltip = {
+			add_relation_modifier = { target = CHI modifier = RUS_china_mission_volunteers }
+			if = {
+				limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+				add_relation_modifier = { target = CHI modifier = RUS_china_mission_volunteers_easy }
+			}
+		}
+		hidden_effect = {
+			RUS_china_mission_refresh_volunteers = yes
+			if = {
+				limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+				RUS_easy_mode_refresh_ideas = yes
+			}
+			CHI = {
+				if = {
+					limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+					RUS_easy_mode_refresh_ideas = yes
+				}
+			}
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 
 # 世界革命倒计时
 shared_focus = {
 	id = RUS_future_foreign_042
+	icon = GFX_focus_GER_strike_at_the_rising_sun
 	cost = 5
 
 	x = 29
@@ -1028,17 +1407,44 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_028 focus = RUS_future_foreign_029 }
-	available = {
-		always = no
-	}
 	mutually_exclusive = { focus = RUS_future_foreign_043 }
 	mutually_exclusive = { focus = RUS_future_foreign_044 }
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_042"
+		if = {
+			limit = { has_idea = RUS_world_revolution }
+			swap_ideas = {
+				remove_idea = RUS_world_revolution
+				add_idea = RUS_world_revolution_2
+			}
+		}
+		else = {
+			add_ideas = RUS_world_revolution
+		}
+		custom_effect_tooltip = tooltip_white_line
+		add_war_support = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
+		activate_targeted_decision = { target = JAP decision = RUS_Socialist_Attack_Far_East }
+		if = {
+			limit = {
+				var:439.owner = { has_socialist_government = no }
+			}
+			activate_targeted_decision = { target = 439.owner decision = RUS_Socialist_Attack_Far_East } #Delhi
+		}
+		if = {
+			limit = {
+				var:608.owner = { has_socialist_government = no }
+			}
+			activate_targeted_decision = { target = 608.owner decision = RUS_Socialist_Attack_Far_East } #Beijing
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 
 # 红色欧罗巴
 shared_focus = {
 	id = RUS_future_foreign_043
+	icon = GFX_focus_RUS_extend_our_union
 	cost = 5
 
 	x = 31
@@ -1048,17 +1454,35 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_028 focus = RUS_future_foreign_029 }
-	available = {
-		always = no
-	}
 	mutually_exclusive = { focus = RUS_future_foreign_042 }
 	mutually_exclusive = { focus = RUS_future_foreign_044 }
+	completion_reward = {
+		custom_effect_tooltip = RUS_extend_our_union_tt
+		hidden_effect = {
+			every_possible_country = {
+				limit = {
+					OR = {
+						var:original_tag = {
+							is_in_europe = yes
+						}
+					}
+					NOT = {
+						has_autonomy_state = soviet_socialist_republic
+					}
+				}
+				add_to_array = {
+					ROOT.RUS_SSTR_tags = THIS
+				}
+			}
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 
 # 和平之路
 shared_focus = {
 	id = RUS_future_foreign_044
+	icon = GFX_focus_SWE_refuge_from_war
 	cost = 5
 
 	x = 33
@@ -1068,17 +1492,20 @@ shared_focus = {
 		NOT = { country_exists = GER }
 	}
 	prerequisite = { focus = RUS_future_foreign_028 focus = RUS_future_foreign_029 }
-	available = {
-		always = no
-	}
+	available = { has_war = no }
 	mutually_exclusive = { focus = RUS_future_foreign_042 }
 	mutually_exclusive = { focus = RUS_future_foreign_043 }
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_044"
+		add_ideas = FRA_peaceful_revolution_idea
+	}
 	ai_will_do = { factor = 0 }
 }
 
 # 成立苏维埃社会主义共和国联盟
 shared_focus = {
 	id = RUS_future_foreign_045
+	icon = GFX_focus_RUS_found_sov_union
 	cost = 6
 
 	x = 35
@@ -1090,8 +1517,87 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_foreign_014 }
 	prerequisite = { focus = RUS_future_foreign_030 }
 	prerequisite = { focus = RUS_future_foreign_031 }
-	available = {
-		always = no
+	select_effect = {
+		set_country_flag = RUS_soviet_foundation_super_event_armed
+		country_event = { id = RUS_soviet_anthem.1 }
+	}
+	completion_reward = {
+		custom_effect_tooltip = RUS_found_sov_union_tt
+		custom_effect_tooltip = tooltip_white_line
+		set_cosmetic_tag = RUS_sov_union
+		set_party_name = {
+			ideology = communist
+			long_name = RUS_totalist_party_sov_union_long_tt
+			name = RUS_totalist_party_sov_union
+		}
+		hidden_effect = {
+			set_party_name = {
+				ideology = communist
+				long_name = RUS_totalist_party_sov_union_long
+				name = RUS_totalist_party_sov_union
+			}
+			set_party_name = {
+				ideology = syndicalist
+				long_name = RUS_syndicalist_party_sov_union_long
+				name = RUS_syndicalist_party_sov_union
+			}
+			every_subject_country = {
+				limit = {
+					has_autonomy_state = soviet_socialist_republic
+				}
+				every_unit_leader = {
+					if = { limit = { has_advisor_role = second_in_command } remove_advisor_role = { slot = second_in_command } }
+					if = { limit = { has_advisor_role = political_advisor } remove_advisor_role = { slot = political_advisor } }
+					if = { limit = { has_advisor_role = army_chief } remove_advisor_role = { slot = army_chief } }
+					if = { limit = { has_advisor_role = navy_chief } remove_advisor_role = { slot = navy_chief } }
+					if = { limit = { has_advisor_role = air_chief } remove_advisor_role = { slot = air_chief } }
+					if = { limit = { has_advisor_role = high_command } remove_advisor_role = { slot = high_command } }
+					if = { limit = { has_advisor_role = theorist } remove_advisor_role = { slot = theorist } }
+					set_nationality = RUS
+				}
+				every_owned_state = {
+					limit = {
+						OR = {
+							is_claimed_by = PREV
+							is_core_of = PREV
+						}
+					}
+					add_core_of = RUS
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+				}
+			}
+		}
+		country_event = { id = RUS_soviet_foundation_super_event.1 }
+	}
+	ai_will_do = { factor = 0 }
+}
+
+# 最初与最末的革命
+shared_focus = {
+	id = RUS_future_foreign_064
+	icon = GFX_goal_communist_world_revolution
+	cost = 4
+
+	x = 34
+	y = 27
+	allow_branch = {
+		has_socialist_government = yes
+		NOT = { country_exists = GER }
+	}
+	prerequisite = { focus = RUS_future_foreign_045 }
+	prerequisite = {
+		focus = RUS_future_foreign_042
+		focus = RUS_future_foreign_043
+		focus = RUS_future_foreign_044
+	}
+	completion_reward = {
+		log = "[GetLogRoot]: Focus Completed RUS_future_foreign_064"
+		country_event = { id = stalin_form_sov.21 }
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -1114,8 +1620,7 @@ shared_focus = {
 		}
 	}
 	completion_reward = {
-		add_threat = 2.0
-		RUS_future_foreign_joint_deterrence = yes
+		country_event = RUS_future_foreign_policy_events.8
 	}
 	ai_will_do = { factor = 10 }
 }
@@ -1203,12 +1708,6 @@ shared_focus = {
 	icon = GFX_goal_RUS_liberation_march
 	cost = 5
 	bypass = { has_war_with = GER }
-	available = {
-			OR = {
-				has_completed_focus = RUS_legacy_of_workers_army
-				has_completed_focus = RUS_heirs_of_stavka
-			}
-		}
 	ai_will_do = {
 			factor = 15
 			modifier = {
@@ -1379,6 +1878,11 @@ shared_focus = {
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_039 }
+	available = {
+		RUS_east_asia_china_partner = yes
+		is_in_faction = yes
+	}
+	completion_reward = { RUS_east_asia_integration_effect = yes }
 	ai_will_do = { factor = 0 }
 }
 
@@ -1392,6 +1896,12 @@ shared_focus = {
 	y = 20
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_026 }
+	available = {
+		RUS_east_asia_hostile_japan = yes
+		can_declare_war_on = JAP
+	}
+	cancel_if_invalid = yes
+	completion_reward = { RUS_east_asia_storm_operation_effect = yes }
 	ai_will_do = { factor = 0 }
 }
 
@@ -1480,6 +1990,10 @@ shared_focus = {
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_026 }
 	prerequisite = { focus = RUS_future_foreign_061 }
+	available = {
+		RUS_east_asia_china_partner = yes
+	}
+	completion_reward = { RUS_east_asia_military_exchange_effect = yes }
 	ai_will_do = { factor = 0 }
 }
 
@@ -1493,7 +2007,13 @@ shared_focus = {
 	y = 17
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_025 }
-	completion_reward = { country_event = { id = RUS_east_asia_flavour.1 } }
+	available = {
+		RUS_east_asia_china_partner = yes
+	}
+	completion_reward = {
+		RUS_east_asia_transcontinental_friendship_effect = yes
+		country_event = { id = RUS_east_asia_flavour.1 }
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -1630,5 +2150,9 @@ shared_focus = {
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_054 }
 	prerequisite = { focus = RUS_future_foreign_060 }
+	available = {
+		RUS_east_asia_china_partner = yes
+	}
+	completion_reward = { RUS_east_asia_project_156_effect = yes }
 	ai_will_do = { factor = 0 }
 }

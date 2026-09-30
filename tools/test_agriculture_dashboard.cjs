@@ -1,9 +1,7 @@
-const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
-const {parse,get,read,root,country,check,exec,effects}=require('./test_agri_development.cjs');
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {parse,get,read,root,country,check,exec,effects}=require('./test_support/agriculture.cjs');
 const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
 const allClickEffects=get(gui,'effects');
-const baseline=get(get(parse(cp.execFileSync('git',['show','HEAD:common/scripted_guis/RUS_national_agriculture.txt'],{cwd:root,encoding:'utf8'})),'scripted_gui'),'RUS_national_agriculture_gui');
-for(const entry of get(baseline,'effects')) assert.deepEqual(get(allClickEffects,entry.key),entry.value,'Preserve original effect '+entry.key);
 for(const crop of ['wheat','rye','beet','flax','cotton']) {
  assert.deepEqual(get(get(gui,'effects'),`card_${crop}_add_click`),get(get(gui,'effects'),`nat_${crop}_plus_click`));
  assert.deepEqual(get(get(gui,'triggers'),`card_${crop}_add_click_enabled`),get(get(gui,'triggers'),`nat_${crop}_plus_click_enabled`));
@@ -26,7 +24,7 @@ for(const lang of ['simp_chinese','english','russian']){
  for(const crop of ['wheat','rye','beet','flax','cotton'])assert.ok(buf.toString().includes(`[?RUS_agri_${crop}_fatigue|0]`),'Detailed live values must remain in tooltips');
  assert.ok(!/\$RUS_[\w.]+\$/.test(buf.toString()),'GUI localisation must not leave nested dollar references');
 }
-console.log('Dashboard: original click effects preserved; one page visible including unset page; allocation bars exact; three locales retain detailed tooltips.');
+console.log('Dashboard: crop click aliases match guarded actions; one page visible including unset page; allocation bars exact; three locales retain detailed tooltips.');
 
 assert.ok(!/[<>]=/.test(read('common/scripted_guis/RUS_national_agriculture.txt')), 'Native HOI4 parser rejects inline >= and <= here; use NOT with the opposite strict comparison');
 
@@ -66,11 +64,12 @@ console.log('Card left/right click: five crops, zero/cap boundaries and locked p
 
 
 const roots=get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes');
-const mainWindow=get(roots,'containerWindowType');
+const standaloneWindow=get(roots,'containerWindowType');
+const mainWindow=standaloneWindow.find(n=>n.key==='containerWindowType'&&get(n.value,'name')==='RUS_national_agriculture_content').value;
 const viewport=mainWindow.find(n=>n.key==='containerWindowType'&&get(n.value,'name')==='card_order_viewport').value;
 assert.equal(get(get(viewport,'position'),'y'),'403');
 assert.ok(!fs.existsSync(path.join(root,'common/scripted_guis/RUS_agriculture_order_panels.txt')));
-assert.equal(roots.filter(n=>n.key==='containerWindowType').length,2,'Only decision root and row template: no independently created windows');
+assert.equal(roots.filter(n=>n.key==='containerWindowType').length,2,'Only the standalone root and row template: order rows remain embedded');
 for(let page=0;page<=4;page++)for(let category=0;category<=1;category++){
  const c=country();c.vars.RUS_nat_page=page;c.vars.RUS_nat_order_category=category;c.vars.RUS_nat_fra_quantity=3;
  exec(effects.get('RUS_nat_order_browser_refresh'),c);

@@ -1,0 +1,32 @@
+RUS_nat_close_system_effect = {
+	if = {
+		limit = {
+			has_country_flag = RUS_nat_enabled
+			has_country_flag = RUS_agri_management_unlocked
+			NOT = { has_country_flag = RUS_nat_system_closed }
+			check_variable = { RUS_agri_display_score > 200 }
+		}
+		set_country_flag = RUS_nat_system_closed
+		clr_country_flag = RUS_agri_quarter_active
+		clr_country_flag = RUS_nat_deadline_reminded
+		clr_country_flag = RUS_agri_active_machinery
+		clr_country_flag = RUS_agri_active_storage
+		set_variable = { RUS_nat_factories = 0 }
+		set_variable = { RUS_nat_civilian_use = 0 }
+		set_variable = { RUS_nat_stability = 0 }
+		set_variable = { RUS_nat_consumer = 0 }
+		set_variable = { RUS_nat_beet_weekly = 0 }
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_nat_industry } }
+			remove_dynamic_modifier = { modifier = RUS_nat_industry }
+		}
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_nat_industry_easy_bonus } }
+			remove_dynamic_modifier = { modifier = RUS_nat_industry_easy_bonus }
+		}
+		remove_ideas = RUS_agri_annual_shortfall
+		remove_ideas = RUS_agri_annual_surplus
+		remove_ideas = RUS_agri_annual_bumper_surplus
+		force_update_dynamic_modifier = yes
+	}
+}

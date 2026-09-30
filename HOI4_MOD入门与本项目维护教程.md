@@ -5,6 +5,8 @@
 
 这份教程不是一篇只讲概念的通用文章，而是根据本项目实际开发过程整理的操作手册。目标是让你能够独立完成最常见的修改：改国策位置与时间、调整民族精神数值、改事件文本、添加决议、替换人物头像和图标、排查旧存档问题，以及安全地提交和发布。
 
+当前日常入口见 [维护索引](维护索引.md)：其中记录工具命令、生成器归属和最新目录约定。本教程保留机制讲解，不作为历史方案仍在使用的证据。
+
 如果你只想马上开始，先读第1、2、3、6、7、10和18章；如果准备制作自己的完整模组，再按顺序通读全文。
 
 ## 目录
@@ -39,20 +41,20 @@
 
 | 类型 | 本项目示例 | 能否直接修改 |
 | --- | --- | --- |
-| 正式适配版源码 | D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_local | 可以，默认权威版本 |
-| 测试版源码 | D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_test | 可以，但应与适配版同步 |
+| 正式适配版源码 | D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_local | 只读参考，当前不开发 |
+| 测试版源码 | D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_test | 当前唯一开发目录 |
 | Steam 数字订阅目录 | 1521695605、3723313895、3746983015 等 | 不可以，只读参考 |
-| 干净上传目录 | kr_stalin_adapted_local_upload、kr_stalin_adapted_test_upload | 不手工修改，由脚本生成 |
+| 测试版干净上传目录 | kr_stalin_adapted_test_upload | 不手工修改，由脚本生成 |
 
 最重要的规则：不要在纯数字 Steam 创意工坊目录里开发。Steam 更新或重新订阅时可能直接覆盖它们。
 
 正确做法是：
 
-1. 在适配版源码中修改。
-2. 把相同游戏内容同步到测试版。
+1. 在测试版源码中修改。
+2. 查维护索引确认手写/生成归属，运行统一验证入口。
 3. 两边分别提交 Git。
 4. 运行上传脚本生成干净上传目录。
-5. Steam 上传器只选择正式上传目录对应的启动器条目。
+5. Steam 上传器只选择测试版干净上传目录对应的启动器条目。
 
 ### 1.2 HOI4 的模组覆盖方式
 
@@ -64,7 +66,7 @@ HOI4 不是把所有文件“智能合并”。大致有三种情况：
 
 例如本项目修改俄罗斯国策时使用：
 
-D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_local\common\national_focus\RUS focus (Russia).txt
+D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_test\common\national_focus\RUS focus (Russia).txt
 
 这是一个大型 KR 文件副本。KR 更新这个文件后，本项目不会自动获得所有上游变化，必须进行人工对比和合并。
 
@@ -102,7 +104,7 @@ D:\steam\steamapps\workshop\content\394360\kr_stalin_adapted_local\common\nation
 
 ### 2.2 每次修改前的固定动作
 
-在适配版目录打开 PowerShell：
+在测试版源码目录打开 PowerShell：
 
 ~~~powershell
 git status --short --branch
@@ -116,7 +118,7 @@ rg -n "你要修改的ID或中文文本" .
 1. 搜中文标题，找到本地化键。
 2. 搜本地化键，找到脚本 ID。
 3. 搜脚本 ID，查看定义、调用、GFX、旧存档补发和兼容补丁。
-4. 确认修改是否应同步到测试版或独立兼容补丁。
+4. 仅修改测试版；独立兼容补丁需在其独立目录维护，不修改正式适配版或订阅目录。
 
 ### 2.3 一次只改一个主题
 
@@ -1392,7 +1394,7 @@ git commit -m "清楚说明本次改动"
 
 不要使用 git add .，因为它可能把 descriptor.mod、源图、未跟踪草稿一起提交。
 
-本项目要求每轮修改后分别提交适配版和测试版。GitHub 推送是另一件事，只有明确需要跨电脑同步时才执行。
+本项目仅开发测试版，每轮验证后按任务边界创建本地提交，保留已有未提交工作。GitHub 推送是另一件事，只有明确需要跨电脑同步时才执行。
 
 ### 18.5 干净上传目录
 

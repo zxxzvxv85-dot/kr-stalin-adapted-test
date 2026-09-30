@@ -2,10 +2,7 @@
 from pathlib import Path
 import re, math
 ROOT = Path(__file__).resolve().parents[1]
-# Reuse the existing Paradox parser, without running its scenario suite.
-ns = {"__file__": str(ROOT / "tools/test_regional_diplomacy.py")}
-exec((ROOT / "tools/test_regional_diplomacy.py").read_text(encoding="utf-8-sig").split("def country(")[0], ns)
-parse, get = ns["parse"], ns["get"]
+from test_support.regional_diplomacy import parse, get
 fx = dict((k,v) for k,_,v in parse((ROOT / "common/scripted_effects/RUS_revolution_readiness_effects.txt").read_text()))
 def value(x, c):
  try: return float(x)

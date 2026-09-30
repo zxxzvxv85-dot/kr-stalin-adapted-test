@@ -1,5 +1,50 @@
 # Spawn limited local volunteer formations on the Russian side of the border.
 
+# Decisions prepare the volunteers in peacetime. Deploy one reserve per day only
+# after war begins and a usable frontline province exists; keep it otherwise.
+RUS_rd_deploy_reserved_militias = {
+	if = {
+		limit = {
+			has_war_with = GEO
+			check_variable = { RUS_rd_GEO_militia_reserve > 0 }
+			check_variable = { RUS_rd_GEO_militia_raised < 2 }
+			GEO = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } }
+		}
+		RUS_rd_GEO_form_militia = yes
+		subtract_from_variable = { RUS_rd_GEO_militia_reserve = 1 }
+	}
+	if = {
+		limit = {
+			has_war_with = AZR
+			check_variable = { RUS_rd_AZR_militia_reserve > 0 }
+			check_variable = { RUS_rd_AZR_militia_raised < 2 }
+			AZR = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } }
+		}
+		RUS_rd_AZR_form_militia = yes
+		subtract_from_variable = { RUS_rd_AZR_militia_reserve = 1 }
+	}
+	if = {
+		limit = {
+			has_war_with = BLR
+			check_variable = { RUS_rd_BLR_militia_reserve > 0 }
+			check_variable = { RUS_rd_BLR_militia_raised < 2 }
+			BLR = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } }
+		}
+		RUS_rd_BLR_form_militia = yes
+		subtract_from_variable = { RUS_rd_BLR_militia_reserve = 1 }
+	}
+	if = {
+		limit = {
+			has_war_with = POL
+			check_variable = { RUS_rd_POL_militia_reserve > 0 }
+			check_variable = { RUS_rd_POL_militia_raised < 2 }
+			POL = { any_controlled_state = { impassable = no any_neighbor_state = { is_controlled_by = ROOT } } }
+		}
+		RUS_rd_POL_form_militia = yes
+		subtract_from_variable = { RUS_rd_POL_militia_reserve = 1 }
+	}
+}
+
 RUS_rd_GEO_form_militia = {
  if = {
   limit = {

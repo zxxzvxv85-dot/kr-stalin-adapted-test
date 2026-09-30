@@ -38,9 +38,12 @@ function country(id) { return {id, exists:true, socialist:true, focuses:[], flag
 const number = (v, c) => Number.isNaN(Number(v)) ? c.temp[v] ?? c.vars[v] ?? 0 : Number(v);
 function check(nodes, c, world) {
   return nodes.every(({key, value:v}) => {
+    if (key === 'hidden_trigger' || key === 'AND') return check(v,c,world);
+    if (key === 'is_ai') return !!c.ai === (v === 'yes');
     if (key === 'NOT') return !check(v, c, world);
     if (key === 'custom_trigger_tooltip') return check(v.filter(n => n.key !== 'tooltip'), c, world);
     if (key === 'has_country_flag') return c.flags.includes(v);
+    if (key === 'tag') return c.id === v;
     if (key === 'exists') return c.exists === (v === 'yes');
     if (key === 'has_socialist_government') return c.socialist === (v === 'yes');
     if (key === 'has_completed_focus') return c.focuses.includes(v);
@@ -55,6 +58,7 @@ function run(nodes, c, world) {
     if (key === 'if') { if (check(get(v, 'limit'), c, world)) run(v.filter(n => n.key !== 'limit'), c, world); }
     else if (key === 'hidden_effect') run(v, c, world);
     else if (key === 'custom_effect_tooltip') continue;
+    else if (key === 'RUS_gendarme_refresh_waiting_bonus') continue; // Separately executed by test_gendarme_waiting.py.
     else if (key === 'add_political_power') c.pp += Number(v);
     else if (key === 'add_dynamic_modifier') c.modifiers.push(get(v, 'modifier'));
     else if (key === 'diplomatic_relation') { assert.equal(get(v,'relation'), 'non_aggression_pact'); c.pacts.push(get(v,'country')); }

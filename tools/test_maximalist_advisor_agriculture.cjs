@@ -1,14 +1,15 @@
 const assert=require('node:assert/strict');
-const fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process');
-const {parse,get,root,country,check}=require('./test_agri_development.cjs');
+const fs=require('node:fs'),path=require('node:path');
+const {parse,get,root,country,check}=require('./test_support/agriculture.cjs');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const traitsFile='common/country_leader/RUS_stalin_relationship_scaled_advisor_tiers.txt';
 const traits=get(parse(read(traitsFile)),'leader_traits');
-const previous=execFileSync('git',['show',`HEAD:${traitsFile}`],{cwd:root,encoding:'utf8'});
-const strip=t=>t.replace(/^\s*custom_modifier_tooltip\s*=.*$/gm,'').replace(/\s+/g,'');
-assert.equal(strip(read(traitsFile)),strip(previous),'Advisor numeric effects must not change');
 const effectsFile='common/scripted_effects/RUS_stalin_relationship_scaled_advisor_tier_effects.txt';
-assert.equal(read(effectsFile).replace(/\r/g,''),execFileSync('git',['show',`HEAD:${effectsFile}`],{cwd:root,encoding:'utf8'}).replace(/\r/g,''),'Do not alter advisor tier selection');
+const traitValue=(name,key)=>Number(get(get(traits,name),key));
+assert.equal(traitValue('RUS_relationship_scaled_ustinov_tier_2_easy','consumer_goods_expected_value'),traitValue('RUS_relationship_scaled_ustinov_tier_2','consumer_goods_expected_value'),'Easy mode must preserve an advisor penalty');
+assert.equal(traitValue('RUS_relationship_scaled_ustinov_tier_2_easy','production_speed_buildings_factor'),2*traitValue('RUS_relationship_scaled_ustinov_tier_2','production_speed_buildings_factor'));
+assert.equal(traitValue('RUS_relationship_scaled_ustinov_tier_2_easy','production_cost_infrastructure_factor'),2*traitValue('RUS_relationship_scaled_ustinov_tier_2','production_cost_infrastructure_factor'));
+assert.ok(read(effectsFile).includes('RUS_stalin_refresh_easy_advisor_trait_tiers'));
 const defined=parse(read('common/scripted_localisation/RUS_maximalist_advisor_agriculture_loc.txt'));
 for(const slug of ['ustinov','kolegayev','kakhovskaya']) {
   const key=`RUS_maximalist_advisor_${slug}_agriculture_tt`;
@@ -49,4 +50,4 @@ assert.equal([...cats.matchAll(/picture = GFX_decision_cat_RUS_national_agricult
 assert.ok(!cats.includes('GFX_decision_cat_RUS_economy'));
 const sprite=get(parse(read('interface/RUS_national_agriculture_category.gfx')),'spriteTypes')[0].value;
 assert.ok(fs.existsSync(path.join(root,get(sprite,'texturefile'))));
-console.log('Passed: 18 advisor tiers, 24 route/outcome cases, unchanged modifiers/selection, three locales, country names and category image.');
+console.log('Passed: 18 advisor tiers, easy-mode positives and penalties, 24 route/outcome cases, three locales, country names and category image.');

@@ -17,7 +17,21 @@ country_event = {
 		set_country_flag = RUS_soviet_foundation_super_event_visible
 		set_variable_to_random = RUS_soviet_foundation_super_event_refresh
 		hidden_effect = {
-			scoped_play_song = "RUS_hymnoftheussr_base"
+			if = {
+				limit = { has_country_flag = RUS_soviet_anthem_chernetsky }
+				scoped_play_song = "RUS_anthem_chernetsky"
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_soviet_anthem_shostakovich }
+				scoped_play_song = "RUS_anthem_shostakovich"
+			}
+			else_if = {
+				limit = { has_country_flag = RUS_soviet_anthem_alexandrov }
+				scoped_play_song = "RUS_anthem_alexandrov_1944"
+			}
+			else = {
+				scoped_play_song = "RUS_hymnoftheussr_base"
+			}
 		}
 	}
 }

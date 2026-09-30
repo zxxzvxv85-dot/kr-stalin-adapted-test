@@ -22,6 +22,37 @@ country_event = {
 	}
 }
 
+# Each annexation schedules its own expiry, so overlapping integration penalties stack independently.
+country_event = {
+	id = RUS_future_foreign_policy_events.9
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { check_variable = { RUS_soviet_union_integration_strain_stacks > 0 } }
+			subtract_from_variable = { RUS_soviet_union_integration_strain_stacks = 1 }
+			RUS_refresh_soviet_union_integration_strain = yes
+		}
+	}
+}
+
+# 联合威慑国策完成后签署的法俄友好互助条约。
+country_event = {
+	id = RUS_future_foreign_policy_events.8
+	title = RUS_future_foreign_policy_events.8.t
+	desc = RUS_future_foreign_policy_events.8.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = RUS_future_foreign_policy_events.8.a
+		add_threat = 2.0
+		RUS_future_foreign_joint_deterrence = yes
+	}
+}
+
 country_event = {
 	id = RUS_future_foreign_policy_events.1
 	title = RUS_future_foreign_policy_events.1.t
@@ -52,6 +83,8 @@ country_event = {
 
 	option = {
 		name = RUS_future_foreign_policy_events.2.a
+		add_political_power = 10
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 10 } # RUS_EASY_MODE_REWARD
 	}
 }
 

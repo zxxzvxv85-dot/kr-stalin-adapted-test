@@ -9405,6 +9405,7 @@ country_event = { #Trial of the Idiots
 		}
 		else = {
 			add_war_support = 0.04
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.04 } # RUS_EASY_MODE_REWARD
 			set_temp_variable = { RUS_anger_change = 1 }
 			RUS_change_military_anger = yes
 		}
@@ -10787,6 +10788,7 @@ country_event = { #Commander of the Ukrainian Military District
 			add_resistance = -5
 		}
 		add_command_power = 40
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_command_power = 40 } # RUS_EASY_MODE_REWARD
 		custom_effect_tooltip = RUS_UKR_risk_tt
 		RUS_boris_shteyfon = {
 			set_character_flag = RUS_UKR_governor
@@ -10846,6 +10848,7 @@ country_event = { #Commander of the Ukrainian Military District
 			is_monarchy = no
 		}
 		add_stability = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 		every_owned_state = {
 			limit = { is_core_of = UKR }
 			add_compliance = 5
@@ -15360,6 +15363,7 @@ country_event = { #Future elections for republic
 		}
 		activate_advisor = RUS_georgy_vernadsky_sic
 		add_stability = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 	}
 	option = {
 		log = "[GetLogInfo]: event russia_elections_events.51 option russia_elections_events.51.k"
@@ -16914,11 +16918,13 @@ country_event = { #Republicanisation of the Army Successful
 		log = "[GetLogInfo]: event russia_democratic_events.37 option russia_democratic_events.37.a"
 		name = russia_democratic_events.37.a
 		add_political_power = 100
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 100 } # RUS_EASY_MODE_REWARD
 		add_popularity = {
 			ideology = paternal_autocrat
 			popularity = -0.1
 		}
 		add_war_support = 0.1
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.1 } # RUS_EASY_MODE_REWARD
 		set_temp_variable = { RUS_anger_removal = RUS_military_anger }
 		multiply_temp_variable = { RUS_anger_removal = -1 }
 		set_temp_variable = { RUS_anger_change = RUS_anger_removal }
@@ -21996,6 +22002,7 @@ country_event = { #The Garde Equipage
 		}
 		custom_effect_tooltip = tooltip_white_line
 		add_war_support = 0.01
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.01 } # RUS_EASY_MODE_REWARD
 		add_manpower = -9500
 		set_temp_variable = { RUS_anger_change = 1 }
 		RUS_change_left_anger = yes
@@ -23460,7 +23467,9 @@ country_event = { #Law on Workers' Representation (through DemRus)
 		log = "[GetLogInfo]: event russia_socialist_events.1 option russia_socialist_events.1.a"
 		name = russia_socialist_events.1.a
 		add_stability = 0.2
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.2 } # RUS_EASY_MODE_REWARD
 		add_political_power = 150
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 150 } # RUS_EASY_MODE_REWARD
 		set_politics = {
 			ruling_party = syndicalist
 			elections_allowed = yes
@@ -24045,6 +24054,7 @@ country_event = { #Murder of Comrade Jurenko
 		}
 		else = {
 			add_political_power = 30
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 30 } # RUS_EASY_MODE_REWARD
 		}
 		country_event = { id = russia_socialist_events.44 days = 14 }
 		if = {
@@ -24561,6 +24571,7 @@ country_event = { #Society of the Godless
 		}
 		RUS_increase_VST_left_radicalism = yes
 		add_political_power = 35
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 35 } # RUS_EASY_MODE_REWARD
 		add_popularity = { ideology = syndicalist popularity = 0.03 }
 		RUS_stalin_add_totalist_or_communist_popularity_003 = yes
 		RUS_increase_antisoc_resistance = yes
@@ -24764,6 +24775,7 @@ country_event = { #Future of the White Army
 		set_temp_variable = { ideology_change_var = 5 }
 		change_ruling_party_popularity = yes
 		add_war_support = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 	}
 }
 country_event = { #Abolition of Cavalry?
@@ -24988,6 +25000,7 @@ country_event = { #Radicalisation of the Militsya
 		RUS_decrease_VST_left_radicalism = yes
 		add_political_power = -30
 		add_stability = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 	}
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.59 option russia_socialist_events.59.b"
@@ -25013,6 +25026,7 @@ country_event = { #Radicalisation of the Militsya
 			set_temp_variable = { RUS_spiridonist_influence_change = -4 }
 			RUS_add_faith = yes
 			add_political_power = 50
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		}
 		else = {
 			if = {
@@ -25238,6 +25252,7 @@ country_event = { #Bolsheviks Declare Support
 		log = "[GetLogInfo]: event russia_socialist_events.68 option russia_socialist_events.68.a"
 		name = russia_socialist_events.68.a
 		add_political_power = 25
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 25 } # RUS_EASY_MODE_REWARD
 		set_temp_variable = { coalition_partner_var = token:totalist }
 		add_to_coalition = yes
 		RUS_stalin_add_totalist_or_communist_popularity_005 = yes
@@ -25336,6 +25351,7 @@ country_event = { #Triumph of Peasant Communism
 		name = russia_socialist_events.71.a
 		RUS_stalin_kamenev_bop_move_right_005 = yes
 		add_political_power = 100
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 100 } # RUS_EASY_MODE_REWARD
 		RUS_decrease_antisoc_resistance = yes
 		add_popularity = { ideology = radical_socialist popularity = 0.05 }
 	}
@@ -26419,6 +26435,7 @@ country_event = { #Appointment of the Interior Minister
 		}
 		else = {
 			add_political_power = 150
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 150 } # RUS_EASY_MODE_REWARD
 		}
 		if = {
 			limit = {
@@ -26435,7 +26452,9 @@ country_event = { #Appointment of the Interior Minister
 				check_variable = { RUS_interior_var < 20 }
 			}
 			add_stability = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 		}
 		if = {
 			limit = {
@@ -26443,7 +26462,9 @@ country_event = { #Appointment of the Interior Minister
 				check_variable = { RUS_interior_var < 30 }
 			}
 			add_stability = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 			add_popularity = {
 				ideology = totalist
 				popularity = 0.05
@@ -26457,7 +26478,9 @@ country_event = { #Appointment of the Interior Minister
 				check_variable = { RUS_interior_var < 40 }
 			}
 			add_stability = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 			add_popularity = {
 				ideology = totalist
 				popularity = 0.05
@@ -26473,7 +26496,9 @@ country_event = { #Appointment of the Interior Minister
 				check_variable = { RUS_interior_var < 50 }
 			}
 			add_stability = 0.1
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.1 } # RUS_EASY_MODE_REWARD
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 			add_popularity = {
 				ideology = totalist
 				popularity = 0.1
@@ -26488,7 +26513,9 @@ country_event = { #Appointment of the Interior Minister
 				check_variable = { RUS_interior_var > 49 }
 			}
 			add_stability = 0.1
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.1 } # RUS_EASY_MODE_REWARD
 			add_war_support = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
 			add_popularity = {
 				ideology = totalist
 				popularity = 0.1
@@ -26685,6 +26712,7 @@ country_event = { #Blyukher Report Part 2
 		}
 		activate_advisor = RUS_aleksandr_yegorov_army_chief
 		add_stability = 0.02
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.02 } # RUS_EASY_MODE_REWARD
 	}
 	option = { #Frunze
 		log = "[GetLogInfo]: event russia_socialist_events.132 option russia_socialist_events.132.f"
@@ -28601,11 +28629,13 @@ country_event = { #Elections to Constituent Assembly
 		if = {
 			limit = { has_completed_focus = RUS_red_flag_over_kremlin }
 			add_stability = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 			add_popularity = { ideology = radical_socialist popularity = 0.08 }
 			add_popularity = { ideology = syndicalist popularity = 0.06 }
 		}
 		else = {
 			add_stability = 0.05
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 			add_popularity = { ideology = syndicalist popularity = 0.08 }
 			add_popularity = { ideology = radical_socialist popularity = 0.06 }
 			add_popularity = { ideology = social_democrat popularity = 0.02 }
@@ -31417,16 +31447,6 @@ country_event = { #Reversed October
 			RUS_yakov_sverdlov = {
 				retire = yes
 			}
-			RUS_mikhail_frunze = {
-				remove_trait = {
-					slot = political_advisor
-					trait = KR_bolshevik_frunze
-				}
-				add_trait = {
-					slot = political_advisor
-					trait = KR_vst_left_frunze
-				}
-			}
 		}
 		custom_effect_tooltip = tooltip_white_line
 		add_country_leader_role = {
@@ -31741,6 +31761,7 @@ country_event = { #Bureaucratic Dictatorship
 		log = "[GetLogInfo]: event russia_socialist_events.392 option russia_socialist_events.392.a"
 		name = russia_socialist_events.392.a
 		add_stability = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 		RUS_stalin_kamenev_bop_move_left_005 = yes
 		set_politics = {
 			ruling_party = syndicalist
@@ -32849,6 +32870,7 @@ country_event = { #The Union of Socialist Labour Republics
 		name = russia_socialist_events.411.a
 		ai_chance = { base = 5 }
 		add_stability = 0.1
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.1 } # RUS_EASY_MODE_REWARD
 		if = {
 			limit = { NOT = { BUK = { has_cosmetic_tag = TRK_RUS } } } #Puppeted united CA after Central Asia war
 			set_autonomy = {
@@ -33412,6 +33434,7 @@ country_event = { #Supreme Council of National Economy
 		log = "[GetLogInfo]: event russia_socialist_events.431 option russia_socialist_events.431.a"
 		name = russia_socialist_events.431.a
 		add_stability = 0.04
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.04 } # RUS_EASY_MODE_REWARD
 		RUS_stalin_kamenev_bop_move_right_005 = yes
 	}
 }
@@ -33447,7 +33470,9 @@ country_event = { #Wartime Flavor
 			}
 		}
 		add_manpower = 5000
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_manpower = 5000 } # RUS_EASY_MODE_REWARD
 		add_war_support = 0.03
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.03 } # RUS_EASY_MODE_REWARD
 	}
 	option = {
 		log = "[GetLogInfo]: event russia_socialist_events.433 option russia_socialist_events.433.a"
@@ -33481,6 +33506,7 @@ country_event = { #Industrial Situation
 		log = "[GetLogInfo]: event russia_socialist_events.435 option russia_socialist_events.435.a"
 		name = russia_socialist_events.435.a
 		add_political_power = 50
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 50 } # RUS_EASY_MODE_REWARD
 		country_event = { id = russia_socialist_events.434 }
 	}
 }
@@ -34510,6 +34536,7 @@ country_event = { #Recreate Autonomies
 		log = "[GetLogInfo]: event russia_boldyrev_events.47 option russia_boldyrev_events.47.a"
 		name = russia_boldyrev_events.47.a
 		add_stability = 0.05
+		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_stability = 0.05 } # RUS_EASY_MODE_REWARD
 		### Create Caucasus Autonomy
 		every_owned_state = {
 			limit = {

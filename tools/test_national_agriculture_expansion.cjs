@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {parse,get,effects,triggers,country,check,exec,read}=require('./test_agri_development.cjs');
+const {parse,get,effects,triggers,country,check,exec,read}=require('./test_support/agriculture.cjs');
 const crops=['wheat','rye','beet','flax','cotton'];
 const run=(c,k)=>exec(effects.get('RUS_nat_'+k),c);
 const val=(c,k)=>c.vars['RUS_nat_'+k]||0;
@@ -27,7 +27,7 @@ test('charge starts at boundary, survives reload, expires next boundary without 
 });
 test('machinery coverage scales all crops 60 to 110 percent',()=>{
  const c=fresh();set(c,'elapsed',0);
- for(const [installed,factor] of [[0,.6],[100,.725],[200,.85],[400,1.1],[800,1.1]]){set(c,'installed',installed);run(c,'yield');near(val(c,'mechanisation'),factor);}
+ for(const [installed,factor] of [[0,.6],[2000,.725],[4000,.85],[8000,1.1],[16000,1.1]]){set(c,'installed',installed);run(c,'yield');near(val(c,'mechanisation'),factor);}
  set(c,'elapsed',10);set(c,'coverage_sum',2.5);set(c,'installed',400);run(c,'yield');near(val(c,'mechanisation'),.725);
 });
 test('beet weekly loss and textile penalties recover and stack with food',()=>{
@@ -41,7 +41,7 @@ test('beet weekly loss and textile penalties recover and stack with food',()=>{
 test('4000 self-produced promise and 5000 warehouse preserve capacity',()=>{
  const c=fresh();c.vars.RUS_max_landreform_tractor_promise_count=3;
  for(const [amount,complete] of [[3999.999,false],[4000,true]]){set(c,'produced',amount);assert.equal(check(triggers.get('RUS_nat_tractor_complete'),c),complete);}
- set(c,'requested',10);run(c,'set_factories');set(c,'installed',400);set(c,'machine_stock',5000);const before=val(c,'produced');day(c);near(val(c,'produced'),before);
+ set(c,'requested',10);run(c,'set_factories');set(c,'installed',8000);set(c,'machine_stock',5000);const before=val(c,'produced');day(c);near(val(c,'produced'),before);
  set(c,'machine_stock',4999.9);day(c);near(val(c,'machine_stock'),5000);near(val(c,'produced'),before+.1);
 });
 const balkanTags=['SER','ROM','GRE','ALB','BUL'];
@@ -62,13 +62,13 @@ test('Balkan countries create separate orders without increasing total procureme
  assert.deepEqual(c.arrays.RUS_nat_foreign_order_rows,[0,1,2,3,4,5,8,9]);
  const gui=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');
  const before=val(c,'ser_accept');exec(get(get(gui,'effects'),'card_order_5_switch_click'),c);assert.equal(val(c,'ser_accept'),1-before);
- assert.equal(val(c,'alb_accept'),1);assert.equal(val(c,'bul_accept'),1);assert.equal(val(c,'generic_accept'),1);
+ assert.equal(val(c,'alb_accept'),0);assert.equal(val(c,'bul_accept'),0);assert.equal(val(c,'generic_accept'),0);
  c.world={};run(c,'refresh');assert.equal(val(c,'ser_quantity'),1);
  run(c,'start_quarter');for(const tag of balkanTags)assert.equal(val(c,tag.toLowerCase()+'_quantity'),0);
 });
 test('Independent shipments respect domestic reserves and never pay twice',()=>{
  const c=fresh();buyers(c);c.focuses.push('RUS_future_foreign_019');run(c,'draw_orders');
- for(const tag of balkanTags)set(c,tag.toLowerCase()+'_crop',1);
+ for(const tag of balkanTags){set(c,tag.toLowerCase()+'_crop',1);set(c,tag.toLowerCase()+'_accept',1);}
  set(c,'actual',1);for(const g of ['food','beet','textile'])set(c,g+'_ratio',1);
  set(c,'food_reserve',8);set(c,'food_left',12);set(c,'wheat_work',12);c.vars.RUS_agri_wheat_capacity=100;c.vars.RUS_agri_wheat_market=0;
  set(c,'ser_accept',0);run(c,'trade');assert.equal(val(c,'ser_shipped'),0);assert.equal(val(c,'income'),4000);assert.equal(val(c,'wheat_work'),8);
@@ -78,16 +78,13 @@ test('Independent shipments respect domestic reserves and never pay twice',()=>{
  set(c,'food_left',9);set(c,'wheat_work',9);run(c,'trade');assert.equal(val(c,'income'),1000);assert.equal(val(c,'ser_shipped'),1);assert.equal(val(c,'wheat_work'),8);
  run(c,'trade');assert.equal(val(c,'income'),0);
  const settled=fresh();buyers(settled);settled.focuses.push('RUS_future_foreign_019');run(settled,'draw_orders');
- for(const tag of balkanTags)set(settled,tag.toLowerCase()+'_crop',1);
+ for(const tag of balkanTags){set(settled,tag.toLowerCase()+'_crop',1);set(settled,tag.toLowerCase()+'_accept',1);}
  for(const crop of crops){settled.vars['RUS_agri_'+crop+'_investment']=0;set(settled,crop+'_stock',30);}
  set(settled,'elapsed',92);set(settled,'coverage_sum',92);run(settled,'settle');assert.equal(val(settled,'last_crop_orders'),5);
  const earned=settled.surplus;run(settled,'settle');assert.equal(settled.surplus,earned);
 });
 test('Balkan order generator and three locales preserve the implemented order contract',()=>{
- const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
- const root=path.resolve(__dirname,'..'),outputs=new Map();
- const fakeFs={...fs,mkdirSync(){},writeFileSync(file,text){outputs.set(path.relative(root,file).replaceAll('\\','/'),text);}};
- vm.runInNewContext(read('tools/generate_national_agriculture.cjs'),{__dirname,require:id=>id==='node:fs'?fakeFs:require(id),console:{log(){}}});
+ const outputs=new Map(Object.entries(require('./generate_national_agriculture.cjs').render_outputs()));
  const generated=get(parse(outputs.get('common/scripted_effects/RUS_national_agriculture_effects.txt')),'RUS_nat_draw_orders');
  assert.deepEqual(generated,effects.get('RUS_nat_draw_orders'));
  for(const language of ['simp_chinese','english','russian']){

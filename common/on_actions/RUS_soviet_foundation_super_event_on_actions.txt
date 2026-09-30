@@ -6,7 +6,12 @@ on_actions = {
 					original_tag = RUS
 				}
 				if = {
-					limit = { has_completed_focus = RUS_found_sov_union }
+					limit = {
+						OR = {
+							has_completed_focus = RUS_found_sov_union
+							has_completed_focus = RUS_future_foreign_045
+						}
+					}
 					set_country_flag = RUS_soviet_foundation_super_event_seen
 					clr_country_flag = RUS_soviet_foundation_super_event_armed
 					clr_country_flag = RUS_soviet_foundation_playback_authorized

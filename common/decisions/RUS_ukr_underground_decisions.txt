@@ -419,23 +419,285 @@ custom_effect_tooltip = RUS_ukr_freeze_strength_tt
    hidden_effect = { RUS_ukr_start_night = yes set_country_flag = RUS_ukr_native_action }
   }
   remove_effect = {
-   effect_tooltip = { if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night check_variable = { RUS_ukr_escrow > 79 } } AND = { NOT = { has_country_flag = RUS_ukr_action_night } check_variable = { RUS_ukr_strength > 79 } } } } }
+			effect_tooltip = {
+				if = {
+					limit = {
+						hidden_trigger = {
+							OR = {
+								AND = {
+									has_country_flag = RUS_ukr_action_night
+									check_variable = {
+										RUS_ukr_escrow > 79
+									}
+								}
+								AND = {
+									NOT = {
+										has_country_flag = RUS_ukr_action_night
+									}
+									check_variable = {
+										RUS_ukr_strength > 79
+									}
+								}
+							}
+						}
+					}
  UKR = { add_timed_idea = { idea = RUS_ukr_war_high days = 60 } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_mine } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_mine_active = yes } } } } UKR = { add_timed_idea = { idea = RUS_ukr_war_mine days = 60 } } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_rural } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_rural_active = yes } } } } UKR = { add_timed_idea = { idea = RUS_ukr_war_rural days = 60 } } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_rail } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_rail_active = yes } } } } add_timed_idea = { idea = RUS_ukr_war_attack days = 60 } }
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_mine
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_mine_active = yes
+									}
+								}
+							}
+						}
+						UKR = {
+							add_timed_idea = {
+								idea = RUS_ukr_war_mine
+								days = 60
+							}
+						}
+					}
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_rural
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_rural_active = yes
+									}
+								}
+							}
+						}
+						UKR = {
+							add_timed_idea = {
+								idea = RUS_ukr_war_rural
+								days = 60
+							}
+						}
+					}
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_rail
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_rail_active = yes
+									}
+								}
+							}
+						}
+						add_timed_idea = {
+							idea = RUS_ukr_war_attack
+							days = 60
+						}
+					}
 }
-else_if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night check_variable = { RUS_ukr_escrow > 59 } } AND = { NOT = { has_country_flag = RUS_ukr_action_night } check_variable = { RUS_ukr_strength > 59 } } } } }
+				else_if = {
+					limit = {
+						hidden_trigger = {
+							OR = {
+								AND = {
+									has_country_flag = RUS_ukr_action_night
+									check_variable = {
+										RUS_ukr_escrow > 59
+									}
+								}
+								AND = {
+									NOT = {
+										has_country_flag = RUS_ukr_action_night
+									}
+									check_variable = {
+										RUS_ukr_strength > 59
+									}
+								}
+							}
+						}
+					}
  UKR = { add_timed_idea = { idea = RUS_ukr_war_medium days = 45 } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_mine } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_mine_active = yes } } } } UKR = { add_timed_idea = { idea = RUS_ukr_war_mine days = 45 } } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_rural } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_rural_active = yes } } } } UKR = { add_timed_idea = { idea = RUS_ukr_war_rural days = 45 } } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_rail } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_rail_active = yes } } } } add_timed_idea = { idea = RUS_ukr_war_attack days = 45 } }
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_mine
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_mine_active = yes
+									}
+								}
+							}
+						}
+						UKR = {
+							add_timed_idea = {
+								idea = RUS_ukr_war_mine
+								days = 45
+							}
+						}
+					}
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_rural
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_rural_active = yes
+									}
+								}
+							}
+						}
+						UKR = {
+							add_timed_idea = {
+								idea = RUS_ukr_war_rural
+								days = 45
+							}
+						}
+					}
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_rail
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_rail_active = yes
+									}
+								}
+							}
+						}
+						add_timed_idea = {
+							idea = RUS_ukr_war_attack
+							days = 45
+						}
+					}
 }
-else_if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night check_variable = { RUS_ukr_escrow > -1 } } AND = { NOT = { has_country_flag = RUS_ukr_action_night } check_variable = { RUS_ukr_strength > -1 } } } } }
+				else_if = {
+					limit = {
+						hidden_trigger = {
+							OR = {
+								AND = {
+									has_country_flag = RUS_ukr_action_night
+									check_variable = {
+										RUS_ukr_escrow > -1
+									}
+								}
+								AND = {
+									NOT = {
+										has_country_flag = RUS_ukr_action_night
+									}
+									check_variable = {
+										RUS_ukr_strength > -1
+									}
+								}
+							}
+						}
+					}
  UKR = { add_timed_idea = { idea = RUS_ukr_war_low days = 30 } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_mine } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_mine_active = yes } } } } UKR = { add_timed_idea = { idea = RUS_ukr_war_mine days = 30 } } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_rural } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_rural_active = yes } } } } UKR = { add_timed_idea = { idea = RUS_ukr_war_rural days = 30 } } }
- if = { limit = { hidden_trigger = { OR = { AND = { has_country_flag = RUS_ukr_action_night has_country_flag = RUS_ukr_frozen_rail } AND = { NOT = { has_country_flag = RUS_ukr_action_night } RUS_ukr_rail_active = yes } } } } add_timed_idea = { idea = RUS_ukr_war_attack days = 30 } }
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_mine
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_mine_active = yes
+									}
+								}
+							}
+						}
+						UKR = {
+							add_timed_idea = {
+								idea = RUS_ukr_war_mine
+								days = 30
+							}
+						}
+					}
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_rural
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_rural_active = yes
+									}
+								}
+							}
+						}
+						UKR = {
+							add_timed_idea = {
+								idea = RUS_ukr_war_rural
+								days = 30
+							}
+						}
+					}
+					if = {
+						limit = {
+							hidden_trigger = {
+								OR = {
+									AND = {
+										has_country_flag = RUS_ukr_action_night
+										has_country_flag = RUS_ukr_frozen_rail
+									}
+									AND = {
+										NOT = {
+											has_country_flag = RUS_ukr_action_night
+										}
+										RUS_ukr_rail_active = yes
+									}
+								}
+							}
+						}
+						add_timed_idea = {
+							idea = RUS_ukr_war_attack
+							days = 30
+						}
+					}
 }
 custom_effect_tooltip = RUS_ukr_lockdown_result_tt
  }

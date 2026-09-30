@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const {parse,get,effects,triggers,country,check,exec,read,root} = require('./test_agri_development.cjs');
+const {parse,get,effects,triggers,country,check,exec,read,root} = require('./test_support/agriculture.cjs');
 const crops=['wheat','rye','beet','flax','cotton'];
 const run=(c,key)=>exec(effects.get('RUS_nat_'+key),c);
 const set=(c,k,v)=>c.vars['RUS_nat_'+k]=v;
@@ -106,7 +106,7 @@ test('agricultural support charges stability, halves it with Ustinov, and resets
   const c=fresh(); if(hired)c.ideas.RUS_aleksey_ustinov_advisor=true;
   const beforePP=c.pp||0;
   for(const id of ['food','repair','technical','processing']) {
-   const d=get(defs,'RUS_nat_support_'+id);assert.equal(get(d,'cost'),'0');
+   const d=get(defs,'RUS_nat_support_'+id);assert.equal(get(d,'cost'),'10');
    assert.ok(check(get(d,'available'),c));exec(get(d,'complete_effect'),c);
    assert.ok(!check(get(d,'available'),c));
    const loss=c.stability;exec(get(d,'complete_effect'),c);assert.equal(c.stability,loss);
@@ -133,7 +133,7 @@ test('emergency procurement fills only the food gap and never yields export surp
  const c=fresh();set(c,'fraction',1);set(c,'emergency_purchase',1);set(c,'wheat_work',6);set(c,'rye_work',0);run(c,'emergency_fill');assert.equal(val(c,'wheat_work'),7.2);assert.equal(val(c,'emergency_purchase'),0);run(c,'emergency_fill');assert.equal(val(c,'wheat_work'),7.2);
 });
 test('machine orders observe domestic installation, reserve and distinct shipment counters',()=>{
- const c=fresh();set(c,'actual',1);set(c,'installed',8000);set(c,'machine_work',2100);set(c,'produced',3000);set(c,'fra_machine_quantity',100);set(c,'eng_machine_quantity',100);set(c,'machine_market',0);run(c,'trade');assert.equal(val(c,'fra_machine_shipped'),1);assert.equal(val(c,'eng_machine_shipped'),0);assert.equal(val(c,'machine_work'),2000);assert.equal(val(c,'income'),16500);assert.equal(val(c,'produced'),3000);
+ const c=fresh();set(c,'actual',1);set(c,'installed',8000);set(c,'machine_work',2100);set(c,'produced',3000);set(c,'fra_machine_quantity',100);set(c,'eng_machine_quantity',100);set(c,'fra_machine_accept',1);set(c,'eng_machine_accept',1);set(c,'machine_market',0);run(c,'trade');assert.equal(val(c,'fra_machine_shipped'),1);assert.equal(val(c,'eng_machine_shipped'),0);assert.equal(val(c,'machine_work'),2000);assert.equal(val(c,'income'),16500);assert.equal(val(c,'produced'),3000);
 });
 test('fixed-point eight-factory production can reach 3000 in 540 days without exports',()=>{
  const c=fresh(59,8);c.precision=1000;
@@ -170,7 +170,10 @@ test('minister appointment is the only automatic entry; other options do not ena
  const events=parse(read('events/RUS events (Russia).txt'));const ev=events.find(e=>Array.isArray(e.value)&&get(e.value,'id')==='russia_socialist_events.332').value;
  const opts=ev.filter(e=>e.key==='option');assert.equal(opts.length,3);
  for(const o of opts){const text=JSON.stringify(o);assert.equal(text.includes('RUS_nat_enable'),get(o.value,'name')==='russia_socialist_events.332.c');}
- const cats=read('common/decisions/categories/RUS_agricultural_quarterly_management_categories.txt');assert.ok(cats.includes('visible_when_empty = yes'));assert.ok(cats.includes('scripted_gui = RUS_national_agriculture_gui'));
+ const cats=parse(read('common/decisions/categories/RUS_agricultural_quarterly_management_categories.txt'));
+ const category=cats.find(n=>n.key==='RUS_agricultural_quarterly_management_category').value;
+ assert.equal(get(get(category,'visible'),'always'),'no');assert.ok(!get(category,'scripted_gui'));
+ const window=get(get(parse(read('common/scripted_guis/RUS_national_agriculture.txt')),'scripted_gui'),'RUS_national_agriculture_gui');assert.equal(get(window,'context_type'),'player_context');
 });
 test('mission extension, deadline production and success-only outlook hooks are present',()=>{
  const evs=parse(read('events/RUS stalin maximalist land reform events.txt'));const ev=id=>evs.find(e=>Array.isArray(e.value)&&get(e.value,'id')===`rus_maximalist_land_reform_events.${id}`).value;
@@ -195,7 +198,7 @@ test('orders only appear next quarter and existing contracts survive a buyer dis
  const before=val(c,'fra_quantity');c.countries=[];run(c,'refresh');assert.equal(val(c,'fra_quantity'),before);run(c,'start_quarter');assert.equal(val(c,'fra_quantity'),0);assert.equal(val(c,'eng_machine_quantity'),0);assert.ok(val(c,'generic_quantity')>0);
 });
 test('domestic supply and reserves have priority; cancellation and priority do not duplicate stocks',()=>{
- const c=fresh();set(c,'actual',1);set(c,'fraction',1);set(c,'food_ratio',1);set(c,'beet_ratio',1);set(c,'textile_ratio',1);set(c,'food_reserve',8);set(c,'food_left',10);set(c,'wheat_work',10);set(c,'generic_crop',1);set(c,'generic_quantity',2);set(c,'fra_crop',1);set(c,'fra_quantity',2);set(c,'generic_priority',2);set(c,'fra_priority',1);run(c,'trade');assert.equal(val(c,'fra_shipped'),1);assert.equal(val(c,'generic_shipped'),0);assert.equal(val(c,'wheat_work'),8);
+ const c=fresh();set(c,'actual',1);set(c,'fraction',1);set(c,'food_ratio',1);set(c,'beet_ratio',1);set(c,'textile_ratio',1);set(c,'food_reserve',8);set(c,'food_left',10);set(c,'wheat_work',10);set(c,'generic_crop',1);set(c,'generic_quantity',2);set(c,'fra_crop',1);set(c,'fra_quantity',2);set(c,'generic_priority',2);set(c,'fra_priority',1);set(c,'generic_accept',1);set(c,'fra_accept',1);run(c,'trade');assert.equal(val(c,'fra_shipped'),1);assert.equal(val(c,'generic_shipped'),0);assert.equal(val(c,'wheat_work'),8);
  set(c,'fra_shipped',0);set(c,'fra_accept',0);set(c,'wheat_work',10);set(c,'food_left',10);run(c,'trade');assert.equal(val(c,'generic_shipped'),1);assert.equal(val(c,'fra_shipped'),0);
  set(c,'generic_shipped',0);set(c,'wheat_work',50);set(c,'food_left',50);set(c,'beet_ratio',.5);run(c,'trade');assert.equal(val(c,'income'),0);assert.equal(val(c,'wheat_work'),50);
 });
@@ -223,7 +226,7 @@ test('three locales, declared GUI keys, sprites and fixed page boundaries',()=>{
  }
  for(const lang of ['simp_chinese','english','russian'])for(const stem of ['RUS_agriculture_dashboard','RUS_agriculture_cards'])for(const m of read(`localisation/${lang}/${stem}_l_${lang}.yml`).matchAll(/^\s+(\S+):0/gm))keys.add(m[1]);
  const gui=get(parse(read('interface/RUS_national_agriculture.gui')),'guiTypes');assert.ok(gui);
- for(const m of read('interface/RUS_national_agriculture.gui').matchAll(/(?:text|buttonText|pdx_tooltip) = "([^"]+)"/g))assert.ok(keys.has(m[1])||m[1].startsWith('RUS_agri_'),'Missing UI key '+m[1]);
+ for(const m of read('interface/RUS_national_agriculture.gui').matchAll(/(?:text|buttonText|pdx_tooltip) = "([^"]+)"/g))assert.ok(keys.has(m[1])||m[1].startsWith('RUS_agri_')||m[1]==='CLOSE','Missing UI key '+m[1]);
 });
 test('four page buttons switch only visibility, retain allocations and show complete help',()=>{
  const c=fresh(59,8);run(c,'auto_allocate');

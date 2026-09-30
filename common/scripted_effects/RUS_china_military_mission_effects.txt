@@ -1,0 +1,22 @@
+# Called after adding the spirit, on easy-mode activation, and daily while it is active.
+# The timed spirit owns both relation modifiers; on_remove clears them at expiry.
+RUS_china_mission_refresh_volunteers = {
+	if = {
+		limit = {
+			has_idea = RUS_aiding_chinese_comrades
+			has_country_flag = RUS_easy_mode_enabled
+			is_ai = no
+			country_exists = CHI
+		}
+		if = {
+			limit = { NOT = { has_relation_modifier = { target = CHI modifier = RUS_china_mission_volunteers_easy } } }
+			add_relation_modifier = { target = CHI modifier = RUS_china_mission_volunteers_easy }
+		}
+	}
+	else = {
+		if = {
+			limit = { has_relation_modifier = { target = CHI modifier = RUS_china_mission_volunteers_easy } }
+			remove_relation_modifier = { target = CHI modifier = RUS_china_mission_volunteers_easy }
+		}
+	}
+}

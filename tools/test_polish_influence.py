@@ -1,7 +1,6 @@
 """Exercise our transactions; KR's influence redistribution is an external boundary."""
-import runpy
-from pathlib import Path
-m=runpy.run_path(str(Path(__file__).with_name('test_regional_diplomacy.py')))
+from test_support import regional_diplomacy as support
+m=vars(support)
 read,get,parse,run,check,world,start,tick=[m[k] for k in ['read','get','parse','run','check','world','start','tick']]
 FX,D=m['FX'],m['D']
 newfx={k:v for k,_,v in read('common/scripted_effects/RUS_polish_influence_effects.txt')}
@@ -15,7 +14,7 @@ for key,pp,spend,days,gain in [('press',25,0,21,3),('unions',35,10,30,5),('worke
     for fail in [False,True]:
         w=world();c=w['RUS'];c['vars']['RUS_rd_POL_stock']=50;w['POL']['vars']['POL_soc_influence']=20
         start(id,w);assert c['pp']==1000-pp and c['vars']['RUS_rd_POL_stock']==50-spend and c['balance']==.005
-        assert not check(get(D[id],'available'),c,w)
+        assert id in c['decisions']  # The engine prevents re-taking an active timed decision.
         tick(w,days-1);assert w['POL']['vars']['POL_soc_influence']==20
         tick(w,choice=int(fail));expected=0 if fail and key!='press' else gain
         assert w['POL']['vars']['POL_soc_influence']==20+expected

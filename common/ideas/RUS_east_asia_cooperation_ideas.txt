@@ -1,0 +1,163 @@
+# East Asian cooperation: native spirit modifiers; monthly payments are in on_actions.
+# war_stability_factor is positive when REDUCING the war stability penalty.
+# communist_drift targets this mod's communist ideology, distinct from KR totalism.
+ideas = {
+	country = {
+		RUS_japanese_antiwar_movement = {
+			picture = generic_syndicalist_worker
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				radical_socialist_drift = 0.03
+				war_support_factor = -0.05
+				conscription_factor = -0.05
+			}
+		}
+
+		RUS_active_northeast_resistance = {
+			picture = chi_war_of_resistance
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				stability_factor = -0.05
+				industrial_capacity_factory = -0.10
+				army_org_factor = -0.15
+				army_attack_factor = -0.075
+				attrition = 0.15
+			}
+		}
+
+		RUS_northeast_anti_japanese_network = {
+			picture = generic_army
+			allowed = { always = no }
+			removal_cost = -1
+			on_remove = {
+				set_country_flag = RUS_northeast_network_removing
+				RUS_east_asia_refresh_cooperation = yes
+				clr_country_flag = RUS_northeast_network_removing
+			}
+			modifier = {
+				supply_consumption_factor = -0.10
+				custom_modifier_tooltip = RUS_northeast_network_targets_tt
+			}
+		}
+
+		RUS_transcontinental_economic_cooperation = {
+			picture = generic_improved_industries
+			allowed = { always = no }
+			removal_cost = -1
+			on_remove = {
+				set_country_flag = RUS_transcontinental_cooperation_removing
+				RUS_east_asia_refresh_cooperation = yes
+				clr_country_flag = RUS_transcontinental_cooperation_removing
+			}
+			modifier = {
+				production_speed_industrial_complex_factor = 0.10
+				production_speed_infrastructure_factor = 0.15
+				local_resources_factor = 0.05
+			}
+		}
+
+		RUS_workers_peasants_military_exchange = {
+			picture = generic_army
+			allowed = { always = no }
+			removal_cost = -1
+			on_remove = {
+				set_country_flag = RUS_military_exchange_removing
+				RUS_east_asia_refresh_cooperation = yes
+				clr_country_flag = RUS_military_exchange_removing
+			}
+			modifier = {
+				planning_speed = 0.15
+				max_planning = 0.10
+			}
+		}
+
+		RUS_project_156_sponsor = {
+			picture = generic_improved_industries
+			allowed = { always = no }
+			removal_cost = -1
+			modifier = {
+				consumer_goods_factor = 0.20
+				industrial_capacity_factory = -0.10
+				production_speed_arms_factory_factor = -0.10
+				production_speed_industrial_complex_factor = -0.10
+				custom_modifier_tooltip = RUS_project_156_monthly_surplus_tt
+			}
+		}
+
+		RUS_project_156_recipient = {
+			picture = generic_improved_industries
+			allowed = { always = no }
+			removal_cost = -1
+			on_remove = {
+				set_country_flag = RUS_project_156_recipient_removing
+				RUS_east_asia_refresh_cooperation = yes
+				clr_country_flag = RUS_project_156_recipient_removing
+			}
+			modifier = {
+				consumer_goods_factor = -0.20
+				production_speed_buildings_factor = 0.20
+				production_cost_industrial_complex_factor = -0.15
+				production_cost_arms_factory_factor = -0.15
+				production_factory_max_efficiency_factor = 0.15
+				custom_modifier_tooltip = RUS_project_156_monthly_infrastructure_tt
+			}
+		}
+
+		RUS_sino_soviet_friendship_treaty = {
+			picture = army_cooperation
+			allowed = { always = no }
+			removal_cost = -1
+			on_remove = {
+				set_country_flag = RUS_sino_soviet_treaty_removing
+				RUS_east_asia_refresh_cooperation = yes
+				clr_country_flag = RUS_sino_soviet_treaty_removing
+			}
+			modifier = {
+				army_core_attack_factor = 0.10
+				army_core_defence_factor = 0.10
+				army_attack_factor = 0.05
+				send_volunteer_factor = 0.05
+				war_stability_factor = 0.50
+				party_popularity_stability_factor = 0.35
+				communist_drift = 0.05
+				global_building_slots_factor = 0.15
+				air_mission_efficiency = 0.05
+				ace_effectiveness_factor = 0.15
+				air_cas_efficiency = 0.10
+				air_range_factor = 0.10
+				production_speed_dockyard_factor = 0.25
+				screening_efficiency = 0.10
+				navy_capital_ship_attack_factor = 0.10
+			}
+			equipment_bonus = {
+				mio_cat_eq_all_small_plane = {
+					build_cost_ic = -0.10
+					instant = yes
+				}
+				mio_cat_eq_all_aircraft = {
+					air_superiority = 0.15
+					instant = yes
+				}
+			}
+		}
+
+		RUS_sino_soviet_treaty_easy_equipment = {
+			picture = generic_air_bonus
+			allowed = { always = no }
+			removal_cost = -1
+			equipment_bonus = {
+				mio_cat_eq_all_small_plane = {
+					build_cost_ic = -0.10
+					instant = yes
+				}
+				mio_cat_eq_all_aircraft = {
+					air_superiority = 0.15
+					instant = yes
+				}
+			}
+		}
+
+	}
+}

@@ -164,6 +164,23 @@ RUS_stalin_kamenev_balance_refresh = {
 		set_variable = { RUS_kamenev_balance_pp_gain = -0.10 }
 	}
 
+	# The balance position and penalties are unchanged in easy mode. Only the
+	# positive modifiers awarded by the current range are doubled.
+	if = {
+		limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+		if = { limit = { check_variable = { RUS_kamenev_balance_compliance_growth > 0 } } multiply_variable = { RUS_kamenev_balance_compliance_growth = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_stability_factor > 0 } } multiply_variable = { RUS_kamenev_balance_stability_factor = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_research_speed_factor > 0 } } multiply_variable = { RUS_kamenev_balance_research_speed_factor = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_build_speed_factor > 0 } } multiply_variable = { RUS_kamenev_balance_build_speed_factor = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_pp_gain > 0 } } multiply_variable = { RUS_kamenev_balance_pp_gain = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_command_power_gain_mult > 0 } } multiply_variable = { RUS_kamenev_balance_command_power_gain_mult = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_efficiency_gain > 0 } } multiply_variable = { RUS_kamenev_balance_efficiency_gain = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_factory_output > 0 } } multiply_variable = { RUS_kamenev_balance_factory_output = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_pp_factor > 0 } } multiply_variable = { RUS_kamenev_balance_pp_factor = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_building_slots > 0 } } multiply_variable = { RUS_kamenev_balance_building_slots = 2 } }
+		if = { limit = { check_variable = { RUS_kamenev_balance_conscription_factor > 0 } } multiply_variable = { RUS_kamenev_balance_conscription_factor = 2 } }
+	}
+
 	if = {
 		limit = { NOT = { has_dynamic_modifier = { modifier = RUS_kamenev_party_balance_modifier } } }
 		add_dynamic_modifier = { modifier = RUS_kamenev_party_balance_modifier }
@@ -260,7 +277,6 @@ RUS_stalin_enforce_kamenev_advisor_locks = {
 			RUS_lev_kamenev_advisor
 			RUS_lev_kamenev_sic
 			RUS_grigory_zinovyev_sic
-			RUS_mikhail_frunze_advisor
 			RUS_iosif_stalin_high_command
 			RUS_iosif_stalin_sic
 			RUS_lazar_kaganovich_advisor
@@ -326,7 +342,6 @@ RUS_stalin_kamenev_calculate_weekly_drift = {
 	if = { limit = { has_idea = RUS_yakov_sverdlov_advisor } add_to_variable = { RUS_kamenev_weekly_balance_drift = 1 } }
 	if = { limit = { has_idea = RUS_lev_kamenev_advisor } add_to_variable = { RUS_kamenev_weekly_balance_drift = 1 } }
 	if = { limit = { has_idea = RUS_lev_kamenev_sic } add_to_variable = { RUS_kamenev_weekly_balance_drift = 1 } }
-	if = { limit = { has_idea = RUS_mikhail_frunze_advisor } add_to_variable = { RUS_kamenev_weekly_balance_drift = 1 } }
 	if = { limit = { has_idea = RUS_mikhail_frunze_army_chief } add_to_variable = { RUS_kamenev_weekly_balance_drift = 1 } }
 	if = { limit = { has_idea = RUS_iosif_stalin_high_command } add_to_variable = { RUS_kamenev_weekly_balance_drift = 1 } }
 	if = { limit = { has_idea = RUS_iosif_stalin_sic } add_to_variable = { RUS_kamenev_weekly_balance_drift = 1 } }

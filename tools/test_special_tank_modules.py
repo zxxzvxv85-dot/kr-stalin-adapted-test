@@ -1,5 +1,5 @@
 from pathlib import Path
-import re
+import re, os
 R=Path(__file__).resolve().parents[1]
 def parse(text):
  ts=re.findall(r'#[^\n]*|[{}]|>=|<=|[=<>]|[^\s{}=<>#]+',text)
@@ -62,7 +62,7 @@ assert not (R/'events/RUS_special_tank_modules.txt').exists()
 print('Native research popups: once on new unlock; no repeat for already unlocked saves; no narrative events.')
 
 # The local artillery file masks KR's file: verify the project-unlocked node still exists locally.
-artillery=(R.parent/'1521695605/common/technologies/artillery.txt').read_text(encoding='utf-8-sig')
+artillery=(Path(os.environ.get('HOI4_KR_ROOT',R.parent/'1521695605'))/'common/technologies/artillery.txt').read_text(encoding='utf-8-sig')
 assert not (R/'common/technologies/artillery.txt').exists(), 'Do not mask the upstream artillery tree'
 assert len(re.findall(r'^\s*sp_advance_sabot_shells\s*=\s*{',artillery,re.M))==1
 assert 'leads_to_tech = sp_advance_sabot_shells' in artillery

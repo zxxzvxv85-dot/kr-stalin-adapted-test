@@ -1,7 +1,133 @@
-scripted_gui = { RUS_national_agriculture_gui = { context_type = decision_category window_name = "RUS_national_agriculture_window" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { has_country_flag = RUS_nat_enabled } # ORDER LIST BEGIN
+scripted_gui = { RUS_national_agriculture_gui = { context_type = player_context window_name = "RUS_national_agriculture_window" dirty = global.RUS_agri_management_update ai_enabled = { always = no } visible = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open } # ORDER LIST BEGIN
 dynamic_lists = { card_foreign_orders_grid = { array = RUS_nat_visible_order_rows value = RUS_nat_order_row index = RUS_nat_order_index change_scope = no entry_container = RUS_agriculture_foreign_order_entry } }
 # ORDER LIST END
 triggers = {
+nat_admin_status_0_visible = { check_variable = { RUS_nat_admin_page < 1 } }
+nat_admin_status_1_visible = { check_variable = { RUS_nat_admin_page = 1 } }
+nat_admin_locked_visible = { check_variable = { RUS_nat_admin_page = 1 } NOT = { RUS_agri_exchange_unlocked = yes } }
+nat_action_RUS_nat_guide_decision_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled is_ai = no }
+
+
+ }
+nat_action_RUS_nat_guide_decision_visible = { has_country_flag = RUS_nat_enabled is_ai = no  }
+nat_action_RUS_nat_support_food_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_food = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } }
+nat_action_RUS_nat_support_food_visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_admin_page < 1 } }
+nat_action_RUS_nat_support_processing_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_processing = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } }
+nat_action_RUS_nat_support_processing_visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_admin_page < 1 } }
+nat_action_RUS_nat_support_textiles_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_textiles = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } }
+nat_action_RUS_nat_support_textiles_visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_admin_page < 1 } }
+nat_action_RUS_nat_support_technical_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_technical = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } }
+nat_action_RUS_nat_support_technical_visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_admin_page < 1 } }
+nat_action_RUS_nat_support_repair_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_repair = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } }
+nat_action_RUS_nat_support_repair_visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_admin_page < 1 } }
+nat_action_RUS_nat_support_emergency_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_emergency = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } }
+nat_action_RUS_nat_support_emergency_visible = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_admin_page < 1 } }
+nat_action_RUS_agri_exchange_rations_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_rations_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_rations }
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+ }
+nat_action_RUS_agri_exchange_rations_visible = { RUS_agri_exchange_unlocked = yes check_variable = { RUS_nat_admin_page = 1 } }
+nat_action_RUS_agri_exchange_mechanisation_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_mechanisation_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_mechanisation }
+				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+ }
+nat_action_RUS_agri_exchange_mechanisation_visible = { RUS_agri_exchange_unlocked = yes check_variable = { RUS_nat_admin_page = 1 } }
+nat_action_RUS_agri_exchange_reserves_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_reserves_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_reserves }
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+ }
+nat_action_RUS_agri_exchange_reserves_visible = { RUS_agri_exchange_unlocked = yes check_variable = { RUS_nat_admin_page = 1 } }
+nat_action_RUS_agri_exchange_materials_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_materials_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_materials }
+				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+ }
+nat_action_RUS_agri_exchange_materials_visible = { RUS_agri_exchange_unlocked = yes check_variable = { RUS_nat_admin_page = 1 } }
+nat_action_RUS_agri_exchange_export_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_export_available_tt
+				RUS_agri_exchange_unlocked = yes
+				NOT = { has_country_flag = RUS_agri_export_cooldown }
+				NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+ }
+nat_action_RUS_agri_exchange_export_visible = { RUS_agri_exchange_unlocked = yes check_variable = { RUS_nat_admin_page = 1 } }
+nat_action_RUS_agri_exchange_machinery_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_machinery_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_next_investment_available = yes
+				NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+ }
+nat_action_RUS_agri_exchange_machinery_visible = { RUS_agri_exchange_unlocked = yes check_variable = { RUS_nat_admin_page = 1 } }
+nat_action_RUS_agri_exchange_storage_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_storage_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_next_investment_available = yes
+				NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+ }
+nat_action_RUS_agri_exchange_storage_visible = { RUS_agri_exchange_unlocked = yes check_variable = { RUS_nat_admin_page = 1 } }
+nat_action_RUS_nat_close_system_click_enabled = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled
+			has_country_flag = RUS_agri_management_unlocked
+			NOT = { has_country_flag = RUS_nat_system_closed }
+			check_variable = { RUS_agri_display_score > 200 }
+			is_ai = no }
+
+
+ }
+nat_action_RUS_nat_close_system_visible = { has_country_flag = RUS_nat_enabled
+			has_country_flag = RUS_agri_management_unlocked
+			NOT = { has_country_flag = RUS_nat_system_closed }
+			check_variable = { RUS_agri_display_score > 200 }
+			is_ai = no  }
+
 # CARDS BEGIN
 card_nav_selected_0_visible = { check_variable = { RUS_nat_page < 2 }  }
 card_nav_selected_1_visible = { check_variable = { RUS_nat_page = 2 }  }
@@ -585,7 +711,7 @@ nat_factory_2_click_enabled = { check_variable = { RUS_nat_available > 0 } }
 nat_factory_3_visible = { check_variable = { RUS_nat_page = 2 } }
 nat_factory_3_click_enabled = { check_variable = { RUS_nat_available > 0 } }
 nat_convert_mil_visible = { check_variable = { RUS_nat_page = 2 } }
-nat_convert_mil_click_enabled = { num_of_military_factories > 0 check_variable = { RUS_nat_base_civilian_factories < 5 } }
+nat_convert_mil_click_enabled = { num_of_military_factories > 0 check_variable = { RUS_nat_base_civilian_factories < 5 } any_owned_state = { is_controlled_by = ROOT arms_factory > 0 } }
 nat_stop_visible = { check_variable = { RUS_nat_page = 2 } }
 nat_stop_click_enabled = { always = yes }
 nat_max_visible = { check_variable = { RUS_nat_page = 2 } }
@@ -642,6 +768,567 @@ nat_report_shortage_visible = { has_country_flag = RUS_nat_has_report check_vari
 nat_report_pp_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
 nat_report_orders_visible = { has_country_flag = RUS_nat_has_report check_variable = { RUS_nat_page = 4 } }
 nat_empty_report_visible = { check_variable = { RUS_nat_page = 4 } NOT = { has_country_flag = RUS_nat_has_report } } } effects = {
+nat_window_close_click = { hidden_effect = { RUS_nat_window_close_effect = yes } }
+nat_admin_tab_0_click = { hidden_effect = { if = { limit = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open } set_variable = { RUS_nat_admin_page = 0 } RUS_agri_refresh_gui = yes } } }
+nat_admin_tab_1_click = { hidden_effect = { if = { limit = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open } set_variable = { RUS_nat_admin_page = 1 } RUS_agri_refresh_gui = yes } } }
+nat_action_RUS_nat_guide_decision_click = {
+ effect_tooltip = { country_event = { id = RUS_national_agriculture.2 } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled is_ai = no }
+
+
+ } country_event = { id = RUS_national_agriculture.2 }
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_nat_support_food_click = {
+ effect_tooltip = { add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_food_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_food = 0 } }
+set_variable = { RUS_nat_support_food = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+add_to_variable = { RUS_nat_wheat_stock = 4 }
+clamp_variable = { var = RUS_nat_wheat_stock min = 0 max = 12 }
+RUS_nat_refresh = yes
+}
+ } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_food = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } } add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_food_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_food = 0 } }
+set_variable = { RUS_nat_support_food = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+add_to_variable = { RUS_nat_wheat_stock = 4 }
+clamp_variable = { var = RUS_nat_wheat_stock min = 0 max = 12 }
+RUS_nat_refresh = yes
+}
+ }
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_nat_support_processing_click = {
+ effect_tooltip = { add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_processing_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_processing = 0 } }
+set_variable = { RUS_nat_support_processing = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+add_to_variable = { RUS_nat_beet_stock = 2 }
+clamp_variable = { var = RUS_nat_beet_stock min = 0 max = 6 }
+RUS_nat_refresh = yes
+}
+ } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_processing = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } } add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_processing_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_processing = 0 } }
+set_variable = { RUS_nat_support_processing = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+add_to_variable = { RUS_nat_beet_stock = 2 }
+clamp_variable = { var = RUS_nat_beet_stock min = 0 max = 6 }
+RUS_nat_refresh = yes
+}
+ }
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_nat_support_textiles_click = {
+ effect_tooltip = { add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_textiles_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_textiles = 0 } }
+set_variable = { RUS_nat_support_textiles = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+add_to_variable = { RUS_nat_flax_stock = 1.5 }
+clamp_variable = { var = RUS_nat_flax_stock min = 0 max = 6 }
+add_to_variable = { RUS_nat_cotton_stock = 1.5 }
+clamp_variable = { var = RUS_nat_cotton_stock min = 0 max = 6 }
+RUS_nat_refresh = yes
+}
+ } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_textiles = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } } add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_textiles_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_textiles = 0 } }
+set_variable = { RUS_nat_support_textiles = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+add_to_variable = { RUS_nat_flax_stock = 1.5 }
+clamp_variable = { var = RUS_nat_flax_stock min = 0 max = 6 }
+add_to_variable = { RUS_nat_cotton_stock = 1.5 }
+clamp_variable = { var = RUS_nat_cotton_stock min = 0 max = 6 }
+RUS_nat_refresh = yes
+}
+ }
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_nat_support_technical_click = {
+ effect_tooltip = { add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_technical_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_technical = 0 } }
+set_variable = { RUS_nat_support_technical = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+set_variable = { RUS_nat_technical_support = 1 }
+RUS_nat_refresh = yes
+}
+ } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_technical = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } } add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_technical_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_technical = 0 } }
+set_variable = { RUS_nat_support_technical = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+set_variable = { RUS_nat_technical_support = 1 }
+RUS_nat_refresh = yes
+}
+ }
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_nat_support_repair_click = {
+ effect_tooltip = { add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_repair_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_repair = 0 } }
+set_variable = { RUS_nat_support_repair = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+set_variable = { RUS_nat_repair_support = 0.05 }
+RUS_nat_refresh = yes
+}
+ } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_repair = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } } add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_repair_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_repair = 0 } }
+set_variable = { RUS_nat_support_repair = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+set_variable = { RUS_nat_repair_support = 0.05 }
+RUS_nat_refresh = yes
+}
+ }
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_nat_support_emergency_click = {
+ effect_tooltip = { add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_emergency_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_emergency = 0 } }
+set_variable = { RUS_nat_support_emergency = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+set_variable = { RUS_nat_emergency_purchase = 1 }
+RUS_nat_refresh = yes
+}
+ } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled }
+custom_trigger_tooltip = { tooltip = RUS_nat_support_available has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_emergency = 0 } }
+
+NOT = { check_variable = { political_power < 10 } } } add_political_power = -10
+effect_tooltip = { if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 } } custom_effect_tooltip = RUS_nat_support_emergency_effect hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_support_count < 4 } check_variable = { RUS_nat_support_emergency = 0 } }
+set_variable = { RUS_nat_support_emergency = 1 }
+add_to_variable = { RUS_nat_support_count = 1 }
+if = { limit = { has_idea = RUS_aleksey_ustinov_advisor } add_stability = -0.01 } else = { add_stability = -0.02 }
+set_variable = { RUS_nat_emergency_purchase = 1 }
+RUS_nat_refresh = yes
+}
+ }
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_agri_exchange_rations_click = {
+ effect_tooltip = { effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_rations days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_rations }
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_rations days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			} }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_rations_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_rations }
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+ } effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_rations days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_rations }
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_rations days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_agri_exchange_mechanisation_click = {
+ effect_tooltip = { effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_mechanisation days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_mechanisation }
+						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 10 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_mechanisation days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			} }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_mechanisation_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_mechanisation }
+				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+ } effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_mechanisation days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_mechanisation }
+						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 10 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_mechanisation days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_agri_exchange_reserves_click = {
+ effect_tooltip = { effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_reserves days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_reserves }
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_reserves days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			} }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_reserves_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_reserves }
+				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+ } effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_reserves days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_reserves }
+						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 8 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_reserves days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_agri_exchange_materials_click = {
+ effect_tooltip = { effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_materials days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_materials }
+						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 10 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_materials days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			} }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_materials_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_domestic_slot_available = yes
+				NOT = { has_idea = RUS_agri_development_materials }
+				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+ } effect_tooltip = {
+				add_timed_idea = { idea = RUS_agri_development_materials days = 180 }
+			}
+			custom_effect_tooltip = RUS_agri_domestic_program_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_domestic_slot_available = yes
+						NOT = { has_idea = RUS_agri_development_materials }
+						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 10 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_timed_idea = { idea = RUS_agri_development_materials days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_agri_exchange_export_click = {
+ effect_tooltip = { effect_tooltip = { add_cic = 15000 }
+			custom_effect_tooltip = RUS_agri_export_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						NOT = { has_country_flag = RUS_agri_export_cooldown }
+						NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 6 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_cic = 15000
+						set_country_flag = { flag = RUS_agri_export_cooldown days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			} }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_export_available_tt
+				RUS_agri_exchange_unlocked = yes
+				NOT = { has_country_flag = RUS_agri_export_cooldown }
+				NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+ } effect_tooltip = { add_cic = 15000 }
+			custom_effect_tooltip = RUS_agri_export_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						NOT = { has_country_flag = RUS_agri_export_cooldown }
+						NOT = { check_variable = { RUS_agri_spendable_score < 6 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 6 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						add_cic = 15000
+						set_country_flag = { flag = RUS_agri_export_cooldown days = 180 }
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_agri_exchange_machinery_click = {
+ effect_tooltip = { effect_tooltip = {
+				set_temp_variable = { modifier_change_tt = 0.10 tooltip = RUS_agri_tt_next_crop_base_multiplier }
+			}
+			custom_effect_tooltip = RUS_agri_next_crop_bonus_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_next_investment_available = yes
+						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 4 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						set_country_flag = RUS_agri_next_machinery
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			} }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_machinery_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_next_investment_available = yes
+				NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+ } effect_tooltip = {
+				set_temp_variable = { modifier_change_tt = 0.10 tooltip = RUS_agri_tt_next_crop_base_multiplier }
+			}
+			custom_effect_tooltip = RUS_agri_next_crop_bonus_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_next_investment_available = yes
+						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 4 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						set_country_flag = RUS_agri_next_machinery
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_agri_exchange_storage_click = {
+ effect_tooltip = { effect_tooltip = {
+				set_temp_variable = { modifier_change_tt = 0.15 tooltip = RUS_agri_tt_next_loss_crop_multiplier }
+			}
+			custom_effect_tooltip = RUS_agri_next_storage_bonus_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_next_investment_available = yes
+						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 4 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						set_country_flag = RUS_agri_next_storage
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			} }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open RUS_agri_exchange_unlocked = yes }
+custom_trigger_tooltip = {
+				tooltip = RUS_agri_exchange_storage_available_tt
+				RUS_agri_exchange_unlocked = yes
+				RUS_agri_next_investment_available = yes
+				NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+			}
+NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+ } effect_tooltip = {
+				set_temp_variable = { modifier_change_tt = 0.15 tooltip = RUS_agri_tt_next_loss_crop_multiplier }
+			}
+			custom_effect_tooltip = RUS_agri_next_storage_bonus_note_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						RUS_agri_exchange_unlocked = yes
+						RUS_agri_next_investment_available = yes
+						NOT = { check_variable = { RUS_agri_spendable_score < 4 } }
+					}
+					set_temp_variable = { RUS_agri_purchase_cost = 4 }
+					RUS_agri_spend_score = yes
+					if = {
+						limit = { has_country_flag = RUS_agri_purchase_paid }
+						set_country_flag = RUS_agri_next_storage
+						clr_country_flag = RUS_agri_purchase_paid
+						RUS_agri_refresh_gui = yes
+					}
+				}
+			}
+ RUS_agri_refresh_gui = yes } }
+}
+nat_action_RUS_nat_close_system_click = {
+ effect_tooltip = { custom_effect_tooltip = RUS_agri_window_shutdown_effect
+			hidden_effect = { RUS_nat_close_system_effect = yes } }
+ hidden_effect = { if = { limit = { hidden_trigger = { RUS_nat_window_available = yes has_country_flag = RUS_nat_window_open has_country_flag = RUS_nat_enabled
+			has_country_flag = RUS_agri_management_unlocked
+			NOT = { has_country_flag = RUS_nat_system_closed }
+			check_variable = { RUS_agri_display_score > 200 }
+			is_ai = no }
+
+
+ } custom_effect_tooltip = RUS_agri_window_shutdown_effect
+			hidden_effect = { RUS_nat_close_system_effect = yes }
+ RUS_nat_window_close_effect = yes } }
+}
+
 # CARD ACTIONS BEGIN
 card_orders_domestic_click = { set_variable = { RUS_nat_order_category = 0 } RUS_nat_refresh = yes }
 card_orders_foreign_click = { set_variable = { RUS_nat_order_category = 1 } RUS_nat_refresh = yes }
@@ -813,14 +1500,15 @@ RUS_nat_set_factories = yes
  RUS_nat_refresh = yes }
 nat_convert_mil_click = {
  if = {
-  limit = { check_variable = { RUS_nat_base_civilian_factories < 5 } num_of_military_factories > 0 }
+  limit = { num_of_military_factories > 0 check_variable = { RUS_nat_base_civilian_factories < 5 } any_owned_state = { is_controlled_by = ROOT arms_factory > 0 } }
   random_owned_controlled_state = {
    limit = { arms_factory > 0 }
    remove_building = { type = arms_factory level = 1 }
   }
   add_to_variable = { RUS_nat_base_civilian_factories = 1 }
-  RUS_nat_factory_capacity = yes
-  RUS_nat_parameters = yes
+  set_variable = { RUS_nat_requested = RUS_nat_factories }
+  add_to_variable = { RUS_nat_requested = 1 }
+  RUS_nat_set_factories = yes
   RUS_nat_refresh = yes
  }
 }

@@ -1,0 +1,45 @@
+# Right-aligned map shortcut; use the upper slot only while KR displays Mitteleuropa.
+scripted_gui = {
+	RUS_national_agriculture_launcher = {
+		context_type = player_context
+		parent_window_name = raid_filter
+		window_name = "RUS_national_agriculture_launcher_window"
+		ai_enabled = { always = no }
+		visible = {
+			RUS_nat_window_available = yes
+			NOT = { GER_is_in_mitteleuropa = yes }
+		}
+		effects = {
+			nat_window_open_click = {
+				hidden_effect = {
+					if = {
+						limit = { has_country_flag = RUS_nat_window_open }
+						RUS_nat_window_close_effect = yes
+					}
+					else = { RUS_nat_window_open_effect = yes }
+				}
+			}
+		}
+	}
+	RUS_national_agriculture_launcher_above_mitteleuropa = {
+		context_type = player_context
+		parent_window_name = raid_filter
+		window_name = "RUS_national_agriculture_launcher_window_above_mitteleuropa"
+		ai_enabled = { always = no }
+		visible = {
+			RUS_nat_window_available = yes
+			GER_is_in_mitteleuropa = yes
+		}
+		effects = {
+			nat_window_open_click = {
+				hidden_effect = {
+					if = {
+						limit = { has_country_flag = RUS_nat_window_open }
+						RUS_nat_window_close_effect = yes
+					}
+					else = { RUS_nat_window_open_effect = yes }
+				}
+			}
+		}
+	}
+}

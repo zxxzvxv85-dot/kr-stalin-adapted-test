@@ -1,0 +1,17 @@
+RUS_easy_mode_refresh = {
+	if = {
+		limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+		RUS_easy_mode_refresh_military = yes
+		RUS_easy_mode_refresh_ideas = yes
+		RUS_easy_mode_refresh_advisors = yes
+		RUS_easy_mode_refresh_technologies = yes
+		RUS_easy_mode_refresh_other_dynamic = yes
+		RUS_china_mission_refresh_volunteers = yes
+		RUS_east_asia_refresh_cooperation = yes
+		every_owned_state = { RUS_easy_mode_refresh_state_dynamic = yes }
+		if = {
+			limit = { has_country_flag = RUS_kamenev_bop_active }
+			RUS_stalin_kamenev_balance_refresh = yes
+		}
+	}
+}

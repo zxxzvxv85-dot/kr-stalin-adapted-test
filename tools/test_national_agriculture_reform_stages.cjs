@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {parse,get,effects,country,exec,check,read}=require('./test_agri_development.cjs');
+const {parse,get,effects,country,exec,check,read}=require('./test_support/agriculture.cjs');
 const thresholds=[0,20,40,60,80,110,140,170,200];
 const ids=thresholds.map((_,i)=>'RUS_nat_land_reform_stage_'+i),bonus=ids[8]+'_tractor_bonus';
 const ideas=get(get(parse(read('common/ideas/RUS_national_agriculture_reform_ideas.txt')),'ideas'),'country');

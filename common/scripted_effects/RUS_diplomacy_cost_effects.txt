@@ -11,7 +11,11 @@ RUS_diplomacy_pay_50 = { if = { limit = { RUS_diplomacy_pp_discount_active = yes
 RUS_diplomacy_pay_60 = { if = { limit = { RUS_diplomacy_pp_discount_active = yes } add_political_power = -48 } else = { add_political_power = -60 } }
 RUS_diplomacy_pay_75 = { if = { limit = { RUS_diplomacy_pp_discount_active = yes } add_political_power = -60 } else = { add_political_power = -75 } }
 RUS_diplomacy_pay_200 = { if = { limit = { RUS_diplomacy_pp_discount_active = yes } add_political_power = -160 } else = { add_political_power = -200 } }
-RUS_diplomacy_refund_10 = { if = { limit = { RUS_diplomacy_pp_discount_active = yes } add_political_power = 8 } else = { add_political_power = 10 } }
+RUS_diplomacy_refund_10 = { if = { limit = { RUS_diplomacy_pp_discount_active = yes } add_political_power = 8
+if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 8 } # RUS_EASY_MODE_REWARD
+ } else = { add_political_power = 10
+if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_political_power = 10 } # RUS_EASY_MODE_REWARD
+ } }
 RUS_diplomacy_refresh_pp_costs = {
  if = { limit = { RUS_diplomacy_pp_discount_active = yes }
   set_variable = { RUS_diplomacy_pp_cost_10 = 8 }

@@ -157,6 +157,7 @@ set_country_flag = RUS_nat_enabled
 set_country_flag = RUS_agri_management_unlocked
 set_variable = { RUS_nat_factories = 0 }
 set_variable = { RUS_nat_base_civilian_factories = 0 }
+set_variable = { RUS_nat_civilian_use = 0 }
 set_variable = { RUS_nat_efficiency = 3000 }
 set_variable = { RUS_nat_installed = 4000 }
 set_variable = { RUS_nat_machine_stock = 0 }
@@ -179,6 +180,7 @@ country_event = { id = RUS_national_agriculture.2 }
 }
 
 RUS_nat_parameters = {
+RUS_nat_reserve_factories = yes
 set_variable = { RUS_nat_score = 0 }
 if = { limit = { has_country_flag = RUS_first_five_year_plan_mission_started }
 set_variable = { RUS_nat_score = RUS_first_five_year_plan_score }
@@ -221,21 +223,30 @@ set_variable = { RUS_nat_eff_display = RUS_nat_efficiency }
 divide_variable = { RUS_nat_eff_display = 100 }
 set_variable = { RUS_nat_cap_display = RUS_nat_cap }
 divide_variable = { RUS_nat_cap_display = 100 }
-set_variable = { RUS_nat_available = num_of_civilian_factories_available_for_projects }
-add_to_variable = { RUS_nat_available = RUS_nat_base_civilian_factories }
+set_variable = { RUS_nat_available = RUS_nat_base_civilian_factories }
+subtract_from_variable = { RUS_nat_available = RUS_nat_factories }
+clamp_variable = { var = RUS_nat_available min = 0 max = RUS_nat_base_civilian_factories }
+add_to_variable = { RUS_nat_available = num_of_civilian_factories_available_for_projects }
 clamp_variable = { var = RUS_nat_available min = 0 max = 1000000 }
+}
+
+RUS_nat_reserve_factories = {
+set_variable = { RUS_nat_civilian_use = RUS_nat_factories }
+subtract_from_variable = { RUS_nat_civilian_use = RUS_nat_base_civilian_factories }
+clamp_variable = { var = RUS_nat_civilian_use min = 0 max = 1000000 }
+force_update_dynamic_modifier = yes
 }
 
 RUS_nat_factory_capacity = {
 set_variable = { RUS_nat_held_factories = RUS_nat_factories }
 set_variable = { RUS_nat_factories = 0 }
-force_update_dynamic_modifier = yes
+RUS_nat_reserve_factories = yes
 set_variable = { RUS_nat_capacity = num_of_civilian_factories_available_for_projects }
 add_to_variable = { RUS_nat_capacity = RUS_nat_base_civilian_factories }
 clamp_variable = { var = RUS_nat_capacity min = 0 max = 1000000 }
 set_variable = { RUS_nat_factories = RUS_nat_held_factories }
 clamp_variable = { var = RUS_nat_factories min = 0 max = RUS_nat_capacity }
-force_update_dynamic_modifier = yes
+RUS_nat_reserve_factories = yes
 }
 
 RUS_nat_set_factories = {
@@ -252,7 +263,7 @@ add_to_variable = { RUS_nat_efficiency = RUS_nat_tmp }
 divide_variable = { RUS_nat_efficiency = RUS_nat_requested }
 }
 set_variable = { RUS_nat_factories = RUS_nat_requested }
-force_update_dynamic_modifier = yes
+RUS_nat_reserve_factories = yes
 RUS_nat_parameters = yes
 RUS_agri_refresh_gui = yes
 }
@@ -310,50 +321,50 @@ clr_country_flag = RUS_nat_order_source_BUL
 set_variable = { RUS_nat_generic_crop = 0 }
 set_variable = { RUS_nat_generic_quantity = 0 }
 set_variable = { RUS_nat_generic_shipped = 0 }
-set_variable = { RUS_nat_generic_accept = 1 }
+set_variable = { RUS_nat_generic_accept = 0 }
 set_variable = { RUS_nat_generic_priority = 1 }
 set_variable = { RUS_nat_fra_crop = 0 }
 set_variable = { RUS_nat_fra_quantity = 0 }
 set_variable = { RUS_nat_fra_shipped = 0 }
-set_variable = { RUS_nat_fra_accept = 1 }
+set_variable = { RUS_nat_fra_accept = 0 }
 set_variable = { RUS_nat_fra_priority = 2 }
 set_variable = { RUS_nat_eng_crop = 0 }
 set_variable = { RUS_nat_eng_quantity = 0 }
 set_variable = { RUS_nat_eng_shipped = 0 }
-set_variable = { RUS_nat_eng_accept = 1 }
+set_variable = { RUS_nat_eng_accept = 0 }
 set_variable = { RUS_nat_eng_priority = 3 }
 set_variable = { RUS_nat_ser_crop = 0 }
 set_variable = { RUS_nat_ser_quantity = 0 }
 set_variable = { RUS_nat_ser_shipped = 0 }
-set_variable = { RUS_nat_ser_accept = 1 }
+set_variable = { RUS_nat_ser_accept = 0 }
 set_variable = { RUS_nat_ser_priority = 4 }
 set_variable = { RUS_nat_rom_crop = 0 }
 set_variable = { RUS_nat_rom_quantity = 0 }
 set_variable = { RUS_nat_rom_shipped = 0 }
-set_variable = { RUS_nat_rom_accept = 1 }
+set_variable = { RUS_nat_rom_accept = 0 }
 set_variable = { RUS_nat_rom_priority = 5 }
 set_variable = { RUS_nat_gre_crop = 0 }
 set_variable = { RUS_nat_gre_quantity = 0 }
 set_variable = { RUS_nat_gre_shipped = 0 }
-set_variable = { RUS_nat_gre_accept = 1 }
+set_variable = { RUS_nat_gre_accept = 0 }
 set_variable = { RUS_nat_gre_priority = 6 }
 set_variable = { RUS_nat_alb_crop = 0 }
 set_variable = { RUS_nat_alb_quantity = 0 }
 set_variable = { RUS_nat_alb_shipped = 0 }
-set_variable = { RUS_nat_alb_accept = 1 }
+set_variable = { RUS_nat_alb_accept = 0 }
 set_variable = { RUS_nat_alb_priority = 7 }
 set_variable = { RUS_nat_bul_crop = 0 }
 set_variable = { RUS_nat_bul_quantity = 0 }
 set_variable = { RUS_nat_bul_shipped = 0 }
-set_variable = { RUS_nat_bul_accept = 1 }
+set_variable = { RUS_nat_bul_accept = 0 }
 set_variable = { RUS_nat_bul_priority = 8 }
 set_variable = { RUS_nat_balkan_order_count = 0 }
 set_variable = { RUS_nat_fra_machine_quantity = 0 }
 set_variable = { RUS_nat_fra_machine_shipped = 0 }
-set_variable = { RUS_nat_fra_machine_accept = 1 }
+set_variable = { RUS_nat_fra_machine_accept = 0 }
 set_variable = { RUS_nat_eng_machine_quantity = 0 }
 set_variable = { RUS_nat_eng_machine_shipped = 0 }
-set_variable = { RUS_nat_eng_machine_accept = 1 }
+set_variable = { RUS_nat_eng_machine_accept = 0 }
 if = { limit = { has_completed_focus = RUS_future_foreign_002 }
 random_list = { 1 = { set_variable = { RUS_nat_generic_crop = 1 }
  } 1 = { set_variable = { RUS_nat_generic_crop = 2 }
@@ -613,8 +624,9 @@ multiply_variable = { RUS_nat_wheat_yield = RUS_nat_wheat_rate }
 multiply_variable = { RUS_nat_wheat_yield = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_wheat_yield = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_wheat_yield = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_wheat_yield = 1.10 } }
+else = { multiply_variable = { RUS_nat_wheat_yield = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_wheat_yield = 1.05 }
 }
@@ -636,8 +648,9 @@ multiply_variable = { RUS_nat_rye_yield = RUS_nat_rye_rate }
 multiply_variable = { RUS_nat_rye_yield = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_rye_yield = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_rye_yield = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_rye_yield = 1.10 } }
+else = { multiply_variable = { RUS_nat_rye_yield = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_rye_yield = 1.05 }
 }
@@ -659,8 +672,9 @@ multiply_variable = { RUS_nat_beet_yield = RUS_nat_beet_rate }
 multiply_variable = { RUS_nat_beet_yield = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_beet_yield = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_beet_yield = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_beet_yield = 1.10 } }
+else = { multiply_variable = { RUS_nat_beet_yield = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_beet_yield = 1.05 }
 }
@@ -682,8 +696,9 @@ multiply_variable = { RUS_nat_flax_yield = RUS_nat_flax_rate }
 multiply_variable = { RUS_nat_flax_yield = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_flax_yield = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_flax_yield = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_flax_yield = 1.10 } }
+else = { multiply_variable = { RUS_nat_flax_yield = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_flax_yield = 1.05 }
 }
@@ -705,8 +720,9 @@ multiply_variable = { RUS_nat_cotton_yield = RUS_nat_cotton_rate }
 multiply_variable = { RUS_nat_cotton_yield = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_cotton_yield = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_cotton_yield = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_cotton_yield = 1.10 } }
+else = { multiply_variable = { RUS_nat_cotton_yield = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_cotton_yield = 1.05 }
 }
@@ -2429,8 +2445,9 @@ set_variable = { RUS_nat_wheat_preview_rate = RUS_nat_wheat_rate }
 multiply_variable = { RUS_nat_wheat_preview_rate = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_wheat_preview_rate = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_wheat_preview_rate = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_wheat_preview_rate = 1.10 } }
+else = { multiply_variable = { RUS_nat_wheat_preview_rate = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_wheat_preview_rate = 1.05 }
 }
@@ -2439,8 +2456,9 @@ set_variable = { RUS_nat_rye_preview_rate = RUS_nat_rye_rate }
 multiply_variable = { RUS_nat_rye_preview_rate = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_rye_preview_rate = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_rye_preview_rate = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_rye_preview_rate = 1.10 } }
+else = { multiply_variable = { RUS_nat_rye_preview_rate = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_rye_preview_rate = 1.05 }
 }
@@ -2449,8 +2467,9 @@ set_variable = { RUS_nat_beet_preview_rate = RUS_nat_beet_rate }
 multiply_variable = { RUS_nat_beet_preview_rate = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_beet_preview_rate = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_beet_preview_rate = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_beet_preview_rate = 1.10 } }
+else = { multiply_variable = { RUS_nat_beet_preview_rate = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_beet_preview_rate = 1.05 }
 }
@@ -2459,8 +2478,9 @@ set_variable = { RUS_nat_flax_preview_rate = RUS_nat_flax_rate }
 multiply_variable = { RUS_nat_flax_preview_rate = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_flax_preview_rate = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_flax_preview_rate = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_flax_preview_rate = 1.10 } }
+else = { multiply_variable = { RUS_nat_flax_preview_rate = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_flax_preview_rate = 1.05 }
 }
@@ -2469,8 +2489,9 @@ set_variable = { RUS_nat_cotton_preview_rate = RUS_nat_cotton_rate }
 multiply_variable = { RUS_nat_cotton_preview_rate = RUS_nat_mechanisation }
 multiply_variable = { RUS_nat_cotton_preview_rate = RUS_nat_fraction }
 if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
-multiply_variable = { RUS_nat_cotton_preview_rate = 1.05 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { RUS_nat_cotton_preview_rate = 1.10 } }
+else = { multiply_variable = { RUS_nat_cotton_preview_rate = 1.05 } }
+} # RUS_EASY_MODE_AGRICULTURE
 if = { limit = { check_variable = { RUS_nat_technical_support = 1 } }
 multiply_variable = { RUS_nat_cotton_preview_rate = 1.05 }
 }
@@ -2554,7 +2575,10 @@ add_to_variable = { RUS_nat_food_order_need = RUS_nat_bul_quantity }
 }
 set_variable = { RUS_nat_food_target_total = RUS_nat_food_need }
 set_variable = { RUS_nat_preview_retention = 0.95 }
-if = { limit = { has_idea = RUS_irina_kakhovskaya_advisor } set_variable = { RUS_nat_preview_retention = 0.98 } }
+if = { limit = { has_idea = RUS_irina_kakhovskaya_advisor }
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } set_variable = { RUS_nat_preview_retention = 1.00 } }
+else = { set_variable = { RUS_nat_preview_retention = 0.98 } }
+} # RUS_EASY_MODE_AGRICULTURE
 set_variable = { RUS_nat_preview_reserve = RUS_nat_food_reserve }
 divide_variable = { RUS_nat_preview_reserve = RUS_nat_preview_retention }
 add_to_variable = { RUS_nat_food_target_total = RUS_nat_preview_reserve }
@@ -2843,7 +2867,8 @@ if = { limit = { check_variable = { RUS_nat_task_done = 1 } }
 add_to_variable = { RUS_nat_points = 4 }
 if = { limit = { has_idea = RUS_aleksey_ustinov_advisor }
 add_to_variable = { RUS_nat_points = 2 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } add_to_variable = { RUS_nat_points = 2 } }
+} # RUS_EASY_MODE_AGRICULTURE
 }
 set_variable = { RUS_nat_score_fraction = RUS_nat_fraction }
 if = { limit = { NOT = { has_country_flag = RUS_maximalist_land_reform_success } }
@@ -3000,8 +3025,9 @@ add_to_variable = { RUS_nat_last_machine_orders = RUS_nat_fra_machine_shipped }
 add_to_variable = { RUS_nat_last_machine_orders = RUS_nat_eng_machine_shipped }
 set_variable = { RUS_nat_retention = 0.95 }
 if = { limit = { has_idea = RUS_irina_kakhovskaya_advisor }
-set_variable = { RUS_nat_retention = 0.98 }
-}
+if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } set_variable = { RUS_nat_retention = 1.00 } }
+else = { set_variable = { RUS_nat_retention = 0.98 } }
+} # RUS_EASY_MODE_AGRICULTURE
 set_variable = { RUS_nat_spoil = 1 }
 subtract_from_variable = { RUS_nat_spoil = RUS_nat_retention }
 multiply_variable = { RUS_nat_spoil = RUS_nat_fraction }

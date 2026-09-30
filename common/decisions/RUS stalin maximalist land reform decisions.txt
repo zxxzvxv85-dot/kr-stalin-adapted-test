@@ -14,7 +14,10 @@ RUS_maximalist_land_reform_category = {
 		}
 		timeout_effect = {
 			log = "[GetLogRoot]: Decision timeout RUS_maximalist_land_reform_mission"
-			RUS_nat_deadline = yes
+			if = {
+				limit = { NOT = { has_country_flag = RUS_nat_system_closed } }
+				RUS_nat_deadline = yes
+			}
 			if = {
 				limit = { RUS_nat_reform_complete = yes }
 				country_event = { id = rus_maximalist_land_reform_events.2 hours = 6 }
@@ -42,7 +45,7 @@ RUS_maximalist_land_reform_category = {
 		}
 		timeout_effect = {
 			log = "[GetLogRoot]: Decision timeout RUS_max_landreform_tractor_promise_mission"
-			if = { limit = { has_country_flag = RUS_nat_enabled } RUS_nat_daily = yes }
+			if = { limit = { has_country_flag = RUS_nat_enabled NOT = { has_country_flag = RUS_nat_system_closed } } RUS_nat_daily = yes }
 			if = {
 				limit = { RUS_nat_tractor_complete = yes }
 				country_event = { id = rus_maximalist_land_reform_events.15 hours = 6 }
