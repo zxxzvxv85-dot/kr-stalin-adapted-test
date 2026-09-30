@@ -46,7 +46,7 @@ def nine_slice(source, size, border):
     return result
 
 
-def render(finished=False, help_page=False, idle=False, region=0, seed=47, specialty=False):
+def render(finished=False, help_page=False, idle=False, region=0, seed=47, specialty=False, freight=False):
     state=fixture(seed=seed);call(state,'open_effect')
     if not idle:
         starter(state,region)
@@ -59,6 +59,14 @@ def render(finished=False, help_page=False, idle=False, region=0, seed=47, speci
     if finished:
         put(state,'days_left',1);call(state,'daily')
     if specialty:call(state,'build_page_1')
+    if freight:
+        from test_factory_freight import station, route
+        put(state,'budget',500)
+        destination=(region+1)%6
+        station(state,region);station(state,destination)
+        put(state,f'r{region}_coal',30)
+        route(state,region,destination,'coal',6)
+        call(state,'start');call(state,'daily')
     if help_page:call(state,'toggle_help')
     loc={}
     for root in [CN/'localisation',ROOT/'localisation/simp_chinese']:
@@ -183,13 +191,15 @@ def main():
     parser.add_argument('--help-page',action='store_true')
     parser.add_argument('--idle',action='store_true')
     parser.add_argument('--specialty',action='store_true')
+    parser.add_argument('--freight',action='store_true')
     parser.add_argument('--region',type=int,choices=range(6),default=0)
     parser.add_argument('--seed',type=int,default=47)
     args=parser.parse_args()
-    image,issues=render(args.finished,args.help_page,args.idle,args.region,args.seed,args.specialty)
+    image,issues=render(args.finished,args.help_page,args.idle,args.region,args.seed,args.specialty,args.freight)
     folder=ROOT/'output/industrial_planning';folder.mkdir(parents=True,exist_ok=True)
     stem='help' if args.help_page else 'finished' if args.finished else 'idle' if args.idle else 'preview'
     if args.specialty:stem+='-specialty'
+    if args.freight:stem+='-freight'
     stem+=f'-region{args.region}'
     path=folder/(stem+'.png');image.save(path)
     (folder/(stem+'-layout.json')).write_text(json.dumps(issues,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

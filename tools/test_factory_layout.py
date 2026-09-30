@@ -7,7 +7,7 @@ from PIL import Image
 from hoi4_politics_blocks import parse
 from industrial_planning_factory_ui import render_outputs, LANGS, BOARD_X, BOARD_Y, TILE_STEP, WINDOW_WIDTH, WINDOW_HEIGHT
 from industrial_planning_factory import CELLS, REGIONS, WIDTH, HEIGHT
-from industrial_planning_catalog import PLANTS, region_plants, extra_stocks
+from industrial_planning_catalog import PLANTS, FREIGHT_KIND, region_plants, extra_stocks
 from industrial_planning_factory_assets import ASSET_DIR, COLOUR_SPRITES, render_assets
 from test_factory_planning import ROOT, P, GUI, FX, TR, opened, check, call, put
 
@@ -165,13 +165,13 @@ def main():
         assert field(widget,'spriteType')==f'GFX_RUS_ip_legend_{level}' and field(widget,'scale')=='1'
         w,h,rgb=COLOUR_SPRITES[f'legend_{level}']
         assert (w,h)==(16,16) and rgb==COLOUR_SPRITES[f'grade_{level}'][2]
-        note=next(w for w in widgets if field(w,'name')=='ip_board_note')
+        note=next(w for w in widgets if field(w,'name')=='ip_start')
         assert int(field(widget.one('position'),'y'))+h<int(field(note.one('position'),'y')),'Swatch overlaps the regional text'
     count+=1
     assert all('[GetRUSIPNodeStatus' in catalog[P+f'node_{c["id"]}_tt'] for c in CELLS);count+=1
     for r in REGIONS:
         call(s,f'select_region_{r["id"]}')
-        for page in (0,1):
+        for page in (0,1,2):
             call(s,f'build_page_{page}')
             visible=[n for n in names if n+'_visible' in triggers and check(triggers[n+'_visible'],s)]
             for kind in PLANTS:
@@ -182,7 +182,14 @@ def main():
                     assert (name in visible)==expected
                     assert all((name+tail in visible)==expected for tail in ('_icon','_title','_cost'))
             count+=1
-    assert max(len([k for k in region_plants(r['id']) if k>5]) for r in REGIONS)==10
+    assert max(len([k for k in region_plants(r['id']) if 5<k<FREIGHT_KIND]) for r in REGIONS)==10
+    for rid in range(6):
+        call(s,f'select_region_{rid}');call(s,'build_page_2')
+        for name in names:
+            if not name.startswith('ip_freight_r'):continue
+            origin=int(name.split('_')[2][1:])
+            assert check(triggers[name+'_visible'],s)==(origin==rid),name
+    count+=1
     for kind,p in PLANTS.items():
         assert f'建设投资：§R-{p["cost"]}§!' in catalog[P+f'build_{kind}_tt']
         assert '每日' in catalog[P+f'build_{kind}_tt']

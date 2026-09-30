@@ -3,7 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 import os
 from PIL import Image
-from industrial_planning_catalog import PLANTS, STOCKS, PRODUCTS, PRICES, TARGET, TERRAINS, DEPOSITS, NAMES, RESOURCE_ICONS, PRODUCT_ICONS, allowed, region_plants, specialty, extra_stocks
+from industrial_planning_catalog import PLANTS, STOCKS, PRODUCTS, PRICES, TARGET, TERRAINS, DEPOSITS, NAMES, RESOURCE_ICONS, PRODUCT_ICONS, FREIGHT_KIND, allowed, region_plants, specialty, extra_stocks
+from industrial_planning_factory_freight_ui import localise as freight_localise, widgets as freight_widgets
 from industrial_planning_factory_assets import ASSET_DIR, COLOUR_SPRITES, LEVEL_COLOURS
 
 from industrial_planning_factory import (
@@ -13,8 +14,8 @@ from industrial_planning_factory import (
 
 LANGS = ('simp_chinese', 'english', 'russian')
 TILE_SIZE,TILE_STEP=40,42
-WINDOW_WIDTH,WINDOW_HEIGHT=1600,1000
-BOARD_X,BOARD_Y=32,260
+WINDOW_WIDTH,WINDOW_HEIGHT=1600,1040
+BOARD_X,BOARD_Y=32,250
 SIDEBAR_X=1056
 
 
@@ -47,7 +48,7 @@ def render_outputs():
     L('value','六区累计产值\n§Y[?RUS_ip_value|1]§!','Total delivered value\n§Y[?RUS_ip_value|1]§!')
     L('power','本区电力／需求\n§Y[?RUS_ip_power_total|1] / [?RUS_ip_power_demand|1]§!','Local power / need\n§Y[?RUS_ip_power_total|1] / [?RUS_ip_power_demand|1]§!')
     L('budget_tt','§Y建设投资§!\n初始共享投资：§Y40§!\n每交付 §Y1§! 产值，投资回流：§G+1.00§!\n产品按固定单价计价；拆除退还实付投资。无固定拨款。','§YInvestment§!\nShared initial funds: §Y40§!\nEach §Y1§! delivered value returns §G+1.00§! investment.\nFixed product prices; demolition refunds paid costs. No periodic grants.')
-    L('stock_tt','§Y本区库存§!\n[GetRUSIPStocks]\n\n各区库存和电力独立，不跨区调拨。缺料按比例减产。','§YLocal stocks§!\n[GetRUSIPStocks]\n\nStocks and power stay local; shortages scale production.')
+    L('stock_tt','§Y本区库存§!\n[GetRUSIPStocks]\n\n运输站可调拨库存；电力留在本区。缺料按比例减产。','§YLocal stocks§!\n[GetRUSIPStocks]\n\nFreight stations move inventory; power stays local. Shortages scale production.')
     delivery=[];delivery_en=[]
     for key in PRODUCTS:
         zh,en=NAMES[key];price=PRICES[key]
@@ -56,7 +57,7 @@ def render_outputs():
     L('deliveries_tt','§Y六区累计交付§!\n'+'\n'.join(delivery)+'\n\n总产值：§G+[?RUS_ip_value|1]§!\n次日产率折算／30天：§G+[?RUS_ip_total_value_month|1]§!\n按实际产值回流投资，未售出原料不计价。','§YCombined deliveries§!\n'+'\n'.join(delivery_en)+'\n\nTotal value: §G+[?RUS_ip_value|1]§!\nNext-day rate × 30: §G+[?RUS_ip_total_value_month|1]§!\nOnly delivered products earn investment; raw stocks do not.')
     L('power_tt','§Y电力§!\n每日电力当日使用，不储存。\n炼油→发电→炼钢→铝与合金→特色制造→通用机械。\n炼油厂自备辅助动力；燃油电站可缓解缺煤。满产需求按已接通、开机设施计算。','§YPower§!\nProduced and used daily.\nRefining → power → steel → aluminium/alloys → regional products → generic machinery.\nRefineries provide their own auxiliary power. Demand assumes full connected capacity.')
     L('selected','[GetRUSIPRegion] · [GetRUSIPTile] · [GetRUSIPTerrain]','[GetRUSIPRegion] · [GetRUSIPTile] · [GetRUSIPTerrain]')
-    L('detail','设施：§Y[GetRUSIPType]§!  [?RUS_ip_sel_level|0] 级\n运输线：§Y[?RUS_ip_sel_rail|0]§! 级   接通能力：§Y[?RUS_ip_sel_route|0]§! 级\n有效生产等级：§G[?RUS_ip_sel_effective|0]§!\n[GetRUSIPSelectedStatus]','Facility: §Y[GetRUSIPType]§!  Lv [?RUS_ip_sel_level|0]\nLine: §Y[?RUS_ip_sel_rail|0]§!  Route: §Y[?RUS_ip_sel_route|0]§!\nEffective level: §G[?RUS_ip_sel_effective|0]§!\n[GetRUSIPSelectedStatus]')
+    L('detail','设施：§Y[GetRUSIPType]§!  [?RUS_ip_sel_level|0] 级\n运输线：§Y[?RUS_ip_sel_rail|0]§! 级   接通能力：§Y[?RUS_ip_sel_route|0]§! 级\n有效等级：§G[?RUS_ip_sel_effective|0]§!\n[GetRUSIPSelectedStatus]','Facility: §Y[GetRUSIPType]§!  Lv [?RUS_ip_sel_level|0]\nLine: §Y[?RUS_ip_sel_rail|0]§!  Route: §Y[?RUS_ip_sel_route|0]§!\nEffective level: §G[?RUS_ip_sel_effective|0]§!\n[GetRUSIPSelectedStatus]')
     terrains={0:'plain',1:'coal_site',2:'iron_site',3:'rock',4:'hub',5:'bauxite_site',6:'chromium_site',7:'tungsten_site',8:'oil_site'}
     for key,zh,en in [('plain','工业用地','Industrial land'),('rock','岩壁 · 不可建设','Rock · no construction'),('hub','调度站','Depot')]:L('terrain_'+key,zh,en)
     for key in TERRAINS.values():L('terrain_'+key+'_site',NAMES[key][0]+'矿点',NAMES[key][1]+' deposit')
@@ -69,6 +70,7 @@ def render_outputs():
         ('paused','§Y设施已停机；线路仍可通行。§!','§YStopped; the line remains passable.§!'),
         ('offline','§R未接通调度站，无法生产。§!','§RDisconnected from depot; no output.§!'),
         ('limited','§Y沿途线路限制产能，升级最薄弱路段。§!','§YUpgrade the weakest route segments.§!'),
+        ('transport','§G运输站已接通；在“跨区运输”中配置路线。§!','§GStation connected; configure it under Freight.§!'),
         ('ready','§G已接通；产量取决于原料与电力。§!','§GConnected; output depends on materials and power.§!'),
     ]:L('status_'+key,zh,en)
     L('forecast','次日产率折算／30天\n机械：§G+[?RUS_ip_machine_month|1]§!   [GetRUSIPProduct]：§G+[?RUS_ip_specialty_month|1]§!\n产值／投资回流：§G+[?RUS_ip_investment_month|1] / +[?RUS_ip_investment_month|1]§!','Next-day rates × 30\nMachinery: §G+[?RUS_ip_machine_month|1]§!  Regional: §G+[?RUS_ip_specialty_month|1]§!\nValue / return: §G+[?RUS_ip_investment_month|1] / +[?RUS_ip_investment_month|1]§!')
@@ -79,7 +81,7 @@ def render_outputs():
     for index,key in enumerate(STOCKS):
         if key not in ('coal','iron','steel'):bottlenecks[6+index]=(f'§R{NAMES[key][0]}不足§!',f'§R{NAMES[key][1]} shortage§!')
     for code,(zh,en) in bottlenecks.items():L(f'bottleneck_{code}',zh,en)
-    L('network','接通地块 §G[?RUS_ip_connected_count|0]§!   |   断线设施 §R[?RUS_ip_offline_count|0]§!   |   库存与电力各区独立','Connected §G[?RUS_ip_connected_count|0]§!  |  Offline §R[?RUS_ip_offline_count|0]§!  |  Stocks and power stay local')
+    L('network','接通 §G[?RUS_ip_connected_count|0]§! 格   |   断线 §R[?RUS_ip_offline_count|0]§! 座   |   运输站可跨区运货','Connected §G[?RUS_ip_connected_count|0]§!  |  Offline §R[?RUS_ip_offline_count|0]§!  |  Freight stations link regions')
     L('base_page','基础生产','Basic production');L('special_page','特色产业','Regional industry')
     L('base_page_active','§Y基础生产§!','§YBasic production§!');L('special_page_active','§Y特色产业§!','§YRegional industry§!')
     L('base_page_tab','[GetRUSIPBaseMenu]','[GetRUSIPBaseMenu]');L('special_page_tab','[GetRUSIPSpecialMenu]','[GetRUSIPSpecialMenu]')
@@ -95,10 +97,14 @@ def render_outputs():
         L(f'stocks_{rid}','\n'.join(f'{NAMES[k][0]}：§Y[?RUS_ip_{k}|1]§!' for k in keys),'\n'.join(f'{NAMES[k][1]}: §Y[?RUS_ip_{k}|1]§!' for k in keys))
     for key in STOCKS:
         L(f'stock_{key}',f'§Y[?RUS_ip_{key}|1]§!',f'§Y[?RUS_ip_{key}|1]§!')
-        L(f'stock_{key}_tt',f'§Y{NAMES[key][0]}§!\n本区库存：§Y[?RUS_ip_{key}|1]§!\n仅供本区已接通、开机的设施使用，不计入交付产值。',f'§Y{NAMES[key][1]}§!\nLocal stock: §Y[?RUS_ip_{key}|1]§!\nAvailable to connected local facilities; not counted as delivered value.')
+        L(f'stock_{key}_tt',f'§Y{NAMES[key][0]}§!\n本区库存：§Y[?RUS_ip_{key}|1]§!\n供本区已接通、开机的设施使用；也可经运输站发往其他地区。不计入交付产值。',f'§Y{NAMES[key][1]}§!\nLocal stock: §Y[?RUS_ip_{key}|1]§!\nSupplies connected local plants and can be exported through freight stations. Not counted as delivered value.')
     for kind,p in PLANTS.items():
         zh,en=p['zh'],p['en'];rate=p['rate'];out=p['output']
         L(f'build_{kind}',zh,en);L(f'cost_{kind}',f'投资 §R-{p["cost"]}§! · 每级',f'§R-{p["cost"]}§! / level')
+        if kind==FREIGHT_KIND:
+            L(f'build_{kind}_tt','§Y跨区运输站§!\n\n设施等级：§G+1§!\n建设投资：§R-10§!\n单批运输上限／每级：§G+6§!\n\n每区最多一座，最高§Y3§!级；建在普通工业用地并接通调度站。两端较低有效等级限制批量。\n在“跨区运输”中选择目的区、货物和保留量，按日自动发运。每单位运费：§R-0.10§! 投资。无每日固定维护费。',
+              '§YFreight station§!\n\nLevel: §G+1§!\nInvestment: §R-10§!\nBatch limit per level: §G+6§!\n\nOne per region, maximum level §Y3§!. Build on plain land and connect to depot; the lower endpoint level limits batches.\nConfigure destination, cargo and reserve under Freight. Automatic daily dispatch; fee §R-0.10§! per unit, no daily standing cost.')
+            continue
         z=[];e=[]
         for key,ratio in p['inputs'].items():
             z.append(f'每日{NAMES[key][0]}消耗：§R-{ratio*rate:.2f}§!');e.append(f'Daily {NAMES[key][1]} use: §R-{ratio*rate:.2f}§!')
@@ -127,24 +133,25 @@ def render_outputs():
     help_zh=[
         '§Y一、先布置，再开工§!\n六区共享初始投资§Y40§!，每区煤§Y6§!、铁§Y4§!、钢§Y2§!。先布置，再点击“开始生产”。目标是在§Y1800§!天内交付§Y500§!工业产值，关闭窗口仍生产。\n基础煤铁、电站、钢铁厂和机械厂可独立开局；特色产业可在积累投资后发展。',
         '§Y二、六区的不同选择§!\n莫斯科生产机床；彼得格勒生产航空部件；察里津生产拖拉机；西西伯利亚生产铁路装备；中西伯利亚生产发电设备；远东生产精密工具。\n铝、铬、钨和石油按KR州组分布；基础煤铁保留起步保障。矿点位置随机，切图和读档不重抽。',
-        '§Y三、运输与建设§!\n设施格及途经格铺线，按上下左右接到本区调度站。设施和线路最高§Y3§!级，最薄弱路段限制产能。一级绿、二级蓝、三级金。\n“基础生产／特色产业”切换建设目录，不暂停设施；地图上方小图标显示特色原料库存，悬浮查看名称与数值。',
-        '§Y四、按顺序组织加工§!\n采矿→炼油→发电→炼钢→铝与合金→特色制造→通用机械。炼油自备辅助动力，燃油电站可节省煤。\n特色制造先领取原料，可用停机按钮调整分配。各区物资和电力独立，不跨区调拨。缺料缺电按比例减产，电力不储存。',
+        '§Y三、运输与建设§!\n设施格及途经格铺线，按上下左右接到本区调度站。设施和线路最高§Y3§!级，最薄弱路段限制产能。一级绿、二级蓝、三级金。\n“基础生产”可建运输站，每区一座；两端接通后在“跨区运输”选择目的地与货物，设置保留量并开启自动发运。每级单批6单位，每单位运费0.1。',
+        '§Y四、按顺序组织加工§!\n采矿→炼油→发电→炼钢→铝与合金→特色制造→通用机械。炼油自备辅助动力，燃油电站可节省煤。\n特色制造先领取原料，可用停机按钮调整分配。物资可用运输站跨区调拨，电力仅在本区使用。缺料缺电按比例减产，电力不储存。',
         '§Y五、产品价值与回流§!\n单价：机械§Y1§!，拖拉机§Y1.5§!，机床§Y2§!，铁路装备§Y2.5§!，航空部件与发电设备§Y3§!，精密工具§Y4§!。\n实际交付×单价计入产值，同额回流投资。原料和中间品库存不计价。高级工厂更贵、配套更多；没有固定拨款。',
-        '§Y六、预估、退款与期满§!\n产量速览是下一日产率×30，不保证库存能支撑整月。建设按钮显示每级配方和产值，顶部累计产值悬浮列出所有产品交付量。\n拆除退实付投资；期满保留结果，重置须再次确认。本沙盘独立，不发放真实工厂，不接管旧一五计划。',
+        '§Y六、预估、退款与期满§!\n产量速览是下一日产率×30，不保证库存能支撑整月。建设按钮显示每级配方和产值，顶部累计产值悬浮列出所有产品交付量。\n拆除退实付投资；期满保留结果，未到货物与该批运费退回，重置须再次确认。本沙盘独立，不发放真实工厂，不接管旧一五计划。',
     ]
     help_en=[
         '§Y1. Plan, then start§!\nShare §Y40§! investment; each region starts with §Y6§! coal, §Y4§! iron and §Y2§! steel. Target §Y500§! delivered value in §Y1800§! days. Production continues while closed.\nBasic coal, iron, power, steel and machinery provide an independent start.',
         '§Y2. Regional choices§!\nMoscow: machine tools. Petrograd: aircraft parts. Tsaritsyn: tractors. West Siberia: rail equipment. Central Siberia: generating equipment. Far East: precision tools.\nSpecial ores follow KR catchments; basic ores include starter reserves. Positions reroll only on a new plan.',
-        '§Y3. Lines and construction§!\nConnect facility tiles orthogonally to the local depot. Plants and lines reach level §Y3§!; the weakest route limits production. Grades are green, blue and gold.\nBuild-menu tabs do not pause plants. Icons above the map show regional stocks; hover for details.',
-        '§Y4. Processing order§!\nMines → refining → power → steel → aluminium/alloys → regional products → generic machinery. Refineries have their own auxiliary power. Fuel power saves coal.\nRegional products have input priority; stop plants to redirect inputs. Stocks and power stay local. Shortages scale output.',
+        '§Y3. Lines and construction§!\nConnect facility tiles orthogonally to the local depot. Plants and lines reach level §Y3§!; the weakest route limits production. Grades are green, blue and gold.\nBuild one freight station per region under Basic production. Connect both ends; select destination, cargo, reserve and enable dispatch under Freight. Batch size is 6 per effective level; fee is 0.1 per unit.',
+        '§Y4. Processing order§!\nMines → refining → power → steel → aluminium/alloys → regional products → generic machinery. Refineries have their own auxiliary power. Fuel power saves coal.\nRegional products have input priority; stop plants to redirect inputs. Freight stations transfer stocks; power stays local. Shortages scale output.',
         '§Y5. Prices and investment§!\nPrices: machinery §Y1§!, tractors §Y1.5§!, machine tools §Y2§!, rail equipment §Y2.5§!, aircraft parts and generators §Y3§!, precision tools §Y4§!.\nDelivered quantity × price gives value and equal investment. Intermediate stocks do not earn income. Advanced chains cost more to build.',
-        '§Y6. Forecasts and expiry§!\nForecasts show next-day rates × 30, not guaranteed monthly output. Hover build buttons for recipes and total value for product deliveries.\nDemolition refunds paid costs. Expiry preserves results; confirm reset twice. This sandbox grants no real factories and does not replace the old plan.',
+        '§Y6. Forecasts and expiry§!\nForecasts show next-day rates × 30, not guaranteed monthly output. Hover build buttons for recipes and total value for product deliveries.\nDemolition refunds paid costs. Expiry preserves results and returns unfinished cargo and its fees; confirm reset twice. This sandbox grants no real factories and does not replace the old plan.',
     ]
     for i,(zh,en) in enumerate(zip(help_zh,help_en)):L(f'help_{i}',zh,en)
 
     definitions=[]
     def defined(name,branches):
         definitions.append(block('defined_text',f'name = {name}\n'+''.join(block('text',(block('trigger',cond) if cond else '')+f'localization_key = {key}\n') for cond,key in branches)))
+    freight_localise(L,defined)
     defined('GetRUSIPBaseMenu',[(cv('build_page','=',0),P+'base_page_active'),('',P+'base_page')])
     defined('GetRUSIPSpecialMenu',[(cv('build_page','=',1),P+'special_page_active'),('',P+'special_page')])
     defined('GetRUSIPPlanStatus',[('has_country_flag = RUS_ip_finished',P+'ended'),('has_country_flag = RUS_ip_started',P+'active'),('',P+'not_started')])
@@ -157,14 +164,14 @@ def render_outputs():
     defined('GetRUSIPType',[(cv('sel_type','=',k),P+f'type_{k}') for k in PROJECTS]+[('',P+'type_0')])
     defined('GetRUSIPTile',[(cv('selected','=',c['id']),L(f'tile_{c["id"]}',c['label'],c['label'])) for c in CELLS])
     defined('GetRUSIPTerrain',[(cv('sel_terrain','=',k),P+'terrain_'+name) for k,name in terrains.items()])
-    defined('GetRUSIPSelectedStatus',[(cv('sel_terrain','=',4),P+'status_hub'),(cv('sel_terrain','=',3),P+'status_rock'),(cv('sel_type','=',0),P+'status_empty'),(cv('sel_paused','=',1),P+'status_paused'),(cv('sel_route','=',0),P+'status_offline'),(cv('sel_route','<',P+'sel_level'),P+'status_limited'),('',P+'status_ready')])
+    defined('GetRUSIPSelectedStatus',[(cv('sel_terrain','=',4),P+'status_hub'),(cv('sel_terrain','=',3),P+'status_rock'),(cv('sel_type','=',0),P+'status_empty'),(cv('sel_paused','=',1),P+'status_paused'),(cv('sel_route','=',0),P+'status_offline'),(cv('sel_route','<',P+'sel_level'),P+'status_limited'),(cv('sel_type','=',FREIGHT_KIND),P+'status_transport'),('',P+'status_ready')])
     defined('GetRUSIPBottleneck',[(cv('bottleneck','=',i),P+f'bottleneck_{i}') for i in bottlenecks])
     for c in CELLS:
         i=c['id'];region=REGIONS[c['region']]
         defined(f'GetRUSIPType{i}',[(cv(f'n{i}_type','=',k),P+f'type_{k}') for k in region_plants(region['id'])]+[('',P+'type_0')])
         defined(f'GetRUSIPTerrain{i}',[(cv(f'n{i}_terrain','=',k),P+'terrain_'+name) for k,name in terrains.items()])
-        L(f'node_{i}_tt',f'§Y{region["zh"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n设施：[GetRUSIPType{i}]，§Y[?RUS_ip_n{i}_level|0]§! 级\n线路等级：§Y[?RUS_ip_n{i}_rail|0]§!\n接通能力：§Y[?RUS_ip_n{i}_route|0]§!\n有效生产等级：§G[?RUS_ip_n{i}_effective|0]§!\n点击选择，在右侧建设或升级。',f'§Y{region["en"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n[GetRUSIPType{i}], level §Y[?RUS_ip_n{i}_level|0]§!\nLine: §Y[?RUS_ip_n{i}_rail|0]§!\nRoute: §Y[?RUS_ip_n{i}_route|0]§!\nEffective level: §G[?RUS_ip_n{i}_effective|0]§!\nSelect to build or upgrade on the right.')
-        status=[(cv(f'n{i}_terrain','=',4),P+'status_hub'),(cv(f'n{i}_terrain','=',3),P+'status_rock'),(cv(f'n{i}_type','=',0),P+'status_empty'),(cv(f'n{i}_paused','=',1),P+'status_paused'),(cv(f'n{i}_route','=',0),P+'status_offline'),(cv(f'n{i}_route','<',P+f'n{i}_level'),P+'status_limited'),('',P+'status_ready')]
+        L(f'node_{i}_tt',f'§Y{region["zh"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n设施：[GetRUSIPType{i}]，§Y[?RUS_ip_n{i}_level|0]§! 级\n线路等级：§Y[?RUS_ip_n{i}_rail|0]§!\n接通能力：§Y[?RUS_ip_n{i}_route|0]§!\n有效等级：§G[?RUS_ip_n{i}_effective|0]§!\n点击选择，在右侧建设或升级。',f'§Y{region["en"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n[GetRUSIPType{i}], level §Y[?RUS_ip_n{i}_level|0]§!\nLine: §Y[?RUS_ip_n{i}_rail|0]§!\nRoute: §Y[?RUS_ip_n{i}_route|0]§!\nEffective level: §G[?RUS_ip_n{i}_effective|0]§!\nSelect to build or upgrade on the right.')
+        status=[(cv(f'n{i}_terrain','=',4),P+'status_hub'),(cv(f'n{i}_terrain','=',3),P+'status_rock'),(cv(f'n{i}_type','=',0),P+'status_empty'),(cv(f'n{i}_paused','=',1),P+'status_paused'),(cv(f'n{i}_route','=',0),P+'status_offline'),(cv(f'n{i}_route','<',P+f'n{i}_level'),P+'status_limited'),(cv(f'n{i}_type','=',FREIGHT_KIND),P+'status_transport'),('',P+'status_ready')]
         defined(f'GetRUSIPNodeStatus{i}',status)
         for catalog in loc.values():
             catalog[P+f'node_{i}_tt']+=f'\n[GetRUSIPNodeStatus{i}]'
@@ -255,15 +262,14 @@ def render_outputs():
     board_region=''
     for level in (1,2,3):
         x=32+(level-1)*80
-        icon(f'ip_grade_legend_{level}',f'GFX_RUS_ip_legend_{level}',x,863)
-        text(f'ip_grade_label_{level}',P+f'grade_{level}',x+22,861,58,22)
-    text('ip_legend',P+'legend',284,861,710,22)
-    text('ip_board_note',P+'board_note',32,886,964,22)
+        icon(f'ip_grade_legend_{level}',f'GFX_RUS_ip_legend_{level}',x,969,tip=P+'legend')
+        text(f'ip_grade_label_{level}',P+f'grade_{level}',x+22,967,58,22)
     text('ip_selected',P+'selected',SIDEBAR_X,175,510,26,'hoi_20b')
     card('ip_detail_bg',SIDEBAR_X,207,510,128)
     text('ip_detail',P+'detail',SIDEBAR_X+16,221,480,106)
     button('ip_base_page',P+'base_page_tab',SIDEBAR_X,348,P+'page_tt','RUS_ip_build_page_0 = yes\n',condition='')
     button('ip_special_page',P+'special_page_tab',SIDEBAR_X+143,348,P+'page_tt','RUS_ip_build_page_1 = yes\n',condition='')
+    button('ip_freight_page',P+'freight_page_tab',SIDEBAR_X+286,348,P+'freight_rules_tt','RUS_ip_build_page_2 = yes\n',condition='')
     def build_button(name,kind,index,condition):
         x,y=SIDEBAR_X+(index%2)*246,390+(index//2)*70
         key=f'build_{kind}' if isinstance(kind,int) else 'rail'
@@ -272,23 +278,24 @@ def render_outputs():
         icon(name+'_icon','GFX_RUS_ip_'+icon_key,x+13,y+10,.875,condition=condition)
         text(name+'_title',P+key,x+45,y+5,155,21,center=True,condition=condition)
         text(name+'_cost',P+f'cost_{kind}',x+40,y+29,165,20,center=True,condition=condition)
-    for index,kind in enumerate([1,2,3,4,5,'rail']):build_button('ip_'+(f'build_{kind}' if isinstance(kind,int) else kind),kind,index,cv('build_page','=',0))
+    for index,kind in enumerate([1,2,3,4,5,'rail',FREIGHT_KIND]):build_button('ip_'+(f'build_{kind}' if isinstance(kind,int) else kind),kind,index,cv('build_page','=',0))
     for r in REGIONS:
-        for index,kind in enumerate(k for k in region_plants(r['id']) if k>5):
+        for index,kind in enumerate(k for k in region_plants(r['id']) if 5<k<FREIGHT_KIND):
             build_button(f'ip_r{r["id"]}_build_{kind}',kind,index,cv('build_page','=',1)+cv('region','=',r['id']))
     for index,key in enumerate(['quick_rail','switch','remove','remove_rail','refresh']):
         action='rail' if key=='quick_rail' else key
-        button('ip_'+key,P+key,SIDEBAR_X+index*103,743,P+action+'_tt',f'RUS_ip_{action} = yes\n',f'RUS_ip_can_{action} = yes' if action!='refresh' else '',scale=.80)
-    text('ip_forecast',P+'forecast',SIDEBAR_X+8,800,496,64,tip=P+'forecast_tt',condition='NOT = { has_country_flag = RUS_ip_finished }')
-    text('ip_results',P+'results',SIDEBAR_X+8,800,496,90,condition='has_country_flag = RUS_ip_finished')
-    text('ip_bottleneck',P+'bottleneck',SIDEBAR_X+8,870,500,23,condition='NOT = { has_country_flag = RUS_ip_finished }')
-    text('ip_network',P+'network',32,910,964,23)
-    button('ip_start',P+'start',32,950,P+'start_tt','RUS_ip_start = yes\n','RUS_ip_editing = yes',condition='NOT = { has_country_flag = RUS_ip_started }')
-    button('ip_restart',P+'restart',175,950,P+'restart_tt','RUS_ip_arm_restart = yes\n',condition='NOT = { has_country_flag = RUS_ip_restart_armed }')
-    button('ip_confirm_restart',P+'confirm_restart',175,950,P+'restart_tt','RUS_ip_confirm_restart = yes\n',condition='has_country_flag = RUS_ip_restart_armed')
-    text('ip_footnote',P+'footnote',320,958,1050,21,'hoi_16mbs')
-    button('ip_help',P+'help',1443,950,'','RUS_ip_toggle_help = yes\n')
-    button('ip_back',P+'back',735,950,'','RUS_ip_toggle_help = yes\n',page='help')
+        button('ip_'+key,P+key,SIDEBAR_X+index*103,743,P+action+'_tt',f'RUS_ip_{action} = yes\n',f'RUS_ip_can_{action} = yes' if action!='refresh' else '',scale=.80,condition=cv('build_page','<',2))
+    text('ip_forecast',P+'forecast',SIDEBAR_X+8,800,496,64,tip=P+'forecast_tt',condition=cv('build_page','<',2)+'NOT = { has_country_flag = RUS_ip_finished }')
+    text('ip_results',P+'results',SIDEBAR_X+8,800,496,90,condition=cv('build_page','<',2)+'has_country_flag = RUS_ip_finished')
+    text('ip_bottleneck',P+'bottleneck',SIDEBAR_X+8,870,500,23,condition=cv('build_page','<',2)+'NOT = { has_country_flag = RUS_ip_finished }')
+    text('ip_network',P+'network',284,967,714,23,tip=P+'board_note')
+    freight_widgets(text,icon,button,SIDEBAR_X)
+    button('ip_start',P+'start',32,995,P+'start_tt','RUS_ip_start = yes\n','RUS_ip_editing = yes',condition='NOT = { has_country_flag = RUS_ip_started }')
+    button('ip_restart',P+'restart',175,995,P+'restart_tt','RUS_ip_arm_restart = yes\n',condition='NOT = { has_country_flag = RUS_ip_restart_armed }')
+    button('ip_confirm_restart',P+'confirm_restart',175,995,P+'restart_tt','RUS_ip_confirm_restart = yes\n',condition='has_country_flag = RUS_ip_restart_armed')
+    text('ip_footnote',P+'footnote',320,1003,1050,21,'hoi_16mbs')
+    button('ip_help',P+'help',1443,995,'','RUS_ip_toggle_help = yes\n')
+    button('ip_back',P+'back',735,995,'','RUS_ip_toggle_help = yes\n',page='help')
     text('ip_help_title',P+'help_title',80,114,1440,36,'hoi_24header',True,page='help')
     for i in range(6):text(f'ip_help_{i}',P+f'help_{i}',58+(754 if i>=3 else 0),181+(i%3)*240,710,216,page='help')
     button('ip_close','',1558,9,'CLOSE','RUS_ip_close_effect = yes\n',sprite='GFX_closebutton',page='all')

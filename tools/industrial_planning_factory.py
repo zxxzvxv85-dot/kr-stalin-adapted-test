@@ -3,10 +3,10 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from industrial_planning_catalog import (PLANTS, STOCKS, PRODUCTS, STORED, PRICES, TARGET, TERRAINS, DEPOSITS, PROCESS_ORDER, allowed, region_plants, specialty)
+from industrial_planning_catalog import (PLANTS, STOCKS, PRODUCTS, STORED, PRICES, TARGET, TERRAINS, DEPOSITS, PROCESS_ORDER, FREIGHT_KIND, allowed, region_plants, specialty)
 
 P='RUS_ip_'
-WIDTH,HEIGHT=23,14
+WIDTH,HEIGHT=23,17
 REGIONS=json.loads((Path(__file__).parent/'data/industrial_planning_factory_regions.json').read_text(encoding='utf-8'))['regions']
 CELLS=[]
 for region in REGIONS:
@@ -48,7 +48,8 @@ def minimum(k,v):return iff(cv(k,'>',v),setv(k,v))
 
 def eligible(i,kind):
     if i in HUBS or not allowed(kind,CELLS[i]['region']):return 'always = no\n'
-    return (cv('region','=',CELLS[i]['region'])+cv(f'n{i}_terrain','=',PLANTS[kind]['terrain'])
+    station_limit=block('OR',cv(f'n{i}_type','=',FREIGHT_KIND)+cv(f'r{CELLS[i]["region"]}_transport_sites','=',0)) if kind==FREIGHT_KIND else ''
+    return (station_limit+cv('region','=',CELLS[i]['region'])+cv(f'n{i}_terrain','=',PLANTS[kind]['terrain'])
         +block('OR',cv(f'n{i}_type','=',0)+cv(f'n{i}_type','=',kind))+cv(f'n{i}_level','<',3))
 
 def geology(region):
@@ -69,9 +70,12 @@ def geology(region):
     return result
 
 def render_economy():
+    from industrial_planning_factory_freight import initialise, render_freight, DISPLAY
+    freight_triggers,freight_effects=render_freight()
     triggers=[fx('available','original_tag = RUS\nis_ai = no\nhas_country_flag = RUS_ip_ui_unlocked\n'),
         fx('editing','RUS_ip_available = yes\nhas_country_flag = RUS_ip_factory_initialized\nhas_country_flag = RUS_ip_open\nNOT = { has_country_flag = RUS_ip_finished }\n')]
-    effects=[]
+    triggers.extend(freight_triggers)
+    effects=list(freight_effects)
     for kind,cost in COST.items():
         sites=''.join(block('AND',cv('selected','=',c['id'])+eligible(c['id'],kind)) for c in CELLS if c['id'] not in HUBS and allowed(kind,c['region']))
         triggers.append(fx(f'can_build_{kind}','RUS_ip_editing = yes\n'+ge('budget',cost)+block('OR',sites)))
@@ -84,7 +88,7 @@ def render_economy():
             cond+=cv(f'n{i}_rail','<',3) if action=='rail' else cv(f'n{i}_rail','>',0) if action=='remove_rail' else cv(f'n{i}_type','>',0)
             sites.append(block('AND',cond))
         triggers.append(fx('can_'+action,'RUS_ip_editing = yes\n'+(ge('budget',1) if action=='rail' else '')+block('OR',''.join(sites))))
-    init='set_country_flag = RUS_ip_factory_initialized\n'
+    init='set_country_flag = RUS_ip_factory_initialized\n'+initialise()
     for flag in ('started','active','finished','help_open','restart_armed'):init+=f'clr_country_flag = RUS_ip_{flag}\n'
     for key,value in dict(region=0,selected=HUB,budget=40,value=0,machines=0,build_page=0,days_left=1800,elapsed=0,spent=0,refunded=0,earned=0,score=0).items():init+=setv(key,value)
     for c in CELLS:
@@ -105,7 +109,7 @@ def render_economy():
     effects.append(fx('close_effect','clr_country_flag = RUS_ip_open\nclr_country_flag = RUS_ip_help_open\nclr_country_flag = RUS_ip_restart_armed\n'))
     effects.append(fx('toggle',iff('RUS_ip_available = yes\n',iff('has_country_flag = RUS_ip_open\n','RUS_ip_close_effect = yes\n')+block('else','RUS_ip_open_effect = yes\n'))))
     effects.append(fx('toggle_help',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\n',iff('has_country_flag = RUS_ip_help_open\n','clr_country_flag = RUS_ip_help_open\n')+block('else','set_country_flag = RUS_ip_help_open\n')+'clr_country_flag = RUS_ip_restart_armed\n'+add('dirty',1))))
-    for page in (0,1):effects.append(fx(f'build_page_{page}',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\nNOT = { has_country_flag = RUS_ip_help_open }\n',setv('build_page',page)+add('dirty',1))))
+    for page in (0,1,2):effects.append(fx(f'build_page_{page}',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\nNOT = { has_country_flag = RUS_ip_help_open }\n',setv('build_page',page)+add('dirty',1))))
     effects.append(fx('start',iff('RUS_ip_editing = yes\nNOT = { has_country_flag = RUS_ip_started }\n','set_country_flag = RUS_ip_started\nset_country_flag = RUS_ip_active\nRUS_ip_refresh = yes\n')))
 
     # Widest path: all segments must support the desired facility grade.
@@ -121,15 +125,18 @@ def render_economy():
         flood+=iff(block('NOT',cv(f'n{i}_terrain','=',3))+cv(f'n{i}_rail','>',P+f'n{i}_route'),body)
     refresh+=block('while_loop_effect',block('limit',cv('changed','=',1)+cv('iterations','<',len(CELLS)))+setv('changed',0)+flood+add('iterations',1))
     for r in REGIONS:
-        for key in ('connected_count','offline_count',*(p['key']+'_capacity' for p in PLANTS.values())):refresh+=setv(f'r{r["id"]}_{key}',0)
+        for key in ('connected_count','offline_count','transport_sites',*(p['key']+'_capacity' for p in PLANTS.values())):refresh+=setv(f'r{r["id"]}_{key}',0)
     for c in CELLS:
         i=c['id'];rp=f'r{c["region"]}_'
         refresh+=setv(f'n{i}_effective',0)+iff(cv(f'n{i}_route','>',0),add(rp+'connected_count',1))
+        refresh+=iff(cv(f'n{i}_type','=',FREIGHT_KIND),add(rp+'transport_sites',1))
         refresh+=iff(cv(f'n{i}_type','>',0)+cv(f'n{i}_route','=',0),add(rp+'offline_count',1))
         body=setv(f'n{i}_effective',P+f'n{i}_level')+minimum(f'n{i}_effective',P+f'n{i}_route')
         for kind in region_plants(c['region']):body+=iff(cv(f'n{i}_type','=',kind),add(rp+PLANTS[kind]['key']+'_capacity',P+f'n{i}_effective'))
         refresh+=iff(block('NOT',cv(f'n{i}_terrain','=',3))+cv(f'n{i}_type','>',0)+cv(f'n{i}_paused','=',0),body)
-    effects.append(fx('refresh',refresh+'RUS_ip_forecast = yes\nRUS_ip_selection_cache = yes\n'+add('dirty',1)))
+    effects.append(fx('refresh_network',refresh))
+    effects.append(fx('refresh_values','RUS_ip_forecast = yes\nRUS_ip_freight_preview = yes\nRUS_ip_selection_cache = yes\n'+add('dirty',1)))
+    effects.append(fx('refresh','RUS_ip_refresh_network = yes\nRUS_ip_refresh_values = yes\n'))
 
     # Regional forecasts operate only on next_* scratch stocks. No production
     # or budget mutation occurs until the single daily commit below.
@@ -180,7 +187,7 @@ def render_economy():
     cache=''
     display=(*STOCKS,'connected_count','offline_count','power_total','power_left','power_demand','bottleneck',
         *(p['key']+'_capacity' for p in PLANTS.values()),
-        'coal_month','iron_month','steel_month','machine_month','specialty_month','investment_month')
+        'coal_month','iron_month','steel_month','machine_month','specialty_month','investment_month',*DISPLAY)
     for r in REGIONS:
         rid=r['id'];cache+=iff(cv('region','=',rid),''.join(setv(k,P+f'r{rid}_{k}') for k in display))
     for c in CELLS:
@@ -206,11 +213,14 @@ def render_economy():
             else:change=iff(cv(f'n{i}_paused','=',0),setv(f'n{i}_paused',1))+block('else',setv(f'n{i}_paused',0))
             body+=iff(cv('selected','=',i)+cv('region','=',c['region']),change)
         effects.append(fx(action,iff(f'RUS_ip_can_{action} = yes\n',body+'clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n')))
-    day='RUS_ip_refresh = yes\n'
+    # Cargo and production change stocks, not track geometry. Recompute the
+    # network once per day, then refresh forecasts after arrival and dispatch.
+    day='RUS_ip_refresh_network = yes\nRUS_ip_freight_arrivals = yes\nRUS_ip_forecast = yes\n'
     for r in REGIONS:
         for key in STORED:day+=setv(f'r{r["id"]}_{key}',P+f'r{r["id"]}_next_{key}')
-    day+=add('budget',P+'investment_output')+add('earned',P+'investment_output')+sub('days_left',1)+add('elapsed',1)
-    day+=iff(cv('days_left','=',0),'clr_country_flag = RUS_ip_active\nset_country_flag = RUS_ip_finished\n')+'RUS_ip_refresh = yes\n'
+    day+=add('budget',P+'investment_output')+add('earned',P+'investment_output')
+    day+=iff(cv('days_left','>',1),'RUS_ip_freight_dispatch = yes\n')+sub('days_left',1)+add('elapsed',1)
+    day+=iff(cv('days_left','=',0),'RUS_ip_freight_finish = yes\nclr_country_flag = RUS_ip_active\nset_country_flag = RUS_ip_finished\n')+'RUS_ip_refresh_values = yes\n'
     effects.append(fx('daily',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_factory_initialized\nhas_country_flag = RUS_ip_active\n'+cv('days_left','>',0),day)))
     effects.append(fx('arm_restart',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\n','set_country_flag = RUS_ip_restart_armed\n'+add('dirty',1))))
     effects.append(fx('confirm_restart',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\nhas_country_flag = RUS_ip_restart_armed\n','RUS_ip_initialize = yes\n')))

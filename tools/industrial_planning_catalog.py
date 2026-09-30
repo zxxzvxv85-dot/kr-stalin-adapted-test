@@ -11,9 +11,19 @@ PRICES = dict(machines=1, machine_tools=2, aircraft_parts=3, tractors=1.5,
 PRODUCTS = tuple(PRICES)
 STORED = (*STOCKS, *PRODUCTS, 'value')
 TARGET = 500
+FREIGHT_KIND = 21
+FREIGHT_BATCH_PER_LEVEL = 6
+FREIGHT_FEE = .1
+FREIGHT_RESERVES = (0,3,6,12)
+# Abstract travel times between the six regional hubs, in game days.
+# They are gameplay distances, not queries of the native railway network.
+FREIGHT_DAYS = (
+    (0,3,4,7,10,14), (3,0,6,9,12,16), (4,6,0,6,10,14),
+    (7,9,6,0,5,10), (10,12,10,5,0,6), (14,16,14,10,6,0),
+)
 TERRAINS = {1:'coal', 2:'iron', 5:'bauxite', 6:'chromium', 7:'tungsten', 8:'oil'}
 DEPOSITS = (
-    {}, {'bauxite':10}, {},
+    {}, {'bauxite':10}, {'chromium':8, 'tungsten':4, 'oil':10},
     {'bauxite':6, 'chromium':8, 'oil':4},
     {'bauxite':16, 'chromium':8},
     {'bauxite':2, 'chromium':6, 'tungsten':6, 'oil':4},
@@ -55,11 +65,13 @@ PLANTS = {
     18:plant('铁路装备厂','Rail equipment works','decision_generic_train.dds',14,'rail_equipment',.16,{'steel':1.5,'alloy':1},2.5,region=3),
     19:plant('动力设备厂','Power equipment works','decision_generic_electricity.dds',15,'generators',.14,{'steel':1,'aluminium':2},3,region=4),
     20:plant('精密工具厂','Precision tool works','decision_generic_army_support.dds',18,'precision_tools',.12,{'alloy':2,'tungsten':.5},3,region=5),
+    21:plant('跨区运输站','Freight station','decision_generic_train.dds',10,'transport',0,output='transport'),
 }
 PLANTS[13]['icon']='gfx/interface/military_industrial_organization/trait_icons/generic/refinery_icon.png'
 PLANTS[14]['icon']='gfx/interface/military_industrial_organization/trait_icons/generic/fuel_drum.png'
 PLANTS[15]['icon']='gfx/interface/technologies/advanced_machine_tools.dds'
 PLANTS[20]['icon']='gfx/interface/technologies/basic_machine_tools.dds'
+PLANTS[21]['icon']='gfx/interface/military_industrial_organization/trait_icons/generic/railway_icon.png'
 RESOURCE_ICONS = {key:PLANTS[k]['icon'] for key,k in dict(coal=1,iron=2,steel=4,bauxite=6,chromium=7,tungsten=8,oil=9,aluminium=10,alloy=11,fuel=14).items()}
 PRODUCT_ICONS = {p['output']:p['icon'] for p in PLANTS.values() if p['output'] in PRODUCTS}
 PROCESS_ORDER = (1,2,6,7,8,9,13,3,14,4,10,11,12,15,16,17,18,19,20,5)
@@ -70,15 +82,13 @@ PROCESS_ORDER = (1,2,6,7,8,9,13,3,14,4,10,11,12,15,16,17,18,19,20,5)
 def allowed(kind,rid):
     p=PLANTS[kind]
     if p['region'] is not None:return p['region']==rid
-    if kind<=5:return True
-    required={6:'bauxite',7:'chromium',8:'tungsten',9:'oil',10:'bauxite',11:'chromium',12:'tungsten',13:'oil',14:'oil'}[kind]
+    if kind<=5 or kind>=10:return True
+    required={6:'bauxite',7:'chromium',8:'tungsten',9:'oil'}[kind]
     return DEPOSITS[rid].get(required,0)>0
 
 def region_plants(rid):return tuple(k for k in PLANTS if allowed(k,rid))
 def specialty(rid):return PLANTS[15+rid]
 def extra_stocks(rid):
-    keys=set(DEPOSITS[rid])
-    if 'bauxite' in keys:keys.add('aluminium')
-    if keys & {'chromium','tungsten'}:keys.add('alloy')
-    if 'oil' in keys:keys.add('fuel')
-    return tuple(k for k in STOCKS if k in keys)
+    # Imported raw materials and intermediates must remain visible even when
+    # the receiving region has no local deposits of that mineral.
+    return STOCKS[3:]

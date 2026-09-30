@@ -160,7 +160,7 @@ def invariants(s):
     assert s['vars']['RUS_first_five_year_plan_score']==37 and s['vars']['political_power']==200
     assert v(s,'budget')>=-1e-8 and 0<=v(s,'score')<=100
     assert v(s,'days_left')+v(s,'elapsed')==1800
-    assert math.isclose(v(s,'budget'),40+v(s,'earned')-v(s,'spent')+v(s,'refunded'),abs_tol=1e-7)
+    assert math.isclose(v(s,'budget'),40+v(s,'earned')-v(s,'spent')+v(s,'refunded')-v(s,'freight_spent'),abs_tol=1e-7)
     assert math.isclose(v(s,'earned'),v(s,'value'),abs_tol=1e-7)
     assert math.isclose(v(s,'machines'),sum(v(s,f'r{r["id"]}_machines') for r in REGIONS),abs_tol=1e-7)
     for r in REGIONS:
@@ -227,10 +227,12 @@ def test_geology():
     count=0;layouts=[]
     assert len(REGIONS)==6 and len({tuple((r['width'],r['height'])) for r in REGIONS})>=5
     # More usable sites, not larger tile artwork: roughly double each old map.
-    for r,old_size in zip(REGIONS,(56,49,41,68,99,57)):
+    for r,old_size in zip(REGIONS,(56,49,92,68,99,57)):
         assert 1.8*old_size<=len(r['cells'])<=2.3*old_size
         assert r['width']<=WIDTH and r['height']<=HEIGHT
     assert all(r['coal']>=5 and r['iron']>=6 for r in REGIONS),'Every map needs several basic mine sites'
+    assert {218,232,233,234,235,238,245,787,961,1006}<=set(REGIONS[2]['states'])
+    assert not ({229,230,231,1080}&set(REGIONS[2]['states'])),'Do not include Baku or Transcaucasia'
     for seed in range(20):
         s=opened(seed);layouts.append(geology_snapshot(s))
         for r in REGIONS:
