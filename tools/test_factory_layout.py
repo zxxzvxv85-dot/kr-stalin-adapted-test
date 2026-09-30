@@ -5,8 +5,9 @@ import re
 from pathlib import Path
 from PIL import Image
 from hoi4_politics_blocks import parse
-from industrial_planning_factory_ui import render_outputs, LANGS
-from industrial_planning_factory import CELLS, REGIONS
+from industrial_planning_factory_ui import render_outputs, LANGS, BOARD_X, BOARD_Y, TILE_STEP, WINDOW_WIDTH, WINDOW_HEIGHT
+from industrial_planning_factory import CELLS, REGIONS, WIDTH, HEIGHT
+from industrial_planning_catalog import PLANTS, region_plants, extra_stocks
 from industrial_planning_factory_assets import ASSET_DIR, COLOUR_SPRITES, render_assets
 from test_factory_planning import ROOT, P, GUI, FX, TR, opened, check, call, put
 
@@ -51,6 +52,8 @@ def main():
     count+=1
     gui=parse(outputs['interface/RUS_industrial_planning.gui'])[0]
     window=next(n for n in gui.v if field(n,'name')=='RUS_industrial_planning_window')
+    assert int(field(window.one('size'),'width'))==WINDOW_WIDTH
+    assert int(field(window.one('size'),'height'))==WINDOW_HEIGHT
     widgets=[n for n in window.v if n.k in ('buttonType','iconType','instantTextBoxType','containerWindowType')]
     names=[field(n,'name') for n in widgets];assert len(names)==len(set(names));count+=1
     triggers={n.k:n.v for n in GUI.one('triggers').v}
@@ -136,15 +139,25 @@ def main():
             assert visible==(CELLS[i]['region']==r['id'])
             if not visible:continue
             pos=w.one('position');x,y=int(field(pos,'x')),int(field(pos,'y'))
-            assert 32<=x and x+40<=704 and 207<=y and y+40<=711
+            assert BOARD_X<=x and x+40<=BOARD_X+WIDTH*TILE_STEP and BOARD_Y<=y and y+40<=BOARD_Y+HEIGHT*TILE_STEP
             for xx,yy in rectangles:assert x>=xx+40 or xx>=x+40 or y>=yy+40 or yy>=y+40
             rectangles.append((x,y))
         assert len(rectangles)==len(r['cells']);count+=1
     assert field(sprites['GFX_RUS_ip_tile'].one('size'),'x')=='40'
-    for w in widgets:
-        if w.k=='instantTextBoxType' and not field(w,'name').startswith('ip_help_'):
-            pos=w.one('position');x,y=int(field(pos,'x')),int(field(pos,'y'))
-            assert not(32<=x<704 and 207<=y<711),'Tiles must not carry coordinate/status/level labels'
+    # Compare text against real visible tile rectangles, not the formerly
+    # empty bounding-box margin now used for regional inventory icons.
+    for r in REGIONS:
+        call(s,f'select_region_{r["id"]}')
+        active_tiles=[w for w in tiles if check(triggers[field(w,'name')+'_visible'],s)]
+        for w in widgets:
+            name=field(w,'name')
+            if w.k!='instantTextBoxType':continue
+            if name+'_visible' in triggers and not check(triggers[name+'_visible'],s):continue
+            x,y=int(field(w.one('position'),'x')),int(field(w.one('position'),'y'))
+            width,height=int(field(w,'maxWidth')),int(field(w,'maxHeight'))
+            for tile in active_tiles:
+                xx,yy=int(field(tile.one('position'),'x')),int(field(tile.one('position'),'y'))
+                assert x+width<=xx or x>=xx+40 or y+height<=yy or y>=yy+40,(name,field(tile,'name'))
     count+=1
     assert len({COLOUR_SPRITES[f'grade_{i}'][2] for i in (1,2,3)})==3
     for level in (1,2,3):
@@ -152,9 +165,28 @@ def main():
         assert field(widget,'spriteType')==f'GFX_RUS_ip_legend_{level}' and field(widget,'scale')=='1'
         w,h,rgb=COLOUR_SPRITES[f'legend_{level}']
         assert (w,h)==(16,16) and rgb==COLOUR_SPRITES[f'grade_{level}'][2]
-        assert int(field(widget.one('position'),'y'))+h<742,'Swatch overlaps the regional text'
+        note=next(w for w in widgets if field(w,'name')=='ip_board_note')
+        assert int(field(widget.one('position'),'y'))+h<int(field(note.one('position'),'y')),'Swatch overlaps the regional text'
     count+=1
     assert all('[GetRUSIPNodeStatus' in catalog[P+f'node_{c["id"]}_tt'] for c in CELLS);count+=1
+    for r in REGIONS:
+        call(s,f'select_region_{r["id"]}')
+        for page in (0,1):
+            call(s,f'build_page_{page}')
+            visible=[n for n in names if n+'_visible' in triggers and check(triggers[n+'_visible'],s)]
+            for kind in PLANTS:
+                for other in REGIONS:
+                    name=f'ip_r{other["id"]}_build_{kind}'
+                    if name not in names:continue
+                    expected=page==1 and other['id']==r['id']
+                    assert (name in visible)==expected
+                    assert all((name+tail in visible)==expected for tail in ('_icon','_title','_cost'))
+            count+=1
+    assert max(len([k for k in region_plants(r['id']) if k>5]) for r in REGIONS)==10
+    for kind,p in PLANTS.items():
+        assert f'建设投资：§R-{p["cost"]}§!' in catalog[P+f'build_{kind}_tt']
+        assert '每日' in catalog[P+f'build_{kind}_tt']
+    count+=1
     print(f'{count} layout/reference checks passed; {len(CELLS)} selectable tiles across six isolated pages.')
 
 

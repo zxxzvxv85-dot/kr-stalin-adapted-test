@@ -20,12 +20,12 @@ DATA=ROOT/'tools/data/industrial_planning_factory_regions.json'
 # Names, state catchments, maximum grid extents, gameplay coal/iron/rock quotas.
 # KR's steel resource is the reference for the sandbox's iron deposits.
 SPECS=[
-    ('moscow','莫斯科','Moscow',[219,205,223,224,247,248,253,254],(11,9),(8,10,5)),
-    ('petrograd','彼得格勒','Petrograd',[195,208,209,210,263,264],(12,8),(5,6,4)),
-    ('tsaritsyn','察里津','Tsaritsyn',[217,236,237],(8,11),(5,7,4)),
-    ('west_siberia','西西伯利亚','West Siberia',[572,573,651,582,403,580,571,583,570,578],(14,12),(14,18,8)),
-    ('central_siberia','中西伯利亚','Central Siberia',[569,40,654,568,576,516,811,329,566,567,575,565],(16,12),(18,18,10)),
-    ('far_east','远东','Far East',[563,564,574,644,657,561,562,560,637,409,408,577],(16,12),(8,16,10)),
+    ('moscow','莫斯科','Moscow',[219,205,223,224,247,248,253,254],(16,13),(16,20,10)),
+    ('petrograd','彼得格勒','Petrograd',[195,208,209,210,263,264],(17,12),(10,12,8)),
+    ('tsaritsyn','察里津','Tsaritsyn',[217,236,237],(12,16),(10,14,8)),
+    ('west_siberia','西西伯利亚','West Siberia',[572,573,651,582,403,580,571,583,570,578],(20,17),(28,36,16)),
+    ('central_siberia','中西伯利亚','Central Siberia',[569,40,654,568,576,516,811,329,566,567,575,565],(23,17),(36,36,20)),
+    ('far_east','远东','Far East',[563,564,574,644,657,561,562,560,637,409,408,577],(23,17),(16,32,20)),
 ]
 
 def neighbours(p,points):
@@ -50,7 +50,7 @@ def build():
         province_state.update((int(p),sid) for p in deps)
         resources=re.search(r'\bresources\s*=\s*\{([^}]+)',source)
         resources=dict(re.findall(r'(\w+)\s*=\s*([\d.]+)',resources[1])) if resources else {}
-        states[sid]={k:float(resources.get(k,0)) for k in ('coal','steel')}
+        states[sid]={k:float(resources.get(k,0)) for k in ('coal','steel','aluminium','chromium','tungsten','oil')}
         dependencies[path.relative_to(KR).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
     assert set(states)==needed
     palette={}
@@ -107,7 +107,7 @@ def build():
         rows=[''.join('#' if (x,y) in points else '.' for x in range(w)) for y in range(h)]
         regions.append(dict(id=rid,key=key,zh=zh,en=en,states=group,width=w,height=h,rows=rows,
             hub=hub,starter=starter,protected=sorted(protected),coal=quotas[0],iron=quotas[1],rocks=quotas[2],
-            kr_resources={k:sum(states[s][k] for s in group) for k in ('coal','steel')},omitted_offshore_cells=omitted))
+            kr_resources={k:sum(states[s][k] for s in group) for k in ('coal','steel','aluminium','chromium','tungsten','oil')},omitted_offshore_cells=omitted))
     for rel in ('map/definition.csv','map/provinces.bmp'):
         dependencies[rel]=hashlib.sha256((KR/rel).read_bytes()).hexdigest()
     return dict(schema=1,cell_size=40,cell_step=42,regions=regions,kr_dependencies=dependencies,

@@ -13,6 +13,7 @@ import re
 import time
 from pathlib import Path
 from hoi4_politics_blocks import parse
+from industrial_planning_catalog import STORED, PRODUCTS, PRICES
 from industrial_planning_factory import CELLS, REGIONS, HUBS, HUB, COST, P, WIDTH, HEIGHT, cell_id
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -160,10 +161,11 @@ def invariants(s):
     assert v(s,'budget')>=-1e-8 and 0<=v(s,'score')<=100
     assert v(s,'days_left')+v(s,'elapsed')==1800
     assert math.isclose(v(s,'budget'),40+v(s,'earned')-v(s,'spent')+v(s,'refunded'),abs_tol=1e-7)
-    assert math.isclose(v(s,'earned'),v(s,'machines'),abs_tol=1e-7)
+    assert math.isclose(v(s,'earned'),v(s,'value'),abs_tol=1e-7)
     assert math.isclose(v(s,'machines'),sum(v(s,f'r{r["id"]}_machines') for r in REGIONS),abs_tol=1e-7)
     for r in REGIONS:
-        for key in ('coal','iron','steel','machines'):assert v(s,f'r{r["id"]}_{key}')>=-1e-8
+        for key in STORED:assert v(s,f'r{r["id"]}_{key}')>=-1e-8
+    assert math.isclose(v(s,'value'),sum(v(s,k)*price for k,price in PRICES.items()),abs_tol=1e-7)
     for c in CELLS:
         i=c['id']
         assert 0<=v(s,f'n{i}_effective')<=v(s,f'n{i}_level')<=3
@@ -185,8 +187,8 @@ def graph_oracle(s):
 
 
 def production_snapshot(s):
-    keys=['budget','machines','days_left','elapsed','earned','spent','refunded']
-    keys += [f'r{r["id"]}_{k}' for r in REGIONS for k in ('coal','iron','steel','machines')]
+    keys=['budget','value',*PRODUCTS,'days_left','elapsed','earned','spent','refunded']
+    keys += [f'r{r["id"]}_{k}' for r in REGIONS for k in STORED]
     keys += [f'n{c["id"]}_{k}' for c in CELLS for k in ('type','level','rail','paid','rail_paid','paused','terrain')]
     return {k:v(s,k) for k in keys}
 
@@ -224,6 +226,10 @@ def test_lifecycle():
 def test_geology():
     count=0;layouts=[]
     assert len(REGIONS)==6 and len({tuple((r['width'],r['height'])) for r in REGIONS})>=5
+    # More usable sites, not larger tile artwork: roughly double each old map.
+    for r,old_size in zip(REGIONS,(56,49,41,68,99,57)):
+        assert 1.8*old_size<=len(r['cells'])<=2.3*old_size
+        assert r['width']<=WIDTH and r['height']<=HEIGHT
     assert all(r['coal']>=5 and r['iron']>=6 for r in REGIONS),'Every map needs several basic mine sites'
     for seed in range(20):
         s=opened(seed);layouts.append(geology_snapshot(s))
