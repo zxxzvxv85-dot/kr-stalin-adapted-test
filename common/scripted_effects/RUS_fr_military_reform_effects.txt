@@ -1342,6 +1342,12 @@ RUS_fr_consolidate_armaments_construction_results = {
 			remove_ideas = RUS_fr_air_assault_mobility_priority_idea
 		}
 		if = {
+			limit = { has_idea = RUS_fr_air_assault_mobility_priority_easy_idea }
+			add_ideas = RUS_fr_hidden_air_assault_mobility_priority_easy
+			remove_ideas = RUS_fr_air_assault_mobility_priority_easy_idea
+		}
+		RUS_easy_mode_refresh_air_assault_equipment = yes
+		if = {
 			limit = { has_idea = RUS_fr_deep_mobility_priority_idea }
 			add_to_variable = { RUS_fr_unified_special_forces_attack = 0.10 }
 			add_to_variable = { RUS_fr_unified_consumer_goods_factor = 0.20 }

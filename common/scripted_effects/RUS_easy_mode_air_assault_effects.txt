@@ -1,0 +1,59 @@
+# Replace the cost policy itself; do not stack a -550% offset on the old +500%.
+RUS_easy_mode_refresh_air_assault_equipment = {
+	if = {
+		limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no }
+		if = {
+			limit = { has_idea = RUS_fr_air_assault_mobility_priority_idea }
+			remove_ideas = RUS_fr_air_assault_mobility_priority_idea
+			add_ideas = RUS_fr_air_assault_mobility_priority_easy_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_hidden_air_assault_mobility_priority }
+			remove_ideas = RUS_fr_hidden_air_assault_mobility_priority
+			add_ideas = RUS_fr_hidden_air_assault_mobility_priority_easy
+		}
+	}
+	else = {
+		if = {
+			limit = { has_idea = RUS_fr_air_assault_mobility_priority_easy_idea }
+			remove_ideas = RUS_fr_air_assault_mobility_priority_easy_idea
+			add_ideas = RUS_fr_air_assault_mobility_priority_idea
+		}
+		if = {
+			limit = { has_idea = RUS_fr_hidden_air_assault_mobility_priority_easy }
+			remove_ideas = RUS_fr_hidden_air_assault_mobility_priority_easy
+			add_ideas = RUS_fr_hidden_air_assault_mobility_priority
+		}
+	}
+}
+
+# The battalion already has type = mechanized and special_forces = yes.
+# Borrow only infantry/armour country attack and defence: copying mechanized
+# or special_forces modifiers would apply those native bonuses twice.
+RUS_easy_mode_refresh_air_assault_inheritance = {
+	if = {
+		limit = {
+			has_country_flag = RUS_easy_mode_enabled
+			is_ai = no
+			has_tech = RUS_stalin_air_assault_special_forces_infantry
+		}
+		force_update_dynamic_modifier = yes
+		set_variable = { RUS_easy_vdv_borrowed_attack = modifier@army_infantry_attack_factor }
+		add_to_variable = { RUS_easy_vdv_borrowed_attack = modifier@army_armor_attack_factor }
+		set_variable = { RUS_easy_vdv_borrowed_defence = modifier@army_infantry_defence_factor }
+		add_to_variable = { RUS_easy_vdv_borrowed_defence = modifier@army_armor_defence_factor }
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = RUS_easy_mode_air_assault_inheritance } } }
+			add_dynamic_modifier = { modifier = RUS_easy_mode_air_assault_inheritance }
+		}
+	}
+	else = {
+		set_variable = { RUS_easy_vdv_borrowed_attack = 0 }
+		set_variable = { RUS_easy_vdv_borrowed_defence = 0 }
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_easy_mode_air_assault_inheritance } }
+			remove_dynamic_modifier = { modifier = RUS_easy_mode_air_assault_inheritance }
+		}
+	}
+	force_update_dynamic_modifier = yes
+}

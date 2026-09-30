@@ -1,7 +1,10 @@
 ﻿[CmdletBinding()]
 param(
     [string]$SourceRoot = "",
-    [string]$DestinationRoot = ""
+    [string]$DestinationRoot = "",
+    # An explicit runtime-file allowlist updates an existing upload snapshot.
+    # Omitted files keep the upload version, including development-only GUIs.
+    [string[]]$UpdatePaths = @()
 )
 
 Set-StrictMode -Version Latest
@@ -48,6 +51,7 @@ if ($LASTEXITCODE -ne 0 -or $insideWorkTree -ne "true") {
 }
 
 $excludePatterns = @(
+    '^\.git/',
     '^(?:\.gitattributes|\.gitignore|\.editorconfig)$',
     '^[^/]+\.md$',
     '^tools/',
@@ -88,16 +92,56 @@ if ($publishFiles.Count -eq 0 -or 'descriptor.mod' -notin $publishFiles) {
     throw "Refusing to publish an empty or descriptor-less mod."
 }
 
+$fileSources = [System.Collections.Generic.Dictionary[string,string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+foreach ($relativePath in $publishFiles) {
+    $fileSources[$relativePath] = $source
+}
+$selective = $UpdatePaths.Count -gt 0
+$updatedFiles = @()
+if ($selective) {
+    if (-not (Test-Path -LiteralPath (Join-Path $destination 'descriptor.mod') -PathType Leaf)) {
+        throw "A selective update requires an existing upload snapshot with descriptor.mod."
+    }
+    if ((Get-Item -LiteralPath $destination).Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+        throw "Refusing to read a redirected upload directory: $destination"
+    }
+    $updatedFiles = @($UpdatePaths | ForEach-Object {
+        $relative = $_.Replace('\', '/')
+        if ([System.IO.Path]::IsPathRooted($relative) -or $relative -match '(^|/)\.\.?(/|$)' -or
+            $relative -notin $publishFiles) {
+            throw "Update path must name a present, publishable source file: $_"
+        }
+        $relative
+    } | Sort-Object -Unique)
+    $fileSources.Clear()
+    foreach ($item in (Get-ChildItem -LiteralPath $destination -Recurse -Force)) {
+        if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+            throw "Refusing a redirected item in the upload snapshot: $($item.FullName)"
+        }
+        if ($item.PSIsContainer) { continue }
+        $relative = $item.FullName.Substring($destination.Length + 1).Replace('\', '/')
+        if ($excludePatterns | Where-Object { $relative -match $_ }) {
+            throw "Selective updates require a clean upload snapshot; unexpected development file: $relative"
+        }
+        $fileSources[$relative] = $destination
+    }
+    foreach ($relativePath in $updatedFiles) {
+        $fileSources[$relativePath] = $source
+    }
+    $publishFiles = @($fileSources.Keys | Sort-Object)
+}
+
 # Finish and verify a sibling staging directory before touching the active upload.
 $staging = "$destination.staging.$([Guid]::NewGuid().ToString('N'))"
 New-Item -ItemType Directory -Path $staging -ErrorAction Stop | Out-Null
 
 $copied = 0
 foreach ($relativePath in $publishFiles) {
-    $sourceFile = [System.IO.Path]::GetFullPath((Join-Path $source $relativePath))
+    $copyRoot = $fileSources[$relativePath]
+    $sourceFile = [System.IO.Path]::GetFullPath((Join-Path $copyRoot $relativePath))
     $destinationFile = [System.IO.Path]::GetFullPath((Join-Path $staging $relativePath))
 
-    if (-not $sourceFile.StartsWith($source + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+    if (-not $sourceFile.StartsWith($copyRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
         throw "Tracked source path escaped the source root: $relativePath"
     }
     if (-not $destinationFile.StartsWith($staging + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
@@ -176,6 +220,9 @@ $totalBytes = (Get-ChildItem -LiteralPath $destination -Recurse -File | Measure-
     Source = $source
     Destination = $destination
     CopiedFiles = $copied
+    BuildMode = $(if ($selective) { 'SelectedFiles' } else { 'FullSource' })
+    UpdatedSourceFiles = $(if ($selective) { $updatedFiles.Count } else { $copied })
+    PreservedUploadFiles = $(if ($selective) { $copied - $updatedFiles.Count } else { 0 })
     ExcludedTrackedFiles = $trackedFiles.Count - @($publishFiles | Where-Object { $_ -in $trackedFiles }).Count
     IncludedUntrackedFiles = @($publishFiles | Where-Object { $_ -in $untrackedFiles }).Count
     SizeMiB = [Math]::Round($totalBytes / 1MB, 3)

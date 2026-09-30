@@ -99,6 +99,8 @@ pwsh -NoProfile -File tools/Build-CleanWorkshopUpload.ps1
 
 脚本会把旧 `_upload` 改名为一个时间戳备份，再从源码生成新的干净上传目录；自动上传备份只保留最近三份，不能代替永久源码参考副本。它会排除 `.git`、开发文档、工具、缓存以及美术草稿。Steam 上传器应选择 `_upload` 对应的启动器条目，不能选择源码目录、loader 或数字订阅目录。
 
+如果只发布指定功能、需要保留上传目录中的其他版本，可在 PowerShell 中使用显式文件清单：`& ./tools/Build-CleanWorkshopUpload.ps1 -UpdatePaths @('common/路径/文件.txt', 'localisation/simp_chinese/文件.yml')`。清单必须包含该功能全部新增或修改的运行文件；其余文件从现有上传快照保留，开发目录里新加的 GUI 不会自动混入。此模式要求已有干净上传目录，不处理删除文件；仍会先完成临时构建和逐文件哈希验证，再整体替换并备份。
+
 ## 换电脑继续开发
 
 在新电脑上登录有权限的 GitHub 账号，然后把仓库克隆到一个**非纯数字、可写且稳定**的目录：

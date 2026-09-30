@@ -113,8 +113,12 @@ generic_RUS_stalin_krtx_helicopter_organization = {
 		}
 
 		on_complete = {
-			custom_effect_tooltip = RUS_stalin_air_assault_drivetrain_weight_reduction_bonus_tt
 			FROM = {
+				effect_tooltip = { set_technology = { RUS_stalin_air_assault_drivetrain_weight_reduction_bonus = 1 popup = no } }
+				if = {
+					limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+					effect_tooltip = { set_technology = { RUS_stalin_air_assault_drivetrain_weight_reduction_bonus_easy_bonus = 1 popup = no } }
+				}
 				hidden_effect = {
 					if = {
 						limit = {
@@ -125,6 +129,7 @@ generic_RUS_stalin_krtx_helicopter_organization = {
 							RUS_stalin_air_assault_drivetrain_weight_reduction_bonus = 1
 							popup = no
 						}
+						RUS_easy_mode_refresh_technologies = yes
 					}
 				}
 			}
@@ -165,8 +170,12 @@ generic_RUS_stalin_krtx_helicopter_organization = {
 		}
 
 		on_complete = {
-			custom_effect_tooltip = RUS_stalin_air_assault_bubble_canopy_bonus_tt
 			FROM = {
+				effect_tooltip = { set_technology = { RUS_stalin_air_assault_bubble_canopy_bonus = 1 popup = no } }
+				if = {
+					limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } }
+					effect_tooltip = { set_technology = { RUS_stalin_air_assault_bubble_canopy_bonus_easy_bonus = 1 popup = no } }
+				}
 				hidden_effect = {
 					if = {
 						limit = {
@@ -177,6 +186,7 @@ generic_RUS_stalin_krtx_helicopter_organization = {
 							RUS_stalin_air_assault_bubble_canopy_bonus = 1
 							popup = no
 						}
+						RUS_easy_mode_refresh_technologies = yes
 					}
 				}
 			}
