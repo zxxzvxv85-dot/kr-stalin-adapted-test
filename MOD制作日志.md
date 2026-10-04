@@ -3573,3 +3573,11 @@ mio:RUS_example_organization = {
 - RHoiScribe 相关事件文件、全项目检查及 repair dry_run 完成。全项目 54618 项混合诊断，无 brace_balance/unclosed_block 红项；本文件 13 项 CWT 提示均为已核对存在且模型实际执行的 GRU scripted effects；重复 event_id 提示仍是把嵌套事件调用当定义，专项核对顶层定义唯一。repair 的 117 项历史格式建议未应用，本功能无修复建议。本功能本地化编码／重复键、引用和 git diff --check 通过。
 - 故障日志摘录与本轮前文件保存于 C:/Users/Administrator/AppData/Local/Temp/codex-gru-event-parse-fix-zab7pd4s。上传目录 1389 个文件与整合前 SHA-256 全部相同；只修改测试版开发目录。任务开始 fetch/pull 成功，远端无新改动；按范围创建本地 Git 提交，尚未同步 GitHub。
 - 修复时用户游戏进程仍在运行，没有强制退出或替用户操作游戏，因此本轮不宣称修复后已通过引擎实测。必须完全重启后，以新存档释放并停战推进一至两天验收，检查新日志无本文件的连锁解析错误；已释放的测试存档可在重启后使用 event GRU_reconstruction.99 GRU（动态国家换成实际标签）查看新树，原有调试入口会清除接管排队状态；未新增旧档自动迁移。
+
+
+### 2026-10-04 拉开红德国策树两组三联节点的间距
+
+- 按用户截图修复“从同志们那里进口食物／消灭疾病运动／安抚阵亡士兵家属”和“没有皇帝／没有老爷／没有主”的名称框重叠。前组三列从 9／10／11 改为 8／10／12，后组从 6／7／8 改为 5／7／9；“传统农业的美味才是王道”和“工业食品的方便才受大众喜爱”分别随父节点移到 8、12 列，保持后续连线对齐。实际只修改六个 x 坐标，y、前置、互斥、耗时及全部奖励不变。
+- 对照已安装 KR interface/nationalfocusview.gui 的横向 96 像素间距、原生 focus_unavailable_bg.dds 的 164×50 名称框，以及 KR 原德国傀儡树的二格分支布局。全树 59 节点扫描后同层最小间距为二格（192 像素），名称框至少留 28 像素；连较宽的 GUI 默认占位框也不重叠。移除坐标后的完整 AST 与修改前一致，既有红德专项 24 项检查通过；没有为单纯坐标修改新增永久测试或改动玩法脚本。
+- 临时预览使用当前坐标、既有游戏图标与正确国策标题栏贴图，已目视核对两组名称完整分开；预览非游戏截图。修改前文件、坐标审计及预览保存在 C:/Users/Administrator/AppData/Local/Temp/codex-gru-focus-layout-y5t3dxpf。RHoiScribe 国策文件绿色；项目 54618 项混合诊断无本文件提示、无 brace_balance/unclosed_block 红项；repair 只 dry_run，117 项既有格式建议未应用。专项同时检查简中编码／重复键与引用，git diff --check 通过。
+- 任务开始工作树干净，fetch/pull 成功且远端无更新。只修改 kr_stalin_adapted_test 开发源与本日志，按范围创建本地 Git 提交，尚未同步 GitHub；不构建上传目录。用户游戏仍在运行，未代为退出或操作游戏；真实布局需要重新启动后打开国策树确认。
