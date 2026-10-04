@@ -1,6 +1,6 @@
 # 独立工业规划沙盘维护说明
 
-当前实现：2026-09-30，六区不规则格子厂区、随机矿点与岩壁、21 种设施、七类成品、自动跨区货运、1800 天连续生产与 500 产值目标。旧的 36 经济区地图、地区资金与物流系统已退出当前生成入口；本轮货运是局部厂区沙盘的新模块。
+当前实现：2026-10-04，六区不规则格子厂区、随机矿点与岩壁、21 种设施、七类成品、自动跨区货运、1800 天连续生产与 500 产值目标。界面以动态图元压缩重复控件，保持 851 格及全部经营机制。旧的 36 经济区地图、地区资金与物流系统已退出当前生成入口；本轮货运是局部厂区沙盘的新模块。
 
 ## 唯一生成入口
 
@@ -9,7 +9,7 @@ python tools/generate_industrial_planning.py --check
 python tools/generate_industrial_planning.py --write
 ```
 
-默认只检查，不写文件。支持 `--output-root <临时目录>` 独立复现13份文本与11张纯色UI纹理，三语本地化使用UTF-8 BOM。文本允许换行规范化；PNG按二进制原样比较，不转换CRLF。不得直接改生成后的脚本、GUI 或本地化。
+默认只检查，不写文件。支持 `--output-root <临时目录>` 独立复现13份文本与14张UI纹理（12张几何图元、2张既有图标帧图），三语本地化使用UTF-8 BOM。文本允许换行规范化；PNG按二进制原样比较，不转换CRLF。不得直接改生成后的脚本、GUI 或本地化。
 
 - `tools/build_factory_regions.py`：只读 KR 州/省份栅格，量化为六区格子几何与资源参考；仅输出 JSON，不生成或编辑图片。默认检查，显式 `--write` 更新 `tools/data/industrial_planning_factory_regions.json`。
 - `tools/industrial_planning_catalog.py`：设施、每级成本、每日速率、每单位投入、地区门槛、矿点配额、产品价格及生产次序的唯一目录。新增矿种或设施先改这里；不能只改 UI 数字。
@@ -17,12 +17,12 @@ python tools/generate_industrial_planning.py --write
 - `tools/industrial_planning_factory_ui.py`：GUI/GFX、三语文本、动态名称、入口与帮助页。
 - `tools/industrial_planning_factory_freight.py`：持久线路配置、只读批次预测、到货／发运／期满返还。
 - `tools/industrial_planning_factory_freight_ui.py`：运输分页、目的地和货物按钮、线路状态、来货清单。
-- `tools/industrial_planning_factory_assets.py`：确定性生成不透明纯色UI矩形，包含36×36等级底色、16×16图例、40×2/2×40选中细框。资产位于 `gfx/interface/RUS_factory_planning/`，经统一生成入口显式写入；没有导入副作用。
+- `tools/industrial_planning_factory_assets.py`：确定性生成36×36等级底色、16×16图例和40×40透明中心选中框，并把既有游戏图标按原显示尺寸打包为设施21帧、矿藏8帧的横向PNG，每帧28×28。旧40×2/2×40细框资产保留但当前格子不再使用。资产位于 `gfx/interface/RUS_factory_planning/`，经统一生成入口显式写入；没有导入副作用，不修改图标原文件。
 - `tools/test_factory_planning.py`：运行生成后的 Clausewitz 脚本，含独立图论判定与守恒检查。
 - `tools/test_factory_industries.py`：特色矿点配额、按地区和菜单限制建造、十种材料守恒、成品计价、六区完整产业链与可负担开局。
 - `tools/test_factory_freight.py`：执行实际生成脚本，检查货运守恒、持续自动发运、恢复、控制边界和进口材料加工。
 - `tools/test_industrial_planning.py`：统一验证保留的入口，调用以上测试。
-- `tools/test_factory_layout.py`：引用、三语 BOM/键、字体与资源、按钮绑定、分页残框和沙盘隔离。
+- `tools/test_factory_layout.py`：引用、三语 BOM/键、字体与资源、按钮绑定、分页残框、沙盘隔离、控件数量上限，以及逐帧图标／逐格动态等级映射。
 - `tools/preview_industrial_planning.py`：读取实际 GUI 与本地素材做布局预览，只写 `output/industrial_planning/`，不是游戏截图。
 - 玩家说明：根目录 `工业建设GUI玩法说明.md`。
 
@@ -72,19 +72,30 @@ freight_preview/rN_freight_plan只计算可发量、较低能力、预计运费�
 
 `build_page`为0基础／1特色／2运输；特色目录最多五行两列，基础目录增加运输站。特色按钮及运输设置、标题、成本和图标必须共享“非帮助页＋对应地区＋菜单页”的可见条件，实际click再检查同样条件。运输页隐藏普通建造、拆除和生产预测区域，显示五个目的地、十种货物、保留量、自动发运、预估费用及到货统计。地图上方在所有地区显示七种额外库存以查看进口材料。布局测试逐区逐页检查显隐，文字不能覆盖真实格子。
 
-复用资源决议图标、KR MIO 炼油／燃料图标、原版先进机床与基础机床技术图标（分别表示机床厂和精密工具）。读取纹理尺寸，在 GUI 中统一到 32px 外框、格子图标 28px；不改源贴图、不制造新的光栅资产。素材搜索支持 HOI4_KR_ROOT 与 HOI4_GAME_ROOT，默认从开发目录推导。俄罗斯文本保留既有英文回退规则；简中与英文完整，三语键集合一致。
+复用资源决议图标、KR MIO 炼油／燃料图标、原版先进机床与基础机床技术图标（分别表示机床厂和精密工具）。读取纹理尺寸，菜单图标统一到32px外框；格子图标等比缩放到28px后打包为帧图，保留原先显示位置和透明边缘。没有绘制新的图标美术或修改源贴图。素材搜索支持 HOI4_KR_ROOT 与 HOI4_GAME_ROOT，默认从开发目录推导。俄罗斯文本保留既有英文回退规则；简中与英文完整，三语键集合一致。
 
 - KR `interface/core.gfx`：确认 `hoi_16mbs`、`hoi_20b` 等真实字体与数值颜色。
 - KR `common/scripted_effects/00_useful_scripted_effects.txt`：`while_loop_effect`，以及约1708行 random_list + modifier factor=0 的排除抽样写法。
 - KR `common/scripted_guis/germany_mitteleuropa.txt`、`common/scripted_effects/MIT effects (Mitteleuropa).txt`：玩家上下文、dirty、分页和受限点击、变量检查参考。运输站复用KR `gfx/interface/military_industrial_organization/trait_icons/generic/railway_icon.png`，按原有32px/28px外框缩放。
 - KR `interface/kaiserreich/countrypoliticsview.gfx` 及本模组已实测开局面板：普通spriteType绑定PNG纹理。无纹理progressbartype曾在实机显示为错尺寸黑框，已移除；预览器禁止自行模拟这类无纹理色块，以免再次掩盖渲染错误。
 - KR UPC 党派背景的 iconType + corneredTileSpriteType：独立控制卡片显隐，避免嵌套窗口背景跨页泄漏。
+- KR `common/scripted_guis/SER scripted_gui (Yugoslavia).txt` 的 `properties.image` 与对应 `SER_GetYugoIcon` 动态本地化、`TUR scripted_gui (Ottomans).txt` 的 `properties.frame = current_house_icon_frame`：按现有状态切换底色和图标帧，避免为每种可能状态常驻一个控件。
 - 原版 `interface/core_bare_minimum.gfx`：`gfx/interface/transp_white.dds` 原生线段材质。
 - KR 简中 `KR_common/st manager l_simp_chinese.yml` 与地区管理 GUI：显式 pdx_tooltip 绑定写法。当前奖励全是自定义沙盘值，所以直接使用彩色自定义提示，没有虚构原生工厂效果。
 
 所有卡片、选中细框和连线都随页面显隐；地区专属部件还检查 region，隐藏地图按钮不能穿透；厂区动作在帮助页不能穿透执行。线段在背景之上、设施图标之下，描绘相邻格子的真实运输连接。主界面“30天”是下一日产率折算，不是未来整月模拟。
 
 地块tooltip标题直接由地区元数据写入对应语言名称。不要把地区名写成 `$RUS_ip_region_N$` 再期待pdX工具提示递归展开：实机曾直接露出键名。地形和状态仍使用已经生效的scripted localisation，动态数值保留原生变量显示。
+
+## 界面加载优化
+
+扩图和新增设施后，原实现为每格放置全部可能设施／矿藏图标、五种底色和四条选中框边，再分别隐藏。2026-10-04 将工业窗口控件定义从26,265个压缩为6,334个，减少75.9%；格子数量、区域坐标和点击效果保持原样。
+
+非调度站格子仅有一个设施图标、一个空地矿藏图标、一个动态底色和一个选中框。设施图标帧号直接取现有 `nN_type`（1—21），矿藏图标取 `nN_terrain`（1—8）；无设施或无本区矿藏时隐藏对应图标。矿藏帧3和4为空位，与岩壁／调度站编号对齐。`GetRUSIPGradeN` 优先判岩壁，再按现有level选择0—3级图元；调度站保持固定底色。没有新增持久变量或修改初始化、生产、运输、日结和存档恢复逻辑。
+
+相关生成器检查限制窗口控件少于7,000，验证每一帧相对原贴图的像素、所有格子的类型／矿藏／等级映射及属性目标引用。代表性的莫斯科生产、察里津特色产业、帮助、运输四页与优化前预览逐像素相同。这些是脚本和布局验证，不能替代游戏对动态图元的渲染与鼠标热区实测。
+
+诊断用旧日志中 `Start RestoreDeviceObjects` 到 `End RestoreDeviceObjects` 为46秒；这只是整场游戏的界面／图形资源恢复耗时，不能全部归因于本窗口。优化后需要完全重启游戏，在相同模组组合、分辨率和存档下比较该阶段及整体加载时间；新开局另测，勿把Python预览生成耗时当成游戏性能。当前未取得优化后的引擎计时结果。
 
 ## 验证与预览
 

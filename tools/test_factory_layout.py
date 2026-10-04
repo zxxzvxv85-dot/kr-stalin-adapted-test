@@ -2,11 +2,12 @@
 from __future__ import annotations
 import os
 import re
+import io
 from pathlib import Path
 from PIL import Image
 from hoi4_politics_blocks import parse
 from industrial_planning_factory_ui import render_outputs, LANGS, BOARD_X, BOARD_Y, TILE_STEP, WINDOW_WIDTH, WINDOW_HEIGHT
-from industrial_planning_factory import CELLS, REGIONS, WIDTH, HEIGHT
+from industrial_planning_factory import CELLS, REGIONS, HUBS, WIDTH, HEIGHT
 from industrial_planning_catalog import PLANTS, FREIGHT_KIND, region_plants, extra_stocks
 from industrial_planning_factory_assets import ASSET_DIR, COLOUR_SPRITES, render_assets
 from test_factory_planning import ROOT, P, GUI, FX, TR, opened, check, call, put
@@ -56,6 +57,14 @@ def main():
     assert int(field(window.one('size'),'height'))==WINDOW_HEIGHT
     widgets=[n for n in window.v if n.k in ('buttonType','iconType','instantTextBoxType','containerWindowType')]
     names=[field(n,'name') for n in widgets];assert len(names)==len(set(names));count+=1
+    # Load-time regression: the expanded board previously constructed 26,265
+    # controls, including one hidden icon for every possible factory per tile.
+    assert len(widgets)<7000,('Excessive persistent GUI controls',len(widgets))
+    properties={n.k:n for n in GUI.one('properties').v}
+    assert set(properties)<=set(names)
+    assert not any(re.fullmatch(r'ip_(plant|deposit|grade)_\d+_\d+',name) for name in names)
+    assert not any(re.fullmatch(r'ip_selection_\d+_(top|bottom|left|right)',name) for name in names)
+    count+=1
     triggers={n.k:n.v for n in GUI.one('triggers').v}
     effect_names={n.k.removesuffix('_click') for n in GUI.one('effects').v}
     assert {field(w,'name') for w in widgets if w.k=='buttonType'}==effect_names;count+=1
@@ -108,6 +117,60 @@ def main():
         with Image.open(ROOT/path) as img:
             assert img.size==(width,height) and img.mode=='RGBA'
             assert img.getextrema()==tuple((c,c) for c in (*rgb,255))
+    count+=1
+    # The atlases retain the existing artwork, native aspect ratios, 28px box
+    # and frame IDs. Verify every frame against its independent source texture.
+    with Image.open(io.BytesIO(assets[f'{ASSET_DIR}/facilities.png'])) as atlas:
+        assert atlas.size==(28*len(PLANTS),28)
+        for kind,plant in PLANTS.items():
+            source=next(root/plant['icon'] for root in (ROOT,KR,GAME) if (root/plant['icon']).is_file())
+            with Image.open(source) as img:
+                size=tuple(round(d*28/max(img.size)) for d in img.size)
+                expected=Image.new('RGBA',(28,28))
+                expected.alpha_composite(img.convert('RGBA').resize(size,Image.Resampling.LANCZOS))
+            assert atlas.crop(((kind-1)*28,0,kind*28,28)).tobytes()==expected.tobytes(),kind
+        with Image.open(io.BytesIO(assets[f'{ASSET_DIR}/deposits.png'])) as deposits:
+            assert deposits.size==(224,28)
+            for terrain in range(1,9):
+                kind=next((k for k,p in PLANTS.items() if p['terrain']==terrain),None)
+                frame=deposits.crop(((terrain-1)*28,0,terrain*28,28))
+                if kind:assert frame.tobytes()==atlas.crop(((kind-1)*28,0,kind*28,28)).tobytes()
+                else:assert frame.getbbox() is None
+    with Image.open(io.BytesIO(assets[f'{ASSET_DIR}/selection.png'])) as outline:
+        assert outline.size==(40,40)
+        for x in range(40):
+            for y in range(40):
+                assert outline.getpixel((x,y))==((242,194,89,255) if min(x,y,39-x,39-y)<2 else (0,0,0,0))
+    for key,frames in [('facilities',len(PLANTS)),('deposits',8),('selection',1)]:
+        assert field(sprites['GFX_RUS_ip_'+key],'noOfFrames')==str(frames)
+        assert (ROOT/f'{ASSET_DIR}/{key}.png').read_bytes()==assets[f'{ASSET_DIR}/{key}.png']
+    count+=1
+    # Switch type/grade/terrain without allocating new widgets. Exercise every
+    # cell binding and all valid plant IDs, including mine -> empty -> mine.
+    def resolved_sprite(definition,state):
+        for branch in defs[definition].children('text'):
+            if not branch.one('trigger') or check(branch.one('trigger').v,state):
+                return catalog[branch.value('localization_key')]
+        raise AssertionError(definition)
+    for c in CELLS:
+        i=c['id'];put(s,'region',c['region'])
+        assert f'ip_selection_{i}' in names
+        if i in HUBS:continue
+        assert field(properties[f'ip_plant_{i}'],'frame')==f'RUS_ip_n{i}_type'
+        assert field(properties[f'ip_deposit_{i}'],'frame')==f'RUS_ip_n{i}_terrain'
+        assert field(properties[f'ip_fill_{i}'],'image')==f'[GetRUSIPGrade{i}]'
+        for terrain in range(9):
+            put(s,f'n{i}_terrain',terrain)
+            for level in range(4):
+                put(s,f'n{i}_level',level)
+                assert resolved_sprite(f'GetRUSIPGrade{i}',s)=='GFX_RUS_ip_'+('rock_fill' if terrain==3 else f'grade_{level}')
+            for kind in (0,*region_plants(c['region'])):
+                put(s,f'n{i}_type',kind)
+                assert check(triggers[f'ip_plant_{i}_visible'],s)==(kind>0)
+                expected=kind==0 and any(PLANTS[k]['terrain']==terrain and terrain>0 for k in region_plants(c['region']))
+                assert check(triggers[f'ip_deposit_{i}_visible'],s)==expected,(i,terrain,kind)
+    # Restore a real initial board after the exhaustive presentation fixture.
+    s=opened()
     count+=1
     for w in widgets:
         sprite=field(w,'spriteType',field(w,'quadTextureSprite'))

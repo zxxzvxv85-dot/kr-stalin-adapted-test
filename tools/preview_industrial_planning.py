@@ -147,13 +147,17 @@ def render(finished=False, help_page=False, idle=False, region=0, seed=47, speci
             canvas.alpha_composite(nine_slice(asset('gfx/interface/tiles/tiled_research_bg.dds'),sz,32),(x,y))
         elif widget.k in ('iconType','buttonType'):
             sprite=field(widget,'spriteType',field(widget,'quadTextureSprite'))
+            if name in properties and properties[name].one('image'):
+                sprite=resolve(field(properties[name],'image'))
             if sprite in gfx:
                 meta=gfx[sprite]
                 assert meta.k!='progressbartype','Do not simulate missing colour textures; this hid an in-game rendering failure'
                 img=asset(field(meta,'texturefile',field(meta,'textureFile')))
                 frames=int(field(meta,'noOfFrames','1'))
                 selected_frame=1
-                if name in properties:selected_frame=int(state['vars'].get(field(properties[name],'frame'),1))
+                if name in properties and properties[name].one('frame'):
+                    selected_frame=int(state['vars'].get(field(properties[name],'frame'),1))
+                assert 1<=selected_frame<=frames,(name,selected_frame,frames)
                 if frames>1:img=img.crop(((selected_frame-1)*img.width//frames,0,selected_frame*img.width//frames,img.height))
                 if meta.k=='corneredTileSpriteType':
                     size=meta.one('size');border=meta.one('borderSize')

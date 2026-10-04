@@ -166,6 +166,10 @@ def render_outputs():
     defined('GetRUSIPTerrain',[(cv('sel_terrain','=',k),P+'terrain_'+name) for k,name in terrains.items()])
     defined('GetRUSIPSelectedStatus',[(cv('sel_terrain','=',4),P+'status_hub'),(cv('sel_terrain','=',3),P+'status_rock'),(cv('sel_type','=',0),P+'status_empty'),(cv('sel_paused','=',1),P+'status_paused'),(cv('sel_route','=',0),P+'status_offline'),(cv('sel_route','<',P+'sel_level'),P+'status_limited'),(cv('sel_type','=',FREIGHT_KIND),P+'status_transport'),('',P+'status_ready')])
     defined('GetRUSIPBottleneck',[(cv('bottleneck','=',i),P+f'bottleneck_{i}') for i in bottlenecks])
+    # Native scripted GUI image properties resolve these localized sprite names.
+    # KR's SER ethnicity icons / MIT agendas use the same mechanism.
+    for key in ('rock_fill',*[f'grade_{level}' for level in LEVEL_COLOURS]):
+        L('sprite_'+key,'GFX_RUS_ip_'+key,'GFX_RUS_ip_'+key)
     for c in CELLS:
         i=c['id'];region=REGIONS[c['region']]
         defined(f'GetRUSIPType{i}',[(cv(f'n{i}_type','=',k),P+f'type_{k}') for k in region_plants(region['id'])]+[('',P+'type_0')])
@@ -173,6 +177,10 @@ def render_outputs():
         L(f'node_{i}_tt',f'§Y{region["zh"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n设施：[GetRUSIPType{i}]，§Y[?RUS_ip_n{i}_level|0]§! 级\n线路等级：§Y[?RUS_ip_n{i}_rail|0]§!\n接通能力：§Y[?RUS_ip_n{i}_route|0]§!\n有效等级：§G[?RUS_ip_n{i}_effective|0]§!\n点击选择，在右侧建设或升级。',f'§Y{region["en"]} · {c["label"]} · [GetRUSIPTerrain{i}]§!\n[GetRUSIPType{i}], level §Y[?RUS_ip_n{i}_level|0]§!\nLine: §Y[?RUS_ip_n{i}_rail|0]§!\nRoute: §Y[?RUS_ip_n{i}_route|0]§!\nEffective level: §G[?RUS_ip_n{i}_effective|0]§!\nSelect to build or upgrade on the right.')
         status=[(cv(f'n{i}_terrain','=',4),P+'status_hub'),(cv(f'n{i}_terrain','=',3),P+'status_rock'),(cv(f'n{i}_type','=',0),P+'status_empty'),(cv(f'n{i}_paused','=',1),P+'status_paused'),(cv(f'n{i}_route','=',0),P+'status_offline'),(cv(f'n{i}_route','<',P+f'n{i}_level'),P+'status_limited'),(cv(f'n{i}_type','=',FREIGHT_KIND),P+'status_transport'),('',P+'status_ready')]
         defined(f'GetRUSIPNodeStatus{i}',status)
+        if i not in HUBS:
+            defined(f'GetRUSIPGrade{i}',[(cv(f'n{i}_terrain','=',3),P+'sprite_rock_fill')]
+                +[(cv(f'n{i}_level','=',level),P+f'sprite_grade_{level}') for level in (1,2,3)]
+                +[('',P+'sprite_grade_0')])
         for catalog in loc.values():
             catalog[P+f'node_{i}_tt']+=f'\n[GetRUSIPNodeStatus{i}]'
 
@@ -188,7 +196,7 @@ def render_outputs():
     for name,path in {**{f'facility_{k}':p['icon'] for k,p in PLANTS.items()},**{f'resource_{k}':v for k,v in RESOURCE_ICONS.items()}}.items():
         source=next(root/path for root in roots if (root/path).is_file())
         with Image.open(source) as img:icon_scales['GFX_RUS_ip_'+name]=32/max(img.size)
-    widgets=[]; gt={}; geffects=[]; gfx=[]; cards=set();board_region=''
+    widgets=[]; gt={}; geffects=[]; properties=[]; gfx=[]; cards=set();board_region=''
     def visibility(name,condition='',page='board'):
         base='NOT = { has_country_flag = RUS_ip_help_open }\n' if page=='board' else 'has_country_flag = RUS_ip_help_open\n' if page=='help' else ''
         if page=='board':base+=board_region
@@ -229,13 +237,11 @@ def render_outputs():
     for c in CELLS:
         i=c['id'];x,y=position(c);board_region=cv('region','=',c['region'])
         button(f'ip_cell_{i}','',x,y,P+f'node_{i}_tt',setv('selected',i)+'clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n',sprite='GFX_RUS_ip_tile')
-        for edge,dx,dy,sprite in [('top',0,0,'selection_h'),('bottom',0,38,'selection_h'),('left',0,0,'selection_v'),('right',38,0,'selection_v')]:
-            icon(f'ip_selection_{i}_{edge}','GFX_RUS_ip_'+sprite,x+dx,y+dy,condition=cv('selected','=',i))
+        icon(f'ip_selection_{i}','GFX_RUS_ip_selection',x,y,condition=cv('selected','=',i))
         if i in HUBS:icon(f'ip_hub_fill_{i}','GFX_RUS_ip_hub_fill',x+2,y+2)
         else:
-            icon(f'ip_rock_fill_{i}','GFX_RUS_ip_rock_fill',x+2,y+2,condition=cv(f'n{i}_terrain','=',3))
-            for level in LEVEL_COLOURS:
-                icon(f'ip_grade_{i}_{level}',f'GFX_RUS_ip_grade_{level}',x+2,y+2,condition=block('NOT',cv(f'n{i}_terrain','=',3))+cv(f'n{i}_level','=',level))
+            icon(f'ip_fill_{i}','GFX_RUS_ip_grade_0',x+2,y+2)
+            properties.append(block(f'ip_fill_{i}',f'image = "[GetRUSIPGrade{i}]"'))
     # Lines join the centres, above tile backgrounds and behind plant icons.
     for c in CELLS:
         i=c['id'];x,y=position(c);board_region=cv('region','=',c['region'])
@@ -248,11 +254,12 @@ def render_outputs():
         if i in HUBS:
             icon(f'ip_hub_icon_{i}','GFX_RUS_ip_hub',x+6,y+6,28/34)
         else:
-            for kind in region_plants(c['region']):
-                if not PLANTS[kind]['terrain']:continue
-                icon(f'ip_deposit_{i}_{kind}','GFX_RUS_ip_facility_'+str(kind),x+6,y+6,.875,condition=cv(f'n{i}_type','=',0)+cv(f'n{i}_terrain','=',PLANTS[kind]['terrain']))
-            for kind in region_plants(c['region']):
-                icon(f'ip_plant_{i}_{kind}','GFX_RUS_ip_facility_'+str(kind),x+6,y+6,.875,condition=cv(f'n{i}_type','=',kind))
+            deposits=block('OR',''.join(cv(f'n{i}_terrain','=',PLANTS[k]['terrain'])
+                for k in region_plants(c['region']) if PLANTS[k]['terrain']))
+            icon(f'ip_deposit_{i}','GFX_RUS_ip_deposits',x+6,y+6,condition=cv(f'n{i}_type','=',0)+deposits)
+            icon(f'ip_plant_{i}','GFX_RUS_ip_facilities',x+6,y+6,condition=cv(f'n{i}_type','>',0))
+            properties.append(block(f'ip_deposit_{i}',f'frame = RUS_ip_n{i}_terrain'))
+            properties.append(block(f'ip_plant_{i}',f'frame = RUS_ip_n{i}_type'))
     for r in REGIONS:
         board_region=cv('region','=',r['id'])
         for index,key in enumerate(extra_stocks(r['id'])):
@@ -302,7 +309,7 @@ def render_outputs():
     frame=f'name = "RUS_industrial_planning_window"\nposition = {{ x = {-WINDOW_WIDTH//2} y = {-WINDOW_HEIGHT//2} }}\nsize = {{ width = {WINDOW_WIDTH} height = {WINDOW_HEIGHT} }}\norientation = center\nmoveable = yes\nclick_to_front = yes\nshow_sound = menu_open_window\nhide_sound = menu_close_window\nbackground = {{ name = "frame" quadTextureSprite = "GFX_tiled_plain_bg" }}\n'
     gui=block('guiTypes',''.join(launchers)+block('containerWindowType',frame+''.join(widgets)))
     script='context_type = player_context\nwindow_name = "RUS_industrial_planning_window"\ndirty = RUS_ip_dirty\nai_enabled = { always = no }\n'+block('visible','RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\n')
-    script+=block('triggers',''.join(block(k,v) for k,v in gt.items()))+block('effects',''.join(geffects))
+    script+=block('properties',''.join(properties))+block('triggers',''.join(block(k,v) for k,v in gt.items()))+block('effects',''.join(geffects))
     def tile_sprite(name,w,h,texture,border):
         gfx.append(block('corneredTileSpriteType',f'name = "GFX_RUS_ip_{name}"\nsize = {{ x = {w} y = {h} }}\ntextureFile = "{texture}"\nborderSize = {{ x = {border} y = {border} }}\ntilingCenter = yes\neffectFile = "gfx/FX/buttonstate_nodowneffect.lua"\n'))
     for w,h in sorted(cards):tile_sprite(f'card_{w}x{h}',w,h,'gfx/interface/tiles/tiled_research_bg.dds',32)
@@ -313,6 +320,8 @@ def render_outputs():
     # Do not restore texture-free progressbartype: it failed in the game.
     for key in COLOUR_SPRITES:
         gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{key}"\ntexturefile = "{ASSET_DIR}/{key}.png"\nnoOfFrames = 1\n'))
+    for key,frames in [('selection',1),('facilities',len(PLANTS)),('deposits',8)]:
+        gfx.append(block('spriteType',f'name = "GFX_RUS_ip_{key}"\ntexturefile = "{ASSET_DIR}/{key}.png"\nnoOfFrames = {frames}\n'))
     sprites={f'facility_{k}':(p['icon'],1) for k,p in PLANTS.items()}
     sprites.update({f'resource_{k}':(path,1) for k,path in RESOURCE_ICONS.items()})
     sprites.update(line=('gfx/interface/decisions/decision_generic_train.dds',1),funds=('gfx/texticons/bag_of_money.png',1),hub=('gfx/interface/abilitylist/ability_extra_supplies.dds',1),action=('gfx/interface/rus_intro_theme/continue.png',1),tab=('gfx/interface/rus_intro_theme/tab.png',2))
