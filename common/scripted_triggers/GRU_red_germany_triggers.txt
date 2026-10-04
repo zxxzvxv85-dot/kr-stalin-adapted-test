@@ -1,0 +1,44 @@
+# GRU can be a dynamic Dxx country. Always identify its original tag.
+GRU_is_red_germany = {
+	original_tag = GRU
+	has_country_flag = GRU_red_germany_established
+}
+
+# The imported tree belongs only to the communist Russian release route.
+GRU_has_communist_russian_overlord = {
+	is_subject = yes
+	overlord = {
+		original_tag = RUS
+		OR = {
+			has_country_flag = RUS_stalin_communist_path
+			has_government = communist
+		}
+	}
+}
+
+GRU_can_become_red_germany = {
+	original_tag = GRU
+	NOT = { has_country_flag = GRU_red_germany_established }
+	NOT = { has_country_flag = GRU_reconstruction_rebel }
+	GRU_has_communist_russian_overlord = yes
+	# Release/government hooks may run before KR refreshes KR_is_socialist.
+	OR = {
+		has_government = communist
+		has_government = totalist
+		has_government = syndicalist
+		has_government = radical_socialist
+	}
+	has_war = no
+}
+
+GRU_reconstruction_active = {
+	GRU_is_red_germany = yes
+	has_country_flag = GRU_reconstruction_ongoing
+	NOT = { has_country_flag = GRU_first_election_held }
+	NOT = { has_country_flag = GRU_civil_war_started }
+}
+
+GRU_can_resolve_first_election = {
+	GRU_reconstruction_active = yes
+	has_country_flag = GRU_first_election_scheduled
+}

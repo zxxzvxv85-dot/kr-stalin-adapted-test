@@ -1,0 +1,27 @@
+#####################################################################
+#  红德 - 民族精神                                                   #
+#  全流程唯一的一条：崩溃的德意志（重建阶段的全部国策都不再发精神）    #
+#  添加时机：GRU_establish_red_germany 建政当天                      #
+#  移除时机：第一次大选结束后（见 GRU_finish_reconstruction）         #
+#  图标沿用 KR 战后德国战争创伤精神的工业废墟图标。                  #
+#####################################################################
+
+ideas = {
+	country = {
+
+		# 崩溃的德意志
+		GRU_collapsed_germany = {
+			picture = generic_crippled_industry
+			allowed = { always = no }
+			modifier = {
+				consumer_goods_factor = 0.20                   # 消费品需求 +20%（配给制与物资匮乏）
+				industrial_capacity_factory = -0.15            # 工厂产出 -15%（设备与原料短缺）
+				production_speed_buildings_factor = -0.15      # 建造速度 -15%（废墟与运输瘫痪）
+				stability_factor = -0.20                       # 稳定度 -20%（旧秩序崩塌）
+				war_support_factor = -0.15                     # 战争支持度 -15%（厌战与饥饿）
+				research_speed_factor = -0.10                  # 科研速度 -10%（知识分子流失）
+				recruitable_population_factor = -0.05          # 适役人口 -5%（人口与健康受损）
+			}
+		}
+	}
+}

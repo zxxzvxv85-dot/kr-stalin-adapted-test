@@ -1,0 +1,63 @@
+# Release hooks run inside KR's German puppet setup. Defer our handover until
+# its government, leaders and old focus tree have all been initialized.
+GRU_queue_red_germany_setup = {
+	if = {
+		limit = {
+			GRU_can_become_red_germany = yes
+			NOT = { has_country_flag = GRU_red_germany_setup_pending }
+		}
+		set_country_flag = GRU_red_germany_setup_pending
+		country_event = { id = GRU_reconstruction.98 days = 1 }
+	}
+}
+
+GRU_establish_red_germany = {
+	if = {
+		limit = {
+			original_tag = GRU
+			NOT = { has_country_flag = GRU_red_germany_established }
+		}
+		# Set this before changing politics, so recursive government hooks cannot
+		# queue another handover or reset completed focuses and reconstruction.
+		set_country_flag = GRU_red_germany_established
+		clr_country_flag = GRU_red_germany_setup_pending
+		set_cosmetic_tag = GRU_red_germany
+
+		# Keep the occupation leader selected by KR (Blyukher when available),
+		# carrying the active leader into the new communist government.
+		set_country_leader_ideology = marxism_leninism_subtype
+		set_politics = {
+			ruling_party = communist
+			elections_allowed = no
+		}
+		set_party_name = {
+			ideology = communist
+			name = GRU_red_communist_party
+			long_name = GRU_red_communist_party_long
+		}
+		set_popularities = {
+			communist = 55
+			radical_socialist = 0
+			syndicalist = 15
+			totalist = 10
+			social_democrat = 10
+			social_liberal = 3
+			social_conservative = 2
+			authoritarian_democrat = 2
+			paternal_autocrat = 1
+			market_liberal = 1
+			national_populist = 1
+		}
+		set_government_flags = yes
+
+		# Preserve KR's other postwar laws and spirits, as in the source package.
+		remove_ideas = GRU_occupation_government
+		add_ideas = GRU_collapsed_germany
+		load_focus_tree = {
+			tree = GRU_red_germany_focus
+			keep_completed = no
+		}
+		mark_focus_tree_layout_dirty = yes
+		GRU_init_reconstruction = yes
+	}
+}

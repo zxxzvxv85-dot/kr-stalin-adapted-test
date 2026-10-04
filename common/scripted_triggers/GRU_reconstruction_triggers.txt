@@ -1,0 +1,59 @@
+#####################################################################
+#  红德 - 重建机制触发器                                              #
+#  用法：在 trigger 块里写 GRU_two_bars_full = yes 等                 #
+#  比较一律只用 > / <（本作也只用这两种），进度与影响力都夹在 0~100，    #
+#  所以「> 99」等价于「已经到 100%」。                                #
+#####################################################################
+
+
+# 任意两条进度条达到 100%
+GRU_two_bars_full = {
+	OR = {
+		AND = {
+			check_variable = { GRU_bar_economy > 99 } # 经济
+			check_variable = { GRU_bar_security > 99 } # 治安
+		}
+
+		AND = {
+			check_variable = { GRU_bar_economy > 99 } # 经济
+			check_variable = { GRU_bar_livelihood > 99 } # 民生
+		}
+
+		AND = {
+			check_variable = { GRU_bar_security > 99 } # 治安
+			check_variable = { GRU_bar_livelihood > 99 } # 民生
+		}
+	}
+}
+
+
+# 任一敌特影响力高于 80%（会破坏大选）
+GRU_any_saboteur_strong = {
+	OR = {
+		check_variable = { GRU_inf_anarchist > 80 } # 无政府主义暴乱
+		check_variable = { GRU_inf_nationalist > 80 } # 民族主义煽动
+		check_variable = { GRU_inf_royalist > 80 } # 保皇派密谋
+	}
+}
+
+
+# 两个敌特影响力达到 100%（内战）
+GRU_saboteurs_collapse = {
+	OR = {
+
+		AND = {
+			check_variable = { GRU_inf_anarchist > 99 } # 无政府主义暴乱
+			check_variable = { GRU_inf_nationalist > 99 } # 民族主义煽动
+		}
+
+		AND = {
+			check_variable = { GRU_inf_anarchist > 99 } # 无政府主义暴乱
+			check_variable = { GRU_inf_royalist > 99 } # 保皇派密谋
+		}
+
+		AND = {
+			check_variable = { GRU_inf_nationalist > 99 } # 民族主义煽动
+			check_variable = { GRU_inf_royalist > 99 } # 保皇派密谋
+		}
+	}
+}

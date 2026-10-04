@@ -1,0 +1,517 @@
+"""Execute GRU release/reconstruction scripts in a bounded country/event model.
+
+This verifies scope, scheduling, costs and one-time rewards, not the HOI4 engine.
+Unsupported commands fail; only unchanged external helper effects are opaque.
+"""
+from copy import deepcopy
+from itertools import product
+from pathlib import Path
+from random import Random
+import heapq
+import os
+import re
+import unittest
+
+from hoi4_politics_blocks import R, KR, load, parse
+
+
+TRIGGERS = {n.k: n for f in (R / 'common/scripted_triggers').glob('GRU_*.txt') for n in load(f)}
+EFFECTS = {n.k: n for f in (R / 'common/scripted_effects').glob('GRU_*.txt') for n in load(f)}
+for n in load(R / 'common/scripted_effects/RUS_stalin_communist_effects.txt'):
+    if n.k in {'RUS_stalin_set_country_radical_socialist_for_subject_release',
+               'RUS_stalin_set_subject_radical_socialist_if_communist_path',
+               'RUS_stalin_set_released_country_radical_socialist_if_from_communist_russia'}:
+        EFFECTS[n.k] = n
+EVENTS = {n.value('id'): n for n in load(R / 'events/GRU_reconstruction_events.txt') if n.k == 'country_event'}
+EVENTS['stalin_form_sov.20'] = next(n for n in load(R / 'events/stalin_form_sov.txt') if n.value('id') == 'stalin_form_sov.20')
+DECISIONS = {n.k: n for n in load(R / 'common/decisions/GRU_reconstruction_decisions.txt')[0].v}
+TREE = load(R / 'common/national_focus/GRU_red_germany_focus.txt')[0]
+FOCUSES = {n.value('id'): n for n in TREE.children('focus')}
+HOOKS = load(R / 'common/on_actions/GRU_red_germany_on_actions.txt')[0]
+BARS = ['GRU_bar_' + x for x in ('economy', 'security', 'livelihood')]
+INF = ['GRU_inf_' + x for x in ('anarchist', 'nationalist', 'royalist')]
+
+
+def country(original, government='radical_socialist', overlord=None):
+    return dict(original=original, government=government, overlord=overlord,
+                flags=set(), variables={}, ideas={'GRU_occupation_government', 'GRU_no_standing_army'},
+                pp=500., stability=.3, war_support=.1, popularities={}, war=False,
+                leader='KR occupation leader', leader_ideology='radical_socialist_subtype',
+                tree='German_Puppet_focus', loaded=0, focuses=set(), party_names={},
+                opaque=[], decisions={}, civil_wars=0, research_slots=3, army_experience=0.)
+
+
+def world(tag='GRU', **kwargs):
+    c = country('GRU', overlord='RUS')
+    c.update(kwargs)
+    return dict(countries={'RUS': country('RUS', 'communist'),
+                           'FRA': country('FRA', 'syndicalist'), tag: c},
+                tag=tag, time=0, sequence=0, queue=[], opened=[], rng=Random(4))
+
+
+def cmp(a, op, b):
+    return {'=': a == b, '>': a > b, '<': a < b, '>=': a >= b, '<=': a <= b, '!=': a != b}[op]
+
+
+def condition(nodes, w, tag, source=None):
+    c = w['countries'].get(tag)
+    if c is None:
+        return False
+    def one(n):
+        k, v = n.k, n.v
+        if k in ('AND', 'hidden_trigger'): return condition(v, w, tag, source)
+        if k == 'OR': return any(one(x) for x in v)
+        if k == 'NOT': return not condition(v, w, tag, source)
+        if k == 'custom_override_tooltip': return condition([x for x in v if x.k != 'tooltip'], w, tag, source)
+        if k in TRIGGERS: return condition(TRIGGERS[k].v, w, tag, source) == (v == 'yes')
+        if k == 'overlord': return condition(v, w, c['overlord'], source)
+        if k == 'FROM': return condition(v, w, source, source)
+        if k in w['countries']: return condition(v, w, k, source)
+        if k == 'original_tag': return c['original'] == v
+        if k == 'tag': return tag == v
+        if k == 'has_government': return c['government'] == v
+        if k == 'has_country_flag': return v in c['flags']
+        if k == 'has_war': return c['war'] == (v == 'yes')
+        if k == 'is_subject': return bool(c['overlord']) == (v == 'yes')
+        if k == 'political_power': return cmp(c['pp'], n.op, float(v))
+        if k == 'check_variable': return all(cmp(c['variables'].get(x.k, 0), x.op, float(x.v)) for x in v)
+        if k == 'always': return v == 'yes'
+        raise AssertionError(('Unsupported condition', n.raw()))
+    return all(one(n) for n in nodes)
+
+
+def execute(nodes, w, tag, source=None):
+    matched = False
+    for n in nodes:
+        k, v = n.k, n.v
+        if k in ('if', 'else_if', 'else'):
+            if k == 'if': matched = False
+            if not matched and (k == 'else' or condition(n.one('limit').v, w, tag, source)):
+                execute([x for x in v if x.k != 'limit'], w, tag, source)
+                matched = True
+            continue
+        matched = False
+        c = w['countries'][tag]
+        if k in EFFECTS: execute(EFFECTS[k].v, w, tag, source)
+        elif k == 'hidden_effect': execute(v, w, tag, source)
+        elif k in ('effect_tooltip', 'custom_effect_tooltip', 'mark_focus_tree_layout_dirty'): pass
+        elif k == 'set_country_flag': c['flags'].add(v)
+        elif k == 'clr_country_flag': c['flags'].discard(v)
+        elif k == 'set_country_leader_ideology': c['leader_ideology'] = v
+        elif k == 'set_cosmetic_tag': c['cosmetic'] = v
+        elif k == 'set_politics':
+            c['government'] = n.value('ruling_party')
+            # Model the reentrant government hook while establishing the country.
+            execute(HOOKS.one('on_ruling_party_change').one('effect').v, w, tag, source)
+        elif k == 'set_popularities': c['popularities'] = {x.k: float(x.v) for x in v}
+        elif k == 'set_political_party': c['popularities'][n.value('ideology')] = float(n.value('popularity'))
+        elif k == 'set_party_name': c['party_names'][n.value('ideology')] = n.value('name')
+        elif k == 'load_focus_tree':
+            c['tree'] = n.value('tree')
+            c['loaded'] += 1
+            if n.value('keep_completed') == 'no': c['focuses'].clear()
+        elif k == 'add_ideas': c['ideas'].add(v)
+        elif k == 'remove_ideas': c['ideas'].discard(v)
+        elif k in ('add_political_power', 'add_stability', 'add_war_support'):
+            c[{'add_political_power': 'pp', 'add_stability': 'stability', 'add_war_support': 'war_support'}[k]] += float(v)
+        elif k == 'add_research_slot': c['research_slots'] += int(v)
+        elif k == 'army_experience': c['army_experience'] += float(v)
+        elif k == 'add_popularity':
+            ideology = n.value('ideology')
+            c['popularities'][ideology] = c['popularities'].get(ideology, 0) + 100 * float(n.value('popularity'))
+        elif k in ('set_variable', 'add_to_variable', 'subtract_from_variable'):
+            key, value = n.value('var'), n.value('value')
+            value = c['variables'][value] if value in c['variables'] else float(value)
+            c['variables'][key] = (0 if k == 'set_variable' else c['variables'].get(key, 0)) + (-value if k == 'subtract_from_variable' else value)
+        elif k == 'clamp_variable':
+            key = n.value('var')
+            c['variables'][key] = min(float(n.value('max')), max(float(n.value('min')), c['variables'][key]))
+        elif k == 'randomize_variable':
+            assert n.value('distribution') == 'uniform'
+            c['variables'][n.value('var')] = w['rng'].uniform(float(n.value('min')), float(n.value('max')))
+        elif k == 'round_variable': c['variables'][v] = round(c['variables'][v])
+        elif k == 'random_list': execute(w['rng'].choice(v).v, w, tag, source)
+        elif k == 'country_event':
+            delay = float(n.value('days', 0)) * 24 + float(n.value('hours', 0))
+            w['sequence'] += 1
+            heapq.heappush(w['queue'], (w['time'] + delay, w['sequence'], tag, n.value('id'), source))
+        elif k == 'start_civil_war':
+            c['civil_wars'] += 1
+            c['war'] = True
+            if n.value('ruling_party'): c['government'] = n.value('ruling_party')
+            rebels = deepcopy(c)
+            rebels.update(government=n.value('ideology'), overlord=None)
+            w['countries']['REB'] = rebels
+            execute([x for x in v if x.k not in ('ideology', 'ruling_party', 'size')], w, 'REB', tag)
+        elif k in ('set_government_flags', 'RUS_stalin_setup_gxc_peng_pai_subject'):
+            c['opaque'].append(k)  # unchanged external helper, not a scripted no-op
+        else: raise AssertionError(('Unsupported effect', n.raw()))
+
+
+def effect(w, name, tag=None, source=None):
+    execute(EFFECTS[name].v, w, tag or w['tag'], source)
+
+
+def fire(w, event_id, tag=None, source=None):
+    tag = tag or w['tag']
+    e = EVENTS[event_id]
+    if e.one('trigger') and not condition(e.one('trigger').v, w, tag, source): return False
+    if e.one('immediate'): execute(e.one('immediate').v, w, tag, source)
+    if e.children('option'): w['opened'].append((tag, event_id))
+    return True
+
+
+def advance(w, days):
+    stop = w['time'] + days * 24
+    while w['queue'] and w['queue'][0][0] <= stop:
+        when, _, tag, eid, source = heapq.heappop(w['queue'])
+        w['time'] = when
+        fire(w, eid, tag, source)
+    w['time'] = stop
+
+
+def choose(w, eid, index=0):
+    option = EVENTS[eid].children('option')[index]
+    execute([n for n in option.v if n.k not in ('name', 'trigger', 'ai_chance')], w, w['tag'])
+
+
+def decision(w, key):
+    d, tag = DECISIONS[key], w['tag']
+    c = w['countries'][tag]
+    if not condition(d.one('visible').v, w, tag) or not condition(d.one('available').v, w, tag): return False
+    if c['decisions'].get(key, -1) > w['time']: return False
+    cost = float(d.value('cost', 0))
+    if c['pp'] < cost: return False
+    c['pp'] -= cost
+    execute(d.one('complete_effect').v, w, tag)
+    c['decisions'][key] = float('inf') if d.value('fire_only_once') == 'yes' else w['time'] + 24 * float(d.value('days_re_enable', 0))
+    return True
+
+
+def established(tag='GRU'):
+    w = world(tag)
+    effect(w, 'GRU_establish_red_germany')
+    return w, w['countries'][tag]
+
+
+class ReleaseTests(unittest.TestCase):
+    def test_eligibility_matrix(self):
+        for original, overlord, government, war in product(('GRU', 'GER', 'AUS'), ('RUS', 'FRA', None), ('communist', 'radical_socialist', 'social_democrat'), (False, True)):
+            w = world('D03', original=original, overlord=overlord, government=government, war=war)
+            eligible = original == 'GRU' and overlord == 'RUS' and government != 'social_democrat' and not war
+            self.assertEqual(condition(TRIGGERS['GRU_can_become_red_germany'].v, w, 'D03'), eligible)
+
+    def test_russia_route_flag_and_other_socialist_overlords(self):
+        w = world()
+        rus = w['countries']['RUS']
+        rus['government'] = 'social_democrat'
+        self.assertFalse(condition(TRIGGERS['GRU_can_become_red_germany'].v, w, 'GRU'))
+        rus['flags'].add('RUS_stalin_communist_path')
+        self.assertTrue(condition(TRIGGERS['GRU_can_become_red_germany'].v, w, 'GRU'))
+        w['countries']['GRU']['overlord'] = 'FRA'
+        w['countries']['FRA']['government'] = 'communist'
+        self.assertFalse(condition(TRIGGERS['GRU_can_become_red_germany'].v, w, 'GRU'))
+
+    def test_deferred_release_handover_and_duplicate_callbacks(self):
+        for tag in ('GRU', 'D03'):
+            w = world(tag)
+            c = w['countries'][tag]
+            for hook in HOOKS.v: execute(hook.one('effect').v, w, tag, 'RUS')
+            self.assertEqual(len(w['queue']), 1)
+            self.assertEqual(c['tree'], 'German_Puppet_focus')
+            # KR completes its reset after release hooks, before our next-day event.
+            c['government'] = 'radical_socialist'
+            c['popularities'] = {'radical_socialist': 27}
+            advance(w, 1)
+            self.assertEqual(c['tree'], 'GRU_red_germany_focus')
+            self.assertEqual(c['government'], 'communist')
+            self.assertEqual(c['popularities']['communist'], 55)
+            self.assertEqual(c['popularities']['radical_socialist'], 0)
+            self.assertEqual(sum(c['popularities'].values()), 100)
+            self.assertEqual(c['leader'], 'KR occupation leader')
+            self.assertEqual(c['leader_ideology'], 'marxism_leninism_subtype')
+            self.assertNotIn('GRU_occupation_government', c['ideas'])
+            self.assertIn('GRU_no_standing_army', c['ideas'])
+            self.assertIn('GRU_collapsed_germany', c['ideas'])
+            self.assertEqual(c['loaded'], 1)
+            self.assertEqual([(e[3], e[0]) for e in w['queue']], [('GRU_reconstruction.1', 21 * 24)])
+
+    def test_wartime_release_waits_for_peace(self):
+        w = world(war=True)
+        effect(w, 'GRU_queue_red_germany_setup')
+        self.assertFalse(w['queue'])
+        w['countries']['GRU']['war'] = False
+        effect(w, 'GRU_queue_red_germany_setup')
+        advance(w, 1)
+        self.assertEqual(w['countries']['GRU']['government'], 'communist')
+
+    def test_loss_of_eligibility_clears_pending_and_can_retry(self):
+        for field, value in (('war', True), ('overlord', 'FRA'), ('government', 'social_democrat')):
+            w = world()
+            c = w['countries']['GRU']
+            effect(w, 'GRU_queue_red_germany_setup')
+            before = c[field]
+            c[field] = value
+            advance(w, 1)
+            self.assertNotIn('GRU_red_germany_established', c['flags'])
+            self.assertNotIn('GRU_red_germany_setup_pending', c['flags'])
+            c[field] = before
+            effect(w, 'GRU_queue_red_germany_setup')
+            advance(w, 1)
+            self.assertEqual(c['loaded'], 1)
+
+    def test_old_conversion_entry_points_leave_managed_gru_alone(self):
+        for tag in ('GRU', 'D03'):
+            w, c = established(tag)
+            c['government'] = 'syndicalist'  # a later choice must not be overwritten
+            c['variables'][BARS[0]] = 74
+            c['focuses'].add('GRU_new_german_government')
+            before = deepcopy(c)
+            for name in EFFECTS:
+                if name.startswith('RUS_stalin_set_'): effect(w, name, source='RUS')
+            self.assertFalse(fire(w, 'stalin_form_sov.20'))
+            effect(w, 'GRU_establish_red_germany')
+            effect(w, 'GRU_init_reconstruction')
+            self.assertEqual(c, before)
+
+    def test_other_puppets_keep_original_behavior(self):
+        for tag in ('KOR', 'GXC', 'POL'):
+            w = world(tag, original=tag, government='communist')
+            effect(w, 'RUS_stalin_set_released_country_radical_socialist_if_from_communist_russia', source='RUS')
+            c = w['countries'][tag]
+            self.assertEqual(c['government'], 'radical_socialist')
+            self.assertEqual(c['popularities']['radical_socialist'], 55)
+            self.assertEqual([x[3] for x in w['queue']], ['stalin_form_sov.20'])
+            self.assertEqual('RUS_stalin_setup_gxc_peng_pai_subject' in c['opaque'], tag == 'GXC')
+
+    def test_debug_does_not_replace_russian_or_german_imperial_tree(self):
+        for original in ('RUS', 'GER'):
+            w = world('OTHER', original=original)
+            effect(w, 'GRU_establish_red_germany')
+            self.assertFalse(fire(w, 'GRU_reconstruction.99'))
+            self.assertEqual(w['countries']['OTHER']['loaded'], 0)
+
+
+class ReconstructionTests(unittest.TestCase):
+    def test_exact_thresholds(self):
+        for values in product((0, 80, 81, 99, 100), repeat=3):
+            w, c = established()
+            c['variables'].update(zip(BARS, values))
+            c['variables'].update(zip(INF, values))
+            self.assertEqual(condition(TRIGGERS['GRU_two_bars_full'].v, w, 'GRU'), sum(x == 100 for x in values) >= 2)
+            self.assertEqual(condition(TRIGGERS['GRU_saboteurs_collapse'].v, w, 'GRU'), sum(x == 100 for x in values) >= 2)
+            self.assertEqual(condition(TRIGGERS['GRU_any_saboteur_strong'].v, w, 'GRU'), max(values) > 80)
+
+    def test_decision_costs_cooldowns_and_clamps(self):
+        for suffix, var in zip(('economy', 'security', 'livelihood'), BARS):
+            w, c = established()
+            c['variables'][var] = 98
+            self.assertTrue(decision(w, 'GRU_invest_' + suffix))
+            self.assertEqual(c['pp'], 450)
+            self.assertAlmostEqual(c['stability'], .31)
+            self.assertEqual(c['variables'][var], 100)
+            self.assertFalse(decision(w, 'GRU_invest_' + suffix))
+        for suffix, var in zip(('anarchist', 'nationalist', 'royalist'), INF):
+            w, c = established()
+            c['variables'][var] = 8
+            self.assertTrue(decision(w, 'GRU_suppress_' + suffix))
+            self.assertEqual(c['variables'][var], 0)
+            self.assertEqual(c['pp'], 450)
+            self.assertAlmostEqual(c['war_support'], .11)
+            c['variables'][var] = 20
+            self.assertFalse(decision(w, 'GRU_suppress_' + suffix))
+            w['time'] = 90 * 24
+            self.assertTrue(decision(w, 'GRU_suppress_' + suffix))
+            self.assertEqual(c['variables'][var], 10)
+
+    def test_twenty_day_pulse_and_shutdown(self):
+        w, c = established()
+        advance(w, 19)
+        self.assertFalse(w['opened'])
+        advance(w, 1)
+        self.assertEqual(len(w['opened']), 1)
+        advance(w, 20)
+        self.assertEqual(len(w['opened']), 2)
+        c['flags'].discard('GRU_reconstruction_ongoing')
+        advance(w, 100)
+        self.assertEqual(len(w['opened']), 2)
+        self.assertFalse(w['queue'])
+
+    def test_sabotage_costs_random_ranges_and_stale_windows(self):
+        for i, inf, bar in zip((2, 3, 4), INF, (BARS[1], BARS[2], BARS[0])):
+            w, c = established()
+            c['variables'][bar] = 50
+            choose(w, f'GRU_reconstruction.{i}', 0)
+            self.assertEqual(c['pp'], 485)
+            self.assertEqual(c['variables'][bar], 50)
+            self.assertEqual(c['variables'][inf], 2)
+            choose(w, f'GRU_reconstruction.{i}', 1)
+            self.assertTrue(40 <= c['variables'][bar] <= 49)
+            self.assertTrue(6 <= c['variables'][inf] <= 10)
+            c['flags'].discard('GRU_reconstruction_ongoing')
+            before = deepcopy(c)
+            choose(w, f'GRU_reconstruction.{i}', 0)
+            choose(w, f'GRU_reconstruction.{i}', 1)
+            self.assertEqual(c, before)
+
+    def test_election_outcomes_visible_rewards_once(self):
+        for influence, prepared in product((80, 81), (False, True)):
+            w, c = established()
+            c['variables'].update(zip(BARS, (100, 100, 0)))
+            c['variables'][INF[0]] = influence
+            if prepared: c['flags'].add('GRU_first_election_prepared')
+            self.assertTrue(decision(w, 'GRU_hold_first_election'))
+            self.assertFalse(decision(w, 'GRU_hold_first_election'))
+            advance(w, 6)
+            self.assertFalse(w['opened'])
+            advance(w, 1)
+            eid = 'GRU_reconstruction.' + ('7' if influence > 80 else '6')
+            self.assertEqual(w['opened'], [('GRU', eid)])
+            self.assertFalse(fire(w, 'GRU_reconstruction.5'))
+            choose(w, eid)
+            self.assertNotIn('GRU_collapsed_germany', c['ideas'])
+            self.assertEqual(c['popularities']['communist'], 65)
+            self.assertEqual(c['popularities']['radical_socialist'], 0)
+            self.assertEqual(c['pp'], 625 if influence > 80 else 600 + 50 * prepared)
+            self.assertAlmostEqual(c['stability'], .3 + (.0 if influence > 80 else .2) + .05 * prepared)
+            before = deepcopy(c)
+            choose(w, eid)
+            effect(w, 'GRU_finish_reconstruction')
+            self.assertFalse(fire(w, eid))
+            self.assertEqual(c, before)
+            advance(w, 100)
+            self.assertFalse(w['queue'])
+
+    def test_collapse_cancels_pending_or_open_election(self):
+        for open_first in (False, True):
+            w, c = established()
+            c['variables'].update(zip(BARS, (100, 100, 0)))
+            decision(w, 'GRU_hold_first_election')
+            if open_first: advance(w, 7)
+            c['variables'].update(zip(INF, (100, 0, 100)))
+            before_pp = c['pp']
+            effect(w, 'GRU_check_saboteur_collapse')
+            effect(w, 'GRU_check_saboteur_collapse')
+            advance(w, 7)
+            choose(w, 'GRU_reconstruction.6')  # stale window must not award anything
+            self.assertNotIn('GRU_first_election_held', c['flags'])
+            self.assertEqual(c['pp'], before_pp)
+            self.assertEqual(c['civil_wars'], 1)
+            self.assertFalse(fire(w, 'GRU_reconstruction.10'))
+            self.assertEqual(c['government'], 'communist')
+            rebel = w['countries']['REB']
+            self.assertEqual(rebel['government'], 'paternal_autocrat')
+            self.assertEqual(rebel['tree'], 'German_Puppet_focus')
+            self.assertNotIn('GRU_red_germany_established', rebel['flags'])
+            self.assertFalse(condition(TRIGGERS['GRU_reconstruction_active'].v, w, 'REB'))
+            self.assertFalse(condition(TRIGGERS['GRU_can_become_red_germany'].v, w, 'REB'))
+
+    def test_all_focus_rewards_execute_and_clamp(self):
+        for focus in FOCUSES.values():
+            w, c = established()
+            c['variables'].update({x: 99 for x in BARS})
+            execute(focus.one('completion_reward').v, w, 'GRU')
+            self.assertTrue(all(0 <= c['variables'][x] <= 100 for x in BARS))
+
+    def test_civil_war_preserves_original_government_for_both_legal_rebels(self):
+        for influence, expected in (((100, 100, 0), 'national_populist'), ((0, 100, 100), 'paternal_autocrat')):
+            w, c = established()
+            c['variables'].update(zip(INF, influence))
+            effect(w, 'GRU_check_saboteur_collapse')
+            advance(w, 1)
+            self.assertEqual(w['countries']['REB']['government'], expected)
+            self.assertEqual(c['government'], 'communist')
+            # Even a subsequently re-puppeted, peaceful socialist rebel country
+            # must not start a second copy of the reconstruction campaign.
+            rebel = w['countries']['REB']
+            rebel.update(overlord='RUS', government='communist', war=False)
+            self.assertFalse(condition(TRIGGERS['GRU_can_become_red_germany'].v, w, 'REB'))
+
+
+class ContentTests(unittest.TestCase):
+    def test_tree_references_and_branch_reachability(self):
+        self.assertEqual(len(FOCUSES), 59)
+        self.assertEqual(TREE.one('country').value('factor'), '0')
+        self.assertEqual(TREE.value('reset_on_civilwar'), 'no')
+        self.assertIsNone(TREE.one('reset_on_civil_war'))
+        positions = [(f.value('x'), f.value('y')) for f in FOCUSES.values()]
+        self.assertEqual(len(set(positions)), len(positions))
+        prereqs = {k: [set(x.v for x in n.v) for n in f.children('prerequisite')] for k, f in FOCUSES.items()}
+        mutex = {k: set(x.v for n in f.children('mutually_exclusive') for x in n.v) for k, f in FOCUSES.items()}
+        for k in FOCUSES:
+            for refs in [*prereqs[k], mutex[k]]: self.assertFalse(refs - FOCUSES.keys())
+        # Enumerate maximal legal paths at each mutually exclusive choice. This
+        # catches an AND-prerequisite accidentally requiring both sides of a fork.
+        pairs = {tuple(sorted((k, x))) for k in FOCUSES for x in mutex[k]}
+        reached = set()
+        for choices in product((0, 1), repeat=len(pairs)):
+            excluded = {pair[choice] for pair, choice in zip(sorted(pairs), choices)}
+            done = set()
+            while True:
+                ready = {k for k in FOCUSES if k not in done | excluded and not mutex[k] & done and all(g & done for g in prereqs[k])}
+                if not ready: break
+                done |= ready
+            reached |= done
+        self.assertEqual(reached, FOCUSES.keys())
+
+    def test_chinese_localization_and_custom_effect_references(self):
+        p = R / 'localisation/simp_chinese/GRU_red_germany_l_simp_chinese.yml'
+        b = p.read_bytes()
+        self.assertTrue(b.startswith(b'\xef\xbb\xbf'))
+        s = b.decode('utf-8-sig')
+        entries = re.findall(r'^\s+([\w.]+):(?:\d+)?\s+"(.*)"\s*$', s, re.M)
+        loc = dict(entries)
+        self.assertEqual(len(loc), len(entries))
+        self.assertNotIn('\ufffd', s)
+        for focus in FOCUSES: self.assertIn(focus, loc); self.assertIn(focus + '_desc', loc)
+        for decision_id in DECISIONS: self.assertIn(decision_id, loc); self.assertIn(decision_id + '_desc', loc)
+        def walk(nodes):
+            for n in nodes:
+                if n.k in ('custom_effect_tooltip', 'tooltip', 'name', 'title', 'desc') and isinstance(n.v, str) and n.v.startswith('GRU_'):
+                    self.assertIn(n.v, loc)
+                if isinstance(n.v, list): walk(n.v)
+        for f in [*(R / 'common').rglob('GRU_*.txt'), R / 'events/GRU_reconstruction_events.txt']:
+            walk(load(f))
+        self.assertIn('GRU_reconstruction_work_desc', loc)
+        self.assertNotIn('德国社会主义党执政', s)
+
+    def test_native_spirit_and_cosmetic_flag_assets(self):
+        idea = load(R / 'common/ideas/GRU_red_germany_ideas.txt')[0].one('country').one('GRU_collapsed_germany')
+        self.assertEqual(idea.value('picture'), 'generic_crippled_industry')
+        expected = {'consumer_goods_factor': .2, 'industrial_capacity_factory': -.15,
+                    'production_speed_buildings_factor': -.15, 'stability_factor': -.2,
+                    'war_support_factor': -.15, 'research_speed_factor': -.1,
+                    'recruitable_population_factor': -.05}
+        self.assertEqual({n.k: float(n.v) for n in idea.one('modifier').v}, expected)
+        for folder in ('', 'medium', 'small'):
+            self.assertEqual((R / 'gfx/flags' / folder / 'GRU_red_germany.tga').read_bytes(),
+                             (KR / 'gfx/flags' / folder / 'GRU_radical_socialist.tga').read_bytes())
+
+    def test_all_imported_graphics_resolve_in_game_or_kr(self):
+        game = Path(os.environ.get('HOI4_GAME_ROOT', R.parents[3] / 'common/Hearts of Iron IV'))
+        sprites = set()
+        for root in (R, KR, game):
+            for f in (root / 'interface').rglob('*.gfx'):
+                sprites.update(re.findall(r'\bname\s*=\s*"?(GFX_[\w.-]+)', f.read_text(encoding='utf-8-sig', errors='replace')))
+        required = {'GFX_idea_generic_crippled_industry'}
+        for f in [*(R / 'common').rglob('GRU_*.txt'), R / 'events/GRU_reconstruction_events.txt']:
+            required.update(re.findall(r'\bGFX_\w+', f.read_text(encoding='utf-8-sig')))
+        self.assertFalse(required - sprites, required - sprites)
+
+    def test_upstream_namespace_and_top_level_event_ids(self):
+        # New identifiers must not replace KR focuses or scripted helpers. Event
+        # calls are references; count only top-level event declarations locally.
+        own_events = [n.value('id') for n in load(R / 'events/GRU_reconstruction_events.txt') if n.k == 'country_event']
+        self.assertEqual(len(set(own_events)), len(own_events))
+        additions = set(FOCUSES) | {k for k in EFFECTS if k.startswith('GRU_')} | set(TRIGGERS)
+        pattern = re.compile(r'\b(?:' + '|'.join(map(re.escape, sorted(additions))) + r')\b')
+        collisions = []
+        for folder in ('common/national_focus', 'common/scripted_effects', 'common/scripted_triggers', 'events'):
+            for f in (KR / folder).glob('*.txt'):
+                match = pattern.search(f.read_text(encoding='utf-8-sig', errors='replace'))
+                if match: collisions.append((str(f.relative_to(KR)), match[0]))
+        self.assertFalse(collisions, collisions)
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

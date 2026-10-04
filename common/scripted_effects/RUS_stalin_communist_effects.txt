@@ -15,19 +15,27 @@ RUS_stalin_convert_totalist_support_to_communist = {
 }
 
 RUS_stalin_set_country_radical_socialist_for_subject_release = {
-	set_country_flag = RUS_stalin_radical_socialist_subject_release
-	set_politics = {
-		ruling_party = radical_socialist
-		elections_allowed = no
-	}
-	set_political_party = {
-		ideology = radical_socialist
-		popularity = 55
-	}
-	set_government_flags = yes
 	if = {
-		limit = { tag = GXC }
-		RUS_stalin_setup_gxc_peng_pai_subject = yes
+		limit = { original_tag = GRU }
+		# German puppets use their own one-time communist reconstruction setup.
+		# This also covers dynamic GRU tags and later autonomy/startup callbacks.
+		GRU_queue_red_germany_setup = yes
+	}
+	else = {
+		set_country_flag = RUS_stalin_radical_socialist_subject_release
+		set_politics = {
+			ruling_party = radical_socialist
+			elections_allowed = no
+		}
+		set_political_party = {
+			ideology = radical_socialist
+			popularity = 55
+		}
+		set_government_flags = yes
+		if = {
+			limit = { tag = GXC }
+			RUS_stalin_setup_gxc_peng_pai_subject = yes
+		}
 	}
 }
 
@@ -103,7 +111,10 @@ RUS_stalin_set_released_country_radical_socialist_if_from_communist_russia = {
 			}
 		}
 		RUS_stalin_set_country_radical_socialist_for_subject_release = yes
-		country_event = { id = stalin_form_sov.20 hours = 1 }
+		if = {
+			limit = { NOT = { original_tag = GRU } }
+			country_event = { id = stalin_form_sov.20 hours = 1 }
+		}
 	}
 }
 

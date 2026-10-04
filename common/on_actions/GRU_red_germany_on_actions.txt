@@ -1,0 +1,23 @@
+# ROOT is the country being released / changing government. All entry points
+# queue a one-day handover; none may overwrite KR in the middle of its setup.
+on_actions = {
+	on_puppet = {
+		effect = { GRU_queue_red_germany_setup = yes }
+	}
+	on_release_as_puppet = {
+		effect = { GRU_queue_red_germany_setup = yes }
+	}
+	on_subject_autonomy_level_change = {
+		effect = { GRU_queue_red_germany_setup = yes }
+	}
+	on_government_change = {
+		effect = { GRU_queue_red_germany_setup = yes }
+	}
+	on_ruling_party_change = {
+		effect = { GRU_queue_red_germany_setup = yes }
+	}
+	# Covers puppets released while still at war: enter after peace, once only.
+	on_daily = {
+		effect = { GRU_queue_red_germany_setup = yes }
+	}
+}

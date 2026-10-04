@@ -1,0 +1,73 @@
+#####################################################################
+#  红德 - 重建机制脚本效果                                            #
+#  用法：在 effect 块里写 GRU_init_reconstruction = yes 等            #
+#####################################################################
+
+
+# 建政当天调用：初始化六个变量，并启动 20 天一次的敌特脉冲
+GRU_init_reconstruction = {
+	if = {
+		limit = {
+			GRU_is_red_germany = yes
+			NOT = { has_country_flag = GRU_reconstruction_initialized }
+		}
+		set_country_flag = GRU_reconstruction_initialized
+		set_country_flag = GRU_reconstruction_ongoing
+		set_variable = { var = GRU_bar_economy value = 0 }
+		set_variable = { var = GRU_bar_security value = 0 }
+		set_variable = { var = GRU_bar_livelihood value = 0 }
+		set_variable = { var = GRU_inf_anarchist value = 0 }
+		set_variable = { var = GRU_inf_nationalist value = 0 }
+		set_variable = { var = GRU_inf_royalist value = 0 }
+		set_variable = { var = GRU_roll_loss value = 0 }
+		set_variable = { var = GRU_roll_influence value = 0 }
+		country_event = { id = GRU_reconstruction.1 days = 20 }
+	}
+}
+
+
+# 每次敌特影响力变化后调用：两个敌特影响力都到 100% → 内战
+GRU_check_saboteur_collapse = {
+	if = {
+		limit = {
+			GRU_reconstruction_active = yes
+			GRU_saboteurs_collapse = yes
+		}
+		set_country_flag = GRU_civil_war_started
+		clr_country_flag = GRU_reconstruction_ongoing
+		clr_country_flag = GRU_first_election_scheduled
+		clr_country_flag = GRU_first_election_event_open
+		country_event = { id = GRU_reconstruction.10 days = 1 }
+	}
+}
+
+
+# 大选结束时调用：摘掉「崩溃的德意志」，重建阶段结束
+GRU_finish_reconstruction = {
+	if = {
+		limit = { hidden_trigger = { GRU_can_resolve_first_election = yes } }
+		hidden_effect = {
+			clr_country_flag = GRU_reconstruction_ongoing
+			clr_country_flag = GRU_first_election_scheduled
+			clr_country_flag = GRU_first_election_event_open
+			set_country_flag = GRU_first_election_held
+		}
+		remove_ideas = GRU_collapsed_germany
+		add_stability = 0.15
+		add_political_power = 100
+		add_popularity = { ideology = communist popularity = 0.10 }
+	}
+}
+
+# Civil-war countries can inherit flags/focus progress. Keep the rebel country
+# out of the reconstruction loop and return it to KR's German puppet tree.
+GRU_setup_reconstruction_rebels = {
+	set_country_flag = GRU_reconstruction_rebel
+	clr_country_flag = GRU_red_germany_established
+	clr_country_flag = GRU_red_germany_setup_pending
+	clr_country_flag = GRU_reconstruction_ongoing
+	clr_country_flag = GRU_first_election_scheduled
+	clr_country_flag = GRU_first_election_event_open
+	remove_ideas = GRU_collapsed_germany
+	load_focus_tree = { tree = German_Puppet_focus keep_completed = no }
+}

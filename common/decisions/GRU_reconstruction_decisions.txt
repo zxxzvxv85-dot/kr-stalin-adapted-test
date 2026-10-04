@@ -1,0 +1,173 @@
+#####################################################################
+#  红德 - 德意志重建工作（决议）                                      #
+#  投资 ×3：50 政治点换 +5% 进度，冷却 60 天                          #
+#  取缔 ×3：50 政治点换 -10 敌特影响力，冷却 90 天                     #
+#  大选 ×1：任意两条进度到 100% 时可召开，只能按一次                    #
+#  导入包未附生成器；此文件作为测试版维护源，参见 tools/RED_GERMANY.md。 #
+#####################################################################
+
+# 决议组 id 必须与 categories/GRU_reconstruction_categories.txt 一致
+GRU_reconstruction_work = {
+
+	# ── 投资经济重建：把停工的厂房、铁路与矿井重新点起来，国有、合作社与私人小厂一起开工。 ──
+	GRU_invest_economy = {
+		icon = GFX_decision_generic_industry
+		fire_only_once = no
+		days_re_enable = 60
+		cost = 50
+		visible = { GRU_reconstruction_active = yes }
+		available = {
+			# 进度满了就没有再投资的必要，提示行换成中文说明
+			custom_override_tooltip = { tooltip = GRU_tt_invest_economy_avail
+				check_variable = { GRU_bar_economy < 100 } }
+		}
+		complete_effect = {
+			custom_effect_tooltip = GRU_tt_progress_E_5
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 5 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			add_stability = 0.01 # 工地开工、就业恢复
+		}
+		ai_will_do = { base = 40 }
+		fixed_random_seed = no
+	}
+
+	# ── 投资治安重建：扩充警察编制，修缮派出所与监狱，把街面上的秩序一寸一寸买回来。 ──
+	GRU_invest_security = {
+		icon = GFX_decision_generic_civil_support
+		fire_only_once = no
+		days_re_enable = 60
+		cost = 50
+		visible = { GRU_reconstruction_active = yes }
+		available = {
+			# 进度满了就没有再投资的必要，提示行换成中文说明
+			custom_override_tooltip = { tooltip = GRU_tt_invest_security_avail
+				check_variable = { GRU_bar_security < 100 } }
+		}
+		complete_effect = {
+			custom_effect_tooltip = GRU_tt_progress_S_5
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 5 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			add_stability = 0.01 # 街面安定、商户敢开门
+		}
+		ai_will_do = { base = 40 }
+		fixed_random_seed = no
+	}
+
+	# ── 投资民生重建：修住宅、开诊所、发面包票。民生进度决定人们是否还愿意相信这个国家。 ──
+	GRU_invest_livelihood = {
+		icon = GFX_decision_generic_consumer_goods
+		fire_only_once = no
+		days_re_enable = 60
+		cost = 50
+		visible = { GRU_reconstruction_active = yes }
+		available = {
+			# 进度满了就没有再投资的必要，提示行换成中文说明
+			custom_override_tooltip = { tooltip = GRU_tt_invest_livelihood_avail
+				check_variable = { GRU_bar_livelihood < 100 } }
+		}
+		complete_effect = {
+			custom_effect_tooltip = GRU_tt_progress_L_5
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 5 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			add_stability = 0.01 # 日子好过一点
+		}
+		ai_will_do = { base = 40 }
+		fixed_random_seed = no
+	}
+
+	# ── 取缔无政府主义组织：搜捕无政府主义者的印刷所与集会点，冻结他们的资金与人手。 ──
+	GRU_suppress_anarchist = {
+		icon = GFX_decision_generic_police_action
+		fire_only_once = no
+		days_re_enable = 90
+		cost = 50
+		visible = { GRU_reconstruction_active = yes }
+		available = {
+			custom_override_tooltip = { tooltip = GRU_tt_suppress_anarchist_avail
+				check_variable = { GRU_inf_anarchist > 0 } }
+		}
+		complete_effect = {
+			custom_effect_tooltip = GRU_suppress_anarchist_effect_tt
+			hidden_effect = {
+				add_to_variable = { var = GRU_inf_anarchist value = -10 }
+				clamp_variable = { var = GRU_inf_anarchist min = 0 max = 100 }
+			}
+			add_war_support = 0.01 # 打击敌特之外，也算一份战果
+		}
+		ai_will_do = { base = 35 }
+		fixed_random_seed = no
+	}
+
+	# ── 取缔民族主义团体：查封退伍军人俱乐部与民族主义报纸，把煽动者送上法庭。 ──
+	GRU_suppress_nationalist = {
+		icon = GFX_decision_generic_police_action
+		fire_only_once = no
+		days_re_enable = 90
+		cost = 50
+		visible = { GRU_reconstruction_active = yes }
+		available = {
+			custom_override_tooltip = { tooltip = GRU_tt_suppress_nationalist_avail
+				check_variable = { GRU_inf_nationalist > 0 } }
+		}
+		complete_effect = {
+			custom_effect_tooltip = GRU_suppress_nationalist_effect_tt
+			hidden_effect = {
+				add_to_variable = { var = GRU_inf_nationalist value = -10 }
+				clamp_variable = { var = GRU_inf_nationalist min = 0 max = 100 }
+			}
+			add_war_support = 0.01 # 打击敌特之外，也算一份战果
+		}
+		ai_will_do = { base = 35 }
+		fixed_random_seed = no
+	}
+
+	# ── 取缔保皇派密谋：清查旧军官、容克地主与霍亨索伦的旧部，掐断他们的钱与枪。 ──
+	GRU_suppress_royalist = {
+		icon = GFX_decision_generic_police_action
+		fire_only_once = no
+		days_re_enable = 90
+		cost = 50
+		visible = { GRU_reconstruction_active = yes }
+		available = {
+			custom_override_tooltip = { tooltip = GRU_tt_suppress_royalist_avail
+				check_variable = { GRU_inf_royalist > 0 } }
+		}
+		complete_effect = {
+			custom_effect_tooltip = GRU_suppress_royalist_effect_tt
+			hidden_effect = {
+				add_to_variable = { var = GRU_inf_royalist value = -10 }
+				clamp_variable = { var = GRU_inf_royalist min = 0 max = 100 }
+			}
+			add_war_support = 0.01 # 打击敌特之外，也算一份战果
+		}
+		ai_will_do = { base = 35 }
+		fixed_random_seed = no
+	}
+
+	# ── 召开第一次大选：任意两条重建进度达到 100%，选票就可以印发了。 ──
+	GRU_hold_first_election = {
+		icon = GFX_decision_generic_political_rally
+		fire_only_once = yes
+		visible = {
+			GRU_reconstruction_active = yes
+			NOT = { has_country_flag = GRU_first_election_scheduled }
+		}
+		available = {
+			# 任意两条进度条满 100%：三条两两组合都在触发器里，提示行用中文
+			custom_override_tooltip = { tooltip = GRU_tt_hold_first_election_avail
+				GRU_two_bars_full = yes }
+		}
+		complete_effect = {
+			hidden_effect = { set_country_flag = GRU_first_election_scheduled }
+			country_event = { id = GRU_reconstruction.5 days = 7 } # 七天后投票
+		}
+		ai_will_do = { base = 200 }
+		fixed_random_seed = no
+	}
+}

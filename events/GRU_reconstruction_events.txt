@@ -1,0 +1,414 @@
+#####################################################################
+#  红德 - 重建机制事件                                                #
+#  1  = 20 天脉冲（隐藏，随机挑一个敌特分子事件，并给自己续期）          #
+#  2  = 无政府主义暴乱（打击治安）  3 = 民族主义煽动（打击民生）         #
+#  4  = 保皇派密谋（打击经济）                                        #
+#  5  = 大选分派（隐藏）  6 = 顺利大选  7 = 被渗透的大选                #
+#  10 = 内战                                                         #
+#  98 = KR 释放后延迟接管（隐藏）
+#  99 = 调试入口（控制台手动建立红德，正常游戏不会触发）                #
+#  每个破坏事件都有两个选项：强力镇压（花政治点保住进度）或不予理会       #
+#  （进度 -1~10%，影响力 +4~8）。两个敌特影响力都到 100 就内战。        #
+#####################################################################
+
+add_namespace = GRU_reconstruction
+
+
+# ── 1：脉冲。每 20 天一次，随机挑一个敌特分子，挑完先续期再执行 ──
+country_event = {
+	id = GRU_reconstruction.1
+	title = GRU_reconstruction.1.t
+	desc = GRU_reconstruction.1.d
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = { GRU_reconstruction_active = yes }
+
+	immediate = {
+		random_list = {
+			1 = { country_event = { id = GRU_reconstruction.2 } } # 无政府主义暴乱
+			1 = { country_event = { id = GRU_reconstruction.3 } } # 民族主义煽动
+			1 = { country_event = { id = GRU_reconstruction.4 } } # 保皇派密谋
+		}
+		# 续期：只要还在重建阶段，每 20 天弹一次
+		country_event = { id = GRU_reconstruction.1 days = 20 }
+	}
+}
+
+
+# ── 2：无政府主义暴乱 —— 破坏「治安」进度 ──
+country_event = {
+	id = GRU_reconstruction.2
+	title = GRU_reconstruction.2.t
+	desc = GRU_reconstruction.2.d
+	picture = GFX_report_event_generic_riot
+	is_triggered_only = yes
+
+	trigger = { GRU_reconstruction_active = yes }
+
+	# A：强力镇压 —— 花 15 政治点保住进度；镇压本身也会抬高他们的影响力
+	option = {
+		name = GRU_reconstruction.2.a
+		trigger = { political_power >= 15 }
+		ai_chance = { base = 70 }
+		if = {
+			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
+			add_political_power = -15
+			custom_effect_tooltip = GRU_tt_crush_anarchist
+			hidden_effect = {
+				add_to_variable = { var = GRU_inf_anarchist value = 2 }
+				clamp_variable = { var = GRU_inf_anarchist min = 0 max = 100 }
+			}
+			GRU_check_saboteur_collapse = yes
+		}
+	}
+
+	# B：不予理会 —— 进度掉 1~10%，影响力涨 4~8
+	option = {
+		name = GRU_reconstruction.2.b
+		ai_chance = { base = 30 }
+		if = {
+			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
+			custom_effect_tooltip = GRU_tt_ignore_anarchist
+			hidden_effect = {
+				# 掷一次损失进度：均匀分布 1~10，取整
+				randomize_variable = {
+					var = GRU_roll_loss
+					distribution = uniform
+					min = 1
+					max = 10
+				}
+				round_variable = GRU_roll_loss
+				subtract_from_variable = { var = GRU_bar_security value = GRU_roll_loss }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+				# 再掷一次影响力：均匀分布 4~8，取整
+				randomize_variable = {
+					var = GRU_roll_influence
+					distribution = uniform
+					min = 4
+					max = 8
+				}
+				round_variable = GRU_roll_influence
+				add_to_variable = { var = GRU_inf_anarchist value = GRU_roll_influence }
+				clamp_variable = { var = GRU_inf_anarchist min = 0 max = 100 }
+			}
+			GRU_check_saboteur_collapse = yes
+		}
+	}
+}
+
+# ── 3：民族主义煽动 —— 破坏「民生」进度 ──
+country_event = {
+	id = GRU_reconstruction.3
+	title = GRU_reconstruction.3.t
+	desc = GRU_reconstruction.3.d
+	picture = GFX_report_event_fascist_gathering
+	is_triggered_only = yes
+
+	trigger = { GRU_reconstruction_active = yes }
+
+	# A：强力镇压 —— 花 15 政治点保住进度；镇压本身也会抬高他们的影响力
+	option = {
+		name = GRU_reconstruction.3.a
+		trigger = { political_power >= 15 }
+		ai_chance = { base = 70 }
+		if = {
+			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
+			add_political_power = -15
+			custom_effect_tooltip = GRU_tt_crush_nationalist
+			hidden_effect = {
+				add_to_variable = { var = GRU_inf_nationalist value = 2 }
+				clamp_variable = { var = GRU_inf_nationalist min = 0 max = 100 }
+			}
+			GRU_check_saboteur_collapse = yes
+		}
+	}
+
+	# B：不予理会 —— 进度掉 1~10%，影响力涨 4~8
+	option = {
+		name = GRU_reconstruction.3.b
+		ai_chance = { base = 30 }
+		if = {
+			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
+			custom_effect_tooltip = GRU_tt_ignore_nationalist
+			hidden_effect = {
+				# 掷一次损失进度：均匀分布 1~10，取整
+				randomize_variable = {
+					var = GRU_roll_loss
+					distribution = uniform
+					min = 1
+					max = 10
+				}
+				round_variable = GRU_roll_loss
+				subtract_from_variable = { var = GRU_bar_livelihood value = GRU_roll_loss }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+				# 再掷一次影响力：均匀分布 4~8，取整
+				randomize_variable = {
+					var = GRU_roll_influence
+					distribution = uniform
+					min = 4
+					max = 8
+				}
+				round_variable = GRU_roll_influence
+				add_to_variable = { var = GRU_inf_nationalist value = GRU_roll_influence }
+				clamp_variable = { var = GRU_inf_nationalist min = 0 max = 100 }
+			}
+			GRU_check_saboteur_collapse = yes
+		}
+	}
+}
+
+# ── 4：保皇派密谋 —— 破坏「经济」进度 ──
+country_event = {
+	id = GRU_reconstruction.4
+	title = GRU_reconstruction.4.t
+	desc = GRU_reconstruction.4.d
+	picture = GFX_report_event_por_return_of_the_monarchy
+	is_triggered_only = yes
+
+	trigger = { GRU_reconstruction_active = yes }
+
+	# A：强力镇压 —— 花 15 政治点保住进度；镇压本身也会抬高他们的影响力
+	option = {
+		name = GRU_reconstruction.4.a
+		trigger = { political_power >= 15 }
+		ai_chance = { base = 70 }
+		if = {
+			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
+			add_political_power = -15
+			custom_effect_tooltip = GRU_tt_crush_royalist
+			hidden_effect = {
+				add_to_variable = { var = GRU_inf_royalist value = 2 }
+				clamp_variable = { var = GRU_inf_royalist min = 0 max = 100 }
+			}
+			GRU_check_saboteur_collapse = yes
+		}
+	}
+
+	# B：不予理会 —— 进度掉 1~10%，影响力涨 4~8
+	option = {
+		name = GRU_reconstruction.4.b
+		ai_chance = { base = 30 }
+		if = {
+			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
+			custom_effect_tooltip = GRU_tt_ignore_royalist
+			hidden_effect = {
+				# 掷一次损失进度：均匀分布 1~10，取整
+				randomize_variable = {
+					var = GRU_roll_loss
+					distribution = uniform
+					min = 1
+					max = 10
+				}
+				round_variable = GRU_roll_loss
+				subtract_from_variable = { var = GRU_bar_economy value = GRU_roll_loss }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+				# 再掷一次影响力：均匀分布 4~8，取整
+				randomize_variable = {
+					var = GRU_roll_influence
+					distribution = uniform
+					min = 4
+					max = 8
+				}
+				round_variable = GRU_roll_influence
+				add_to_variable = { var = GRU_inf_royalist value = GRU_roll_influence }
+				clamp_variable = { var = GRU_inf_royalist min = 0 max = 100 }
+			}
+			GRU_check_saboteur_collapse = yes
+		}
+	}
+}
+
+
+# ── 5：大选分派。影响力高于 80% 的敌特会把选举搅浑 ──
+country_event = {
+	id = GRU_reconstruction.5
+	title = GRU_reconstruction.5.t
+	desc = GRU_reconstruction.5.d
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		GRU_can_resolve_first_election = yes
+		NOT = { has_country_flag = GRU_first_election_event_open }
+	}
+
+	immediate = {
+		if = {
+			limit = { GRU_any_saboteur_strong = yes }
+			country_event = { id = GRU_reconstruction.7 } # 被渗透的大选
+		}
+		else = {
+			country_event = { id = GRU_reconstruction.6 } # 顺利大选
+		}
+	}
+}
+
+
+# ── 6：顺利大选 —— 重建完成，「崩溃的德意志」被摘掉 ──
+country_event = {
+	id = GRU_reconstruction.6
+	title = GRU_reconstruction.6.t
+	desc = GRU_reconstruction.6.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		GRU_can_resolve_first_election = yes
+		NOT = { has_country_flag = GRU_first_election_event_open }
+	}
+
+	immediate = { set_country_flag = GRU_first_election_event_open }
+
+	option = {
+		name = GRU_reconstruction.6.a
+		if = {
+			limit = { hidden_trigger = { GRU_can_resolve_first_election = yes } }
+			GRU_finish_reconstruction = yes
+			# 国策「筹备第一次大选」事先备好了选区与名册，选举更平稳
+			if = {
+				limit = { hidden_trigger = { has_country_flag = GRU_first_election_prepared } }
+				add_stability = 0.05
+				add_political_power = 50
+			}
+			add_stability = 0.05
+		}
+	}
+}
+
+
+# ── 7：被渗透的大选 —— 重建同样完成，但结果没人愿意相信 ──
+country_event = {
+	id = GRU_reconstruction.7
+	title = GRU_reconstruction.7.t
+	desc = GRU_reconstruction.7.d
+	picture = GFX_report_event_DEN_sabotage
+	is_triggered_only = yes
+
+	trigger = {
+		GRU_can_resolve_first_election = yes
+		NOT = { has_country_flag = GRU_first_election_event_open }
+	}
+
+	immediate = { set_country_flag = GRU_first_election_event_open }
+
+	option = {
+		name = GRU_reconstruction.7.a
+		if = {
+			limit = { hidden_trigger = { GRU_can_resolve_first_election = yes } }
+			GRU_finish_reconstruction = yes
+			set_country_flag = GRU_sabotaged_election # 留给后续阶段的内容使用
+			add_stability = -0.15
+			add_war_support = -0.05
+			if = {
+				limit = { hidden_trigger = { has_country_flag = GRU_first_election_prepared } }
+				add_stability = 0.05 # 有筹备，损失小一些
+			}
+			add_political_power = 25
+		}
+	}
+}
+
+
+# ── 10：内战 —— 两个敌特影响力都到 100 ──
+country_event = {
+	id = GRU_reconstruction.10
+	title = GRU_reconstruction.10.t
+	desc = GRU_reconstruction.10.d
+	picture = GFX_report_event_ger_civil_war
+	is_triggered_only = yes
+
+	trigger = {
+		GRU_is_red_germany = yes
+		has_country_flag = GRU_civil_war_started
+		NOT = { has_country_flag = GRU_civil_war_spawned }
+		NOT = { has_country_flag = GRU_first_election_held }
+	}
+
+	immediate = {
+		set_country_flag = GRU_civil_war_spawned
+		clr_country_flag = GRU_reconstruction_ongoing
+		remove_ideas = GRU_collapsed_germany
+
+		# 谁的影响力先到 100，谁就在旧帝国的土地上立起自己的国家。
+		# 同时到 100 时按 保皇派 → 民族主义 → 无政府主义 的顺序判定。
+		# ideology selects the rebels; do not set ruling_party here, which would
+		# change the original country's government to the rebels' ideology too.
+		if = {
+			limit = { check_variable = { GRU_inf_royalist > 99 } }
+			start_civil_war = {
+				ideology = paternal_autocrat
+				size = 0.35 # 割据政权占全国的份额
+				GRU_setup_reconstruction_rebels = yes
+				set_cosmetic_tag = GRU_royalist_germany # 德意志帝国
+			}
+		}
+		else_if = {
+			limit = { check_variable = { GRU_inf_nationalist > 99 } }
+			start_civil_war = {
+				ideology = national_populist
+				size = 0.35
+				GRU_setup_reconstruction_rebels = yes
+				set_cosmetic_tag = GRU_nationalist_germany # 德意志国
+			}
+		}
+		else = {
+			start_civil_war = {
+				ideology = syndicalist
+				size = 0.35
+				GRU_setup_reconstruction_rebels = yes
+				set_cosmetic_tag = GRU_anarchist_germany # 自由德意志公社
+			}
+		}
+	}
+
+	option = {
+		name = GRU_reconstruction.10.a
+		add_stability = -0.20
+		add_war_support = 0.10
+	}
+}
+
+
+# ── 99：调试入口 —— 控制台手动建立红德，用来直接看国策树与重建机制 ──
+#  用法：在控制台输入  event GRU_reconstruction.99 GRU
+#       （或者先 tag GRU 切过去，再 event GRU_reconstruction.99）
+#  这条事件是 is_triggered_only，正常游戏永远不会自己触发；
+#  它直接调用 GRU_establish_red_germany（见 scripted_effects/GRU_red_germany_effects.txt），
+#  也就是跳过「社会主义政府 + 已停战」的判定强行建国。
+#  建国效果本身有 GRU_red_germany_established 旗标保护，重复触发不会重置国策树进度。
+country_event = {
+	id = GRU_reconstruction.99
+	title = GRU_reconstruction.99.t
+	desc = GRU_reconstruction.99.d
+	picture = GFX_report_event_generic_communist_congress
+	is_triggered_only = yes
+
+	trigger = { original_tag = GRU }
+
+	immediate = {
+		GRU_establish_red_germany = yes
+	}
+
+	option = {
+		name = GRU_reconstruction.99.a
+	}
+}
+
+# Always clear the pending marker, even if eligibility changed during the delay.
+country_event = {
+	id = GRU_reconstruction.98
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		original_tag = GRU
+		has_country_flag = GRU_red_germany_setup_pending
+	}
+	immediate = {
+		clr_country_flag = GRU_red_germany_setup_pending
+		if = {
+			limit = { GRU_can_become_red_germany = yes }
+			GRU_establish_red_germany = yes
+		}
+	}
+}

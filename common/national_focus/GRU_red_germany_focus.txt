@@ -1,0 +1,1575 @@
+#####################################################################
+#  红德 - 德意志社会主义共和国战后国策树                              #
+#  节点与连接关系出自策划图《红德重建阶段国策树策划.drawio》            #
+#  奖励形式：本树的所有国策只推进「德意志重建工作」的进度条，            #
+#            不发放任何民族精神；唯一的民族精神「崩溃的德意志」          #
+#            由 GRU_establish_red_germany 在建政当天添加。             #
+#  载入方式：本树不参与开局自动分配（country 权重恒为 0），             #
+#            只能由 GRU_establish_red_germany 脚本效果显式载入。      #
+#####################################################################
+
+
+focus_tree = {
+	id = GRU_red_germany_focus
+
+	# 权重恒为 0 且无任何修正，保证本树永远不会在开局被自动分配，
+	# 也不会顶掉 Kaiserreich 的 german_focus / German_Puppet_focus，
+	# 只接受 load_focus_tree 显式载入。
+	country = {
+		factor = 0
+	}
+
+	default = no
+	reset_on_civilwar = no
+
+	# 持续性国策面板的摆放位置
+	continuous_focus_position = { x = 2200 y = 400 }
+
+	# 进入本树时相机默认对准根节点
+	initial_show_position = { x = 5 y = 0 }
+
+	# 左下角导航按钮
+	shortcut = {
+		name = GRU_shortcut_red_germany
+		target = GRU_new_german_government
+		scroll_wheel_factor = 0.5
+	}
+
+	focus = {
+		id = GRU_new_german_government
+		icon = GFX_goal_generic_revolutionary_government
+		cost = 3
+
+		x = 5
+		y = 0
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 5 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+				add_to_variable = { var = GRU_bar_security value = 5 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+				add_to_variable = { var = GRU_bar_livelihood value = 5 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_5
+			custom_effect_tooltip = GRU_tt_progress_S_5
+			custom_effect_tooltip = GRU_tt_progress_L_5
+			add_political_power = 100
+			set_country_flag = GRU_new_government_formed
+		}
+	}
+
+	focus = {
+		id = GRU_the_predicament
+		icon = GFX_goal_generic_crisis
+		cost = 3
+
+		prerequisite = { focus = GRU_new_german_government }
+
+		x = 5
+		y = 1
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_collapsing_economy
+		icon = GFX_goal_generic_debt_negotiations
+		cost = 3
+
+		prerequisite = { focus = GRU_the_predicament }
+
+		x = 1
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 5 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_5
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_surging_crime
+		icon = GFX_goal_generic_plotting
+		cost = 3
+
+		prerequisite = { focus = GRU_the_predicament }
+
+		x = 5
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 5 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_5
+			add_political_power = 25
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_peoples_livelihood
+		icon = GFX_goal_generic_consumer_goods
+		cost = 3
+
+		prerequisite = { focus = GRU_the_predicament }
+
+		x = 10
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 5 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_5
+			add_political_power = 25
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_gradual_reconstruction
+		icon = GFX_goal_generic_austerity_measures
+		cost = 4
+
+		prerequisite = { focus = GRU_collapsing_economy }
+		mutually_exclusive = { focus = GRU_faster_and_cheaper }
+
+		x = 0
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 85 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 14 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_14
+		}
+	}
+
+	focus = {
+		id = GRU_faster_and_cheaper
+		icon = GFX_goal_generic_cash_stimulus_plan
+		cost = 4
+
+		prerequisite = { focus = GRU_collapsing_economy }
+		mutually_exclusive = { focus = GRU_gradual_reconstruction }
+
+		x = 2
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { base = 70 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 14 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_14
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_peoples_police
+		icon = GFX_goal_generic_red_guard
+		cost = 4
+
+		prerequisite = { focus = GRU_surging_crime }
+		mutually_exclusive = { focus = GRU_old_police_system }
+
+		x = 4
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 80 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 4 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_4
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_old_police_system
+		icon = GFX_goal_generic_police_state
+		cost = 4
+
+		prerequisite = { focus = GRU_surging_crime }
+		mutually_exclusive = { focus = GRU_peoples_police }
+
+		x = 6
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 65 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 4 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_4
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_import_food_from_comrades
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 4
+
+		prerequisite = { focus = GRU_peoples_livelihood }
+
+		x = 9
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 4 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_4
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_disease_eradication
+		icon = GFX_goal_healthcare
+		cost = 4
+
+		prerequisite = { focus = GRU_peoples_livelihood }
+
+		x = 10
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 4 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_4
+			add_political_power = 25
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_comfort_the_bereaved
+		icon = GFX_goal_generic_solidarity
+		cost = 4
+
+		prerequisite = { focus = GRU_peoples_livelihood }
+
+		x = 11
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 4 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_4
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_train_new_cadres
+		icon = GFX_goal_generic_political_pressure
+		cost = 4
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_gradual_reconstruction
+			focus = GRU_faster_and_cheaper
+		}
+		mutually_exclusive = { focus = GRU_social_democrat_bureaucrats }
+
+		x = 0
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 80 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 14 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_14
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_social_democrat_bureaucrats
+		icon = GFX_goal_generic_civilian_oversight
+		cost = 4
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_gradual_reconstruction
+			focus = GRU_faster_and_cheaper
+		}
+		mutually_exclusive = { focus = GRU_train_new_cadres }
+
+		x = 2
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 65 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 14 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_14
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_party_cells
+		icon = GFX_goal_generic_soviet_construction
+		cost = 4
+
+		prerequisite = { focus = GRU_peoples_police }
+
+		x = 4
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 4 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_4
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_investigate_corruption
+		icon = GFX_goal_generic_investigate_corruption
+		cost = 4
+
+		prerequisite = { focus = GRU_old_police_system }
+
+		x = 6
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 4 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_4
+			add_political_power = 25
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_traditional_agriculture
+		icon = GFX_goal_generic_farmer
+		cost = 4
+
+		prerequisite = { focus = GRU_import_food_from_comrades }
+		mutually_exclusive = { focus = GRU_industrial_food }
+
+		x = 9
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 75 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 4 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_4
+		}
+	}
+
+	focus = {
+		id = GRU_industrial_food
+		icon = GFX_goal_generic_food_processing
+		cost = 4
+
+		prerequisite = { focus = GRU_comfort_the_bereaved }
+		mutually_exclusive = { focus = GRU_traditional_agriculture }
+
+		x = 11
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+
+		ai_will_do = { base = 70 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 4 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_4
+		}
+	}
+
+	focus = {
+		id = GRU_secret_report
+		icon = GFX_goal_generic_secret_documents
+		cost = 4
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_train_new_cadres
+			focus = GRU_social_democrat_bureaucrats
+		}
+
+		x = 1
+		y = 5
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 4 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_4
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_sweep_organized_crime
+		icon = GFX_goal_generic_imprison_people
+		cost = 4
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_party_cells
+			focus = GRU_investigate_corruption
+		}
+		mutually_exclusive = { focus = GRU_deal_with_underworld }
+
+		x = 4
+		y = 5
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 80 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 4 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_4
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_deal_with_underworld
+		icon = GFX_goal_generic_dangerous_deal
+		cost = 4
+
+		prerequisite = { focus = GRU_investigate_corruption }
+		mutually_exclusive = { focus = GRU_sweep_organized_crime }
+
+		x = 6
+		y = 5
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 60 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 4 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_4
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_our_food_culture
+		icon = GFX_goal_generic_culture2
+		cost = 4
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_traditional_agriculture
+			focus = GRU_industrial_food
+		}
+
+		x = 10
+		y = 5
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 4 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_4
+		}
+	}
+
+	focus = {
+		id = GRU_security_restored
+		icon = GFX_goal_generic_stable_government
+		cost = 4
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_sweep_organized_crime
+			focus = GRU_deal_with_underworld
+		}
+
+		x = 5
+		y = 6
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 5 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_5
+			add_stability = 0.10
+		}
+	}
+
+	focus = {
+		id = GRU_new_berlin
+		icon = GFX_goal_generic_german_construction
+		cost = 4
+
+		prerequisite = { focus = GRU_secret_report }
+		prerequisite = { focus = GRU_our_food_culture }
+		prerequisite = { focus = GRU_security_restored }
+		# 以上 3 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 5
+		y = 7
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 5 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_5
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_follow_berlin_experience
+		icon = GFX_goal_generic_construction
+		cost = 5
+
+		prerequisite = { focus = GRU_new_berlin }
+		mutually_exclusive = { focus = GRU_localized_reconstruction }
+
+		x = 4
+		y = 8
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+
+		ai_will_do = { base = 80 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 14 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_14
+		}
+	}
+
+	focus = {
+		id = GRU_localized_reconstruction
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 5
+
+		prerequisite = { focus = GRU_new_berlin }
+		mutually_exclusive = { focus = GRU_follow_berlin_experience }
+
+		x = 6
+		y = 8
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 70 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 14 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_14
+		}
+	}
+
+	focus = {
+		id = GRU_urbanization
+		icon = GFX_goal_generic_public_transport
+		cost = 5
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_follow_berlin_experience
+			focus = GRU_localized_reconstruction
+		}
+
+		x = 3
+		y = 9
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 16 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_16
+		}
+	}
+
+	focus = {
+		id = GRU_modern_countryside
+		icon = GFX_goal_generic_agriculture2
+		cost = 5
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_follow_berlin_experience
+			focus = GRU_localized_reconstruction
+		}
+
+		x = 7
+		y = 9
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 6 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_6
+		}
+	}
+
+	focus = {
+		id = GRU_workers_welfare
+		icon = GFX_goal_generic_workers_democracy
+		cost = 5
+
+		prerequisite = { focus = GRU_urbanization }
+
+		x = 2
+		y = 10
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 6 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_6
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_cooperative_system
+		icon = GFX_goal_generic_union_agreement
+		cost = 5
+
+		prerequisite = { focus = GRU_urbanization }
+
+		x = 4
+		y = 10
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 16 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_16
+		}
+	}
+
+	focus = {
+		id = GRU_collective_agriculture
+		icon = GFX_goal_generic_land_reform
+		cost = 5
+
+		prerequisite = { focus = GRU_modern_countryside }
+
+		x = 6
+		y = 10
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 16 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_16
+		}
+	}
+
+	focus = {
+		id = GRU_meat_eggs_milk
+		icon = GFX_goal_generic_farmer_and_worker
+		cost = 5
+
+		prerequisite = { focus = GRU_modern_countryside }
+
+		x = 8
+		y = 10
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 6 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_6
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_more_police_funding
+		icon = GFX_goal_generic_martial_law
+		cost = 5
+
+		prerequisite = { focus = GRU_workers_welfare }
+
+		x = 2
+		y = 11
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 6 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_6
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_party_branch_in_coops
+		icon = GFX_goal_generic_solidarity
+		cost = 5
+
+		prerequisite = { focus = GRU_cooperative_system }
+
+		x = 4
+		y = 11
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 6 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_6
+		}
+	}
+
+	focus = {
+		id = GRU_mass_tractor_purchase
+		icon = GFX_goal_generic_mechanisation
+		cost = 5
+
+		prerequisite = { focus = GRU_collective_agriculture }
+
+		x = 6
+		y = 11
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 16 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_16
+		}
+	}
+
+	focus = {
+		id = GRU_spread_farming_knowledge
+		icon = GFX_goal_generic_scientific_exchange
+		cost = 5
+
+		prerequisite = { focus = GRU_meat_eggs_milk }
+
+		x = 8
+		y = 11
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 6 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_6
+		}
+	}
+
+	focus = {
+		id = GRU_special_police_units
+		icon = GFX_goal_generic_special_forces
+		cost = 5
+
+		prerequisite = { focus = GRU_more_police_funding }
+
+		x = 2
+		y = 12
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 10 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_10
+		}
+	}
+
+	focus = {
+		id = GRU_state_discipline_committee
+		icon = GFX_goal_generic_civilian_oversight
+		cost = 5
+
+		prerequisite = { focus = GRU_party_branch_in_coops }
+
+		x = 4
+		y = 12
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 10 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_10
+		}
+	}
+
+	focus = {
+		id = GRU_import_fertilizer_plants
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 5
+
+		prerequisite = { focus = GRU_mass_tractor_purchase }
+
+		x = 6
+		y = 12
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_economy value = 22 }
+				clamp_variable = { var = GRU_bar_economy min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_E_22
+		}
+	}
+
+	focus = {
+		id = GRU_self_assessment
+		icon = GFX_goal_generic_controlled_board
+		cost = 5
+
+		prerequisite = { focus = GRU_spread_farming_knowledge }
+
+		x = 8
+		y = 12
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 8 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_8
+		}
+	}
+
+	focus = {
+		id = GRU_state_security_ministry
+		icon = GFX_goal_generic_espionage
+		cost = 5
+
+		prerequisite = { focus = GRU_special_police_units }
+		prerequisite = { focus = GRU_state_discipline_committee }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 3
+		y = 13
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 10 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_10
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_agriculture_committee
+		icon = GFX_goal_generic_council
+		cost = 5
+
+		prerequisite = { focus = GRU_import_fertilizer_plants }
+		prerequisite = { focus = GRU_self_assessment }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 7
+		y = 13
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 8 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_8
+		}
+	}
+
+	focus = {
+		id = GRU_crush_enemy_agents
+		icon = GFX_goal_generic_political_purge
+		cost = 6
+
+		prerequisite = { focus = GRU_state_security_ministry }
+
+		x = 3
+		y = 14
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 10 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_10
+			add_stability = 0.05
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_socialist_propaganda_rural
+		icon = GFX_goal_generic_propaganda
+		cost = 6
+
+		prerequisite = { focus = GRU_agriculture_committee }
+
+		x = 7
+		y = 14
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 8 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_8
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_batons_and_tear_gas
+		icon = GFX_goal_generic_martial_law
+		cost = 6
+
+		prerequisite = { focus = GRU_crush_enemy_agents }
+		mutually_exclusive = { focus = GRU_pistols_and_guillotine }
+
+		x = 2
+		y = 15
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 75 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 12 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_12
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_pistols_and_guillotine
+		icon = GFX_goal_generic_execution
+		cost = 6
+
+		prerequisite = { focus = GRU_crush_enemy_agents }
+		mutually_exclusive = { focus = GRU_batons_and_tear_gas }
+
+		x = 4
+		y = 15
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 65 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 12 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_12
+			add_war_support = 0.05
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_compulsory_education
+		icon = GFX_goal_generic_lightbulb
+		cost = 6
+
+		prerequisite = { focus = GRU_socialist_propaganda_rural }
+
+		x = 7
+		y = 15
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 10 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_10
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = GRU_army_crushes_mutiny
+		icon = GFX_goal_generic_militarism
+		cost = 6
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_batons_and_tear_gas
+			focus = GRU_pistols_and_guillotine
+		}
+
+		x = 3
+		y = 16
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 12 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_12
+			army_experience = 25
+			add_war_support = 0.05
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_no_emperor
+		icon = GFX_goal_generic_dissolve_parliament1
+		cost = 6
+
+		prerequisite = { focus = GRU_compulsory_education }
+
+		x = 6
+		y = 16
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 12 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_12
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_no_masters
+		icon = GFX_goal_generic_dissolve_parliament2
+		cost = 6
+
+		prerequisite = { focus = GRU_compulsory_education }
+
+		x = 7
+		y = 16
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 12 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_12
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_no_lord
+		icon = GFX_goal_generic_orthodoxy
+		cost = 6
+
+		prerequisite = { focus = GRU_compulsory_education }
+
+		x = 8
+		y = 16
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 12 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_12
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_cure_the_sick
+		icon = GFX_goal_generic_recovery
+		cost = 6
+
+		prerequisite = { focus = GRU_army_crushes_mutiny }
+		mutually_exclusive = { focus = GRU_root_out_the_trouble }
+
+		x = 2
+		y = 17
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 80 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 10 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_10
+			add_stability = 0.10
+		}
+	}
+
+	focus = {
+		id = GRU_root_out_the_trouble
+		icon = GFX_goal_generic_expel_people
+		cost = 6
+
+		prerequisite = { focus = GRU_army_crushes_mutiny }
+		mutually_exclusive = { focus = GRU_cure_the_sick }
+
+		x = 4
+		y = 17
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 65 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_security value = 12 }
+				clamp_variable = { var = GRU_bar_security min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_S_12
+			add_stability = 0.10
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_war_on_religion
+		icon = GFX_goal_generic_soft_anticlericalism
+		cost = 6
+
+		prerequisite = { focus = GRU_no_emperor }
+		prerequisite = { focus = GRU_no_masters }
+		prerequisite = { focus = GRU_no_lord }
+		# 以上 3 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 7
+		y = 17
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 10 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_10
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_happy_new_life
+		icon = GFX_goal_generic_national_unity
+		cost = 6
+
+		# 本块内为「或」：下列任一完成即可
+		prerequisite = {
+			focus = GRU_cure_the_sick
+			focus = GRU_root_out_the_trouble
+		}
+
+		x = 3
+		y = 18
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 14 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_14
+			add_stability = 0.10
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_jesus_utopian_socialist
+		icon = GFX_goal_generic_church_socialist_cooporation
+		cost = 6
+
+		prerequisite = { focus = GRU_war_on_religion }
+
+		x = 6
+		y = 18
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 14 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_14
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_uproot_catholicism
+		icon = GFX_goal_generic_hard_anticlericalism
+		cost = 6
+
+		prerequisite = { focus = GRU_war_on_religion }
+
+		x = 8
+		y = 18
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 14 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_14
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_womens_rights_movement
+		icon = GFX_focus_generic_universal_suffrage
+		cost = 6
+
+		prerequisite = { focus = GRU_jesus_utopian_socialist }
+		prerequisite = { focus = GRU_uproot_catholicism }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 7
+		y = 19
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			hidden_effect = {
+				add_to_variable = { var = GRU_bar_livelihood value = 14 }
+				clamp_variable = { var = GRU_bar_livelihood min = 0 max = 100 }
+			}
+			custom_effect_tooltip = GRU_tt_progress_L_14
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_prepare_first_election
+		icon = GFX_goal_generic_elections
+		cost = 6
+
+		prerequisite = { focus = GRU_happy_new_life }
+		prerequisite = { focus = GRU_womens_rights_movement }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 5
+		y = 20
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.05
+			set_country_flag = GRU_first_election_prepared
+		}
+	}
+
+}
