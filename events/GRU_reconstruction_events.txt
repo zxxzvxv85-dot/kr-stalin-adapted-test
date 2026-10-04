@@ -49,7 +49,7 @@ country_event = {
 	# A：强力镇压 —— 花 15 政治点保住进度；镇压本身也会抬高他们的影响力
 	option = {
 		name = GRU_reconstruction.2.a
-		trigger = { political_power >= 15 }
+		trigger = { NOT = { has_political_power < 15 } }
 		ai_chance = { base = 70 }
 		if = {
 			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
@@ -110,7 +110,7 @@ country_event = {
 	# A：强力镇压 —— 花 15 政治点保住进度；镇压本身也会抬高他们的影响力
 	option = {
 		name = GRU_reconstruction.3.a
-		trigger = { political_power >= 15 }
+		trigger = { NOT = { has_political_power < 15 } }
 		ai_chance = { base = 70 }
 		if = {
 			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }
@@ -171,7 +171,7 @@ country_event = {
 	# A：强力镇压 —— 花 15 政治点保住进度；镇压本身也会抬高他们的影响力
 	option = {
 		name = GRU_reconstruction.4.a
-		trigger = { political_power >= 15 }
+		trigger = { NOT = { has_political_power < 15 } }
 		ai_chance = { base = 70 }
 		if = {
 			limit = { hidden_trigger = { GRU_reconstruction_active = yes } }

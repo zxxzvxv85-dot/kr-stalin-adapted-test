@@ -1,7 +1,8 @@
 """Execute GRU release/reconstruction scripts in a bounded country/event model.
 
 This verifies scope, scheduling, costs and one-time rewards, not the HOI4 engine.
-Unsupported commands fail; only unchanged external helper effects are opaque.
+Trigger names are also checked against the installed engine documentation so
+the model cannot silently accept a made-up trigger. External helpers are opaque.
 """
 from copy import deepcopy
 from itertools import product
@@ -15,6 +16,8 @@ import unittest
 from hoi4_politics_blocks import R, KR, load, parse
 
 
+GAME = Path(os.environ.get('HOI4_GAME_ROOT', R.parents[3] / 'common/Hearts of Iron IV'))
+IMPORTED_SCRIPTS = [*(R / 'common').rglob('GRU_*.txt'), R / 'events/GRU_reconstruction_events.txt']
 TRIGGERS = {n.k: n for f in (R / 'common/scripted_triggers').glob('GRU_*.txt') for n in load(f)}
 EFFECTS = {n.k: n for f in (R / 'common/scripted_effects').glob('GRU_*.txt') for n in load(f)}
 for n in load(R / 'common/scripted_effects/RUS_stalin_communist_effects.txt'):
@@ -50,7 +53,25 @@ def world(tag='GRU', **kwargs):
 
 
 def cmp(a, op, b):
-    return {'=': a == b, '>': a > b, '<': a < b, '>=': a >= b, '<=': a <= b, '!=': a != b}[op]
+    return {'=': a == b, '>': a > b, '<': a < b}[op]
+
+
+def walk(nodes):
+    for n in nodes:
+        yield n
+        if isinstance(n.v, list):
+            yield from walk(n.v)
+
+
+def validate_condition_names(nodes, native_names):
+    """Validate trigger roots; native parameter blocks are not nested triggers."""
+    for n in nodes:
+        if n.k in ('AND', 'OR', 'NOT', 'hidden_trigger', 'overlord', 'FROM'):
+            validate_condition_names(n.v, native_names)
+        elif n.k == 'custom_override_tooltip':
+            validate_condition_names([x for x in n.v if x.k != 'tooltip'], native_names)
+        elif n.k not in native_names and n.k not in TRIGGERS:
+            raise AssertionError(('Unknown engine/scripted trigger', n.raw()))
 
 
 def condition(nodes, w, tag, source=None):
@@ -73,7 +94,7 @@ def condition(nodes, w, tag, source=None):
         if k == 'has_country_flag': return v in c['flags']
         if k == 'has_war': return c['war'] == (v == 'yes')
         if k == 'is_subject': return bool(c['overlord']) == (v == 'yes')
-        if k == 'political_power': return cmp(c['pp'], n.op, float(v))
+        if k == 'has_political_power': return cmp(c['pp'], n.op, float(v))
         if k == 'check_variable': return all(cmp(c['variables'].get(x.k, 0), x.op, float(x.v)) for x in v)
         if k == 'always': return v == 'yes'
         raise AssertionError(('Unsupported condition', n.raw()))
@@ -172,7 +193,10 @@ def advance(w, days):
 
 def choose(w, eid, index=0):
     option = EVENTS[eid].children('option')[index]
+    if option.one('trigger') and not condition(option.one('trigger').v, w, w['tag']):
+        return False
     execute([n for n in option.v if n.k not in ('name', 'trigger', 'ai_chance')], w, w['tag'])
+    return True
 
 
 def decision(w, key):
@@ -354,6 +378,23 @@ class ReconstructionTests(unittest.TestCase):
             choose(w, f'GRU_reconstruction.{i}', 1)
             self.assertEqual(c, before)
 
+    def test_suppression_option_requires_exact_political_power_cost(self):
+        for i, pp in product((2, 3, 4), (-1, 0, 14.99, 15, 15.01)):
+            with self.subTest(event=i, political_power=pp):
+                w, c = established()
+                c['pp'] = pp
+                before = deepcopy(c)
+                chosen = choose(w, f'GRU_reconstruction.{i}', 0)
+                self.assertEqual(chosen, pp >= 15)
+                if chosen:
+                    self.assertAlmostEqual(c['pp'], pp - 15)
+                    self.assertEqual(c['variables'][INF[i - 2]], 2)
+                else:
+                    self.assertEqual(c, before)
+                    # The free alternative remains available below the cost.
+                    self.assertTrue(choose(w, f'GRU_reconstruction.{i}', 1))
+                    self.assertEqual(c['pp'], pp)
+
     def test_election_outcomes_visible_rewards_once(self):
         for influence, prepared in product((80, 81), (False, True)):
             w, c = established()
@@ -429,6 +470,29 @@ class ReconstructionTests(unittest.TestCase):
 
 
 class ContentTests(unittest.TestCase):
+    def test_imported_scripts_use_supported_comparison_operators(self):
+        # Our general parser can tokenize >=, <= and !=, unlike the HOI4 script
+        # parser. Do not let its permissiveness hide a file-breaking operator.
+        for path in IMPORTED_SCRIPTS:
+            for n in walk(load(path)):
+                self.assertIn(n.op, (None, '=', '<', '>'), (path.name, n.raw()))
+
+    def test_condition_names_match_engine_documentation(self):
+        doc = (GAME / 'documentation/triggers_documentation.md').read_text(encoding='utf-8-sig')
+        native_names = set(re.findall(r'^## (\w+)\s*$', doc, re.M))
+        self.assertIn('has_political_power', native_names)
+        self.assertNotIn('political_power', native_names)
+        # Check every option trigger even when no fixture selects that option.
+        for path in IMPORTED_SCRIPTS:
+            for n in walk(load(path)):
+                if n.k in ('trigger', 'limit', 'available', 'visible', 'allowed'):
+                    with self.subTest(path=path.name, condition=n.raw()):
+                        validate_condition_names(n.v, native_names)
+        for n in TRIGGERS.values():
+            validate_condition_names(n.v, native_names)
+        with self.assertRaisesRegex(AssertionError, 'Unknown engine/scripted trigger'):
+            validate_condition_names(parse('political_power > 14'), native_names)
+
     def test_tree_references_and_branch_reachability(self):
         self.assertEqual(len(FOCUSES), 59)
         self.assertEqual(TREE.one('country').value('factor'), '0')

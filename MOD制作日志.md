@@ -3563,3 +3563,13 @@ mio:RUS_example_organization = {
 - 参考已安装 KR 的 GRU effects、GRU focus、GRU ideas、cosmetic、政府判定及简中 GRU 汉化；内战参数对照本机 effects_documentation 与原版 AAT_Sweden_communism.4，现任领袖意识形态效果对照本机文档与原版苏联／保加利亚用法。补充 tools/RED_GERMANY.md、维护索引和外交检查登记。
 - 专项 21 项测试通过，包含 54 组国家／宗主／政府／战争资格组合、125 组数值边界、全部 59 个奖励节点、互斥路径可达、释放顺序与重入、延迟取消恢复、普通傀儡、投资成本／冷却、破坏随机范围、大选与内战争用及资源引用；diplomacy/structure 18/18 检查通过。RHoiScribe 14 份相关文件验证完成：修复其检出的 reset_on_civilwar 拼写问题，余下为已核对定义的自定义效果与历史人物索引提示。项目无 brace_balance/unclosed_block 红项；事件重复定义提示已核对为把嵌套 country_event 调用当成定义，专项只计顶层事件。repair 仅 dry_run，未应用历史格式或媒体建议。git diff --check 通过。
 - 任务开始时工作树干净，HEAD/origin/main 同在 8b242b4；代理和直连 fetch 均因连接重置失败，因此未执行 pull，在现有干净基线上开发。范围审计记录于 C:/Users/Administrator/AppData/Local/Temp/codex-hongde-integration-fy5_bnng；其他跟踪源码无本任务外修改，上传目录 1389 个文件的 SHA-256 与任务前完全相同。按本任务边界提交本地 Git，尚未同步 GitHub。没有启动游戏；真实释放链、领袖与国旗、国策布局、大选和内战仍需重启开发版并用新存档实测。调试入口保留 event GRU_reconstruction.99 GRU，仅适用于已经存在的 GRU 或相应动态标签，不创建国家。
+
+
+### 2026-10-04 修复红德事件解析中断导致释放后仍为 KR 原树
+
+- 根据用户实机反馈核对实际加载状态：dlc_load.json 启用测试版 local_loader，events/common 均联接开发源；当前游戏进程启动于 04:24:35，确实读取本次整合文件。04:24:53 的 error.log 首先在 GRU_reconstruction_events.txt 第 52 行报告 Invalid trigger political_power 与 unexpected token 15，随后同文件后续 country_event 块连锁报错，连释放接管 .98 和调试 .99 也未能正确解析。这是上次整合遗漏的原包错误，不是用户加载错版本。
+- 三个镇压选项的 political_power >= 15 全部改为 NOT = { has_political_power < 15 }，保留“至少 15 政治点”的门槛和原有扣费／影响力数值。依据本机 documentation/triggers_documentation.md 的 has_political_power 条目及 KR events/GBR events (United Kingdom).txt 的 united_kingdom_events.7；不改释放资格、59 个国策、初始共产主义 55% 或其他国家行为。
+- 上次专项模型接受了并不存在的 political_power trigger 别名及引擎不能读取的比较符，choose 又未检查选项 trigger，因此逻辑模拟没有捕捉到真实解析失败。本次模型改用原生条件、执行选项可见门槛，并增加导入脚本比较符检查、与已安装游戏 trigger 文档／本模组 scripted triggers 的名称核对，以及三种事件在 -1、0、14.99、15、15.01 政治点时的可选性、扣费与免费备选验证。三个新测试先在旧事件脚本上复现失败，修复后专项 24/24 通过；diplomacy/structure 18/18 通过。验证清单登记游戏目录依赖，机制文档与维护索引同步说明故障和验收方法。
+- RHoiScribe 相关事件文件、全项目检查及 repair dry_run 完成。全项目 54618 项混合诊断，无 brace_balance/unclosed_block 红项；本文件 13 项 CWT 提示均为已核对存在且模型实际执行的 GRU scripted effects；重复 event_id 提示仍是把嵌套事件调用当定义，专项核对顶层定义唯一。repair 的 117 项历史格式建议未应用，本功能无修复建议。本功能本地化编码／重复键、引用和 git diff --check 通过。
+- 故障日志摘录与本轮前文件保存于 C:/Users/Administrator/AppData/Local/Temp/codex-gru-event-parse-fix-zab7pd4s。上传目录 1389 个文件与整合前 SHA-256 全部相同；只修改测试版开发目录。任务开始 fetch/pull 成功，远端无新改动；按范围创建本地 Git 提交，尚未同步 GitHub。
+- 修复时用户游戏进程仍在运行，没有强制退出或替用户操作游戏，因此本轮不宣称修复后已通过引擎实测。必须完全重启后，以新存档释放并停战推进一至两天验收，检查新日志无本文件的连锁解析错误；已释放的测试存档可在重启后使用 event GRU_reconstruction.99 GRU（动态国家换成实际标签）查看新树，原有调试入口会清除接管排队状态；未新增旧档自动迁移。
