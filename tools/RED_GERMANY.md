@@ -148,8 +148,8 @@ event GRU_reconstruction.97 GRU
 
 人物定义位于`common/characters/GRU_red_germany_characters.txt`。名字和完整背景追加于`localisation/simp_chinese/GRU_red_germany_l_simp_chinese.yml`，按用户原文保留六段背景与出生信息；使用KR的黄色字段名、灰色正文，末尾引语单独使用原生`§R`红色（基础界面为RGB255/50/50）。文案是本模组架空设定，不是历史资料校订。
 
-头像注册于`interface/GRU_red_germany_portraits.gfx`，成品为`gfx/leaders/GRU/GRU_adolf_hitler.png`，156×210、RGB、不透明PNG，符合已安装KR德国人物头像格式。使用用户最后指定的彩色成图`9ab7020ac0003c15c67e4cd7b47d3e48.png`，按其“直接裁切，然后处理一下背景”要求，以Pillow裁去底部姓名/旗帜栏，保留原人物像素与军装帽徽，沿轮廓整理为灰褐色背景并等比例缩小。未生成或重绘面容、军装、徽记；源图人物身份及来源未作历史认证。此图替代此前黑白裁切稿；没有使用56之路资产。
+头像注册于`interface/GRU_red_germany_portraits.gfx`，成品为`gfx/leaders/GRU/GRU_adolf_hitler.png`，156×210、RGB、不透明PNG，符合已安装KR德国人物头像格式。当前使用用户最后指定的`codex-clipboard-205bd0e4-2cf1-4cfd-951b-eff1ad88ad71.png`，按“裁剪一下直接用”的要求，仅以Pillow等比例裁切、缩放，保留该图原背景、面容、军装、帽徽、光照和颜色。未另做背景替换或生成式处理；源图人物身份及来源未作历史认证。没有使用56之路资产。
 
-原图、轮廓遮罩、导出脚本、尺寸/裁切参数和468×630预览保存在本地`output/GRU_hitler_portrait_20261007_selected/`，不计入上传构建。此前黑白草稿仍留在`output/GRU_hitler_portrait_20261007/`；此前ImageGen请求没有取得生成结果。本轮仅接入测试版开发目录，未重建上传目录、未推送GitHub；实际人物任命、头像和长介绍显示留给用户进游戏测试。
+当前原图、导出脚本、尺寸/裁切参数和468×630预览保存在本地`output/GRU_hitler_portrait_20261007_direct_crop/`，不计入上传构建。此前灰褐背景稿留在`output/GRU_hitler_portrait_20261007_selected/`，黑白草稿留在`output/GRU_hitler_portrait_20261007/`。本轮仅替换测试版开发目录头像，未重建上传目录、未推送GitHub；人物逻辑和介绍保持原有实现，实际显示留给用户进游戏测试。
 
 人物/招募/晋升参考KR `common/characters/AZR characters.txt`、`history/countries/AZR - Azerbaijan.txt`和`common/scripted_effects/01_Annexation effects.txt`；头像注册参考KR `interface/kaiserreich/portraits/GER_portraits.gfx`；介绍格式参考KR简中德国人物介绍及现有季诺维也夫背景覆盖。
