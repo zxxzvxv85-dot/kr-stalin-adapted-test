@@ -12,7 +12,10 @@ event_source = (ROOT / "events/RUS_future_foreign_policy_events.txt").read_text(
 assert not re.search(r"\bvalue\s*(?:>=|<=)", event_source), "Use NOT with a strict comparison for BOP thresholds"
 events = {get(v, "id"): v for k, _, v in parse(event_source) if k == "country_event"}
 focus_source = (ROOT / "common/national_focus/00_RUS_future_foreign_policy_skeleton.txt").read_text(encoding="utf-8-sig")
-focus = next(parse(block)[0][2] for block in re.split(r"(?m)(?=^shared_focus =)", focus_source) if re.search(r"\bid = " + focus_id + r"\b", block))
+def read_focus(wanted):
+    return next(parse(block)[0][2] for block in re.split(r"(?m)(?=^shared_focus =)", focus_source) if re.search(r"\bid = " + wanted + r"\b", block))
+
+focus = read_focus(focus_id)
 
 def check(nodes, state):
     for k, op, v in nodes:
@@ -78,7 +81,7 @@ assert "is_focus_being_completed" not in event_source
 for balance in [-1, -.75, -.5, 0, .5, .7499, .75, .7501, 1]:
     s = fixture(balance)
     run(get(focus, "select_effect"), s)
-    assert s["events"] == [(event_prefix + "10", "7"), (event_prefix + "7", "14")]
+    assert s["events"] == [(event_prefix + "11", None), (event_prefix + "10", "7"), (event_prefix + "7", "14")]
     dispatch = events[event_prefix + "7"]
     assert check(get(dispatch, "trigger"), s)
     s["events"].clear()
@@ -111,7 +114,7 @@ for start in (0, .75, 1):
     for day_seven in (-1, 0, .7499, .75, .7501, 1):
         s = fixture(start)
         run(get(focus, "select_effect"), s)
-        assert s["events"] == [(event_prefix + "10", "7"), (event_prefix + "7", "14")]
+        assert s["events"] == [(event_prefix + "11", None), (event_prefix + "10", "7"), (event_prefix + "7", "14")]
         s["balance"] = day_seven
         assert check(get(uprising, "trigger"), s) == (day_seven > .75)
         snapshot = deepcopy(s)
@@ -124,6 +127,29 @@ for missing in ("POL", "GER"):
 for changes in ({"active": None}, {"completed": True}, {"has_bop": False}):
     s = fixture(1); s.update(changes)
     assert not check(get(uprising, "trigger"), s)
+
+# Immediate reports must attach to the requested phase, not the delayed branch.
+# They are pure narrative, so clicking either cannot spend funds, change
+# readiness, trigger a war or finish a focus early.
+spear = read_focus("RUS_future_foreign_021")
+assert get(spear, "select_effect") is None
+spear_report = get(get(spear, "completion_reward"), "country_event")
+assert spear_report == [("id", "=", event_prefix + "12")]
+assert get(get(focus, "completion_reward"), "country_event") is None
+for number, picture in (("11", "GFX_report_event_POL_revolution"), ("12", "GFX_report_event_POL_general_strike")):
+    report = events[event_prefix + number]
+    assert get(report, "is_triggered_only") == get(report, "fire_only_once") == "yes"
+    assert get(report, "trigger") is None, "Focus entry must deliver the narrative without a readiness gate"
+    assert get(report, "immediate") is None and get(report, "hidden") is None
+    assert get(report, "picture") == picture
+    options = [v for k, _, v in report if k == "option"]
+    assert len(options) == 1
+    assert {k for k, _, _ in options[0]} == {"name", "custom_effect_tooltip"}
+    for balance in (-1, .75, 1):
+        s = fixture(balance)
+        snapshot = deepcopy(s)
+        run(options[0], s)
+        assert s == snapshot, "Narrative reports must preserve all existing state"
 
 s = fixture(0)
 s["active"] = None
@@ -155,12 +181,30 @@ for lang in ["simp_chinese", "english", "russian"]:
     p = ROOT / f"localisation/{lang}/RUS_warsaw_uprising_l_{lang}.yml"
     assert p.read_bytes().startswith(b"\xef\xbb\xbf")
     text = p.read_text(encoding="utf-8-sig")
-    for suffix in ("t", "d", "a"): assert text.count(event_prefix+"10."+suffix+":") == 1
+    loc = {}
+    for line in text.splitlines()[1:]:
+        if not line.strip() or line.lstrip().startswith("#"): continue
+        match = re.fullmatch(r'\s+([^\s:]+):\d*\s+"((?:\\.|[^"\\])*)"\s*', line)
+        assert match, (p, line)
+        assert match[1] not in loc, (p, match[1])
+        loc[match[1]] = match[2]
+    for number in ("10", "11", "12"):
+        for suffix in ("t", "d", "a"):
+            assert loc[event_prefix + number + "." + suffix]
+    for number in ("11", "12"):
+        assert loc[event_prefix + number + ".a_tt"]
+    assert "Всеобщая вера в революцию есть уже начало революции." in loc[event_prefix + "12.a_tt"]
     assert "§b[POL.GetRUSWarsawHeadOfGovernment]§!" in text and "§b[POL.GetName]§!" in text
-    assert text.count("\\n\\n") == 5
+    assert loc[event_prefix + "10.d"].count("\\n\\n") == 5
+    assert loc[event_prefix + "11.d"].count("\\n\\n") == 3
+    assert loc[event_prefix + "12.d"].count("\\n\\n") == 1
     if lang == "simp_chinese":
         assert "诺奇尼茨基" not in text and "波兰王国" not in text
         assert '"波兰人的枷锁终究由自己摘落"' in text
+        assert loc[event_prefix + "11.a"] == "让我们大胆地举起我们的红旗！"
+        assert loc[event_prefix + "11.a_tt"] == "即使人们的明天如此渺茫……\\n局面至此，已是山雨满楼，华沙起义即将开始——我们对战争的准备度将决定波兰地方能否响应首都的革命。"
+        assert loc[event_prefix + "12.a"] == "时机正在酝酿。"
+        assert loc[event_prefix + "12.a_tt"] == "Всеобщая вера в революцию есть уже начало революции.\\n对革命的普遍信仰已是革命的开始。"
 
 head_loc = parse((ROOT / "common/scripted_localisation/RUS_warsaw_uprising_loc.txt").read_text(encoding="utf-8"))[0][2]
 assert get(head_loc, "name") == "GetRUSWarsawHeadOfGovernment"
@@ -169,4 +213,4 @@ assert get(get(get(head_branches[0], "trigger"), "any_character"), "is_second_in
 assert get(head_branches[0], "localization_key").strip('"') == "[GetSecondInCommand]"
 assert get(head_branches[1], "trigger") is None
 assert get(head_branches[1], "localization_key").strip('"') == "[GetLeader]"
-print("PASS: 9 day-fourteen BOP boundaries; 18 day-seven start/delivery pairs; strict >75, narrative-only option, target/cancel guards, black dynamic names and head-of-government fallback.")
+print("PASS: 9 day-fourteen BOP boundaries; 18 day-seven start/delivery pairs; immediate start/completion narratives; unchanged report-button state; three-language text/tooltip coverage; target/cancel guards and head-of-government fallback.")
