@@ -142,14 +142,18 @@ event GRU_reconstruction.97 GRU
 
 ## 2026-10-07 人物与用户指定头像
 
-根据用户明确选择，正常民族派大选或`.97`进入后续路线时，招募并晋升`GRU_adolf_hitler`为共产主义领袖，使用`marxism_leninism_subtype`。无新增特质、支持率分配或数值奖励。任命始终发生在当前国家，包括原始标签为GRU的动态Dxx国家；内战、叛军和其他国家不任命。
+根据用户明确选择，正常民族派大选或`.97`进入后续路线时，使用原生`create_country_leader`在当前国家创建并任命名为`GRU_adolf_hitler`的共产主义领袖，使用`marxism_leninism_subtype`。无新增特质、支持率分配或数值奖励。任命兼容原始标签为GRU的动态Dxx国家；内战、叛军和其他国家不任命。人物不依赖历史文件提前招募。
 
-`GRU_appoint_hitler_leader`独立检查路线及结算状态。重复`.97`可在已经载入后续树但尚未任命人物的测试局补上领袖；不重新载树、不重新结算，也不覆盖已有国策进度。已经由该人物执政时不重复招募、晋升。
+`GRU_appoint_hitler_leader`独立检查路线及结算状态，并以`has_country_leader = { name = GRU_adolf_hitler ruling_only = yes }`识别现任。重复`.97`可在已经载入后续树但仍为随机领袖的测试局完成任命；不重新载树、不重新结算，也不覆盖已有国策进度。已经由该人物执政时不重复创建。
 
-人物定义位于`common/characters/GRU_red_germany_characters.txt`。名字和完整背景追加于`localisation/simp_chinese/GRU_red_germany_l_simp_chinese.yml`，按用户原文保留六段背景与出生信息；使用KR的黄色字段名、灰色正文，末尾引语单独使用原生`§R`红色（基础界面为RGB255/50/50）。文案是本模组架空设定，不是历史资料校订。
+人物创建块位于`common/scripted_effects/GRU_red_germany_effects.txt`，直接指定姓名、介绍、头像sprite和子意识形态。名字和完整背景位于`localisation/simp_chinese/GRU_red_germany_l_simp_chinese.yml`，按用户原文保留六段背景与出生信息；使用KR的黄色字段名、灰色正文，末尾引语单独使用原生`§R`红色（基础界面为RGB255/50/50）。文案是本模组架空设定，不是历史资料校订。
 
 头像注册于`interface/GRU_red_germany_portraits.gfx`，成品为`gfx/leaders/GRU/GRU_adolf_hitler.png`，156×210、RGB、不透明PNG，符合已安装KR德国人物头像格式。当前使用用户最后指定的`codex-clipboard-205bd0e4-2cf1-4cfd-951b-eff1ad88ad71.png`，按“裁剪一下直接用”的要求，仅以Pillow等比例裁切、缩放，保留该图原背景、面容、军装、帽徽、光照和颜色。未另做背景替换或生成式处理；源图人物身份及来源未作历史认证。没有使用56之路资产。
 
 当前原图、导出脚本、尺寸/裁切参数和468×630预览保存在本地`output/GRU_hitler_portrait_20261007_direct_crop/`，不计入上传构建。此前灰褐背景稿留在`output/GRU_hitler_portrait_20261007_selected/`，黑白草稿留在`output/GRU_hitler_portrait_20261007/`。本轮仅替换测试版开发目录头像，未重建上传目录、未推送GitHub；人物逻辑和介绍保持原有实现，实际显示留给用户进游戏测试。
 
-人物/招募/晋升参考KR `common/characters/AZR characters.txt`、`history/countries/AZR - Azerbaijan.txt`和`common/scripted_effects/01_Annexation effects.txt`；头像注册参考KR `interface/kaiserreich/portraits/GER_portraits.gfx`；介绍格式参考KR简中德国人物介绍及现有季诺维也夫背景覆盖。
+运行时创建参考KR `events/00 Annexation events 1 - Europe.txt`的动态葡萄牙傀儡（18642行起）及本机`documentation/effects_documentation.md`的`create_country_leader`说明；原版`events/MTG_Britain.txt`也在换政府事件中直接创建领袖。头像注册参考KR `interface/kaiserreich/portraits/GER_portraits.gfx`；介绍格式参考KR简中德国人物介绍及现有季诺维也夫背景覆盖。
+
+### 随机领袖与黑影头像故障（2026-10-07）
+
+用户实际执行`.97`后仍显示“Johannes Weiß”。当次日志明确报`recruit_character: Unknown character GRU_adolf_hitler`，并提示`recruit_character`应在历史初始化阶段执行。此前仅有角色模板而未在历史阶段实例化，事件内招募失败后`has_character`挡住了晋升；原测试模型错误地把模板存在当成可运行时招募。现已删除未被历史文件使用的角色模板，改为上述运行时创建，并让回归模型禁止GRU事件/效果调用历史招募。此次修复需要完全退出游戏、重新启动开发版后再输入`event GRU_reconstruction.97 GRU`；已切到目标国家可省略末尾标签，动态国家则使用实际Dxx。

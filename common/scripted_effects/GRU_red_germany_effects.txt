@@ -62,8 +62,9 @@ GRU_establish_red_germany = {
 	}
 }
 
-# Recruit and promote in the current country, including dynamic GRU countries.
-# Repeated debug previews can fill a missing leader without resetting the tree.
+# Create the leader at runtime in the current country, including dynamic GRU.
+# recruit_character is history-only and cannot instantiate an uninitialised
+# character from this event. KR uses this form for dynamic puppet leaders.
 GRU_appoint_hitler_leader = {
 	if = {
 		limit = {
@@ -75,30 +76,25 @@ GRU_appoint_hitler_leader = {
 				NOT = { has_country_flag = GRU_civil_war_started }
 				NOT = {
 					has_country_leader = {
-						character = GRU_adolf_hitler
+						name = GRU_adolf_hitler
 						ruling_only = yes
 					}
 				}
 			}
 		}
 		if = {
-			limit = { NOT = { has_character = GRU_adolf_hitler } }
-			recruit_character = GRU_adolf_hitler
+			limit = { NOT = { has_government = communist } }
+			set_politics = {
+				ruling_party = communist
+				elections_allowed = no
+			}
+			set_government_flags = yes
 		}
-		if = {
-			limit = { has_character = GRU_adolf_hitler }
-			if = {
-				limit = { NOT = { has_government = communist } }
-				set_politics = {
-					ruling_party = communist
-					elections_allowed = no
-				}
-				set_government_flags = yes
-			}
-			promote_character = {
-				character = GRU_adolf_hitler
-				ideology = marxism_leninism_subtype
-			}
+		create_country_leader = {
+			name = GRU_adolf_hitler
+			desc = GRU_adolf_hitler_leader_desc
+			picture = GFX_portrait_GRU_adolf_hitler
+			ideology = marxism_leninism_subtype
 		}
 	}
 }

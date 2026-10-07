@@ -2,6 +2,14 @@
 
 最后更新：2026-10-07
 
+## 2026-10-07 — 修复红德调试后仍为随机领袖和黑影头像
+
+- 用户输入`.97`后仍显示“Johannes Weiß”。只读检查确认实际加载开发版local_loader，common/interface/gfx联接正确，人物与头像文件早于本次游戏启动；不是指向上传目录或未重启导致。09:21:36运行日志明确报`recruit_character: Unknown character GRU_adolf_hitler`，加载时亦提示该效果应在历史初始化使用。此前错误地以为人物模板存在便可在事件内招募，后续`has_character`不通过，实际晋升未执行；原模型也重复了这一错误假设。
+- `GRU_appoint_hitler_leader`改为当前国家作用域的原生`create_country_leader`，直接指定姓名、完整介绍、已裁切头像sprite及共产主义子意识形态。以现任领袖name/ruling_only守卫防止重复；保留已建政、已结算、路线、动态原始GRU及内战/叛军限制。移除无历史招募来源的旧角色模板；不覆盖KR国家历史。已进入后续路线但仍为随机领袖的局可通过`.97`重新调用任命，不重载树、不重发结算奖励。头像及文案内容未修改。
+- 写法核对本机引擎`effects_documentation.md`的create_country_leader、`triggers_documentation.md`的has_country_leader，以及KR`00 Annexation events 1 - Europe.txt`18642行起的动态葡萄牙领袖创建；原版MTG_Britain换政府事件亦直接使用该效果。专项模型删除人物模板注册依赖，拒绝事件/效果运行历史招募，从空人物状态测试自然/调试入口、固定GRU/动态D03、已进入路线仍为随机领袖、重复调用及奖励/国策保留。模型检查不能代替游戏引擎验证，按用户约定未操作或重启其游戏。
+- 专项37/37和git diff --check通过。RHoiScribe新增原生创建字段无错误；效果文件仍仅6条已核对定义的自定义效果索引告警，项目括号及未闭合块绿色。repair仅dry_run，117项既有建议未应用、无GRU修复项。根因日志摘录留存`output/GRU_leader_runtime_fix_20261007/runtime_error_evidence.txt`。
+- 仅开发目录，更新维护说明并提交本地Git；未重建上传、未推送。开始时GitHub读取因网络连接重置失败，未改变本地基线。用户需完全退出游戏后重新启动开发版，切到红德再执行`event GRU_reconstruction.97`，确认姓名、头像和介绍。
+
 ## 2026-10-07 — 按最新成图直接裁切替换红德头像
 
 - 用户提供`codex-clipboard-205bd0e4-2cf1-4cfd-951b-eff1ad88ad71.png`并要求“裁剪一下直接用”。使用Pillow对1215×1295原图等比例裁切、Lanczos缩放为156×210 RGB PNG，保留原有背景、面容、军装、帽徽与颜色，没有重新生成或改背景。覆盖开发版`gfx/leaders/GRU/GRU_adolf_hitler.png`，人物任命、介绍及原sprite引用不变。

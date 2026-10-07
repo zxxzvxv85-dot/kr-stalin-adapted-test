@@ -35,12 +35,13 @@ TREE = load(R / 'common/national_focus/GRU_red_germany_focus.txt')[0]
 FOCUSES = {n.value('id'): n for n in TREE.children('focus')}
 FOLLOWUP_TREE = load(R / 'common/national_focus/GRU_hitler_focus.txt')[0]
 FOLLOWUP_FOCUSES = {n.value('id'): n for n in FOLLOWUP_TREE.children('focus')}
-CHARACTERS = {n.k: n for n in load(R / 'common/characters/GRU_red_germany_characters.txt')[0].v}
 IDEOLOGY_GROUPS = {subtype.k: ideology.k for ideology in load(R / 'common/ideologies/00_ideologies.txt')[0].v
                    for subtype in ideology.one('types').v}
 HOOKS = load(R / 'common/on_actions/GRU_red_germany_on_actions.txt')[0]
 BARS = ['GRU_bar_' + x for x in ('economy', 'security', 'livelihood')]
 INF = ['GRU_inf_' + x for x in ('anarchist', 'nationalist', 'royalist')]
+HITLER_LEADER = dict(name='GRU_adolf_hitler', desc='GRU_adolf_hitler_leader_desc',
+                    picture='GFX_portrait_GRU_adolf_hitler', ideology='marxism_leninism_subtype')
 
 
 def country(original, government='radical_socialist', overlord=None):
@@ -48,7 +49,7 @@ def country(original, government='radical_socialist', overlord=None):
                 flags=set(), variables={}, ideas={'GRU_occupation_government', 'GRU_no_standing_army'},
                 pp=500., stability=.3, war_support=.1, popularities={}, war=False, ai=False,
                 leader='KR occupation leader', leader_ideology='radical_socialist_subtype',
-                characters=set(), character_recruitments=[], character_promotions=[],
+                characters=set(), leader_creations=[], leader_desc=None, leader_picture=None,
                 tree='German_Puppet_focus', loaded=0, focuses=set(), party_names={},
                 opaque=[], decisions={}, civil_wars=0, research_slots=3, army_experience=0.)
 
@@ -103,8 +104,8 @@ def condition(nodes, w, tag, source=None):
         if k == 'has_character': return v in c['characters']
         if k == 'has_country_leader':
             assert n.value('ruling_only', 'yes') == 'yes', ('Only ruling leaders are modeled', n.raw())
-            assert n.value('character'), ('Leader checks must use character tokens', n.raw())
-            return c['leader'] == n.value('character')
+            assert n.value('name'), ('Only leader name checks are modeled', n.raw())
+            return c['leader'] == n.value('name')
         if k == 'has_country_flag': return v in c['flags']
         if k == 'has_war': return c['war'] == (v == 'yes')
         if k == 'is_ai': return c['ai'] == (v == 'yes')
@@ -135,20 +136,22 @@ def execute(nodes, w, tag, source=None):
         elif k == 'clr_country_flag': c['flags'].discard(v)
         elif k == 'set_country_leader_ideology': c['leader_ideology'] = v
         elif k == 'recruit_character':
-            assert v in CHARACTERS, ('Unknown character', v)
-            # Native effect attaches a character to the current country. Record
-            # every call separately so a set cannot mask duplicate recruitment.
-            c['characters'].add(v)
-            c['character_recruitments'].append(v)
-        elif k == 'promote_character':
-            character, ideology = n.value('character'), n.value('ideology')
-            assert character in c['characters'], ('Promoting an unrecruited character', character)
-            assert any(role.value('ideology') == ideology for role in CHARACTERS[character].children('country_leader'))
-            # Per engine docs, promotion makes a party head the country leader
-            # only when that party rules. This model has no dormant party heads.
-            assert IDEOLOGY_GROUPS[ideology] == c['government'], ('Non-ruling party promotion is outside this model', n.raw())
-            c['leader'], c['leader_ideology'] = character, ideology
-            c['character_promotions'].append((character, ideology))
+            # The engine rejects runtime recruitment outside game/history.
+            # A definition on disk is not an instantiated/recruitable character.
+            raise AssertionError(('recruit_character is history-only in this runtime model', n.raw()))
+        elif k == 'create_country_leader':
+            # Native effect creates a country-local leader without a template;
+            # an existing character with the same name receives the leader role.
+            # Dormant party heads are outside this bounded model, so require the
+            # intended party to rule before this effect executes.
+            leader = {field: n.value(field) for field in ('name', 'desc', 'picture', 'ideology')}
+            assert all(leader.values()), ('Incomplete runtime leader', n.raw())
+            assert IDEOLOGY_GROUPS[leader['ideology']] == c['government'], ('Non-ruling party leader is outside this model', n.raw())
+            c['characters'].add(leader['name'])
+            c['leader'], c['leader_ideology'] = leader['name'], leader['ideology']
+            c['leader_desc'], c['leader_picture'] = leader['desc'], leader['picture']
+            # Record every execution: a set alone would hide duplicate creation.
+            c['leader_creations'].append(leader)
         elif k == 'set_cosmetic_tag': c['cosmetic'] = v
         elif k == 'set_politics':
             c['government'] = n.value('ruling_party')
@@ -347,13 +350,14 @@ class ReleaseTests(unittest.TestCase):
 
 
 class ReconstructionTests(unittest.TestCase):
-    def assert_hitler_leads(self, c, recruitments=1, promotions=1):
+    def assert_hitler_leads(self, c):
         self.assertEqual(c['leader'], 'GRU_adolf_hitler')
         self.assertEqual(c['leader_ideology'], 'marxism_leninism_subtype')
         self.assertEqual(c['government'], 'communist')
         self.assertIn('GRU_adolf_hitler', c['characters'])
-        self.assertEqual(c['character_recruitments'], ['GRU_adolf_hitler'] * recruitments)
-        self.assertEqual(c['character_promotions'], [('GRU_adolf_hitler', 'marxism_leninism_subtype')] * promotions)
+        self.assertEqual(c['leader_desc'], 'GRU_adolf_hitler_leader_desc')
+        self.assertEqual(c['leader_picture'], 'GFX_portrait_GRU_adolf_hitler')
+        self.assertEqual(c['leader_creations'], [HITLER_LEADER])
 
     def test_exact_thresholds(self):
         for values in product((0, 80, 81, 99, 100), repeat=3):
@@ -551,6 +555,8 @@ class ReconstructionTests(unittest.TestCase):
             w = world(tag, overlord=None, government='social_democrat', war=True)
             c = w['countries'][tag]
             if prepared: c['flags'].add('GRU_first_election_prepared')
+            self.assertFalse(c['characters'])  # no history-instantiated leader
+            self.assertFalse(c['leader_creations'])
             self.assertTrue(fire(w, 'GRU_reconstruction.97'))
             self.assertEqual(c['tree'], 'GRU_hitler_focus')
             self.assertEqual(c['loaded'], 2)
@@ -593,8 +599,9 @@ class ReconstructionTests(unittest.TestCase):
                 expected['flags'].add('GRU_hitler_path')
                 expected.update(tree='GRU_hitler_focus', loaded=c['loaded'] + 1, focuses=set())
                 expected.update(leader='GRU_adolf_hitler', characters={'GRU_adolf_hitler'},
-                                character_recruitments=['GRU_adolf_hitler'],
-                                character_promotions=[('GRU_adolf_hitler', 'marxism_leninism_subtype')])
+                                leader_desc='GRU_adolf_hitler_leader_desc',
+                                leader_picture='GFX_portrait_GRU_adolf_hitler',
+                                leader_creations=[HITLER_LEADER])
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 self.assertTrue(choose(w, 'GRU_reconstruction.97'))
                 self.assertEqual(c, expected)
@@ -613,27 +620,33 @@ class ReconstructionTests(unittest.TestCase):
                 self.assertEqual(c, before)
 
     def test_debug_repairs_leader_on_existing_path_without_reset_or_rewards(self):
-        for tag, recruited, government in product(('GRU', 'D03'), (False, True), ('communist', 'syndicalist')):
-            with self.subTest(tag=tag, recruited=recruited, government=government):
+        for tag, existing_character, government in product(('GRU', 'D03'), (False, True), ('communist', 'syndicalist')):
+            with self.subTest(tag=tag, existing_character=existing_character, government=government):
                 w, c = established(tag)
                 c['flags'].add('GRU_first_election_scheduled')
                 effect(w, 'GRU_finish_reconstruction')
-                # Represent a path entered before character appointment existed,
-                # including a character already attached but not leading it.
+                # Reproduce an existing follow-up save with a random leader:
+                # failed runtime recruitment left no Hitler instance. Also cover
+                # an existing same-name character that lacks the ruling role.
                 c['flags'].add('GRU_hitler_path')
-                c.update(tree='GRU_hitler_focus', loaded=2, government=government)
+                c.update(tree='GRU_hitler_focus', loaded=2, government=government,
+                         leader='Random generated leader', leader_desc='Random leader biography',
+                         leader_picture='GFX_random_leader')
                 c['focuses'].add('GRU_national_revolution')
-                if recruited: c['characters'].add('GRU_adolf_hitler')
+                if existing_character: c['characters'].add('GRU_adolf_hitler')
+                self.assertEqual(bool(c['characters']), existing_character)
+                self.assertFalse(c['leader_creations'])
                 expected, queue = deepcopy(c), list(w['queue'])
                 expected.update(government='communist', leader='GRU_adolf_hitler',
                                 characters={'GRU_adolf_hitler'},
-                                character_recruitments=[] if recruited else ['GRU_adolf_hitler'],
-                                character_promotions=[('GRU_adolf_hitler', 'marxism_leninism_subtype')])
+                                leader_desc='GRU_adolf_hitler_leader_desc',
+                                leader_picture='GFX_portrait_GRU_adolf_hitler',
+                                leader_creations=[HITLER_LEADER])
                 if government != 'communist': expected['opaque'].append('set_government_flags')
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 self.assertEqual(c, expected)
                 self.assertEqual(w['queue'], queue)
-                self.assert_hitler_leads(c, recruitments=int(not recruited))
+                self.assert_hitler_leads(c)
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 effect(w, 'GRU_load_hitler_focus_tree')
                 effect(w, 'GRU_appoint_hitler_leader')
@@ -707,8 +720,9 @@ class ReconstructionTests(unittest.TestCase):
         expected['flags'].add('GRU_hitler_path')
         expected.update(tree='GRU_hitler_focus', loaded=c['loaded'] + 1, focuses=set())
         expected.update(leader='GRU_adolf_hitler', characters={'GRU_adolf_hitler'},
-                        character_recruitments=['GRU_adolf_hitler'],
-                        character_promotions=[('GRU_adolf_hitler', 'marxism_leninism_subtype')])
+                        leader_desc='GRU_adolf_hitler_leader_desc',
+                        leader_picture='GFX_portrait_GRU_adolf_hitler',
+                        leader_creations=[HITLER_LEADER])
         effect(w, 'GRU_load_hitler_focus_tree')
         self.assertEqual(c, expected)
 
@@ -750,18 +764,17 @@ class ReconstructionTests(unittest.TestCase):
 
 
 class ContentTests(unittest.TestCase):
-    def test_followup_character_has_description_and_no_unrequested_traits(self):
-        character = CHARACTERS['GRU_adolf_hitler']
-        self.assertEqual(character.value('name'), 'GRU_adolf_hitler')
-        self.assertEqual({n.k for n in character.v}, {'name', 'portraits', 'country_leader'})
-        self.assertEqual(len(character.children('country_leader')), 1)
-        role = character.one('country_leader')
-        self.assertEqual({n.k for n in role.v}, {'desc', 'ideology'})
-        self.assertEqual(role.value('desc'), 'GRU_adolf_hitler_leader_desc')
-        self.assertEqual(role.value('ideology'), 'marxism_leninism_subtype')
-        self.assertEqual(IDEOLOGY_GROUPS[role.value('ideology')], 'communist')
-        portrait = character.one('portraits').one('civilian').value('large')
-        self.assertEqual(portrait, 'GFX_portrait_GRU_adolf_hitler')
+    def test_followup_runtime_leader_has_description_and_no_unrequested_traits(self):
+        creations = [n for n in walk(EFFECTS['GRU_appoint_hitler_leader'].v) if n.k == 'create_country_leader']
+        self.assertEqual(len(creations), 1)
+        creation = creations[0]
+        self.assertEqual(len(creation.v), len(HITLER_LEADER))
+        self.assertEqual({n.k: n.v for n in creation.v}, HITLER_LEADER)
+        self.assertEqual(IDEOLOGY_GROUPS[creation.value('ideology')], 'communist')
+        guards = [n for n in walk(EFFECTS['GRU_appoint_hitler_leader'].v) if n.k == 'has_country_leader']
+        self.assertEqual(len(guards), 1)
+        self.assertEqual({n.k: n.v for n in guards[0].v}, {'name': 'GRU_adolf_hitler', 'ruling_only': 'yes'})
+        portrait = creation.value('picture')
         sprites = [n for n in walk(load(R / 'interface/GRU_red_germany_portraits.gfx'))
                    if n.k == 'spriteType' and n.value('name').strip('"') == portrait]
         self.assertEqual(len(sprites), 1)
@@ -771,6 +784,43 @@ class ContentTests(unittest.TestCase):
         self.assertTrue(png.startswith(b'\x89PNG\r\n\x1a\n'))
         width, height, depth, colour, _, _, _ = struct.unpack('>IIBBBBB', png[16:29])
         self.assertEqual((width, height, depth, colour), (156, 210, 8, 2))  # opaque RGB
+
+    def test_gru_runtime_scripts_do_not_use_history_only_recruitment(self):
+        # Inspect every GRU event/effect, including branches no fixture reaches.
+        # History-only recruitment must not pass merely because a definition
+        # exists in common/characters or a fixture pre-instantiated a character.
+        paths = set(IMPORTED_SCRIPTS) | set((R / 'events').glob('GRU_*.txt'))
+        for path in paths:
+            for n in walk(load(path)):
+                self.assertNotEqual(n.k, 'recruit_character', (path.name, n.raw()))
+
+    def test_runtime_model_rejects_recruitment_even_with_existing_character(self):
+        for existing in (False, True):
+            with self.subTest(existing_character=existing):
+                w = world()
+                c = w['countries']['GRU']
+                if existing: c['characters'].add('GRU_adolf_hitler')
+                before = deepcopy(c)
+                with self.assertRaisesRegex(AssertionError, 'recruit_character is history-only'):
+                    execute(parse('recruit_character = GRU_adolf_hitler'), w, 'GRU')
+                self.assertEqual(c, before)
+
+    def test_runtime_creation_uses_effect_fields_without_character_template(self):
+        # Keep the model generic: supplied fields, not a name-specific template,
+        # determine the runtime leader. No character registry is loaded.
+        w = world(government='communist')
+        c = w['countries']['GRU']
+        self.assertFalse(c['characters'])
+        execute(parse('''create_country_leader = {
+            name = test_runtime_leader desc = test_runtime_biography
+            picture = GFX_test_runtime_portrait ideology = marxism_leninism_subtype
+        }'''), w, 'GRU')
+        self.assertEqual(c['leader'], 'test_runtime_leader')
+        self.assertEqual(c['leader_desc'], 'test_runtime_biography')
+        self.assertEqual(c['leader_picture'], 'GFX_test_runtime_portrait')
+        self.assertEqual(c['characters'], {'test_runtime_leader'})
+        self.assertTrue(condition(parse('has_country_leader = { name = test_runtime_leader ruling_only = yes }'), w, 'GRU'))
+        self.assertFalse(condition(parse('has_country_leader = { name = another_leader ruling_only = yes }'), w, 'GRU'))
 
     def test_imported_scripts_use_supported_comparison_operators(self):
         # Our general parser can tokenize >=, <= and !=, unlike the HOI4 script
