@@ -1,0 +1,925 @@
+#####################################################################
+#  红德 - 希特勒线国策树                                              #
+#  节点与连接关系来自用户提供的红德后续路线包（42 节点）           #
+#  载入方式：第一次大选结算时「民族主义煽动」影响力 > 80%             #
+#            由 GRU_reconstruction.8 事件调用 GRU_enter_hitler_path    #
+#            显式载入，顶替重建阶段的 GRU_red_germany_focus。          #
+#  与重建树一致：不参与开局自动分配（country 权重恒为 0）。            #
+#  连接规则：源图没有「互斥」标注，所有汇聚一律按「且」处理。          #
+#####################################################################
+
+focus_tree = {
+	id = GRU_hitler_focus
+
+	country = {
+		factor = 0
+	}
+
+	default = no
+	reset_on_civilwar = no
+
+	continuous_focus_position = { x = 2200 y = 400 }
+
+	initial_show_position = { x = 3 y = 0 }
+
+	shortcut = {
+		name = GRU_shortcut_hitler_line
+		target = GRU_national_revolution
+		scroll_wheel_factor = 0.5
+	}
+
+	focus = {
+		id = GRU_national_revolution
+		icon = GFX_focus_generic_spur_communist_revolutions
+		cost = 3
+
+		x = 3
+		y = 0
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_yes_chancellor
+		icon = GFX_goal_generic_parliament
+		cost = 3
+
+		prerequisite = { focus = GRU_national_revolution }
+
+		x = 3
+		y = 1
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			set_country_flag = GRU_revolutionary_chancellor
+		}
+	}
+
+	focus = {
+		id = GRU_aristocrats_unforgivable
+		icon = GFX_focus_generic_monarchy_1
+		cost = 3
+
+		prerequisite = { focus = GRU_yes_chancellor }
+
+		x = 1
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = -0.05
+			set_country_flag = GRU_aristocracy_broken
+		}
+	}
+
+	focus = {
+		id = GRU_abolish_officer_corps
+		icon = GFX_goal_generic_officer
+		cost = 3
+
+		prerequisite = { focus = GRU_yes_chancellor }
+
+		x = 3
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_smash_old_state
+		icon = GFX_goal_generic_police_state
+		cost = 3
+
+		prerequisite = { focus = GRU_yes_chancellor }
+
+		x = 5
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_check_three_generations
+		icon = GFX_goal_generic_investigation
+		cost = 4
+
+		prerequisite = { focus = GRU_aristocrats_unforgivable }
+
+		x = 0
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			set_country_flag = GRU_class_enemies_exposed
+		}
+	}
+
+	focus = {
+		id = GRU_national_revolution_own
+		icon = GFX_goal_ideology_national_populist_eagle
+		cost = 4
+
+		prerequisite = { focus = GRU_aristocrats_unforgivable }
+		prerequisite = { focus = GRU_abolish_officer_corps }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 2
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_war_support = 0.10
+		}
+	}
+
+	focus = {
+		id = GRU_international_revolution
+		icon = GFX_goal_generic_spreading_the_revolution
+		cost = 4
+
+		prerequisite = { focus = GRU_abolish_officer_corps }
+		prerequisite = { focus = GRU_smash_old_state }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 4
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_crown_and_guillotine
+		icon = GFX_goal_generic_execution
+		cost = 4
+
+		prerequisite = { focus = GRU_smash_old_state }
+
+		x = 6
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_anti_party_is_counterrevolution
+		icon = GFX_goal_generic_secret_documents
+		cost = 4
+
+		prerequisite = { focus = GRU_national_revolution_own }
+		prerequisite = { focus = GRU_check_three_generations }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 1
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_proletarian_germany
+		icon = GFX_goal_generic_workers_democracy
+		cost = 4
+
+		prerequisite = { focus = GRU_national_revolution_own }
+		prerequisite = { focus = GRU_international_revolution }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 3
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_anti_communism_is_anti_germany
+		icon = GFX_focus_generic_strike_at_democracy1
+		cost = 4
+
+		prerequisite = { focus = GRU_international_revolution }
+		prerequisite = { focus = GRU_crown_and_guillotine }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 5
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_critique_of_moderates
+		icon = GFX_goal_generic_propaganda_film
+		cost = 4
+
+		prerequisite = { focus = GRU_proletarian_germany }
+		prerequisite = { focus = GRU_anti_party_is_counterrevolution }
+		prerequisite = { focus = GRU_anti_communism_is_anti_germany }
+		# 以上 3 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 3
+		y = 5
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_german_style_democracy
+		icon = GFX_focus_generic_bastion_of_democracy
+		cost = 4
+
+		prerequisite = { focus = GRU_critique_of_moderates }
+
+		x = 3
+		y = 6
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_bureaucratic_opposition
+		icon = GFX_goal_generic_purge_bureaucracy
+		cost = 4
+
+		prerequisite = { focus = GRU_german_style_democracy }
+
+		x = 1
+		y = 7
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_end_of_american_liberalism
+		icon = GFX_focus_generic_american_investments
+		cost = 4
+
+		prerequisite = { focus = GRU_german_style_democracy }
+
+		x = 5
+		y = 7
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_great_purge
+		icon = GFX_goal_generic_political_purge
+		cost = 5
+
+		prerequisite = { focus = GRU_german_style_democracy }
+		prerequisite = { focus = GRU_bureaucratic_opposition }
+		prerequisite = { focus = GRU_end_of_american_liberalism }
+		# 以上 3 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 3
+		y = 8
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = -0.10
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_fuhrer_of_the_people
+		icon = GFX_focus_GER_loyalty_to_the_fuhrer
+		cost = 5
+
+		prerequisite = { focus = GRU_great_purge }
+
+		x = 3
+		y = 9
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.10
+			set_country_flag = GRU_fuhrer_principle
+		}
+	}
+
+	focus = {
+		id = GRU_germany_holy_land_of_revolution
+		icon = GFX_goal_generic_revolutionary_government
+		cost = 3
+
+		x = 11
+		y = 0
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_europes_three_best_friends
+		icon = GFX_goal_generic_alliance
+		cost = 3
+
+		prerequisite = { focus = GRU_germany_holy_land_of_revolution }
+
+		x = 11
+		y = 1
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_russia_our_teacher
+		icon = GFX_focus_russian_cooperation
+		cost = 3
+
+		prerequisite = { focus = GRU_europes_three_best_friends }
+
+		x = 9
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_france_our_friend
+		icon = GFX_focus_fra_loyalty_stalin
+		cost = 3
+
+		prerequisite = { focus = GRU_europes_three_best_friends }
+
+		x = 11
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_britain_captain_of_europe
+		icon = GFX_goal_uobritain
+		cost = 3
+
+		prerequisite = { focus = GRU_europes_three_best_friends }
+
+		x = 13
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_america_son_of_the_new_world
+		icon = GFX_focus_generic_befriend_usa
+		cost = 4
+
+		prerequisite = { focus = GRU_europes_three_best_friends }
+
+		x = 10
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_china_gendarme_of_the_east
+		icon = GFX_focus_generic_befriend_the_chinese_soviet
+		cost = 4
+
+		prerequisite = { focus = GRU_europes_three_best_friends }
+
+		x = 12
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_who_is_mussolini
+		icon = GFX_focus_ITA_depose_mussolini
+		cost = 4
+
+		prerequisite = { focus = GRU_russia_our_teacher }
+		prerequisite = { focus = GRU_france_our_friend }
+		prerequisite = { focus = GRU_britain_captain_of_europe }
+		prerequisite = { focus = GRU_america_son_of_the_new_world }
+		prerequisite = { focus = GRU_china_gendarme_of_the_east }
+		# 以上 5 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 11
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_hail_great_stalin
+		icon = GFX_focus_SOV_stalins_cult_of_personality
+		cost = 4
+
+		prerequisite = { focus = GRU_who_is_mussolini }
+
+		x = 11
+		y = 5
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_marx_prophet_of_germany
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		cost = 4
+
+		prerequisite = { focus = GRU_hail_great_stalin }
+
+		x = 10
+		y = 6
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_lenin_hero_and_martyr
+		icon = GFX_goal_syndicalist_lenin
+		cost = 4
+
+		prerequisite = { focus = GRU_hail_great_stalin }
+
+		x = 13
+		y = 6
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_zinoviev_traitor
+		icon = GFX_goal_generic_plotting
+		cost = 4
+
+		prerequisite = { focus = GRU_hail_great_stalin }
+
+		x = 10
+		y = 7
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_kautsky_bernstein_revisionists
+		icon = GFX_focus_generic_social_democracy
+		cost = 4
+
+		prerequisite = { focus = GRU_hail_great_stalin }
+
+		x = 12
+		y = 7
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_hitler_father_of_germany
+		icon = GFX_focus_generic_eagle
+		cost = 5
+
+		prerequisite = { focus = GRU_hail_great_stalin }
+
+		x = 11
+		y = 8
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 100
+			add_war_support = 0.10
+			set_country_flag = GRU_hitler_father
+		}
+	}
+
+	focus = {
+		id = GRU_hitler_and_stalin
+		icon = GFX_goal_generic_major_alliance
+		cost = 5
+
+		prerequisite = { focus = GRU_hitler_father_of_germany }
+
+		x = 8
+		y = 11
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			set_country_flag = GRU_hitler_stalin_pact
+		}
+	}
+
+	focus = {
+		id = GRU_attack_revisionism
+		icon = GFX_goal_generic_propaganda
+		cost = 5
+
+		prerequisite = { focus = GRU_hitler_and_stalin }
+
+		x = 8
+		y = 12
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_army_purge
+		icon = GFX_focus_SOV_military_purge
+		cost = 5
+
+		prerequisite = { focus = GRU_attack_revisionism }
+
+		x = 8
+		y = 13
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_war_support = 0.05
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_camps_for_the_guilty
+		icon = GFX_goal_generic_imprison_people
+		cost = 6
+
+		prerequisite = { focus = GRU_army_purge }
+
+		x = 7
+		y = 14
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = -0.05
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_jews_friends_of_germans
+		icon = GFX_goal_RUS_tolerance
+		cost = 6
+
+		prerequisite = { focus = GRU_army_purge }
+
+		x = 9
+		y = 14
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_hail_stalin_hail_hitler
+		icon = GFX_focus_RUS_unite_under_stalin
+		cost = 6
+
+		prerequisite = { focus = GRU_camps_for_the_guilty }
+		prerequisite = { focus = GRU_jews_friends_of_germans }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 8
+		y = 15
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.10
+			set_country_flag = GRU_two_hails
+		}
+	}
+
+	focus = {
+		id = GRU_european_communist_union
+		icon = GFX_focus_SOV_international_union_of_soviet_republics
+		cost = 6
+
+		prerequisite = { focus = GRU_hail_stalin_hail_hitler }
+
+		x = 8
+		y = 16
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_roman_nostalgia
+		icon = GFX_focus_SOV_third_rome
+		cost = 6
+
+		prerequisite = { focus = GRU_european_communist_union }
+
+		x = 7
+		y = 17
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_unite_europe
+		icon = GFX_goal_generic_syndicalist_europe
+		cost = 6
+
+		prerequisite = { focus = GRU_european_communist_union }
+
+		x = 9
+		y = 17
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_hitler_augustus
+		icon = GFX_goal_imperial_legacy
+		cost = 6
+
+		prerequisite = { focus = GRU_roman_nostalgia }
+		prerequisite = { focus = GRU_unite_europe }
+		# 以上 2 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 8
+		y = 18
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.10
+			add_war_support = 0.10
+			set_country_flag = GRU_hitler_augustus
+		}
+	}
+
+}

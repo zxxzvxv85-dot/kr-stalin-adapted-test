@@ -220,7 +220,7 @@ country_event = {
 }
 
 
-# ── 5：大选分派。影响力高于 80% 的敌特会把选举搅浑 ──
+# ── 5：大选分派。民族派影响力 > 80% 优先进入后续路线 ──
 country_event = {
 	id = GRU_reconstruction.5
 	title = GRU_reconstruction.5.t
@@ -235,6 +235,10 @@ country_event = {
 
 	immediate = {
 		if = {
+			limit = { check_variable = { GRU_inf_nationalist > 80 } }
+			country_event = { id = GRU_reconstruction.8 }
+		}
+		else_if = {
 			limit = { GRU_any_saboteur_strong = yes }
 			country_event = { id = GRU_reconstruction.7 } # 被渗透的大选
 		}
@@ -309,6 +313,36 @@ country_event = {
 	}
 }
 
+
+# ── 8：民族派的德意志。奖励在按钮结算，沿用大选与内战的互斥保护。 ──
+country_event = {
+	id = GRU_reconstruction.8
+	title = GRU_reconstruction.8.t
+	desc = GRU_reconstruction.8.d
+	picture = GFX_report_event_GER_hitler
+	is_triggered_only = yes
+
+	trigger = {
+		GRU_can_resolve_first_election = yes
+		NOT = { has_country_flag = GRU_first_election_event_open }
+	}
+
+	immediate = { set_country_flag = GRU_first_election_event_open }
+
+	option = {
+		name = GRU_reconstruction.8.a
+		if = {
+			limit = { hidden_trigger = { GRU_can_resolve_first_election = yes } }
+			GRU_enter_hitler_path = yes
+			if = {
+				limit = { hidden_trigger = { has_country_flag = GRU_first_election_prepared } }
+				add_political_power = 50
+			}
+			add_war_support = 0.10
+			add_stability = -0.05
+		}
+	}
+}
 
 # ── 10：内战 —— 两个敌特影响力都到 100 ──
 country_event = {
@@ -393,6 +427,30 @@ country_event = {
 	option = {
 		name = GRU_reconstruction.99.a
 	}
+}
+
+# Debug-only follow-up preview. .98 remains the normal delayed release handover.
+# Does not reopen a completed reconstruction or interrupt a civil war.
+country_event = {
+	id = GRU_reconstruction.97
+	title = GRU_reconstruction.97.t
+	desc = GRU_reconstruction.97.d
+	picture = GFX_report_event_generic_communist_congress
+	is_triggered_only = yes
+	trigger = {
+		original_tag = GRU
+		NOT = { has_country_flag = GRU_reconstruction_rebel }
+		NOT = { has_country_flag = GRU_civil_war_started }
+	}
+	immediate = {
+		GRU_establish_red_germany = yes
+		if = {
+			limit = { GRU_reconstruction_active = yes }
+			set_country_flag = GRU_first_election_scheduled
+			GRU_enter_hitler_path = yes
+		}
+	}
+	option = { name = GRU_reconstruction.97.a }
 }
 
 # Always clear the pending marker, even if eligibility changed during the delay.

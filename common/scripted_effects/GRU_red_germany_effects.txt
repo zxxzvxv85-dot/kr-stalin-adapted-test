@@ -61,3 +61,23 @@ GRU_establish_red_germany = {
 		GRU_init_reconstruction = yes
 	}
 }
+
+# Nationalist victory at the first election hands the country to the follow-up
+# tree. Use the existing guarded settlement so old pulses/options cannot linger.
+GRU_enter_hitler_path = {
+	if = {
+		limit = {
+			hidden_trigger = {
+				GRU_can_resolve_first_election = yes
+				NOT = { has_country_flag = GRU_hitler_path }
+			}
+		}
+		hidden_effect = { set_country_flag = GRU_hitler_path }
+		GRU_finish_reconstruction = yes
+		load_focus_tree = {
+			tree = GRU_hitler_focus
+			keep_completed = no
+		}
+		mark_focus_tree_layout_dirty = yes
+	}
+}
