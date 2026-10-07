@@ -430,7 +430,7 @@ country_event = {
 }
 
 # Debug-only follow-up preview. .98 remains the normal delayed release handover.
-# Does not reopen a completed reconstruction or interrupt a civil war.
+# Also works after a completed election, without reopening it or paying twice.
 country_event = {
 	id = GRU_reconstruction.97
 	title = GRU_reconstruction.97.t
@@ -448,6 +448,10 @@ country_event = {
 			limit = { GRU_reconstruction_active = yes }
 			set_country_flag = GRU_first_election_scheduled
 			GRU_enter_hitler_path = yes
+		}
+		else_if = {
+			limit = { has_country_flag = GRU_first_election_held }
+			GRU_load_hitler_focus_tree = yes
 		}
 	}
 	option = { name = GRU_reconstruction.97.a }

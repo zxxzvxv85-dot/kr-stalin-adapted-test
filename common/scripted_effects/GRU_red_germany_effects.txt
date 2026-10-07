@@ -62,8 +62,30 @@ GRU_establish_red_germany = {
 	}
 }
 
-# Nationalist victory at the first election hands the country to the follow-up
-# tree. Use the existing guarded settlement so old pulses/options cannot linger.
+# Loading the follow-up tree is separate from election rewards. The debug entry
+# can therefore preview it after an ordinary election without paying out twice.
+GRU_load_hitler_focus_tree = {
+	if = {
+		limit = {
+			hidden_trigger = {
+				GRU_is_red_germany = yes
+				has_country_flag = GRU_first_election_held
+				NOT = { has_country_flag = GRU_reconstruction_rebel }
+				NOT = { has_country_flag = GRU_civil_war_started }
+				NOT = { has_country_flag = GRU_hitler_path }
+			}
+		}
+		hidden_effect = { set_country_flag = GRU_hitler_path }
+		load_focus_tree = {
+			tree = GRU_hitler_focus
+			keep_completed = no
+		}
+		mark_focus_tree_layout_dirty = yes
+	}
+}
+
+# Natural nationalist victory still requires a pending first election and uses
+# the guarded settlement before loading the tree, closing stale event options.
 GRU_enter_hitler_path = {
 	if = {
 		limit = {
@@ -72,12 +94,7 @@ GRU_enter_hitler_path = {
 				NOT = { has_country_flag = GRU_hitler_path }
 			}
 		}
-		hidden_effect = { set_country_flag = GRU_hitler_path }
 		GRU_finish_reconstruction = yes
-		load_focus_tree = {
-			tree = GRU_hitler_focus
-			keep_completed = no
-		}
-		mark_focus_tree_layout_dirty = yes
+		GRU_load_hitler_focus_tree = yes
 	}
 }

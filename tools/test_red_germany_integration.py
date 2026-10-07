@@ -448,7 +448,6 @@ class ReconstructionTests(unittest.TestCase):
                 choose(w, eid)
                 effect(w, 'GRU_finish_reconstruction')
                 effect(w, 'GRU_enter_hitler_path')
-                self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 self.assertFalse(fire(w, eid))
                 self.assertEqual(c, before)
                 advance(w, 100)
@@ -529,19 +528,58 @@ class ReconstructionTests(unittest.TestCase):
             self.assertFalse(fire(w, 'GRU_reconstruction.8'))
             choose(w, 'GRU_reconstruction.8')
             effect(w, 'GRU_enter_hitler_path')
+            effect(w, 'GRU_load_hitler_focus_tree')
             self.assertEqual(c, before)
             self.assertEqual(w['queue'], queue)
+
+    def test_followup_debug_after_normal_election_preserves_settled_rewards(self):
+        for outcome, prepared, tag in product((6, 7), (False, True), ('GRU', 'D03')):
+            with self.subTest(outcome=outcome, prepared=prepared, tag=tag):
+                w, c = established(tag)
+                c['variables'].update(zip(BARS, (100, 100, 0)))
+                if outcome == 7: c['variables'][INF[0]] = 81
+                if prepared: c['flags'].add('GRU_first_election_prepared')
+                c['focuses'].add('GRU_new_german_government')
+                self.assertTrue(decision(w, 'GRU_hold_first_election'))
+                advance(w, 7)
+                eid = f'GRU_reconstruction.{outcome}'
+                self.assertEqual(w['opened'], [(tag, eid)])
+                self.assertTrue(choose(w, eid))
+                self.assertIn('GRU_first_election_held', c['flags'])
+                self.assertEqual(c['tree'], 'GRU_red_germany_focus')
+                expected = deepcopy(c)
+                # The debug preview may switch a completed reconstruction. Only
+                # tree state changes: PP, stability, support and popularity must
+                # all retain the result already granted by .6 or .7.
+                expected['flags'].add('GRU_hitler_path')
+                expected.update(tree='GRU_hitler_focus', loaded=c['loaded'] + 1, focuses=set())
+                self.assertTrue(fire(w, 'GRU_reconstruction.97'))
+                self.assertTrue(choose(w, 'GRU_reconstruction.97'))
+                self.assertEqual(c, expected)
+                c['focuses'].add('GRU_national_revolution')
+                before = deepcopy(c)
+                self.assertTrue(fire(w, 'GRU_reconstruction.97'))
+                self.assertTrue(choose(w, 'GRU_reconstruction.97'))
+                effect(w, 'GRU_load_hitler_focus_tree')
+                effect(w, 'GRU_enter_hitler_path')
+                effect(w, 'GRU_finish_reconstruction')
+                for i in (5, 6, 7, 8): self.assertFalse(fire(w, f'GRU_reconstruction.{i}'))
+                for i in (6, 7, 8): choose(w, f'GRU_reconstruction.{i}')
+                advance(w, 100)
+                self.assertFalse(w['queue'])
+                self.assertEqual(c, before)
 
     def test_followup_entry_rejects_wrong_scope_and_inactive_reconstruction(self):
         for original in ('RUS', 'GER', 'AUS'):
             w = world('D03', original=original)
             c = w['countries']['D03']
             # Even copied flags do not make an unrelated dynamic tag eligible.
-            c['flags'].update(('GRU_red_germany_established', 'GRU_reconstruction_ongoing', 'GRU_first_election_scheduled'))
+            c['flags'].update(('GRU_red_germany_established', 'GRU_reconstruction_ongoing', 'GRU_first_election_scheduled', 'GRU_first_election_held'))
             before = deepcopy(c)
             self.assertFalse(fire(w, 'GRU_reconstruction.97'))
             self.assertFalse(fire(w, 'GRU_reconstruction.8'))
             effect(w, 'GRU_enter_hitler_path')
+            effect(w, 'GRU_load_hitler_focus_tree')
             self.assertEqual(c, before)
         for state in ('unscheduled', 'already_entered', 'civil_war', 'rebel'):
             w, c = established()
@@ -552,9 +590,38 @@ class ReconstructionTests(unittest.TestCase):
             before = deepcopy(c)
             effect(w, 'GRU_enter_hitler_path')
             self.assertEqual(c, before)
+            if state != 'unscheduled':
+                effect(w, 'GRU_load_hitler_focus_tree')
+                self.assertEqual(c, before)
             if state in ('civil_war', 'rebel'):
                 self.assertFalse(fire(w, 'GRU_reconstruction.97'))
                 self.assertFalse(fire(w, 'GRU_reconstruction.8'))
+
+    def test_followup_tree_loader_requires_settlement_and_safe_scope(self):
+        w = world()
+        c = w['countries']['GRU']
+        c['flags'].add('GRU_first_election_held')
+        before = deepcopy(c)
+        effect(w, 'GRU_load_hitler_focus_tree')
+        self.assertEqual(c, before)  # original GRU alone is not an established red Germany
+        c['flags'].clear()
+        effect(w, 'GRU_establish_red_germany')
+        before = deepcopy(c)
+        effect(w, 'GRU_load_hitler_focus_tree')
+        self.assertEqual(c, before)  # switching trees must not skip settlement
+        c['flags'].add('GRU_first_election_scheduled')
+        effect(w, 'GRU_finish_reconstruction')
+        for flag in ('GRU_reconstruction_rebel', 'GRU_civil_war_started', 'GRU_hitler_path'):
+            c['flags'].add(flag)
+            before = deepcopy(c)
+            effect(w, 'GRU_load_hitler_focus_tree')
+            self.assertEqual(c, before, flag)
+            c['flags'].discard(flag)
+        expected = deepcopy(c)
+        expected['flags'].add('GRU_hitler_path')
+        expected.update(tree='GRU_hitler_focus', loaded=c['loaded'] + 1, focuses=set())
+        effect(w, 'GRU_load_hitler_focus_tree')
+        self.assertEqual(c, expected)
 
     def test_all_focus_rewards_execute_and_clamp(self):
         for focus in FOCUSES.values():
