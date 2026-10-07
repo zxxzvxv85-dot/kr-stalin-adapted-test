@@ -62,6 +62,47 @@ GRU_establish_red_germany = {
 	}
 }
 
+# Recruit and promote in the current country, including dynamic GRU countries.
+# Repeated debug previews can fill a missing leader without resetting the tree.
+GRU_appoint_hitler_leader = {
+	if = {
+		limit = {
+			hidden_trigger = {
+				GRU_is_red_germany = yes
+				has_country_flag = GRU_first_election_held
+				has_country_flag = GRU_hitler_path
+				NOT = { has_country_flag = GRU_reconstruction_rebel }
+				NOT = { has_country_flag = GRU_civil_war_started }
+				NOT = {
+					has_country_leader = {
+						character = GRU_adolf_hitler
+						ruling_only = yes
+					}
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { has_character = GRU_adolf_hitler } }
+			recruit_character = GRU_adolf_hitler
+		}
+		if = {
+			limit = { has_character = GRU_adolf_hitler }
+			if = {
+				limit = { NOT = { has_government = communist } }
+				set_politics = {
+					ruling_party = communist
+					elections_allowed = no
+				}
+				set_government_flags = yes
+			}
+			promote_character = {
+				character = GRU_adolf_hitler
+				ideology = marxism_leninism_subtype
+			}
+		}
+	}
+}
+
 # Loading the follow-up tree is separate from election rewards. The debug entry
 # can therefore preview it after an ordinary election without paying out twice.
 GRU_load_hitler_focus_tree = {
@@ -82,6 +123,7 @@ GRU_load_hitler_focus_tree = {
 		}
 		mark_focus_tree_layout_dirty = yes
 	}
+	GRU_appoint_hitler_leader = yes
 }
 
 # Natural nationalist victory still requires a pending first election and uses

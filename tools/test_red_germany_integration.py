@@ -13,6 +13,7 @@ import heapq
 import json
 import os
 import re
+import struct
 import unittest
 
 from hoi4_politics_blocks import R, KR, load, parse
@@ -34,6 +35,9 @@ TREE = load(R / 'common/national_focus/GRU_red_germany_focus.txt')[0]
 FOCUSES = {n.value('id'): n for n in TREE.children('focus')}
 FOLLOWUP_TREE = load(R / 'common/national_focus/GRU_hitler_focus.txt')[0]
 FOLLOWUP_FOCUSES = {n.value('id'): n for n in FOLLOWUP_TREE.children('focus')}
+CHARACTERS = {n.k: n for n in load(R / 'common/characters/GRU_red_germany_characters.txt')[0].v}
+IDEOLOGY_GROUPS = {subtype.k: ideology.k for ideology in load(R / 'common/ideologies/00_ideologies.txt')[0].v
+                   for subtype in ideology.one('types').v}
 HOOKS = load(R / 'common/on_actions/GRU_red_germany_on_actions.txt')[0]
 BARS = ['GRU_bar_' + x for x in ('economy', 'security', 'livelihood')]
 INF = ['GRU_inf_' + x for x in ('anarchist', 'nationalist', 'royalist')]
@@ -44,6 +48,7 @@ def country(original, government='radical_socialist', overlord=None):
                 flags=set(), variables={}, ideas={'GRU_occupation_government', 'GRU_no_standing_army'},
                 pp=500., stability=.3, war_support=.1, popularities={}, war=False, ai=False,
                 leader='KR occupation leader', leader_ideology='radical_socialist_subtype',
+                characters=set(), character_recruitments=[], character_promotions=[],
                 tree='German_Puppet_focus', loaded=0, focuses=set(), party_names={},
                 opaque=[], decisions={}, civil_wars=0, research_slots=3, army_experience=0.)
 
@@ -95,6 +100,11 @@ def condition(nodes, w, tag, source=None):
         if k == 'original_tag': return c['original'] == v
         if k == 'tag': return tag == v
         if k == 'has_government': return c['government'] == v
+        if k == 'has_character': return v in c['characters']
+        if k == 'has_country_leader':
+            assert n.value('ruling_only', 'yes') == 'yes', ('Only ruling leaders are modeled', n.raw())
+            assert n.value('character'), ('Leader checks must use character tokens', n.raw())
+            return c['leader'] == n.value('character')
         if k == 'has_country_flag': return v in c['flags']
         if k == 'has_war': return c['war'] == (v == 'yes')
         if k == 'is_ai': return c['ai'] == (v == 'yes')
@@ -124,6 +134,21 @@ def execute(nodes, w, tag, source=None):
         elif k == 'set_country_flag': c['flags'].add(v)
         elif k == 'clr_country_flag': c['flags'].discard(v)
         elif k == 'set_country_leader_ideology': c['leader_ideology'] = v
+        elif k == 'recruit_character':
+            assert v in CHARACTERS, ('Unknown character', v)
+            # Native effect attaches a character to the current country. Record
+            # every call separately so a set cannot mask duplicate recruitment.
+            c['characters'].add(v)
+            c['character_recruitments'].append(v)
+        elif k == 'promote_character':
+            character, ideology = n.value('character'), n.value('ideology')
+            assert character in c['characters'], ('Promoting an unrecruited character', character)
+            assert any(role.value('ideology') == ideology for role in CHARACTERS[character].children('country_leader'))
+            # Per engine docs, promotion makes a party head the country leader
+            # only when that party rules. This model has no dormant party heads.
+            assert IDEOLOGY_GROUPS[ideology] == c['government'], ('Non-ruling party promotion is outside this model', n.raw())
+            c['leader'], c['leader_ideology'] = character, ideology
+            c['character_promotions'].append((character, ideology))
         elif k == 'set_cosmetic_tag': c['cosmetic'] = v
         elif k == 'set_politics':
             c['government'] = n.value('ruling_party')
@@ -322,6 +347,14 @@ class ReleaseTests(unittest.TestCase):
 
 
 class ReconstructionTests(unittest.TestCase):
+    def assert_hitler_leads(self, c, recruitments=1, promotions=1):
+        self.assertEqual(c['leader'], 'GRU_adolf_hitler')
+        self.assertEqual(c['leader_ideology'], 'marxism_leninism_subtype')
+        self.assertEqual(c['government'], 'communist')
+        self.assertIn('GRU_adolf_hitler', c['characters'])
+        self.assertEqual(c['character_recruitments'], ['GRU_adolf_hitler'] * recruitments)
+        self.assertEqual(c['character_promotions'], [('GRU_adolf_hitler', 'marxism_leninism_subtype')] * promotions)
+
     def test_exact_thresholds(self):
         for values in product((0, 80, 81, 99, 100), repeat=3):
             w, c = established()
@@ -423,6 +456,8 @@ class ReconstructionTests(unittest.TestCase):
                 # An open window cannot settle early or open a competing result.
                 self.assertEqual((c['pp'], c['stability'], c['war_support']), (500, .3, .1))
                 self.assertEqual(c['loaded'], 1)
+                self.assertEqual(c['leader'], 'KR occupation leader')
+                self.assertFalse(c['characters'])
                 self.assertIn('GRU_collapsed_germany', c['ideas'])
                 for i in (5, 6, 7, 8): self.assertFalse(fire(w, f'GRU_reconstruction.{i}'))
                 # All results have one option; AI and human scopes can both use
@@ -443,7 +478,11 @@ class ReconstructionTests(unittest.TestCase):
                 self.assertEqual('GRU_hitler_path' in c['flags'], outcome == 8)
                 self.assertEqual('GRU_sabotaged_election' in c['flags'], outcome == 7)
                 self.assertEqual(c['government'], 'communist')
-                self.assertEqual(c['leader'], 'KR occupation leader')
+                if outcome == 8:
+                    self.assert_hitler_leads(c)
+                else:
+                    self.assertEqual(c['leader'], 'KR occupation leader')
+                    self.assertFalse(c['characters'])
                 before = deepcopy(c)
                 choose(w, eid)
                 effect(w, 'GRU_finish_reconstruction')
@@ -520,6 +559,7 @@ class ReconstructionTests(unittest.TestCase):
             self.assertAlmostEqual(c['war_support'], .1)
             self.assertEqual(c['popularities']['communist'], 65)
             self.assertIn('GRU_hitler_path', c['flags'])
+            self.assert_hitler_leads(c)
             c['focuses'].add('GRU_national_revolution')
             c['variables'][BARS[0]] = 74
             before, queue = deepcopy(c), list(w['queue'])
@@ -548,14 +588,17 @@ class ReconstructionTests(unittest.TestCase):
                 self.assertIn('GRU_first_election_held', c['flags'])
                 self.assertEqual(c['tree'], 'GRU_red_germany_focus')
                 expected = deepcopy(c)
-                # The debug preview may switch a completed reconstruction. Only
-                # tree state changes: PP, stability, support and popularity must
-                # all retain the result already granted by .6 or .7.
+                # The debug preview changes the tree and appoints the new leader.
+                # PP, stability, support and popularity retain the .6/.7 result.
                 expected['flags'].add('GRU_hitler_path')
                 expected.update(tree='GRU_hitler_focus', loaded=c['loaded'] + 1, focuses=set())
+                expected.update(leader='GRU_adolf_hitler', characters={'GRU_adolf_hitler'},
+                                character_recruitments=['GRU_adolf_hitler'],
+                                character_promotions=[('GRU_adolf_hitler', 'marxism_leninism_subtype')])
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 self.assertTrue(choose(w, 'GRU_reconstruction.97'))
                 self.assertEqual(c, expected)
+                self.assert_hitler_leads(c)
                 c['focuses'].add('GRU_national_revolution')
                 before = deepcopy(c)
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
@@ -567,6 +610,49 @@ class ReconstructionTests(unittest.TestCase):
                 for i in (6, 7, 8): choose(w, f'GRU_reconstruction.{i}')
                 advance(w, 100)
                 self.assertFalse(w['queue'])
+                self.assertEqual(c, before)
+
+    def test_debug_repairs_leader_on_existing_path_without_reset_or_rewards(self):
+        for tag, recruited, government in product(('GRU', 'D03'), (False, True), ('communist', 'syndicalist')):
+            with self.subTest(tag=tag, recruited=recruited, government=government):
+                w, c = established(tag)
+                c['flags'].add('GRU_first_election_scheduled')
+                effect(w, 'GRU_finish_reconstruction')
+                # Represent a path entered before character appointment existed,
+                # including a character already attached but not leading it.
+                c['flags'].add('GRU_hitler_path')
+                c.update(tree='GRU_hitler_focus', loaded=2, government=government)
+                c['focuses'].add('GRU_national_revolution')
+                if recruited: c['characters'].add('GRU_adolf_hitler')
+                expected, queue = deepcopy(c), list(w['queue'])
+                expected.update(government='communist', leader='GRU_adolf_hitler',
+                                characters={'GRU_adolf_hitler'},
+                                character_recruitments=[] if recruited else ['GRU_adolf_hitler'],
+                                character_promotions=[('GRU_adolf_hitler', 'marxism_leninism_subtype')])
+                if government != 'communist': expected['opaque'].append('set_government_flags')
+                self.assertTrue(fire(w, 'GRU_reconstruction.97'))
+                self.assertEqual(c, expected)
+                self.assertEqual(w['queue'], queue)
+                self.assert_hitler_leads(c, recruitments=int(not recruited))
+                self.assertTrue(fire(w, 'GRU_reconstruction.97'))
+                effect(w, 'GRU_load_hitler_focus_tree')
+                effect(w, 'GRU_appoint_hitler_leader')
+                self.assertEqual(c, expected)
+                self.assertEqual(w['queue'], queue)
+
+    def test_leader_appointment_rejects_ineligible_countries_and_stages(self):
+        for state in ('wrong_original', 'unestablished', 'unsettled', 'no_path', 'rebel', 'civil_war'):
+            with self.subTest(state=state):
+                w, c = established('D03')
+                c['flags'].update(('GRU_first_election_held', 'GRU_hitler_path'))
+                if state == 'wrong_original': c['original'] = 'GER'
+                if state == 'unestablished': c['flags'].discard('GRU_red_germany_established')
+                if state == 'unsettled': c['flags'].discard('GRU_first_election_held')
+                if state == 'no_path': c['flags'].discard('GRU_hitler_path')
+                if state == 'rebel': c['flags'].add('GRU_reconstruction_rebel')
+                if state == 'civil_war': c['flags'].add('GRU_civil_war_started')
+                before = deepcopy(c)
+                effect(w, 'GRU_appoint_hitler_leader')
                 self.assertEqual(c, before)
 
     def test_followup_entry_rejects_wrong_scope_and_inactive_reconstruction(self):
@@ -611,7 +697,7 @@ class ReconstructionTests(unittest.TestCase):
         self.assertEqual(c, before)  # switching trees must not skip settlement
         c['flags'].add('GRU_first_election_scheduled')
         effect(w, 'GRU_finish_reconstruction')
-        for flag in ('GRU_reconstruction_rebel', 'GRU_civil_war_started', 'GRU_hitler_path'):
+        for flag in ('GRU_reconstruction_rebel', 'GRU_civil_war_started'):
             c['flags'].add(flag)
             before = deepcopy(c)
             effect(w, 'GRU_load_hitler_focus_tree')
@@ -620,6 +706,9 @@ class ReconstructionTests(unittest.TestCase):
         expected = deepcopy(c)
         expected['flags'].add('GRU_hitler_path')
         expected.update(tree='GRU_hitler_focus', loaded=c['loaded'] + 1, focuses=set())
+        expected.update(leader='GRU_adolf_hitler', characters={'GRU_adolf_hitler'},
+                        character_recruitments=['GRU_adolf_hitler'],
+                        character_promotions=[('GRU_adolf_hitler', 'marxism_leninism_subtype')])
         effect(w, 'GRU_load_hitler_focus_tree')
         self.assertEqual(c, expected)
 
@@ -661,6 +750,28 @@ class ReconstructionTests(unittest.TestCase):
 
 
 class ContentTests(unittest.TestCase):
+    def test_followup_character_has_description_and_no_unrequested_traits(self):
+        character = CHARACTERS['GRU_adolf_hitler']
+        self.assertEqual(character.value('name'), 'GRU_adolf_hitler')
+        self.assertEqual({n.k for n in character.v}, {'name', 'portraits', 'country_leader'})
+        self.assertEqual(len(character.children('country_leader')), 1)
+        role = character.one('country_leader')
+        self.assertEqual({n.k for n in role.v}, {'desc', 'ideology'})
+        self.assertEqual(role.value('desc'), 'GRU_adolf_hitler_leader_desc')
+        self.assertEqual(role.value('ideology'), 'marxism_leninism_subtype')
+        self.assertEqual(IDEOLOGY_GROUPS[role.value('ideology')], 'communist')
+        portrait = character.one('portraits').one('civilian').value('large')
+        self.assertEqual(portrait, 'GFX_portrait_GRU_adolf_hitler')
+        sprites = [n for n in walk(load(R / 'interface/GRU_red_germany_portraits.gfx'))
+                   if n.k == 'spriteType' and n.value('name').strip('"') == portrait]
+        self.assertEqual(len(sprites), 1)
+        texture = sprites[0].value('texturefile').strip('"')
+        self.assertEqual(texture, 'gfx/leaders/GRU/GRU_adolf_hitler.png')
+        png = (R / texture).read_bytes()
+        self.assertTrue(png.startswith(b'\x89PNG\r\n\x1a\n'))
+        width, height, depth, colour, _, _, _ = struct.unpack('>IIBBBBB', png[16:29])
+        self.assertEqual((width, height, depth, colour), (156, 210, 8, 2))  # opaque RGB
+
     def test_imported_scripts_use_supported_comparison_operators(self):
         # Our general parser can tokenize >=, <= and !=, unlike the HOI4 script
         # parser. Do not let its permissiveness hide a file-breaking operator.

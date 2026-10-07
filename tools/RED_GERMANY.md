@@ -118,7 +118,7 @@ event GRU_reconstruction.99 GRU
 
 新树共42个节点，保留包内全部连线、天数、文案、政治点/稳定度/战争支持度奖励和旗标。仅修正原生 `reset_on_civilwar` 字段、两处同层国策挤压，并将三个不适用的民族精神图标换成实际存在的带框国策图标；其中两个顾问画像sprite被KR同名文件覆盖后不可用。
 
-包内没有领袖人物、领袖替换、执政党变化、新国旗、联盟成立或战争目标的执行脚本。按包接入后保留现任领袖和共产主义政府。部分国策名称表达后续叙事，实际效果以游戏效果栏为准，不把名字当作已实现的外交或领袖机制。
+原包没有领袖人物、领袖替换、执政党变化、新国旗、联盟成立或战争目标的执行脚本。2026-10-07用户另行明确要求后，新增进入后续路线时由阿道夫·希特勒担任共产主义领袖，见下文。部分国策名称表达后续叙事，实际效果以游戏效果栏为准，不把名字当作已实现的外交机制。
 
 三处替代图标：`GFX_focus_generic_eagle`、`GFX_focus_RUS_unite_under_stalin`、`GFX_goal_imperial_legacy`。俄罗斯节点横坐标10→9，季诺维也夫节点11→10，其余坐标不变。91条新增简中文案追加到已有GRU本地化；旧文案、共产主义党名与进度显示不回退。
 
@@ -139,3 +139,17 @@ event GRU_reconstruction.97 GRU
 ### 验证范围
 
 专项覆盖80/81边界、其他影响力同时过高的分派优先级、筹备奖励、重复换树、延迟接管、动态标签、调试与已打开事件竞态、内战中断，以及新42节点的前置可达性、奖励与有效图标。静态与模型结果不代表游戏引擎验证；自然选举、实际换树与长中文国策的显示仍需正确加载测试开发版后实测。
+
+## 2026-10-07 人物与用户指定头像
+
+根据用户明确选择，正常民族派大选或`.97`进入后续路线时，招募并晋升`GRU_adolf_hitler`为共产主义领袖，使用`marxism_leninism_subtype`。无新增特质、支持率分配或数值奖励。任命始终发生在当前国家，包括原始标签为GRU的动态Dxx国家；内战、叛军和其他国家不任命。
+
+`GRU_appoint_hitler_leader`独立检查路线及结算状态。重复`.97`可在已经载入后续树但尚未任命人物的测试局补上领袖；不重新载树、不重新结算，也不覆盖已有国策进度。已经由该人物执政时不重复招募、晋升。
+
+人物定义位于`common/characters/GRU_red_germany_characters.txt`。名字和完整背景追加于`localisation/simp_chinese/GRU_red_germany_l_simp_chinese.yml`，按用户原文保留六段背景与出生信息；使用KR的黄色字段名、灰色正文，末尾引语单独使用原生`§R`红色（基础界面为RGB255/50/50）。文案是本模组架空设定，不是历史资料校订。
+
+头像注册于`interface/GRU_red_germany_portraits.gfx`，成品为`gfx/leaders/GRU/GRU_adolf_hitler.png`，156×210、RGB、不透明PNG，符合已安装KR德国人物头像格式。使用用户最后指定的彩色成图`9ab7020ac0003c15c67e4cd7b47d3e48.png`，按其“直接裁切，然后处理一下背景”要求，以Pillow裁去底部姓名/旗帜栏，保留原人物像素与军装帽徽，沿轮廓整理为灰褐色背景并等比例缩小。未生成或重绘面容、军装、徽记；源图人物身份及来源未作历史认证。此图替代此前黑白裁切稿；没有使用56之路资产。
+
+原图、轮廓遮罩、导出脚本、尺寸/裁切参数和468×630预览保存在本地`output/GRU_hitler_portrait_20261007_selected/`，不计入上传构建。此前黑白草稿仍留在`output/GRU_hitler_portrait_20261007/`；此前ImageGen请求没有取得生成结果。本轮仅接入测试版开发目录，未重建上传目录、未推送GitHub；实际人物任命、头像和长介绍显示留给用户进游戏测试。
+
+人物/招募/晋升参考KR `common/characters/AZR characters.txt`、`history/countries/AZR - Azerbaijan.txt`和`common/scripted_effects/01_Annexation effects.txt`；头像注册参考KR `interface/kaiserreich/portraits/GER_portraits.gfx`；介绍格式参考KR简中德国人物介绍及现有季诺维也夫背景覆盖。
