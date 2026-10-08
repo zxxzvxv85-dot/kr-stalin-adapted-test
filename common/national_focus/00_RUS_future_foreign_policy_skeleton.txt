@@ -1468,18 +1468,17 @@ shared_focus = {
 		custom_effect_tooltip = tooltip_white_line
 		add_war_support = 0.05
 		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_war_support = 0.05 } # RUS_EASY_MODE_REWARD
-		activate_targeted_decision = { target = JAP decision = RUS_Socialist_Attack_Far_East }
-		if = {
+		every_other_country = {
 			limit = {
-				var:439.owner = { has_socialist_government = no }
+				is_major = yes
+				has_socialist_government = no
 			}
-			activate_targeted_decision = { target = 439.owner decision = RUS_Socialist_Attack_Far_East } #Delhi
-		}
-		if = {
-			limit = {
-				var:608.owner = { has_socialist_government = no }
+			ROOT = {
+				create_wargoal = {
+					type = annex_everything
+					target = PREV
+				}
 			}
-			activate_targeted_decision = { target = 608.owner decision = RUS_Socialist_Attack_Far_East } #Beijing
 		}
 	}
 	ai_will_do = { factor = 0 }

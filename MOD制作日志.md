@@ -2,6 +2,13 @@
 
 最后更新：2026-10-08
 
+## 2026-10-08 — 世界革命倒计时直接授予主要国家战争目标
+
+- 按用户要求，新外交国策RUS_future_foreign_042不再激活日本、德里与北京所属国的远东宣战决议；完成时every_other_country按is_major=yes及has_socialist_government=no筛选，用ROOT/create_wargoal/target=PREV直接授予俄罗斯对各目标的annex_everything战争目标。主要国家身份以完成时为准，不固定名单；社会主义判断沿用本模组KR政府旗标，涵盖共产主义、极权主义、工团主义和激进社会主义。原战争支持度奖励、其他前置/互斥/成本不变。
+- 旧RUS_Socialist_Attack_Far_East目标入口停用，避免完成新国策后仍生成宣战决议；保留定义供旧局已在执行的任务兼容。世界革命民族精神基础和升级版正当化时间分别由-25%/-50%统一为-100%，避免升级后效果退回。没有自动重放旧存档国策奖励，已完成国策的存档不补发战争目标。
+- 原生效果参考KR印度支那国策的ROOT/create_wargoal/target=PREV作用域和古巴国策is_major筛选；提示使用原生战争目标与民族精神效果，不另造纯文本奖励。更新批准的外交内容基线并扩展实际目标筛选模型，59节点/61目标资格检查、外交合作21场景、简易模式生成及结构360脚本/257本地化检查通过。RHoiScribe三文件与修改前比无新增CWT告警，项目括号/未闭合块绿色，repair仅dry_run的117项既有建议未应用；git diff --check通过。未启动游戏，实际战争目标和原生效果显示由用户重启测试。
+- 同步开发及上传：选择文件构建更新3项，SHA-256一致，其余1391文件与构建前备份一致，无开发资料混入，保留开发独有GUI边界。更新维护索引并提交本地Git；未推送GitHub。开始时远端读取因连接重置失败，未改变本地基线。
+
 ## 2026-10-08 — 胜利日采用GWR2并同步外交线更新
 
 - 用户选定GWR2“解放者骑士”。只读复制Great War Redux（3365515312）的generic_liberator_rider.png为gfx/interface/goals/RUS_future_foreign/RUS_future_foreign_005.png，原文件101×91 RGBA、透明alpha0–255，内容与来源SHA-256一致，未重新生成或调整画面。新注册普通/shine sprite，胜利日RUS_future_foreign_005指定该图标；放大和原尺寸均已在候选板检查。无额外GWR运行依赖。

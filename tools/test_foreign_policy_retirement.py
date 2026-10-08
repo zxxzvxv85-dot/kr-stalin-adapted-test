@@ -58,7 +58,43 @@ for done in (set(), {'RUS_future_foreign_038'}, {'RUS_future_foreign_052'}, {'RU
         assert actual == expected, (done, target)
         cases += 1
 for done in (set(), {'RUS_future_foreign_042'}):
-    assert check(decisions['RUS_Socialist_Attack_Far_East'].one('target_root_trigger').v, done, 'JAP') == bool(done)
+    assert check(decisions['RUS_Socialist_Attack_Far_East'].one('target_root_trigger').v, done, 'JAP') == False  # Replaced by direct war goals in focus 042
     cases += 1
+
+# Execute the direct war-goal scope subset with root and previous-country scopes.
+reward = focuses['RUS_future_foreign_042'].one('completion_reward')
+assert not any(n.k == 'activate_targeted_decision' for n, _ in walk(reward.v))
+loop = reward.one('every_other_country')
+assert loop is not None
+def eligible(ns, country):
+    for n in ns:
+        if n.k == 'is_major': result = country['major']
+        elif n.k == 'has_socialist_government': result = country['socialist']
+        else: raise AssertionError(n.raw())
+        if result != (n.v == 'yes'): return False
+    return True
+
+for root_tag in ('RUS', 'D03'):
+    world = {root_tag: {'major': True, 'socialist': False, 'goals': set()}}
+    for major in (False, True):
+        for ideology in ('communist', 'totalist', 'syndicalist', 'radical_socialist', 'social_democrat', 'social_liberal', 'market_liberal', 'social_conservative', 'authoritarian_democrat', 'paternal_autocrat', 'national_populist'):
+            tag = f'{ideology}_{major}'
+            world[tag] = {'major': major, 'socialist': ideology in ('communist', 'totalist', 'syndicalist', 'radical_socialist'), 'goals': set()}
+    for target, country in world.items():
+        if target == root_tag or not eligible(loop.one('limit').v, country): continue
+        for scope in (n for n in loop.v if n.k != 'limit'):
+            assert scope.k == 'ROOT'
+            for effect in scope.v:
+                assert effect.k == 'create_wargoal'
+                assert effect.value('target') == 'PREV'
+                assert effect.value('type') == 'annex_everything'
+                world[root_tag]['goals'].add(target)
+    expected = {tag for tag, c in world.items() if tag != root_tag and c['major'] and not c['socialist']}
+    assert world[root_tag]['goals'] == expected and len(expected) == 7
+    assert all(not c['goals'] for tag, c in world.items() if tag != root_tag)
+    cases += 22
+ideas = next(n for n in load(R / 'common/ideas/RUS ideas (Russia).txt') if n.k == 'ideas').one('country')
+for id in ('RUS_world_revolution', 'RUS_world_revolution_2'):
+    assert ideas.one(id).one('modifier').value('justify_war_goal_time') == '-1'
 assert not render_outputs(), 'Migration is not idempotent'
 print(f'PASS: {len(focuses)} focus contents/layouts, 29 retired IDs and auto completions; {cases} target eligibility cases. Not an engine test.')
