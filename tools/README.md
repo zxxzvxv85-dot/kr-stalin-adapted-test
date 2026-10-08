@@ -17,6 +17,7 @@
 | 整体结构 | `check_runtime_structure.py` | 扫描所有运行目录括号/编码，检查真正唯一的 ID；不替代引擎作用域检查 |
 | 构建上传目录 | `Build-CleanWorkshopUpload.ps1` | 游戏退出后单独执行；从源码构建、校验、替换上传目录 |
 | 显式奖励转换 | `apply_easy_mode_rewards.py`、`apply_easy_mode_tech.py` | 默认只读，维护新奖励时先审查报告再显式写入，不由日常检查自动执行 |
+| 外交线迁移 | `migrate_foreign_policy.py`、`test_foreign_policy_retirement.py` | 默认只读，显式`--write`撤下旧线并迁移引用/坐标；冻结基线检查新线玩法未改。旧`import_drawio_focus_skeleton.py`仅初始占位导入，不得重跑覆盖当前实装内容 |
 | 历史迁移 | `archive/` | 军工迁移及已被后续设计取代的顾问隔离实验只供参考，禁止直接执行 |
 | 农业旧补丁兼容入口 | `apply_easy_mode_agriculture.py` | 已改为委托农业生成源，默认只读，不再在产物上叠补丁 |
 | 美术、媒体和设计实验 | `build_*_icon*`、`*_bolshevik_*`、`*_psr_*`、`convert_music_to_ogg.py`、`Build-SovietFoundationVideo.py` | 仅在对应美术/媒体任务使用，可能依赖本地源素材；不会由普通验证自动执行 |

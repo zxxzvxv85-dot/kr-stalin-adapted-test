@@ -9,8 +9,10 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_001
 	cost = 4
 
-	x = 34
-	y = 12
+	relative_position_id = RUS_russian_congress
+	x = 20
+	y = -2
+	offset = { x = -10 y = 1 trigger = { RUS_PLSR = yes } }
 
 	allow_branch = { has_socialist_government = yes }
 	available = { hidden_trigger = { has_socialist_government = yes } }
@@ -52,8 +54,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_002
 	cost = 2
 
-	x = 33
-	y = 13
+	relative_position_id = RUS_future_foreign_001
+	x = -1
+	y = 1
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_001 }
@@ -72,8 +75,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_003
 	cost = 2
 
-	x = 35
-	y = 13
+	relative_position_id = RUS_future_foreign_001
+	x = 1
+	y = 1
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_001 }
@@ -91,8 +95,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_004
 	cost = 5
 
-	x = 34
-	y = 14
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 2
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_003 }
@@ -207,8 +212,9 @@ shared_focus = {
 	id = RUS_future_foreign_005
 	cost = 3
 
-	x = 34
-	y = 23
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 11
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -253,8 +259,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_006
 	cost = 3
 
-	x = 28
-	y = 15
+	relative_position_id = RUS_future_foreign_001
+	x = -6
+	y = 3
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_004 }
@@ -293,8 +300,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_007
 	cost = 4
 
-	x = 30
-	y = 18
+	relative_position_id = RUS_future_foreign_001
+	x = -4
+	y = 6
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_047 }
 	completion_reward = {
@@ -339,8 +347,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_008
 	cost = 5
 
-	x = 34
-	y = 15
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 3
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_004 }
@@ -377,8 +386,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_009
 	cost = 2
 
-	x = 37
-	y = 18
+	relative_position_id = RUS_future_foreign_001
+	x = 3
+	y = 6
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_022 }
 	bypass = {
@@ -416,8 +426,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_010
 	cost = 3
 
-	x = 40
-	y = 15
+	relative_position_id = RUS_future_foreign_001
+	x = 6
+	y = 3
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_004 }
@@ -493,8 +504,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_011
 	cost = 2
 
-	x = 42
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = 8
+	y = 4
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_010 }
 	available = {
@@ -510,8 +522,9 @@ shared_focus = {
 	icon = GFX_focus_RUS_found_communist_international
 	cost = 3
 
-	x = 31
-	y = 24
+	relative_position_id = RUS_future_foreign_001
+	x = -3
+	y = 12
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -525,9 +538,7 @@ shared_focus = {
 			}
 			leave_faction = yes
 			create_faction = communist_international
-			uncomplete_national_focus = {
-				focus = RUS_abolish_war
-			}
+
 		}
 		else_if = {
 			limit = {
@@ -552,8 +563,9 @@ shared_focus = {
 	icon = GFX_focus_generic_authoritarian_government
 	cost = 3
 
-	x = 33
-	y = 24
+	relative_position_id = RUS_future_foreign_001
+	x = -1
+	y = 12
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -591,8 +603,9 @@ shared_focus = {
 	icon = GFX_focus_RUS_what_a_childish_fantasy
 	cost = 3
 
-	x = 35
-	y = 24
+	relative_position_id = RUS_future_foreign_001
+	x = 1
+	y = 12
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -649,8 +662,9 @@ shared_focus = {
 	icon = GFX_cjc_health_organization
 	cost = 3
 
-	x = 37
-	y = 24
+	relative_position_id = RUS_future_foreign_001
+	x = 3
+	y = 12
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -669,8 +683,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_016
 	cost = 3
 
-	x = 28
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = -6
+	y = 4
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_006 }
@@ -691,8 +706,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_017
 	cost = 4
 
-	x = 30
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = -4
+	y = 4
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_006 }
@@ -721,8 +737,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_018
 	cost = 2
 
-	x = 27
-	y = 20
+	relative_position_id = RUS_future_foreign_001
+	x = -7
+	y = 8
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_034 }
 	ai_will_do = { factor = 0 }
@@ -734,8 +751,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_019
 	cost = 3
 
-	x = 32
-	y = 21
+	relative_position_id = RUS_future_foreign_001
+	x = -2
+	y = 9
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_035 }
 	completion_reward = {
@@ -763,8 +781,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_020
 	cost = 3
 
-	x = 32
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = -2
+	y = 4
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_008 }
@@ -787,8 +806,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_021
 	cost = 3
 
-	x = 34
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 4
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_008 }
@@ -827,8 +847,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_022
 	cost = 3
 
-	x = 36
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = 2
+	y = 4
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_008 }
@@ -851,8 +872,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_023
 	cost = 3
 
-	x = 38
-	y = 19
+	relative_position_id = RUS_future_foreign_001
+	x = 4
+	y = 7
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_009 }
 	mutually_exclusive = { focus = RUS_future_foreign_024 }
@@ -871,8 +893,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_024
 	cost = 2
 
-	x = 36
-	y = 19
+	relative_position_id = RUS_future_foreign_001
+	x = 2
+	y = 7
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_009 }
 	mutually_exclusive = { focus = RUS_future_foreign_023 }
@@ -891,8 +914,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_025
 	cost = 3
 
-	x = 39
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = 5
+	y = 4
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_010 }
@@ -927,8 +951,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_026
 	cost = 2
 
-	x = 42
-	y = 17
+	relative_position_id = RUS_future_foreign_001
+	x = 8
+	y = 5
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_011 }
 	available = {
@@ -944,8 +969,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_027
 	cost = 3
 
-	x = 40
-	y = 21
+	relative_position_id = RUS_future_foreign_001
+	x = 6
+	y = 9
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_063 }
 	available = {
@@ -961,8 +987,9 @@ shared_focus = {
 	icon = GFX_focus_ger_great_red_menace
 	cost = 4
 
-	x = 30
-	y = 25
+	relative_position_id = RUS_future_foreign_001
+	x = -4
+	y = 13
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1018,8 +1045,9 @@ shared_focus = {
 	icon = GFX_goal_LAT_soviet_union
 	cost = 4
 
-	x = 32
-	y = 25
+	relative_position_id = RUS_future_foreign_001
+	x = -2
+	y = 13
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1068,8 +1096,9 @@ shared_focus = {
 	icon = GFX_focus_generic_low_cost_housing
 	cost = 3
 
-	x = 34
-	y = 25
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 13
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1104,8 +1133,9 @@ shared_focus = {
 	icon = GFX_focus_generic_agricultural_subsidies
 	cost = 3
 
-	x = 36
-	y = 25
+	relative_position_id = RUS_future_foreign_001
+	x = 2
+	y = 13
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1150,8 +1180,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_032
 	cost = 4
 
-	x = 26
-	y = 16
+	relative_position_id = RUS_future_foreign_001
+	x = -8
+	y = 4
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_006 }
 	ai_will_do = { factor = 10 }
@@ -1236,8 +1267,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_034
 	cost = 4
 
-	x = 28
-	y = 19
+	relative_position_id = RUS_future_foreign_001
+	x = -6
+	y = 7
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_007 }
 	ai_will_do = { factor = 0 }
@@ -1249,8 +1281,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_035
 	cost = 4
 
-	x = 32
-	y = 19
+	relative_position_id = RUS_future_foreign_001
+	x = -2
+	y = 7
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_007 }
 	completion_reward = {
@@ -1299,8 +1332,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_036
 	cost = 2
 
-	x = 33
-	y = 18
+	relative_position_id = RUS_future_foreign_001
+	x = -1
+	y = 6
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_020 }
 	available = { hidden_trigger = { has_socialist_government = yes } }
@@ -1322,8 +1356,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_037
 	cost = 3
 
-	x = 35
-	y = 18
+	relative_position_id = RUS_future_foreign_001
+	x = 1
+	y = 6
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_022 }
 	available = { hidden_trigger = { has_socialist_government = yes } }
@@ -1350,8 +1385,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_038
 	cost = 4
 
-	x = 37
-	y = 21
+	relative_position_id = RUS_future_foreign_001
+	x = 3
+	y = 9
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_024 focus = RUS_future_foreign_023 }
 	completion_reward = {
@@ -1366,8 +1402,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_039
 	cost = 3
 
-	x = 38
-	y = 17
+	relative_position_id = RUS_future_foreign_001
+	x = 4
+	y = 5
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_025 }
@@ -1405,8 +1442,9 @@ shared_focus = {
 	icon = GFX_focus_GER_strike_at_the_rising_sun
 	cost = 5
 
-	x = 29
-	y = 26
+	relative_position_id = RUS_future_foreign_001
+	x = -5
+	y = 14
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1452,8 +1490,9 @@ shared_focus = {
 	icon = GFX_focus_RUS_extend_our_union
 	cost = 5
 
-	x = 31
-	y = 26
+	relative_position_id = RUS_future_foreign_001
+	x = -3
+	y = 14
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1490,8 +1529,9 @@ shared_focus = {
 	icon = GFX_focus_SWE_refuge_from_war
 	cost = 5
 
-	x = 33
-	y = 26
+	relative_position_id = RUS_future_foreign_001
+	x = -1
+	y = 14
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1513,8 +1553,9 @@ shared_focus = {
 	icon = GFX_focus_RUS_found_sov_union
 	cost = 6
 
-	x = 35
-	y = 26
+	relative_position_id = RUS_future_foreign_001
+	x = 1
+	y = 14
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1588,8 +1629,9 @@ shared_focus = {
 	icon = GFX_goal_communist_world_revolution
 	cost = 4
 
-	x = 34
-	y = 27
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 15
 	allow_branch = {
 		has_socialist_government = yes
 		NOT = { country_exists = GER }
@@ -1613,8 +1655,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_046
 	cost = 4
 
-	x = 26
-	y = 17
+	relative_position_id = RUS_future_foreign_001
+	x = -8
+	y = 5
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_032 }
 	available = {
@@ -1636,8 +1679,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_047
 	cost = 5
 
-	x = 29
-	y = 17
+	relative_position_id = RUS_future_foreign_001
+	x = -5
+	y = 5
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_016 }
 	prerequisite = { focus = RUS_future_foreign_017 }
@@ -1695,8 +1739,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_049
 	cost = 3
 
-	x = 29
-	y = 20
+	relative_position_id = RUS_future_foreign_001
+	x = -5
+	y = 8
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_057 }
 	prerequisite = { focus = RUS_future_foreign_034 }
@@ -1706,8 +1751,9 @@ shared_focus = {
 # 预备向解放进军
 shared_focus = {
 	id = RUS_future_foreign_051
-	x = 34
-	y = 17
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 5
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_021 }
 	icon = GFX_goal_RUS_liberation_march
@@ -1796,8 +1842,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_052
 	cost = 2
 
-	x = 36
-	y = 20
+	relative_position_id = RUS_future_foreign_001
+	x = 2
+	y = 8
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_024 focus = RUS_future_foreign_023 }
 	completion_reward = {
@@ -1837,8 +1884,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_053
 	cost = 2
 
-	x = 38
-	y = 20
+	relative_position_id = RUS_future_foreign_001
+	x = 4
+	y = 8
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_024 focus = RUS_future_foreign_023 }
 	completion_reward = {
@@ -1878,8 +1926,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_054
 	cost = 3
 
-	x = 39
-	y = 18
+	relative_position_id = RUS_future_foreign_001
+	x = 5
+	y = 6
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_039 }
@@ -1897,8 +1946,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_055
 	cost = 3
 
-	x = 41
-	y = 20
+	relative_position_id = RUS_future_foreign_001
+	x = 7
+	y = 8
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_026 }
 	available = {
@@ -1916,8 +1966,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_056
 	cost = 5
 
-	x = 27
-	y = 18
+	relative_position_id = RUS_future_foreign_001
+	x = -7
+	y = 6
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_047 }
 	prerequisite = { focus = RUS_future_foreign_046 }
@@ -1936,8 +1987,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_057
 	cost = 4
 
-	x = 30
-	y = 19
+	relative_position_id = RUS_future_foreign_001
+	x = -4
+	y = 7
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_007 }
@@ -1954,8 +2006,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_058
 	cost = 3
 
-	x = 28
-	y = 21
+	relative_position_id = RUS_future_foreign_001
+	x = -6
+	y = 9
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_049 }
 	prerequisite = { focus = RUS_future_foreign_018 }
@@ -1968,8 +2021,9 @@ shared_focus = {
 	icon = GFX_goal_generic_army_grand_battleplan
 	cost = 4
 
-	x = 34
-	y = 19
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 7
 
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_037 }
@@ -1990,8 +2044,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_060
 	cost = 3
 
-	x = 41
-	y = 18
+	relative_position_id = RUS_future_foreign_001
+	x = 7
+	y = 6
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_026 }
 	prerequisite = { focus = RUS_future_foreign_061 }
@@ -2008,8 +2063,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_061
 	cost = 3
 
-	x = 40
-	y = 17
+	relative_position_id = RUS_future_foreign_001
+	x = 6
+	y = 5
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_025 }
 	available = {
@@ -2028,8 +2084,9 @@ shared_focus = {
 	icon = GFX_goal_attack_germany
 	cost = 7
 
-	x = 34
-	y = 22
+	relative_position_id = RUS_future_foreign_001
+	x = 0
+	y = 10
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_059 }
 	available = { date > 1941.3.1 }
@@ -2151,8 +2208,9 @@ shared_focus = {
 	icon = GFX_goal_RUS_future_foreign_063
 	cost = 4
 
-	x = 40
-	y = 19
+	relative_position_id = RUS_future_foreign_001
+	x = 6
+	y = 7
 	allow_branch = { has_socialist_government = yes }
 	prerequisite = { focus = RUS_future_foreign_054 }
 	prerequisite = { focus = RUS_future_foreign_060 }

@@ -12624,7 +12624,7 @@ RUS_russian_sphere_decisions = {
 					has_completed_focus = RUS_preemptive_war
 				}
 				else = {
-					has_completed_focus = RUS_anti_capitalist_warfare
+					always = no
 				}
 			}
 			can_declare_war_on = FROM
@@ -14803,7 +14803,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
 			OR = {
-				has_completed_focus = RUS_what_a_childish_fantasy
+				has_completed_focus = RUS_future_foreign_014
 				has_completed_focus = RUS_future_foreign_014
 			}
 		}
@@ -14862,7 +14862,7 @@ RUS_Spreading_the_Revolution_decisions = {
 				if = {
 					limit = {
 						ROOT = {
-							has_completed_focus = RUS_help_allys_industry
+							has_completed_focus = RUS_future_foreign_042
 						}
 						NOT = {
 							has_idea = RUS_soviet_republic_industry_idea
@@ -14905,7 +14905,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
 			OR = {
-				has_completed_focus = RUS_found_sov_union
+				has_completed_focus = RUS_future_foreign_045
 				has_completed_focus = RUS_future_foreign_045
 			}
 		}
@@ -15002,7 +15002,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
 			OR = {
-				has_completed_focus = RUS_what_a_childish_fantasy
+				has_completed_focus = RUS_future_foreign_014
 				has_completed_focus = RUS_future_foreign_014
 			}
 		}
@@ -15045,7 +15045,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			FROM = {
 				if = {
 					limit = {
-						ROOT = { has_completed_focus = RUS_help_allys_industry }
+						ROOT = { has_completed_focus = RUS_future_foreign_042 }
 						NOT = { has_idea = RUS_soviet_republic_industry_idea }
 					}
 					add_building_construction = { type = industrial_complex level = 2 }
@@ -15077,7 +15077,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
 			OR = {
-				has_completed_focus = RUS_found_sov_union
+				has_completed_focus = RUS_future_foreign_045
 				has_completed_focus = RUS_future_foreign_045
 			}
 		}
@@ -15160,10 +15160,10 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = {
 				AND = {
 					OR = {
-						has_completed_focus = RUS_what_a_childish_fantasy
+						has_completed_focus = RUS_future_foreign_014
 						has_completed_focus = RUS_future_foreign_014
 					}
-					NOT = { has_completed_focus = RUS_expansion_of_union }
+					NOT = { has_completed_focus = RUS_future_foreign_043 }
 				}
 			}
 			OR = {
@@ -15183,14 +15183,14 @@ RUS_Spreading_the_Revolution_decisions = {
 		}
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
-			has_completed_focus = RUS_self_determination
+			has_completed_focus = RUS_future_foreign_001
 			NOT = {
 				AND = {
 					OR = {
-						has_completed_focus = RUS_what_a_childish_fantasy
+						has_completed_focus = RUS_future_foreign_014
 						has_completed_focus = RUS_future_foreign_014
 					}
-					NOT = { has_completed_focus = RUS_expansion_of_union }
+					NOT = { has_completed_focus = RUS_future_foreign_043 }
 				}
 			}
 		}
@@ -15214,7 +15214,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_add_to_union"
 			FROM = { get_current_government_type = yes }
 			if = {
-				limit = { has_completed_focus = RUS_union_of_peoples } #Decentralised version
+				limit = { always = no } #Decentralised version
 				set_autonomy = {
 					target = FROM
 					autonomy_state = union_republic_autonomous
@@ -15229,7 +15229,7 @@ RUS_Spreading_the_Revolution_decisions = {
 				}
 			}
 			if = {
-				limit = { has_completed_focus = RUS_increased_devolution }
+				limit = { always = no }
 				FROM = { add_ideas = RUS_soc_economic_area }
 			}
 			hidden_effect = { FROM = { restore_previous_government_type = yes } }
@@ -15388,7 +15388,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = { has_country_flag = RUS_europe_intervention_molotov_selected }
 			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_target_selected_or_overview = yes
-			has_completed_focus = RUS_peoples_union
+			always = no
 			OR = {
 				has_socialist_government = yes
 				has_government = communist
@@ -15400,7 +15400,7 @@ RUS_Spreading_the_Revolution_decisions = {
 
 		targets = { LAT LIT ARM UKR }
 		target_root_trigger = {
-			has_completed_focus = RUS_peoples_union
+			always = no
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
@@ -15427,7 +15427,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_control_ally_politics"
 			FROM = { get_current_government_type = yes }
 			if = {
-				limit = { has_completed_focus = RUS_union_of_peoples } #Decentralised version
+				limit = { always = no } #Decentralised version
 				set_autonomy = {
 					target = FROM
 					autonomy_state = union_republic_autonomous
@@ -15442,7 +15442,7 @@ RUS_Spreading_the_Revolution_decisions = {
 				}
 			}
 			if = {
-				limit = { has_completed_focus = RUS_increased_devolution }
+				limit = { always = no }
 				FROM = { add_ideas = RUS_soc_economic_area }
 			}
 			hidden_effect = { FROM = { restore_previous_government_type = yes } }
@@ -15462,7 +15462,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_target_selected_or_overview = yes
 			OR = {
-				has_completed_focus = RUS_expansion_of_union
+				has_completed_focus = RUS_future_foreign_043
 				has_completed_focus = RUS_extend_our_union
 				has_completed_focus = RUS_future_foreign_043
 			}
@@ -15478,7 +15478,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		target_array = RUS_SSTR_tags
 		target_root_trigger = {
 			OR = {
-				has_completed_focus = RUS_expansion_of_union
+				has_completed_focus = RUS_future_foreign_043
 				has_completed_focus = RUS_extend_our_union
 				has_completed_focus = RUS_future_foreign_043
 			}
@@ -15503,7 +15503,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			if = {
 				limit = {
 					OR = {
-						has_completed_focus = RUS_what_a_childish_fantasy
+						has_completed_focus = RUS_future_foreign_014
 						has_completed_focus = RUS_future_foreign_014
 					}
 				}
@@ -15534,7 +15534,7 @@ RUS_Spreading_the_Revolution_decisions = {
 				}
 			}
 			else_if = {
-				limit = { has_completed_focus = RUS_union_of_peoples } #Decentralised version
+				limit = { always = no } #Decentralised version
 				set_autonomy = {
 					target = FROM
 					autonomy_state = union_republic_autonomous
@@ -15549,7 +15549,7 @@ RUS_Spreading_the_Revolution_decisions = {
 				}
 			}
 			if = {
-				limit = { has_completed_focus = RUS_increased_devolution }
+				limit = { always = no }
 				FROM = { add_ideas = RUS_soc_economic_area }
 			}
 			hidden_effect = { FROM = { restore_previous_government_type = yes } }
@@ -15564,7 +15564,7 @@ RUS_Spreading_the_Revolution_decisions = {
 
 		available = {
 			OR = {
-				has_completed_focus = RUS_rival_west
+				has_completed_focus = RUS_future_foreign_043
 				has_completed_focus = RUS_future_foreign_029
 			}
 			FROM = {
@@ -15578,7 +15578,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_target_selected_or_overview = yes
 			OR = {
-				has_completed_focus = RUS_rival_west
+				has_completed_focus = RUS_future_foreign_043
 				has_completed_focus = RUS_future_foreign_029
 			}
 			has_socialist_government = yes
@@ -15640,7 +15640,7 @@ RUS_Spreading_the_Revolution_decisions = {
 			NOT = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_target_selected_or_overview = yes
 			OR = {
-				has_completed_focus = RUS_rival_west
+				has_completed_focus = RUS_future_foreign_043
 				has_completed_focus = RUS_future_foreign_029
 			}
 			is_faction_leader = yes
@@ -15708,7 +15708,7 @@ RUS_Spreading_the_Revolution_decisions = {
 
 		targets = { EST LAT FIN }
 		target_root_trigger = {
-			has_completed_focus = RUS_eastern_vanguard
+			has_completed_focus = RUS_future_foreign_004
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
@@ -15905,7 +15905,7 @@ RUS_Spreading_the_Revolution_decisions = {
 
 		targets = { LIT BLR UKR GEO ARM AZR ROM SER BUL GRE ALB POL SLO MNT }
 		target_root_trigger = {
-			has_completed_focus = RUS_anti_capitalist_warfare
+			always = no
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
@@ -15999,7 +15999,10 @@ RUS_Spreading_the_Revolution_decisions = {
 
 		targets = { TUR PER AFG }
 		target_root_trigger = {
-			has_completed_focus = RUS_turn_south
+			OR = {
+				AND = { has_completed_focus = RUS_future_foreign_052 FROM = { tag = PER } }
+				AND = { has_completed_focus = RUS_future_foreign_053 FROM = { tag = AFG } }
+			}
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
@@ -16096,7 +16099,7 @@ RUS_Spreading_the_Revolution_decisions = {
 		targets = { JAP CHN RAJ HND PRF }
 		target_root_trigger = {
 			OR = {
-				has_completed_focus = RUS_turn_east
+				always = no
 				has_completed_focus = RUS_future_foreign_042
 			}
 		}
@@ -16615,7 +16618,7 @@ RUS_Spreading_the_Revolution_decisions = {
 
 		targets = { LKT }
 		target_root_trigger = {
-			has_completed_focus = RUS_comrades_abroad
+			has_completed_focus = RUS_future_foreign_060
 		}
 		target_trigger = {
 			RUS_europe_intervention_target_selected_or_overview = yes
@@ -17196,7 +17199,7 @@ RUS_socrus_coalition_mechanic_decisions = {
 			OR = {
 				RUS_yakov_blyumkin = { is_political_advisor = yes }
 				RUS_completed_focus_state_surveillance = yes
-				has_completed_focus = RUS_socrus_spies
+				always = no
 			}
 		}
 		visible = {
@@ -18052,9 +18055,9 @@ RUS_sr_parliamentarian_decision_cat = {
 						}
 					}
 					AND = {
-						has_completed_focus = RUS_pool_armour_innovation
-						has_completed_focus = RUS_comrades_abroad
-						has_completed_focus = RUS_prepare_march_of_liberation
+						has_completed_focus = RUS_future_foreign_032
+						has_completed_focus = RUS_future_foreign_060
+						has_completed_focus = RUS_future_foreign_051
 					}
 					custom_override_tooltip = {
 						tooltip = RUS_faith_above_70
@@ -18080,9 +18083,9 @@ RUS_sr_parliamentarian_decision_cat = {
 						}
 					}
 					AND = {
-						has_completed_focus = RUS_pool_armour_innovation
-						has_completed_focus = RUS_comrades_abroad
-						has_completed_focus = RUS_prepare_march_of_liberation
+						has_completed_focus = RUS_future_foreign_032
+						has_completed_focus = RUS_future_foreign_060
+						has_completed_focus = RUS_future_foreign_051
 					}
 					check_variable = { RUS_faith > 50 }
 					RUS_isaak_steinberg = { is_hired_as_advisor = yes }

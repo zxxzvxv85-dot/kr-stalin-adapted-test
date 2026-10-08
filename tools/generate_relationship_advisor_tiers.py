@@ -360,7 +360,8 @@ def render_traits() -> str:
                     lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_psr_advisor_weekly_tt")
                 if advisor["group"] == "max":
                     lines.append("\t\tcustom_modifier_tooltip = RUS_kamenev_bop_maximalist_advisor_weekly_tt")
-                    lines.append(f"\t\tcustom_modifier_tooltip = RUS_maximalist_advisor_{advisor['slug']}_agriculture_tt")
+                    suffix = "_easy" if easy else ""
+                    lines.append(f"\t\tcustom_modifier_tooltip = RUS_maximalist_advisor_{advisor['slug']}_agriculture{suffix}_tt")
                 lines.extend(["\t}", ""])
     lines.append("}")
     return "\n".join(lines) + "\n"
@@ -556,7 +557,6 @@ def render_localisation(language: str) -> str:
         },
     }[language]
     for slug, description in agriculture.items():
-        lines.append(f'  RUS_maximalist_advisor_{slug}_agriculture_tt: "[GetRUSMaximalistAgriculture{slug}]"')
         lines.append(f'  RUS_maximalist_advisor_{slug}_national_tt: "{description}"')
         if slug == "ustinov":
             easy_description = description.replace("§G+1§!", "§G+2§!")
@@ -565,6 +565,19 @@ def render_localisation(language: str) -> str:
         else:
             easy_description = description.replace("§G2%§!", "§G0%§!")
         lines.append(f'  RUS_maximalist_advisor_{slug}_national_easy_tt: "{easy_description}"')
+        # Modifier tooltips showed the nested scripted-localisation call
+        # literally in game. Use direct text for each mode, with explicit
+        # applicability; the agricultural mechanics themselves are unchanged.
+        headings = {
+            "simp_chinese": ("§Y国家农业系统§!", "§Y启用国家农业系统后§!", "\\n§g未启用该系统时，仅在土改进行期间每月增加1点土改分数。§!"),
+            "english": ("§YNational Agriculture System§!", "§YWhen the National Agriculture System is enabled§!", "\\n§gWithout that system, grants 1 monthly reform point only during ongoing land reform.§!"),
+            "russian": ("§YГосударственная аграрная система§!", "§YПри включённой государственной аграрной системе§!", "\\n§gБез этой системы даёт 1 очко реформы в месяц только во время земельной реформы.§!"),
+        }
+        old_heading, heading, legacy = headings[language]
+        normal = description.replace(old_heading, heading) + legacy
+        easy_text = easy_description.replace(old_heading, heading) + legacy
+        lines.append(f'  RUS_maximalist_advisor_{slug}_agriculture_tt: "{normal}"')
+        lines.append(f'  RUS_maximalist_advisor_{slug}_agriculture_easy_tt: "{easy_text}"')
     lines.append('  RUS_maximalist_advisor_agriculture_empty: ""')
     return "\n".join(lines) + "\n"
 

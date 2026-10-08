@@ -146,7 +146,8 @@ for (const id of ['046', '056']) {
     assert.ok(get(focus, 'completion_reward').some(n => n.value === 'RUS_future_foreign_aid_discount_tt'));
   }
 }
-for (const file of ['common/national_focus/00_RUS_future_foreign_policy_skeleton.txt', 'common/national_focus/RUS focus (Russia).txt']) {
+// Faction creation now belongs exclusively to the replacement diplomacy tree.
+for (const file of ['common/national_focus/00_RUS_future_foreign_policy_skeleton.txt']) {
   const source = read(file);
   for (const name of ['faction_fourth_internationale', 'faction_eastern_front_of_the_internationale']) {
     const expression = new RegExp('create_faction_from_template = \\{ template = faction_template_internationale name = ' + name + '[^\\n]*\\n\\s*set_faction_manifest = faction_manifest_world_revolution');

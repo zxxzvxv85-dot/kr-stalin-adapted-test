@@ -1535,7 +1535,7 @@ RUS_fr_calculate_specialisation_bonus = {
 
 RUS_fr_add_initial_reform_disorganisation = {
 	if = {
-		limit = { has_completed_focus = RUS_comrades_abroad }
+		limit = { always = no }
 		add_ideas = RUS_fr_reform_disorganisation_4_comrades_abroad
 		set_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
 	}
@@ -1864,7 +1864,7 @@ RUS_fr_initialise_unified_army_reform = {
 		if = {
 			limit = {
 				OR = {
-					has_completed_focus = RUS_comrades_abroad
+					always = no
 					has_country_flag = RUS_fr_comrades_abroad_reform_bonus_pending
 					has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad
 					has_idea = RUS_fr_reform_disorganisation_3_comrades_abroad
@@ -2061,7 +2061,7 @@ RUS_fr_apply_comrades_abroad_army_reform_bonus = {
 RUS_fr_repair_comrades_abroad_army_reform_bonus = {
 	if = {
 		limit = {
-			has_completed_focus = RUS_comrades_abroad
+			always = no
 			NOT = { has_country_flag = RUS_fr_comrades_abroad_reform_bonus_merged }
 		}
 		RUS_fr_apply_comrades_abroad_army_reform_bonus = yes

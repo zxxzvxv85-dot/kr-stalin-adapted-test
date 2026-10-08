@@ -34,7 +34,14 @@ for(const lang of ['simp_chinese','english','russian']) {
   const pairs=[...text.matchAll(/^\s*([\w.]+):\s*"(.*)"$/gm)].map(m=>[m[1],m[2]]),loc=new Map(pairs);
   assert.equal(pairs.length,loc.size);
   for(const slug of ['ustinov','kolegayev','kakhovskaya']) {
-    assert.equal(loc.get(`RUS_maximalist_advisor_${slug}_agriculture_tt`),`[GetRUSMaximalistAgriculture${slug}]`);
+    const normalTooltip=loc.get(`RUS_maximalist_advisor_${slug}_agriculture_tt`);
+    const easyTooltip=loc.get(`RUS_maximalist_advisor_${slug}_agriculture_easy_tt`);
+    for(const tooltip of [normalTooltip,easyTooltip]) {
+      assert.ok(tooltip && !tooltip.includes('[Get'), 'Advisor modifier text must resolve without nested scripted localisation');
+      assert.ok(tooltip.includes('§G') && tooltip.includes('§g'));
+    }
+    assert.ok(normalTooltip.includes(slug==='ustinov'?'§G+1§!':slug==='kolegayev'?'§G+5%§!':'§G2%§!'));
+    assert.ok(easyTooltip.includes(slug==='ustinov'?'§G+2§!':slug==='kolegayev'?'§G+10%§!':'§G0%§!'));
     const description=loc.get(`RUS_maximalist_advisor_${slug}_national_tt`);
     for(const marker of ['£RUS_nat_text_','§4','§G','§R'])assert.ok(description.includes(marker));
     assert.equal([...description.matchAll(/§[^!]/g)].length,[...description.matchAll(/§!/g)].length);
