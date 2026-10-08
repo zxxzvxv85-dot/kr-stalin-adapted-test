@@ -157,3 +157,7 @@ event GRU_reconstruction.97 GRU
 ### 随机领袖与黑影头像故障（2026-10-07）
 
 用户实际执行`.97`后仍显示“Johannes Weiß”。当次日志明确报`recruit_character: Unknown character GRU_adolf_hitler`，并提示`recruit_character`应在历史初始化阶段执行。此前仅有角色模板而未在历史阶段实例化，事件内招募失败后`has_character`挡住了晋升；原测试模型错误地把模板存在当成可运行时招募。现已删除未被历史文件使用的角色模板，改为上述运行时创建，并让回归模型禁止GRU事件/效果调用历史招募。此次修复需要完全退出游戏、重新启动开发版后再输入`event GRU_reconstruction.97 GRU`；已切到目标国家可省略末尾标签，动态国家则使用实际Dxx。
+
+## 2026-10-08 上台后政党名称
+
+希特勒就任后共产主义饼图显示“德国统一社会党”，长名同时更新为德国统一社会党（Sozialistische Einheitspartei Deutschlands）；介绍里的同名组织统一写作“德国统一社会党”。建政阶段仍为德国共产党，早年加入共产党的经历不改。使用独立set_party_name守卫，已经上台的旧存档重启后在红德国家输入`event GRU_reconstruction.97`可补更新党名，不重复人物创建、换树或奖励。此次仅开发目录。

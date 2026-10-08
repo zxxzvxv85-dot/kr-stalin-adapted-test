@@ -97,6 +97,22 @@ GRU_appoint_hitler_leader = {
 			ideology = marxism_leninism_subtype
 		}
 	}
+	# Also refresh the party name when .97 is used on an existing Hitler save.
+	if = {
+		limit = {
+			GRU_is_red_germany = yes
+			has_country_flag = GRU_first_election_held
+			has_country_flag = GRU_hitler_path
+			NOT = { has_country_flag = GRU_reconstruction_rebel }
+			NOT = { has_country_flag = GRU_civil_war_started }
+			has_country_leader = { name = GRU_adolf_hitler ruling_only = yes }
+		}
+		set_party_name = {
+			ideology = communist
+			name = GRU_hitler_communist_party
+			long_name = GRU_hitler_communist_party_long
+		}
+	}
 }
 
 # Loading the follow-up tree is separate from election rewards. The debug entry

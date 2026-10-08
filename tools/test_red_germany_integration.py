@@ -358,6 +358,7 @@ class ReconstructionTests(unittest.TestCase):
         self.assertEqual(c['leader_desc'], 'GRU_adolf_hitler_leader_desc')
         self.assertEqual(c['leader_picture'], 'GFX_portrait_GRU_adolf_hitler')
         self.assertEqual(c['leader_creations'], [HITLER_LEADER])
+        self.assertEqual(c['party_names']['communist'], 'GRU_hitler_communist_party')
 
     def test_exact_thresholds(self):
         for values in product((0, 80, 81, 99, 100), repeat=3):
@@ -602,6 +603,7 @@ class ReconstructionTests(unittest.TestCase):
                                 leader_desc='GRU_adolf_hitler_leader_desc',
                                 leader_picture='GFX_portrait_GRU_adolf_hitler',
                                 leader_creations=[HITLER_LEADER])
+                expected['party_names']['communist'] = 'GRU_hitler_communist_party'
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 self.assertTrue(choose(w, 'GRU_reconstruction.97'))
                 self.assertEqual(c, expected)
@@ -642,11 +644,13 @@ class ReconstructionTests(unittest.TestCase):
                                 leader_desc='GRU_adolf_hitler_leader_desc',
                                 leader_picture='GFX_portrait_GRU_adolf_hitler',
                                 leader_creations=[HITLER_LEADER])
+                expected['party_names']['communist'] = 'GRU_hitler_communist_party'
                 if government != 'communist': expected['opaque'].append('set_government_flags')
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 self.assertEqual(c, expected)
                 self.assertEqual(w['queue'], queue)
                 self.assert_hitler_leads(c)
+                c['party_names']['communist'] = 'GRU_red_communist_party'
                 self.assertTrue(fire(w, 'GRU_reconstruction.97'))
                 effect(w, 'GRU_load_hitler_focus_tree')
                 effect(w, 'GRU_appoint_hitler_leader')
@@ -723,6 +727,7 @@ class ReconstructionTests(unittest.TestCase):
                         leader_desc='GRU_adolf_hitler_leader_desc',
                         leader_picture='GFX_portrait_GRU_adolf_hitler',
                         leader_creations=[HITLER_LEADER])
+        expected['party_names']['communist'] = 'GRU_hitler_communist_party'
         effect(w, 'GRU_load_hitler_focus_tree')
         self.assertEqual(c, expected)
 
@@ -772,8 +777,9 @@ class ContentTests(unittest.TestCase):
         self.assertEqual({n.k: n.v for n in creation.v}, HITLER_LEADER)
         self.assertEqual(IDEOLOGY_GROUPS[creation.value('ideology')], 'communist')
         guards = [n for n in walk(EFFECTS['GRU_appoint_hitler_leader'].v) if n.k == 'has_country_leader']
-        self.assertEqual(len(guards), 1)
-        self.assertEqual({n.k: n.v for n in guards[0].v}, {'name': 'GRU_adolf_hitler', 'ruling_only': 'yes'})
+        self.assertEqual(len(guards), 2)  # creation guard and existing-save party rename
+        for guard in guards:
+            self.assertEqual({n.k: n.v for n in guard.v}, {'name': 'GRU_adolf_hitler', 'ruling_only': 'yes'})
         portrait = creation.value('picture')
         sprites = [n for n in walk(load(R / 'interface/GRU_red_germany_portraits.gfx'))
                    if n.k == 'spriteType' and n.value('name').strip('"') == portrait]
