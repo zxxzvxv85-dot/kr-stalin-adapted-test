@@ -1,6 +1,13 @@
 # [KR] 多么幼稚的幻想，但是斯大林——制作日志与开发备忘
 
-最后更新：2026-10-08
+最后更新：2026-10-09
+
+## 2026-10-09 — 最初的革命与战斗仍将继续图标替换
+
+- 按用户选定A10／B10，只读复用Great War Redux（3365515312）的focus_revolution.png与focus_red_star_soldier.png，分别替换RUS_future_foreign_004与008现有PNG；原尺寸99×88和94×77，RGBA、alpha 0–255，与来源逐字节一致。保留现有普通及shine图元引用，未改国策脚本、布局、奖励或文案，无需新增GWR运行依赖。放大及原尺寸对照已目视核对。
+- RHoiScribe图标注册文件绿色；项目无brace_balance／unclosed_block红项，其他既有脚本及CWT索引诊断未因本次纯图片修改处理；repair仅dry_run，117项格式建议未应用。git diff --check通过。未启动游戏，实际显示与shine由用户重启后测试。
+- 通过Build-CleanWorkshopUpload.ps1选择文件构建，仅更新两张纹理；源码／上传SHA-256一致，其余1392个上传文件与构建前备份逐字节相同。构建保留最近三份恢复备份，无开发候选或预览混入。更新本日志并创建本地Git提交，未推送GitHub。开始工作树干净，fetch／pull成功，远端无更新。
+
 
 ## 2026-10-08 — 世界革命倒计时直接授予主要国家战争目标
 
