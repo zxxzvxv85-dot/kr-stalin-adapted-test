@@ -2,6 +2,11 @@
 
 最后更新：2026-10-10
 
+## 2026-10-10 — 苏联成立国策的空白事件标题
+
+- 截图中的空白“触发事件”来自RUS_future_foreign_045完成时调用的隐藏超级事件RUS_soviet_foundation_super_event.1：定义无title。参考只读KR的RUS events (Russia).txt中10000等隐藏事件仍设置title的格式，补充事件标题和简中／英文／俄文本地化；中文显示“苏维埃社会主义共和国联盟成立”。没有修改国策奖励、触发条件、超级事件界面或音乐。
+- 验证事件除title外逐字节不变，本地化UTF-8 BOM及键唯一；结构检查、RHoiScribe相关文件和项目括号检查及repair dry_run、git diff --check通过。通过构建脚本只同步事件及三份本地化到上传目录，其他上传内容保留。未启动游戏，提示显示仍需重启后实测。开始工作树干净，fetch／pull成功，远端无新增；创建本地Git提交，未推送GitHub。
+
 ## 2026-10-10 — 胜利日文案及庆祝事件
 
 - 按用户截图DIP-001／DIP-001-1录入“胜利日”描述与“多么幼稚的幻想”事件正文。RUS_future_foreign_005完成奖励只新增RUS_future_foreign_policy_events.15即时报告；原战争支持度、联盟会议、加盟国报告及战后延迟事件均不变。新事件使用KR原生RUS_parade图片、is_triggered_only和fire_only_once；选项“迎来佳节，迎来狂欢，迎来胜利的一天...”在hidden_effect中scoped_play_song现有RUS_stalin_radio_victory_day_choir（胜利日合唱版），打开事件不播放，也不新增属性奖励。
