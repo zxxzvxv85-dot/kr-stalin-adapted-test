@@ -1561,7 +1561,20 @@ on_actions = {
 					limit = { original_tag = GER }
 					RUS = {
 						mark_focus_tree_layout_dirty = yes
-						country_event = { id = russia_flavour_events.134 days = 1 }
+						# Socialist celebration now comes from completing Victory Day.
+						# Preserve the old report's wartime cleanup and radical-socialist follow-up.
+						if = {
+							limit = { has_socialist_government = yes }
+							remove_ideas = RUS_surrender_limit_idea
+							if = {
+								limit = {
+									has_government = radical_socialist
+									NOT = { RUS_is_spiridonist = yes RUS_is_maximalist = yes }
+								}
+								country_event = { id = russia_socialist_events.203 days = 6 }
+							}
+						}
+						else = { country_event = { id = russia_flavour_events.134 days = 1 } }
 						country_event = { id = russia_flavour_events.26 days = 180 } # Churchill's Iron Curtain Speech
 						country_event = { id = russia_democratic_events.167 days = 120 } #From Men of War to Men of Peace
 						country_event = { id = russia_democratic_events.171 days = 280 } #Spread of the Revolutionary Cells

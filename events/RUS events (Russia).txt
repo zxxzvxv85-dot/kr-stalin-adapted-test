@@ -45585,6 +45585,8 @@ country_event = { #Victory in the Second Weltkrieg
 		trigger = { has_socialist_government = yes }
 		text = russia_flavour_events.134.d6
 	}
+	# Also suppress a previously queued socialist victory report.
+	trigger = { has_socialist_government = no }
 	fire_only_once = yes
 	is_triggered_only = yes
 	picture = GFX_report_event_RUS_parade

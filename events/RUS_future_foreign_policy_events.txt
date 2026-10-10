@@ -269,3 +269,17 @@ country_event = {
 		}
 	}
 }
+
+# Victory Day's narrative report. Music starts only after choosing the option.
+country_event = {
+	id = RUS_future_foreign_policy_events.15
+	title = RUS_future_foreign_policy_events.15.t
+	desc = RUS_future_foreign_policy_events.15.d
+	picture = GFX_report_event_RUS_parade
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RUS_future_foreign_policy_events.15.a
+		hidden_effect = { scoped_play_song = RUS_stalin_radio_victory_day_choir }
+	}
+}
