@@ -2,6 +2,11 @@
 
 最后更新：2026-10-11
 
+## 2026-10-11 — 事件总体主义译名统一
+
+- 对照只读KR简中2946487287/localisation/simp_chinese/KR_common/00 Political l_simp_chinese.yml的totalist“总体主义”，将测试版事件stalin_form_sov.17及rus_stalin_zinovyev_rework相关标题／正文中的“极权主义”与单独“极权”统一为“总体主义”。共10个事件本地化键、33处；只更换译名，不改脚本、其他叙事、事件效果或非事件键。修改前文件及键清单在output/event_totalism_terminology_20261011。
+- 核对逐行差异仅目标译名，事件键无旧词，UTF-8 BOM保留；结构检查、RHoiScribe文件及项目括号／未闭合块检查通过，repair仅dry_run未应用，git diff --check通过。通过构建脚本选择该本地化文件同步上传，其他文件保留。纯文案未启动游戏；开始工作树干净，fetch／pull成功无新增，本地Git提交未推送GitHub。
+
 ## 2026-10-11 — 《不死族》事件照片样式修正
 
 - 用户实测指出上一版只有黑白与220×180尺寸，缺失KR照片卡片样式。只读对照KR RUS_parade（220×180 LA）与RUS_Collectivization（210×176 LA），确认倾斜照片、纸边／阴影与透明外缘。使用内置ImageGen以三人已换装照片为编辑目标、RUS_parade为样式参考，生成1387×1134透明RGBA照片卡片；转换为中性黑白并保留alpha，缩放220×180替换原纹理，保持事件／图元路径不变。三人头帽完整，原尺寸确认纸边和倾斜可读；高清修正版、旧矩形图与完整提示词保存在output/undead_film_20261011。
