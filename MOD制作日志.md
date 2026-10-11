@@ -1,6 +1,13 @@
 # [KR] 多么幼稚的幻想，但是斯大林——制作日志与开发备忘
 
-最后更新：2026-10-10
+最后更新：2026-10-11
+
+## 2026-10-11 — 电影《不死族》风味事件
+
+- 按用户原文新增RUS_stalin_cinema.1，标题《不死族》，选项为三名白军间谍在观影时被捕；纯叙事，无额外属性奖励。革命风暴席卷俄罗斯（russia_news_events.8）的immediate保留原日志并在RUS作用域排队30天；由于前置为全球新闻，RUS_undead_film_report_scheduled一次性标记防止多接收者／重复新闻重复排队，新报告fire_only_once。参考KR原生country_event延迟和图片sprite格式；只改这一新闻的immediate，其余俄罗斯事件逐字节不变。
+- 使用内置ImageGen编辑用户三人照片，换1930年代红军制服与军帽，保留人物顺序、眼镜与胡须；生成1448×1086，最终中性黑白RGB、220×180 PNG，与KR RUS_parade等普通事件图尺寸一致。高清生成图、原事件备份、文案及完整提示词保存在output/undead_film_20261011；运行纹理在gfx/event_pictures/Europe/Russia/GFX_report_event_RUS_undead_film.png。已在原尺寸检查三人面部和帽子，无文字或边框。
+- 结构检查362脚本／258本地化零错误；新事件、图元、简中RHoiScribe绿色，主俄罗斯事件仍1603项既有诊断。项目括号与未闭合块绿色，repair仅dry_run的格式建议未应用；git diff --check通过。独立核对30天、RUS作用域、排队守卫、fire_only_once、纹理通道一致与BOM／键唯一。未启动游戏，实际弹窗长正文排版与延迟仍待用户实测。
+- 通过选择文件构建同步5项运行文件到测试上传目录，保留其他上传内容及开发独有GUI边界。开始工作树干净，fetch因连接重置失败，未拉取或覆盖；本轮本地Git提交，未推送GitHub。
 
 ## 2026-10-10 — 苏联成立国策的空白事件标题
 

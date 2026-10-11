@@ -47395,7 +47395,17 @@ news_event = {
 # Savinkov Assassinated - Left SR's Restore Order
 news_event = {
 	id = russia_news_events.8
-	immediate = { log = "[GetLogInfo]: event russia_news_events.8" }
+	immediate = {
+		log = "[GetLogInfo]: event russia_news_events.8"
+		# Global news reaches multiple recipients; queue the Russian report once.
+		RUS = {
+			if = {
+				limit = { NOT = { has_country_flag = RUS_undead_film_report_scheduled } }
+				set_country_flag = RUS_undead_film_report_scheduled
+				country_event = { id = RUS_stalin_cinema.1 days = 30 }
+			}
+		}
+	}
 	title = russia_news_events.8.t
 	desc = russia_news_events.8.d
 	picture = GFX_news_event_RUS_socialist_takeover
