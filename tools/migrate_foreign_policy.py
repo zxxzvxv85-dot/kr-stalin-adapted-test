@@ -119,7 +119,7 @@ def anchor_layout(text):
     for n in focuses:
         x, y = int(n.value('x')), int(n.value('y'))
         if n is root:
-            location = ('relative_position_id = RUS_russian_congress\n\tx = 20\n\ty = -2\n'
+            location = ('relative_position_id = RUS_russian_congress\n\tx = 25\n\ty = -2\n'
                         '\toffset = { x = -10 y = 1 trigger = { RUS_PLSR = yes } }')
         else:
             location = f'relative_position_id = {ROOT_FOCUS}\n\tx = {x - ox}\n\ty = {y - oy}'

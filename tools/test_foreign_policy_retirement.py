@@ -22,7 +22,7 @@ for id, n in focuses.items():
     digest = hashlib.sha256(json.dumps(content(n.v), ensure_ascii=False).encode()).hexdigest()
     assert digest == baseline[id]['content_sha256'], 'Gameplay fields changed: ' + id
     if id == 'RUS_future_foreign_001':
-        assert (n.value('relative_position_id'), n.value('x'), n.value('y')) == ('RUS_russian_congress', '20', '-2')
+        assert (n.value('relative_position_id'), n.value('x'), n.value('y')) == ('RUS_russian_congress', '25', '-2')
         offset = n.one('offset')
         assert (offset.value('x'), offset.value('y'), offset.one('trigger').value('RUS_PLSR')) == ('-10', '1', 'yes')
     else:
