@@ -186,3 +186,27 @@ RUS_agri_settle_quarter = {
 		RUS_agri_settle_quarter_impl = yes
 	}
 }
+
+# Foreign aid uses political power only after the agricultural system is closed.
+# Keep this separate so domestic purchases retain their existing currency.
+RUS_agri_pay_foreign_aid = {
+	clr_country_flag = RUS_agri_purchase_paid
+	if = {
+		limit = { has_country_flag = RUS_nat_system_closed }
+		set_temp_variable = { RUS_agri_aid_pp_cost = RUS_agri_purchase_cost }
+		multiply_temp_variable = { RUS_agri_aid_pp_cost = 2.5 }
+		if = {
+			limit = {
+				RUS_agri_exchange_unlocked = yes
+				check_variable = { RUS_agri_purchase_cost > 0 }
+				NOT = { check_variable = { political_power < RUS_agri_aid_pp_cost } }
+			}
+			multiply_temp_variable = { RUS_agri_aid_pp_cost = -1 }
+			add_political_power = RUS_agri_aid_pp_cost
+			set_country_flag = RUS_agri_purchase_paid
+		}
+		set_temp_variable = { RUS_agri_aid_pp_cost = 0 }
+		set_temp_variable = { RUS_agri_purchase_cost = 0 }
+	}
+	else = { RUS_agri_spend_score = yes }
+}

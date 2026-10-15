@@ -40,3 +40,17 @@ RUS_agri_next_investment_available = {
 	NOT = { has_country_flag = RUS_agri_next_machinery }
 	NOT = { has_country_flag = RUS_agri_next_storage }
 }
+
+RUS_agri_aid_can_pay_8 = {
+	OR = {
+		AND = { has_country_flag = RUS_nat_system_closed NOT = { check_variable = { political_power < 20 } } }
+		AND = { NOT = { has_country_flag = RUS_nat_system_closed } NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
+	}
+}
+
+RUS_agri_aid_can_pay_10 = {
+	OR = {
+		AND = { has_country_flag = RUS_nat_system_closed NOT = { check_variable = { political_power < 25 } } }
+		AND = { NOT = { has_country_flag = RUS_nat_system_closed } NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
+	}
+}

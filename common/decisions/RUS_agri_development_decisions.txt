@@ -309,11 +309,11 @@ RUS_Spreading_the_Revolution_decisions = {
 				RUS_agri_aid_recipient_eligible = yes
 				RUS_agri_aid_slot_available = yes
 				has_completed_focus = RUS_future_foreign_003
-				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+				RUS_agri_aid_can_pay_8 = yes
 			}
 		}
-		custom_cost_text = RUS_agri_cost_8
-		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
+		custom_cost_text = RUS_agri_aid_cost_8
+		custom_cost_trigger = { RUS_agri_aid_can_pay_8 = yes }
 		complete_effect = {
 			custom_effect_tooltip = RUS_agri_aid_recipient_note_tt
 			effect_tooltip = {
@@ -329,10 +329,10 @@ RUS_Spreading_the_Revolution_decisions = {
 						RUS_agri_aid_recipient_eligible = yes
 						RUS_agri_aid_slot_available = yes
 						has_completed_focus = RUS_future_foreign_003
-						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+						RUS_agri_aid_can_pay_8 = yes
 					}
 					set_temp_variable = { RUS_agri_purchase_cost = 8 }
-					RUS_agri_spend_score = yes
+					RUS_agri_pay_foreign_aid = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = {
@@ -370,11 +370,11 @@ RUS_Spreading_the_Revolution_decisions = {
 				RUS_agri_aid_recipient_eligible = yes
 				RUS_agri_aid_slot_available = yes
 				has_completed_focus = RUS_future_foreign_003
-				NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+				RUS_agri_aid_can_pay_10 = yes
 			}
 		}
-		custom_cost_text = RUS_agri_cost_10
-		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 10 } } }
+		custom_cost_text = RUS_agri_aid_cost_10
+		custom_cost_trigger = { RUS_agri_aid_can_pay_10 = yes }
 		complete_effect = {
 			custom_effect_tooltip = RUS_agri_aid_recipient_note_tt
 			effect_tooltip = {
@@ -388,10 +388,10 @@ RUS_Spreading_the_Revolution_decisions = {
 						RUS_agri_aid_recipient_eligible = yes
 						RUS_agri_aid_slot_available = yes
 						has_completed_focus = RUS_future_foreign_003
-						NOT = { check_variable = { RUS_agri_spendable_score < 10 } }
+						RUS_agri_aid_can_pay_10 = yes
 					}
 					set_temp_variable = { RUS_agri_purchase_cost = 10 }
-					RUS_agri_spend_score = yes
+					RUS_agri_pay_foreign_aid = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_technicians days = 180 } }
@@ -426,11 +426,11 @@ RUS_Spreading_the_Revolution_decisions = {
 				RUS_agri_aid_slot_available = yes
 				has_completed_focus = RUS_future_foreign_003
 				FROM = { has_war = yes }
-				NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+				RUS_agri_aid_can_pay_8 = yes
 			}
 		}
-		custom_cost_text = RUS_agri_cost_8
-		custom_cost_trigger = { NOT = { check_variable = { RUS_agri_spendable_score < 8 } } }
+		custom_cost_text = RUS_agri_aid_cost_8
+		custom_cost_trigger = { RUS_agri_aid_can_pay_8 = yes }
 		complete_effect = {
 			custom_effect_tooltip = RUS_agri_aid_recipient_note_tt
 			effect_tooltip = {
@@ -445,10 +445,10 @@ RUS_Spreading_the_Revolution_decisions = {
 						RUS_agri_aid_slot_available = yes
 						has_completed_focus = RUS_future_foreign_003
 						FROM = { has_war = yes }
-						NOT = { check_variable = { RUS_agri_spendable_score < 8 } }
+						RUS_agri_aid_can_pay_8 = yes
 					}
 					set_temp_variable = { RUS_agri_purchase_cost = 8 }
-					RUS_agri_spend_score = yes
+					RUS_agri_pay_foreign_aid = yes
 					if = {
 						limit = { has_country_flag = RUS_agri_purchase_paid }
 						FROM = { add_timed_idea = { idea = RUS_agri_development_aid_front days = 180 } }

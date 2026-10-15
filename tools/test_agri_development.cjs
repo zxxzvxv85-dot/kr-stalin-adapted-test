@@ -29,7 +29,7 @@ test("exchange decisions have valid IDs and scalar payment calls with unchanged 
     let calls = 0;
     function visit(nodes) {
       nodes.forEach((node, index) => {
-        if (node.key === ag("spend_score")) {
+        if (node.key === ag(key.startsWith("aid_") ? "pay_foreign_aid" : "spend_score")) {
           calls++;
           assert.equal(node.value, "yes", "Payment must not use the failing COST parameter block");
           assert.equal(nodes[index-1].key, "set_temp_variable");
@@ -814,6 +814,35 @@ test("multi-year public-information policies have bounded non-compounding capita
     if (strategy === "public_baseline") {
       assert.ok(sum / count < 24, "Routine baseline strategy should not make the ceiling the normal result");
       assert.ok(capped / count < .1, "Do not rely on the capital cap to suppress runaway ordinary returns");
+    }
+  }
+});
+test("closed agriculture converts only foreign aid to 2.5-times PP, with exact funds and recipient guards", () => {
+  for (const [kind, cost] of [["food",8],["technicians",10],["front",8]]) {
+    const definition = decisions.get(ag("exchange_aid_" + kind));
+    assert.equal(get(definition,"custom_cost_text"), ag("aid_cost_" + cost));
+    for (const closed of [false,true]) for (const pp of [0,cost*2.5-.01,cost*2.5,cost*2.5+5]) for (const score of [0,cost-1,cost]) {
+      const c=completed(score); c.pp=pp; c.target=country();c.target.id="FRA";c.target.war=true;
+      c.focuses.push("RUS_future_foreign_003"); if(closed)c.flags.RUS_nat_system_closed=true;
+      const paid=closed ? pp>=cost*2.5 : score>=cost;
+      assert.equal(check(get(definition,"custom_cost_trigger"),c),paid);
+      assert.equal(check(get(definition,"available"),c),paid);
+      buy(c,"aid_"+kind);
+      assert.ok(Math.abs(c.pp-(paid&&closed?pp-cost*2.5:pp))<1e-8);
+      assert.equal(value(c,"spendable_score"),paid&&!closed?score-cost:score);
+      assert.equal(c.target.ideas["RUS_agri_development_aid_"+kind],paid?180:undefined);
+      assert.equal(c.target.pp||0,0);
+      const remaining=c.pp;buy(c,"aid_"+kind);assert.equal(c.pp,remaining,"active aid cannot charge twice");
+    }
+    for(const failure of ["missing","hostile","government","focus","slot","peace"]){
+      const c=completed(100);c.pp=100;c.flags.RUS_nat_system_closed=true;c.target=country();c.target.id="FRA";c.target.war=true;
+      if(failure!=="focus")c.focuses.push("RUS_future_foreign_003");
+      if(failure==="missing")c.target.exists=false;if(failure==="hostile")c.target.enemy=true;
+      if(failure==="government")c.target.government="democratic";
+      if(failure==="slot")c.target.ideas.RUS_agri_development_aid_food=180;
+      if(failure==="peace")c.target.war=false;
+      const succeeds=failure==="peace"&&kind!=="front";
+      buy(c,"aid_"+kind);assert.equal(c.pp,succeeds?100-cost*2.5:100);assert.equal(value(c,"spendable_score"),100);
     }
   }
 });
