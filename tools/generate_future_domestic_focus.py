@@ -28,6 +28,10 @@ BEGIN = '\t# BEGIN RUS future domestic preview'
 END = '\t# END RUS future domestic preview'
 PREFIX = 'RUS_future_domestic_'
 ORIGIN = (90, 45)
+# The revised drawing re-created these boxes; preserve existing runtime IDs.
+STABLE_SUFFIX = dict(zip(
+    '620 623 624 627 628 630 632 633 635 637 647 650 651 655 699'.split(),
+    '160 169 176 182 166 179 177 163 181 183 190 192 194 200 305'.split()))
 LIBRARIES = {
     'KR': ROOT.parent / '1521695605/gfx/interface/goals',
     'GWR': ROOT.parent / '3365515312/gfx/interface/goals',
@@ -46,34 +50,45 @@ def read_layout():
     cells = ET.parse(ROOT / SOURCE).getroot().findall('.//mxCell')
     vertices = {c.get('id'): c for c in cells if c.get('vertex') == '1'}
     named = {k: c for k, c in vertices.items() if label(c) and not c.get('style', '').startswith('text;')}
-    assert len(named) == 141, f'Expected 141 focuses, found {len(named)}'
+    assert len(named) == 161, f'Expected 161 focuses, found {len(named)}'
     assert len({label(c) for c in named.values()}) == len(named)
     edges = set()
+    hidden = set()
     mutex = set()
     recovered = []
     for cell in cells:
         if cell.get('edge') != '1':
             continue
         source, target = cell.get('source'), cell.get('target')
-        if source is None:
-            point = cell.find("mxGeometry/mxPoint[@as='sourcePoint']")
+        for endpoint in ('source', 'target'):
+            if cell.get(endpoint) is not None:
+                continue
+            point = cell.find(f"mxGeometry/mxPoint[@as='{endpoint}Point']")
             assert point is not None
             px, py = float(point.get('x')), float(point.get('y'))
             matches = []
             for k, vertex in named.items():
                 g = vertex.find('mxGeometry')
                 x, y, w, h = (float(g.get(p, '0')) for p in ('x', 'y', 'width', 'height'))
-                if abs(px - (x + w / 2)) < 0.1 and abs(py - (y + h)) < 0.1:
+                boundary_y = y+h if endpoint == 'source' else y
+                if abs(px - (x + w / 2)) < 0.1 and abs(py - boundary_y) < 0.1:
                     matches.append(k)
             assert len(matches) == 1, f'Ambiguous free-ended edge {cell.get("id")}: {matches}'
-            source = matches[0]
+            if endpoint == 'source':
+                source = matches[0]
+            else:
+                target = matches[0]
             recovered.append((cell.get('id'), source, target))
         assert source in vertices and target in vertices
         if 'startArrow=classic' in cell.get('style', ''):
             if source in named and target in named:
                 mutex.add(tuple(sorted((source, target))))
             continue
-        edges.add((source, target))
+        if 'dashed=1' in cell.get('style', ''):
+            assert source in named and target in named, 'Hidden prerequisite must join named boxes'
+            hidden.add((source, target))
+        else:
+            edges.add((source, target))
     outgoing = defaultdict(set)
     for source, target in edges:
         outgoing[source].add(target)
@@ -103,15 +118,24 @@ def read_layout():
         # 80 is the half-column step used by staggered parent/child positions.
         x = ORIGIN[0] + round((float(g.get('x')) - minx) / 80)
         y = ORIGIN[1] + round((float(g.get('y')) - miny) / 120)
-        nodes.append({'cell_id': key, 'suffix': key.rsplit('-', 1)[-1],
-                      'id': PREFIX + key.rsplit('-', 1)[-1], 'name': label(cell), 'x': x, 'y': y})
+        raw_suffix = key.rsplit('-', 1)[-1]
+        suffix = STABLE_SUFFIX.get(raw_suffix, raw_suffix)
+        name = label(cell)
+        if raw_suffix == '638':
+            assert name == '第一个五年计划（前置：左边三选一+激发阶级意识）'
+            name = '第一个五年计划'
+        nodes.append({'cell_id': key, 'suffix': suffix,
+                      'id': PREFIX + suffix, 'name': name, 'x': x, 'y': y})
     nodes.sort(key=lambda n: (n['y'], n['x'], n['id']))
     by_cell = {n['cell_id']: n for n in nodes}
     edge_ids = sorted((by_cell[s]['id'], by_cell[t]['id']) for s, t in effective)
+    hidden_ids = sorted((by_cell[s]['id'], by_cell[t]['id']) for s, t in hidden)
     mutex_ids = sorted(tuple(sorted((by_cell[s]['id'], by_cell[t]['id']))) for s, t in mutex)
+    # User retained three mutually exclusive economic approaches, including the outer pair.
+    mutex_ids = sorted(set(mutex_ids) | {tuple(sorted((PREFIX+'163', PREFIX+'169')))})
     # Validate a DAG, including ancestors reached through blank placeholders.
     parents = defaultdict(list)
-    for source, target in edge_ids:
+    for source, target in edge_ids + hidden_ids:
         parents[target].append(source)
     def visit(key, trail):
         assert key not in trail, f'Prerequisite cycle: {trail} -> {key}'
@@ -123,6 +147,8 @@ def read_layout():
         for right in nodes[i+1:]:
             assert not (abs(left['x']-right['x'])*96 < 174 and abs(left['y']-right['y'])*130 < 128), f'Node overlap {left} / {right}'
     meta = {'focus_count': len(nodes), 'edge_count': len(edge_ids), 'mutex_pairs': mutex_ids,
+            'hidden_required_edges': hidden_ids,
+            'and_required_visible_edges': [(PREFIX+'237', PREFIX+'638')],
             'recovered_free_end_edges': recovered, 'contracted_blank_paths': contracted,
             'ignored_blank_vertices': len(vertices)-len(named)-1, 'ignored_legend': '图案代表提交法案',
             'layout_scale': {'drawio_x_per_focus_unit': 80, 'drawio_y_per_focus_unit': 120,
@@ -135,11 +161,14 @@ def choices(nodes):
     for line in (ROOT / CHOICES).read_text(encoding='utf-8').splitlines():
         if not line or line.startswith('#'):
             continue
-        suffix, library, filename = line.split('\t')
+        columns = line.split('\t')
+        suffix, library, filename = columns[:3]
         assert suffix not in rows
         source = LIBRARIES[library] / filename
         assert source.is_file(), source
-        rows[suffix] = {'library': library, 'filename': filename, 'path': source}
+        rows[suffix] = {'library': library, 'filename': filename, 'path': source,
+                        'sprite': columns[3] if len(columns)>3 else '',
+                        'original_kr_focus': columns[4] if len(columns)>4 else ''}
     assert set(rows) == {n['suffix'] for n in nodes}, 'Icon mapping must exactly cover named focuses'
     return rows
 
@@ -197,16 +226,22 @@ def render_outputs():
         exclusive[left].append(right)
         exclusive[right].append(left)
     text = ['# Generated by tools/generate_future_domestic_focus.py --write',
-            '# Draw.io preview branch: all merges are OR, explicit two-headed arrows are exclusive.',
+            '# Solid merges are OR except the annotated five-year-plan gate; dotted edges are hidden mandatory requirements.',
             '# Preview only: rewards and duration balancing have not been implemented.', '']
     for node in nodes:
         key = node['id']
-        text += ['# '+node['name'], 'shared_focus = {', '\tid = '+key, '\ticon = GFX_goal_'+key,
+        icon = selected[node['suffix']]['sprite'] or 'GFX_goal_'+key
+        text += ['# '+node['name'], 'shared_focus = {', '\tid = '+key, '\ticon = '+icon,
                  '\tcost = 7', f'\tx = {node["x"]}', f'\ty = {node["y"]}',
-                 '\tavailable = {', '\t\tcustom_trigger_tooltip = {',
+                 '\tavailable = {']
+        text += ['\t\thas_completed_focus = '+s for s,t in meta['hidden_required_edges'] if t==key]
+        text += ['\t\tcustom_trigger_tooltip = {',
                  '\t\t\ttooltip = RUS_future_domestic_preview_only_tt', '\t\t\talways = no', '\t\t}', '\t}']
         if parents[key]:
-            text += ['\tprerequisite = { '+ ' '.join('focus = '+p for p in parents[key])+' }']
+            extra = [s for s,t in meta['and_required_visible_edges'] if t==key]
+            ordinary = [p for p in parents[key] if p not in extra]
+            text += ['\tprerequisite = { '+ ' '.join('focus = '+p for p in ordinary)+' }']
+            text += ['\tprerequisite = { focus = '+p+' }' for p in extra]
         for other in exclusive[key]:
             text += ['\tmutually_exclusive = { focus = '+other+' }']
         text += ['\tcompletion_reward = { }', '\tai_will_do = { factor = 0 }', '}', '']
@@ -226,7 +261,8 @@ def render_outputs():
     template = (ROOT/'interface/RUS_future_foreign_victory_icon.gfx').read_text(encoding='utf-8-sig')
     inner = template[template.index('{')+1:template.rfind('}')]
     gfx = 'spriteTypes = {\n' + ''.join(inner.replace('RUS_future_foreign_005', n['id'])
-             .replace('goals/RUS_future_foreign/', 'goals/RUS_future_domestic/') for n in nodes) + '}\n'
+             .replace('goals/RUS_future_foreign/', 'goals/RUS_future_domestic/') for n in nodes
+             if not selected[n['suffix']]['sprite']) + '}\n'
     result = {FOCUS: '\n'.join(text).encode('utf-8'), TREE: tree_bytes, GFX: gfx.encode('utf-8')}
     tips = {'simp_chinese': '该国策尚处于设计阶段，暂不可选取。',
             'english': 'This focus is a design preview and cannot yet be selected.',
@@ -295,7 +331,9 @@ def make_tree_preview(nodes, selected, target):
         x,y = positions[node['id']]
         blob=io.BytesIO(); package_icon(selected[node['suffix']]['path']).save(blob,format='PNG')
         src = base64.b64encode(blob.getvalue()).decode('ascii')
-        svg += [f'<g><title>{html.escape(node["name"])} | {node["id"]}</title>',
+        required = [by_id[s]['name'] for s,t in meta['hidden_required_edges'] if t==node['id']]
+        note = ' | 额外必需：'+'、'.join(required) if required else ''
+        svg += [f'<g><title>{html.escape(node["name"]+note)} | {node["id"]}</title>',
                 f'<image href="data:image/png;base64,{src}" x="{x-50}" y="{y-50}" width="100" height="100"/>',
                 f'<rect x="{x-82}" y="{y+48}" width="164" height="36" rx="8" fill="#343b3b" stroke="#8f8869"/>']
         name = node['name']; lines=[name[i:i+11] for i in range(0,len(name),11)]
@@ -306,10 +344,10 @@ def make_tree_preview(nodes, selected, target):
     svg_text=''.join(svg)
     header='''<!doctype html><meta charset="utf-8"><title>新政治经济国策树 · 布局预览</title>
 <style>body{margin:0;background:#20252a;color:#eee8d8;font:15px 'Microsoft YaHei',sans-serif}header{position:sticky;top:0;background:#15191d;padding:14px;z-index:2}button,input{margin-left:14px}#viewport{overflow:auto;height:calc(100vh - 60px)}svg{display:block}</style>
-<header>新政治经济国策树 | 141项 | 灰绿线：前置（任一）；红虚线：互斥 | 布局示意，非游戏截图
+<header>新政治经济国策树 | FOCUS_COUNT项 | 灰绿线：前置；红虚线：互斥 | 五年计划：三路线任选一＋激发阶级意识；额外隐藏前置见悬浮提示 | 布局示意
 <button onclick="fit()">总览</button><input id="zoom" type="range" min="10" max="110" value="25"><span id="pct"></span></header><div id="viewport">'''
     script=f'''</div><script>const s=document.querySelector('svg'),z=document.getElementById('zoom');function scale(v){{s.style.width=({width}*v/100)+'px';s.style.height=({height}*v/100)+'px';document.getElementById('pct').textContent=Math.round(v)+'%';}}z.oninput=()=>scale(+z.value);function fit(){{const v=Math.max(10,100*(innerWidth-20)/{width});z.value=v;scale(v)}}fit();</script>'''
-    (target/'国策树布局预览.html').write_text(header+svg_text+script,encoding='utf-8')
+    (target/'国策树布局预览.html').write_text(header.replace('FOCUS_COUNT',str(len(nodes)))+svg_text+script,encoding='utf-8')
     # Native-sized local sections for image review, retaining all icons/labels.
     font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',13)
     for col in range((width+2303)//2304):
@@ -353,6 +391,7 @@ def main():
             package_icon(s['path']).save(ROOT/dest)
             sources.append({'id':node['id'],'name':node['name'],'library':s['library'],
                 'source':str(s['path']),'source_sha256':hashlib.sha256(s['path'].read_bytes()).hexdigest(),
+                'sprite':s['sprite'] or 'GFX_goal_'+node['id'], 'original_kr_focus':s['original_kr_focus'],
                 'destination':dest.as_posix(),'destination_sha256':hashlib.sha256((ROOT/dest).read_bytes()).hexdigest()})
         meta['sources'] = sources
         (ROOT/'tools/design/RUS_future_domestic_sources.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
@@ -375,10 +414,10 @@ def main():
             current = selected[item['id'].removeprefix(PREFIX)]
             if current['library']!=item['library'] or str(current['path'])!=item['source'] or hashlib.sha256(current['path'].read_bytes()).hexdigest()!=item['source_sha256']:
                 errors.append('source changed: '+item['id'])
-        assert Counter(s['source_sha256'] for s in provenance['sources']).most_common(1)[0][1] == 1, 'Duplicate icon artwork'
+        # Shared original artwork is intentional: the user explicitly allows KR reuse.
     if errors:
         print('STALE: '+', '.join(errors)); return 1
-    print(f'PASS: {len(nodes)} named focuses, {len(meta["mutex_pairs"])} mutual exclusions; OR merges; no internal/old-tree overlap; rewards empty; text/assets current.')
+    print(f'PASS: {len(nodes)} named focuses, {len(meta["mutex_pairs"])} mutual exclusions; hidden mandatory gates and five-year-plan AND/OR gate; no internal/old-tree overlap; rewards empty; text/assets current.')
     return 0
 
 
