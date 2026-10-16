@@ -24,6 +24,24 @@ def main():
     assert len(new)==141 and all(n.k=='shared_focus' for n in new)
     by_id = {n.value('id'):n for n in new}
     assert set(by_id)==ids
+    # User-specified spacing: nearest same-row neighbors must be two x units.
+    # Check distinct branches, not only the global no-overlap envelope.
+    for left,right in [('133','136'),('138','140'),('140','142'),
+                       ('169','166'),('166','163'),('357','351')]:
+        a,b=by_id[PREFIX+left],by_id[PREFIX+right]
+        assert a.value('y')==b.value('y')
+        assert abs(int(a.value('x'))-int(b.value('x')))==2, f'Incorrect spacing: {left}/{right}'
+    same_row_gaps=[abs(int(a.value('x'))-int(b.value('x'))) for i,a in enumerate(new)
+                   for b in new[i+1:] if a.value('y')==b.value('y')]
+    assert min(same_row_gaps)==2, 'Minimum horizontal spacing must be two units'
+    # Explicit user anchor: technician training is (0,0), with positive y UP.
+    # HOI4 uses positive y DOWN, so only that sign changes on conversion.
+    anchor=by_id[PREFIX+'181']
+    for suffix,expected in [('163',(0,1)),('190',(2,1)),('192',(3,0))]:
+        node=by_id[PREFIX+suffix]
+        actual=(int(node.value('x'))-int(anchor.value('x')),
+                int(anchor.value('y'))-int(node.value('y')))
+        assert actual==expected, f'User reference coordinates differ: {suffix}: {actual} != {expected}'
     tree = next(n for n in load(ROOT/TREE) if n.k=='focus_tree')
     refs = [n.v for n in tree.children('shared_focus') if n.v.startswith(PREFIX)]
     assert Counter(refs)==Counter(ids), 'New shared-focus integration missing or duplicated'
@@ -67,7 +85,10 @@ def main():
         digest=hashlib.sha256(image.tobytes()).hexdigest()
         assert digest not in pixels, 'Duplicate visible icon artwork'
         pixels.add(digest)
-    assert len(mutual)==4 and or_merges>20
+    assert len(mutual)==3 and or_merges>20
+    adaptation=by_id[PREFIX+'249']
+    assert [v.v for v in adaptation.one('prerequisite').children('focus')]==[PREFIX+'151']
+    assert not any(v.value('focus')==PREFIX+'151' for v in adaptation.children('mutually_exclusive'))
     for language in ['simp_chinese','english','russian']:
         raw=(ROOT/f'localisation/{language}/RUS_future_domestic_l_{language}.yml').read_bytes()
         assert raw.startswith(b'\xef\xbb\xbf')
@@ -78,7 +99,7 @@ def main():
     b=manifest['existing_conservative_bounds']; n=manifest['new_bounds']
     assert n['min_x']-b['max_x']>=6 and n['min_y']-b['max_y']>=4
     assert len(manifest['recovered_free_end_edges'])==2
-    print(f'PASS: 141 focuses/282 sprites/141 distinct RGBA icons; {or_merges} OR merges; 4 symmetric exclusions; existing tree retained; three-language keys/BOM valid.')
+    print(f'PASS: 141 focuses/282 sprites/141 distinct RGBA icons; {or_merges} OR merges; 3 symmetric exclusions; revolutionary entry linked; existing tree retained; three-language keys/BOM valid.')
 
 
 if __name__=='__main__':

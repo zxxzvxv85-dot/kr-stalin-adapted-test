@@ -99,8 +99,9 @@ def read_layout():
     nodes = []
     for key, cell in named.items():
         g = cell.find('mxGeometry')
-        # Source row/column jitter is snapped to its 80 x 120 draw.io grid.
-        x = ORIGIN[0] + round((float(g.get('x')) - minx) / 80) * 2
+        # 160 draw.io units between adjacent same-row focuses = 2 HOI4 x units.
+        # 80 is the half-column step used by staggered parent/child positions.
+        x = ORIGIN[0] + round((float(g.get('x')) - minx) / 80)
         y = ORIGIN[1] + round((float(g.get('y')) - miny) / 120)
         nodes.append({'cell_id': key, 'suffix': key.rsplit('-', 1)[-1],
                       'id': PREFIX + key.rsplit('-', 1)[-1], 'name': label(cell), 'x': x, 'y': y})
@@ -123,7 +124,9 @@ def read_layout():
             assert not (abs(left['x']-right['x'])*96 < 174 and abs(left['y']-right['y'])*130 < 128), f'Node overlap {left} / {right}'
     meta = {'focus_count': len(nodes), 'edge_count': len(edge_ids), 'mutex_pairs': mutex_ids,
             'recovered_free_end_edges': recovered, 'contracted_blank_paths': contracted,
-            'ignored_blank_vertices': len(vertices)-len(named)-1, 'ignored_legend': '图案代表提交法案'}
+            'ignored_blank_vertices': len(vertices)-len(named)-1, 'ignored_legend': '图案代表提交法案',
+            'layout_scale': {'drawio_x_per_focus_unit': 80, 'drawio_y_per_focus_unit': 120,
+                             'minimum_same_row_focus_gap': 2}}
     return nodes, edge_ids, mutex_ids, meta
 
 
@@ -309,7 +312,7 @@ def make_tree_preview(nodes, selected, target):
     (target/'国策树布局预览.html').write_text(header+svg_text+script,encoding='utf-8')
     # Native-sized local sections for image review, retaining all icons/labels.
     font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',13)
-    for col in range(6):
+    for col in range((width+2303)//2304):
         left=col*2304
         board=Image.new('RGB',(2304,height),'#20252a');d=ImageDraw.Draw(board)
         for source,dest in edges:
