@@ -17,15 +17,20 @@ TREE = 'common/national_focus/RUS focus (Russia).txt'
 
 def main():
     source = ET.parse(ROOT/'tools/design/RUS_future_domestic_layout.drawio')
-    remap=dict(zip('620 623 624 627 628 630 632 633 635 637 647 650 651 655 699'.split(),
-                   '160 169 176 182 166 179 177 163 181 183 190 192 194 200 305'.split()))
+    registry=json.loads((ROOT/'tools/design/RUS_future_domestic_ids.json').read_text(encoding='utf-8'))
     vertices = [c for c in source.iter('mxCell')
            if c.get('vertex')=='1' and c.get('value','').strip()
            and not c.get('style','').startswith('text;')]
-    ids = {PREFIX+remap.get(c.get('id').rsplit('-',1)[-1],c.get('id').rsplit('-',1)[-1]) for c in vertices}
-    assert len(ids)==167
-    new = load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')
-    assert len(new)==167 and all(n.k=='shared_focus' for n in new)
+    ids = {PREFIX+registry[c.get('id')]['suffix'] for c in vertices}
+    assert len(ids)==171
+    domestic_ids={PREFIX+s['suffix'] for s in registry.values() if s['phase']=='domestic'}
+    plan_ids=ids-domestic_ids
+    domestic=load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')
+    phase_file=load(ROOT/'common/national_focus/00_RUS_future_five_year_plan_skeleton.txt')
+    plan=[n for n in phase_file if n.k=='shared_focus']
+    assert len(domestic)==154 and all(n.k=='shared_focus' for n in domestic)
+    assert len(plan)==17 and {n.value('id') for n in plan}==plan_ids
+    new=domestic+plan
     by_id = {n.value('id'):n for n in new}
     assert set(by_id)==ids
     # User-specified spacing: nearest same-row neighbors must be two x units.
@@ -38,16 +43,25 @@ def main():
                    for b in new[i+1:] if a.value('y')==b.value('y')]
     assert min(same_row_gaps)==2, 'Minimum horizontal spacing must be two units'
     # The new drawing supersedes old industry positions, but keeps the 80/120 scale.
-    minx=min(float(c.find('mxGeometry').get('x')) for c in vertices)
-    miny=min(float(c.find('mxGeometry').get('y')) for c in vertices)
     for c in vertices:
-        suffix=c.get('id').rsplit('-',1)[-1];n=by_id[PREFIX+remap.get(suffix,suffix)]
+        entry=registry[c.get('id')];n=by_id[PREFIX+entry['suffix']]
+        group=[v for v in vertices if registry[v.get('id')]['phase']==entry['phase']]
+        minx=min(float(v.find('mxGeometry').get('x')) for v in group)
+        miny=min(float(v.find('mxGeometry').get('y')) for v in group)
+        ox,oy=(90,45) if entry['phase']=='domestic' else (6,1)
         g=c.find('mxGeometry')
-        assert int(n.value('x'))==90+round((float(g.get('x'))-minx)/80)
-        assert int(n.value('y'))==45+round((float(g.get('y'))-miny)/120)
+        assert int(n.value('x'))==ox+round((float(g.get('x'))-minx)/80)
+        assert int(n.value('y'))==oy+round((float(g.get('y'))-miny)/120)
     tree = next(n for n in load(ROOT/TREE) if n.k=='focus_tree')
     refs = [n.v for n in tree.children('shared_focus') if n.v.startswith(PREFIX)]
-    assert Counter(refs)==Counter(ids), 'New shared-focus integration missing or duplicated'
+    assert Counter(refs)==Counter(domestic_ids), 'Domestic integration missing, duplicated or still contains first-five-year-plan nodes'
+    phase_tree=next(n for n in phase_file if n.k=='focus_tree')
+    assert phase_tree.value('id')=='RUS_future_five_year_plan_tree'
+    assert phase_tree.value('default')=='no' and phase_tree.one('country').value('factor')=='0'
+    assert Counter(n.v for n in phase_tree.children('shared_focus'))==Counter(plan_ids)
+    assert int(phase_tree.one('continuous_focus_position').value('y'))>max(int(n.value('y')) for n in plan)*130+128
+    for folder in ['events','common/on_actions','common/decisions','common/scripted_effects']:
+        assert all('RUS_future_five_year_plan_tree' not in p.read_text(encoding='utf-8-sig') for p in (ROOT/folder).rglob('*.txt')), 'Automatic switch was not requested'
     # This branch augments Russia's existing tree rather than replacing its selector.
     assert len(tree.children('focus'))>500
     assert tree.one('continuous_focus_position') is not None
@@ -63,7 +77,7 @@ def main():
     provenance={s['id']:s for s in manifest['sources']}
     reused={k:s for k,s in provenance.items() if s['original_kr_focus']}
     assert len(reused)==14
-    assert len(sprites)==2*(167-len(reused))
+    assert len(sprites)==2*(171-len(reused))
     mutual = set()
     or_merges = 0
     for key,n in by_id.items():
@@ -72,9 +86,10 @@ def main():
         assert n.one('ai_will_do').value('factor')=='0'
         assert n.one('available').one('custom_trigger_tooltip').value('always')=='no'
         prereqs=n.children('prerequisite')
-        assert len(prereqs)<=(2 if key==PREFIX+'638' else 1), 'Unannotated AND prerequisite'
+        assert len(prereqs)<=1, 'Unannotated AND prerequisite'
         for p in prereqs:
             assert all(v.v in ids for v in p.children('focus'))
+            assert all((v.v in plan_ids)==(key in plan_ids) for v in p.children('focus')), 'Cross-stage prerequisite would be unreachable'
             or_merges+=len(p.children('focus'))>1
         for m in n.children('mutually_exclusive'):
             other=m.value('focus'); assert other in ids
@@ -95,7 +110,7 @@ def main():
     # Three economic approaches must all exclude one another.
     assert all(tuple(sorted((PREFIX+a,PREFIX+b))) in mutual for a,b in [('163','166'),('166','169'),('163','169')])
     # Invisible gates are mandatory available checks, never drawable prerequisite links.
-    for target,solid,hidden in [('323','473','257'),('375','349','323')]:
+    for target,solid,hidden in [('375','349','323')]:
         n=by_id[PREFIX+target]
         assert [v.v for p in n.children('prerequisite') for v in p.children('focus')]==[PREFIX+solid]
         assert [v.v for v in n.one('available').children('has_completed_focus')]==[PREFIX+hidden]
@@ -104,11 +119,13 @@ def main():
             unlocked=all(any(v.v in done for v in p.children('focus')) for p in n.children('prerequisite')) and all(v.v in done for v in n.one('available').children('has_completed_focus'))
             assert unlocked==(a and b)
     fyp=by_id[PREFIX+'638']
-    groups=[{v.v for v in p.children('focus')} for p in fyp.children('prerequisite')]
-    assert groups==[{PREFIX+s for s in ['177','182','183']},{PREFIX+'237'}]
-    for a,b,c,d in product([False,True],repeat=4):
-        done={PREFIX+s for s,on in zip(['177','182','183','237'],[a,b,c,d]) if on}
-        assert all(bool(g & done) for g in groups)==((a or b or c) and d)
+    assert not fyp.children('prerequisite') and not fyp.one('available').children('has_completed_focus')
+    assert [v.v for p in by_id[PREFIX+'323'].children('prerequisite') for v in p.children('focus')]==[PREFIX+'473']
+    assert not by_id[PREFIX+'323'].one('available').children('has_completed_focus')
+    assert {v.v for p in by_id[PREFIX+'331'].children('prerequisite') for v in p.children('focus')}=={PREFIX+'257'}
+    # The new social-democratic extension is represented by actual drawable prerequisites.
+    for suffix,parents in {'800':{'302'},'801':{'293'},'802':{'800','801'},'803':{'802','469'}}.items():
+        assert {v.v for p in by_id[PREFIX+suffix].children('prerequisite') for v in p.children('focus')}=={PREFIX+s for s in parents}
     assert by_id[PREFIX+'390'].value('icon')=='GFX_focus_CHL_union_of_hispanic_republics'
     # The new education chain replaces the former blank shortcut to "向左".
     expected={'218':{'210'},'221':{'210'},'224':{'218','221'},'226':{'218','221'},
@@ -132,7 +149,7 @@ def main():
         assert not can_take('231' if endpoint=='229' else '229',done)
         assert can_take('233',done)
     # New art must not duplicate any of the other preview icons.
-    for suffix in ['218','221','224','226','229','231']:
+    for suffix in ['218','221','224','226','229','231','800','801','802','803']:
         candidate=Image.open(ROOT/provenance[PREFIX+suffix]['destination']).convert('RGBA').tobytes()
         assert sum(Image.open(ROOT/s['destination']).convert('RGBA').tobytes()==candidate for s in provenance.values())==1
     # Confirm every direct reuse against installed KR's actual focus and sprite definitions.
@@ -153,13 +170,17 @@ def main():
         raw=(ROOT/f'localisation/{language}/RUS_future_domestic_l_{language}.yml').read_bytes()
         assert raw.startswith(b'\xef\xbb\xbf')
         keys=re.findall(r'^\s+([^ :]+):0 ',raw.decode('utf-8-sig'),re.M)
-        assert len(keys)==len(set(keys))==335
+        assert len(keys)==len(set(keys))==343
         assert set(keys)==ids|{i+'_desc' for i in ids}|{'RUS_future_domestic_preview_only_tt'}
         assert '第一个五年计划（' not in raw.decode('utf-8-sig')
     b=manifest['existing_conservative_bounds']; n=manifest['new_bounds']
     assert n['min_x']-b['max_x']>=6 and n['min_y']-b['max_y']>=4
-    assert len(manifest['recovered_free_end_edges'])==10
-    print(f'PASS: 167 focuses/14 original KR sprite reuses; {or_merges} ordinary OR merges; education 4-route choices and 3 exclusions; six unique new icons; 2 hidden AND gates; five-year-plan 16-case gate; 7 symmetric exclusions; revised drawing geometry; three-language keys/BOM valid.')
+    assert len(manifest['recovered_free_end_edges'])==11
+    assert manifest['phase_counts']=={'domestic':154,'five_year_plan':17}
+    assert not manifest['planned_stage_entry']['implemented']
+    assert set(manifest['planned_stage_entry']['any_completed'])=={PREFIX+s for s in ['177','182','183']}
+    assert manifest['planned_stage_entry']['all_completed']==[PREFIX+'237']
+    print(f'PASS: 154 domestic + 17 independent five-year-plan focuses; no automatic switching or cross-stage prerequisites; {or_merges} OR merges; education 4-route choices; four new unique icons; 1 hidden AND gate; 7 exclusions; revised geometry and three-language keys/BOM valid.')
 
 
 if __name__=='__main__':
