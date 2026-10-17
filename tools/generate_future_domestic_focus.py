@@ -50,7 +50,7 @@ def read_layout():
     cells = ET.parse(ROOT / SOURCE).getroot().findall('.//mxCell')
     vertices = {c.get('id'): c for c in cells if c.get('vertex') == '1'}
     named = {k: c for k, c in vertices.items() if label(c) and not c.get('style', '').startswith('text;')}
-    assert len(named) == 161, f'Expected 161 focuses, found {len(named)}'
+    assert len(named) == 167, f'Expected 167 focuses, found {len(named)}'
     assert len({label(c) for c in named.values()}) == len(named)
     edges = set()
     hidden = set()
@@ -325,7 +325,7 @@ def make_tree_preview(nodes, selected, target):
         mid = (y1+y2)/2+20
         svg.append(f'<path d="M{x1},{y1+65} V{mid} H{x2} V{y2-48}" fill="none" stroke="#818b78" stroke-width="2"/>')
     for left,right in mutex:
-        x1,y1 = positions[left];x2,y2=positions[right]
+        (x1,y1),(x2,y2) = sorted((positions[left],positions[right]))
         svg.append(f'<path d="M{x1+55},{y1} L{x2-55},{y2}" fill="none" stroke="#b95550" stroke-width="3" stroke-dasharray="8 6"/>')
     for node in nodes:
         x,y = positions[node['id']]
@@ -356,6 +356,11 @@ def make_tree_preview(nodes, selected, target):
         for source,dest in edges:
             x1,y1=positions[source];x2,y2=positions[dest];mid=(y1+y2)/2+20
             d.line([(x1-left,y1+65),(x1-left,mid),(x2-left,mid),(x2-left,y2-48)],fill='#818b78',width=2)
+        for a,b in mutex:
+            (x1,y1),(x2,y2)=sorted((positions[a],positions[b]))
+            assert y1==y2, 'Native preview expects same-row exclusions'
+            for x in range(x1+55,x2-55,14):
+                d.line([(x-left,y1),(min(x+8,x2-55)-left,y2)],fill='#b95550',width=3)
         for node in nodes:
             x,y=positions[node['id']];x-=left
             if not -100<x<2404:continue

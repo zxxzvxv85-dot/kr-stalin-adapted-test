@@ -1179,7 +1179,7 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 开展专业培训
+# 专业技能培训
 shared_focus = {
 	id = RUS_future_domestic_212
 	icon = GFX_goal_RUS_future_domestic_212
@@ -1193,6 +1193,44 @@ shared_focus = {
 		}
 	}
 	prerequisite = { focus = RUS_future_domestic_463 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 理论指导优先
+shared_focus = {
+	id = RUS_future_domestic_218
+	icon = GFX_goal_RUS_future_domestic_218
+	cost = 7
+	x = 138
+	y = 53
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	prerequisite = { focus = RUS_future_domestic_210 }
+	mutually_exclusive = { focus = RUS_future_domestic_221 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 实践价值导向
+shared_focus = {
+	id = RUS_future_domestic_221
+	icon = GFX_goal_RUS_future_domestic_221
+	cost = 7
+	x = 140
+	y = 53
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	prerequisite = { focus = RUS_future_domestic_210 }
+	mutually_exclusive = { focus = RUS_future_domestic_218 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
@@ -1667,6 +1705,44 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 集中宣传供给
+shared_focus = {
+	id = RUS_future_domestic_224
+	icon = GFX_goal_RUS_future_domestic_224
+	cost = 7
+	x = 138
+	y = 54
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	prerequisite = { focus = RUS_future_domestic_218 focus = RUS_future_domestic_221 }
+	mutually_exclusive = { focus = RUS_future_domestic_226 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 鼓励业余创作
+shared_focus = {
+	id = RUS_future_domestic_226
+	icon = GFX_goal_RUS_future_domestic_226
+	cost = 7
+	x = 140
+	y = 54
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	prerequisite = { focus = RUS_future_domestic_218 focus = RUS_future_domestic_221 }
+	mutually_exclusive = { focus = RUS_future_domestic_224 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 联盟大权在握
 shared_focus = {
 	id = RUS_future_domestic_324
@@ -1955,6 +2031,44 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# "现在"
+shared_focus = {
+	id = RUS_future_domestic_229
+	icon = GFX_goal_RUS_future_domestic_229
+	cost = 7
+	x = 138
+	y = 55
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	prerequisite = { focus = RUS_future_domestic_226 }
+	mutually_exclusive = { focus = RUS_future_domestic_231 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# “将来”
+shared_focus = {
+	id = RUS_future_domestic_231
+	icon = GFX_goal_RUS_future_domestic_231
+	cost = 7
+	x = 140
+	y = 55
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	prerequisite = { focus = RUS_future_domestic_224 }
+	mutually_exclusive = { focus = RUS_future_domestic_229 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 尊重工会经济组织权
 shared_focus = {
 	id = RUS_future_domestic_421
@@ -2238,7 +2352,7 @@ shared_focus = {
 			always = no
 		}
 	}
-	prerequisite = { focus = RUS_future_domestic_210 }
+	prerequisite = { focus = RUS_future_domestic_229 focus = RUS_future_domestic_231 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }

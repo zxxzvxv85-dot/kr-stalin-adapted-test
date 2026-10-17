@@ -23,9 +23,9 @@ def main():
            if c.get('vertex')=='1' and c.get('value','').strip()
            and not c.get('style','').startswith('text;')]
     ids = {PREFIX+remap.get(c.get('id').rsplit('-',1)[-1],c.get('id').rsplit('-',1)[-1]) for c in vertices}
-    assert len(ids)==161
+    assert len(ids)==167
     new = load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')
-    assert len(new)==161 and all(n.k=='shared_focus' for n in new)
+    assert len(new)==167 and all(n.k=='shared_focus' for n in new)
     by_id = {n.value('id'):n for n in new}
     assert set(by_id)==ids
     # User-specified spacing: nearest same-row neighbors must be two x units.
@@ -63,7 +63,7 @@ def main():
     provenance={s['id']:s for s in manifest['sources']}
     reused={k:s for k,s in provenance.items() if s['original_kr_focus']}
     assert len(reused)==14
-    assert len(sprites)==2*(161-len(reused))
+    assert len(sprites)==2*(167-len(reused))
     mutual = set()
     or_merges = 0
     for key,n in by_id.items():
@@ -91,7 +91,7 @@ def main():
         image=Image.open(ROOT/texture)
         assert image.size==(100,100) and image.mode=='RGBA'
         assert image.getchannel('A').getextrema()==(0,255)
-    assert len(mutual)==4 and or_merges>20
+    assert len(mutual)==7 and or_merges>20
     # Three economic approaches must all exclude one another.
     assert all(tuple(sorted((PREFIX+a,PREFIX+b))) in mutual for a,b in [('163','166'),('166','169'),('163','169')])
     # Invisible gates are mandatory available checks, never drawable prerequisite links.
@@ -110,6 +110,31 @@ def main():
         done={PREFIX+s for s,on in zip(['177','182','183','237'],[a,b,c,d]) if on}
         assert all(bool(g & done) for g in groups)==((a or b or c) and d)
     assert by_id[PREFIX+'390'].value('icon')=='GFX_focus_CHL_union_of_hispanic_republics'
+    # The new education chain replaces the former blank shortcut to "向左".
+    expected={'218':{'210'},'221':{'210'},'224':{'218','221'},'226':{'218','221'},
+              '229':{'226'},'231':{'224'},'233':{'229','231'}}
+    for suffix,parents in expected.items():
+        groups=by_id[PREFIX+suffix].children('prerequisite')
+        assert len(groups)==1 and {v.v for v in groups[0].children('focus')}=={PREFIX+p for p in parents}
+    assert all(tuple(sorted((PREFIX+a,PREFIX+b))) in mutual for a,b in [('218','221'),('224','226'),('229','231')])
+    def can_take(suffix,done):
+        n=by_id[PREFIX+suffix]
+        return all(any(v.v in done for v in p.children('focus')) for p in n.children('prerequisite')) and not any(m.value('focus') in done for m in n.children('mutually_exclusive'))
+    assert not can_take('233',{PREFIX+'210'}), 'Education choices must not be bypassed'
+    for philosophy,publicity in product(['218','221'],['224','226']):
+        done={PREFIX+'210'}
+        assert can_take(philosophy,done);done.add(PREFIX+philosophy)
+        assert not can_take('221' if philosophy=='218' else '218',done)
+        assert can_take(publicity,done);done.add(PREFIX+publicity)
+        assert not can_take('226' if publicity=='224' else '224',done)
+        endpoint='229' if publicity=='226' else '231'
+        assert can_take(endpoint,done);done.add(PREFIX+endpoint)
+        assert not can_take('231' if endpoint=='229' else '229',done)
+        assert can_take('233',done)
+    # New art must not duplicate any of the other preview icons.
+    for suffix in ['218','221','224','226','229','231']:
+        candidate=Image.open(ROOT/provenance[PREFIX+suffix]['destination']).convert('RGBA').tobytes()
+        assert sum(Image.open(ROOT/s['destination']).convert('RGBA').tobytes()==candidate for s in provenance.values())==1
     # Confirm every direct reuse against installed KR's actual focus and sprite definitions.
     originals={f.value('id'):f for p in (ROOT.parent/'1521695605/common/national_focus').glob('*.txt') for t in load(p) for f in ([t] if t.k=='shared_focus' else t.children('focus'))}
     registry={}
@@ -128,13 +153,13 @@ def main():
         raw=(ROOT/f'localisation/{language}/RUS_future_domestic_l_{language}.yml').read_bytes()
         assert raw.startswith(b'\xef\xbb\xbf')
         keys=re.findall(r'^\s+([^ :]+):0 ',raw.decode('utf-8-sig'),re.M)
-        assert len(keys)==len(set(keys))==323
+        assert len(keys)==len(set(keys))==335
         assert set(keys)==ids|{i+'_desc' for i in ids}|{'RUS_future_domestic_preview_only_tt'}
         assert '第一个五年计划（' not in raw.decode('utf-8-sig')
     b=manifest['existing_conservative_bounds']; n=manifest['new_bounds']
     assert n['min_x']-b['max_x']>=6 and n['min_y']-b['max_y']>=4
     assert len(manifest['recovered_free_end_edges'])==10
-    print(f'PASS: 161 focuses/14 original KR sprite reuses; {or_merges} ordinary OR merges; 2 hidden AND gates; five-year-plan 16-case gate; 4 symmetric exclusions; revised drawing geometry; three-language keys/BOM valid.')
+    print(f'PASS: 167 focuses/14 original KR sprite reuses; {or_merges} ordinary OR merges; education 4-route choices and 3 exclusions; six unique new icons; 2 hidden AND gates; five-year-plan 16-case gate; 7 symmetric exclusions; revised drawing geometry; three-language keys/BOM valid.')
 
 
 if __name__=='__main__':
