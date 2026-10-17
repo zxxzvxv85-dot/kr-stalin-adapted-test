@@ -76,7 +76,7 @@ def main():
     manifest=json.loads((ROOT/'tools/design/RUS_future_domestic_sources.json').read_text(encoding='utf-8'))
     provenance={s['id']:s for s in manifest['sources']}
     reused={k:s for k,s in provenance.items() if s['original_kr_focus']}
-    assert len(reused)==14
+    assert len(reused)==13  # 192 now uses the user's approved local KX icon.
     assert len(sprites)==2*(171-len(reused))
     mutual = set()
     or_merges = 0
