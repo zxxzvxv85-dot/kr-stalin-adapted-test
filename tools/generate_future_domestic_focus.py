@@ -33,6 +33,7 @@ PREFIX = 'RUS_future_domestic_'
 ORIGIN = (90, 45)
 PHASE_ORIGINS = {'domestic': ORIGIN, 'five_year_plan': (6, 1)}
 LIBRARIES = {
+    'CUSTOM': ROOT / 'tools/design/generated_focus_icons',
     'KR': ROOT.parent / '1521695605/gfx/interface/goals',
     'GWR': ROOT.parent / '3365515312/gfx/interface/goals',
     'RT56': ROOT.parent / '2129897125/gfx/interface/goals',
