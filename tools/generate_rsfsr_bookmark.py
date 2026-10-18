@@ -18,6 +18,13 @@ def patch(text,spans):
     for start,end,new in sorted(spans,reverse=True):text=text[:start]+new+text[end:]
     return text
 
+def hide_widget(widget):
+    raw=widget.raw();node=parse(raw)[0]
+    assert node.one('hide') is None
+    line=raw.rfind('\n',0,node.ib)+1;indent=raw[line:node.ib]
+    assert not indent.strip()
+    return raw[:line]+indent+'\thide = yes\n'+raw[line:]
+
 def render_bookmark():
     text=(KR/BOOKMARK).read_text(encoding='utf-8-sig')
     bookmark=parse(text)[0].one('bookmark')
@@ -56,8 +63,11 @@ def render_gui():
             }
         }'''
     logo=next(n for n in window.children('iconType') if n.value('name')=='kr_logo')
-    logo_raw=logo.raw();closing=logo_raw.rfind('}')
-    logo_raw=logo_raw[:closing]+'    hide = yes\n        '+logo_raw[closing:]
+    logo_raw=hide_widget(logo)
+    # KR covers both otherwise-empty central slots AFTER drawing the grid.
+    # Hiding only the logo/backdrop leaves this opaque cover over the new entry.
+    cover=next(n for n in window.children('containerWindowType') if n.value('name').strip('"')=='coverup_3')
+    cover_raw=hide_widget(cover)
     # The engine's TAG-based caption cannot carry two different names for RUS.
     # A click-through label covers only the showcase slot's original name bar.
     filters=next(n for n in window.children('OverlappingElementsBoxType') if n.value('name').strip('"')=='filters')
@@ -88,7 +98,7 @@ def render_gui():
         }
 
         '''
-    return patch(text,[(backdrop.a,backdrop.b,replacement),(logo.a,logo.b,logo_raw),(filters.a,filters.a,overlay)])
+    return patch(text,[(backdrop.a,backdrop.b,replacement),(logo.a,logo.b,logo_raw),(cover.a,cover.b,cover_raw),(filters.a,filters.a,overlay)])
 
 def outputs():
     data={BOOKMARK:render_bookmark().encode('utf-8'),GUI:render_gui().encode('utf-8')}

@@ -19,7 +19,7 @@ def main():
     assert [n.norm() for n in actual.v if n is not entry]==[n.norm() for n in original.v if n is not old[6]]
     assert actual.one('effect').norm()==original.one('effect').norm(),'Bookmark must not alter the actual starting country'
     a=get_window(load(build.ROOT/build.GUI));b=get_window(load(build.KR/build.GUI))
-    ignored={'backdrop_3','kr_logo','RUS_rsfsr_bookmark_caption','RUS_rsfsr_bookmark_flag'}
+    ignored={'backdrop_3','kr_logo','coverup_3','RUS_rsfsr_bookmark_caption','RUS_rsfsr_bookmark_flag'}
     assert [n.norm() for n in a.v if n.value('name').strip('"') not in ignored]==[n.norm() for n in b.v if n.value('name').strip('"') not in ignored]
     central=next(n for n in a.v if n.value('name').strip('"')=='backdrop_3')
     assert central.one('position').value('x')=='526' and central.value('clipping')=='yes'
@@ -28,6 +28,22 @@ def main():
     assert not caption.children('buttonType') and not caption.children('ButtonType')
     text=caption.one('instantTextBoxType');assert text.value('alwaystransparent')=='yes' and text.value('text').strip('"')==build.LABEL
     assert int(caption.one('position').value('x'))==526 and int(caption.one('size').value('width'))==172
+    # Evaluate native cover rectangles in painter order, rather than testing
+    # only whether the new caption/portrait nodes exist in the file.
+    card=(526,130,698,241)
+    def obscures(widget):
+        if widget.value('hide')=='yes':return False
+        pos=widget.one('position');size=widget.one('size')
+        x=int(pos.value('x'));y=int(pos.value('y'))
+        w=172 if size.value('width')=='@backdrop_width' else int(size.value('width'))
+        h=int(size.value('height'))
+        return x<card[2] and card[0]<x+w and y<card[3] and card[1]<y+h
+    def covers(window):return [n for n in window.children('containerWindowType') if n.value('name').strip('"').startswith('coverup_')]
+    assert any(obscures(n) for n in covers(b)), 'Fixture must reproduce the original opaque center cover'
+    assert not any(obscures(n) for n in covers(a)), 'A later KR cover still hides the RSFSR card'
+    cover=next(n for n in covers(a) if n.value('name').strip('"')=='coverup_3')
+    original_cover=next(n for n in covers(b) if n.value('name').strip('"')=='coverup_3')
+    assert [n.norm() for n in cover.v if n.k!='hide']==[n.norm() for n in original_cover.v]
     for lang in ['simp_chinese','english','russian']:
         raw=(build.ROOT/f'localisation/{lang}/RUS_rsfsr_bookmark_l_{lang}.yml').read_bytes();assert raw.startswith(b'\xef\xbb\xbf')
         keys=re.findall(r'^\s+([^ :]+):',raw.decode('utf-8-sig'),re.M);assert Counter(keys)==Counter([build.DESC,build.LABEL])
@@ -37,6 +53,6 @@ def main():
     assert flag.value('alwaystransparent')=='yes'
     assert float(flag.value('scale'))==2.0
     assert (build.ROOT/build.SPEC['flag_texture']).is_file()
-    print('PASS: central-slot RUS showcase, Stalin portrait override, untouched original RUS card and all other entries, exact history text, native Lenin backdrop and click-through caption. No bookmark gameplay effects added.')
+    print('PASS: central-slot RUS showcase, original opaque center-cover failure reproduced and removed, Stalin portrait override, untouched original RUS card and other entries, exact history text, native Lenin backdrop and passive caption. No bookmark gameplay effects added.')
 
 if __name__=='__main__':main()
