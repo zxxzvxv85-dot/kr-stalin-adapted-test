@@ -89,7 +89,17 @@ def render_gui():
     # The engine's TAG-based caption cannot carry two different names for RUS.
     # A click-through label covers only the showcase slot's original name bar.
     filters=next(n for n in window.children('OverlappingElementsBoxType') if n.value('name').strip('"')=='filters')
-    overlay='''containerWindowType = {
+    # Duplicate RUS entries may still resolve to the current RUS leader.
+    # Override only this visible portrait, leaving native selection untouched.
+    overlay='''iconType = {
+            name = "RUS_rsfsr_bookmark_portrait"
+            quadTextureSprite = "GFX_portrait_RUS_iosif_stalin_civilian_large"
+            position = { x = 537 y = 141 }
+            scale = 0.3072
+            alwaystransparent = yes
+        }
+
+        containerWindowType = {
             name = "RUS_rsfsr_bookmark_caption"
             position = { x = 526 y = 203 }
             size = { width = 172 height = 38 }

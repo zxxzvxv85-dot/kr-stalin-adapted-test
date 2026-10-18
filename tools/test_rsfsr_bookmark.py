@@ -1,5 +1,6 @@
 """Native bookmark wiring and click-through display checks; not an engine UI test."""
 from collections import Counter
+from PIL import Image
 import re
 import generate_rsfsr_bookmark as build
 from hoi4_politics_blocks import load,parse
@@ -19,12 +20,27 @@ def main():
     assert [n.norm() for n in actual.v if n is not entry]==[n.norm() for n in original.v if n is not old[6]]
     assert actual.one('effect').norm()==original.one('effect').norm(),'Bookmark must not alter the actual starting country'
     a=get_window(load(build.ROOT/build.GUI));b=get_window(load(build.KR/build.GUI))
-    ignored={'backdrop_3','kr_logo','coverup_3','RUS_rsfsr_bookmark_caption','RUS_rsfsr_bookmark_flag'}
+    ignored={'backdrop_3','kr_logo','coverup_3','RUS_rsfsr_bookmark_caption','RUS_rsfsr_bookmark_flag','RUS_rsfsr_bookmark_portrait'}
     assert [n.norm() for n in a.v if n.value('name').strip('"') not in ignored]==[n.norm() for n in b.v if n.value('name').strip('"') not in ignored]
+    portrait=next(n for n in a.v if n.value('name').strip('"')=='RUS_rsfsr_bookmark_portrait')
+    assert portrait.k=='iconType' and portrait.value('alwaystransparent')=='yes'
+    assert portrait.value('quadTextureSprite').strip('"')=='GFX_portrait_RUS_iosif_stalin_civilian_large'
+    original_entries=load(build.KR/build.GUI)[0];actual_entries=load(build.ROOT/build.GUI)[0]
+    template=next(n for n in original_entries.v if n.value('name').strip('"')=='country_entry')
+    assert template.norm()==next(n for n in actual_entries.v if n.value('name').strip('"')=='country_entry').norm(),'Do not replace the portrait of every country'
+    native=next(n for n in template.children('buttonType') if n.value('name').strip('"')=='country_leader')
+    grid=next(n for n in a.v if n.value('name').strip('"')=='countries')
+    assert int(portrait.one('position').value('x'))==int(grid.one('position').value('x'))+172*3+int(native.one('position').value('x'))
+    assert int(portrait.one('position').value('y'))==int(grid.one('position').value('y'))+int(native.one('position').value('y'))
+    assert portrait.value('scale')==native.value('scale')
+    sprite=next(n for n in load(build.ROOT/'interface/Stalin_form_sov.gfx')[0].v if n.value('name').strip('"')==portrait.value('quadTextureSprite').strip('"'))
+    with Image.open(build.ROOT/sprite.value('texturefile').strip('"')) as im:
+        assert im.size==(156,210) and im.mode=='RGB','The explicit portrait must fully cover the native 48x65 portrait'
     central=next(n for n in a.v if n.value('name').strip('"')=='backdrop_3')
     assert central.one('position').value('x')=='526' and central.value('clipping')=='yes'
     assert central.one('iconType').value('quadTextureSprite').strip('"')==build.SPEC['backdrop_sprite']
     caption=next(n for n in a.v if n.value('name').strip('"')=='RUS_rsfsr_bookmark_caption')
+    assert a.v.index(grid)<a.v.index(portrait)<a.v.index(caption),'Portrait must paint over the native leader but below the title'
     assert not caption.children('buttonType') and not caption.children('ButtonType')
     text=caption.one('instantTextBoxType');assert text.value('alwaystransparent')=='yes' and text.value('text').strip('"')==build.LABEL
     assert int(caption.one('position').value('x'))==526 and int(caption.one('size').value('width'))==172
@@ -66,6 +82,6 @@ def main():
     assert flag.value('alwaystransparent')=='yes'
     assert float(flag.value('scale'))==2.0
     assert (build.ROOT/build.SPEC['flag_texture']).is_file()
-    print('PASS: upper RUS card exposed; lower AAA card fully masked with a continuous Lenin painting; title borders fit the clipped 38px caption; original RUS entry and bookmark gameplay unchanged.')
+    print('PASS: opaque Stalin portrait overlays only the center native leader; lower placeholder masked; original RUS entry, shared controls and bookmark gameplay unchanged.')
 
 if __name__=='__main__':main()
