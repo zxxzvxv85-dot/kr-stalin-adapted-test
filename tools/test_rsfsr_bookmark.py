@@ -14,7 +14,7 @@ def main():
     old=major_nodes(original);new=major_nodes(actual)
     assert len(new)==len(old) and old[6].k=='AAA' and new[6].k=='RSB'
     entry=new[6]
-    assert entry.value('ideology')=='communist' and entry.value('override_leader_portrait')=='RSB_iosif_stalin_showcase'
+    assert entry.value('ideology')=='communist' and entry.one('override_leader_portrait') is None,'Native RSB leader needs no portrait override with missing override tooltips'
     assert entry.value('history')==build.DESC and sum(n.k=='RUS' for n in new)==1
     assert all(a.norm()==b.norm() for i,(a,b) in enumerate(zip(old,new)) if i!=6)
     assert [n.norm() for n in actual.v if n is not entry]==[n.norm() for n in original.v if n is not old[6]]
@@ -31,6 +31,8 @@ def main():
     assert char.value('name')=='RUS_iosif_stalin'
     leader=char.one('country_leader')
     assert leader.value('desc')=='RUS_iosif_stalin_leader_desc' and leader.value('ideology')=='marxism_leninism_subtype'
+    assert [n.k for n in leader.one('traits').v]==['RUS_stalin_hearts_of_iron']
+    assert load(build.ROOT/'common/country_leader/stalin_form_sov_traits.txt')[0].one('RUS_stalin_hearts_of_iron') is not None
     large=char.one('portraits').one('civilian').value('large')
     assert large=='GFX_portrait_RUS_iosif_stalin_civilian_large'
     sprite=next(n for n in load(build.ROOT/'interface/Stalin_form_sov.gfx')[0].v if n.value('name').strip('"')==large)

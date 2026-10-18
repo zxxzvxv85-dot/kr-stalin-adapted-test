@@ -4,7 +4,7 @@
 
 - 来源：`tools/design/RUS_rsfsr_bookmark_20261018.json`；生成器`tools/generate_rsfsr_bookmark.py`默认/`--check`只读，`--write`更新11个文本文件和3份原旗帜的字节副本。检查为`tools/test_rsfsr_bookmark.py`，登记在`validate.py --group opening`。
 - 中间第7个主要国家槽使用独立展示标签RSB，不再重复使用RUS。实际RUS书签、国家历史、政治人物和领土保持原样。RSB没有州、核心、单位、资源或外交关系，仅有展示所需的国家名、共产主义政府、无选举设置、俄共（布）党名及独立角色RSB_iosif_stalin_showcase。
-- 展示角色的名字、大小头像、介绍和KR_bolshevik_stalin特质直接引用本模组已存在的斯大林资料；角色ID独立，不招募、转移或修改真实RUS_iosif_stalin。原生country_entry、minor_country_leader、info容器完整沿用KR，因此头像悬浮和下方信息栏读取同一份斯大林资料；原RUS卡片仍读取萨文科夫。
+- 展示角色的名字、大小头像、介绍和RUS_stalin_hearts_of_iron（钢铁之心）特质直接引用本模组已存在的斯大林资料；角色ID独立，不招募、转移或修改真实RUS_iosif_stalin。原生country_entry、minor_country_leader、info容器完整沿用KR，因此头像悬浮和下方信息栏读取同一份斯大林资料；原RUS卡片仍读取萨文科夫。书签不再设置override_leader_portrait：展示历史本来就任命斯大林，额外覆盖会要求name_override_instant/delayed专用文案并暴露未定义键；正常原生领袖提示直接显示钢铁之心及其原生修正。
 - 第五面旗RUS_sov_5的82×52、41×26、11×7三档文件逐字节复制为RSB.tga。使用原生GFX_shield_medium和原生旗帜布面遮罩，删除此前直接叠加的平面旗帜、斯大林头像及其多余图元；保留原生country按钮的正常、选中和悬浮外框。不生成或改绘光栅资源。
 - `common/on_actions/00_RUS_rsfsr_bookmark.txt`在on_startup检查RSB是否为玩家，以`RUS = { change_tag_from = PREV }`把玩家交给RUS。完全参考已安装KR `on_actions_Central_Asia.txt`中KAZ到TRK的作用域与引擎效果，并核对本机effects_documentation.md。只转移玩家，不转移州、部队、科技或政府，不授予奖励，不切国策。00前缀将其放在国家开局钩子之前；普通RUS/其他国家开局和已经交接后的重新加载不再执行。RSB从不获得领土，不能作为真实新国家释放。
 - 原生书签effect不变。测试执行实际生成的交接AST，覆盖展示入口、RUS、GER、AFG、无玩家和重复执行；同时验证上游KAZ/TRK参考同构、国家入口及共享控件AST、角色/本地化/旗帜引用和零领土边界。静态模型不能证明零领土展示入口可在当前游戏版本中正常开始，必须重启实机测试原生选国按钮及on_startup交接。

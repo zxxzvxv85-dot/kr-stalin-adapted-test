@@ -35,7 +35,6 @@ def render_bookmark():
             version = all_the_russias
             history = RUS_rsfsr_bookmark_history
             ideology = communist
-            override_leader_portrait = RSB_iosif_stalin_showcase
             focuses = {
                 RUS_reverse_the_october_revolution
                 RUS_future_foreign_005
@@ -138,7 +137,7 @@ def outputs():
         country_leader = {
             desc = RUS_iosif_stalin_leader_desc
             ideology = marxism_leninism_subtype
-            traits = { KR_bolshevik_stalin }
+            traits = { RUS_stalin_hearts_of_iron }
         }
     }
 }
