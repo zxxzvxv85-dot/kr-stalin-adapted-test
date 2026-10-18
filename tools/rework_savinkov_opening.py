@@ -21,6 +21,8 @@ VOZHD='RUS_opening_vozhd'
 CRACK='RUS_opening_crackdown'
 LAYOUT={VOZHD:(4,0,[]),CRACK:(2,1,[VOZHD]),'RUS_control_supreme_court':(4,1,[VOZHD]),'RUS_establish_the_VES':(6,1,[VOZHD]),'RUS_savinkov_constitution':(4,2,['RUS_control_supreme_court']),'RUS_artelizatsiya':(7,2,['RUS_establish_the_VES']),'RUS_necessary_revenge':(3,3,['RUS_savinkov_constitution']),'RUS_undercut_monarchists':(5,3,['RUS_savinkov_constitution']),'RUS_voskhod':(7,3,['RUS_artelizatsiya']),'RUS_declare_russian_state':(4,4,['RUS_necessary_revenge','RUS_undercut_monarchists'])}
 PROJECTS=list(SPEC['completed_projects'])
+HISTORY_BEGIN='# BEGIN approved initial Voskhod projects'
+HISTORY_END='# END approved initial Voskhod projects'
 PARTIES=['totalist','syndicalist','radical_socialist','social_democrat','social_liberal','market_liberal','social_conservative','authoritarian_democrat','paternal_autocrat']
 # These native names already have intentional local replacements. The full-file
 # KR override must leave their ownership with those existing implementation files.
@@ -241,6 +243,20 @@ def project_effects():
         if name=='RUS_far_north_construction_trust':keep.append('set_country_flag = RUS_far_north_construction_trust_completed')
     return '\n'.join(keep)
 
+def voskhod_initial_history():
+    # Country history is loaded before the player can advance time. Keep both
+    # construction rewards and their accounting here, never in a queued event.
+    return f'''{HISTORY_BEGIN}
+set_country_flag = RUS_voskhod_active
+set_variable = {{ RUS_voskhod_cap = 420000 }}
+set_variable = {{ RUS_voskhod_remaining_mp = 420000 }}
+set_variable = {{ RUS_voskhod_current_mp = 0 }}
+set_variable = {{ RUS_voskhod_total_mp = 0 }}
+set_variable = {{ RUS_completed_voskhod_projects = 5 }}
+{project_effects()}
+{HISTORY_END}
+'''
+
 def startup_effect():
     vos=node(SPEC['focuses']['RUS_voskhod']).one('completion_reward')
     activations=[]
@@ -255,14 +271,7 @@ unlock_national_focus = RUS_voskhod
 add_ideas = RUS_artels
 add_ideas = RUS_opening_unfinished_land_reform
 add_ideas = RUS_opening_disordered_industry
-set_country_flag = RUS_voskhod_active
-set_variable = {{ RUS_voskhod_cap = 420000 }}
-set_variable = {{ RUS_voskhod_remaining_mp = 420000 }}
-set_variable = {{ RUS_voskhod_current_mp = 0 }}
-set_variable = {{ RUS_voskhod_total_mp = 0 }}
-set_variable = {{ RUS_completed_voskhod_projects = 5 }}
 RUS_select_AEG_nationalisation_states = yes
-{project_effects()}
 {chr(10).join(activations)}
 mark_focus_tree_layout_dirty = yes'''
     return 'RUS_opening_initialise = {\n\tif = {\n\t\tlimit = { tag = RUS has_government = national_populist NOT = { has_country_flag = RUS_opening_initialised } }\n'+indent(body,2)+'\n\t}\n}\n'
@@ -400,6 +409,12 @@ def outputs():
     result.update(render_events());p,t=render_native_anger();result[p]=t
     history=(ROOT/'history/countries/RUS - Russia.txt').read_bytes();history=re.sub(rb'set_war_support = 0\.(?:25|35)\r?\n',b'set_war_support = 0.35\n',history,count=1)
     if b'# Approved Savinkov opening: partial mobilisation' not in history:history+=b'\n# Approved Savinkov opening: partial mobilisation\nadd_ideas = partial_economic_mobilisation\n'
+    block=voskhod_initial_history().encode('utf-8')
+    if HISTORY_BEGIN.encode() in history:
+        pattern=re.escape(HISTORY_BEGIN.encode())+rb'.*?'+re.escape(HISTORY_END.encode())+rb'\r?\n?'
+        history,count=re.subn(pattern,lambda _:block,history,flags=re.S)
+        assert count==1
+    else:history+=b'\n'+block
     result['history/countries/RUS - Russia.txt']=history
     result.update(render_localisation())
     from io import BytesIO

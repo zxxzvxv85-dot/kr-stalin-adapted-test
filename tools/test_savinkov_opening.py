@@ -13,6 +13,8 @@ EFFECTS.update({n.k:n for n in load(ROOT/'common/scripted_effects/RUS effects (R
 EVENTS={n.value('id'):n for p in ['events/RUS events (Russia).txt','events/RUS_savinkov_opening_events.txt','events/KHI events (Khiva).txt'] for n in load(ROOT/p) if n.k.endswith('_event')}
 MISSIONS={n.k:n for c in load(ROOT/'common/decisions/RUS_savinkov_opening_decisions.txt') for n in c.v}
 ON=load(ROOT/'common/on_actions/RUS_savinkov_opening_on_actions.txt')[0]
+COUNTRY_HISTORY=(ROOT/'history/countries/RUS - Russia.txt').read_text(encoding='utf-8-sig')
+INITIAL_PROJECTS=parse(COUNTRY_HISTORY.split(build.HISTORY_BEGIN)[1].split(build.HISTORY_END)[0])
 
 class Model:
     def __init__(self,reward_on_complete=True):
@@ -156,7 +158,13 @@ def main():
         for category in ideas.v:
             for idea in category.v:assert 'GFX_idea_'+idea.value('picture') in registered,idea.k
     for native_completion_rewards in [False,True]:
-        m=Model(native_completion_rewards);m.run(EFFECTS['RUS_opening_initialise']);snapshot=copy.deepcopy(m.__dict__)
+        m=Model(native_completion_rewards);m.run(INITIAL_PROJECTS)
+        # Rewards already exist at time zero, before any event or startup effect.
+        assert len(m.buildings)==13 and not m.events and m.day==0 and not m.loads
+        assert m.v['RUS_completed_voskhod_projects']==5 and m.v['RUS_voskhod_cap']==420000
+        before=copy.deepcopy((m.buildings,m.slots,m.resources,m.v))
+        m.run(EFFECTS['RUS_opening_initialise']);assert (m.buildings,m.slots,m.resources,m.v)==before
+        snapshot=copy.deepcopy(m.__dict__)
         m.run(EFFECTS['RUS_opening_initialise']);assert m.__dict__==snapshot,'Startup replay changed rewards'
         assert m.completed=={'RUS_voskhod','RUS_artelizatsiya'} and m.loads==[build.TREE]
         assert m.v['RUS_voskhod_cap']==m.v['RUS_voskhod_remaining_mp']==420000 and m.v['RUS_voskhod_current_mp']==m.v['RUS_voskhod_total_mp']==0
@@ -169,6 +177,8 @@ def main():
         assert Counter((s,t,n) for s,t,n,_ in m.buildings)==expected
         assert set(m.resources)=={(644,'steel',10),(397,'steel',12)}
         assert all('RUS_opening_prebuilt_'+p in m.flags for p in build.PROJECTS)
+    initialiser=EFFECTS['RUS_opening_initialise'].raw()
+    assert not any(word in initialiser for word in ['add_building_construction','add_extra_state_shared_building_slots','add_resource','RUS_opening_prebuilt_','RUS_completed_voskhod_projects','RUS_voskhod_cap'])
     rng=random.Random(20261018)
     for _ in range(60):
         m=Model();weights=[rng.random()**4 for _ in range(10)];total=sum(weights);m.pop=dict(zip(build.PARTIES+['national_populist'],[100*x/total for x in weights]));before=m.pop.copy();m.run(EFFECTS['RUS_opening_transfer_opposition_support'])
@@ -214,6 +224,6 @@ def main():
         p=ROOT/f'localisation/{lang}/replace/RUS_savinkov_opening_l_{lang}.yml';raw=p.read_bytes();assert raw.startswith(b'\xef\xbb\xbf');keys=re.findall(r'^\s*(\w+):',raw.decode('utf-8-sig'),re.M);assert len(keys)==len(set(keys))
         daily=next(line for line in raw.decode('utf-8-sig').splitlines() if line.strip().startswith('RUS_opening_daily_manpower_tt:'))
         assert '£manpower_texticon£' in daily and '§R-200§!' in daily and '−200' not in daily and '—200' not in daily
-    print('PASS: ten-focus isolated opening, 12 pictured event outcomes, 60 popularity conservation cases, startup reward-on/off replay, thresholds, minister deferral, 7/180-day lifecycles, stage handoff, single daily manpower hook, original effects preserved, and localisation BOM/keys.')
+    print('PASS: ten-focus isolated opening, zero-time country-history projects and accounting, no startup reward replay, 12 pictured event outcomes, 60 popularity conservation cases, thresholds, minister deferral, 7/180-day lifecycles, stage handoff, single daily manpower hook, original effects preserved, and localisation BOM/keys.')
 
 if __name__=='__main__':main()

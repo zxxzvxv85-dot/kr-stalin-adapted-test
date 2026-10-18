@@ -762,3 +762,75 @@ RUS_setup_custom_russian_MIOs = yes
 
 # Approved Savinkov opening: partial mobilisation
 add_ideas = partial_economic_mobilisation
+
+# BEGIN approved initial Voskhod projects
+set_country_flag = RUS_voskhod_active
+set_variable = { RUS_voskhod_cap = 420000 }
+set_variable = { RUS_voskhod_remaining_mp = 420000 }
+set_variable = { RUS_voskhod_current_mp = 0 }
+set_variable = { RUS_voskhod_total_mp = 0 }
+set_variable = { RUS_completed_voskhod_projects = 5 }
+set_country_flag = RUS_opening_prebuilt_RUS_far_north_construction_trust
+562 = { #Okhotsk
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+574 = { #Yakutsk
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = { instant_build = yes type = industrial_complex level = 1 }
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+575 = { #Kirensk
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+637 = { #Kamchatka
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+add_resource = {
+				type = steel
+				amount = 10
+				state = 644
+			}
+set_country_flag = RUS_far_north_construction_trust_completed
+set_country_flag = RUS_opening_prebuilt_RUS_moscow_volga_canal
+247 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { instant_build = yes type = industrial_complex level = 2 }
+			}
+set_country_flag = RUS_opening_prebuilt_RUS_vorkuta_mining_centre
+397 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = { instant_build = yes type = industrial_complex level = 1 }
+			}
+add_resource = {
+				type = steel
+				amount = 12
+				state = 397
+			}
+set_country_flag = RUS_opening_prebuilt_RUS_artel_gigant
+404 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { instant_build = yes type = industrial_complex level = 2 }
+			}
+set_country_flag = RUS_opening_prebuilt_RUS_siberian_township_programme
+570 = {
+				set_global_flag = novonikolayevsk_renamed
+				set_victory_points = { province = 7274 value = 10 } #Novosibirsk
+				effect_tooltip = {
+					set_state_name = VICTORY_POINTS_7274_NOVOSIBIRSK
+					set_province_name = { id = 7274 name = VICTORY_POINTS_7274_NOVOSIBIRSK }
+				}
+				rename_state_effect = yes
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { instant_build = yes type = industrial_complex level = 2 }
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+576 = {
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+577 = {
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+578 = {
+				add_building_construction = { instant_build = yes type = infrastructure level = 1 }
+			}
+# END approved initial Voskhod projects
