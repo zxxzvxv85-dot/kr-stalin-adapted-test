@@ -140,6 +140,7 @@ def render_effects():
     if = {
         limit = { has_country_flag = RUS_opening_active has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } check_variable = { RUS_popular_anger > 7 } NOT = { has_country_flag = RUS_opening_revolt_queued } }
         set_country_flag = RUS_opening_revolt_queued
+        log = "RUS opening resistance wave activated: seven-day countdown"
         activate_mission = RUS_opening_resistance_wave
     }
     }
@@ -208,6 +209,8 @@ def render_native_anger():
 
 def patch_event(n):
     raw=n.raw();key=n.value('id')
+    if key in SPEC['disabled_events']:
+        raw=fields(raw,{'trigger':'trigger = { always = no }'})
     if key in SPEC['event_choices']:
         chosen=SPEC['event_choices'][key];raw=fields(raw,{},remove=())
         nn=node(raw);opts=nn.children('option');keep=[o for o in opts if o.value('name')==chosen];assert len(keep)==1,(key,chosen)
@@ -231,6 +234,10 @@ def patch_event(n):
             extra=f'\t\tif = {{ limit = {{ has_country_flag = RUS_opening_active }} set_country_flag = RUS_opening_minister_selected clr_country_flag = RUS_opening_minister_queued set_country_flag = RUS_opening_{who}_minister RUS_opening_check_military_anger = yes }}'
             changed=opt.raw();k=node(changed);changed=changed[:k.ib]+'\n'+extra+'\n'+changed[k.ib:];changes.append((opt.a,opt.b,changed))
         raw=edits(raw,changes)
+    if key=='russia_events.124':
+        # Keep minister appointments and their other effects, omitting only
+        # the two flavour events the user no longer wants to receive.
+        raw=re.sub(r'^[ \t]*unit_leader_event\s*=\s*\{\s*id\s*=\s*russia_events\.(?:133|134)\s+days\s*=\s*1\s*\}[^\n]*\n','',raw,flags=re.M)
     if key=='russia_events.921' and 'RUS_opening_check_popular_anger' not in raw:
         nn=node(raw);after=nn.one('after')
         replacement='after = {\n\t\tif = { limit = { has_country_flag = RUS_opening_active } RUS_opening_check_popular_anger = yes }\n\t\telse = {\n'+indent(after.inner(),3)+'\n\t\t}\n\t}'
@@ -317,6 +324,8 @@ RUS_dealing_with_unrest_decisions = {
         icon = generic_political_discourse
         allowed = { original_tag = RUS }
         activation = { always = no }
+        available = { hidden_trigger = { always = no } }
+        selectable_mission = no
         visible = { has_country_flag = RUS_opening_active has_government = national_populist }
         cancel_trigger = { NOT = { has_country_flag = RUS_opening_active } }
         days_mission_timeout = 7
@@ -326,6 +335,7 @@ RUS_dealing_with_unrest_decisions = {
             if = {
                 limit = { has_country_flag = RUS_opening_active has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } }
                 set_country_flag = RUS_opening_revolt_ready
+                log = "RUS opening resistance wave timed out: revolution event queued"
                 country_event = russia_events.924
             }
         }
@@ -334,6 +344,8 @@ RUS_dealing_with_unrest_decisions = {
         icon = generic_army_support
         allowed = { original_tag = RUS }
         activation = { always = no }
+        available = { hidden_trigger = { always = no } }
+        selectable_mission = no
         visible = { has_country_flag = RUS_opening_active has_government = national_populist }
         cancel_trigger = { NOT = { has_country_flag = RUS_opening_active } }
         days_mission_timeout = 180
@@ -443,13 +455,6 @@ def render_localisation():
             # Preserve the authored Chinese narrative until translations are supplied.
             data.update({TREE:'Savinkov Opening',VOZHD:'The Vozhd',CRACK:'Suppress Dissent','RUS_voskhod':'Conclude the Voskhod Programme','RUS_declare_russian_state':'Proclaim the Russian State','RUS_opening_unfinished_land_reform':'Unfinished Land Reform','RUS_opening_disordered_industry':'Disordered Industry','RUS_opening_daily_manpower_tt':'Daily manpower: §R−200§!','RUS_opening_resistance_wave':'An Escalating Wave of Resistance','RUS_opening_military_action':'The Military Is Acting','RUS_opening_military_warning_tt':'§RThe military is considering action!§!'})
         data['RUS_opening_daily_manpower_tt']='£manpower_texticon£ '+('每日人力：' if lang=='simp_chinese' else 'Daily manpower: ')+'§R-200§!'
-        original=SPEC['unrest_descriptions'][lang]
-        rules=('§P军方愤怒§!首次达到§O5§!后，选定陆军部长即会引发军方警告；回应警告后，启动180天的“军方正在行动”。倒计时结束后暂无后续行动。\n§C民众愤怒§!达到§r8§!后，启动7天的“愈演愈烈的反抗浪潮”，到期引发革命。'
-               if lang=='simp_chinese' else
-               'Once §PMilitary Anger§! reaches §O5§!, a military warning follows the appointment of the army minister. Responding starts the 180-day military countdown; no further action is currently scheduled at its end.\nReaching §r8§! §CPopular Anger§! starts a seven-day wave of resistance, followed by revolution.')
-        data.update({'RUS_anger_decisions_natpop':'[RUSOpeningAngerDescription]',
-                     'RUS_opening_anger_rules':'\n\n'.join(original.split('\n\n')[:2])+ '\n\n'+rules,
-                     'RUS_opening_anger_rules_legacy':original})
         rows=['l_'+lang+':']
         for key,val in data.items():rows.append(' '+key+': '+json.dumps(val,ensure_ascii=False))
         result[f'localisation/{lang}/replace/RUS_savinkov_opening_l_{lang}.yml']=('\n'.join(rows)+'\n').encode('utf-8-sig')
@@ -472,16 +477,6 @@ def outputs():
         assert count==1
     else:history+=b'\n'+block
     result['history/countries/RUS - Russia.txt']=history
-    result['common/scripted_localisation/RUS_savinkov_opening_loc.txt']='''# Generated by tools/rework_savinkov_opening.py --write
-defined_text = {
-    name = RUSOpeningAngerDescription
-    text = {
-        trigger = { has_country_flag = RUS_opening_active }
-        localization_key = RUS_opening_anger_rules
-    }
-    text = { localization_key = RUS_opening_anger_rules_legacy }
-}
-'''
     result.update(render_localisation())
     from io import BytesIO
     from generate_future_domestic_focus import package_icon
@@ -500,7 +495,7 @@ def main():
         if p.endswith(('.txt','.gfx')):parse(data.decode('utf-8-sig'))
     if args.write:
         for p,data in generated.items():dest=ROOT/p;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data)
-        print(f'Wrote {len(generated)} runtime files; 10-focus opening stage, 11 restricted events, two countdowns.')
+        print(f'Wrote {len(generated)} runtime files; 10-focus opening stage, {len(SPEC["event_choices"])} restricted events, two countdowns.')
     else:
         stale=[p for p,data in generated.items() if not (ROOT/p).exists() or (ROOT/p).read_bytes()!=data]
         if stale:print('STALE: '+', '.join(stale));return 1

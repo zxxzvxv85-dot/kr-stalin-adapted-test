@@ -33,7 +33,8 @@
     "russia_events.203": "russia_events.203.b",
     "russia_events.8": "russia_events.8.a",
     "khiva_events.108": "khiva_events.108.b",
-    "russia_events.12": "russia_events.12.b"
+    "russia_events.12": "russia_events.12.b",
+    "russia_events.113": "russia_events.113.b"
   },
   "user_clarifications": {
     "military_180_days_expiry": "end_only_no_followup_event",
@@ -74,9 +75,8 @@
     "RUS_vanguard_of_knights_of_terror": "focus = {\n\t\tid = RUS_vanguard_of_knights_of_terror\n\t\ticon = GFX_goal_RUS_knights_of_terror\n\t\tcost = 6\n\n\t\trelative_position_id = RUS_declare_russian_state\n\t\tx = 0\n\t\ty = 1\n\n\t\tavailable = {\n\t\t\thas_government = national_populist\n\t\t}\n\t\tprerequisite = {\n\t\t\tfocus = RUS_declare_russian_state\n\t\t}\n\t\tai_will_do = {\n\t\t\tfactor = 15\n\t\t\tmodifier = {\n\t\t\t\tadd = 5000\n\t\t\t\thas_country_flag = RUS_savinkov_ai\n\t\t\t}\n\t\t}\n\t\tcompletion_reward = {\n\t\t\tlog = \"[GetLogRoot]: Focus Completed RUS_vanguard_of_knights_of_terror\"\n\t\t\tadd_stability = 0.07\n\t\t\tadd_war_support = 0.05\n\t\t\tadd_country_leader_trait = RUS_knight_of_terror\n\t\t}\n\t\tsearch_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }\n\n\tallow_branch = {\n\t\t# Savinkov opening: only the ten approved focuses are visible.\n\t\tNOT = { has_government = national_populist }\n\t}\n}",
     "RUS_yevraziystvo": "focus = {\n\t\tid = RUS_yevraziystvo\n\t\ticon = GFX_goal_RUS_yevraziystvo\n\t\tcost = 7\n\n\t\trelative_position_id = RUS_cult_of_vozhd\n\t\tx = -2\n\t\ty = 2\n\n\t\tavailable = {\n\t\t\tRUS_pyotr_savitsky = { is_second_in_command = yes }\n\t\t\tis_power_balance_in_range = {\n\t\t\t\tid = RUS_power_balance\n\t\t\t\trange > RUS_bop_id_50\n\t\t\t}\n\t\t\thas_government = national_populist\n\t\t}\n\t\tprerequisite = {\n\t\t\tfocus = RUS_revolution_in_spirit\n\t\t}\n\t\tmutually_exclusive = {\n\t\t\tfocus = RUS_centralise_party\n\t\t\tfocus = RUS_national_solidarism\n\t\t}\n\t\tai_will_do = {\n\t\t\tfactor = 15\n\t\t\tmodifier = {\n\t\t\t\tfactor = 0\n\t\t\t\tNOT = { has_country_flag = RUS_ideocrat_ai }\n\t\t\t}\n\t\t}\n\t\tcompletion_reward = {\n\t\t\tlog = \"[GetLogRoot]: Focus Completed RUS_yevraziystvo\"\n\t\t\tset_temp_variable = { RUS_power_change = 10 }\n\t\t\tRUS_change_projection = yes\n\t\t\tadd_ideas = RUS_eurasian_autarky\n\t\t\thidden_effect = {\n\t\t\t\tif = {\n\t\t\t\t\tlimit = {\n\t\t\t\t\t\tNOT = {\n\t\t\t\t\t\t\thas_idea = closed_economy\n\t\t\t\t\t\t\thas_idea = limited_exports\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\tadd_ideas = limited_exports\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tsearch_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RUS_POWER_PROJECTION }\n\n\tallow_branch = {\n\t\t# Savinkov opening: only the ten approved focuses are visible.\n\t\tNOT = { has_government = national_populist }\n\t}\n}"
   },
-  "unrest_descriptions": {
-    "simp_chinese": "萨文科夫政权或许能用特别手段和宣传攻势将公众拉拢到自己这边，但若没有大多数社会成员发自真心的支持，或者至少是被动的接受，就不可能统御得了全俄罗斯。\n\n为了保住权力、领导国家走向辉煌，萨文科夫必须让§P军方§!和§C民众§!对保卫联盟的统治持满意态度，并兑现身为总统作出的诸多承诺。\n\n§P军方愤怒§!若为§r8§!及以上，军方政变将会发生，萨文科夫将被罢免。\n§C民众愤怒§!若为§r8§!及以上，且时间不晚于1938年，革命将会发生，萨文科夫将被推翻。事态最终会导向何方将取决于§P军方愤怒§!是否为§O5§!及以上。",
-    "english": "Savinkov's regime may use special tactics and propaganda to sway the citizenry to its side, but ruling over Russia would be impossible without genuine support, or at least passive acceptance, from a large portion of society.\n\nIn order to maintain power and lead the country to greatness, Savinkov must keep the §PMilitary§! and §CPopulation§! satisfied with the SZRS' rule and deliver on the President's many promises.\n\nHaving §r8§! or more §PMilitary Anger§! will lead to a military coup, removing President Savinkov.\nHaving §r8§! or more §CPopular Anger§! will lead to a revolution, overthrowing President Savinkov, the result of which depends on if §PMilitary Anger§! is §O5§! or above. This is only possible before 1938.",
-    "russian": "Savinkov's regime may use special tactics and propaganda to sway the citizenry to its side, but ruling over Russia would be impossible without genuine support, or at least passive acceptance, from a large portion of society.\n\nIn order to maintain power and lead the country to greatness, Savinkov must keep the §PMilitary§! and §CPopulation§! satisfied with the SZRS' rule and deliver on the President's many promises.\n\nHaving §r8§! or more §PMilitary Anger§! will lead to a military coup, removing President Savinkov.\nHaving §r8§! or more §CPopular Anger§! will lead to a revolution, overthrowing President Savinkov, the result of which depends on if §PMilitary Anger§! is §O5§! or above. This is only possible before 1938."
-  }
+  "disabled_events": [
+    "russia_events.133",
+    "russia_events.134"
+  ]
 }

@@ -4,6 +4,8 @@ RUS_dealing_with_unrest_decisions = {
         icon = generic_political_discourse
         allowed = { original_tag = RUS }
         activation = { always = no }
+        available = { hidden_trigger = { always = no } }
+        selectable_mission = no
         visible = { has_country_flag = RUS_opening_active has_government = national_populist }
         cancel_trigger = { NOT = { has_country_flag = RUS_opening_active } }
         days_mission_timeout = 7
@@ -13,6 +15,7 @@ RUS_dealing_with_unrest_decisions = {
             if = {
                 limit = { has_country_flag = RUS_opening_active has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } }
                 set_country_flag = RUS_opening_revolt_ready
+                log = "RUS opening resistance wave timed out: revolution event queued"
                 country_event = russia_events.924
             }
         }
@@ -21,6 +24,8 @@ RUS_dealing_with_unrest_decisions = {
         icon = generic_army_support
         allowed = { original_tag = RUS }
         activation = { always = no }
+        available = { hidden_trigger = { always = no } }
+        selectable_mission = no
         visible = { has_country_flag = RUS_opening_active has_government = national_populist }
         cancel_trigger = { NOT = { has_country_flag = RUS_opening_active } }
         days_mission_timeout = 180

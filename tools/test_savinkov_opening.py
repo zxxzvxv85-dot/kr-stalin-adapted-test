@@ -116,6 +116,11 @@ class Model:
         for key,expiry in list(self.missions.items()):
             m=MISSIONS[key]
             if self.cond(m.one('cancel_trigger')):del self.missions[key];self.finished.add(key)
+            # Native missions complete as soon as available passes. Omitting
+            # available is an unconditional success, not a timeout-only timer.
+            elif m.one('available') is None or self.cond(m.one('available')):
+                del self.missions[key];self.finished.add(key)
+                if m.one('complete_effect'):self.run(m.one('complete_effect'))
             elif self.day>=expiry:
                 del self.missions[key];self.finished.add(key);self.run(m.one('timeout_effect'))
 
@@ -134,6 +139,10 @@ def main():
     definitions.update(f.value('id') for p in (ROOT/'common/national_focus').glob('*.txt') for t in load(p) if t.k=='focus_tree' for f in t.children('focus'))
     assert all(definitions[k]==1 for k in FOCI)
     for key,chosen in build.SPEC['event_choices'].items():assert [o.value('name') for o in EVENTS[key].children('option')]==[chosen]
+    for key in build.SPEC['disabled_events']:assert EVENTS[key].one('trigger').value('always')=='no'
+    assert not re.search(r'unit_leader_event\s*=\s*\{\s*id\s*=\s*russia_events\.(133|134)\b',EVENTS['russia_events.124'].raw())
+    native_funeral=next(n for n in load(build.KR/build.EV) if n.value('id')=='russia_events.113')
+    assert EVENTS['russia_events.113'].one('option').norm()==native_funeral.children('option')[1].norm()
     assert len(EVENTS['russia_events.924'].children('option'))==1
     for key in ['russia_events.922','russia_events.923']:assert 'NOT = { has_country_flag = RUS_opening_active }' in EVENTS[key].one('trigger').raw()
     assert EVENTS['russia_events.112'].raw().index('RUS_opening_request_army_minister')<EVENTS['russia_events.112'].raw().index('kill_character')
@@ -163,7 +172,9 @@ def main():
     for library in [game,build.KR,ROOT]:
         for p in (library/'interface').rglob('*.gfx'):
             registered.update(re.findall(r'\bname\s*=\s*"([^"]+)"',p.read_text(encoding='utf-8-sig')))
-    for mission in MISSIONS.values():assert 'GFX_decision_'+mission.value('icon') in registered,mission.k
+    for mission in MISSIONS.values():
+        assert 'GFX_decision_'+mission.value('icon') in registered,mission.k
+        assert not Model().cond(mission.one('available')) and mission.value('selectable_mission')=='no'
     for num in [1,2]:assert EVENTS[f'rus_opening.{num}'].value('picture') in registered
     for focus in FOCI.values():assert focus.value('icon') in registered,focus.value('id')
     for ideas in load(ROOT/'common/ideas/RUS_savinkov_opening_ideas.txt'):
@@ -239,7 +250,9 @@ def main():
         if level<8:assert not m.missions;continue
         assert m.missions=={'RUS_opening_resistance_wave':7}
         for _ in range(6):m.tick()
-        assert not m.events;m.tick();assert m.events==[('russia_events.924',7)]
+        assert m.missions=={'RUS_opening_resistance_wave':7} and not m.events
+        m.tick();assert m.events==[('russia_events.924',7)] and 'RUS_opening_revolt_ready' in m.flags
+        assert m.cond(EVENTS['russia_events.924'].one('trigger'))
         for _ in range(6):m.tick()
         assert len(m.events)==1
     m=Model();m.run(EFFECTS['RUS_opening_initialise']);m.v['RUS_popular_anger']=8;m.run(EFFECTS['RUS_opening_check_popular_anger']);m.gov='radical_socialist';cap=m.v.copy();m.run(EFFECTS['RUS_opening_finish_phase']);m.run(EFFECTS['RUS_opening_finish_phase']);m.tick();assert m.loads==[build.TREE,'Russia_Focus'] and not m.missions and m.v==cap
@@ -263,14 +276,8 @@ def main():
         p=ROOT/f'localisation/{lang}/replace/RUS_savinkov_opening_l_{lang}.yml';raw=p.read_bytes();assert raw.startswith(b'\xef\xbb\xbf');keys=re.findall(r'^\s*(\w+):',raw.decode('utf-8-sig'),re.M);assert len(keys)==len(set(keys))
         daily=next(line for line in raw.decode('utf-8-sig').splitlines() if line.strip().startswith('RUS_opening_daily_manpower_tt:'))
         assert '£manpower_texticon£' in daily and '§R-200§!' in daily and '−200' not in daily and '—200' not in daily
-        values={m.group(1):json.loads(m.group(2)) for m in re.finditer(r'^\s*(\w+): (".*")$',raw.decode('utf-8-sig'),re.M)}
-        assert values['RUS_opening_anger_rules_legacy']==build.SPEC['unrest_descriptions'][lang]
-        assert '1938' not in values['RUS_opening_anger_rules'] and '180' in values['RUS_opening_anger_rules']
-        assert values['RUS_anger_decisions_natpop']=='[RUSOpeningAngerDescription]'
-    dynamic=load(ROOT/'common/scripted_localisation/RUS_savinkov_opening_loc.txt')[0]
-    assert dynamic.value('name')=='RUSOpeningAngerDescription'
-    assert dynamic.children('text')[0].one('trigger').value('has_country_flag')==build.ACTIVE
-    assert dynamic.children('text')[1].value('localization_key')=='RUS_opening_anger_rules_legacy'
-    print('PASS: ten-focus isolated opening, zero-time country-history projects and accounting, no startup reward replay, 12 pictured event outcomes, 60 popularity conservation cases, thresholds, minister deferral, 7/180-day lifecycles, stage handoff, single daily manpower hook, original effects preserved, and localisation BOM/keys.')
+        assert not {'RUS_anger_decisions_natpop','RUS_opening_anger_rules','RUS_opening_anger_rules_legacy'}&set(keys)
+    assert not (ROOT/'common/scripted_localisation/RUS_savinkov_opening_loc.txt').exists()
+    print('PASS: ten-focus isolated opening, zero-time country-history projects and accounting, no startup reward replay, restricted event outcomes, disabled minister flavour events, 60 popularity conservation cases, thresholds, minister deferral, 7/180-day lifecycles, stage handoff, single daily manpower hook, original effects preserved, and localisation BOM/keys.')
 
 if __name__=='__main__':main()

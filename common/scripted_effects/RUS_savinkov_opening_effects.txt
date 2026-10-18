@@ -74,6 +74,7 @@ RUS_opening_check_popular_anger = {
     if = {
         limit = { has_country_flag = RUS_opening_active has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } check_variable = { RUS_popular_anger > 7 } NOT = { has_country_flag = RUS_opening_revolt_queued } }
         set_country_flag = RUS_opening_revolt_queued
+        log = "RUS opening resistance wave activated: seven-day countdown"
         activate_mission = RUS_opening_resistance_wave
     }
     }
