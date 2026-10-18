@@ -1,7 +1,7 @@
 """Opening-stage graph, event restrictions and actual-script lifecycle checks."""
 from pathlib import Path
 from collections import Counter
-import copy,json,math,re,random,subprocess
+import copy,hashlib,json,math,re,random,subprocess
 from hoi4_politics_blocks import load,parse
 import rework_savinkov_opening as build
 
@@ -153,6 +153,13 @@ def main():
     boot=EVENTS['rus_opening.3'];assert boot.value('hidden')==boot.value('is_triggered_only')==boot.value('fire_only_once')=='yes'
     assert boot.one('immediate').value('RUS_opening_initialise')=='yes'
     assert 'complete_national_focus' not in EFFECTS['RUS_opening_initialise'].raw()
+    selector=[n for n in tree.one('country').one('modifier').v if n.k!='add']
+    for tag,gov,leader,finished,expected in [('RUS','national_populist',True,False,True),('RSA','national_populist',True,False,False),('RUS','radical_socialist',False,False,False),('RUS','national_populist',False,False,False),('RUS','national_populist',True,True,False)]:
+        m=Model();m.tag=tag;m.gov=gov;m.leader=leader
+        if finished:m.flags.add('RUS_opening_finished')
+        assert m.cond(selector)==m.cond(boot.one('trigger'))==expected
+        if not expected:
+            snapshot=copy.deepcopy(m.__dict__);m.run(EFFECTS['RUS_opening_initialise']);assert m.__dict__==snapshot
     legacy=next(n for n in load(ROOT/build.F) if n.k=='focus_tree')
     assert not {n.value('id') for n in legacy.children('focus')}&set(build.SPEC['retired_focuses'])
     retired=load(ROOT/build.RETIRED_PATH)[0]
@@ -160,10 +167,18 @@ def main():
     assert {n.value('id') for n in retired.children('focus')}==set(build.SPEC['retired_focuses'])
     for focus in retired.children('focus'):
         assert focus.one('allow_branch').value('always')=='no' and focus.one('available').value('always')=='no'
+    def digest(value):return hashlib.sha256(json.dumps(value,ensure_ascii=False,separators=(',',':')).encode('utf-8')).hexdigest()
+    baseline=build.LATER_BASELINE
+    assert {f.value('id'):digest(f.norm()) for f in legacy.children('focus')}==baseline['focus_sha256'], 'Later routes changed from their pre-opening definitions'
+    assert digest([n.norm() for n in legacy.v if n.k!='focus'])==baseline['tree_fields_sha256'], 'Later tree header/imports changed from the pre-opening layout'
+    assert not set(build.LAYOUT)&{n.v for n in legacy.children('shared_focus')}, 'Opening focuses imported into the later tree'
+    assert 'Savinkov opening: only the ten approved focuses' not in legacy.raw()
+    # These screenshot nodes must inherit their parent's route gate; introducing
+    # a permissive gate here makes them visible outside that route.
+    for key in ['RUS_republicanisation_of_army','RUS_german_industrial_cooperation','RUS_moscow_economic_council','RUS_leniency_granted','RUS_plan_ahead','RUS_triple_flip']:
+        focus=next(f for f in legacy.children('focus') if f.value('id')==key)
+        assert not focus.children('allow_branch'),key
     m=Model()
-    for focus in legacy.children('focus'):
-        gates=[n for n in focus.one('allow_branch').children('NOT') if n.value('has_government')=='national_populist']
-        assert gates and not m.cond([gates[-1]]),focus.value('id')
     for focus in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt'):
         assert not m.cond(focus.one('allow_branch')),focus.value('id')
     # Validate native sprite registration as well as syntactic icon fields.

@@ -8,7 +8,7 @@ country_event = {
     hidden = yes
     is_triggered_only = yes
     fire_only_once = yes
-    trigger = { tag = RUS has_government = national_populist NOT = { has_country_flag = RUS_opening_initialised } }
+    trigger = { tag = RUS has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } NOT = { has_country_flag = RUS_opening_initialised } NOT = { has_country_flag = RUS_opening_finished } }
     immediate = { RUS_opening_initialise = yes }
 }
 

@@ -126,7 +126,7 @@ RUS_opening_finish_phase = {
 
 RUS_opening_initialise = {
 	if = {
-		limit = { tag = RUS has_government = national_populist NOT = { has_country_flag = RUS_opening_initialised } }
+		limit = { tag = RUS has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } NOT = { has_country_flag = RUS_opening_initialised } NOT = { has_country_flag = RUS_opening_finished } }
 		set_country_flag = RUS_opening_initialised
 		set_country_flag = RUS_opening_active
 		load_focus_tree = { tree = RUS_savinkov_opening_tree keep_completed = yes }
