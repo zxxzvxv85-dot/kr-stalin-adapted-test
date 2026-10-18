@@ -139,6 +139,12 @@ def main():
     assert boot.one('immediate').value('RUS_opening_initialise')=='yes'
     assert 'complete_national_focus' not in EFFECTS['RUS_opening_initialise'].raw()
     legacy=next(n for n in load(ROOT/build.F) if n.k=='focus_tree')
+    assert not {n.value('id') for n in legacy.children('focus')}&set(build.SPEC['retired_focuses'])
+    retired=load(ROOT/build.RETIRED_PATH)[0]
+    assert retired.value('id')==build.RETIRED_TREE and retired.value('default')=='no' and retired.one('country').value('factor')=='0'
+    assert {n.value('id') for n in retired.children('focus')}==set(build.SPEC['retired_focuses'])
+    for focus in retired.children('focus'):
+        assert focus.one('allow_branch').value('always')=='no' and focus.one('available').value('always')=='no'
     m=Model()
     for focus in legacy.children('focus'):
         gates=[n for n in focus.one('allow_branch').children('NOT') if n.value('has_government')=='national_populist']

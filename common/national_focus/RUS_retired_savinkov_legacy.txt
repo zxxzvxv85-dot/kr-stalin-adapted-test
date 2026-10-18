@@ -1,0 +1,1577 @@
+# Retired content. Never selected or loaded by gameplay.
+focus_tree = {
+    id = RUS_retired_savinkov_legacy_tree
+    country = { factor = 0 }
+    default = no
+	shared_focus = RUS_opening_vozhd
+	shared_focus = RUS_opening_crackdown
+	shared_focus = RUS_control_supreme_court
+	shared_focus = RUS_establish_the_VES
+	shared_focus = RUS_savinkov_constitution
+	shared_focus = RUS_artelizatsiya
+	shared_focus = RUS_necessary_revenge
+	shared_focus = RUS_undercut_monarchists
+	shared_focus = RUS_voskhod
+	shared_focus = RUS_declare_russian_state
+	focus = {
+			id = RUS_army_commissars
+			icon = GFX_FER_kolchak_cap
+			cost = 6
+
+			relative_position_id = RUS_necessary_revenge
+			x = -1
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_necessary_revenge
+			}
+			ai_will_do = {
+				factor = 5
+				modifier = {
+					add = 10
+					date > 1939.1.1
+				}
+				modifier = {
+					factor = 0
+					NOT = { has_completed_focus = RUS_declare_russian_state }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_army_commissars"
+				custom_effect_tooltip = RUS_evalute_VVFR_tt
+				custom_effect_tooltip = tooltip_white_line
+				add_ideas = RUS_army_commissars_idea
+				hidden_effect = { country_event = russia_events.233 }
+			}
+			search_filters = { FOCUS_FILTER_ARMY_BONUS }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_catechism
+			icon = GFX_goal_RUS_catechism
+			cost = 5
+
+			relative_position_id = RUS_cult_of_vozhd
+			x = -1
+			y = 3
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_yevraziystvo
+				focus = RUS_centralise_party
+				focus = RUS_national_solidarism
+			}
+			ai_will_do = { factor = 15 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_catechism"
+				add_stability = 0.1
+				custom_effect_tooltip = RUS_catechism_tt
+				if = {
+					limit = { has_idea = RUS_new_russian_culture_3 }
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_3
+						add_idea = RUS_new_russian_culture_7
+					}
+				}
+				else_if = {
+					limit = { has_idea = RUS_new_russian_culture_4 }
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_4
+						add_idea = RUS_new_russian_culture_8
+					}
+				}
+				else_if = {
+					limit = { has_idea = RUS_new_russian_culture_5 }
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_5
+						add_idea = RUS_new_russian_culture_9
+					}
+				}
+				else_if = {
+					limit = { has_idea = RUS_new_russian_culture_6 }
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_6
+						add_idea = RUS_new_russian_culture_10
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_centralise_party
+			icon = GFX_goal_RUS_centralise_party
+			cost = 7
+
+			relative_position_id = RUS_revolution_in_spirit
+			x = 1
+			y = 1
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_revolution_in_spirit
+				focus = RUS_dealing_with_faith
+			}
+			mutually_exclusive = {
+				focus = RUS_yevraziystvo
+				focus = RUS_national_solidarism
+			}
+			ai_will_do = {
+				factor = 15
+				modifier = {
+					factor = 0
+					NOT = { has_country_flag = RUS_old_svobodnik_ai }
+				}
+			}
+			select_effect = {
+				log = "[GetLogRoot]: Select Focus RUS_centralise_party"
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_centralise_party"
+				country_event = russia_events.246 #The Sheep and the Fools
+				add_popularity = { ideology = national_populist popularity = 0.15 }
+				if = {
+					limit = { power_balance_value = { id = RUS_power_balance value > 0.05 } }
+					add_power_balance_value = {
+						id = RUS_power_balance
+						value = -0.1
+					}
+				}
+				else_if = {
+					limit = { power_balance_value = { id = RUS_power_balance value < -0.05 } }
+					add_power_balance_value = {
+						id = RUS_power_balance
+						value = 0.1
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_BALANCE_OF_POWER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_cleanse_the_party
+			icon = GFX_goal_backstab #GFX_focus_SWE_neither_death_nor_dishonor
+			cost = 6
+			relative_position_id = RUS_savior_of_world
+			x = 1
+			y = 1
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_savior_of_world
+				focus = RUS_ideocratic_principle
+			}
+			ai_will_do = { factor = 100 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_cleanse_the_party"
+				add_stability = 0.15
+				if = {
+					limit = {
+						NOT = { has_completed_focus = RUS_ideocratic_principle }
+					}
+					remove_power_balance = { id = RUS_power_balance }
+					add_country_leader_trait = RUS_patriarch_of_populism
+				}
+				else_if = {
+					limit = { has_completed_focus = RUS_ideocratic_principle }
+					add_power_balance_value = {
+						id = RUS_power_balance
+						value = 0.15
+					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = RUS_savior_of_world
+						has_character = RUS_pyotr_savitsky
+						RUS_pyotr_savitsky = { is_second_in_command = no }
+					}
+					retire_character = RUS_pyotr_savitsky
+				}
+				if = {
+					limit = { has_character = RUS_mikhail_georgiyevsky }
+					retire_character = RUS_mikhail_georgiyevsky
+				}
+				if = {
+					limit = { has_character = RUS_pavel_agyeyev }
+					retire_character = RUS_pavel_agyeyev
+				}
+				if = {
+					limit = { has_character = RUS_pyotr_krasnov }
+					retire_character = RUS_pyotr_krasnov
+				}
+				if = {
+					limit = { has_character = RUS_alisa_berkova }
+					retire_character = RUS_alisa_berkova
+				}
+				if = {
+					limit = { has_character = RUS_anastasy_vonsyatsky }
+					retire_character = RUS_anastasy_vonsyatsky
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_codification_of_regime
+			icon = GFX_goal_generic_council
+			cost = 10
+
+			relative_position_id = RUS_third_russia
+			x = -2
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_third_russia
+			}
+			mutually_exclusive = {
+				focus = RUS_savior_of_world
+				focus = RUS_ideocratic_principle
+			}
+			ai_will_do = {
+				factor = 1000
+				modifier = {
+					factor = 5
+					has_country_flag = RUS_old_svobodnik_ai
+				}
+			}
+			select_effect = {
+				log = "[GetLogRoot]: Select Focus RUS_codification_of_regime"
+				country_event = { id = russia_events.300 days = 1 } #Veering Towards New War
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_codification_of_regime"
+				custom_effect_tooltip = RUS_solidarist_minigame_warning_tt
+				set_temp_variable = { coalition_partner_var = token:authoritarian_democrat }
+				add_to_coalition = yes
+				add_popularity = { ideology = authoritarian_democrat popularity = 0.1 }
+				custom_effect_tooltip = tooltip_white_line
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = RUS_ivan_ilyin_advisor
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_cult_of_vozhd
+			icon = GFX_goal_RUS_cult_of_vozhd
+			cost = 5
+
+			relative_position_id = RUS_declare_russian_state
+			x = -4
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_declare_russian_state
+			}
+			prerequisite = {
+				focus = RUS_svobodniks
+			}
+			ai_will_do = {
+				factor = 20
+				modifier = {
+					factor = 100
+					NOT = { country_exists = GER }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_cult_of_vozhd"
+				add_popularity = { ideology = national_populist popularity = 0.05 }
+				country_event = russia_events.234 #Portrait of the Vozhd
+				custom_effect_tooltip = RUS_cult_of_vozhd_tt
+				hidden_effect = {
+					country_event = { id = russia_events.240 days = 30 } #The Young Pathfinders
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_dealing_with_faith
+			icon = GFX_goal_RUS_russian_faith
+			cost = 5
+
+			relative_position_id = RUS_cult_of_vozhd
+			x = 1
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_cult_of_vozhd
+			}
+			prerequisite = {
+				focus = RUS_new_russian_culture
+			}
+			mutually_exclusive = {
+				focus = RUS_revolution_in_spirit
+			}
+			ai_will_do = {
+				factor = 15
+				modifier = {
+					factor = 0
+					has_country_flag = RUS_ideocrat_ai
+				}
+				modifier = {
+					factor = 100
+					NOT = { country_exists = GER }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_dealing_with_faith"
+				add_stability = 0.1
+				if = {
+					limit = { has_idea = RUS_new_russian_culture_1 }
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_1
+						add_idea = RUS_new_russian_culture_4
+					}
+				}
+				else = {
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_2
+						add_idea = RUS_new_russian_culture_6
+					}
+				}
+				add_power_balance_value = {
+					id = RUS_power_balance
+					value = -0.05
+				}
+				custom_effect_tooltip = tooltip_white_line
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = RUS_patriarch_advisor
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_economic_organisation_of_eurasia
+			icon = GFX_focus_generic_national_security
+			cost = 6
+
+			relative_position_id = RUS_labour_conscription
+			x = 0
+			y = 2
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_teleological_planning
+				focus = RUS_solidarist_representation
+			}
+			ai_will_do = {
+				factor = 15
+				modifier = {
+					factor = 100
+					NOT = { country_exists = GER }
+					has_country_flag = RUS_ideocrat_ai
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_economic_organisation_of_eurasia"
+				custom_effect_tooltip = RUS_savinkov_moscow_treaty_tt
+				var:economic_sphere = {
+					set_character_name = RUS_savinkov_moscow_treaty
+					var:desc = { set_character_name = RUS_savinkov_moscow_treaty_desc }
+				}
+				set_temp_variable = { RUS_power_change = -20 }
+				RUS_change_projection = yes
+				country_event = russia_events.292
+				every_subject_country = {
+					limit = { num_of_owned_factories > 40 }
+					ROOT = {
+						activate_targeted_decision = { target = PREV decision = RUS_industrial_reparations }
+					}
+				}
+				if = {
+					limit = { AZR = { is_subject_of = RUS } }
+					AZR = {
+						give_resource_rights = {
+							receiver = ROOT
+							state = 229
+							resources = { oil }
+						}
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_fate_of_federalism
+			icon = GFX_goal_NFA_end_parliamentarism
+			cost = 6
+
+			relative_position_id = RUS_declare_russian_state
+			x = 2
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_declare_russian_state
+			}
+			ai_will_do = { factor = 25 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_fate_of_federalism"
+				add_political_power = 50
+				country_event = russia_events.266
+				custom_effect_tooltip = tooltip_white_line
+				RUS_unlock_federal_decisions = yes
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_gosstrazha
+			icon = GFX_goal_secret_agents
+			#GFX_ITA_green_shirts
+			#focus_generic_limited_social_mobilization
+			cost = 7
+
+			relative_position_id = RUS_vanguard_of_knights_of_terror
+			x = 1
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_vanguard_of_knights_of_terror
+			}
+			ai_will_do = {
+				factor = 15
+				modifier = {
+					add = 5000
+					has_country_flag = RUS_savinkov_ai
+				}
+			}
+			select_effect = {
+				log = "[GetLogRoot]: Select Focus RUS_gosstrazha"
+				country_event = { id = russia_events.263 days = 35 }
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_gosstrazha"
+				unlock_decision_tooltip = RUS_destroy_VRBO
+				if = {
+					limit = { NOT = { has_tech = tech_anti_partisan } }
+					enable_tech_anti_partisan = yes
+				}
+				else = {
+					add_stability = 0.05
+				}
+				if = {
+					limit = {
+						has_dlc_lar = yes
+						NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+					}
+					upgrade_intelligence_agency = upgrade_anti_partisan
+				}
+			}
+			search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ARMY_BONUS }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_heiress_of_genghis
+			icon = GFX_goal_MON_Statue_of_the_Khan #focus_TUR_the_sun_language_theory
+			cost = 6
+			relative_position_id = RUS_planification_of_society
+			x = 1
+			y = 1
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_planification_of_society
+			}
+			ai_will_do = { factor = 100 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_heiress_of_genghis"
+				hidden_effect = { news_event = { id = russia_news_events.24 days = 1 } }
+				country_event = russia_flavour_events.145
+				custom_effect_tooltip = tooltip_white_line
+				set_cosmetic_tag = RUS_union
+				set_faction_name = faction_eurasian_treaty_organisation
+				set_temp_variable = { RUS_power_change = 20 }
+				RUS_change_projection = yes
+				custom_effect_tooltip = RUS_heiress_of_genghis_tt
+				hidden_effect = {
+					country_event = { id = russia_events.319 days = 365 } #Engulfed in the Machine
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION FOCUS_FILTER_RUS_POWER_PROJECTION }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_ideocratic_principle
+			icon = GFX_focus_generic_limited_social_mobilization
+			cost = 10
+
+			relative_position_id = RUS_third_russia
+			x = 2
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_third_russia
+			}
+			prerequisite = {
+				focus = RUS_economic_organisation_of_eurasia
+			}
+			mutually_exclusive = {
+				focus = RUS_savior_of_world
+				focus = RUS_codification_of_regime
+			}
+			ai_will_do = { factor = 100 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_ideocratic_principle"
+				add_country_leader_trait = RUS_boris_the_terrible
+				country_event = russia_events.315 #Heiress of the Great Khans
+				hidden_effect = {
+					country_event = { id = russia_events.317 days = 100 random_days = 100 } #Right Hand of the State
+					country_event = { id = russia_events.318 days = 200 random_days = 100 } #Expansion of the Camp System
+					RUS_karl_gopper = { unit_leader_event = { id = russia_events.136 days = 60 } }
+				}
+			}
+			search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_RESISTANCE FOCUS_FILTER_ARMY_BONUS }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_labour_conscription
+			icon = GFX_focus_DEN_heavy_regulations
+			cost = 6
+
+			relative_position_id = RUS_voskhod
+			x = 0
+			y = 2
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_declare_russian_state
+			}
+			prerequisite = {
+				focus = RUS_voskhod
+			}
+			prerequisite = {
+				focus = RUS_artelizatsiya
+			}
+			ai_will_do = { factor = 50 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_labour_conscription"
+				swap_ideas = {
+					remove_idea = RUS_supreme_economic_council
+					add_idea = RUS_supreme_economic_council_2
+				}
+				add_power_balance_value = {
+					id = RUS_power_balance
+					value = 0.1
+				}
+				hidden_effect = {
+					country_event = { id = russia_events.262 days = 25 } #Our Own Capitalists
+					country_event = { id = russia_events.230 days = 365 random_days = 50 } #The Quantification Problem of the VES
+				}
+			}
+			search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_last_rome
+			icon = GFX_focus_SOV_rebuild_the_savior_cathedral
+			cost = 5
+			relative_position_id = RUS_savior_of_world
+			x = -2
+			y = 2
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_project_sumerki
+			}
+			ai_will_do = { factor = 100 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_last_rome"
+				set_temp_variable = { RUS_power_change = 10 }
+				RUS_change_projection = yes
+				add_stability = 0.05
+				219 = {
+					add_dynamic_modifier = { modifier = RUS_third_rome_city }
+					hidden_effect = {
+						RUS_remove_VES_modifier = yes
+					}
+				}
+				if = {
+					limit = { has_completed_focus = RUS_dealing_with_faith }
+					custom_effect_tooltip = tooltip_white_line
+					custom_effect_tooltip = RUS_constaniople_claim_tt
+					hidden_effect = {
+						add_state_claim = 340 #Bursa
+						add_state_claim = 341 #Adrianople
+						add_state_claim = 773 #Constantinople
+					}
+				}
+				#EVENT great moscow rebuilding and other architectural projects around russia
+			}
+			search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_RUS_POWER_PROJECTION }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_national_labour_system
+			icon = GFX_focus_GRE_an_orthodox_state
+			cost = 8
+			relative_position_id = RUS_savior_of_world
+			x = -3
+			y = 1
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_codification_of_regime
+			}
+			continue_if_invalid = yes
+			ai_will_do = { factor = 100 }
+			select_effect = {
+				log = "[GetLogRoot]: Select Focus RUS_national_labour_system"
+				country_event = { id = russia_events.306 days = 20 } #Relaxation of the Economy
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_national_labour_system"
+				#Abolish VES; more privatisation, return to "normalcy"
+				effect_tooltip = {
+					set_cosmetic_tag = RUS_natrep
+				}
+				remove_ideas = RUS_supreme_economic_council
+				if = {
+					limit = { has_idea = RUS_national_solidarism_idea }
+					swap_ideas = {
+						remove_idea = RUS_national_solidarism_idea
+						add_idea = RUS_solidarist_economy_2
+					}
+				}
+				else = {
+					add_ideas = RUS_solidarist_economy
+				}
+				add_popularity = { ideology = national_populist popularity = -0.1 }
+				decrease_economic_mobilisation = yes
+				hidden_effect = {
+					country_event = russia_events.323
+					country_event = { id = russia_events.308 days = 30 } #The Vozhd Complains
+					country_event = { id = russia_events.307 days = 70 } #Fate of Political Prisoners?
+					remove_ideas = {
+						RUS_supreme_economic_council_2
+						RUS_supreme_economic_council_3
+						RUS_supreme_economic_council_4
+						RUS_expansion_of_VES_bureaucracy
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_national_populist_military
+			icon = GFX_focus_generic_full_social_mobilization
+			cost = 5
+			relative_position_id = RUS_savior_of_world
+			x = 2
+			y = 2
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_ideocratic_principle
+				focus = RUS_savior_of_world
+				focus = RUS_codification_of_regime
+			}
+			ai_will_do = { factor = 100 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_national_populist_military"
+				add_stability = 0.1
+				if = {
+					limit = {
+						NOT = { has_country_flag = RUS_has_loyalist_commander }
+					}
+					country_event = russia_events.259 #New Supreme Commander-in-Chief
+				}
+				custom_effect_tooltip = tooltip_white_line
+				remove_ideas = RUS_military_anger
+				add_timed_idea = {
+					idea = RUS_military_purges_2
+					days = 182
+				}
+				custom_effect_tooltip = tooltip_white_line
+				if = {
+					limit = { has_idea = RUS_army_commissars_idea_2 }
+					swap_ideas = {
+						remove_idea = RUS_army_commissars_idea_2
+						add_idea = RUS_army_commissars_idea
+					}
+				}
+				else = {
+					swap_ideas = {
+						remove_idea = RUS_army_commissars_idea
+						add_idea = RUS_army_commissars_idea_3
+					}
+				}
+				add_popularity = { ideology = paternal_autocrat popularity = -0.25 }
+				hidden_effect = {
+					remove_targeted_decision = { decision = RUS_appoint_loyalist_commander target = ROOT }
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_national_solidarism
+			icon = GFX_goal_RUS_authdem
+			cost = 7
+
+			relative_position_id = RUS_cult_of_vozhd
+			x = 2
+			y = 2
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_dealing_with_faith
+			}
+			mutually_exclusive = {
+				focus = RUS_yevraziystvo
+				focus = RUS_centralise_party
+			}
+			ai_will_do = {
+				factor = 15
+				modifier = {
+					factor = 0
+					NOT = { has_country_flag = RUS_solidarist_ai }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_national_solidarism"
+				add_political_power = 50
+				set_temp_variable = { RUS_anger_change = -1 }
+				RUS_change_popular_anger = yes
+				add_ideas = RUS_national_solidarism_idea
+				add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+				set_temp_variable = { coalition_partner_var = token:authoritarian_democrat }
+				add_to_coalition = yes
+				custom_effect_tooltip = tooltip_white_line
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = RUS_mikhail_georgiyevsky_advisor
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_new_russian_culture
+			icon = GFX_focus_SWI_establish_pro_helvetia
+			cost = 5
+
+			relative_position_id = RUS_cult_of_vozhd
+			x = 2
+			y = 0
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_declare_russian_state
+			}
+			ai_will_do = { factor = 15 }
+			select_effect = {
+				log = "[GetLogRoot]: Select Focus RUS_new_russian_culture"
+				country_event = { id = russia_events.241 days = 8 } #The Svobodnik Curriculum
+				country_event = { id = russia_events.296 days = 16 } #Decree on Universities
+				country_event = { id = russia_events.242 days = 24 } #Nature of National Populist Art
+				country_event = { id = russia_events.264 days = 32 } #Ministry of National Culture
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_new_russian_culture"
+				custom_effect_tooltip = RUS_new_russian_culture_tt
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_paradise_regained
+			icon = GFX_focus_AUS_agriculture
+			cost = 6
+			relative_position_id = RUS_savior_of_world
+			x = 0
+			y = 2
+			allow_branch = { always = no }
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_cleanse_the_party
+			}
+			prerequisite = {
+				focus = RUS_savior_of_world
+			}
+			prerequisite = {
+				focus = RUS_project_sumerki
+			}
+			ai_will_do = { factor = 10 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_paradise_regained"
+				add_country_leader_trait = RUS_last_narodniks
+				add_stability = 0.15
+				add_named_threat = {
+					threat = -25
+					name = RUS_paradise_regained
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
+		}
+
+	focus = {
+			id = RUS_planification_of_society
+			icon = GFX_goal_Focus_Military_Mobilisation
+			cost = 6
+			relative_position_id = RUS_ideocratic_principle
+			x = 1
+			y = 1
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_ideocratic_principle
+			}
+			ai_will_do = { factor = 100 }
+			select_effect = {
+				log = "[GetLogRoot]: Select Focus RUS_planification_of_society"
+				country_event = { id = russia_events.316 days = 20 } #Economy of Dialectical Statism
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_planification_of_society"
+				custom_effect_tooltip = RUS_eurasian_resources_tt
+				activate_targeted_decision = { decision = RUS_eurasia_canal target = 235 }
+				activate_targeted_decision = { decision = RUS_transcaspian_canal target = 861 }
+				custom_effect_tooltip = tooltip_white_line
+				if = {
+					limit = { has_idea = RUS_supreme_economic_council_2 }
+					swap_ideas = {
+						remove_idea = RUS_supreme_economic_council_2
+						add_idea = RUS_supreme_economic_council_3
+					}
+				}
+				else_if = {
+					limit = { has_idea = RUS_supreme_economic_council_3 }
+					swap_ideas = {
+						remove_idea = RUS_supreme_economic_council_3
+						add_idea = RUS_supreme_economic_council_5
+					}
+				}
+				else_if = {
+					limit = { has_idea = RUS_supreme_economic_council_4 }
+					swap_ideas = {
+						remove_idea = RUS_supreme_economic_council_4
+						add_idea = RUS_supreme_economic_council_5
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_project_sumerki
+			icon = GFX_focus_wonderweapons
+			cost = 7
+			relative_position_id = RUS_savior_of_world
+			x = -1
+			y = 1
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_ideocratic_principle
+				focus = RUS_savior_of_world
+				focus = RUS_codification_of_regime
+			}
+			ai_will_do = {
+				factor = 100
+				modifier = {
+					factor = 10
+					has_country_flag = RUS_old_svobodnik_ai
+				}
+				modifier = {
+					factor = 10
+					INT = { has_completed_focus = FRA_damocles }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_project_sumerki"
+				add_ideas = RUS_sumerki_program
+				if = {
+					limit = {
+						NOT = {
+							is_researching_technology = atomic_research
+							has_tech = atomic_research
+						}
+					}
+					add_tech_bonus = {
+						name = RUS_project_sumerki
+						bonus = 0.5
+						uses = 1
+						ahead_reduction = 1
+						category = nuclear
+					}
+				}
+				else = {
+					if = {
+						limit = { NOT = { is_special_project_completed = sp:sp_nuclear_reactor } }
+						sp:sp_nuclear_reactor = { add_project_progress_ratio = 0.1 }
+					}
+					if = { #second nuclear facility after russia_flavour_events.23
+						limit = {
+							controls_province = 4261 #Ozyorsk
+							582 = { #Orsk
+								is_owned_and_controlled_by = ROOT
+								can_construct_building = nuclear_facility
+							}
+						}
+						582 = { #Orsk
+							custom_override_tooltip = {
+								add_building_construction = {
+									type = nuclear_facility
+									level = 1
+									province = 4261 #Ozyorsk
+									instant_build = yes
+								}
+								tooltip = {
+									localization_key = tooltip_add_building_on_victory_point
+									BUILDING = nuclear_facility
+									NUMBER = 1
+									VP = 4261
+								}
+							}
+						}
+					}
+					else = {
+						random_owned_controlled_state = {
+							prioritize = { 573 582 651 652 }
+							limit = {
+								is_core_of = ROOT
+								can_construct_building = nuclear_facility
+							}
+							construct_building_in_random_province = { nuclear_facility = 1 }
+						}
+					}
+				}
+				activate_targeted_decision = { target = 64.owner decision = RUS_operation_masuria }
+				activate_targeted_decision = { target = INT decision = RUS_damocles_spy_ring }
+				activate_targeted_decision = { target = 562 decision = RUS_death_valley }
+				activate_targeted_decision = { target = 407 decision = RUS_taboshar_uranium }
+				activate_targeted_decision = { target = 582 decision = RUS_nechayevsk }
+				activate_targeted_decision = { target = 810 decision = RUS_nuclear_test }
+			}
+			search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_revolution_in_spirit
+			icon = GFX_goal_RUS_revolution_in_spirit
+			cost = 5
+
+			relative_position_id = RUS_cult_of_vozhd
+			x = -1
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_cult_of_vozhd
+			}
+			prerequisite = {
+				focus = RUS_new_russian_culture
+			}
+			mutually_exclusive = {
+				focus = RUS_dealing_with_faith
+			}
+			ai_will_do = {
+				factor = 12
+				modifier = {
+					factor = 0
+					has_country_flag = RUS_solidarist_ai
+				}
+				modifier = {
+					factor = 100
+					NOT = { country_exists = GER }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_revolution_in_spirit"
+				add_political_power = 80
+				if = {
+					limit = { has_idea = RUS_new_russian_culture_1 }
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_1
+						add_idea = RUS_new_russian_culture_3
+					}
+				}
+				else = {
+					swap_ideas = {
+						remove_idea = RUS_new_russian_culture_2
+						add_idea = RUS_new_russian_culture_5
+					}
+				}
+				custom_effect_tooltip = tooltip_white_line
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = RUS_dmitry_merezhovsky_advisor
+				hidden_effect = {
+					country_event = { id = russia_events.297 days = 30 } #The Institute for Hypnotic and Mystical Studies
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_russian_cause
+			icon = GFX_goal_RUS_russian_cause
+			cost = 7
+
+			relative_position_id = RUS_vanguard_of_knights_of_terror
+			x = -1
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_vanguard_of_knights_of_terror
+			}
+			ai_will_do = {
+				base = 10
+				modifier = {
+					add = 100
+					has_country_flag = RUS_savinkov_ai
+					has_manpower < 400000
+				}
+				modifier = {
+					add = 1000
+					has_country_flag = RUS_savinkov_ai
+					has_manpower < 200000
+				}
+				modifier = {
+					add = 1000
+					NOT = { country_exists = GER }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_russian_cause"
+				add_ideas = RUS_russian_cause_idea
+				custom_effect_tooltip = tooltip_white_line
+				activate_targeted_decision = { target = ROOT decision = RUS_appoint_loyalist_commander }
+				hidden_effect = {
+					country_event = { id = russia_events.235 days = 30 } #The White Youth
+				}
+			}
+			search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MILITARY_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_savior_of_world
+			icon = GFX_goal_RUS_savior_of_world
+			cost = 10
+
+			relative_position_id = RUS_third_russia
+			x = 0
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_third_russia
+			}
+			mutually_exclusive = {
+				focus = RUS_codification_of_regime
+				focus = RUS_ideocratic_principle
+			}
+			ai_will_do = {
+				factor = 100
+				modifier = {
+					factor = 0
+					OR = {
+						has_country_flag = RUS_solidarist_ai
+						has_country_flag = RUS_ideocrat_ai
+					}
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_savior_of_world"
+				add_war_support = 0.1
+				country_event = russia_events.314 #Liberation of the West
+				hidden_effect = {
+					every_other_country = {
+						limit = { has_socialist_government = yes }
+						country_event = russia_events.314 #Liberation of the West
+					}
+					RUS_karl_gopper = { unit_leader_event = { id = russia_events.136 days = 60 } }
+					country_event = { id = russia_flavour_events.140 days = 80 }
+					country_event = { id = russia_events.320 days = 100 random_days = 100 } #Militarisation of the Party
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_shepherd_of_nations
+			icon = GFX_goal_BEL_LP
+			cost = 8
+			relative_position_id = RUS_national_labour_system
+			x = -1
+			y = 1
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_national_labour_system
+			}
+			ai_will_do = { factor = 100 }
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_shepherd_of_nations"
+				hidden_effect = { news_event = { id = russia_news_events.23 days = 1 } }
+				add_political_power = -100
+				country_event = russia_events.310 #Foundation of Holy Alliance
+				set_faction_name = faction_holy_league
+				every_other_country = {
+					limit = {
+						OR = {
+							any_neighbor_country = { has_socialist_government = yes }
+							has_government = national_populist
+							tag = IRE
+							tag = NFA
+							if = {
+								limit = { country_exists = WCA }
+								tag = CUB
+								tag = DOM
+								tag = WIF
+								tag = HAW
+							}
+							if = {
+								limit = { CHN = { has_socialist_government = yes } }
+								tag = JAP
+								tag = INS
+								tag = PHI
+							}
+							if = {
+								limit = { country_exists = ENG }
+								is_scandinavian_tag = yes
+							}
+						}
+						NOT = {
+							tag = GEX
+							tag = GEA
+							is_chinese_tag = yes
+							num_of_factories > 150
+							is_subject = yes
+							is_in_faction = yes
+							has_socialist_government = yes
+						}
+					}
+					ROOT = {
+						activate_targeted_decision = { target = PREV decision = RUS_invite_alliance }
+					}
+				}
+				swap_ideas = {
+					remove_idea = RUS_russian_cause_idea
+					add_idea = RUS_russian_cause_idea_2
+				}
+				add_named_threat = {
+					threat = -20
+					name = faction_holy_league
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_BONUS }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_solidarist_representation
+			icon = GFX_focus_ICE_state_corporatism
+			cost = 7
+
+			relative_position_id = RUS_labour_conscription
+			x = 1
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_labour_conscription
+			}
+			mutually_exclusive = {
+				focus = RUS_teleological_planning
+			}
+			ai_will_do = {
+				factor = 35
+				modifier = {
+					factor = 0
+					OR = {
+						has_country_flag = RUS_old_svobodnik_ai
+						has_country_flag = RUS_ideocrat_ai
+					}
+				}
+				modifier = {
+					factor = 40
+					NOT = { country_exists = GER }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_solidarist_representation"
+				add_stability = 0.15
+				swap_ideas = {
+					remove_idea = RUS_artels
+					add_idea = RUS_artels_chamber
+				}
+				add_to_variable = { RUS_ic_time_60 = 20 }
+				add_to_variable = { RUS_ic_time_120 = 20 }
+				add_power_balance_value = {
+					id = RUS_power_balance
+					value = -0.1
+				}
+			}
+			search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_INDUSTRY }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_svobodniks
+			icon = GFX_focus_BRA_anaue #GFX_goal_RUS_natpops
+			cost = 6
+
+			relative_position_id = RUS_necessary_revenge
+			x = -3
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_necessary_revenge
+			}
+			ai_will_do = {
+				base = 15
+				modifier = {
+					factor = 50
+					has_country_flag = RUS_old_svobodnik_ai
+					NOT = { country_exists = GER }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_svobodniks"
+				add_war_support = 0.05
+				custom_effect_tooltip = tooltip_white_line
+				enable_tech_assault_battalion = yes
+				custom_effect_tooltip = tooltip_white_line
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = RUS_anastasy_vonsyatsky_advisor
+				hidden_effect = {
+					country_event = { id = russia_events.238 days = 10 } #Rise of the Svobodniks
+					country_event = { id = russia_flavour_events.32 days = 100 random_days = 100 } #Attack on the Synagogue of Vladivostok
+					country_event = { id = russia_events.261 days = 200 random_days = 200 } #The Svobodnik Scandal
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_teleological_planning
+			icon = GFX_focus_GER_prioritize_the_four_year_plan
+			cost = 7
+
+			relative_position_id = RUS_labour_conscription
+			x = -1
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_labour_conscription
+			}
+			mutually_exclusive = {
+				focus = RUS_solidarist_representation
+			}
+			ai_will_do = {
+				base = 35
+				modifier = {
+					factor = 0
+					has_country_flag = RUS_solidarist_ai
+					power_balance_value = { id = RUS_power_balance value > -0.40 }
+				}
+				modifier = {
+					factor = 40
+					NOT = { country_exists = GER }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_teleological_planning"
+				if = {
+					limit = { has_idea = RUS_supreme_economic_council_2 }
+					swap_ideas = {
+						remove_idea = RUS_supreme_economic_council_2
+						add_idea = RUS_supreme_economic_council_3
+					}
+				}
+				else_if = { limit = { has_idea = RUS_supreme_economic_council_4 }
+					swap_ideas = {
+						remove_idea = RUS_supreme_economic_council_4
+						add_idea = RUS_supreme_economic_council_2
+					}
+				}
+				set_temp_variable = { RUS_ic_cost_low_change_var = 15 }
+				set_temp_variable = { RUS_ic_cost_med_change_var = 15 }
+				set_temp_variable = { RUS_ic_cost_high_change_var = 15 }
+				RUS_decrease_industry_costs = yes
+				add_to_variable = { RUS_Industrial_Regions_Available = 5 }
+				custom_effect_tooltip = RUS_central_planning_tt
+				custom_effect_tooltip = RUS_additional_industrial_regions_tt
+				add_power_balance_value = {
+					id = RUS_power_balance
+					value = 0.2
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_third_angel
+			icon = GFX_goal_RUS_third_angel
+			cost = 6
+			relative_position_id = RUS_savior_of_world
+			x = 0
+			y = 2
+			allow_branch = { always = no }
+			continue_if_invalid = yes
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_cleanse_the_party
+			}
+			prerequisite = {
+				focus = RUS_savior_of_world
+			}
+			prerequisite = {
+				focus = RUS_project_sumerki
+			}
+			ai_will_do = {
+				factor = 500
+				modifier = {
+					factor = 0
+					any_enemy_country = {
+						OR = {
+							tag = JAP
+							is_actual_major = yes
+						}
+					}
+				}
+				modifier = {
+					factor = 0
+					date < 1943.1.1
+				}
+			}
+			will_lead_to_war_with = INT
+			will_lead_to_war_with = FRA
+			will_lead_to_war_with = ENG
+			will_lead_to_war_with = SRI
+			will_lead_to_war_with = GRU
+			will_lead_to_war_with = WCA
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_third_angel"
+				set_country_flag = RUS_started_WK3
+				add_country_leader_trait = RUS_horseman_of_apocalypse
+				add_named_threat = {
+					threat = 100
+					name = RUS_third_angel
+				}
+				custom_effect_tooltip = RUS_third_angel_tt
+				add_stability = -0.1
+				hidden_effect = {
+					news_event = { id = russia_news_events.22 days = 1 }
+					country_event = russia_events.321 #Operation Arkhangel
+					if = {
+						limit = { has_global_flag = allow_sound_events_flag }
+						scoped_play_song = tchaikovsky_1812_overture
+					}
+					every_country = {
+						limit = { has_socialist_government = yes }
+						ROOT = {
+							declare_war_on = {
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+					unlock_national_focus = RUS_extinguish_the_flame
+					set_portraits = {
+						character = RUS_boris_savinkov
+						civilian = { large = GFX_portrait_RUS_boris_savinkov_uniform_large }
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION FOCUS_FILTER_AIRFORCE_BONUS FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_POLITICAL_CHARACTER }
+		}
+
+	focus = {
+			id = RUS_third_russia
+			icon = GFX_goal_RUS_third_russia
+			cost = 7
+
+			relative_position_id = RUS_vanguard_of_knights_of_terror
+			x = 0
+			y = 2
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_russian_cause
+			}
+			prerequisite = {
+				focus = RUS_gosstrazha
+			}
+			prerequisite = {
+				focus = RUS_solidarist_representation
+				focus = RUS_teleological_planning
+			}
+			prerequisite = {
+				focus = RUS_revolution_in_spirit
+				focus = RUS_dealing_with_faith
+			}
+			ai_will_do = {
+				factor = 1000
+				modifier = {
+					factor = 5
+					has_country_flag = RUS_old_svobodnik_ai
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_third_russia"
+				add_country_leader_trait = RUS_herald_of_third_russia
+				remove_ideas = RUS_popular_anger
+				hidden_effect = {
+					if = {
+						limit = {
+							POL = {
+								NOT = { is_subject_of = RUS }
+								has_government = national_populist
+							}
+						}
+						country_event = { id = russia_flavour_events.121 days = 50 random_days = 30 }
+					}
+					if = {
+						limit = { has_idea = RUS_cossack_resistance }
+						remove_ideas = RUS_cossack_resistance
+					}
+					country_event = { id = russia_events.313 days = 5 } #Call for the Last War
+					country_event = { id = russia_events.312 days = 50 random_days = 50 } #Robbing of Europe
+					country_event = { id = russia_events.311 days = 120 random_days = 50 } #New, Old Enemy
+					country_event = { id = russia_flavour_events.14 days = 300 } #Memoirs of a Terrorist, final part
+					country_event = { id = russia_democratic_events.32 days = 65 random_days = 200 } #Denikin retires
+					country_event = { id = russia_flavour_events.109 days = 50 random_days = 100 } #The First Family of Russia
+					country_event = { id = russia_events.964 days = 90 random_days = 100 } #A Renaming Campaign
+					country_event = { id = russia_flavour_events.124 days = 60 random_days = 200 } #Treaty of Dresden
+					country_event = { id = russia_flavour_events.175 days = 500 random_days = 50 } #Nebuchadnezzar, Hadrian, Savinkov
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_PRODUCTION FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_vanguard_of_knights_of_terror
+			icon = GFX_goal_RUS_knights_of_terror
+			cost = 6
+
+			relative_position_id = RUS_declare_russian_state
+			x = 0
+			y = 1
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_declare_russian_state
+			}
+			ai_will_do = {
+				factor = 15
+				modifier = {
+					add = 5000
+					has_country_flag = RUS_savinkov_ai
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_vanguard_of_knights_of_terror"
+				add_stability = 0.07
+				add_war_support = 0.05
+				add_country_leader_trait = RUS_knight_of_terror
+			}
+			search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		allow_branch = { always = no }
+	}
+
+	focus = {
+			id = RUS_yevraziystvo
+			icon = GFX_goal_RUS_yevraziystvo
+			cost = 7
+
+			relative_position_id = RUS_cult_of_vozhd
+			x = -2
+			y = 2
+
+			available = { always = no }
+			prerequisite = {
+				focus = RUS_revolution_in_spirit
+			}
+			mutually_exclusive = {
+				focus = RUS_centralise_party
+				focus = RUS_national_solidarism
+			}
+			ai_will_do = {
+				factor = 15
+				modifier = {
+					factor = 0
+					NOT = { has_country_flag = RUS_ideocrat_ai }
+				}
+			}
+			completion_reward = {
+				log = "[GetLogRoot]: Focus Completed RUS_yevraziystvo"
+				set_temp_variable = { RUS_power_change = 10 }
+				RUS_change_projection = yes
+				add_ideas = RUS_eurasian_autarky
+				hidden_effect = {
+					if = {
+						limit = {
+							NOT = {
+								has_idea = closed_economy
+								has_idea = limited_exports
+							}
+						}
+						add_ideas = limited_exports
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RUS_POWER_PROJECTION }
+
+		allow_branch = { always = no }
+	}
+}

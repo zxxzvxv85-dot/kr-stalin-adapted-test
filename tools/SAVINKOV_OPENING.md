@@ -5,13 +5,14 @@
 
 ## 入口与维护
 
-- 生成器：`tools/rework_savinkov_opening.py`。默认或`--check`只读；`--write`更新18个运行文件。
+- 生成器：`tools/rework_savinkov_opening.py`。默认或`--check`只读；`--write`更新19个运行文件。
 - 回归：`tools/test_savinkov_opening.py`，或`tools/validate.py --group opening`。
 - 开局树：`RUS_savinkov_opening_tree`，只引用10项共享国策；其余萨文科夫外交、军事、工业国策不挂入这棵树。
 - 后续树：`Russia_Focus`。首次离开国家民粹政府时，立即钩子及每日兜底加载后续树，`keep_completed=yes`；不重置变量、不清除民族精神。不涉及一五计划的自动切换。
 - 已有8项定义移为共享国策，ID、原有效果和时长保留；新增“元首”21天、镇压异见者14天。新国策描述留空。
 - 合作社体系与“为日出计划收尾”使用原生`unlock_national_focus`静默标记完成，不走普通完成弹窗、不执行完成奖励；合作社精神由一次性初始化补齐。五项已完成日出建设、已完成标记和计划统计直接写入`history/countries/RUS - Russia.txt`的生成区块，载入新局即存在，不等待任何事件或时间推进；初始化事件不得再次发放这些奖励或重设其统计。
 - 俄罗斯主树全部559项旧内嵌国策与154项未来预览在国家民粹政府下隐藏，防止主树保留/共享加载时额外分支显露；原有其他显示条件仍保留，阶段交接后按原逻辑显示。
+- 20261018后续修正：上述559项中，32项旧萨文科夫后续已从实际主树移至`RUS_retired_savinkov_legacy.txt`，主树保留527项。废弃树`country factor=0/default=no`且没有自动载入入口，每项`allow_branch/available`均为`always=no`；不再因政府变成社会主义而放开显示。旧ID/原完成效果仅为引用完整性保留。全局启动时刷新布局，俄罗斯每日另有一次性显示刷新兜底，不清除已有进度、变量、精神或奖励。冻结原定义位于来源JSON的`retired_focuses`。
 - 全局启动钩子只向俄罗斯投递隐藏事件`rus_opening.3`，事件立即执行剩余初始化，确保`ROOT=RUS`；未完成日出项目的决议目标与AEG州选择依赖这一国家作用域，不应直接从全局`on_startup`调用初始化。五项历史项目及改名直接在国家历史作用域执行。
 
 ## 用户确认的边界
