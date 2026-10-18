@@ -28,6 +28,12 @@ def main():
     assert not caption.children('buttonType') and not caption.children('ButtonType')
     text=caption.one('instantTextBoxType');assert text.value('alwaystransparent')=='yes' and text.value('text').strip('"')==build.LABEL
     assert int(caption.one('position').value('x'))==526 and int(caption.one('size').value('width'))==172
+    assert caption.value('clipping')=='yes'
+    caption_height=int(caption.one('size').value('height'))
+    caption_bg=next(n for n in load(build.ROOT/'interface/RUS_rsfsr_bookmark.gfx')[0].v if n.value('name').strip('"')=='GFX_RUS_rsfsr_bookmark_caption_bg')
+    assert caption.one('background').value('quadTextureSprite').strip('"')==caption_bg.value('name').strip('"')
+    assert int(caption_bg.one('size').value('y'))==caption_height
+    assert int(caption_bg.one('borderSize').value('y'))*2<=caption_height,'Nine-slice borders must fit inside the two-line title'
     # Evaluate native cover rectangles in painter order, rather than testing
     # only whether the new caption/portrait nodes exist in the file.
     card=(526,130,698,241)
@@ -42,8 +48,15 @@ def main():
     assert any(obscures(n) for n in covers(b)), 'Fixture must reproduce the original opaque center cover'
     assert not any(obscures(n) for n in covers(a)), 'A later KR cover still hides the RSFSR card'
     cover=next(n for n in covers(a) if n.value('name').strip('"')=='coverup_3')
-    original_cover=next(n for n in covers(b) if n.value('name').strip('"')=='coverup_3')
-    assert [n.norm() for n in cover.v if n.k!='hide']==[n.norm() for n in original_cover.v]
+    assert cover.value('hide')!='yes' and cover.value('clipping')=='yes'
+    # The lower native AAA card still exists: the caption plus the lower cover
+    # must conceal its entire y222..318 range, without hiding the upper portrait.
+    assert int(caption.one('position').value('y'))<=222
+    assert int(cover.one('position').value('y'))==int(caption.one('position').value('y'))+caption_height
+    assert int(cover.one('position').value('y'))+int(cover.one('size').value('height'))>=318
+    lower_bg=cover.one('containerWindowType')
+    assert int(cover.one('position').value('y'))+int(lower_bg.one('position').value('y'))==int(central.one('position').value('y'))
+    assert lower_bg.one('iconType').norm()==central.one('iconType').norm(),'Lower cover must continue the same painting at the same scale'
     for lang in ['simp_chinese','english','russian']:
         raw=(build.ROOT/f'localisation/{lang}/RUS_rsfsr_bookmark_l_{lang}.yml').read_bytes();assert raw.startswith(b'\xef\xbb\xbf')
         keys=re.findall(r'^\s+([^ :]+):',raw.decode('utf-8-sig'),re.M);assert Counter(keys)==Counter([build.DESC,build.LABEL])
@@ -53,6 +66,6 @@ def main():
     assert flag.value('alwaystransparent')=='yes'
     assert float(flag.value('scale'))==2.0
     assert (build.ROOT/build.SPEC['flag_texture']).is_file()
-    print('PASS: central-slot RUS showcase, original opaque center-cover failure reproduced and removed, Stalin portrait override, untouched original RUS card and other entries, exact history text, native Lenin backdrop and passive caption. No bookmark gameplay effects added.')
+    print('PASS: upper RUS card exposed; lower AAA card fully masked with a continuous Lenin painting; title borders fit the clipped 38px caption; original RUS entry and bookmark gameplay unchanged.')
 
 if __name__=='__main__':main()

@@ -64,10 +64,28 @@ def render_gui():
         }'''
     logo=next(n for n in window.children('iconType') if n.value('name')=='kr_logo')
     logo_raw=hide_widget(logo)
-    # KR covers both otherwise-empty central slots AFTER drawing the grid.
-    # Hiding only the logo/backdrop leaves this opaque cover over the new entry.
+    # Keep the lower AAA placeholder covered, without touching the new card.
+    # The picture uses the same global origin and scale as backdrop_3.
     cover=next(n for n in window.children('containerWindowType') if n.value('name').strip('"')=='coverup_3')
-    cover_raw=hide_widget(cover)
+    cover_raw='''containerWindowType = {
+            name = "coverup_3"
+            position = { x = 526 y = 241 }
+            size = { width = @backdrop_width height = 77 }
+            clipping = yes
+            containerWindowType = {
+                name = "coverup_3_bg"
+                position = { x = 0 y = -199 }
+                size = { width = @backdrop_width height = @backdrop_height }
+                background = { quadTextureSprite = "GFX_tiled_paper_bg2" }
+                iconType = {
+                    name = "backdrop_texture_3"
+                    quadTextureSprite = "GFX_RUS_intro_lenin_painting"
+                    position = { x = 2 y = 2 }
+                    scale = 0.250229
+                    alwaystransparent = yes
+                }
+            }
+        }'''
     # The engine's TAG-based caption cannot carry two different names for RUS.
     # A click-through label covers only the showcase slot's original name bar.
     filters=next(n for n in window.children('OverlappingElementsBoxType') if n.value('name').strip('"')=='filters')
@@ -75,7 +93,8 @@ def render_gui():
             name = "RUS_rsfsr_bookmark_caption"
             position = { x = 526 y = 203 }
             size = { width = 172 height = 38 }
-            background = { quadTextureSprite = "GFX_tiled_paper_bg2" }
+            clipping = yes
+            background = { quadTextureSprite = "GFX_RUS_rsfsr_bookmark_caption_bg" }
             instantTextBoxType = {
                 name = "RUS_rsfsr_bookmark_caption_text"
                 position = { x = 1 y = 0 }
@@ -102,7 +121,17 @@ def render_gui():
 
 def outputs():
     data={BOOKMARK:render_bookmark().encode('utf-8'),GUI:render_gui().encode('utf-8')}
-    data['interface/RUS_rsfsr_bookmark.gfx']=('spriteTypes = {\n\tspriteType = {\n\t\tname = "GFX_RUS_rsfsr_bookmark_flag"\n\t\ttexturefile = "'+SPEC['flag_texture']+'"\n\t}\n}\n').encode('utf-8')
+    data['interface/RUS_rsfsr_bookmark.gfx']=('spriteTypes = {\n\tspriteType = {\n\t\tname = "GFX_RUS_rsfsr_bookmark_flag"\n\t\ttexturefile = "'+SPEC['flag_texture']+'"\n\t}\n'+'''
+    corneredTileSpriteType = {
+        name = "GFX_RUS_rsfsr_bookmark_caption_bg"
+        size = { x = 172 y = 38 }
+        textureFile = "gfx/interface/tiles/tiled_paper_bg2.dds"
+        borderSize = { x = 8 y = 8 }
+        tilingCenter = yes
+        effectFile = "gfx/FX/buttonstate_nodowneffect.lua"
+    }
+}
+''').encode('utf-8')
     histories={
         'simp_chinese':SPEC['history'],
         'english':'At first, under Vladimir Lenin’s passionate leadership, the Bolsheviks became known throughout Russia, supported by those with the bleakest prospects.\n\nBut events turned against them. As the revolution changed, the hoped-for unity of the left failed to materialise. Opportunist Socialist Revolutionaries betrayed the revolution, and Lenin perished in that betrayal. The once-promising Russian revolution collapsed; the Bolsheviks could only leave their homeland and seek another path…',

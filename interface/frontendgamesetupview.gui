@@ -802,7 +802,8 @@ guiTypes = {
             name = "RUS_rsfsr_bookmark_caption"
             position = { x = 526 y = 203 }
             size = { width = 172 height = 38 }
-            background = { quadTextureSprite = "GFX_tiled_paper_bg2" }
+            clipping = yes
+            background = { quadTextureSprite = "GFX_RUS_rsfsr_bookmark_caption_bg" }
             instantTextBoxType = {
                 name = "RUS_rsfsr_bookmark_caption_text"
                 position = { x = 1 y = 0 }
@@ -909,27 +910,24 @@ guiTypes = {
 		#}
 
 		containerWindowType = {
-			name = "coverup_3"
-			position = { x = 526  y = 130 }
-			size = { width = @backdrop_width  height = 192 }
-			## height: ± 96 according to how many slots need to be covered
-			clipping = yes
-			#hide = yes
-
-			containerWindowType = {
-				name = "coverup_3_bg"
-				position = { x = 0   y = -88 }
-				size = { width = @backdrop_width height = @backdrop_height }
-				background = { quadTextureSprite = "GFX_tiled_paper_bg2" }
-
-				iconType = {
-					name = "backdrop_texture_3"
-					quadTextureSprite = "GFX_KR_default_intro"
-					position = { x = 2  y = 2 }
-				}
-			}
-			hide = yes
-		}
+            name = "coverup_3"
+            position = { x = 526 y = 241 }
+            size = { width = @backdrop_width height = 77 }
+            clipping = yes
+            containerWindowType = {
+                name = "coverup_3_bg"
+                position = { x = 0 y = -199 }
+                size = { width = @backdrop_width height = @backdrop_height }
+                background = { quadTextureSprite = "GFX_tiled_paper_bg2" }
+                iconType = {
+                    name = "backdrop_texture_3"
+                    quadTextureSprite = "GFX_RUS_intro_lenin_painting"
+                    position = { x = 2 y = 2 }
+                    scale = 0.250229
+                    alwaystransparent = yes
+                }
+            }
+        }
 
 		iconType = {
 			name = kr_logo
