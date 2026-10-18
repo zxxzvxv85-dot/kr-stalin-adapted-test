@@ -1364,11 +1364,11 @@ unit_leader_event = { #A revolver with a single bullet
 		log = "[GetLogInfo]: event russia_events.112 option russia_events.112.a"
 		name = russia_events.112.a
 		add_stability = 0.01
-		hidden_effect = { RUS_opening_request_army_minister = yes }
+		hidden_effect = { RUS = { RUS_opening_request_army_minister = yes } }
 		RUS_lavr_kornilov = { kill_character = yes }
 		set_temp_variable = { RUS_anger_change = 1 }
 		RUS_change_military_anger = yes
-		country_event = { id = russia_events.113 days = 3 } #The Last Journey of Kornilov
+		RUS = { country_event = { id = russia_events.113 days = 3 } } #The Last Journey of Kornilov
 	}
 }
 

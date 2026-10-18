@@ -136,36 +136,44 @@ def render_effects():
     tooltip+='\n\t\tadd_popularity = { ideology = national_populist popularity = RUS_opening_natpop_delta }'
     chunks.append('RUS_opening_transfer_opposition_support = {\n\thidden_effect = {\n'+indent('\n'.join(body),2)+'\n\t}\n\teffect_tooltip = {\n'+tooltip+'\n\t}\n\thidden_effect = {\n'+indent('\n'.join(apply),2)+'\n\t}\n}')
     chunks.append('''RUS_opening_check_popular_anger = {
+    RUS = {
     if = {
         limit = { has_country_flag = RUS_opening_active has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } check_variable = { RUS_popular_anger > 7 } NOT = { has_country_flag = RUS_opening_revolt_queued } }
         set_country_flag = RUS_opening_revolt_queued
         activate_mission = RUS_opening_resistance_wave
     }
+    }
 }''')
     chunks.append('''RUS_opening_check_military_anger = {
+    RUS = {
     if = {
         limit = { has_country_flag = RUS_opening_active has_government = national_populist check_variable = { RUS_military_anger > 4 } }
         set_country_flag = RUS_opening_military_threshold_reached
     }
     if = {
-        limit = { has_country_flag = RUS_opening_active has_government = national_populist has_country_flag = RUS_opening_military_threshold_reached NOT = { has_country_flag = RUS_opening_military_warning_sent } }
+        limit = { has_country_flag = RUS_opening_active has_government = national_populist has_country_flag = RUS_opening_military_threshold_reached NOT = { has_country_flag = RUS_opening_military_warning_queued } NOT = { has_country_flag = RUS_opening_military_countdown_started } }
         if = {
             limit = { has_country_flag = RUS_opening_wrangel_minister }
-            set_country_flag = RUS_opening_military_warning_sent
+            set_country_flag = RUS_opening_military_warning_queued
+            log = "RUS opening military warning queued: Wrangel"
             country_event = { id = rus_opening.1 days = 1 }
         }
         else_if = {
             limit = { has_country_flag = RUS_opening_denikin_minister }
-            set_country_flag = RUS_opening_military_warning_sent
+            set_country_flag = RUS_opening_military_warning_queued
+            log = "RUS opening military warning queued: Denikin"
             country_event = { id = rus_opening.2 days = 1 }
         }
     }
+    }
 }''')
     chunks.append('''RUS_opening_request_army_minister = {
+    RUS = {
     if = {
         limit = { has_country_flag = RUS_opening_active NOT = { has_country_flag = RUS_opening_minister_queued } NOT = { has_country_flag = RUS_opening_minister_selected } }
         set_country_flag = RUS_opening_minister_queued
         country_event = { id = russia_events.124 days = 1 }
+    }
     }
 }''')
     chunks.append('''RUS_opening_finish_phase = {
@@ -207,6 +215,12 @@ def patch_event(n):
     if key=='russia_events.112' and 'RUS_opening_request_army_minister' not in raw:
         # Queue the owner-country event before killing the event's unit leader.
         raw=raw.replace('RUS_lavr_kornilov = { kill_character = yes }','hidden_effect = { RUS_opening_request_army_minister = yes }\n\t\tRUS_lavr_kornilov = { kill_character = yes }',1)
+    if key=='russia_events.112':
+        # Unit-leader events keep the dead Kornilov as ROOT. The funeral is a
+        # country event: preserve the upstream explicit RUS recipient.
+        raw=raw.replace('hidden_effect = { RUS_opening_request_army_minister = yes }','hidden_effect = { RUS = { RUS_opening_request_army_minister = yes } }')
+        if not re.search(r'RUS\s*=\s*\{\s*country_event\s*=\s*\{\s*id\s*=\s*russia_events\.113',raw):
+            raw=raw.replace('country_event = { id = russia_events.113 days = 3 }','RUS = { country_event = { id = russia_events.113 days = 3 } }',1)
     if key in ['russia_events.113','russia_events.114'] and 'RUS_opening_request_army_minister' not in raw:
         raw=raw.replace('country_event = russia_events.124','if = { limit = { has_country_flag = RUS_opening_active } RUS_opening_request_army_minister = yes }\n\t\t\telse = { country_event = russia_events.124 }',1)
     if key=='russia_events.124' and 'RUS_opening_minister_selected' not in raw:
@@ -244,6 +258,12 @@ def render_decisions():
             elif d.k=='RUS_nationalise_AEG_electrical_facilities':raw=fields(raw,{'days_remove':'days_remove = RUS_tesla_industry_time_180?180'})
             elif d.k in PROJECTS and 'RUS_opening_prebuilt_' not in raw:
                 raw=append_field(raw,'visible','\t\t\tNOT = { has_country_flag = RUS_opening_prebuilt_'+d.k+' }')
+            if cat.k=='RUS_voskhod_decisions':
+                def black_monday_nodes(n):
+                    if n.k=='RUS_decrease_black_monday':yield n
+                    elif isinstance(n.v,list):
+                        for child in n.v:yield from black_monday_nodes(child)
+                raw=edits(raw,[(n.a,n.b,'') for n in black_monday_nodes(node(raw))])
             if raw!=d.raw():spans.append((d.a,d.b,clean_block(raw)))
     return edits(text,spans)
 
@@ -343,7 +363,11 @@ country_event = {
     picture = GFX_report_event_RUS_{'wrangel' if num==1 else 'denikin'}
     is_triggered_only = yes
     fire_only_once = yes
-    trigger = {{ has_country_flag = RUS_opening_active has_government = national_populist }}
+    trigger = {{ tag = RUS has_country_flag = RUS_opening_active has_government = national_populist NOT = {{ has_country_flag = RUS_opening_military_countdown_started }} }}
+    immediate = {{
+        set_country_flag = RUS_opening_military_warning_sent
+        log = "RUS opening military warning displayed: rus_opening.{num}"
+    }}
     option = {{
         name = rus_opening.{num}.a
         custom_effect_tooltip = RUS_opening_military_warning_tt
@@ -351,6 +375,7 @@ country_event = {
             if = {{
                 limit = {{ NOT = {{ has_country_flag = RUS_opening_military_countdown_started }} }}
                 set_country_flag = RUS_opening_military_countdown_started
+                clr_country_flag = RUS_opening_military_warning_queued
                 activate_mission = RUS_opening_military_action
             }}
         }}
@@ -418,6 +443,13 @@ def render_localisation():
             # Preserve the authored Chinese narrative until translations are supplied.
             data.update({TREE:'Savinkov Opening',VOZHD:'The Vozhd',CRACK:'Suppress Dissent','RUS_voskhod':'Conclude the Voskhod Programme','RUS_declare_russian_state':'Proclaim the Russian State','RUS_opening_unfinished_land_reform':'Unfinished Land Reform','RUS_opening_disordered_industry':'Disordered Industry','RUS_opening_daily_manpower_tt':'Daily manpower: §R−200§!','RUS_opening_resistance_wave':'An Escalating Wave of Resistance','RUS_opening_military_action':'The Military Is Acting','RUS_opening_military_warning_tt':'§RThe military is considering action!§!'})
         data['RUS_opening_daily_manpower_tt']='£manpower_texticon£ '+('每日人力：' if lang=='simp_chinese' else 'Daily manpower: ')+'§R-200§!'
+        original=SPEC['unrest_descriptions'][lang]
+        rules=('§P军方愤怒§!首次达到§O5§!后，选定陆军部长即会引发军方警告；回应警告后，启动180天的“军方正在行动”。倒计时结束后暂无后续行动。\n§C民众愤怒§!达到§r8§!后，启动7天的“愈演愈烈的反抗浪潮”，到期引发革命。'
+               if lang=='simp_chinese' else
+               'Once §PMilitary Anger§! reaches §O5§!, a military warning follows the appointment of the army minister. Responding starts the 180-day military countdown; no further action is currently scheduled at its end.\nReaching §r8§! §CPopular Anger§! starts a seven-day wave of resistance, followed by revolution.')
+        data.update({'RUS_anger_decisions_natpop':'[RUSOpeningAngerDescription]',
+                     'RUS_opening_anger_rules':'\n\n'.join(original.split('\n\n')[:2])+ '\n\n'+rules,
+                     'RUS_opening_anger_rules_legacy':original})
         rows=['l_'+lang+':']
         for key,val in data.items():rows.append(' '+key+': '+json.dumps(val,ensure_ascii=False))
         result[f'localisation/{lang}/replace/RUS_savinkov_opening_l_{lang}.yml']=('\n'.join(rows)+'\n').encode('utf-8-sig')
@@ -429,6 +461,10 @@ def outputs():
     result[RETIRED_PATH]=render_retired_tree()
     history=(ROOT/'history/countries/RUS - Russia.txt').read_bytes();history=re.sub(rb'set_war_support = 0\.(?:25|35)\r?\n',b'set_war_support = 0.35\n',history,count=1)
     if b'# Approved Savinkov opening: partial mobilisation' not in history:history+=b'\n# Approved Savinkov opening: partial mobilisation\nadd_ideas = partial_economic_mobilisation\n'
+    # Native industrial-concern appointment, already present before time advances.
+    # Do not force it again from startup/daily hooks after the player replaces it.
+    if b'# Approved Savinkov opening: initial industrial concern' not in history:
+        history+=b'\n# Approved Savinkov opening: initial industrial concern\nadd_ideas = tak\n'
     block=voskhod_initial_history().encode('utf-8')
     if HISTORY_BEGIN.encode() in history:
         pattern=re.escape(HISTORY_BEGIN.encode())+rb'.*?'+re.escape(HISTORY_END.encode())+rb'\r?\n?'
@@ -436,6 +472,16 @@ def outputs():
         assert count==1
     else:history+=b'\n'+block
     result['history/countries/RUS - Russia.txt']=history
+    result['common/scripted_localisation/RUS_savinkov_opening_loc.txt']='''# Generated by tools/rework_savinkov_opening.py --write
+defined_text = {
+    name = RUSOpeningAngerDescription
+    text = {
+        trigger = { has_country_flag = RUS_opening_active }
+        localization_key = RUS_opening_anger_rules
+    }
+    text = { localization_key = RUS_opening_anger_rules_legacy }
+}
+'''
     result.update(render_localisation())
     from io import BytesIO
     from generate_future_domestic_focus import package_icon

@@ -19,7 +19,7 @@ INITIAL_PROJECTS=parse(COUNTRY_HISTORY.split(build.HISTORY_BEGIN)[1].split(build
 class Model:
     def __init__(self,reward_on_complete=True):
         self.flags=set();self.ideas=set();self.v={};self.temp={};self.pop={p:68/9 for p in build.PARTIES}|{'national_populist':32}
-        self.gov='national_populist';self.tag='RUS';self.leader=True;self.manpower=1000000;self.pp=0
+        self.gov='national_populist';self.tag='RUS';self.leader=True;self.manpower=1000000;self.pp=0;self.scope='country'
         self.completed=set();self.native_rewards=reward_on_complete;self.popups=[];self.loads=[];self.events=[];self.missions={};self.finished=set();self.day=0;self.buildings=[];self.slots=[];self.resources=[];self.external=Counter();self.state=None
 
     def number(self,value):
@@ -78,6 +78,8 @@ class Model:
             taken=None
             if n.k in ['log','effect_tooltip','custom_effect_tooltip','search_filters']:continue
             if n.k=='hidden_effect':self.run(n.v)
+            elif n.k=='RUS':
+                previous=self.scope;self.scope='country';self.run(n.v);self.scope=previous
             elif n.k in ['set_variable','set_temp_variable','add_to_variable','add_to_temp_variable','subtract_from_variable']:
                 c=n.v[0];target=self.temp if 'temp' in n.k else self.v;value=self.number(c.v)
                 target[c.k]=value if n.k.startswith('set_') else target.get(c.k,0)+(-value if n.k.startswith('subtract') else value)
@@ -94,7 +96,9 @@ class Model:
                     if self.native_rewards:self.run(FOCI[n.v].one('completion_reward'))
             elif n.k=='unlock_national_focus':self.completed.add(n.v)
             elif n.k=='load_focus_tree':self.loads.append(n.value('tree') if isinstance(n.v,list) else n.v)
-            elif n.k=='country_event':self.events.append((n.value('id'),self.day+int(n.value('days','0'))) if isinstance(n.v,list) else (n.v,self.day))
+            elif n.k=='country_event':
+                assert self.scope=='country',('country event sent from',self.scope)
+                self.events.append((n.value('id'),self.day+int(n.value('days','0'))) if isinstance(n.v,list) else (n.v,self.day))
             elif n.k=='activate_mission':
                 if n.v not in self.missions and n.v not in self.finished:self.missions[n.v]=self.day+int(MISSIONS[n.v].value('days_mission_timeout'))
             elif n.k.isdigit():
@@ -133,6 +137,8 @@ def main():
     assert len(EVENTS['russia_events.924'].children('option'))==1
     for key in ['russia_events.922','russia_events.923']:assert 'NOT = { has_country_flag = RUS_opening_active }' in EVENTS[key].one('trigger').raw()
     assert EVENTS['russia_events.112'].raw().index('RUS_opening_request_army_minister')<EVENTS['russia_events.112'].raw().index('kill_character')
+    funeral=EVENTS['russia_events.112'].children('option')[0]
+    assert any(n.one('country_event') and n.one('country_event').value('id')=='russia_events.113' for n in funeral.children('RUS'))
     assert not ON.children('on_daily') and len(ON.children('on_daily_RUS'))==1
     assert ON.one('on_startup').one('effect').one('RUS').value('country_event')=='rus_opening.3'
     boot=EVENTS['rus_opening.3'];assert boot.value('hidden')==boot.value('is_triggered_only')==boot.value('fire_only_once')=='yes'
@@ -184,6 +190,11 @@ def main():
         assert set(m.resources)=={(644,'steel',10),(397,'steel',12)}
         assert all('RUS_opening_prebuilt_'+p in m.flags for p in build.PROJECTS)
     initialiser=EFFECTS['RUS_opening_initialise'].raw()
+    assert [n.v for n in parse(COUNTRY_HISTORY) if n.k=='add_ideas' and n.v=='tak']==['tak']
+    assert 'add_ideas = tak' not in initialiser
+    concern=next(n for root in load(ROOT/'common/ideas/RUS ideas (Russia).txt') for category in root.v if category.k=='industrial_concern' for n in category.v if n.k=='tak')
+    assert concern.one('modifier').value('production_speed_industrial_complex_factor')=='0.1'
+    assert concern.one('modifier').value('production_speed_arms_factory_factor')=='0.1'
     assert not any(word in initialiser for word in ['add_building_construction','add_extra_state_shared_building_slots','add_resource','RUS_opening_prebuilt_','RUS_completed_voskhod_projects','RUS_voskhod_cap'])
     rng=random.Random(20261018)
     for _ in range(60):
@@ -198,6 +209,26 @@ def main():
             assert m.events==([(f'rus_opening.{num}',1)] if level>=5 else [])
     m=Model();m.flags.add(build.ACTIVE);m.v['RUS_military_anger']=5;m.run(EFFECTS['RUS_opening_check_military_anger']);assert not m.events
     m.v['RUS_military_anger']=1;m.flags.add('RUS_opening_denikin_minister');m.run(EFFECTS['RUS_opening_check_military_anger']);assert m.events==[('rus_opening.2',1)]
+    # Kornilov's death is a unit-leader event: nested helpers must select a
+    # country recipient, and a queued popup must not count as delivered yet.
+    for minister,num in [('wrangel',1),('denikin',2)]:
+        m=Model();m.scope='unit_leader';m.flags.add(build.ACTIVE)
+        m.run(EFFECTS['RUS_opening_request_army_minister']);m.run(EFFECTS['RUS_opening_request_army_minister'])
+        assert m.scope=='unit_leader' and m.events==[('russia_events.124',1)]
+        m.events.clear();m.flags.add('RUS_opening_'+minister+'_minister');m.v['RUS_military_anger']=5
+        m.run(EFFECTS['RUS_opening_check_military_anger']);m.run(EFFECTS['RUS_opening_check_military_anger'])
+        assert m.events==[(f'rus_opening.{num}',1)] and m.scope=='unit_leader'
+        assert 'RUS_opening_military_warning_queued' in m.flags and 'RUS_opening_military_warning_sent' not in m.flags
+        m.scope='country';event=EVENTS[f'rus_opening.{num}'];assert m.cond(event.one('trigger'))
+        m.run(event.one('immediate'));assert 'RUS_opening_military_warning_sent' in m.flags
+        m.run(EFFECTS['RUS_opening_check_military_anger']);assert len(m.events)==1
+        m.run([n for n in event.one('option').v if n.k!='name'])
+        assert m.missions=={'RUS_opening_military_action':180} and 'RUS_opening_military_warning_queued' not in m.flags
+        m.run(EFFECTS['RUS_opening_check_military_anger']);assert len(m.events)==1
+    # A pre-emptive sent marker alone cannot suppress a warning without a queue
+    # or countdown. No reward, phase, or anger value is reset to retry delivery.
+    m=Model();m.flags.update([build.ACTIVE,'RUS_opening_denikin_minister','RUS_opening_military_threshold_reached','RUS_opening_military_warning_sent']);m.v['RUS_military_anger']=4
+    m.tick();m.tick();assert m.events==[('rus_opening.2',2)] and m.v['RUS_military_anger']==4 and m.manpower==1000000
     for event in ['rus_opening.1','rus_opening.2']:
         m=Model();m.flags.add(build.ACTIVE);opt=EVENTS[event].children('option')[0];m.run([n for n in opt.v if n.k not in ['name']]);m.run([n for n in opt.v if n.k not in ['name']]);assert m.missions=={'RUS_opening_military_action':180}
         for _ in range(180):m.tick()
@@ -222,6 +253,8 @@ def main():
         assert sum(n.k==key for p in (ROOT/'common/scripted_effects').glob('*.txt') for n in load(p))==1
         assert any(n.k==key for n in load(ROOT/owner))
     decision_roots=load(ROOT/build.DC);decisions={n.k:n for c in decision_roots for n in c.v if isinstance(c.v,list)}
+    voskhod=next(c for c in decision_roots if c.k=='RUS_voskhod_decisions')
+    assert 'RUS_decrease_black_monday' not in voskhod.raw() and 'RUS_black_monday' not in voskhod.raw()
     assert decisions['RUS_utilise_army'].value('fire_only_once')=='yes'
     assert decisions['RUS_RASOLKO'].one('visible').value('always')=='no'
     assert decisions['RUS_nationalise_AEG_electrical_facilities'].value('days_remove')=='RUS_tesla_industry_time_180?180'
@@ -230,6 +263,14 @@ def main():
         p=ROOT/f'localisation/{lang}/replace/RUS_savinkov_opening_l_{lang}.yml';raw=p.read_bytes();assert raw.startswith(b'\xef\xbb\xbf');keys=re.findall(r'^\s*(\w+):',raw.decode('utf-8-sig'),re.M);assert len(keys)==len(set(keys))
         daily=next(line for line in raw.decode('utf-8-sig').splitlines() if line.strip().startswith('RUS_opening_daily_manpower_tt:'))
         assert '£manpower_texticon£' in daily and '§R-200§!' in daily and '−200' not in daily and '—200' not in daily
+        values={m.group(1):json.loads(m.group(2)) for m in re.finditer(r'^\s*(\w+): (".*")$',raw.decode('utf-8-sig'),re.M)}
+        assert values['RUS_opening_anger_rules_legacy']==build.SPEC['unrest_descriptions'][lang]
+        assert '1938' not in values['RUS_opening_anger_rules'] and '180' in values['RUS_opening_anger_rules']
+        assert values['RUS_anger_decisions_natpop']=='[RUSOpeningAngerDescription]'
+    dynamic=load(ROOT/'common/scripted_localisation/RUS_savinkov_opening_loc.txt')[0]
+    assert dynamic.value('name')=='RUSOpeningAngerDescription'
+    assert dynamic.children('text')[0].one('trigger').value('has_country_flag')==build.ACTIVE
+    assert dynamic.children('text')[1].value('localization_key')=='RUS_opening_anger_rules_legacy'
     print('PASS: ten-focus isolated opening, zero-time country-history projects and accounting, no startup reward replay, 12 pictured event outcomes, 60 popularity conservation cases, thresholds, minister deferral, 7/180-day lifecycles, stage handoff, single daily manpower hook, original effects preserved, and localisation BOM/keys.')
 
 if __name__=='__main__':main()

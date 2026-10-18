@@ -19,7 +19,11 @@ country_event = {
     picture = GFX_report_event_RUS_wrangel
     is_triggered_only = yes
     fire_only_once = yes
-    trigger = { has_country_flag = RUS_opening_active has_government = national_populist }
+    trigger = { tag = RUS has_country_flag = RUS_opening_active has_government = national_populist NOT = { has_country_flag = RUS_opening_military_countdown_started } }
+    immediate = {
+        set_country_flag = RUS_opening_military_warning_sent
+        log = "RUS opening military warning displayed: rus_opening.1"
+    }
     option = {
         name = rus_opening.1.a
         custom_effect_tooltip = RUS_opening_military_warning_tt
@@ -27,6 +31,7 @@ country_event = {
             if = {
                 limit = { NOT = { has_country_flag = RUS_opening_military_countdown_started } }
                 set_country_flag = RUS_opening_military_countdown_started
+                clr_country_flag = RUS_opening_military_warning_queued
                 activate_mission = RUS_opening_military_action
             }
         }
@@ -40,7 +45,11 @@ country_event = {
     picture = GFX_report_event_RUS_denikin
     is_triggered_only = yes
     fire_only_once = yes
-    trigger = { has_country_flag = RUS_opening_active has_government = national_populist }
+    trigger = { tag = RUS has_country_flag = RUS_opening_active has_government = national_populist NOT = { has_country_flag = RUS_opening_military_countdown_started } }
+    immediate = {
+        set_country_flag = RUS_opening_military_warning_sent
+        log = "RUS opening military warning displayed: rus_opening.2"
+    }
     option = {
         name = rus_opening.2.a
         custom_effect_tooltip = RUS_opening_military_warning_tt
@@ -48,6 +57,7 @@ country_event = {
             if = {
                 limit = { NOT = { has_country_flag = RUS_opening_military_countdown_started } }
                 set_country_flag = RUS_opening_military_countdown_started
+                clr_country_flag = RUS_opening_military_warning_queued
                 activate_mission = RUS_opening_military_action
             }
         }
