@@ -18,7 +18,7 @@ class Model:
     def __init__(self,reward_on_complete=True):
         self.flags=set();self.ideas=set();self.v={};self.temp={};self.pop={p:68/9 for p in build.PARTIES}|{'national_populist':32}
         self.gov='national_populist';self.tag='RUS';self.leader=True;self.manpower=1000000;self.pp=0
-        self.completed=set();self.native_rewards=reward_on_complete;self.loads=[];self.events=[];self.missions={};self.finished=set();self.day=0;self.buildings=[];self.slots=[];self.resources=[];self.external=Counter();self.state=None
+        self.completed=set();self.native_rewards=reward_on_complete;self.popups=[];self.loads=[];self.events=[];self.missions={};self.finished=set();self.day=0;self.buildings=[];self.slots=[];self.resources=[];self.external=Counter();self.state=None
 
     def number(self,value):
         if isinstance(value,list):
@@ -87,8 +87,10 @@ class Model:
             elif n.k=='add_political_power':self.pp+=self.number(n.v)
             elif n.k=='complete_national_focus':
                 if n.v not in self.completed:
+                    self.popups.append(n.v)
                     self.completed.add(n.v)
                     if self.native_rewards:self.run(FOCI[n.v].one('completion_reward'))
+            elif n.k=='unlock_national_focus':self.completed.add(n.v)
             elif n.k=='load_focus_tree':self.loads.append(n.value('tree') if isinstance(n.v,list) else n.v)
             elif n.k=='country_event':self.events.append((n.value('id'),self.day+int(n.value('days','0'))) if isinstance(n.v,list) else (n.v,self.day))
             elif n.k=='activate_mission':
@@ -130,6 +132,17 @@ def main():
     for key in ['russia_events.922','russia_events.923']:assert 'NOT = { has_country_flag = RUS_opening_active }' in EVENTS[key].one('trigger').raw()
     assert EVENTS['russia_events.112'].raw().index('RUS_opening_request_army_minister')<EVENTS['russia_events.112'].raw().index('kill_character')
     assert not ON.children('on_daily') and len(ON.children('on_daily_RUS'))==1
+    assert ON.one('on_startup').one('effect').one('RUS').value('country_event')=='rus_opening.3'
+    boot=EVENTS['rus_opening.3'];assert boot.value('hidden')==boot.value('is_triggered_only')==boot.value('fire_only_once')=='yes'
+    assert boot.one('immediate').value('RUS_opening_initialise')=='yes'
+    assert 'complete_national_focus' not in EFFECTS['RUS_opening_initialise'].raw()
+    legacy=next(n for n in load(ROOT/build.F) if n.k=='focus_tree')
+    m=Model()
+    for focus in legacy.children('focus'):
+        gates=[n for n in focus.one('allow_branch').children('NOT') if n.value('has_government')=='national_populist']
+        assert gates and not m.cond([gates[-1]]),focus.value('id')
+    for focus in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt'):
+        assert not m.cond(focus.one('allow_branch')),focus.value('id')
     # Validate native sprite registration as well as syntactic icon fields.
     game=ROOT.parents[3]/'common/Hearts of Iron IV'
     registered=set()
@@ -147,11 +160,15 @@ def main():
         m.run(EFFECTS['RUS_opening_initialise']);assert m.__dict__==snapshot,'Startup replay changed rewards'
         assert m.completed=={'RUS_voskhod','RUS_artelizatsiya'} and m.loads==[build.TREE]
         assert m.v['RUS_voskhod_cap']==m.v['RUS_voskhod_remaining_mp']==420000 and m.v['RUS_voskhod_current_mp']==m.v['RUS_voskhod_total_mp']==0
-        assert m.v['RUS_completed_voskhod_projects']==5 and m.manpower==1000000 and m.pp==0 and not m.events
+        assert m.v['RUS_completed_voskhod_projects']==5 and m.manpower==1000000 and m.pp==0 and not m.events and not m.popups
         assert m.external['RUS_select_AEG_nationalisation_states']==1
         assert len(m.buildings)==13 and all(x[3]=='yes' for x in m.buildings)
         assert sum(x[2] for x in m.buildings if x[1]=='industrial_complex')==8
+        assert sum(x[2] for x in m.buildings if x[1]=='infrastructure')==8 and sum(n for _,n in m.slots)==8
+        expected=Counter((int(s.k),n.value('type'),int(n.value('level'))) for raw in build.SPEC['completed_projects'].values() for s in parse(raw)[0].v if s.k.isdigit() for n in s.children('add_building_construction'))
+        assert Counter((s,t,n) for s,t,n,_ in m.buildings)==expected
         assert set(m.resources)=={(644,'steel',10),(397,'steel',12)}
+        assert all('RUS_opening_prebuilt_'+p in m.flags for p in build.PROJECTS)
     rng=random.Random(20261018)
     for _ in range(60):
         m=Model();weights=[rng.random()**4 for _ in range(10)];total=sum(weights);m.pop=dict(zip(build.PARTIES+['national_populist'],[100*x/total for x in weights]));before=m.pop.copy();m.run(EFFECTS['RUS_opening_transfer_opposition_support'])
@@ -195,6 +212,8 @@ def main():
     for p in build.PROJECTS:assert 'RUS_opening_prebuilt_'+p in decisions[p].one('visible').raw()
     for lang in ['simp_chinese','english','russian']:
         p=ROOT/f'localisation/{lang}/replace/RUS_savinkov_opening_l_{lang}.yml';raw=p.read_bytes();assert raw.startswith(b'\xef\xbb\xbf');keys=re.findall(r'^\s*(\w+):',raw.decode('utf-8-sig'),re.M);assert len(keys)==len(set(keys))
+        daily=next(line for line in raw.decode('utf-8-sig').splitlines() if line.strip().startswith('RUS_opening_daily_manpower_tt:'))
+        assert '£manpower_texticon£' in daily and '§R-200§!' in daily and '−200' not in daily and '—200' not in daily
     print('PASS: ten-focus isolated opening, 12 pictured event outcomes, 60 popularity conservation cases, startup reward-on/off replay, thresholds, minister deferral, 7/180-day lifecycles, stage handoff, single daily manpower hook, original effects preserved, and localisation BOM/keys.')
 
 if __name__=='__main__':main()

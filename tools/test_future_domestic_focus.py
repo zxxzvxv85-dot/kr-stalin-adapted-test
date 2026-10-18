@@ -29,6 +29,7 @@ def main():
     phase_file=load(ROOT/'common/national_focus/00_RUS_future_five_year_plan_skeleton.txt')
     plan=[n for n in phase_file if n.k=='shared_focus']
     assert len(domestic)==154 and all(n.k=='shared_focus' for n in domestic)
+    assert all(n.one('allow_branch').one('NOT').value('has_government')=='national_populist' for n in domestic)
     assert len(plan)==17 and {n.value('id') for n in plan}==plan_ids
     new=domestic+plan
     by_id = {n.value('id'):n for n in new}

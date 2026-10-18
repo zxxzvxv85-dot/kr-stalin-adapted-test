@@ -120,11 +120,10 @@ RUS_opening_initialise = {
 		limit = { tag = RUS has_government = national_populist NOT = { has_country_flag = RUS_opening_initialised } }
 		set_country_flag = RUS_opening_initialised
 		set_country_flag = RUS_opening_active
-		set_country_flag = RUS_opening_initialising
 		load_focus_tree = { tree = RUS_savinkov_opening_tree keep_completed = yes }
-		complete_national_focus = RUS_voskhod
-		complete_national_focus = RUS_artelizatsiya
-		clr_country_flag = RUS_opening_initialising
+		# Native bypass records completion without a completion popup or reward replay.
+		unlock_national_focus = RUS_artelizatsiya
+		unlock_national_focus = RUS_voskhod
 		add_ideas = RUS_artels
 		add_ideas = RUS_opening_unfinished_land_reform
 		add_ideas = RUS_opening_disordered_industry
@@ -208,5 +207,6 @@ RUS_opening_initialise = {
 		activate_targeted_decision = { target = 722 decision = RUS_pechenganikel_mining_works }
 		activate_targeted_decision = { target = 233 decision = RUS_vladikavkaz_steel }
 		activate_targeted_decision = { target = ROOT decision = RUS_end_the_programme }
+		mark_focus_tree_layout_dirty = yes
 	}
 }

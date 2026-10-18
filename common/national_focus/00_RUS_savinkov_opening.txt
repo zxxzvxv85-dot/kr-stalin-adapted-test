@@ -173,8 +173,6 @@ shared_focus = {
 		}
 		ai_will_do = { factor = 10 }
 		completion_reward = {
-		if = {
-			limit = { NOT = { has_country_flag = RUS_opening_initialising } }
 			log = "[GetLogRoot]: Focus Completed RUS_artelizatsiya"
 			add_ideas = RUS_artels
 			if = {
@@ -191,7 +189,6 @@ shared_focus = {
 				country_event = { id = russia_events.232 days = 90 } #The Solidarist Labour Movement
 			}
 		}
-	}
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 
 	allow_branch = { has_government = national_populist }
@@ -289,8 +286,6 @@ shared_focus = {
 			country_event = russia_events.270 #A Question of Funding
 		}
 		completion_reward = {
-		if = {
-			limit = { NOT = { has_country_flag = RUS_opening_initialising } }
 			log = "[GetLogRoot]: Focus Completed RUS_voskhod"
 			custom_effect_tooltip = RUS_voskhod_anger
 			custom_effect_tooltip = tooltip_white_line
@@ -326,7 +321,6 @@ shared_focus = {
 				country_event = russia_events.280 #The Voskhod Programme
 			}
 		}
-	}
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 
 	allow_branch = { has_government = national_populist }

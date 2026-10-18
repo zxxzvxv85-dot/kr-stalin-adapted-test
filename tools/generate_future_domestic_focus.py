@@ -258,6 +258,8 @@ def render_outputs():
         text += ['\t\thas_completed_focus = '+s for s,t in meta['hidden_required_edges'] if t==key]
         text += ['\t\tcustom_trigger_tooltip = {',
                  '\t\t\ttooltip = RUS_future_domestic_preview_only_tt', '\t\t\talways = no', '\t\t}', '\t}']
+        if node['phase']=='domestic':
+            text += ['\tallow_branch = { NOT = { has_government = national_populist } }']
         if parents[key]:
             text += ['\tprerequisite = { '+ ' '.join('focus = '+p for p in parents[key])+' }']
         for other in exclusive[key]:
