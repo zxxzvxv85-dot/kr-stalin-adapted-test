@@ -1,7 +1,7 @@
 """A presentation-only RSFSR major entry linking to the existing RUS start.
 
-Default/--check is read-only. --write updates the display-only RSB profile and
-native UI; actual RUS history and source artwork remain unchanged.
+Default/--check is read-only. --write updates the RUS-linked showcase and
+recruits one roleless display character. Actual RUS government is unchanged.
 """
 from pathlib import Path
 import argparse,json,re
@@ -13,6 +13,10 @@ BOOKMARK='common/bookmarks/the_gathering_storm.txt'
 GUI='interface/frontendgamesetupview.gui'
 DESC='RUS_rsfsr_bookmark_history'
 LABEL='RUS_rsfsr_bookmark_card_label'
+HISTORY='history/countries/RUS - Russia.txt'
+BEGIN=b'# BEGIN roleless RSFSR bookmark portrait'
+END=b'# END roleless RSFSR bookmark portrait'
+OBSOLETE=['common/country_tags/zz_RUS_rsfsr_bookmark.txt','common/countries/RUS RSFSR Showcase.txt','history/countries/RSB - RSFSR Showcase.txt','common/on_actions/00_RUS_rsfsr_bookmark.txt','gfx/flags/RSB.tga','gfx/flags/medium/RSB.tga','gfx/flags/small/RSB.tga']
 
 def patch(text,spans):
     for start,end,new in sorted(spans,reverse=True):text=text[:start]+new+text[end:]
@@ -30,11 +34,12 @@ def render_bookmark():
     bookmark=parse(text)[0].one('bookmark')
     majors=[n for n in bookmark.v if isinstance(n.v,list) and n.one('ideology') and n.value('minor')!='yes']
     placeholder=majors[SPEC['major_slot']];assert placeholder.k=='AAA'
-    entry='''RSB = {
-            # Landless display profile. on_startup hands its player to RUS.
+    entry='''RUS = {
+            # Native portrait showcase only. Selection remains the real RUS.
             version = all_the_russias
             history = RUS_rsfsr_bookmark_history
             ideology = communist
+            override_leader_portrait = RUS_rsfsr_stalin_showcase
             focuses = {
                 RUS_reverse_the_october_revolution
                 RUS_future_foreign_005
@@ -85,8 +90,8 @@ def render_gui():
                 }
             }
         }'''
-    # Only the long two-line name needs an overlay. The native entry now owns
-    # the portrait, tooltip, cloth flag, frame and selected-country info.
+    # The portrait uses native bookmark support. The fifth flag is a passive
+    # flag plus the same native cloth overlay, only in this interesting slot.
     filters=next(n for n in window.children('OverlappingElementsBoxType') if n.value('name').strip('"')=='filters')
     overlay='''containerWindowType = {
             name = "RUS_rsfsr_bookmark_caption"
@@ -107,12 +112,33 @@ def render_gui():
             }
         }
 
+        iconType = {
+            name = "RUS_rsfsr_bookmark_flag"
+            quadTextureSprite = "GFX_RUS_rsfsr_bookmark_flag"
+            position = { x = 594 y = 145 }
+            scale = 2.0
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "RUS_rsfsr_bookmark_cloth"
+            quadTextureSprite = "GFX_RUS_rsfsr_bookmark_cloth"
+            position = { x = 594 y = 145 }
+            alwaystransparent = yes
+        }
         '''
     return patch(text,[(backdrop.a,backdrop.b,replacement),(logo.a,logo.b,logo_raw),(cover.a,cover.b,cover_raw),(filters.a,filters.a,overlay)])
 
 def outputs():
     data={BOOKMARK:render_bookmark().encode('utf-8'),GUI:render_gui().encode('utf-8')}
     data['interface/RUS_rsfsr_bookmark.gfx']=('spriteTypes = {\n'+'''
+    spriteType = {
+        name = "GFX_RUS_rsfsr_bookmark_flag"
+        texturefile = "gfx/flags/medium/RUS_sov_5.tga"
+    }
+    spriteType = {
+        name = "GFX_RUS_rsfsr_bookmark_cloth"
+        texturefile = "gfx/interface/flag_overlay.dds"
+    }
     corneredTileSpriteType = {
         name = "GFX_RUS_rsfsr_bookmark_caption_bg"
         size = { x = 172 y = 38 }
@@ -123,62 +149,35 @@ def outputs():
     }
 }
 ''').encode('utf-8')
-    data['common/country_tags/zz_RUS_rsfsr_bookmark.txt']=b'RSB = "countries/RUS RSFSR Showcase.txt"\n'
-    data['common/countries/RUS RSFSR Showcase.txt']=b'graphical_culture = eastern_european_gfx\ngraphical_culture_2d = eastern_european_2d\ncolor = { 180 30 30 }\n'
     data['common/characters/RUS_rsfsr_bookmark.txt']=b'''characters = {
-    RSB_iosif_stalin_showcase = {
-        name = RUS_iosif_stalin
+    # Same roleless-portrait pattern as vanilla JAP_emperor_hirohito.
+    RUS_rsfsr_stalin_showcase = {
+        name = RUS_rsfsr_stalin_showcase
         portraits = {
             civilian = {
                 large = GFX_portrait_RUS_iosif_stalin_civilian_large
                 small = GFX_portrait_RUS_iosif_stalin_civilian_small
             }
         }
-        country_leader = {
-            desc = RUS_iosif_stalin_leader_desc
-            ideology = marxism_leninism_subtype
-            traits = { RUS_stalin_hearts_of_iron }
-        }
     }
 }
 '''
-    data['history/countries/RSB - RSFSR Showcase.txt']=b'''# Landless country used only by the selection screen. Never give it states.
-capital = 219
-set_politics = { ruling_party = communist elections_allowed = no }
-set_popularities = { communist = 100 }
-recruit_character = RSB_iosif_stalin_showcase
-'''
-    data['common/on_actions/00_RUS_rsfsr_bookmark.txt']=b'''on_actions = {
-    on_startup = {
-        effect = {
-            # Same native player handoff as KR on_actions_Central_Asia KAZ/TRK.
-            # Nothing runs when RSB is AI (including subsequent RUS save loads).
-            RSB = {
-                if = {
-                    limit = { is_ai = no }
-                    RUS = { change_tag_from = PREV }
-                }
-            }
-        }
-    }
-}
-'''
-    for size in ['', 'medium/', 'small/']:
-        data['gfx/flags/'+size+'RSB.tga']=(ROOT/('gfx/flags/'+size+'RUS_sov_5.tga')).read_bytes()
+    history=(ROOT/HISTORY).read_bytes()
+    block=BEGIN+b'\nrecruit_character = RUS_rsfsr_stalin_showcase\n'+END+b'\n'
+    if BEGIN in history:
+        history,count=re.subn(re.escape(BEGIN)+rb'.*?'+re.escape(END)+rb'\r?\n?',lambda _:block,history,flags=re.S)
+        assert count==1
+    else:history+=b'\n'+block
+    data[HISTORY]=history
     histories={
         'simp_chinese':SPEC['history'],
         'english':'At first, under Vladimir Lenin’s passionate leadership, the Bolsheviks became known throughout Russia, supported by those with the bleakest prospects.\n\nBut events turned against them. As the revolution changed, the hoped-for unity of the left failed to materialise. Opportunist Socialist Revolutionaries betrayed the revolution, and Lenin perished in that betrayal. The once-promising Russian revolution collapsed; the Bolsheviks could only leave their homeland and seek another path…',
         'russian':'Поначалу под вдохновенным руководством Владимира Ленина большевики стали известны по всей стране, получив поддержку самых обездоленных.\n\nНо надежды не сбылись. В стремительно менявшейся революционной обстановке ожидаемое народом единство левых так и не наступило. Эсеры-оппортунисты предали революцию, и товарищ Ленин погиб. Некогда многообещающая русская революция потерпела крах, а большевикам оставалось лишь покинуть родину и искать иной путь…'
     }
     labels={'simp_chinese':SPEC['card_label'],'english':'Russian Soviet\nFederative Republic','russian':'Российская Советская\nФедеративная Республика'}
-    names={'simp_chinese':SPEC['name'],'english':'Russian Soviet Federative Socialist Republic','russian':'Российская Советская Федеративная Социалистическая Республика'}
-    parties={'simp_chinese':'俄共（布）','english':'RCP(b)','russian':'РКП(б)'}
-    long_parties={'simp_chinese':'俄罗斯共产党（布尔什维克）','english':'Russian Communist Party (Bolsheviks)','russian':'Российская коммунистическая партия (большевиков)'}
     for lang in histories:
         rows=['l_'+lang+':',' '+DESC+': '+json.dumps(histories[lang],ensure_ascii=False),' '+LABEL+': '+json.dumps(labels[lang],ensure_ascii=False)]
-        for key in ['RSB','RSB_DEF','RSB_communist','RSB_communist_DEF']:
-            rows.append(' '+key+': '+json.dumps(names[lang],ensure_ascii=False))
-        for key,val in [('RSB_ADJ',{'simp_chinese':'俄罗斯','english':'Russian','russian':'Российск.'}[lang]),('RSB_communist_party',parties[lang]),('RSB_communist_party_long',long_parties[lang])]:
+        for key,val in [('RUS_rsfsr_stalin_showcase','$RUS_iosif_stalin$'),('RUS_rsfsr_stalin_showcase_override_instant','§Y$RUS_stalin_hearts_of_iron$§!'),('RUS_rsfsr_stalin_showcase_override_delayed','')]:
             rows.append(' '+key+': '+json.dumps(val,ensure_ascii=False))
         data[f'localisation/{lang}/RUS_rsfsr_bookmark_l_{lang}.yml']=('\n'.join(rows)+'\n').encode('utf-8-sig')
     return data
@@ -190,9 +189,13 @@ def main():
         if path.endswith(('.txt','.gui')):parse(raw.decode('utf-8-sig'))
     if args.write:
         for path,raw in generated.items():p=ROOT/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw)
-        print('Wrote landless RSB showcase, native selection UI and RSB-to-RUS player handoff; actual RUS history unchanged.')
+        for path in OBSOLETE:
+            p=(ROOT/path).resolve();assert p.is_relative_to(ROOT.resolve())
+            if p.exists():p.unlink()
+        print('Wrote real-RUS selection with a recruited roleless portrait; removed landless country and player handoff.')
     else:
         stale=[p for p,v in generated.items() if not (ROOT/p).exists() or (ROOT/p).read_bytes()!=v]
+        stale+=['obsolete '+p for p in OBSOLETE if (ROOT/p).exists()]
         if stale:print('STALE: '+', '.join(stale));return 1
         print('PASS: RUS-linked RSFSR showcase files match their sources.')
     return 0
