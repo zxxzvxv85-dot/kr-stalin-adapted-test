@@ -12,35 +12,73 @@ def main():
     original=load(build.KR/build.BOOKMARK)[0].one('bookmark')
     actual=load(build.ROOT/build.BOOKMARK)[0].one('bookmark')
     old=major_nodes(original);new=major_nodes(actual)
-    assert len(new)==len(old) and old[6].k=='AAA' and new[6].k=='RUS'
+    assert len(new)==len(old) and old[6].k=='AAA' and new[6].k=='RSB'
     entry=new[6]
-    assert entry.value('ideology')=='totalist' and entry.value('override_leader_portrait')=='RUS_iosif_stalin'
-    assert entry.value('history')==build.DESC and sum(n.k=='RUS' for n in new)==2
+    assert entry.value('ideology')=='communist' and entry.value('override_leader_portrait')=='RSB_iosif_stalin_showcase'
+    assert entry.value('history')==build.DESC and sum(n.k=='RUS' for n in new)==1
     assert all(a.norm()==b.norm() for i,(a,b) in enumerate(zip(old,new)) if i!=6)
     assert [n.norm() for n in actual.v if n is not entry]==[n.norm() for n in original.v if n is not old[6]]
     assert actual.one('effect').norm()==original.one('effect').norm(),'Bookmark must not alter the actual starting country'
     a=get_window(load(build.ROOT/build.GUI));b=get_window(load(build.KR/build.GUI))
-    ignored={'backdrop_3','kr_logo','coverup_3','RUS_rsfsr_bookmark_caption','RUS_rsfsr_bookmark_flag','RUS_rsfsr_bookmark_portrait'}
+    ignored={'backdrop_3','kr_logo','coverup_3','RUS_rsfsr_bookmark_caption'}
     assert [n.norm() for n in a.v if n.value('name').strip('"') not in ignored]==[n.norm() for n in b.v if n.value('name').strip('"') not in ignored]
-    portrait=next(n for n in a.v if n.value('name').strip('"')=='RUS_rsfsr_bookmark_portrait')
-    assert portrait.k=='iconType' and portrait.value('alwaystransparent')=='yes'
-    assert portrait.value('quadTextureSprite').strip('"')=='GFX_portrait_RUS_iosif_stalin_civilian_large'
+    assert not any(n.value('name').strip('"') in {'RUS_rsfsr_bookmark_portrait','RUS_rsfsr_bookmark_flag'} for n in a.v),'Do not cover the native portrait tooltip, cloth flag or selected frame'
     original_entries=load(build.KR/build.GUI)[0];actual_entries=load(build.ROOT/build.GUI)[0]
     template=next(n for n in original_entries.v if n.value('name').strip('"')=='country_entry')
     assert template.norm()==next(n for n in actual_entries.v if n.value('name').strip('"')=='country_entry').norm(),'Do not replace the portrait of every country'
-    native=next(n for n in template.children('buttonType') if n.value('name').strip('"')=='country_leader')
     grid=next(n for n in a.v if n.value('name').strip('"')=='countries')
-    assert int(portrait.one('position').value('x'))==int(grid.one('position').value('x'))+172*3+int(native.one('position').value('x'))
-    assert int(portrait.one('position').value('y'))==int(grid.one('position').value('y'))+int(native.one('position').value('y'))
-    assert portrait.value('scale')==native.value('scale')
-    sprite=next(n for n in load(build.ROOT/'interface/Stalin_form_sov.gfx')[0].v if n.value('name').strip('"')==portrait.value('quadTextureSprite').strip('"'))
+    char=load(build.ROOT/'common/characters/RUS_rsfsr_bookmark.txt')[0].one('RSB_iosif_stalin_showcase')
+    assert char.value('name')=='RUS_iosif_stalin'
+    leader=char.one('country_leader')
+    assert leader.value('desc')=='RUS_iosif_stalin_leader_desc' and leader.value('ideology')=='marxism_leninism_subtype'
+    large=char.one('portraits').one('civilian').value('large')
+    assert large=='GFX_portrait_RUS_iosif_stalin_civilian_large'
+    sprite=next(n for n in load(build.ROOT/'interface/Stalin_form_sov.gfx')[0].v if n.value('name').strip('"')==large)
     with Image.open(build.ROOT/sprite.value('texturefile').strip('"')) as im:
-        assert im.size==(156,210) and im.mode=='RGB','The explicit portrait must fully cover the native 48x65 portrait'
+        assert im.size==(156,210) and im.mode=='RGB'
+    profile=load(build.ROOT/'history/countries/RSB - RSFSR Showcase.txt')
+    assert next(n for n in profile if n.k=='recruit_character').v==char.k
+    assert next(n for n in profile if n.k=='set_politics').value('ruling_party')=='communist'
+    assert next(n for n in profile if n.k=='set_politics').value('elections_allowed')=='no'
+    assert {n.k for n in profile}=={'capital','set_politics','set_popularities','recruit_character'}
+    tags=load(build.ROOT/'common/country_tags/zz_RUS_rsfsr_bookmark.txt')
+    assert len(tags)==1 and tags[0].k=='RSB'
+    assert (build.ROOT/'common'/tags[0].v.strip('"')).is_file()
+    # Follow the installed KR KAZ->TRK on_startup pattern exactly: only a human
+    # display tag is redirected, with PREV still bound to the display country.
+    hook=load(build.ROOT/'common/on_actions/00_RUS_rsfsr_bookmark.txt')[0]
+    branch=hook.one('on_startup').one('effect').one('RSB').one('if')
+    assert branch.one('limit').value('is_ai')=='no'
+    assert branch.one('RUS').value('change_tag_from')=='PREV'
+    assert {n.k for n in branch.v}=={'limit','RUS'}
+    kr_hook=load(build.KR/'common/on_actions/on_actions_Central_Asia.txt')[0].one('on_startup').one('effect').one('KAZ')
+    assert parse(kr_hook.raw().replace('KAZ','RSB').replace('TRK','RUS'))[0].norm()==hook.one('on_startup').one('effect').one('RSB').norm()
+    def execute(nodes,players,current=None,previous=None):
+        for node in nodes:
+            if node.k in {'RSB','RUS'}:
+                execute(node.v,players,node.k,current)
+            elif node.k=='if':
+                assert node.one('limit').value('is_ai')=='no'
+                if current in players:execute([n for n in node.v if n.k!='limit'],players,current,previous)
+            elif node.k=='change_tag_from':
+                assert node.v=='PREV' and previous in players
+                players.remove(previous);players.add(current)
+            else:raise AssertionError('Unexpected handoff operation: '+node.k)
+    for player in ['RSB','RUS','GER','AFG',None]:
+        players={player} if player else set()
+        execute(hook.one('on_startup').one('effect').v,players)
+        expected={'RUS' if player=='RSB' else player} if player else set()
+        assert players==expected
+        execute(hook.one('on_startup').one('effect').v,players)
+        assert players==expected,'Reload must not repeat the transfer or affect an ordinary RUS start'
+    # No territory, cores, units or real-RUS state are used to make the profile.
+    for folder in [build.ROOT/'history/states',build.KR/'history/states']:
+        assert not any(re.search(r'\b(?:owner|controller|add_core_of)\s*=\s*RSB\b',p.read_text(encoding='utf-8-sig')) for p in folder.glob('*.txt'))
     central=next(n for n in a.v if n.value('name').strip('"')=='backdrop_3')
     assert central.one('position').value('x')=='526' and central.value('clipping')=='yes'
     assert central.one('iconType').value('quadTextureSprite').strip('"')==build.SPEC['backdrop_sprite']
     caption=next(n for n in a.v if n.value('name').strip('"')=='RUS_rsfsr_bookmark_caption')
-    assert a.v.index(grid)<a.v.index(portrait)<a.v.index(caption),'Portrait must paint over the native leader but below the title'
+    assert a.v.index(grid)<a.v.index(caption)
     assert not caption.children('buttonType') and not caption.children('ButtonType')
     text=caption.one('instantTextBoxType');assert text.value('alwaystransparent')=='yes' and text.value('text').strip('"')==build.LABEL
     assert int(caption.one('position').value('x'))==526 and int(caption.one('size').value('width'))==172
@@ -75,13 +113,12 @@ def main():
     assert lower_bg.one('iconType').norm()==central.one('iconType').norm(),'Lower cover must continue the same painting at the same scale'
     for lang in ['simp_chinese','english','russian']:
         raw=(build.ROOT/f'localisation/{lang}/RUS_rsfsr_bookmark_l_{lang}.yml').read_bytes();assert raw.startswith(b'\xef\xbb\xbf')
-        keys=re.findall(r'^\s+([^ :]+):',raw.decode('utf-8-sig'),re.M);assert Counter(keys)==Counter([build.DESC,build.LABEL])
+        keys=re.findall(r'^\s+([^ :]+):',raw.decode('utf-8-sig'),re.M)
+        assert len(keys)==len(set(keys)) and {build.DESC,build.LABEL,'RSB','RSB_communist','RSB_communist_party','RSB_communist_party_long'}<=set(keys)
     assert (build.ROOT/'gfx/interface/rus_intro_portrait/lenin_painting.png').is_file()
     assert (build.ROOT/'interface/RUS_intro_portrait.gfx').is_file()
-    flag=next(n for n in a.v if n.value('name').strip('"')=='RUS_rsfsr_bookmark_flag')
-    assert flag.value('alwaystransparent')=='yes'
-    assert float(flag.value('scale'))==2.0
-    assert (build.ROOT/build.SPEC['flag_texture']).is_file()
-    print('PASS: opaque Stalin portrait overlays only the center native leader; lower placeholder masked; original RUS entry, shared controls and bookmark gameplay unchanged.')
+    for size in ['', 'medium/', 'small/']:
+        assert (build.ROOT/('gfx/flags/'+size+'RSB.tga')).read_bytes()==(build.ROOT/('gfx/flags/'+size+'RUS_sov_5.tga')).read_bytes()
+    print('PASS: independent landless Stalin profile supplies native portrait/tooltip/info/cloth flag/frame; fifth-flag bytes exact at all three sizes; human RSB handoff points to RUS; original RUS entry and actual country history untouched.')
 
 if __name__=='__main__':main()
