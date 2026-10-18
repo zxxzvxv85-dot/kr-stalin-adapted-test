@@ -128,12 +128,14 @@ RUS_voskhod_decisions = {
 			RUS_change_military_anger = yes
 		}
 		fixed_random_seed = no
-	}
+
+	fire_only_once = yes
+}
 
 	RUS_RASOLKO = {
 		icon = GFX_decision_generic_merge_plant_materiel
 		allowed = { always = no }
-		visible = { has_country_flag = RUS_voskhod_active }
+		visible = { always = no }
 		cancel_if_not_visible = yes
 		fire_only_once = yes
 		custom_cost_text = RUS_rasolko_cost
@@ -189,7 +191,9 @@ RUS_voskhod_decisions = {
 			}
 		}
 		fixed_random_seed = no
-	}
+
+	available = { always = no }
+}
 
 	RUS_nationalise_AEG_electrical_facilities = {
 		icon = GFX_decision_electrify
@@ -206,7 +210,7 @@ RUS_voskhod_decisions = {
 		custom_cost_trigger = {
 			NOT = { national_populist < 0.05 }
 		}
-		days_remove = RUS_tesla_industry_time_300?300
+		days_remove = RUS_tesla_industry_time_180?180
 		ai_will_do = { base = 25 }
 		complete_effect = {
 			log = "[GetLogRoot]: Decision complete RUS_nationalise_AEG_electrical_facilities"
@@ -313,7 +317,9 @@ RUS_voskhod_decisions = {
 			check_variable = { RUS_voskhod_remaining_mp > 79999 }
 			FROM = { is_fully_controlled_by = ROOT }
 		}
-		visible = { has_country_flag = RUS_voskhod_active }
+		visible = { has_country_flag = RUS_voskhod_active
+			NOT = { has_country_flag = RUS_opening_prebuilt_RUS_far_north_construction_trust }
+}
 		cancel_if_not_visible = yes
 		custom_cost_text = RUS_voskhod_cost_80
 		custom_cost_trigger = {
@@ -575,7 +581,9 @@ RUS_voskhod_decisions = {
 			check_variable = { RUS_voskhod_remaining_mp > 79999 }
 			FROM = { is_fully_controlled_by = ROOT }
 		}
-		visible = { has_country_flag = RUS_voskhod_active }
+		visible = { has_country_flag = RUS_voskhod_active
+			NOT = { has_country_flag = RUS_opening_prebuilt_RUS_moscow_volga_canal }
+}
 		cancel_if_not_visible = yes
 		custom_cost_text = RUS_voskhod_cost_80
 		custom_cost_trigger = {
@@ -666,7 +674,9 @@ RUS_voskhod_decisions = {
 			check_variable = { RUS_voskhod_remaining_mp > 49999 }
 			FROM = { is_fully_controlled_by = ROOT }
 		}
-		visible = { has_country_flag = RUS_voskhod_active }
+		visible = { has_country_flag = RUS_voskhod_active
+			NOT = { has_country_flag = RUS_opening_prebuilt_RUS_vorkuta_mining_centre }
+}
 		cancel_if_not_visible = yes
 		custom_cost_text = RUS_voskhod_cost_50
 		custom_cost_trigger = {
@@ -718,7 +728,9 @@ RUS_voskhod_decisions = {
 		}
 		visible = {
 			has_country_flag = RUS_voskhod_active
-		}
+
+			NOT = { has_country_flag = RUS_opening_prebuilt_RUS_artel_gigant }
+}
 		cancel_if_not_visible = yes
 		custom_cost_text = RUS_voskhod_cost_80
 		custom_cost_trigger = {
@@ -760,7 +772,9 @@ RUS_voskhod_decisions = {
 			check_variable = { RUS_voskhod_remaining_mp > 99999 }
 			FROM = { is_fully_controlled_by = ROOT }
 		}
-		visible = { has_country_flag = RUS_voskhod_active }
+		visible = { has_country_flag = RUS_voskhod_active
+			NOT = { has_country_flag = RUS_opening_prebuilt_RUS_siberian_township_programme }
+}
 		cancel_if_not_visible = yes
 		custom_cost_text = RUS_voskhod_cost_100
 		custom_cost_trigger = {

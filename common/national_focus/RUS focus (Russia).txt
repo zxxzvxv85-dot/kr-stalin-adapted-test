@@ -27,6 +27,19 @@ focus_tree = {
 
 	default = no
 
+	# BEGIN approved Savinkov opening shared focuses
+	shared_focus = RUS_opening_vozhd
+	shared_focus = RUS_opening_crackdown
+	shared_focus = RUS_control_supreme_court
+	shared_focus = RUS_establish_the_VES
+	shared_focus = RUS_savinkov_constitution
+	shared_focus = RUS_artelizatsiya
+	shared_focus = RUS_necessary_revenge
+	shared_focus = RUS_undercut_monarchists
+	shared_focus = RUS_voskhod
+	shared_focus = RUS_declare_russian_state
+	# END approved Savinkov opening shared focuses
+
 	# BEGIN RUS future domestic preview
 	shared_focus = RUS_future_domestic_154
 	shared_focus = RUS_future_domestic_133
@@ -248,198 +261,13 @@ focus_tree = {
 	continuous_focus_position = { x = 0 y = 5100 }
 
 	### Savinkov Tree ###
-	focus = {
-		id = RUS_control_supreme_court
-		icon = GFX_goal_RUS_supreme_court
-		cost = 5
 
-		x = 5
-		y = 0
 
-		allow_branch = { has_government = national_populist }
-		available = {
-			has_government = national_populist
-			NOT = { has_idea = RUS_entrenched_opposition }
-		}
-		ai_will_do = {
-			factor = 500
-			modifier = {
-				add = 500
-				has_country_flag = RUS_socialist_ai
-			}
-			modifier = {
-				add = 500
-				has_country_flag = RUS_savinkov_ai
-			}
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_control_supreme_court"
-			retire_character = RUS_vladimir_nabokov
-			country_event = russia_events.120
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
 
-	focus = {
-		id = RUS_savinkov_constitution
-		icon = GFX_goal_RUS_savinkov
-		cost = 5
 
-		relative_position_id = RUS_control_supreme_court
-		x = 0
-		y = 1
 
-		available = {
-			has_government = national_populist
-		}
-		prerequisite = {
-			focus = RUS_control_supreme_court
-		}
-		ai_will_do = {
-			base = 0
-			modifier = {
-				add = 1000
-				has_country_flag = RUS_savinkov_ai
-				has_completed_focus = RUS_end_vilnius_agreement
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					has_country_flag = RUS_republic_ai
-					has_country_flag = RUS_empire_ai
-				}
-			}
-		}
-		select_effect = {
-			log = "[GetLogRoot]: Select Focus RUS_savinkov_constitution"
-			country_event = russia_events.122 #The Basic Law of the RDFR of 1922
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_savinkov_constitution"
-			add_political_power = 100
-			add_country_leader_trait = RUS_supreme_commander
-			country_event = russia_events.126
-			hidden_effect = {
-				country_event = { id = russia_flavour_events.18 days = 30 } #The Old Svobodniks
-				country_event = { id = russia_events.231 days = 60 } #The National Union of Solidarists
-				country_event = { id = russia_flavour_events.21 days = 90 } #The Fellow-Travellers
-				country_event = { id = russia_flavour_events.19 days = 120 } #Eurasianist-Ideocrats
-			}
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MILITARY_CHARACTER FOCUS_FILTER_POLITICAL_CHARACTER }
-	}
 
-	focus = {
-		id = RUS_undercut_monarchists
-		icon = GFX_goal_crush_monarchy
-		cost = 4
 
-		relative_position_id = RUS_savinkov_constitution
-		x = 1
-		y = 1
-
-		available = {
-			has_government = national_populist
-		}
-		prerequisite = {
-			focus = RUS_savinkov_constitution
-		}
-		ai_will_do = {
-			factor = 15
-			modifier = {
-				factor = 0
-				NOT = { has_completed_focus = RUS_artelizatsiya }
-			}
-			modifier = {
-				add = 1000
-				AND = {
-					has_country_flag = RUS_savinkov_ai
-					has_completed_focus = RUS_end_vilnius_agreement
-				}
-			}
-			modifier = {
-				factor = 0
-				has_country_flag = RUS_savinkov_ai
-				NOT = { has_completed_focus = RUS_sponsor_belgrade }
-			}
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_undercut_monarchists"
-			set_temp_variable = { coalition_partner_var = token:authoritarian_democrat }
-			remove_from_coalition = yes
-			add_popularity = { ideology = authoritarian_democrat popularity = -0.1 }
-			custom_effect_tooltip = RUS_remove_SOR_tt
-			character_list_tooltip = {
-				limit = {
-					OR = {
-						RUS = { RUS_vasily_shulgin = { is_character = PREV.PREV } }
-						RUS = { RUS_ivan_ilyin = { is_character = PREV.PREV } }
-					}
-				}
-			}
-			hidden_effect = { country_event = russia_events.129 }
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
-
-	focus = {
-		id = RUS_necessary_revenge
-		icon = GFX_goal_RUS_oppression #GFX_focus_generic_conspiracy
-		cost = 4
-
-		relative_position_id = RUS_control_supreme_court
-		x = -1
-		y = 2
-
-		available = {
-			has_government = national_populist
-		}
-		prerequisite = {
-			focus = RUS_savinkov_constitution
-		}
-		ai_will_do = {
-			factor = 15
-			modifier = {
-				factor = 5
-				date > 1936.10.1
-			}
-			modifier = {
-				factor = 0
-				NOT = {
-					AND = {
-						has_completed_focus = RUS_voskhod
-						has_completed_focus = RUS_undercut_monarchists
-					}
-				}
-			}
-			modifier = {
-				add = 1000
-				AND = {
-					has_country_flag = RUS_savinkov_ai
-					has_completed_focus = RUS_end_vilnius_agreement
-				}
-			}
-		}
-		select_effect = {
-			log = "[GetLogRoot]: Select Focus RUS_necessary_revenge"
-			hidden_effect = {
-				country_event = { id = russia_events.130 days = 7 } #Mass Trials
-				country_event = { id = russia_events.127 days = 14 } #Labour Union Operation
-				country_event = { id = russia_events.128 days = 21 } #Extermination of the Radical-Democratic Party
-				country_event = { id = russia_flavour_events.176 days = 34 }
-				country_event = { id = russia_events.249 days = 50 random_days = 50 } #All-Russian Combat Organisation
-				country_event = { id = russia_events.295 days = 120 } #Flying Squads of the Security Department
-			}
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_necessary_revenge"
-			add_popularity = { ideology = social_liberal popularity = -0.08 }
-			add_popularity = { ideology = market_liberal popularity = -0.06 }
-			custom_effect_tooltip = tooltip_white_line
-			custom_effect_tooltip = RUS_necessary_revenge_tt
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
 
 	focus = {
 		id = RUS_svobodniks
@@ -517,243 +345,13 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_ARMY_BONUS }
 	}
 
-	focus = {
-		id = RUS_establish_the_VES
-		icon = GFX_goal_agency
-		cost = 5
 
-		relative_position_id = RUS_control_supreme_court
-		x = 3
-		y = 1
 
-		available = {
-			has_government = national_populist
-		}
-		prerequisite = {
-			focus = RUS_control_supreme_court
-		}
-		ai_will_do = {
-			factor = 25
-			modifier = {
-				add = 1000
-				has_country_flag = RUS_socialist_ai
-			}
-			modifier = {
-				add = 1000
-				has_country_flag = RUS_savinkov_ai
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					has_country_flag = RUS_republic_ai
-					has_country_flag = RUS_empire_ai
-				}
-			}
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_establish_the_VES"
-			add_ideas = RUS_supreme_economic_council
-			custom_effect_tooltip = RUS_establish_industrial_regions_tt
-			unlock_decision_tooltip = {
-				decision = RUS_Industrial_Regions
-				show_effect_tooltip = yes
-				show_modifiers = no
-			}
-			set_variable = { RUS_Industrial_Regions_Available = 5 }
-			hidden_effect = {
-				country_event = russia_events.250
-				activate_targeted_decision = { target = 195 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 217 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 249 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 251 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 653 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 572 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 242 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 408 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 398 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 263 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 260 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 220 decision = RUS_Industrial_Regions }
-				activate_targeted_decision = { target = 224 decision = RUS_Industrial_Regions }
-			}
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_PRODUCTION FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
-	}
 
-	focus = {
-		id = RUS_voskhod
-		icon = GFX_goal_social_reforms
-		cost = 6
 
-		relative_position_id = RUS_establish_the_VES
-		x = 1
-		y = 1
 
-		available = {
-			has_government = national_populist
-			has_manpower > 100000
-		}
-		prerequisite = {
-			focus = RUS_establish_the_VES
-		}
-		ai_will_do = {
-			factor = 100
-			modifier = {
-				factor = 50
-				has_country_flag = RUS_socialist_ai
-			}
-			modifier = {
-				add = 1000
-				has_country_flag = RUS_savinkov_ai
-			}
-		}
-		select_effect = {
-			log = "[GetLogRoot]: Select Focus RUS_voskhod"
-			country_event = russia_events.270 #A Question of Funding
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_voskhod"
-			custom_effect_tooltip = RUS_voskhod_anger
-			custom_effect_tooltip = tooltip_white_line
-			set_country_flag = RUS_voskhod_active
-			set_variable = { RUS_voskhod_cap = 80000 }
-			set_variable = { RUS_voskhod_current_mp = 0 }
-			set_variable = { RUS_voskhod_remaining_mp = 80000 }
-			set_variable = { RUS_completed_voskhod_projects = 0 }
-			hidden_effect = { RUS_select_AEG_nationalisation_states = yes }
-			unlock_decision_tooltip = { decision = RUS_nationalise_AEG_electrical_facilities }
-			if = {
-				limit = { NOT = { has_country_flag = RUS_BM_solved } }
-				custom_effect_tooltip = RUS_BM_recovery_tt
-				custom_effect_tooltip = tooltip_white_line
-			}
-			activate_targeted_decision = { target = ROOT decision = RUS_increase_funding }
-			activate_targeted_decision = { target = ROOT decision = RUS_utilise_army }
-			activate_targeted_decision = { target = ROOT decision = RUS_RASOLKO }
-			activate_targeted_decision = { target = 516 decision = RUS_norilsk_mining_and_metallurgy }
-			activate_targeted_decision = { target = 574 decision = RUS_far_north_construction_trust }
-			activate_targeted_decision = { target = 653 decision = RUS_ural_wagon_factory }
-			activate_targeted_decision = { target = 562 decision = RUS_magadan_gold_mining }
-			activate_targeted_decision = { target = 560 decision = RUS_permsk_shipbuilding_plant }
-			activate_targeted_decision = { target = 215 decision = RUS_belomorkanal }
-			activate_targeted_decision = { target = 247 decision = RUS_moscow_volga_canal }
-			activate_targeted_decision = { target = 722 decision = RUS_pechenganikel_mining_works }
-			activate_targeted_decision = { target = 397 decision = RUS_vorkuta_mining_centre }
-			activate_targeted_decision = { target = 404 decision = RUS_artel_gigant }
-			activate_targeted_decision = { target = 570 decision = RUS_siberian_township_programme }
-			activate_targeted_decision = { target = 233 decision = RUS_vladikavkaz_steel }
-			activate_targeted_decision = { target = ROOT decision = RUS_end_the_programme }
-			hidden_effect = {
-				country_event = russia_events.280 #The Voskhod Programme
-			}
-		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-	}
 
-	focus = {
-		id = RUS_artelizatsiya
-		icon = GFX_goal_UK_ban_unions
-		cost = 6
 
-		relative_position_id = RUS_establish_the_VES
-		x = 0
-		y = 2
-
-		available = {
-			has_government = national_populist
-		}
-		prerequisite = {
-			focus = RUS_voskhod
-		}
-		ai_will_do = {
-			factor = 1000
-			modifier = {
-				factor = 0
-				NOT = { has_country_flag = RUS_savinkov_ai }
-			}
-			modifier = {
-				factor = 0
-				NOT = { has_completed_focus = RUS_savinkov_constitution }
-			}
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_artelizatsiya"
-			add_ideas = RUS_artels
-			if = {
-				limit = { has_country_flag = RUS_voskhod_active }
-				add_to_variable = { RUS_voskhod_cap = 50000 }
-				add_to_variable = { RUS_voskhod_remaining_mp = 50000 }
-				custom_effect_tooltip = RUS_increase_voskhod_50000_tt
-				RUS_check_voskhod_recruit = yes
-			}
-			custom_effect_tooltip = tooltip_white_line
-			country_event = russia_events.265
-			effect_tooltip = { add_political_power = 50 }
-			hidden_effect = {
-				country_event = { id = russia_events.232 days = 90 } #The Solidarist Labour Movement
-			}
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
-	}
-
-	focus = {
-		id = RUS_declare_russian_state
-		icon = GFX_goal_RUS_natpops #GFX_goal_RUS_flag_2
-		cost = 6
-
-		relative_position_id = RUS_control_supreme_court
-		x = 0
-		y = 3
-
-		available = {
-			has_government = national_populist
-		}
-		prerequisite = {
-			focus = RUS_undercut_monarchists
-		}
-		prerequisite = {
-			focus = RUS_voskhod
-		}
-		prerequisite = {
-			focus = RUS_necessary_revenge
-		}
-		ai_will_do = {
-			base = 0
-			modifier = {
-				add = 5000
-				has_country_flag = RUS_savinkov_ai
-			}
-		}
-		completion_reward = {
-			log = "[GetLogRoot]: Focus Completed RUS_declare_russian_state"
-			remove_ideas = RUS_death_throes_of_the_republic
-			set_cosmetic_tag = RUS_state
-			add_popularity = { ideology = national_populist popularity = 0.1 }
-			custom_effect_tooltip = tooltip_white_line
-			effect_tooltip = {
-				country_event = russia_events.236
-			}
-			hidden_effect = {
-				set_politics = {
-					ruling_party = national_populist
-					elections_allowed = no
-				}
-				set_portraits = {
-					character = RUS_boris_savinkov
-					civilian = { large = GFX_portrait_RUS_boris_savinkov_large_suit }
-				}
-				RUS_boris_savinkov = { unit_leader_event = russia_events.236 }
-				activate_targeted_decision = { decision = RUS_destroy_VRBO target = ROOT }
-				country_event = { id = russia_events.294 days = 25 } #The Loyalty Clause
-				country_event = { id = russia_events.298 days = 150 } #Decree on Internal and External Border Controls
-				country_event = { id = russia_events.260 days = 365 } #The Vozhd is Unavailable
-				country_event = { id = russia_events.229 days = 500 random_days = 100 } #The Ustryalovite Faction
-				country_event = { id = russia_flavour_events.5 days = 700 } #Church of the Third Testament
-				news_event = russia_news_events.2
-			}
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-	}
 
 	focus = {
 		id = RUS_fate_of_federalism
