@@ -1,0 +1,12 @@
+RUS_odb_has_medal_funds = {
+ OR = {
+  AND = {
+   has_country_flag = RUS_odb_merged_toz
+   mio:RUS_odb_organisation = { NOT = { check_variable = { funds < ROOT.TOZ_Required_Funds?500 } } }
+  }
+  AND = {
+   NOT = { has_country_flag = RUS_odb_merged_toz }
+   mio:RUS_toz_organisation = { NOT = { check_variable = { funds < ROOT.TOZ_Required_Funds?500 } } }
+  }
+ }
+}

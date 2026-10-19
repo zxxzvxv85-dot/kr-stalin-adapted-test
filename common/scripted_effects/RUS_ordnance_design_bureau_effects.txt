@@ -1,0 +1,243 @@
+RUS_odb_merge_toz = {
+ if = {
+  limit = { FROM = { NOT = { has_country_flag = RUS_odb_merged_toz } } }
+  FROM = {
+   mio:RUS_toz_organisation = {
+     set_variable = { PREV.RUS_odb_transfer_size = size }
+    set_variable = { PREV.RUS_odb_transfer_funds = funds }
+    set_temp_variable = { RUS_odb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_odb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_odb_organisation = {
+    add_mio_size = PREV.RUS_odb_transfer_size
+    add_mio_funds = PREV.RUS_odb_transfer_funds
+    add_to_variable = { RUS_odb_previous_funds = PREV.RUS_odb_transfer_funds }
+   }
+   set_country_flag = RUS_odb_merged_toz
+   clear_variable = RUS_odb_transfer_size
+   clear_variable = RUS_odb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_odb_toz_unavailable_tt
+ FROM = {
+  # Existing variables and the ten-day automatic mission are deliberately untouched.
+  if = { limit = { NOT = { has_variable = TOZ_Divisions } } set_variable = { TOZ_Divisions = 4 } }
+  if = { limit = { NOT = { has_variable = TOZ_Required_Funds } } set_variable = { TOZ_Required_Funds = 500 } }
+  if = { limit = { NOT = { has_variable = RUS_odb_medal_rank } } set_variable = { RUS_odb_medal_rank = 0 } }
+  if = {
+   limit = { mio:RUS_toz_organisation = { NOT = { has_mio_flag = TOZ_Medal_Decision_Taken } } }
+   activate_targeted_decision = { target = THIS decision = RUS_TOZ_Medals }
+   activate_targeted_decision = { target = THIS decision = RUS_TOZ_Medals_automatic }
+  }
+ }
+ FROM = {
+  unlock_decision_tooltip = { decision = RUS_TOZ_Medals show_effect_tooltip = no }
+  unlock_decision_tooltip = { decision = RUS_TOZ_Medals_automatic show_effect_tooltip = no }
+  effect_tooltip = { RUS_odb_hand_out_medals = yes }
+ }
+}
+RUS_odb_merge_vpoz = {
+ if = {
+  limit = { FROM = { NOT = { has_country_flag = RUS_odb_merged_vpoz } } }
+  FROM = {
+   mio:RUS_vpoz_organisation = {
+     set_variable = { PREV.RUS_odb_transfer_size = size }
+    set_variable = { PREV.RUS_odb_transfer_funds = funds }
+    set_temp_variable = { RUS_odb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_odb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_odb_organisation = {
+    add_mio_size = PREV.RUS_odb_transfer_size
+    add_mio_funds = PREV.RUS_odb_transfer_funds
+    add_to_variable = { RUS_odb_previous_funds = PREV.RUS_odb_transfer_funds }
+   }
+   set_country_flag = RUS_odb_merged_vpoz
+   clear_variable = RUS_odb_transfer_size
+   clear_variable = RUS_odb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_odb_vpoz_unavailable_tt
+}
+RUS_odb_merge_bmz = {
+ if = {
+  limit = { FROM = { NOT = { has_country_flag = RUS_odb_merged_bmz } } }
+  FROM = {
+   mio:RUS_bmz_organisation = {
+     set_variable = { PREV.RUS_odb_transfer_size = size }
+    set_variable = { PREV.RUS_odb_transfer_funds = funds }
+    set_temp_variable = { RUS_odb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_odb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_odb_organisation = {
+    add_mio_size = PREV.RUS_odb_transfer_size
+    add_mio_funds = PREV.RUS_odb_transfer_funds
+    add_to_variable = { RUS_odb_previous_funds = PREV.RUS_odb_transfer_funds }
+   }
+   set_country_flag = RUS_odb_merged_bmz
+   clear_variable = RUS_odb_transfer_size
+   clear_variable = RUS_odb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_odb_bmz_unavailable_tt
+}
+RUS_odb_merge_obukhov = {
+ if = {
+  limit = { FROM = { NOT = { has_country_flag = RUS_odb_merged_obukhov } } }
+  FROM = {
+   mio:RUS_obukhov_organisation = {
+     set_variable = { PREV.RUS_odb_transfer_size = size }
+    set_variable = { PREV.RUS_odb_transfer_funds = funds }
+    set_temp_variable = { RUS_odb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_odb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_odb_organisation = {
+    add_mio_size = PREV.RUS_odb_transfer_size
+    add_mio_funds = PREV.RUS_odb_transfer_funds
+    add_to_variable = { RUS_odb_previous_funds = PREV.RUS_odb_transfer_funds }
+   }
+   set_country_flag = RUS_odb_merged_obukhov
+   clear_variable = RUS_odb_transfer_size
+   clear_variable = RUS_odb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_odb_obukhov_unavailable_tt
+}
+RUS_odb_merge_imz = {
+ if = {
+  limit = { FROM = { NOT = { has_country_flag = RUS_odb_merged_imz } } }
+  FROM = {
+   mio:RUS_imz_organisation = {
+     set_variable = { PREV.RUS_odb_transfer_size = size }
+    set_variable = { PREV.RUS_odb_transfer_funds = funds }
+    set_temp_variable = { RUS_odb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_odb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_odb_organisation = {
+    add_mio_size = PREV.RUS_odb_transfer_size
+    add_mio_funds = PREV.RUS_odb_transfer_funds
+    add_to_variable = { RUS_odb_previous_funds = PREV.RUS_odb_transfer_funds }
+   }
+   set_country_flag = RUS_odb_merged_imz
+   clear_variable = RUS_odb_transfer_size
+   clear_variable = RUS_odb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_odb_imz_unavailable_tt
+}
+RUS_odb_unlock = {
+ if = {
+  limit = { has_dlc_aat = yes }
+  show_mio_tooltip = RUS_odb_organisation
+  hidden_effect = {
+   mio:RUS_odb_organisation = {
+    if = {
+     limit = { NOT = { has_mio_flag = RUS_odb_initialized } }
+     set_mio_flag = RUS_odb_initialized
+     set_variable = { RUS_odb_medals_rank = 0 }
+     set_variable = { RUS_odb_optimization_rank = 0 }
+     set_variable = { RUS_odb_investment_rank = 0 }
+     set_variable = { RUS_odb_expansion_rank = 0 }
+     set_variable = { RUS_odb_manufacturers = 0 }
+     set_variable = { RUS_odb_previous_funds = funds }
+    }
+   }
+  }
+ }
+}
+RUS_odb_reset_research = {
+ hidden_effect = { set_mio_research_bonus = 0 }
+ custom_effect_tooltip = RUS_manufacturer_research_reset_tt
+}
+RUS_odb_show_learning = {
+ set_temp_variable = { weekly_research_speed_gain = 0.06 }
+ set_temp_variable = { max_research_speed = 1.25 }
+ set_temp_variable = { daily_funds_requirement = 1.28 }
+ set_temp_variable = { daily_funds_gained = { value = RUS_odb_weekly_funds divide = 7 } }
+ custom_effect_tooltip = RUS_odb_learning_tt
+}
+RUS_odb_learning_weekly = {
+ mio:RUS_odb_organisation = {
+  if = {
+   limit = { is_mio_trait_completed = RUS_odb_modular }
+   set_variable = { RUS_odb_weekly_funds = { value = funds subtract = RUS_odb_previous_funds clamp = { min = 0 max = 1000000 } } }
+   if = {
+    limit = {
+     check_variable = { RUS_odb_manufacturers > 0 }
+     NOT = { check_variable = { RUS_odb_weekly_funds < 8.96 } }
+     check_variable = { research_bonus < 1.25 }
+    }
+    add_mio_research_bonus = 0.06
+    if = {
+     limit = { check_variable = { research_bonus > 1.25 } }
+     # Clamp the final bonus including the infantry bureau's organization modifier.
+     set_temp_variable = { RUS_odb_base_cap = { value = 1.25 subtract = modifier@military_industrial_organization_research_bonus } }
+     set_mio_research_bonus = RUS_odb_base_cap
+    }
+   }
+   set_variable = { RUS_odb_previous_funds = funds }
+  }
+ }
+}
+RUS_odb_daily = {
+ mio:RUS_odb_organisation = {
+  if = {
+   limit = { is_mio_trait_completed = RUS_odb_obukhov }
+   add_to_variable = { RUS_odb_funding_days = 1 }
+   if = {
+    limit = { NOT = { check_variable = { RUS_odb_funding_days < 30 } } }
+    set_variable = { RUS_odb_funding_days = 0 }
+    PREV = {
+     random_military_industrial_organization = {
+      limit = { is_mio_available = yes is_mio_assigned_to_task = yes }
+      set_temp_variable_to_random = { var = RUS_odb_grant min = 100 max = 300 integer = yes }
+      add_mio_funds = var:RUS_odb_grant
+      if = {
+       limit = { is_military_industrial_organization = RUS_odb_organisation }
+       add_to_variable = { RUS_odb_previous_funds = RUS_odb_grant }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+RUS_odb_pay_medal_funds = {
+ set_temp_variable = { funds_change = { value = TOZ_Required_Funds?500 multiply = -1 } }
+ if = {
+  limit = { has_country_flag = RUS_odb_merged_toz }
+  mio:RUS_odb_organisation = {
+   add_mio_funds = var:funds_change
+   add_to_variable = { RUS_odb_previous_funds = funds_change }
+  }
+ }
+ else = { mio:RUS_toz_organisation = { add_mio_funds = var:funds_change } }
+}
+RUS_odb_hand_out_medals = {
+ custom_effect_tooltip = toz_give_medals_tt
+ set_temp_variable = { RUS_odb_medal_value = { value = RUS_odb_medal_rank multiply = 0.005 add = 0.1 } }
+ set_temp_variable = { RUS_medal_modifier_tt = RUS_odb_medal_value tooltip = army_attack_factor_tooltip }
+ set_temp_variable = { RUS_medal_modifier_tt = RUS_odb_medal_value tooltip = army_defence_factor_tooltip }
+ set_temp_variable = { RUS_medal_modifier_tt = RUS_odb_medal_value tooltip = army_org_factor_tooltip }
+ set_temp_variable = { RUS_medal_modifier_tt = RUS_odb_medal_value tooltip = breakthrough_factor_tooltip }
+ custom_effect_tooltip = RUS_TOZ_Org_reset_tt
+ for_loop_effect = {
+  start = 0
+  end = TOZ_Divisions
+  compare = less_than
+  random_country_division = {
+   limit = { unit_organization > 0.02 }
+   add_history_entry = { key = RUS_TOZ_Medal_Award subject = "RUS_TOZ_Medal_Award" allow = yes }
+   meta_effect = {
+    text = { add_unit_medal_to_latest_entry = { unit_medals = RUS_odb_medal_[RANK] } }
+    RANK = "[?RUS_odb_medal_rank|0]"
+   }
+   set_unit_organization = 0.01
+  }
+ }
+ add_to_variable = { RUS_TOZ_total_medals = TOZ_Divisions }
+}

@@ -210,7 +210,9 @@ def render_native_anger():
             owner=ROOT/DELEGATED_EFFECTS[n.k]
             assert sum(x.k==n.k for x in parse(owner.read_text(encoding='utf-8-sig')))==1,owner
             spans.append((n.a,n.b,''))
-    return path,clean_block(edits(text,spans))
+    # Keep the later MIO hand-off when reconstructing this KR override.
+    from generate_ordnance_design_bureau import patch_legacy_effects
+    return path,clean_block(patch_legacy_effects(edits(text,spans)))
 
 def patch_event(n):
     raw=n.raw();key=n.value('id')

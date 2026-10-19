@@ -1,0 +1,301 @@
+{
+  "equipment": [
+    "infantry_equipment",
+    "support_equipment",
+    "artillery_equipment",
+    "rocket_artillery_equipment",
+    "super_heavy_artillery_equipment",
+    "self_propelled_super_heavy_artillery_equipment",
+    "railway_gun_equipment",
+    "super_heavy_railway_gun_equipment",
+    "train_equipment"
+  ],
+  "localisation": {
+    "RUS_odb_organisation": "陆军兵器设计总局",
+    "RUS_odb_initial_trait": "陆军兵器联合设计体系",
+    "RUS_odb_heavy_research": "重武器装备设计局",
+    "RUS_odb_medal_upgrade_tt": "§g此后新授予的§Y$RUS_TOZ_Medal_name$§!勋章将额外提供：§!",
+    "RUS_odb_learning_tt": "§g当被分配为£industrial_manufacturer_icon §H制造商§!时，该§H军工机构§!将逐渐获得£research_speed_icon §H研究加成§!（分配到多条生产线时效果不会叠加）\n\n每周£research_speed_icon §H研究加成§!增长：[?weekly_research_speed_gain|2W%]\n£research_speed_icon §H研究加成§!软上限：[?max_research_speed|2W%]\n获取£research_speed_icon §H研究加成§!所需的最低每日§H经费§!：[?daily_funds_requirement|2W]\n\n[GetRUSOdbLearningStatus]£research_speed_icon §H研究加成§!（当前每日§H经费§!：[?daily_funds_gained|2W]）§!",
+    "RUS_odb_funding_tt": "§Y每30日：§!\n向满足下列条件的随机§Y军工机构§!给予§Y100—300§!经费：\n - 正在参与生产或研究",
+    "RUS_odb_medal_funds_cost": "[?TOZ_Required_Funds?500|0] §Y[GetRUSOdbMedalManufacturer]§!经费",
+    "RUS_odb_medal_funds_cost_blocked": "§R[?TOZ_Required_Funds?500|0] [GetRUSOdbMedalManufacturer]经费§!",
+    "RUS_odb_unlock_modern_high_velocity_cannon": "现代高速加农炮",
+    "RUS_odb_unlock_modern_high_velocity_cannon_desc": "通过陆军兵器设计总局的新型火炮研发与集中投资，完成现代高速加农炮的定型。",
+    "RUS_odb_unlock_modern_heavy_cannon": "现代重型加农炮",
+    "RUS_odb_unlock_modern_heavy_cannon_desc": "通过陆军兵器设计总局的新型火炮研发与集中投资，完成现代重型加农炮的定型。",
+    "RUS_odb_modern_high_velocity_cannon": "现代高速加农炮",
+    "RUS_odb_modern_high_velocity_cannon_desc": "一门为实现极高初速而设计的现代加农炮。其使用专门准备的炮弹，对装甲目标具有极强杀伤力，同时改进后的弹药也提升了对人员杀伤。",
+    "RUS_odb_modern_heavy_cannon": "现代重型加农炮",
+    "RUS_odb_modern_heavy_cannon_desc": "一种发射大口径炮弹的现代重型加农炮，兼具强大的对人员与对装甲杀伤，但尺寸、重量与成本都十分可观。",
+    "RUS_odb_hv5": "高速炮Ⅴ",
+    "RUS_odb_hc5": "重炮Ⅴ",
+    "RUS_odb_repeat_remaining_tt": "§C这项特质还可以培养$RIGHT|Y0$次。§!"
+  },
+  "nodes": [
+    {
+      "id": "infantry",
+      "cell": "25",
+      "name": "设立步兵装备设计局",
+      "x": 1,
+      "y": 0,
+      "icon": "GFX_KR_generic_mio_trait_icon_research_speed",
+      "organization_modifier": {
+        "military_industrial_organization_research_bonus": 0.1,
+        "military_industrial_organization_size_up_requirement": -0.1
+      }
+    },
+    {
+      "id": "heavy",
+      "cell": "28",
+      "name": "设立重武器装备设计局",
+      "x": 5,
+      "y": 0,
+      "icon": "GFX_KR_generic_mio_trait_icon_railway_gun",
+      "on_complete": "FROM = { add_ideas = RUS_odb_heavy_research }\n"
+    },
+    {
+      "id": "toz",
+      "cell": "26",
+      "name": "整合图拉兵工厂",
+      "x": 0,
+      "y": 1,
+      "parents": [
+        "infantry"
+      ],
+      "source": "RUS_toz_organisation",
+      "icon": "GFX_idea_toz",
+      "organization_modifier": {
+        "military_industrial_organization_funds_gain": 0.15
+      }
+    },
+    {
+      "id": "vpoz",
+      "cell": "27",
+      "name": "整合维亚茨耶波利亚内兵工厂",
+      "x": 2,
+      "y": 1,
+      "parents": [
+        "infantry"
+      ],
+      "source": "RUS_vpoz_organisation",
+      "icon": "GFX_idea_vpoz",
+      "limit": [
+        "infantry_equipment"
+      ],
+      "equipment_bonus": {
+        "reliability": 0.15,
+        "hard_attack": 3.0
+      },
+      "organization_modifier": {
+        "military_industrial_organization_design_team_assign_cost": 2.0
+      }
+    },
+    {
+      "id": "bmz",
+      "cell": "29",
+      "name": "整合布良斯克机械制造厂",
+      "x": 4,
+      "y": 1,
+      "parents": [
+        "heavy"
+      ],
+      "source": "RUS_bmz_organisation",
+      "icon": "GFX_idea_bmz",
+      "on_complete": "add_mio_research_bonus = 0.17\ncustom_effect_tooltip = RUS_manufacturer_research_no_reset_tt\n"
+    },
+    {
+      "id": "obukhov",
+      "cell": "30",
+      "name": "整合奥布霍夫",
+      "x": 6,
+      "y": 1,
+      "parents": [
+        "heavy"
+      ],
+      "source": "RUS_obukhov_organisation",
+      "icon": "GFX_idea_obukhov",
+      "on_complete": "custom_effect_tooltip = RUS_odb_funding_tt\n"
+    },
+    {
+      "id": "imz",
+      "cell": "35",
+      "name": "整合伊热夫斯克机械制造厂",
+      "x": 1,
+      "y": 2,
+      "parents": [
+        "infantry"
+      ],
+      "source": "RUS_imz_organisation",
+      "icon": "GFX_idea_imz",
+      "limit": [
+        "infantry_equipment",
+        "support_equipment"
+      ],
+      "production_bonus": {
+        "production_efficiency_gain_factor": 0.25,
+        "production_efficiency_cap_factor": 0.125,
+        "production_resource_need_factor": -0.55,
+        "production_cost_factor": -0.075
+      }
+    },
+    {
+      "id": "modular",
+      "cell": "37",
+      "name": "模块化设计",
+      "x": 3,
+      "y": 2,
+      "parents": [
+        "vpoz",
+        "bmz"
+      ],
+      "icon": "GFX_KR_generic_mio_trait_icon_research_speed",
+      "on_complete": "set_variable = { RUS_odb_previous_funds = funds }\nRUS_odb_show_learning = yes\n"
+    },
+    {
+      "id": "barrels",
+      "cell": "46",
+      "name": "精密炮管加工",
+      "x": 5,
+      "y": 2,
+      "parents": [
+        "bmz",
+        "obukhov"
+      ],
+      "limit": [
+        "artillery_equipment",
+        "rocket_artillery_equipment",
+        "super_heavy_artillery_equipment",
+        "self_propelled_super_heavy_artillery_equipment",
+        "railway_gun_equipment",
+        "super_heavy_railway_gun_equipment"
+      ],
+      "icon": "GFX_generic_mio_trait_icon_soft_attack",
+      "equipment_bonus": {
+        "soft_attack": 0.15,
+        "hard_attack": 0.15,
+        "air_attack": 0.15,
+        "railway_gun_attack": 0.25
+      }
+    },
+    {
+      "id": "testing",
+      "cell": "40",
+      "name": "扩大试验性装备测试",
+      "x": 0,
+      "y": 3,
+      "parents": [
+        "toz"
+      ],
+      "limit": [
+        "infantry_equipment"
+      ],
+      "icon": "GFX_generic_mio_trait_icon_reliability",
+      "equipment_bonus": {
+        "reliability": 0.05,
+        "soft_attack": 0.1
+      },
+      "exclusive": "production"
+    },
+    {
+      "id": "production",
+      "cell": "42",
+      "name": "产线通用化",
+      "x": 2,
+      "y": 3,
+      "parents": [
+        "imz",
+        "modular"
+      ],
+      "icon": "GFX_generic_mio_trait_icon_build_cost_ic",
+      "production_bonus": {
+        "production_cost_factor": -0.025
+      },
+      "exclusive": "testing"
+    },
+    {
+      "id": "cannon_research",
+      "cell": "49",
+      "name": "启动研发新型火炮",
+      "x": 4,
+      "y": 3,
+      "parents": [
+        "barrels"
+      ],
+      "exclusive": "land",
+      "icon": "GFX_KR_generic_mio_trait_icon_research_speed",
+      "organization_modifier": {
+        "military_industrial_organization_size_up_requirement": 0.25
+      }
+    },
+    {
+      "id": "land",
+      "cell": "51",
+      "name": "开发土地",
+      "x": 6,
+      "y": 3,
+      "parents": [
+        "barrels"
+      ],
+      "exclusive": "cannon_research",
+      "icon": "GFX_KR_generic_mio_trait_icon_railway",
+      "organization_modifier": {
+        "military_industrial_organization_size_up_requirement": -0.25
+      }
+    },
+    {
+      "id": "medals",
+      "cell": "54",
+      "name": "极端环境耐受性",
+      "x": 0,
+      "y": 4,
+      "parents": [
+        "testing"
+      ],
+      "repeat": 10,
+      "icon": "GFX_generic_mio_trait_icon_reliability"
+    },
+    {
+      "id": "optimization",
+      "cell": "56",
+      "name": "极限优化",
+      "x": 2,
+      "y": 4,
+      "parents": [
+        "production"
+      ],
+      "repeat": 10,
+      "icon": "GFX_generic_mio_trait_icon_efficiency_cap",
+      "production_bonus": {
+        "production_efficiency_gain_factor": 0.01,
+        "production_efficiency_cap_factor": 0.01
+      }
+    },
+    {
+      "id": "investment",
+      "cell": "58",
+      "name": "加大投资",
+      "x": 4,
+      "y": 4,
+      "parents": [
+        "cannon_research"
+      ],
+      "repeat": 10,
+      "icon": "GFX_KR_generic_mio_trait_icon_funds"
+    },
+    {
+      "id": "expansion",
+      "cell": "60",
+      "name": "扩建火炮制造厂",
+      "x": 6,
+      "y": 4,
+      "parents": [
+        "land"
+      ],
+      "repeat": 5,
+      "icon": "GFX_KR_generic_mio_trait_icon_production_output",
+      "organization_modifier": {
+        "military_industrial_organization_size_up_requirement": 0.05
+      }
+    }
+  ]
+}

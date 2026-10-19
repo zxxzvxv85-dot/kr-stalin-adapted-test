@@ -1,5 +1,17 @@
 [
   {
+    "id": "ordnance_design_bureau_generation",
+    "path": "tools/generate_ordnance_design_bureau.py",
+    "groups": ["mio", "generated"],
+    "args": ["--check"]
+  },
+  {
+    "id": "ordnance_design_bureau_integration",
+    "path": "tools/test_ordnance_design_bureau.py",
+    "groups": ["mio"],
+    "requires": ["kr", "game"]
+  },
+  {
     "id": "savinkov_opening_generation",
     "path": "tools/rework_savinkov_opening.py",
     "groups": ["opening", "generated"],

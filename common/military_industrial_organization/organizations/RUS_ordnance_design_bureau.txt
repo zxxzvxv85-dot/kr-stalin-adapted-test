@@ -1,0 +1,1058 @@
+RUS_odb_organisation = {
+ name = RUS_odb_organisation
+ icon = GFX_RUS_odb_organisation
+ allowed = { original_tag = RUS }
+ visible = { FROM = { has_completed_focus = RUS_future_foreign_030 } }
+ available = { FROM = { has_completed_focus = RUS_future_foreign_030 } }
+ equipment_type = { infantry_equipment support_equipment artillery_equipment rocket_artillery_equipment super_heavy_artillery_equipment self_propelled_super_heavy_artillery_equipment railway_gun_equipment super_heavy_railway_gun_equipment train_equipment }
+ research_categories = { infantry_weapons support_tech night_vision cat_special_forces_generic mio_cat_all_artillery_equipment train_tech }
+ research_bonus = 0
+ on_industrial_manufacturer_assigned = {
+  add_to_variable = { RUS_odb_manufacturers = 1 }
+  if = { limit = { is_mio_trait_completed = RUS_odb_modular } RUS_odb_show_learning = yes }
+ }
+ on_industrial_manufacturer_unassigned = { subtract_from_variable = { RUS_odb_manufacturers = 1 } }
+ on_tech_research_cancelled = { RUS_odb_reset_research = yes }
+ on_tech_research_completed = {
+  if = { limit = { NOT = { is_mio_trait_completed = RUS_odb_bmz } } RUS_odb_reset_research = yes }
+ }
+ initial_trait = { name = RUS_odb_initial_trait }
+ trait = {
+  token = RUS_odb_infantry
+  name = RUS_odb_infantry
+  icon = GFX_KR_generic_mio_trait_icon_research_speed
+  position = { x = 1 y = 0 }
+  organization_modifier = {
+   military_industrial_organization_research_bonus = 0.1
+   military_industrial_organization_size_up_requirement = -0.1
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_heavy
+  name = RUS_odb_heavy
+  icon = GFX_KR_generic_mio_trait_icon_railway_gun
+  position = { x = 5 y = 0 }
+  on_complete = {
+   FROM = { add_ideas = RUS_odb_heavy_research }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_toz
+  name = RUS_odb_toz
+  icon = GFX_idea_toz
+  position = { x = 0 y = 1 }
+  all_parents = { RUS_odb_infantry }
+  organization_modifier = {
+   military_industrial_organization_funds_gain = 0.15
+  }
+  available = {
+   FROM = { mio:RUS_toz_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_odb_merge_toz = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_vpoz
+  name = RUS_odb_vpoz
+  icon = GFX_idea_vpoz
+  position = { x = 2 y = 1 }
+  all_parents = { RUS_odb_infantry }
+  limit_to_equipment_type = { infantry_equipment }
+  equipment_bonus = {
+   reliability = 0.15
+   hard_attack = 3.0
+  }
+  organization_modifier = {
+   military_industrial_organization_design_team_assign_cost = 2.0
+  }
+  available = {
+   FROM = { mio:RUS_vpoz_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_odb_merge_vpoz = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_bmz
+  name = RUS_odb_bmz
+  icon = GFX_idea_bmz
+  position = { x = 4 y = 1 }
+  all_parents = { RUS_odb_heavy }
+  available = {
+   FROM = { mio:RUS_bmz_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   add_mio_research_bonus = 0.17
+   custom_effect_tooltip = RUS_manufacturer_research_no_reset_tt
+   RUS_odb_merge_bmz = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_obukhov
+  name = RUS_odb_obukhov
+  icon = GFX_idea_obukhov
+  position = { x = 6 y = 1 }
+  all_parents = { RUS_odb_heavy }
+  available = {
+   FROM = { mio:RUS_obukhov_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   custom_effect_tooltip = RUS_odb_funding_tt
+   RUS_odb_merge_obukhov = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_imz
+  name = RUS_odb_imz
+  icon = GFX_idea_imz
+  position = { x = 1 y = 2 }
+  all_parents = { RUS_odb_infantry }
+  limit_to_equipment_type = { infantry_equipment support_equipment }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.25
+   production_efficiency_cap_factor = 0.125
+   production_resource_need_factor = -0.55
+   production_cost_factor = -0.075
+  }
+  available = {
+   FROM = { mio:RUS_imz_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_odb_merge_imz = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_modular
+  name = RUS_odb_modular
+  icon = GFX_KR_generic_mio_trait_icon_research_speed
+  position = { x = 3 y = 2 }
+  all_parents = { RUS_odb_vpoz RUS_odb_bmz }
+  on_complete = {
+   set_variable = { RUS_odb_previous_funds = funds }
+   RUS_odb_show_learning = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_barrels
+  name = RUS_odb_barrels
+  icon = GFX_generic_mio_trait_icon_soft_attack
+  position = { x = 5 y = 2 }
+  all_parents = { RUS_odb_bmz RUS_odb_obukhov }
+  limit_to_equipment_type = { artillery_equipment rocket_artillery_equipment super_heavy_artillery_equipment self_propelled_super_heavy_artillery_equipment railway_gun_equipment super_heavy_railway_gun_equipment }
+  equipment_bonus = {
+   soft_attack = 0.15
+   hard_attack = 0.15
+   air_attack = 0.15
+   railway_gun_attack = 0.25
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_testing
+  name = RUS_odb_testing
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 3 }
+  all_parents = { RUS_odb_toz }
+  mutually_exclusive = { RUS_odb_production }
+  limit_to_equipment_type = { infantry_equipment }
+  equipment_bonus = {
+   reliability = 0.05
+   soft_attack = 0.1
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_production
+  name = RUS_odb_production
+  icon = GFX_generic_mio_trait_icon_build_cost_ic
+  position = { x = 2 y = 3 }
+  all_parents = { RUS_odb_imz RUS_odb_modular }
+  mutually_exclusive = { RUS_odb_testing }
+  production_bonus = {
+   production_cost_factor = -0.025
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_cannon_research
+  name = RUS_odb_cannon_research
+  icon = GFX_KR_generic_mio_trait_icon_research_speed
+  position = { x = 4 y = 3 }
+  all_parents = { RUS_odb_barrels }
+  mutually_exclusive = { RUS_odb_land }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.25
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_land
+  name = RUS_odb_land
+  icon = GFX_KR_generic_mio_trait_icon_railway
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_odb_barrels }
+  mutually_exclusive = { RUS_odb_cannon_research }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = -0.25
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_1
+  name = RUS_odb_medals_1
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 0 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 1 }
+   set_temp_variable = { RUS_odb_repeats_left = 9 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 1 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_2
+  name = RUS_odb_medals_2
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 1 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 2 }
+   set_temp_variable = { RUS_odb_repeats_left = 8 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 2 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_3
+  name = RUS_odb_medals_3
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 2 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 3 }
+   set_temp_variable = { RUS_odb_repeats_left = 7 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 3 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_4
+  name = RUS_odb_medals_4
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 3 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 4 }
+   set_temp_variable = { RUS_odb_repeats_left = 6 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 4 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_5
+  name = RUS_odb_medals_5
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 4 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 4 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 5 }
+   set_temp_variable = { RUS_odb_repeats_left = 5 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 5 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_6
+  name = RUS_odb_medals_6
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 5 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 5 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 6 }
+   set_temp_variable = { RUS_odb_repeats_left = 4 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 6 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_7
+  name = RUS_odb_medals_7
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 6 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 6 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 7 }
+   set_temp_variable = { RUS_odb_repeats_left = 3 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 7 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_8
+  name = RUS_odb_medals_8
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 7 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 7 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 8 }
+   set_temp_variable = { RUS_odb_repeats_left = 2 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 8 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_9
+  name = RUS_odb_medals_9
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   check_variable = { RUS_odb_medals_rank = 8 }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 8 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 9 }
+   set_temp_variable = { RUS_odb_repeats_left = 1 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 9 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_medals_10
+  name = RUS_odb_medals_10
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 0 y = 4 }
+  all_parents = { RUS_odb_testing }
+  visible = {
+   NOT = { check_variable = { RUS_odb_medals_rank < 9 } }
+  }
+  available = {
+   check_variable = { RUS_odb_medals_rank = 9 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_medals_rank = 10 }
+   set_temp_variable = { RUS_odb_repeats_left = 0 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { set_variable = { RUS_odb_medal_rank = 10 } }
+   custom_effect_tooltip = RUS_odb_medal_upgrade_tt
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_attack_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_defence_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = army_org_factor_tooltip }
+   set_temp_variable = { RUS_medal_modifier_tt = 0.005 tooltip = breakthrough_factor_tooltip }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_1
+  name = RUS_odb_optimization_1
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 0 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 1 }
+   set_temp_variable = { RUS_odb_repeats_left = 9 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_2
+  name = RUS_odb_optimization_2
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 1 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 2 }
+   set_temp_variable = { RUS_odb_repeats_left = 8 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_3
+  name = RUS_odb_optimization_3
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 2 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 3 }
+   set_temp_variable = { RUS_odb_repeats_left = 7 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_4
+  name = RUS_odb_optimization_4
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 3 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 4 }
+   set_temp_variable = { RUS_odb_repeats_left = 6 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_5
+  name = RUS_odb_optimization_5
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 4 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 4 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 5 }
+   set_temp_variable = { RUS_odb_repeats_left = 5 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_6
+  name = RUS_odb_optimization_6
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 5 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 5 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 6 }
+   set_temp_variable = { RUS_odb_repeats_left = 4 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_7
+  name = RUS_odb_optimization_7
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 6 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 6 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 7 }
+   set_temp_variable = { RUS_odb_repeats_left = 3 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_8
+  name = RUS_odb_optimization_8
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 7 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 7 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 8 }
+   set_temp_variable = { RUS_odb_repeats_left = 2 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_9
+  name = RUS_odb_optimization_9
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   check_variable = { RUS_odb_optimization_rank = 8 }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 8 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 9 }
+   set_temp_variable = { RUS_odb_repeats_left = 1 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_optimization_10
+  name = RUS_odb_optimization_10
+  icon = GFX_generic_mio_trait_icon_efficiency_cap
+  position = { x = 2 y = 4 }
+  all_parents = { RUS_odb_production }
+  production_bonus = {
+   production_efficiency_gain_factor = 0.01
+   production_efficiency_cap_factor = 0.01
+  }
+  visible = {
+   NOT = { check_variable = { RUS_odb_optimization_rank < 9 } }
+  }
+  available = {
+   check_variable = { RUS_odb_optimization_rank = 9 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_optimization_rank = 10 }
+   set_temp_variable = { RUS_odb_repeats_left = 0 tooltip = RUS_odb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_1
+  name = RUS_odb_investment_1
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 0 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 1 }
+   set_temp_variable = { RUS_odb_repeats_left = 9 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    add_ideas = RUS_odb_investment_1
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_2
+  name = RUS_odb_investment_2
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 1 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 2 }
+   set_temp_variable = { RUS_odb_repeats_left = 8 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_1
+    add_ideas = RUS_odb_investment_2
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_3
+  name = RUS_odb_investment_3
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 2 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 3 }
+   set_temp_variable = { RUS_odb_repeats_left = 7 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_2
+    add_ideas = RUS_odb_investment_3
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_4
+  name = RUS_odb_investment_4
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 3 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 4 }
+   set_temp_variable = { RUS_odb_repeats_left = 6 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_3
+    add_ideas = RUS_odb_investment_4
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_5
+  name = RUS_odb_investment_5
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 4 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 4 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 5 }
+   set_temp_variable = { RUS_odb_repeats_left = 5 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_4
+    add_ideas = RUS_odb_investment_5
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_6
+  name = RUS_odb_investment_6
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 5 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 5 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 6 }
+   set_temp_variable = { RUS_odb_repeats_left = 4 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_5
+    add_ideas = RUS_odb_investment_6
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_7
+  name = RUS_odb_investment_7
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 6 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 6 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 7 }
+   set_temp_variable = { RUS_odb_repeats_left = 3 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_6
+    add_ideas = RUS_odb_investment_7
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_8
+  name = RUS_odb_investment_8
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 7 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 7 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 8 }
+   set_temp_variable = { RUS_odb_repeats_left = 2 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_7
+    add_ideas = RUS_odb_investment_8
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_9
+  name = RUS_odb_investment_9
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   check_variable = { RUS_odb_investment_rank = 8 }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 8 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 9 }
+   set_temp_variable = { RUS_odb_repeats_left = 1 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_8
+    add_ideas = RUS_odb_investment_9
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_investment_10
+  name = RUS_odb_investment_10
+  icon = GFX_KR_generic_mio_trait_icon_funds
+  position = { x = 4 y = 4 }
+  all_parents = { RUS_odb_cannon_research }
+  visible = {
+   NOT = { check_variable = { RUS_odb_investment_rank < 9 } }
+  }
+  available = {
+   check_variable = { RUS_odb_investment_rank = 9 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_investment_rank = 10 }
+   set_temp_variable = { RUS_odb_repeats_left = 0 tooltip = RUS_odb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_odb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_odb_investment_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_investment_9
+    add_ideas = RUS_odb_investment_10
+   } }
+   FROM = { set_technology = { RUS_odb_unlock_modern_high_velocity_cannon = 1 RUS_odb_unlock_modern_heavy_cannon = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_expansion_1
+  name = RUS_odb_expansion_1
+  icon = GFX_KR_generic_mio_trait_icon_production_output
+  position = { x = 6 y = 4 }
+  all_parents = { RUS_odb_land }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.05
+  }
+  visible = {
+   check_variable = { RUS_odb_expansion_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_odb_expansion_rank = 0 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_expansion_rank = 1 }
+   set_temp_variable = { RUS_odb_repeats_left = 4 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { show_ideas_tooltip = RUS_odb_expansion_1 }
+   hidden_effect = { FROM = {
+    add_ideas = RUS_odb_expansion_1
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_expansion_2
+  name = RUS_odb_expansion_2
+  icon = GFX_KR_generic_mio_trait_icon_production_output
+  position = { x = 6 y = 4 }
+  all_parents = { RUS_odb_land }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.05
+  }
+  visible = {
+   check_variable = { RUS_odb_expansion_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_odb_expansion_rank = 1 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_expansion_rank = 2 }
+   set_temp_variable = { RUS_odb_repeats_left = 3 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { show_ideas_tooltip = RUS_odb_expansion_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_expansion_1
+    add_ideas = RUS_odb_expansion_2
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_expansion_3
+  name = RUS_odb_expansion_3
+  icon = GFX_KR_generic_mio_trait_icon_production_output
+  position = { x = 6 y = 4 }
+  all_parents = { RUS_odb_land }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.05
+  }
+  visible = {
+   check_variable = { RUS_odb_expansion_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_odb_expansion_rank = 2 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_expansion_rank = 3 }
+   set_temp_variable = { RUS_odb_repeats_left = 2 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { show_ideas_tooltip = RUS_odb_expansion_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_expansion_2
+    add_ideas = RUS_odb_expansion_3
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_expansion_4
+  name = RUS_odb_expansion_4
+  icon = GFX_KR_generic_mio_trait_icon_production_output
+  position = { x = 6 y = 4 }
+  all_parents = { RUS_odb_land }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.05
+  }
+  visible = {
+   check_variable = { RUS_odb_expansion_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_odb_expansion_rank = 3 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_expansion_rank = 4 }
+   set_temp_variable = { RUS_odb_repeats_left = 1 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { show_ideas_tooltip = RUS_odb_expansion_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_expansion_3
+    add_ideas = RUS_odb_expansion_4
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_odb_expansion_5
+  name = RUS_odb_expansion_5
+  icon = GFX_KR_generic_mio_trait_icon_production_output
+  position = { x = 6 y = 4 }
+  all_parents = { RUS_odb_land }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.05
+  }
+  visible = {
+   NOT = { check_variable = { RUS_odb_expansion_rank < 4 } }
+  }
+  available = {
+   check_variable = { RUS_odb_expansion_rank = 4 }
+  }
+  on_complete = {
+   set_variable = { RUS_odb_expansion_rank = 5 }
+   set_temp_variable = { RUS_odb_repeats_left = 0 tooltip = RUS_odb_repeat_remaining_tt }
+   FROM = { show_ideas_tooltip = RUS_odb_expansion_1 }
+   hidden_effect = { FROM = {
+    remove_ideas = RUS_odb_expansion_4
+    add_ideas = RUS_odb_expansion_5
+   } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+}

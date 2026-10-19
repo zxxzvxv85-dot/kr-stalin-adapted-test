@@ -1,0 +1,13 @@
+define_text = {
+ name = GetRUSOdbMedalManufacturer
+ text = { trigger = { has_country_flag = RUS_odb_merged_toz } localization_key = RUS_odb_organisation }
+ text = { localization_key = toz }
+}
+define_text = {
+ name = GetRUSOdbLearningStatus
+ text = {
+  trigger = { check_variable = { RUS_odb_manufacturers > 0 } NOT = { check_variable = { RUS_odb_weekly_funds < 8.96 } } }
+  localization_key = RUS_MIO_Research_Gain_positive_tt
+ }
+ text = { localization_key = RUS_MIO_Research_Gain_negative_tt }
+}

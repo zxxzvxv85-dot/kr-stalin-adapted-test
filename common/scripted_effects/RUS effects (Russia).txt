@@ -6487,60 +6487,67 @@ RUS_unlock_TOZ_medal_decision = {
 }
 
 RUS_TOZ_Hand_Out_Medals = {
-	### How to distinguish medals ###
-	# Each medal has a 4 digit code at the end of it. Each digit with value of either 0 or 1 represents whether the type of upgrade is present.
-	# If value is 1, the upgrade is present
-	# All medals follow the nameing scheme RUS_TOZ_Medal_XXXX where each X is a value that is either 0 or 1
-	# e.g. RUS_TOZ_Medal_0110 represents a TOZ medal with the Defence and organisation upgrades.
-	# First digit = attack medal upgrade
-	# Second digit = Defence medal upgrade
-	# Third Digit = organisation medal upgrade
-	# Fourth Digit = breakthrough medal upgrade
-	custom_effect_tooltip = toz_give_medals_tt
-	custom_effect_tooltip = tooltip_white_line
-	custom_effect_tooltip = RUS_TOZ_Medal_start_tt
 	if = {
-		limit = { RUS_has_TOZ_attack_medal = yes }
-		set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = army_attack_factor_tooltip }
-		set_temp_variable = { RUS_TOZ_attack_medal = 1 }
+		limit = { has_country_flag = RUS_odb_merged_toz }
+		RUS_odb_hand_out_medals = yes
 	}
-	if = {
-		limit = { RUS_has_TOZ_defense_medal = yes }
-		set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = army_defence_factor_tooltip }
-		set_temp_variable = { RUS_TOZ_defense_medal = 1 }
-	}
-	if = {
-		limit = { RUS_has_TOZ_org_medal = yes }
-		set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = army_org_factor_tooltip }
-		set_temp_variable = { RUS_TOZ_org_medal = 1 }
-	}
-	if = {
-		limit = { RUS_has_TOZ_breakthrough_medal = yes }
-		set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = breakthrough_factor_tooltip }
-		set_temp_variable = { RUS_TOZ_breakthrough_medal = 1 }
-	}
-	custom_effect_tooltip = tooltip_white_line
-	custom_effect_tooltip = RUS_TOZ_Org_reset_tt
-	for_loop_effect = {
-		start = 0
-		end = TOZ_Divisions
-		compare = less_than
-		random_country_division = {
-			limit = { unit_organization > 0.02 }
-			add_history_entry = {
-				key = RUS_TOZ_Medal_Award
-				subject = "RUS_TOZ_Medal_Award"
-				allow = yes
-			}
-			meta_effect = {
-				text = { add_unit_medal_to_latest_entry = { unit_medals = RUS_TOZ_Medal_[MEDAL] } }
-				MEDAL = "[?RUS_TOZ_attack_medal|0][?RUS_TOZ_defense_medal|0][?RUS_TOZ_org_medal|0][?RUS_TOZ_breakthrough_medal|0]"
-			}
-			set_unit_organization = 0.01
+	else = {
+		### How to distinguish medals ###
+		# Each medal has a 4 digit code at the end of it. Each digit with value of either 0 or 1 represents whether the type of upgrade is present.
+		# If value is 1, the upgrade is present
+		# All medals follow the nameing scheme RUS_TOZ_Medal_XXXX where each X is a value that is either 0 or 1
+		# e.g. RUS_TOZ_Medal_0110 represents a TOZ medal with the Defence and organisation upgrades.
+		# First digit = attack medal upgrade
+		# Second digit = Defence medal upgrade
+		# Third Digit = organisation medal upgrade
+		# Fourth Digit = breakthrough medal upgrade
+		custom_effect_tooltip = toz_give_medals_tt
+		custom_effect_tooltip = tooltip_white_line
+		custom_effect_tooltip = RUS_TOZ_Medal_start_tt
+		if = {
+			limit = { RUS_has_TOZ_attack_medal = yes }
+			set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = army_attack_factor_tooltip }
+			set_temp_variable = { RUS_TOZ_attack_medal = 1 }
 		}
+		if = {
+			limit = { RUS_has_TOZ_defense_medal = yes }
+			set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = army_defence_factor_tooltip }
+			set_temp_variable = { RUS_TOZ_defense_medal = 1 }
+		}
+		if = {
+			limit = { RUS_has_TOZ_org_medal = yes }
+			set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = army_org_factor_tooltip }
+			set_temp_variable = { RUS_TOZ_org_medal = 1 }
+		}
+		if = {
+			limit = { RUS_has_TOZ_breakthrough_medal = yes }
+			set_temp_variable = { RUS_medal_modifier_tt = 0.1 tooltip = breakthrough_factor_tooltip }
+			set_temp_variable = { RUS_TOZ_breakthrough_medal = 1 }
+		}
+		custom_effect_tooltip = tooltip_white_line
+		custom_effect_tooltip = RUS_TOZ_Org_reset_tt
+		for_loop_effect = {
+			start = 0
+			end = TOZ_Divisions
+			compare = less_than
+			random_country_division = {
+				limit = { unit_organization > 0.02 }
+				add_history_entry = {
+					key = RUS_TOZ_Medal_Award
+					subject = "RUS_TOZ_Medal_Award"
+					allow = yes
+				}
+				meta_effect = {
+					text = { add_unit_medal_to_latest_entry = { unit_medals = RUS_TOZ_Medal_[MEDAL] } }
+					MEDAL = "[?RUS_TOZ_attack_medal|0][?RUS_TOZ_defense_medal|0][?RUS_TOZ_org_medal|0][?RUS_TOZ_breakthrough_medal|0]"
+				}
+				set_unit_organization = 0.01
+			}
+		}
+		add_to_variable = { RUS_TOZ_total_medals = TOZ_Divisions }
 	}
-	add_to_variable = { RUS_TOZ_total_medals = TOZ_Divisions }
 }
+
 
 RUS_Show_Gamayun_Notification_List = {
 	# RECURSIVE scripted effect. EDIT WITH CAUTION!

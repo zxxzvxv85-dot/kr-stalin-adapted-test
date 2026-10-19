@@ -276,7 +276,9 @@ def main():
     # Two modified native blocks. Two existing replacements retain sole ownership.
     native={n.k:n.norm() for n in load(build.KR/'common/scripted_effects/RUS effects (Russia).txt')};actual={n.k:n.norm() for n in load(ROOT/'common/scripted_effects/RUS effects (Russia).txt')}
     assert set(native)-set(actual)==set(build.DELEGATED_EFFECTS) and not set(actual)-set(native)
-    assert {k for k in actual if native[k]!=actual[k]}==set(build.SPEC['anger_effects'])
+    assert {k for k in actual if native[k]!=actual[k]}==set(build.SPEC['anger_effects'])|{'RUS_TOZ_Hand_Out_Medals'}
+    medal=next(n for n in load(ROOT/'common/scripted_effects/RUS effects (Russia).txt') if n.k=='RUS_TOZ_Hand_Out_Medals')
+    assert tuple(x.norm() for x in medal.one('else').v)==native['RUS_TOZ_Hand_Out_Medals'][2]
     for key,owner in build.DELEGATED_EFFECTS.items():
         assert sum(n.k==key for p in (ROOT/'common/scripted_effects').glob('*.txt') for n in load(p))==1
         assert any(n.k==key for n in load(ROOT/owner))

@@ -10830,7 +10830,9 @@ RUS_toz_organisation = {
 	allowed = {
 		is_russian_tag = yes
 	}
-	available = { FROM = { owns_state = 223 } } #Tula
+	available = { FROM = { owns_state = 223 }
+		FROM = { NOT = { has_country_flag = RUS_odb_merged_toz } }
+	} #Tula
 
 	equipment_type = {
 		infantry_equipment
@@ -11271,6 +11273,8 @@ RUS_vpoz_organisation = {
 			}
 			owns_state = 249 #Kazan
 		}
+
+		FROM = { NOT = { has_country_flag = RUS_odb_merged_vpoz } }
 	}
 
 	equipment_type = {
@@ -11500,7 +11504,9 @@ RUS_imz_organisation = {
 	allowed = {
 		is_russian_tag = yes
 	}
-	available = { FROM = { owns_state = 399 } } #Izhevsk
+	available = { FROM = { owns_state = 399 }
+		FROM = { NOT = { has_country_flag = RUS_odb_merged_imz } }
+	} #Izhevsk
 
 	equipment_type = {
 		infantry_equipment
@@ -11730,7 +11736,9 @@ RUS_obukhov_organisation = {
 	allowed = {
 		is_russian_tag = yes
 	}
-	available = { FROM = { owns_state = 195 } } #Petrograd
+	available = { FROM = { owns_state = 195 }
+		FROM = { NOT = { has_country_flag = RUS_odb_merged_obukhov } }
+	} #Petrograd
 
 	equipment_type = {
 		artillery_equipment
@@ -12636,7 +12644,9 @@ RUS_bmz_organisation = {
 	allowed = {
 		is_russian_tag = yes
 	}
-	available = { FROM = { owns_state = 224 } } #Bryansk
+	available = { FROM = { owns_state = 224 }
+		FROM = { NOT = { has_country_flag = RUS_odb_merged_bmz } }
+	} #Bryansk
 
 	on_industrial_manufacturer_assigned = {
 		add_to_variable = { RUS_mio_assigned_manufacturer_num = 1 }

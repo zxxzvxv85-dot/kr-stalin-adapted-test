@@ -19695,11 +19695,9 @@ RUS_MIO_decisions = {
 		priority = 50
 
 		custom_cost_trigger = {
-			mio:RUS_toz_organisation = {
-				NOT = { check_variable = { funds < ROOT.TOZ_Required_Funds?500 } }
-			}
+			RUS_odb_has_medal_funds = yes
 		}
-		custom_cost_text = RUS_TOZ_Funds_Medals_Requirement
+		custom_cost_text = RUS_odb_medal_funds_cost
 
 		days_remove = 10
 
@@ -19707,9 +19705,7 @@ RUS_MIO_decisions = {
 		complete_effect = {
 			log = "[GetLogRoot]: Decision complete RUS_TOZ_Medals"
 			hidden_effect = {
-				set_temp_variable = { funds_change = TOZ_Required_Funds?500 }
-				multiply_temp_variable = { funds_change = -1 }
-				mio:RUS_toz_organisation = { add_mio_funds = var:funds_change }
+				RUS_odb_pay_medal_funds = yes
 			}
 			RUS_TOZ_Hand_Out_Medals = yes
 		}
@@ -19763,13 +19759,9 @@ RUS_MIO_decisions = {
 			log = "[GetLogRoot][GetLogFrom]: Decision timeout RUS_TOZ_Medals_automatic_mission"
 			if = {
 				limit = {
-					mio:RUS_toz_organisation = {
-						NOT = { check_variable = { funds < ROOT.TOZ_Required_Funds?500 } }
-					}
+					RUS_odb_has_medal_funds = yes
 				}
-				set_temp_variable = { funds_change = TOZ_Required_Funds?500 }
-				multiply_temp_variable = { funds_change = -1 }
-				mio:RUS_toz_organisation = { add_mio_funds = var:funds_change }
+				RUS_odb_pay_medal_funds = yes
 				hidden_effect = { FROM = { activate_mission = RUS_TOZ_Medals_automatic_mission } }
 				RUS_TOZ_Hand_Out_Medals = yes
 			}
