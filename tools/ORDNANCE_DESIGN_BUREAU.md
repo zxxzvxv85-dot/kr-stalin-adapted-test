@@ -25,12 +25,15 @@
 
 预览左侧展示一个特质的标准条件/效果，不包含格子尺寸等制作信息。图像为脚本布局预览，不是游戏截图。完整美术来源保留为`ordnance_bureau_master.png`，游戏导出64×64；使用前次内置ImageGen产出的去圆规图，本轮没有重新生成图片。
 
+五家整合企业节点使用私有`GFX_RUS_odb_trait_*`。KR企业标志原图为64像素左右，原生特质框不会自动缩小，不能直接引用`GFX_idea_*`。`export_ordnance_trait_icons.py --write`从KR只读原图导出42×42透明画布（主体最大32×32）、私有图元和`trait_icons.json`来源/SHA清单；默认或`--check`只校验、不绘图。企业列表原图元不变。20261019已用原生trait框第三帧按GUI真实坐标检查五项叠放边界；预览绘图器自动缩放不能代替这个检查。
+
 ## 维护与验证
 
 默认/`--check`只读；`--write`生成专用运行文件并对四份共享文件做局部、幂等适配。开局生成器会从KR重建`RUS effects (Russia).txt`，因此其`render_native_anger`必须继续调用本生成器的`patch_legacy_effects`，不得丢失授勋分派。原开局回归核对新授勋分支和原生else的完整AST。
 
 ```powershell
 python tools/generate_ordnance_design_bureau.py --check
+python tools/export_ordnance_trait_icons.py --check
 python tools/validate.py --group mio opening
 python tools/check_runtime_structure.py
 python tools/render_ordnance_design_bureau.py
