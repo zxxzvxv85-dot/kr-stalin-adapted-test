@@ -50,7 +50,7 @@ def main():
     for n in spec['nodes']:
         x,y=center(n);im.alpha_composite(frame,(x-29,y-40));im.alpha_composite(icon(n['icon']),(x-21,y-32));d=ImageDraw.Draw(im)
         label=n['name']
-        if n['id']=='okmo':label='整合哈尔科夫\n莫洛佐夫设计局'
+        if n['id']=='okmo':label='整合莫洛佐夫\n机械制造设计局'
         elif len(label)>12:label='\n'.join(textwrap.wrap(label,8))
         for i,line in enumerate(label.splitlines()):text(x+3,y+43+i*16,line,11,anchor='mt')
         if n.get('repeat'):text(x+32,y-34,'1/10',11,'#e4cc8d')
