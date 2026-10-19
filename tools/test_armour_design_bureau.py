@@ -40,12 +40,22 @@ def main():
     for key,t in TRAITS.items():
         old=before[key]
         if key not in donor_tokens:continue
-        assert [n.norm() for n in t.v if n.k!='available']==[n.norm() for n in old.v if n.k!='available']
+        fields={'available','production_bonus'} if key in ['RUS_adb_tstz','RUS_adb_naz'] else {'available'}
+        assert [n.norm() for n in t.v if n.k not in fields]==[n.norm() for n in old.v if n.k not in fields]
+        if 'production_bonus' in fields:
+            expected={n.k:n.v for n in old.one('production_bonus').v if n.k!='production_factory_max_efficiency_factor'}
+            expected['production_efficiency_cap_factor']='0.2'
+            assert {n.k:n.v for n in t.one('production_bonus').v}==expected
         owner=t.one('available').one('FROM');guard=owner.one('hidden_trigger')
         assert guard and guard.value('has_military_industrial_organization')
         assert [n.norm() for n in guard.v]+[n.norm() for n in owner.v if n.k!='hidden_trigger']==[n.norm() for n in old.one('available').one('FROM').v]
     assert len({(n['x'],n['y']) for n in SPEC['nodes']})==16
     assert max(n['x'] for n in SPEC['nodes'])==6 and max(n['y'] for n in SPEC['nodes'])==4
+    for name,scope in [('tstz',['armor']),('naz',['motorized_equipment','mechanized_equipment','armored_car_equipment'])]:
+        t=TRAITS['RUS_adb_'+name]
+        assert tokens(t.one('limit_to_equipment_type'))==scope
+        assert t.one('production_bonus').value('production_efficiency_cap_factor')=='0.2'
+        assert not t.one('production_bonus').one('production_factory_max_efficiency_factor')
     tag_text='\n'.join(p.read_text(encoding='utf-8-sig') for base in [R.parents[3]/'common/Hearts of Iron IV',R.parent/'1521695605',R] for p in (base/'common/technology_tags').glob('*.txt'))
     for category in tokens(MIO.one('research_categories')):assert re.search(r'\b'+re.escape(category)+r'\b',tag_text),category
     # Actual drawio edges, including the unbound geometric TSTZ -> process arrow.

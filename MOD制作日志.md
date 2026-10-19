@@ -2,6 +2,12 @@
 
 最后更新：2026-10-19
 
+## 2026-10-19 — 两个装甲整合节点补正生产效率上限为20%
+
+- 按用户两张截图和最新要求，“整合斯大林格勒拖拉机厂”及“整合高尔基汽车厂”均提供生产效率上限+20%。核对本机KR RUS_organization.txt的TSTZ重复上限节点，原实现误把国家修正production_factory_max_efficiency_factor写入MIO production_bonus，导致截图未显示该项；现改为原生MIO production_efficiency_cap_factor=0.2，不保留旧15%字段，也不手写效果提示。
+- 先改装甲总局spec再生成定义：前者仍仅装甲，后者仍仅卡车/机械化/装甲车，其他四项生产加成、前置、移交和国策不变。专项检查确认两处原生字段/数值/装备范围、其余生产字段逐项保持，并排除误用国家字段；按既有MIO/开局、结构、RHoiScribe相关文件/项目、repair dry_run及Git空白检查验证。
+- 仅测试开发目录，开始工作树干净；fetch遇连接重置失败，未拉取或覆盖本地，当前改动不构建上传、不推送GitHub。保留MIO和特质ID，可完全重启后继续当前已有总局的存档测试；实际生产线数值与提示仍待用户实机确认。维护说明更新后本地提交。
+
 ## 2026-10-19 — 指导作战/车辆保障展开标准效果并追加规模需求
 
 - 用户追加两张实机图，要求指导作战和构建车辆保障体系像勋章一样显示效果。参照KR勋章set_temp_variable带tooltip及原版stats_l_simp_chinese的STAT_ARMY_COMBAT_WIDTH、STAT_ADJUSTER_ATTACK/DEFENCE/MOVEMENT，按原生属性名/RIGHT数值格式展示每档宽度-0.05、所有地形攻防移各+1%；必要自定义只标明适用装甲营/所有地形范围，不混用全军修正或百分比宽度标签。
