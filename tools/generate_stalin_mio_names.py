@@ -45,17 +45,13 @@ def render():
     for row in rows:
         if row['id'] not in ['toz','vpoz','bmz','obukhov','imz','okmo','uztm','chtz','putilovets','amo','tstz','naz']:continue
         old=orgs[row['org']].value('name')
-        for prefix,new_key,old_key in [('Company',key(row),old),('Merge','RUS_stalin_mio_merge_'+row['id'],'RUS_stalin_mio_merge_old_'+row['id'])]:
+        for prefix,new_key,old_key in [('Company',key(row),old)]:
             loc.append(f'''defined_text = {{
  name = RUSStalinMio{prefix}_{row['id']}
  text = {{ trigger = {{ FROM = {{ RUS_stalin_mio_names_active = yes }} }} localization_key = {new_key} }}
  text = {{ localization_key = {old_key} }}
 }}
 ''')
-        cn['RUS_stalin_mio_merge_'+row['id']]='整合'+row['name']
-        cn['RUS_stalin_mio_merge_old_'+row['id']]='整合$'+old+'$'
-        for prefix in ['RUS_stalin_mio_merge_','RUS_stalin_mio_merge_old_']:
-            fallback[prefix+row['id']]='Integrate $'+old+'$'
     companies={row['id']:row for row in rows}
     named_traits={t.value('name') for org in orgs.values() for t in org.children('trait')}
     # Native trait lookup prefers TAG_name. Never override a shared KR title globally.

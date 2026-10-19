@@ -34,7 +34,7 @@ def main():
     d.rectangle((20,62,319,700),fill='#242b25',outline='#858168',width=2)
     art=Image.open(ROOT/'tools/design/armour_design_bureau/armour_bureau_master.png').convert('RGBA');art.thumbnail((205,205),Image.Resampling.LANCZOS);im.alpha_composite(art,(68,82));d=ImageDraw.Draw(im)
     text(38,310,'指导作战',20,'#dec48b');text(38,352,'需要：');text(48,380,'扩大武器设计交流');text(48,407,'联合设计生产');text(48,434,'经费大于 1000',13,'#d7c175')
-    text(38,479,'完成时：');text(48,507,'经费：−1000',13,'#dc7b70');text(48,534,'装甲生产花费：+2%',13,'#dc7b70');text(48,561,'生活消费品期望：+1%',13,'#dc7b70');text(48,588,'装甲营战斗宽度：−0.05',13,'#80d188');text(38,640,'这项特质还可以培养9次。',13,'#87bdc3')
+    text(38,479,'完成时：');text(48,507,'经费：−1000',13,'#dc7b70');text(48,534,'装甲生产花费：+2%',13,'#dc7b70');text(48,561,'生活消费品期望：+1%',13,'#dc7b70');text(48,588,'装甲营战斗宽度：−0.05',13,'#80d188');text(48,615,'升级规模需求：+10%',13,'#dc7b70');text(38,659,'这项特质还可以培养9次。',13,'#87bdc3')
     d.rectangle((340,62,1245,702),fill='#242b26',outline='#858168',width=2)
     byid={n['id']:n for n in spec['nodes']}
     # Include the entire native 87x117 entry in the available 885x620 area.

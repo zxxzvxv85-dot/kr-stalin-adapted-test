@@ -98,10 +98,17 @@ def main():
             assert p.read_bytes().startswith(b'\xef\xbb\xbf')
             keys=re.findall(r'^ (\w+):',p.read_text(encoding='utf-8-sig'),re.M);assert len(keys)==len(set(keys))
         else:load(p)
-    # Five merge labels and unavailable tooltips use the same conditional company names.
-    odb=(R/'localisation/simp_chinese/RUS_ordnance_design_bureau_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
-    for key in ['toz','vpoz','bmz','obukhov','imz']:
-        assert '[RUSStalinMioMerge_'+key+']' in odb and '[RUSStalinMioCompany_'+key+']' in odb
-    print('PASS: 23 exact names + two Sokol variants; before/after/other-country/no-DLC gates, missing institutions, idempotence, preserved stats/tasks, event AST, five merge labels, 15 native trait titles, original MIO AST and BOM/keys. Runtime UI remains to be checked.')
+    # In-game evidence: trait titles leave scripted loc raw, whereas effect bodies expand it.
+    # Both bureaus unlock after Stalin; keep all twelve titles literal, same approved source.
+    companies={r['id']:r['name'] for r in ROWS}
+    for prefix,stem in [('odb','ordnance'),('adb','armour')]:
+        text=(R/f'localisation/simp_chinese/RUS_{stem}_design_bureau_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
+        labels={m[1]:json.loads(m[2]) for m in re.finditer(r'^ (\w+):0 (.+)$',text,re.M)}
+        spec=json.loads((R/f'tools/design/{stem}_design_bureau/spec.json').read_text(encoding='utf-8'))
+        for n in [n for n in spec['nodes'] if n.get('source')]:
+            assert labels[f'RUS_{prefix}_'+n['id']]=='整合'+companies[n['id']]
+            assert '[RUSStalinMioCompany_'+n['id']+']' in labels[f'RUS_{prefix}_'+n['id']+'_unavailable_tt']
+        assert '[RUSStalinMioMerge_' not in text
+    print('PASS: 23 exact names + two Sokol variants; country gates, preserved state/event/original traits, twelve literal merge titles, dynamic effect-body names and BOM/keys. Runtime UI remains to be checked.')
 
 if __name__=='__main__':main()

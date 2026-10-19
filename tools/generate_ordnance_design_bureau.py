@@ -31,6 +31,7 @@ def block(key, body):
 
 def render(spec):
     loc = dict(spec['localisation'])
+    company_names={n['id']:n['name'] for n in json.loads((ROOT/'tools/design/RUS_stalin_mio_names.json').read_text(encoding='utf-8'))}
     effects = []
     traits = []
     for node in spec['nodes']:
@@ -40,7 +41,9 @@ def render(spec):
             token = key if count == 1 else f'{key}_{rank}'
             loc[token] = node['name']
             if node.get('source'):
-                loc[token]='[RUSStalinMioMerge_'+node['id']+']'
+                # Trait title lookup does not expand scripted localisation in game.
+                # Both bureaus are unlocked on the Stalin route, so use the approved title.
+                loc[token]='整合'+company_names[node['id']]
             b = f'token = {token}\nname = {token}\nicon = {node["icon"]}\nposition = {{ x = {node["x"]} y = {node["y"]} }}\n'
             if node.get('parents'):
                 b += 'all_parents = { '+' '.join('RUS_odb_'+x for x in node['parents'])+' }\n'

@@ -33,6 +33,17 @@ class World(model.Model):
 
 def main():
     assert len(SPEC['nodes'])==16 and len(TRAITS)==52
+    # UI-only correction: hide the redundant raw-ID existence check, same predicate.
+    previous=next(n for n in parse(subprocess.check_output(['git','show','d15fa2d:common/military_industrial_organization/organizations/RUS_armour_design_bureau.txt']).decode('utf-8-sig')) if n.k==ORG)
+    before={t.value('token'):t for t in previous.children('trait')}
+    donor_tokens={'RUS_adb_'+n['id'] for n in SPEC['nodes'] if n.get('source')}
+    for key,t in TRAITS.items():
+        old=before[key]
+        if key not in donor_tokens:continue
+        assert [n.norm() for n in t.v if n.k!='available']==[n.norm() for n in old.v if n.k!='available']
+        owner=t.one('available').one('FROM');guard=owner.one('hidden_trigger')
+        assert guard and guard.value('has_military_industrial_organization')
+        assert [n.norm() for n in guard.v]+[n.norm() for n in owner.v if n.k!='hidden_trigger']==[n.norm() for n in old.one('available').one('FROM').v]
     assert len({(n['x'],n['y']) for n in SPEC['nodes']})==16
     assert max(n['x'] for n in SPEC['nodes'])==6 and max(n['y'] for n in SPEC['nodes'])==4
     tag_text='\n'.join(p.read_text(encoding='utf-8-sig') for base in [R.parents[3]/'common/Hearts of Iron IV',R.parent/'1521695605',R] for p in (base/'common/technology_tags').glob('*.txt'))
@@ -71,6 +82,9 @@ def main():
             assert len(visible)==1 and visible[0].value('token').endswith('_10')
         else:assert w.buy('RUS_adb_'+n['id'])
     assert o['vars']['funds']==1 and len(w.tech)==20 and w.country['ideas']=={'RUS_adb_extreme_design_10'}
+    # Each guidance rank changes required growth, never directly adds ten percent levels.
+    assert sum(D(TRAITS[f'RUS_adb_guidance_{rank}'].one('organization_modifier').value('military_industrial_organization_size_up_requirement')) for rank in range(1,11))==1
+    assert o['vars']['size']==48
     # Previewed CIC is not paid at trait purchase; each completed research pays once.
     assert w.cic==0
     o['vars']['size']=D(23);o['vars']['research_bonus']=D('.4')
@@ -143,6 +157,19 @@ def main():
     for key in ['reactive','guidance','logistics','process']:
         selected=[t for t in TRAITS.values() if t.value('token').startswith('RUS_adb_'+key+'_')]
         assert len(selected)==10
+    # Standard stat labels use the same source numbers as hidden technology execution.
+    for group in ['guidance','logistics']:
+        for rank in range(1,11):
+            action=TRAITS[f'RUS_adb_{group}_{rank}'].one('on_complete')
+            hidden=[n for n in action.children('hidden_effect') if n.one('FROM') and n.one('FROM').one('set_technology')]
+            assert len(hidden)==1 and hidden[0].one('FROM').one('set_technology').value(f'RUS_adb_{group}_bonus_{rank}')=='1'
+            assert not any(n.one('set_technology') for n in action.children('FROM'))
+            tips={n.one('tooltip').v:n.v[0].v for n in action.children('set_temp_variable') if n.one('tooltip')}
+            if group=='guidance':assert tips['RUS_adb_combat_width_delta_tt']=='-0.05'
+            else:
+                assert all(tips[f'RUS_adb_terrain_{s}_delta_tt']=='0.01' for s in ['attack','defence','movement'])
+    loc=(R/f'localisation/simp_chinese/{build.STEM}_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
+    for key in ['STAT_ARMY_COMBAT_WIDTH','STAT_ADJUSTER_ATTACK','STAT_ADJUSTER_DEFENCE','STAT_ADJUSTER_MOVEMENT']:assert '$'+key+'$' in loc
     assert TRAITS['RUS_adb_process_1'].one('equipment_bonus').value('hardness')=='-0.02'
     for rel in build.render(SPEC):
         p=R/rel

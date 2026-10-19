@@ -17,18 +17,26 @@ FOCUS='common/national_focus/00_RUS_future_foreign_policy_skeleton.txt'
 DONORS='common/military_industrial_organization/organizations/RUS_organization.txt'
 
 def render(spec):
+    company_names={n['id']:n['name'] for n in json.loads((ROOT/'tools/design/RUS_stalin_mio_names.json').read_text(encoding='utf-8'))}
+    byid={n['id']:n for n in spec['nodes']}
     loc={
       ORG:'陆军装甲设计总局','RUS_adb_initial_trait':'装甲车辆联合设计体系',
       'RUS_adb_repeat_remaining_tt':'§C这项特质还可以培养$RIGHT|Y0$次。§!',
       'RUS_adb_learning_tt':'§g当被分配为£industrial_manufacturer_icon §H制造商§!时，该§H军工机构§!将逐渐获得£research_speed_icon §H研究加成§!（分配到多条生产线时效果不会叠加）\n\n每周£research_speed_icon §H研究加成§!增长：[?RUS_adb_policy_research_gain|2W%]\n£research_speed_icon §H研究加成§!软上限：[?RUS_adb_policy_research_cap|2W%]\n获取£research_speed_icon §H研究加成§!所需的最低每日§H经费§!：[?daily_funds_requirement|2W]\n\n[GetRUSAdbLearningStatus]§!',
       'RUS_adb_research_cic_tt':'\n§g提高§H军工机构§!规模，也将提高通过研究获取的额外£civ_factory_output §H经济产能盈余§!，每有一级规模提高[?RUS_adb_cic_per_level|G0]。\n\n在该活动期间，获取的£civ_factory_output §H经济产能盈余§!总值：[?RUS_adb_total_campaign_cic|W0]§!',
-      'RUS_adb_extreme_design':'极限设计'
+      'RUS_adb_extreme_design':'极限设计',
+      'RUS_adb_armour_battalions_tt':'§Y坦克、两栖坦克及其自行武器营：§!',
+      'RUS_adb_all_terrain_tt':'§Y所有地形：§!',
+      'RUS_adb_combat_width_delta_tt':'  $STAT_ARMY_COMBAT_WIDTH$$RIGHT|-=2$',
+      'RUS_adb_terrain_attack_delta_tt':'  $STAT_ADJUSTER_ATTACK$$RIGHT|+=%1$',
+      'RUS_adb_terrain_defence_delta_tt':'  $STAT_ADJUSTER_DEFENCE$$RIGHT|+=%1$',
+      'RUS_adb_terrain_movement_delta_tt':'  $STAT_ADJUSTER_MOVEMENT$$RIGHT|+=%1$'
     }
     effects=[];traits=[]
     for n in spec['nodes']:
         key='RUS_adb_'+n['id'];count=n.get('repeat',1)
         loc[key]=n['name']
-        if n.get('source'):loc[key]='[RUSStalinMioMerge_'+n['id']+']'
+        if n.get('source'):loc[key]='整合'+company_names[n['id']]
         for rank in range(1,count+1):
             token=key if count==1 else key+'_'+str(rank)
             loc[token]=loc[key]
@@ -44,7 +52,7 @@ def render(spec):
                 b+=block('visible',v)
                 available+=f'check_variable = {{ RUS_adb_{n["id"]}_rank = {rank-1} }}\n'
             if n.get('source'):
-                available+=f'FROM = {{ has_military_industrial_organization = {n["source"]} mio:{n["source"]} = {{ is_mio_available = yes }} }}\n'
+                available+=f'FROM = {{ hidden_trigger = {{ has_military_industrial_organization = {n["source"]} }} mio:{n["source"]} = {{ is_mio_available = yes }} }}\n'
             if n['id']=='guidance':available+='check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }\n'
             if available:b+=block('available',available)
             complete=''
@@ -59,8 +67,15 @@ def render(spec):
             if n['id']=='guidance':
                 complete+='add_mio_funds = -1000\nsubtract_from_variable = { RUS_adb_previous_funds = 1000 }\nFROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }\nhidden_effect = { FROM = {\n'
                 if rank>1:complete+=f'remove_ideas = RUS_adb_extreme_design_{rank-1}\n'
-                complete+=f'add_ideas = RUS_adb_extreme_design_{rank}\n}} }}\nFROM = {{ set_technology = {{ RUS_adb_guidance_bonus_{rank} = 1 }} }}\n'
-            if n['id']=='logistics':complete+=f'FROM = {{ set_technology = {{ RUS_adb_logistics_bonus_{rank} = 1 }} }}\n'
+                complete+=f'add_ideas = RUS_adb_extreme_design_{rank}\n}} }}\n'
+                complete+='custom_effect_tooltip = RUS_adb_armour_battalions_tt\n'
+                complete+=f'set_temp_variable = {{ RUS_adb_width_delta = {n["unit_bonus"]["combat_width"]} tooltip = RUS_adb_combat_width_delta_tt }}\n'
+                complete+=f'hidden_effect = {{ FROM = {{ set_technology = {{ RUS_adb_guidance_bonus_{rank} = 1 }} }} }}\n'
+            if n['id']=='logistics':
+                complete+='custom_effect_tooltip = RUS_adb_armour_battalions_tt\ncustom_effect_tooltip = RUS_adb_all_terrain_tt\n'
+                for stat,value in n['terrain_bonus'].items():
+                    complete+=f'set_temp_variable = {{ RUS_adb_terrain_delta = {value} tooltip = RUS_adb_terrain_{stat}_delta_tt }}\n'
+                complete+=f'hidden_effect = {{ FROM = {{ set_technology = {{ RUS_adb_logistics_bonus_{rank} = 1 }} }} }}\n'
             if complete:b+=block('on_complete',complete)
             b+='ai_will_do = { factor = 1 }\n'
             traits.append(block('trait',b))
@@ -163,7 +178,7 @@ custom_effect_tooltip = RUS_adb_research_cic_tt'''))
         for group in ['guidance','logistics']:
             name=f'RUS_adb_{group}_bonus_{rank}';loc[name]=('指导作战' if group=='guidance' else '联勤保障')+' '+str(rank)
             loc[name+'_desc']='装甲部队在联合设计与持续试验中积累经验，将新的成果用于战场。'
-            stats='combat_width = -0.05' if group=='guidance' else ''.join(block(t,'attack = 0.01\ndefence = 0.01\nmovement = 0.01') for t in spec['terrains'])
+            stats='combat_width = '+str(byid['guidance']['unit_bonus']['combat_width']) if group=='guidance' else ''.join(block(t,'\n'.join(f'{k} = {v}' for k,v in byid['logistics']['terrain_bonus'].items())) for t in spec['terrains'])
             tech.append(block(name,'allow = { always = no }\n'+''.join(block(u,stats) for u in spec['units'])))
     local='''defined_text = {
  name = GetRUSAdbLearningStatus

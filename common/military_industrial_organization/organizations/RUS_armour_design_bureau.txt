@@ -57,7 +57,7 @@ RUS_adb_organisation = {
    defense = 0.15
   }
   available = {
-   FROM = { has_military_industrial_organization = RUS_okmo_kr_organisation mio:RUS_okmo_kr_organisation = { is_mio_available = yes } }
+   FROM = { hidden_trigger = { has_military_industrial_organization = RUS_okmo_kr_organisation } mio:RUS_okmo_kr_organisation = { is_mio_available = yes } }
   }
   on_complete = {
    RUS_adb_merge_okmo = yes
@@ -77,7 +77,7 @@ RUS_adb_organisation = {
    fuel_capacity = 2
   }
   available = {
-   FROM = { has_military_industrial_organization = RUS_uztm_organisation mio:RUS_uztm_organisation = { is_mio_available = yes } }
+   FROM = { hidden_trigger = { has_military_industrial_organization = RUS_uztm_organisation } mio:RUS_uztm_organisation = { is_mio_available = yes } }
   }
   on_complete = {
    RUS_adb_merge_uztm = yes
@@ -95,7 +95,7 @@ RUS_adb_organisation = {
    build_cost_ic = -0.2
   }
   available = {
-   FROM = { has_military_industrial_organization = RUS_chtz_organisation mio:RUS_chtz_organisation = { is_mio_available = yes } }
+   FROM = { hidden_trigger = { has_military_industrial_organization = RUS_chtz_organisation } mio:RUS_chtz_organisation = { is_mio_available = yes } }
   }
   on_complete = {
    RUS_adb_merge_chtz = yes
@@ -117,7 +117,7 @@ RUS_adb_organisation = {
    entrenchment = 0.5
   }
   available = {
-   FROM = { has_military_industrial_organization = RUS_putilovets_organisation mio:RUS_putilovets_organisation = { is_mio_available = yes } }
+   FROM = { hidden_trigger = { has_military_industrial_organization = RUS_putilovets_organisation } mio:RUS_putilovets_organisation = { is_mio_available = yes } }
   }
   on_complete = {
    RUS_adb_merge_putilovets = yes
@@ -140,7 +140,7 @@ RUS_adb_organisation = {
    production_resource_need_factor = 0.1
   }
   available = {
-   FROM = { has_military_industrial_organization = RUS_amo_organisation mio:RUS_amo_organisation = { is_mio_available = yes } }
+   FROM = { hidden_trigger = { has_military_industrial_organization = RUS_amo_organisation } mio:RUS_amo_organisation = { is_mio_available = yes } }
   }
   on_complete = {
    RUS_adb_merge_amo = yes
@@ -162,7 +162,7 @@ RUS_adb_organisation = {
    production_capacity_factor = 0.1
   }
   available = {
-   FROM = { has_military_industrial_organization = RUS_tstz_organisation mio:RUS_tstz_organisation = { is_mio_available = yes } }
+   FROM = { hidden_trigger = { has_military_industrial_organization = RUS_tstz_organisation } mio:RUS_tstz_organisation = { is_mio_available = yes } }
   }
   on_complete = {
    RUS_adb_merge_tstz = yes
@@ -184,7 +184,7 @@ RUS_adb_organisation = {
    production_capacity_factor = 0.1
   }
   available = {
-   FROM = { has_military_industrial_organization = RUS_naz_organisation mio:RUS_naz_organisation = { is_mio_available = yes } }
+   FROM = { hidden_trigger = { has_military_industrial_organization = RUS_naz_organisation } mio:RUS_naz_organisation = { is_mio_available = yes } }
   }
   on_complete = {
    RUS_adb_merge_naz = yes
@@ -460,6 +460,9 @@ RUS_adb_organisation = {
   equipment_bonus = {
    build_cost_ic = 0.02
   }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
+  }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 0 }
   }
@@ -476,7 +479,9 @@ RUS_adb_organisation = {
    hidden_effect = { FROM = {
    add_ideas = RUS_adb_extreme_design_1
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_1 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_1 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -489,6 +494,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 1 }
@@ -507,7 +515,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_1
    add_ideas = RUS_adb_extreme_design_2
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_2 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_2 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -520,6 +530,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 2 }
@@ -538,7 +551,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_2
    add_ideas = RUS_adb_extreme_design_3
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_3 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_3 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -551,6 +566,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 3 }
@@ -569,7 +587,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_3
    add_ideas = RUS_adb_extreme_design_4
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_4 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_4 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -582,6 +602,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 4 }
@@ -600,7 +623,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_4
    add_ideas = RUS_adb_extreme_design_5
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_5 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_5 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -613,6 +638,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 5 }
@@ -631,7 +659,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_5
    add_ideas = RUS_adb_extreme_design_6
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_6 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_6 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -644,6 +674,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 6 }
@@ -662,7 +695,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_6
    add_ideas = RUS_adb_extreme_design_7
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_7 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_7 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -675,6 +710,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 7 }
@@ -693,7 +731,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_7
    add_ideas = RUS_adb_extreme_design_8
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_8 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_8 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -706,6 +746,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    check_variable = { RUS_adb_guidance_rank = 8 }
@@ -724,7 +767,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_8
    add_ideas = RUS_adb_extreme_design_9
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_9 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_9 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -737,6 +782,9 @@ RUS_adb_organisation = {
   limit_to_equipment_type = { armor }
   equipment_bonus = {
    build_cost_ic = 0.02
+  }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = 0.1
   }
   visible = {
    NOT = { check_variable = { RUS_adb_guidance_rank < 9 } }
@@ -755,7 +803,9 @@ RUS_adb_organisation = {
    remove_ideas = RUS_adb_extreme_design_9
    add_ideas = RUS_adb_extreme_design_10
    } }
-   FROM = { set_technology = { RUS_adb_guidance_bonus_10 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   set_temp_variable = { RUS_adb_width_delta = -0.05 tooltip = RUS_adb_combat_width_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_guidance_bonus_10 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -774,7 +824,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 1 }
    set_temp_variable = { RUS_adb_repeats_left = 9 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_1 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_1 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -793,7 +848,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 2 }
    set_temp_variable = { RUS_adb_repeats_left = 8 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_2 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_2 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -812,7 +872,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 3 }
    set_temp_variable = { RUS_adb_repeats_left = 7 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_3 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_3 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -831,7 +896,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 4 }
    set_temp_variable = { RUS_adb_repeats_left = 6 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_4 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_4 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -850,7 +920,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 5 }
    set_temp_variable = { RUS_adb_repeats_left = 5 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_5 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_5 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -869,7 +944,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 6 }
    set_temp_variable = { RUS_adb_repeats_left = 4 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_6 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_6 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -888,7 +968,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 7 }
    set_temp_variable = { RUS_adb_repeats_left = 3 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_7 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_7 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -907,7 +992,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 8 }
    set_temp_variable = { RUS_adb_repeats_left = 2 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_8 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_8 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -926,7 +1016,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 9 }
    set_temp_variable = { RUS_adb_repeats_left = 1 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_9 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_9 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
@@ -945,7 +1040,12 @@ RUS_adb_organisation = {
   on_complete = {
    set_variable = { RUS_adb_logistics_rank = 10 }
    set_temp_variable = { RUS_adb_repeats_left = 0 tooltip = RUS_adb_repeat_remaining_tt }
-   FROM = { set_technology = { RUS_adb_logistics_bonus_10 = 1 } }
+   custom_effect_tooltip = RUS_adb_armour_battalions_tt
+   custom_effect_tooltip = RUS_adb_all_terrain_tt
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_attack_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_defence_delta_tt }
+   set_temp_variable = { RUS_adb_terrain_delta = 0.01 tooltip = RUS_adb_terrain_movement_delta_tt }
+   hidden_effect = { FROM = { set_technology = { RUS_adb_logistics_bonus_10 = 1 } } }
   }
   ai_will_do = { factor = 1 }
  }
