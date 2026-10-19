@@ -43,7 +43,7 @@ def render():
     fallback={key(row):'$'+orgs[row['org']].value('name')+'$' for row in rows}
     loc=[]
     for row in rows:
-        if row['id'] not in ['toz','vpoz','bmz','obukhov','imz']:continue
+        if row['id'] not in ['toz','vpoz','bmz','obukhov','imz','okmo','uztm','chtz','putilovets','amo','tstz','naz']:continue
         old=orgs[row['org']].value('name')
         for prefix,new_key,old_key in [('Company',key(row),old),('Merge','RUS_stalin_mio_merge_'+row['id'],'RUS_stalin_mio_merge_old_'+row['id'])]:
             loc.append(f'''defined_text = {{

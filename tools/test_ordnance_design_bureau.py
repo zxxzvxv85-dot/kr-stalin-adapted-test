@@ -201,8 +201,8 @@ def main():
         b=original[key]
         if key not in rd:assert p.norm()==b.norm();continue
         assert [n.norm() for n in p.v if n.k!='allowed']==[n.norm() for n in b.v if n.k!='allowed']
-        assert [n.norm() for n in p.one('allowed').one('OR').v[:-1]]==[n.norm() for n in b.one('allowed').one('OR').v]
-        assert p.one('allowed').one('OR').v[-1].v==ORG
+        assert [n.norm() for n in p.one('allowed').one('OR').v[:-2]]==[n.norm() for n in b.one('allowed').one('OR').v]
+        assert [n.v for n in p.one('allowed').one('OR').v[-2:]]==[ORG,'RUS_adb_organisation']
         w=Model()
         assert w.scoped(w.mios[ORG],lambda:w.cond(p.one('allowed').v))
         assert w.scoped(w.mios['RUS_vpoz_organisation'],lambda:w.cond(p.one('allowed').v))
@@ -245,11 +245,17 @@ def main():
     # No unrelated legacy traits, conditions, focus rewards or missions were changed.
     source='common/military_industrial_organization/organizations/RUS_organization.txt'
     old={n.k:n for n in parse(subprocess.check_output(['git','show','ea65495ad19b87083fc4a7324242dbafc24be97b:'+source]).decode('utf-8-sig'))}
+    armour=json.loads((R/'tools/design/armour_design_bureau/spec.json').read_text(encoding='utf-8'))
+    armour_sources={x['source']:x['id'] for x in armour['nodes'] if x.get('source')}
     for n in load(R/source):
         b=old[n.k]
         if n.k in [x.get('source') for x in SPEC['nodes']]:
             assert [x.norm() for x in n.v if x.k!='available']==[x.norm() for x in b.v if x.k!='available']
             assert [x.norm() for x in n.one('available').v[:-1]]==[x.norm() for x in b.one('available').v]
+        elif n.k in armour_sources:
+            assert [x.norm() for x in n.v if x.k!='available']==[x.norm() for x in b.v if x.k!='available']
+            assert [x.norm() for x in n.one('available').v[:-1]]==[x.norm() for x in b.one('available').v]
+            assert n.one('available').v[-1].one('NOT').value('has_country_flag')=='RUS_adb_merged_'+armour_sources[n.k]
         else:assert n.norm()==b.norm()
     positions={(n['x'],n['y']) for n in SPEC['nodes']};assert len(positions)==17
     assert max(x for x,y in positions)==6 and max(y for x,y in positions)==4

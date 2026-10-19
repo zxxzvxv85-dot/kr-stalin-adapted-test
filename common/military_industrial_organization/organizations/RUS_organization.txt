@@ -237,7 +237,9 @@ RUS_putilovets_organisation = {
 	allowed = {
 		is_russian_tag = yes
 	}
-	available = { FROM = { owns_state = 195 } } #Petrograd
+	available = { FROM = { owns_state = 195 }
+		FROM = { NOT = { has_country_flag = RUS_adb_merged_putilovets } }
+	} #Petrograd
 
 	equipment_type = {
 		armor
@@ -570,6 +572,7 @@ RUS_okmo_kr_organisation = {
 				has_completed_focus = RUS_secret_weapons_development
 			}
 		}
+		FROM = { NOT = { has_country_flag = RUS_adb_merged_okmo } }
 	}
 
 	equipment_type = {
@@ -1229,6 +1232,7 @@ RUS_uztm_organisation = {
 				has_country_flag = unlock_uztm
 			}
 		}
+		FROM = { NOT = { has_country_flag = RUS_adb_merged_uztm } }
 	}
 	allowed = {
 		is_russian_tag = yes
@@ -2094,6 +2098,7 @@ RUS_tstz_organisation = {
 				has_country_flag = unlock_tstz
 			}
 		}
+		FROM = { NOT = { has_country_flag = RUS_adb_merged_tstz } }
 	}
 
 	equipment_type = {
@@ -4959,6 +4964,7 @@ RUS_chtz_organisation = {
 				has_country_flag = unlock_chtz
 			}
 		}
+		FROM = { NOT = { has_country_flag = RUS_adb_merged_chtz } }
 	}
 
 	equipment_type = {
@@ -13028,7 +13034,9 @@ RUS_amo_organisation = {
 	allowed = {
 		is_russian_tag = yes
 	}
-	available = { FROM = { owns_state = 219 } } #Moscow
+	available = { FROM = { owns_state = 219 }
+		FROM = { NOT = { has_country_flag = RUS_adb_merged_amo } }
+	} #Moscow
 
 	on_tech_research_completed = {
 		# Add_cic formula: (RUS_amo_cic_bonus * size) + @RUS_amo_cic_base
@@ -13373,7 +13381,9 @@ RUS_naz_organisation = {
 	allowed = {
 		is_russian_tag = yes
 	}
-	available = { FROM = { owns_state = 252 } } #Nizhny Novgorod
+	available = { FROM = { owns_state = 252 }
+		FROM = { NOT = { has_country_flag = RUS_adb_merged_naz } }
+	} #Nizhny Novgorod
 
 	equipment_type = {
 		motorized_equipment

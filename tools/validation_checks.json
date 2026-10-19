@@ -1,5 +1,24 @@
 [
   {
+    "id": "armour_design_bureau_generation",
+    "path": "tools/generate_armour_design_bureau.py",
+    "groups": ["mio", "generated"],
+    "args": ["--check"]
+  },
+  {
+    "id": "armour_design_bureau_icons",
+    "path": "tools/export_armour_trait_icons.py",
+    "groups": ["mio", "generated"],
+    "args": ["--check"],
+    "requires": ["kr"]
+  },
+  {
+    "id": "armour_design_bureau_integration",
+    "path": "tools/test_armour_design_bureau.py",
+    "groups": ["mio"],
+    "requires": ["kr", "game"]
+  },
+  {
     "id": "stalin_mio_name_generation",
     "path": "tools/generate_stalin_mio_names.py",
     "groups": ["mio", "generated"],

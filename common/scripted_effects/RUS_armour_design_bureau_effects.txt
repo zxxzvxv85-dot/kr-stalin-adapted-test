@@ -1,0 +1,217 @@
+RUS_adb_merge_okmo = {
+ if = {
+  limit = { FROM = { has_military_industrial_organization = RUS_okmo_kr_organisation NOT = { has_country_flag = RUS_adb_merged_okmo } } }
+  FROM = {
+   mio:RUS_okmo_kr_organisation = {
+    set_variable = { PREV.RUS_adb_transfer_size = size }
+    set_variable = { PREV.RUS_adb_transfer_funds = funds }
+    set_temp_variable = { RUS_adb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_adb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_adb_organisation = {
+    add_mio_size = PREV.RUS_adb_transfer_size
+    add_mio_funds = PREV.RUS_adb_transfer_funds
+    add_to_variable = { RUS_adb_previous_funds = PREV.RUS_adb_transfer_funds }
+   }
+   set_country_flag = RUS_adb_merged_okmo
+   clear_variable = RUS_adb_transfer_size
+   clear_variable = RUS_adb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_adb_okmo_unavailable_tt
+}
+RUS_adb_merge_uztm = {
+ if = {
+  limit = { FROM = { has_military_industrial_organization = RUS_uztm_organisation NOT = { has_country_flag = RUS_adb_merged_uztm } } }
+  FROM = {
+   mio:RUS_uztm_organisation = {
+    set_variable = { PREV.RUS_adb_transfer_size = size }
+    set_variable = { PREV.RUS_adb_transfer_funds = funds }
+    set_temp_variable = { RUS_adb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_adb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_adb_organisation = {
+    add_mio_size = PREV.RUS_adb_transfer_size
+    add_mio_funds = PREV.RUS_adb_transfer_funds
+    add_to_variable = { RUS_adb_previous_funds = PREV.RUS_adb_transfer_funds }
+   }
+   set_country_flag = RUS_adb_merged_uztm
+   clear_variable = RUS_adb_transfer_size
+   clear_variable = RUS_adb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_adb_uztm_unavailable_tt
+}
+RUS_adb_merge_chtz = {
+ if = {
+  limit = { FROM = { has_military_industrial_organization = RUS_chtz_organisation NOT = { has_country_flag = RUS_adb_merged_chtz } } }
+  FROM = {
+   mio:RUS_chtz_organisation = {
+    set_variable = { PREV.RUS_adb_transfer_size = size }
+    set_variable = { PREV.RUS_adb_transfer_funds = funds }
+    set_temp_variable = { RUS_adb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_adb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_adb_organisation = {
+    add_mio_size = PREV.RUS_adb_transfer_size
+    add_mio_funds = PREV.RUS_adb_transfer_funds
+    add_to_variable = { RUS_adb_previous_funds = PREV.RUS_adb_transfer_funds }
+   }
+   set_country_flag = RUS_adb_merged_chtz
+   clear_variable = RUS_adb_transfer_size
+   clear_variable = RUS_adb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_adb_chtz_unavailable_tt
+}
+RUS_adb_merge_putilovets = {
+ if = {
+  limit = { FROM = { has_military_industrial_organization = RUS_putilovets_organisation NOT = { has_country_flag = RUS_adb_merged_putilovets } } }
+  FROM = {
+   mio:RUS_putilovets_organisation = {
+    set_variable = { PREV.RUS_adb_transfer_size = size }
+    set_variable = { PREV.RUS_adb_transfer_funds = funds }
+    set_temp_variable = { RUS_adb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_adb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_adb_organisation = {
+    add_mio_size = PREV.RUS_adb_transfer_size
+    add_mio_funds = PREV.RUS_adb_transfer_funds
+    add_to_variable = { RUS_adb_previous_funds = PREV.RUS_adb_transfer_funds }
+   }
+   set_country_flag = RUS_adb_merged_putilovets
+   clear_variable = RUS_adb_transfer_size
+   clear_variable = RUS_adb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_adb_putilovets_unavailable_tt
+}
+RUS_adb_merge_amo = {
+ if = {
+  limit = { FROM = { has_military_industrial_organization = RUS_amo_organisation NOT = { has_country_flag = RUS_adb_merged_amo } } }
+  FROM = {
+   mio:RUS_amo_organisation = {
+    set_variable = { PREV.RUS_adb_transfer_size = size }
+    set_variable = { PREV.RUS_adb_transfer_funds = funds }
+    set_temp_variable = { RUS_adb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_adb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_adb_organisation = {
+    add_mio_size = PREV.RUS_adb_transfer_size
+    add_mio_funds = PREV.RUS_adb_transfer_funds
+    add_to_variable = { RUS_adb_previous_funds = PREV.RUS_adb_transfer_funds }
+   }
+   set_country_flag = RUS_adb_merged_amo
+   clear_variable = RUS_adb_transfer_size
+   clear_variable = RUS_adb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_adb_amo_unavailable_tt
+}
+RUS_adb_merge_tstz = {
+ if = {
+  limit = { FROM = { has_military_industrial_organization = RUS_tstz_organisation NOT = { has_country_flag = RUS_adb_merged_tstz } } }
+  FROM = {
+   mio:RUS_tstz_organisation = {
+    set_variable = { PREV.RUS_adb_transfer_size = size }
+    set_variable = { PREV.RUS_adb_transfer_funds = funds }
+    set_temp_variable = { RUS_adb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_adb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_adb_organisation = {
+    add_mio_size = PREV.RUS_adb_transfer_size
+    add_mio_funds = PREV.RUS_adb_transfer_funds
+    add_to_variable = { RUS_adb_previous_funds = PREV.RUS_adb_transfer_funds }
+   }
+   set_country_flag = RUS_adb_merged_tstz
+   clear_variable = RUS_adb_transfer_size
+   clear_variable = RUS_adb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_adb_tstz_unavailable_tt
+}
+RUS_adb_merge_naz = {
+ if = {
+  limit = { FROM = { has_military_industrial_organization = RUS_naz_organisation NOT = { has_country_flag = RUS_adb_merged_naz } } }
+  FROM = {
+   mio:RUS_naz_organisation = {
+    set_variable = { PREV.RUS_adb_transfer_size = size }
+    set_variable = { PREV.RUS_adb_transfer_funds = funds }
+    set_temp_variable = { RUS_adb_withdrawal = { value = funds multiply = -1 } }
+    hidden_effect = { add_mio_funds = var:RUS_adb_withdrawal }
+   }
+   custom_effect_tooltip = USA_MIO_funds_and_level_merger_tt
+   mio:RUS_adb_organisation = {
+    add_mio_size = PREV.RUS_adb_transfer_size
+    add_mio_funds = PREV.RUS_adb_transfer_funds
+    add_to_variable = { RUS_adb_previous_funds = PREV.RUS_adb_transfer_funds }
+   }
+   set_country_flag = RUS_adb_merged_naz
+   clear_variable = RUS_adb_transfer_size
+   clear_variable = RUS_adb_transfer_funds
+  }
+ }
+ custom_effect_tooltip = RUS_adb_naz_unavailable_tt
+}
+RUS_adb_unlock = {
+ if = {
+  limit = { has_dlc_aat = yes has_military_industrial_organization = RUS_adb_organisation }
+  show_mio_tooltip = RUS_adb_organisation
+  hidden_effect = { mio:RUS_adb_organisation = {
+   if = {
+    limit = { NOT = { has_mio_flag = RUS_adb_initialized } }
+    set_mio_flag = RUS_adb_initialized
+    set_variable = { RUS_adb_previous_funds = funds }
+    set_variable = { max_research_speed = 0.55 }
+    set_variable = { weekly_research_speed_gain = 0.01 }
+    set_variable = { RUS_adb_cic_per_level = 1000 }
+   }
+  } }
+ }
+}
+RUS_adb_reset_research = {
+ hidden_effect = { set_mio_research_bonus = 0 }
+ custom_effect_tooltip = RUS_manufacturer_research_reset_tt
+}
+RUS_adb_show_learning = {
+ set_temp_variable = { RUS_adb_policy_research_gain = weekly_research_speed_gain?0.01 }
+ set_temp_variable = { RUS_adb_policy_research_cap = max_research_speed?0.55 }
+ set_temp_variable = { daily_funds_requirement = 1.28 }
+ set_temp_variable = { daily_funds_gained = { value = RUS_adb_weekly_funds divide = 7 } }
+ custom_effect_tooltip = RUS_adb_learning_tt
+}
+RUS_adb_research_income = {
+ set_temp_variable = { RUS_adb_research_cic = { value = size multiply = 1000 } }
+ FROM = { add_cic = RUS_adb_research_cic }
+ add_to_variable = { RUS_adb_total_campaign_cic = RUS_adb_research_cic }
+ custom_effect_tooltip = RUS_adb_research_cic_tt
+}
+RUS_adb_learning_weekly = {
+ mio:RUS_adb_organisation = {
+  if = {
+   limit = { is_mio_trait_completed = RUS_adb_chtz }
+   set_variable = { RUS_adb_weekly_funds = { value = funds subtract = RUS_adb_previous_funds clamp = { min = 0 max = 1000000 } } }
+   if = {
+    limit = {
+     check_variable = { RUS_adb_manufacturers > 0 }
+     NOT = { check_variable = { RUS_adb_weekly_funds < 8.96 } }
+     check_variable = { research_bonus < max_research_speed?0.55 }
+    }
+    set_temp_variable = { RUS_adb_policy_research_gain = weekly_research_speed_gain?0.01 }
+    add_mio_research_bonus = RUS_adb_policy_research_gain
+    if = {
+     limit = { check_variable = { research_bonus > max_research_speed?0.55 } }
+     set_temp_variable = { RUS_adb_base_cap = { value = max_research_speed?0.55 subtract = modifier@military_industrial_organization_research_bonus } }
+     set_mio_research_bonus = RUS_adb_base_cap
+    }
+   }
+  }
+  set_variable = { RUS_adb_previous_funds = funds }
+ }
+}

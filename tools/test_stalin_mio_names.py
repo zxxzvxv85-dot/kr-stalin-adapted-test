@@ -85,7 +85,13 @@ def main():
     # Title changes must not alter trait definitions or modifiers in any original MIO.
     org_path='common/military_industrial_organization/organizations/RUS_organization.txt'
     original=parse(subprocess.check_output(['git','show',baseline+':'+org_path]).decode('utf-8-sig'))
-    assert [n.norm() for n in load(R/org_path)]==[n.norm() for n in original]
+    armour=json.loads((R/'tools/design/armour_design_bureau/spec.json').read_text(encoding='utf-8'))
+    donors={x['source']:x['id'] for x in armour['nodes'] if x.get('source')}
+    for a,b in zip(load(R/org_path),original):
+        if a.k not in donors:assert a.norm()==b.norm();continue
+        assert [n.norm() for n in a.v if n.k!='available']==[n.norm() for n in b.v if n.k!='available']
+        assert [n.norm() for n in a.one('available').v[:-1]]==[n.norm() for n in b.one('available').v]
+        assert a.one('available').v[-1].one('NOT').value('has_country_flag')=='RUS_adb_merged_'+donors[a.k]
     for rel in build.render():
         p=R/rel
         if p.suffix=='.yml':

@@ -11,10 +11,11 @@ KR=Path(os.environ.get('HOI4_KR_ROOT',ROOT.parent/'1521695605'))
 NAMES=('toz','vpoz','bmz','obukhov','imz')
 MANIFEST=ROOT/'tools/design/ordnance_design_bureau/trait_icons.json'
 GFX='interface/RUS_odb_trait_icons.gfx'
+PREFIX='RUS_odb'
 
 def digest(data):return hashlib.sha256(data).hexdigest()
 def sprite_text():
-    return 'spriteTypes = {\n'+''.join(f'\tspriteType = {{\n\t\tname = "GFX_RUS_odb_trait_{name}"\n\t\ttexturefile = "gfx/interface/military_industrial_organization/RUS_odb/{name}.png"\n\t\tlegacy_lazy_load = no\n\t}}\n' for name in NAMES)+'}\n'
+    return 'spriteTypes = {\n'+''.join(f'\tspriteType = {{\n\t\tname = "GFX_{PREFIX}_trait_{name}"\n\t\ttexturefile = "gfx/interface/military_industrial_organization/{PREFIX}/{name}.png"\n\t\tlegacy_lazy_load = no\n\t}}\n' for name in NAMES)+'}\n'
 
 def export():
     from PIL import Image
@@ -26,7 +27,7 @@ def export():
         logo=original.crop(bounds)
         logo.thumbnail((32,32),Image.Resampling.LANCZOS)
         canvas=Image.new('RGBA',(48,48));canvas.alpha_composite(logo,((48-logo.width)//2,(48-logo.height)//2))
-        target=f'gfx/interface/military_industrial_organization/RUS_odb/{name}.png'
+        target=f'gfx/interface/military_industrial_organization/{PREFIX}/{name}.png'
         path=ROOT/target;path.parent.mkdir(parents=True,exist_ok=True);canvas.save(path)
         rows.append(dict(name=name,source=source,source_sha256=digest((KR/source).read_bytes()),source_size=list(original.size),path=target,sha256=digest(path.read_bytes()),canvas=[48,48],logo_limit=[32,32],trait_icon_position=[-21,-32],frame_position=[-29,-40],frame_circle_center=[32,32]))
     (ROOT/GFX).write_text(sprite_text(),encoding='utf-8',newline='\n')

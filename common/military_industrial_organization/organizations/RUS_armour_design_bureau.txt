@@ -1,0 +1,1172 @@
+RUS_adb_organisation = {
+ name = RUS_adb_organisation
+ icon = GFX_RUS_adb_organisation
+ allowed = { original_tag = RUS }
+ visible = { FROM = { has_completed_focus = RUS_future_foreign_030 } }
+ available = { FROM = { has_completed_focus = RUS_future_foreign_030 } }
+ equipment_type = { armor motorized_equipment mechanized_equipment armored_car_equipment }
+ research_categories = { mio_cat_tech_all_armor_and_modules mio_cat_tech_all_motorized_mechanized cat_armored_cars }
+ research_bonus = 0
+ initial_trait = { name = RUS_adb_initial_trait }
+ on_industrial_manufacturer_assigned = {
+  add_to_variable = { RUS_adb_manufacturers = 1 }
+  if = { limit = { is_mio_trait_completed = RUS_adb_chtz } RUS_adb_show_learning = yes }
+ }
+ on_industrial_manufacturer_unassigned = {
+  subtract_from_variable = { RUS_adb_manufacturers = 1 }
+  if = { limit = { check_variable = { RUS_adb_manufacturers < 0 } } set_variable = { RUS_adb_manufacturers = 0 } }
+ }
+ on_tech_research_cancelled = { RUS_adb_reset_research = yes }
+ on_tech_research_completed = {
+  if = { limit = { is_mio_trait_completed = RUS_adb_exchange } RUS_adb_research_income = yes }
+  if = { limit = { NOT = { is_mio_trait_completed = RUS_adb_platform } } RUS_adb_reset_research = yes }
+ }
+ trait = {
+  token = RUS_adb_design
+  name = RUS_adb_design
+  icon = GFX_generic_mio_department_icon_tank_general_engine
+  position = { x = 1 y = 0 }
+  organization_modifier = {
+   military_industrial_organization_funds_gain = 0.25
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_committee
+  name = RUS_adb_committee
+  icon = GFX_generic_mio_trait_icon_production_capacity
+  position = { x = 5 y = 0 }
+  organization_modifier = {
+   military_industrial_organization_size_up_requirement = -0.25
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_okmo
+  name = RUS_adb_okmo
+  icon = GFX_RUS_adb_trait_okmo_kr
+  position = { x = 0 y = 1 }
+  all_parents = { RUS_adb_design }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   maximum_speed = 0.2
+   reliability = 0.3
+   breakthrough = 0.2
+   soft_attack = 0.2
+   hard_attack = 0.2
+   defense = 0.15
+  }
+  available = {
+   FROM = { has_military_industrial_organization = RUS_okmo_kr_organisation mio:RUS_okmo_kr_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_adb_merge_okmo = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_uztm
+  name = RUS_adb_uztm
+  icon = GFX_RUS_adb_trait_uztm
+  position = { x = 2 y = 1 }
+  all_parents = { RUS_adb_design }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   air_attack = 0.15
+   fuel_consumption = -0.15
+   fuel_capacity = 2
+  }
+  available = {
+   FROM = { has_military_industrial_organization = RUS_uztm_organisation mio:RUS_uztm_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_adb_merge_uztm = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_chtz
+  name = RUS_adb_chtz
+  icon = GFX_RUS_adb_trait_chtz
+  position = { x = 1 y = 2 }
+  all_parents = { RUS_adb_design }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = -0.2
+  }
+  available = {
+   FROM = { has_military_industrial_organization = RUS_chtz_organisation mio:RUS_chtz_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_adb_merge_chtz = yes
+   set_variable = { RUS_adb_previous_funds = funds }
+   RUS_adb_show_learning = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_putilovets
+  name = RUS_adb_putilovets
+  icon = GFX_RUS_adb_trait_putilovets
+  position = { x = 4 y = 1 }
+  all_parents = { RUS_adb_design }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.2
+   hardness = 0.15
+   entrenchment = 0.5
+  }
+  available = {
+   FROM = { has_military_industrial_organization = RUS_putilovets_organisation mio:RUS_putilovets_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_adb_merge_putilovets = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_amo
+  name = RUS_adb_amo
+  icon = GFX_RUS_adb_trait_amo
+  position = { x = 3 y = 2 }
+  all_parents = { RUS_adb_design }
+  limit_to_equipment_type = { mechanized_equipment }
+  equipment_bonus = {
+   reliability = 0.2
+   maximum_speed = 0.3
+   fuel_consumption = 0.1
+  }
+  production_bonus = {
+   production_resource_need_factor = 0.1
+  }
+  available = {
+   FROM = { has_military_industrial_organization = RUS_amo_organisation mio:RUS_amo_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_adb_merge_amo = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_tstz
+  name = RUS_adb_tstz
+  icon = GFX_RUS_adb_trait_tstz
+  position = { x = 6 y = 1 }
+  all_parents = { RUS_adb_committee }
+  limit_to_equipment_type = { armor }
+  production_bonus = {
+   production_factory_max_efficiency_factor = 0.15
+   production_cost_factor = -0.075
+   production_resource_need_factor = -0.3
+   production_efficiency_gain_factor = 0.35
+   production_capacity_factor = 0.1
+  }
+  available = {
+   FROM = { has_military_industrial_organization = RUS_tstz_organisation mio:RUS_tstz_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_adb_merge_tstz = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_naz
+  name = RUS_adb_naz
+  icon = GFX_RUS_adb_trait_naz
+  position = { x = 5 y = 2 }
+  all_parents = { RUS_adb_committee RUS_adb_putilovets }
+  limit_to_equipment_type = { motorized_equipment mechanized_equipment armored_car_equipment }
+  production_bonus = {
+   production_factory_max_efficiency_factor = 0.15
+   production_cost_factor = -0.075
+   production_resource_need_factor = -0.3
+   production_efficiency_gain_factor = 0.35
+   production_capacity_factor = 0.1
+  }
+  available = {
+   FROM = { has_military_industrial_organization = RUS_naz_organisation mio:RUS_naz_organisation = { is_mio_available = yes } }
+  }
+  on_complete = {
+   RUS_adb_merge_naz = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_platform
+  name = RUS_adb_platform
+  icon = GFX_KR_generic_mio_trait_icon_research_speed
+  position = { x = 0 y = 3 }
+  all_parents = { RUS_adb_okmo RUS_adb_chtz }
+  organization_modifier = {
+   military_industrial_organization_design_team_assign_cost = 2
+  }
+  on_complete = {
+   custom_effect_tooltip = RUS_manufacturer_research_no_reset_tt
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_exchange
+  name = RUS_adb_exchange
+  icon = GFX_KR_generic_mio_trait_icon_research_speed
+  position = { x = 2 y = 3 }
+  all_parents = { RUS_adb_uztm RUS_adb_amo }
+  on_complete = {
+   custom_effect_tooltip = INDUSTRIAL_ORG_TRAIT_TOOLTIP_ON_TECH_COMPLETED
+   set_temp_variable = { RUS_adb_research_cic = { value = size multiply = 1000 } }
+   FROM = { effect_tooltip = { add_cic = RUS_adb_research_cic } }
+   custom_effect_tooltip = RUS_adb_research_cic_tt
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_joint
+  name = RUS_adb_joint
+  icon = GFX_generic_mio_trait_icon_conversion_speed
+  position = { x = 4 y = 3 }
+  all_parents = { RUS_adb_naz }
+  production_bonus = {
+   production_conversion_speed_factor = 0.2
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_1
+  name = RUS_adb_reactive_1
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 0 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 1 }
+   set_temp_variable = { RUS_adb_repeats_left = 9 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_2
+  name = RUS_adb_reactive_2
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 1 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 2 }
+   set_temp_variable = { RUS_adb_repeats_left = 8 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_3
+  name = RUS_adb_reactive_3
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 2 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 3 }
+   set_temp_variable = { RUS_adb_repeats_left = 7 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_4
+  name = RUS_adb_reactive_4
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 3 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 4 }
+   set_temp_variable = { RUS_adb_repeats_left = 6 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_5
+  name = RUS_adb_reactive_5
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 4 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 4 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 5 }
+   set_temp_variable = { RUS_adb_repeats_left = 5 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_6
+  name = RUS_adb_reactive_6
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 5 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 5 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 6 }
+   set_temp_variable = { RUS_adb_repeats_left = 4 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_7
+  name = RUS_adb_reactive_7
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 6 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 6 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 7 }
+   set_temp_variable = { RUS_adb_repeats_left = 3 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_8
+  name = RUS_adb_reactive_8
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 7 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 7 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 8 }
+   set_temp_variable = { RUS_adb_repeats_left = 2 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_9
+  name = RUS_adb_reactive_9
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_reactive_rank = 8 }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 8 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 9 }
+   set_temp_variable = { RUS_adb_repeats_left = 1 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_reactive_10
+  name = RUS_adb_reactive_10
+  icon = GFX_generic_mio_trait_icon_armor_value
+  position = { x = 1 y = 4 }
+  all_parents = { RUS_adb_platform RUS_adb_exchange }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   armor_value = 0.02
+  }
+  visible = {
+   NOT = { check_variable = { RUS_adb_reactive_rank < 9 } }
+  }
+  available = {
+   check_variable = { RUS_adb_reactive_rank = 9 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_reactive_rank = 10 }
+   set_temp_variable = { RUS_adb_repeats_left = 0 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_1
+  name = RUS_adb_guidance_1
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 0 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 1 }
+   set_temp_variable = { RUS_adb_repeats_left = 9 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   add_ideas = RUS_adb_extreme_design_1
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_1 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_2
+  name = RUS_adb_guidance_2
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 1 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 2 }
+   set_temp_variable = { RUS_adb_repeats_left = 8 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_1
+   add_ideas = RUS_adb_extreme_design_2
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_2 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_3
+  name = RUS_adb_guidance_3
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 2 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 3 }
+   set_temp_variable = { RUS_adb_repeats_left = 7 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_2
+   add_ideas = RUS_adb_extreme_design_3
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_3 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_4
+  name = RUS_adb_guidance_4
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 3 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 4 }
+   set_temp_variable = { RUS_adb_repeats_left = 6 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_3
+   add_ideas = RUS_adb_extreme_design_4
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_4 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_5
+  name = RUS_adb_guidance_5
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 4 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 4 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 5 }
+   set_temp_variable = { RUS_adb_repeats_left = 5 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_4
+   add_ideas = RUS_adb_extreme_design_5
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_5 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_6
+  name = RUS_adb_guidance_6
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 5 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 5 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 6 }
+   set_temp_variable = { RUS_adb_repeats_left = 4 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_5
+   add_ideas = RUS_adb_extreme_design_6
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_6 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_7
+  name = RUS_adb_guidance_7
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 6 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 6 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 7 }
+   set_temp_variable = { RUS_adb_repeats_left = 3 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_6
+   add_ideas = RUS_adb_extreme_design_7
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_7 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_8
+  name = RUS_adb_guidance_8
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 7 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 7 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 8 }
+   set_temp_variable = { RUS_adb_repeats_left = 2 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_7
+   add_ideas = RUS_adb_extreme_design_8
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_8 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_9
+  name = RUS_adb_guidance_9
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_guidance_rank = 8 }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 8 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 9 }
+   set_temp_variable = { RUS_adb_repeats_left = 1 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_8
+   add_ideas = RUS_adb_extreme_design_9
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_9 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_guidance_10
+  name = RUS_adb_guidance_10
+  icon = GFX_generic_mio_trait_icon_breakthrough
+  position = { x = 3 y = 4 }
+  all_parents = { RUS_adb_exchange RUS_adb_joint }
+  limit_to_equipment_type = { armor }
+  equipment_bonus = {
+   build_cost_ic = 0.02
+  }
+  visible = {
+   NOT = { check_variable = { RUS_adb_guidance_rank < 9 } }
+  }
+  available = {
+   check_variable = { RUS_adb_guidance_rank = 9 }
+   check_variable = { funds > 1000 tooltip = MIO_more_than_X_funds }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_guidance_rank = 10 }
+   set_temp_variable = { RUS_adb_repeats_left = 0 tooltip = RUS_adb_repeat_remaining_tt }
+   add_mio_funds = -1000
+   subtract_from_variable = { RUS_adb_previous_funds = 1000 }
+   FROM = { show_ideas_tooltip = RUS_adb_extreme_design_1 }
+   hidden_effect = { FROM = {
+   remove_ideas = RUS_adb_extreme_design_9
+   add_ideas = RUS_adb_extreme_design_10
+   } }
+   FROM = { set_technology = { RUS_adb_guidance_bonus_10 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_1
+  name = RUS_adb_logistics_1
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 0 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 1 }
+   set_temp_variable = { RUS_adb_repeats_left = 9 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_1 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_2
+  name = RUS_adb_logistics_2
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 1 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 2 }
+   set_temp_variable = { RUS_adb_repeats_left = 8 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_2 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_3
+  name = RUS_adb_logistics_3
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 2 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 3 }
+   set_temp_variable = { RUS_adb_repeats_left = 7 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_3 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_4
+  name = RUS_adb_logistics_4
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 3 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 4 }
+   set_temp_variable = { RUS_adb_repeats_left = 6 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_4 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_5
+  name = RUS_adb_logistics_5
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 4 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 4 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 5 }
+   set_temp_variable = { RUS_adb_repeats_left = 5 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_5 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_6
+  name = RUS_adb_logistics_6
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 5 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 5 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 6 }
+   set_temp_variable = { RUS_adb_repeats_left = 4 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_6 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_7
+  name = RUS_adb_logistics_7
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 6 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 6 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 7 }
+   set_temp_variable = { RUS_adb_repeats_left = 3 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_7 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_8
+  name = RUS_adb_logistics_8
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 7 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 7 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 8 }
+   set_temp_variable = { RUS_adb_repeats_left = 2 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_8 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_9
+  name = RUS_adb_logistics_9
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   check_variable = { RUS_adb_logistics_rank = 8 }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 8 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 9 }
+   set_temp_variable = { RUS_adb_repeats_left = 1 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_9 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_logistics_10
+  name = RUS_adb_logistics_10
+  icon = GFX_generic_mio_trait_icon_reliability
+  position = { x = 5 y = 4 }
+  all_parents = { RUS_adb_naz }
+  visible = {
+   NOT = { check_variable = { RUS_adb_logistics_rank < 9 } }
+  }
+  available = {
+   check_variable = { RUS_adb_logistics_rank = 9 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_logistics_rank = 10 }
+   set_temp_variable = { RUS_adb_repeats_left = 0 tooltip = RUS_adb_repeat_remaining_tt }
+   FROM = { set_technology = { RUS_adb_logistics_bonus_10 = 1 } }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_1
+  name = RUS_adb_process_1
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 0 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 0 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 1 }
+   set_temp_variable = { RUS_adb_repeats_left = 9 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_2
+  name = RUS_adb_process_2
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 1 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 1 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 2 }
+   set_temp_variable = { RUS_adb_repeats_left = 8 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_3
+  name = RUS_adb_process_3
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 2 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 2 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 3 }
+   set_temp_variable = { RUS_adb_repeats_left = 7 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_4
+  name = RUS_adb_process_4
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 3 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 3 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 4 }
+   set_temp_variable = { RUS_adb_repeats_left = 6 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_5
+  name = RUS_adb_process_5
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 4 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 4 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 5 }
+   set_temp_variable = { RUS_adb_repeats_left = 5 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_6
+  name = RUS_adb_process_6
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 5 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 5 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 6 }
+   set_temp_variable = { RUS_adb_repeats_left = 4 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_7
+  name = RUS_adb_process_7
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 6 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 6 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 7 }
+   set_temp_variable = { RUS_adb_repeats_left = 3 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_8
+  name = RUS_adb_process_8
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 7 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 7 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 8 }
+   set_temp_variable = { RUS_adb_repeats_left = 2 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_9
+  name = RUS_adb_process_9
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   check_variable = { RUS_adb_process_rank = 8 }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 8 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 9 }
+   set_temp_variable = { RUS_adb_repeats_left = 1 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+ trait = {
+  token = RUS_adb_process_10
+  name = RUS_adb_process_10
+  icon = GFX_generic_mio_trait_icon_hardness
+  position = { x = 6 y = 3 }
+  all_parents = { RUS_adb_tstz }
+  limit_to_equipment_type = { armor mechanized_equipment }
+  equipment_bonus = {
+   hardness = -0.02
+  }
+  visible = {
+   NOT = { check_variable = { RUS_adb_process_rank < 9 } }
+  }
+  available = {
+   check_variable = { RUS_adb_process_rank = 9 }
+  }
+  on_complete = {
+   set_variable = { RUS_adb_process_rank = 10 }
+   set_temp_variable = { RUS_adb_repeats_left = 0 tooltip = RUS_adb_repeat_remaining_tt }
+  }
+  ai_will_do = { factor = 1 }
+ }
+}

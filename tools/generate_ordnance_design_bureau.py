@@ -21,7 +21,7 @@ def render_policies():
     for n in parse(text):
         if n.k in ['RUS_mio_policy_RD_Cap','RUS_mio_policy_RD_Growth']:
             allowed=n.one('allowed').one('OR')
-            edits.append((allowed.ib,'\n\t\t\tis_military_industrial_organization = '+ORG+'\n\t\t'))
+            edits.append((allowed.ib,'\n\t\t\tis_military_industrial_organization = '+ORG+'\n\t\t\tis_military_industrial_organization = RUS_adb_organisation\n\t\t'))
     assert len(edits)==2
     for at,new in sorted(edits,reverse=True):text=text[:at].rstrip()+new+text[at:]
     return text
@@ -227,6 +227,10 @@ custom_effect_tooltip = RUS_odb_learning_tt'''))
      if = {{
       limit = {{ is_military_industrial_organization = {ORG} }}
       add_to_variable = {{ RUS_odb_previous_funds = RUS_odb_grant }}
+     }}
+     if = {{
+      limit = {{ is_military_industrial_organization = RUS_adb_organisation }}
+      add_to_variable = {{ RUS_adb_previous_funds = RUS_odb_grant }}
      }}
     }}
    }}
