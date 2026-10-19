@@ -456,6 +456,11 @@ def render_localisation():
     result={}
     for lang in ['simp_chinese','english','russian']:
         data=dict(common)
+        if lang=='simp_chinese':
+            data.update({
+                'RUS_opening_disordered_industry_desc':'可以说迄今为止的整个俄罗斯，始终没有一套能自洽的工业体系。沙俄遗留的畸形底子，加上内战摧毁的交通网，让产业割裂、原料断绝。历届政府的行政修补都掩盖不了一个致命伤：技术工人流失与管理腐败。各大工业区像一座座互不相连的孤岛，只能靠军工订单和强制劳动勉强维持。',
+                'RUS_opening_unfinished_land_reform_desc':'自由派政府的十年执政，几乎将俄罗斯的农业根基倒退回了数个世纪之前。那些被寄予厚望的现代化农场非但未能建成，反而将原本尚可维系的地权秩序搅得支离破碎。饥荒的阴霾依旧死死笼罩着俄罗斯母亲。面对这般烂摊子，元首必须立刻做出决断。',
+            })
         if lang!='simp_chinese':
             # Preserve the authored Chinese narrative until translations are supplied.
             data.update({TREE:'Savinkov Opening',VOZHD:'The Vozhd',CRACK:'Suppress Dissent','RUS_voskhod':'Conclude the Voskhod Programme','RUS_declare_russian_state':'Proclaim the Russian State','RUS_opening_unfinished_land_reform':'Unfinished Land Reform','RUS_opening_disordered_industry':'Disordered Industry','RUS_opening_daily_manpower_tt':'Daily manpower: §R−200§!','RUS_opening_resistance_wave':'An Escalating Wave of Resistance','RUS_opening_military_action':'The Military Is Acting','RUS_opening_military_warning_tt':'§RThe military is considering action!§!'})
