@@ -144,6 +144,8 @@ RUS_odb_unlock = {
      set_variable = { RUS_odb_expansion_rank = 0 }
      set_variable = { RUS_odb_manufacturers = 0 }
      set_variable = { RUS_odb_previous_funds = funds }
+     set_variable = { max_research_speed = 1.25 }
+     set_variable = { weekly_research_speed_gain = 0.06 }
     }
    }
   }
@@ -154,8 +156,8 @@ RUS_odb_reset_research = {
  custom_effect_tooltip = RUS_manufacturer_research_reset_tt
 }
 RUS_odb_show_learning = {
- set_temp_variable = { weekly_research_speed_gain = 0.06 }
- set_temp_variable = { max_research_speed = 1.25 }
+ set_temp_variable = { RUS_odb_policy_research_gain = weekly_research_speed_gain?0.06 }
+ set_temp_variable = { RUS_odb_policy_research_cap = max_research_speed?1.25 }
  set_temp_variable = { daily_funds_requirement = 1.28 }
  set_temp_variable = { daily_funds_gained = { value = RUS_odb_weekly_funds divide = 7 } }
  custom_effect_tooltip = RUS_odb_learning_tt
@@ -169,13 +171,14 @@ RUS_odb_learning_weekly = {
     limit = {
      check_variable = { RUS_odb_manufacturers > 0 }
      NOT = { check_variable = { RUS_odb_weekly_funds < 8.96 } }
-     check_variable = { research_bonus < 1.25 }
+     check_variable = { research_bonus < max_research_speed?1.25 }
     }
-    add_mio_research_bonus = 0.06
+    set_temp_variable = { RUS_odb_policy_research_gain = weekly_research_speed_gain?0.06 }
+    add_mio_research_bonus = RUS_odb_policy_research_gain
     if = {
-     limit = { check_variable = { research_bonus > 1.25 } }
+     limit = { check_variable = { research_bonus > max_research_speed?1.25 } }
      # Clamp the final bonus including the infantry bureau's organization modifier.
-     set_temp_variable = { RUS_odb_base_cap = { value = 1.25 subtract = modifier@military_industrial_organization_research_bonus } }
+     set_temp_variable = { RUS_odb_base_cap = { value = max_research_speed?1.25 subtract = modifier@military_industrial_organization_research_bonus } }
      set_mio_research_bonus = RUS_odb_base_cap
     }
    }

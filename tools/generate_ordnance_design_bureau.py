@@ -5,12 +5,26 @@ Does not rewrite shared technology trees or any legacy focus-tree conditions.
 """
 from pathlib import Path
 from decimal import Decimal
-import argparse, json, sys
+import argparse, json, sys, os
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC_PATH = ROOT/'tools/design/ordnance_design_bureau/spec.json'
 ORG = 'RUS_odb_organisation'
 STEM = 'RUS_ordnance_design_bureau'
+KR = Path(os.environ.get('HOI4_KR_ROOT', ROOT.parent/'1521695605'))
+
+def render_policies():
+    """Same-path KR override: extend only the two RD policy allowlists."""
+    from hoi4_politics_blocks import parse
+    text=(KR/'common/military_industrial_organization/policies/RUS_policies.txt').read_text(encoding='utf-8-sig')
+    edits=[]
+    for n in parse(text):
+        if n.k in ['RUS_mio_policy_RD_Cap','RUS_mio_policy_RD_Growth']:
+            allowed=n.one('allowed').one('OR')
+            edits.append((allowed.ib,'\n\t\t\tis_military_industrial_organization = '+ORG+'\n\t\t'))
+    assert len(edits)==2
+    for at,new in sorted(edits,reverse=True):text=text[:at].rstrip()+new+text[at:]
+    return text
 
 def block(key, body):
     return key+' = {\n'+''.join((' '+s if s.strip() else '')+'\n' for s in body.strip().splitlines())+'}\n'
@@ -162,14 +176,16 @@ initial_trait = {{ name = RUS_odb_initial_trait }}
     set_variable = {{ RUS_odb_expansion_rank = 0 }}
     set_variable = {{ RUS_odb_manufacturers = 0 }}
     set_variable = {{ RUS_odb_previous_funds = funds }}
+    set_variable = {{ max_research_speed = 1.25 }}
+    set_variable = {{ weekly_research_speed_gain = 0.06 }}
    }}
   }}
  }}
 }}'''))
     effects.append(block('RUS_odb_reset_research','''hidden_effect = { set_mio_research_bonus = 0 }
 custom_effect_tooltip = RUS_manufacturer_research_reset_tt'''))
-    effects.append(block('RUS_odb_show_learning','''set_temp_variable = { weekly_research_speed_gain = 0.06 }
-set_temp_variable = { max_research_speed = 1.25 }
+    effects.append(block('RUS_odb_show_learning','''set_temp_variable = { RUS_odb_policy_research_gain = weekly_research_speed_gain?0.06 }
+set_temp_variable = { RUS_odb_policy_research_cap = max_research_speed?1.25 }
 set_temp_variable = { daily_funds_requirement = 1.28 }
 set_temp_variable = { daily_funds_gained = { value = RUS_odb_weekly_funds divide = 7 } }
 custom_effect_tooltip = RUS_odb_learning_tt'''))
@@ -181,13 +197,14 @@ custom_effect_tooltip = RUS_odb_learning_tt'''))
    limit = {{
     check_variable = {{ RUS_odb_manufacturers > 0 }}
     NOT = {{ check_variable = {{ RUS_odb_weekly_funds < 8.96 }} }}
-    check_variable = {{ research_bonus < 1.25 }}
+    check_variable = {{ research_bonus < max_research_speed?1.25 }}
    }}
-   add_mio_research_bonus = 0.06
+   set_temp_variable = {{ RUS_odb_policy_research_gain = weekly_research_speed_gain?0.06 }}
+   add_mio_research_bonus = RUS_odb_policy_research_gain
    if = {{
-    limit = {{ check_variable = {{ research_bonus > 1.25 }} }}
+    limit = {{ check_variable = {{ research_bonus > max_research_speed?1.25 }} }}
     # Clamp the final bonus including the infantry bureau's organization modifier.
-    set_temp_variable = {{ RUS_odb_base_cap = {{ value = 1.25 subtract = modifier@military_industrial_organization_research_bonus }} }}
+    set_temp_variable = {{ RUS_odb_base_cap = {{ value = max_research_speed?1.25 subtract = modifier@military_industrial_organization_research_bonus }} }}
     set_mio_research_bonus = RUS_odb_base_cap
    }}
   }}
@@ -278,6 +295,7 @@ officer_xp = 100'''))
         loc[f'RUS_odb_medal_{rank}_desc']='由陆军兵器设计总局颁发，表彰作战中的勇气与集体荣誉。'
     on = block('on_actions',block('on_weekly_RUS','effect = { if = { limit = { has_dlc_aat = yes has_completed_focus = RUS_future_foreign_030 } RUS_odb_learning_weekly = yes } }')+block('on_daily_RUS','effect = { if = { limit = { has_dlc_aat = yes has_completed_focus = RUS_future_foreign_030 } RUS_odb_daily = yes } }'))
     paths={
+        'common/military_industrial_organization/policies/RUS_policies.txt':render_policies(),
         f'common/military_industrial_organization/organizations/{STEM}.txt':block(ORG,org),
         f'common/scripted_effects/{STEM}_effects.txt':''.join(effects),
         f'common/scripted_triggers/{STEM}_triggers.txt':trig,

@@ -69,7 +69,7 @@ class Model:
             if n.k=='is_mio_trait_completed':return n.v in self.current['traits']
             if n.k=='is_mio_available':return self.available(self.current)
             if n.k=='is_mio_assigned_to_task':return self.current['active']
-            if n.k=='is_military_industrial_organization':return self.current is self.mios[n.v]
+            if n.k=='is_military_industrial_organization':return self.current is self.mios.get(n.v)
             if n.k=='check_variable':
                 x=n.v[0];a,b=self.value(x.k),self.value(x.v)
                 return a>b if x.op=='>' else a<b if x.op=='<' else a==b
@@ -191,6 +191,42 @@ def main():
     assert o['vars']['research_bonus']+D('.10')==D('1.25')
     o['traits'].add('RUS_odb_bmz');w.scoped(o,lambda:w.run(MIO.one('on_tech_research_completed').v));assert o['vars']['research_bonus']==D('1.15')
     w.scoped(o,lambda:w.run(MIO.one('on_tech_research_cancelled').v));assert o['vars']['research_bonus']==0
+    # Extend the original policy allowlists only; effects, cost defaults and other MIOs stay native.
+    policy_path='common/military_industrial_organization/policies/RUS_policies.txt'
+    original={n.k:n for n in load(build.KR/policy_path)}
+    policies={n.k:n for n in load(R/policy_path)}
+    rd=['RUS_mio_policy_RD_Cap','RUS_mio_policy_RD_Growth']
+    assert original.keys()==policies.keys()
+    for key,p in policies.items():
+        b=original[key]
+        if key not in rd:assert p.norm()==b.norm();continue
+        assert [n.norm() for n in p.v if n.k!='allowed']==[n.norm() for n in b.v if n.k!='allowed']
+        assert [n.norm() for n in p.one('allowed').one('OR').v[:-1]]==[n.norm() for n in b.one('allowed').one('OR').v]
+        assert p.one('allowed').one('OR').v[-1].v==ORG
+        w=Model()
+        assert w.scoped(w.mios[ORG],lambda:w.cond(p.one('allowed').v))
+        assert w.scoped(w.mios['RUS_vpoz_organisation'],lambda:w.cond(p.one('allowed').v))
+        assert not w.scoped(w.mios['RUS_toz_organisation'],lambda:w.cond(p.one('allowed').v))
+    for policy,gain,cap in [(None,D('.06'),D('1.25')),(rd[0],D('.06'),D('1.50')),(rd[1],D('.07'),D('1.25'))]:
+        w=Model();w.fx('RUS_odb_unlock');o=w.mios[ORG]
+        if policy:w.scoped(o,lambda:w.run(policies[policy].one('on_add').v))
+        # Attaching before the modular trait and repeated initialization must not erase the policy.
+        w.fx('RUS_odb_unlock');o['traits'].add('RUS_odb_modular')
+        o['vars'].update({'funds':D(0),'RUS_odb_previous_funds':D(0),'RUS_odb_manufacturers':D(1),'modifier@military_industrial_organization_research_bonus':D('.10')})
+        w.fx('RUS_odb_show_learning',ORG)
+        assert w.temps['RUS_odb_policy_research_gain']==gain and w.temps['RUS_odb_policy_research_cap']==cap
+        o['vars']['funds']+=10;w.fx('RUS_odb_learning_weekly');assert o['vars']['research_bonus']==gain
+        for _ in range(30):o['vars']['funds']+=10;w.fx('RUS_odb_learning_weekly')
+        assert o['vars']['research_bonus']+D('.10')==cap
+        w.fx('RUS_odb_reset_research',ORG)
+        assert o['vars']['weekly_research_speed_gain']==gain and o['vars']['max_research_speed']==cap
+        if policy:
+            w.scoped(o,lambda:w.run(policies[policy].one('on_remove').v))
+            assert o['vars']['max_research_speed']==D('1.25') and o['vars']['weekly_research_speed_gain']==D('.06')
+            other=rd[1] if policy==rd[0] else rd[0]
+            w.scoped(o,lambda:w.run(policies[other].one('on_add').v))
+            w.scoped(o,lambda:w.run(policies[other].one('on_remove').v))
+            assert o['vars']['max_research_speed']==D('1.25') and o['vars']['weekly_research_speed_gain']==D('.06')
     # Exactly once per30days, only actively assigned, and not an artificial weekly learning gain.
     w=Model();o=w.mios[ORG];o['traits'].add('RUS_odb_obukhov')
     for _ in range(29):w.fx('RUS_odb_daily')
