@@ -39,6 +39,8 @@ def render(spec):
         for rank in range(1, count+1):
             token = key if count == 1 else f'{key}_{rank}'
             loc[token] = node['name']
+            if node.get('source'):
+                loc[token]='[RUSStalinMioMerge_'+node['id']+']'
             b = f'token = {token}\nname = {token}\nicon = {node["icon"]}\nposition = {{ x = {node["x"]} y = {node["y"]} }}\n'
             if node.get('parents'):
                 b += 'all_parents = { '+' '.join('RUS_odb_'+x for x in node['parents'])+' }\n'
@@ -130,9 +132,8 @@ custom_effect_tooltip = RUS_odb_transfer_tt
 }
 custom_effect_tooltip = RUS_odb_medals_inherited_tt
 '''
-            # Company name keys differ from organization tokens in upstream KR.
-            company={'toz':'toz','vpoz':'vpoz','imz':'imz','bmz':'bmz','obukhov':'obukhov_non_socrus'}[node['id']]
-            loc[f'RUS_odb_{node["id"]}_unavailable_tt']=f'§Y${company}$§!不再可用。'
+            # Resolve the same before/after-Stalin name as the integration title.
+            loc[f'RUS_odb_{node["id"]}_unavailable_tt']='§Y[RUSStalinMioCompany_'+node['id']+']§!不再可用。'
             fx=fx.replace('custom_effect_tooltip = RUS_odb_transfer_tt',f'custom_effect_tooltip = RUS_odb_{node["id"]}_unavailable_tt')
             if node['id']=='toz':
                 fx=fx.replace('custom_effect_tooltip = RUS_odb_medals_inherited_tt','''FROM = {

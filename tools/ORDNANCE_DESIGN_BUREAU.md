@@ -2,6 +2,8 @@
 
 来源：`tools/design/ordnance_design_bureau/陆军兵器设计总局.drawio`，机制数值来源包括该图内嵌的五张截图。批准数值与连线在同目录`spec.json`。当前只实现这一家陆军兵器MIO，装甲车辆总局未实现。
 
+2026-10-19按用户新名称同步五家整合标题、停用提示及预览spec；运行时根据斯大林是否已经上台显示对应名称。名称条件和23项原厂改名由`generate_stalin_mio_names.py`维护，见`STALIN_MIO_NAMES.md`。这里只改名称，不改原厂或总局的培养、移交和奖励。
+
 ## 入口与状态
 
 - `RUS_future_foreign_030`“整合地方党组织”奖励调用`RUS_odb_unlock`；MIO仅在完成此国策后可见、可用。首次初始化用MIO旗标去重，不重置已培养的次数。
