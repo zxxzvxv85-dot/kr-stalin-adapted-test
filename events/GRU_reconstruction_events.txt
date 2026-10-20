@@ -249,7 +249,7 @@ country_event = {
 }
 
 
-# ── 6：顺利大选 —— 重建完成，「崩溃的德意志」被摘掉 ──
+# ── 6：顺利大选 —— 按钮结算重建奖励，并载入台尔曼线 ──
 country_event = {
 	id = GRU_reconstruction.6
 	title = GRU_reconstruction.6.t
@@ -268,7 +268,7 @@ country_event = {
 		name = GRU_reconstruction.6.a
 		if = {
 			limit = { hidden_trigger = { GRU_can_resolve_first_election = yes } }
-			GRU_finish_reconstruction = yes
+			GRU_enter_thalmann_path = yes
 			# 国策「筹备第一次大选」事先备好了选区与名册，选举更平稳
 			if = {
 				limit = { hidden_trigger = { has_country_flag = GRU_first_election_prepared } }
@@ -455,6 +455,34 @@ country_event = {
 		}
 	}
 	option = { name = GRU_reconstruction.97.a }
+}
+
+# Separate preview ID: .97 remains Hitler preview; .98 remains release handover.
+country_event = {
+	id = GRU_reconstruction.96
+	title = GRU_reconstruction.96.t
+	desc = GRU_reconstruction.96.d
+	picture = GFX_report_event_generic_communist_congress
+	is_triggered_only = yes
+	trigger = {
+		original_tag = GRU
+		NOT = { has_country_flag = GRU_reconstruction_rebel }
+		NOT = { has_country_flag = GRU_civil_war_started }
+		NOT = { has_country_flag = GRU_hitler_path }
+	}
+	immediate = {
+		GRU_establish_red_germany = yes
+		if = {
+			limit = { GRU_reconstruction_active = yes }
+			set_country_flag = GRU_first_election_scheduled
+			GRU_enter_thalmann_path = yes
+		}
+		else_if = {
+			limit = { has_country_flag = GRU_first_election_held }
+			GRU_load_thalmann_focus_tree = yes
+		}
+	}
+	option = { name = GRU_reconstruction.96.a }
 }
 
 # Always clear the pending marker, even if eligibility changed during the delay.

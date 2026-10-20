@@ -70,6 +70,7 @@
 | 释放／政府／每日钩子 | `common/on_actions/GRU_red_germany_on_actions.txt` |
 | 59 节点国策 | `common/national_focus/GRU_red_germany_focus.txt` |
 | 42 节点后续国策 | `common/national_focus/GRU_hitler_focus.txt` |
+| 24 节点台尔曼后续国策（0.7.0） | `common/national_focus/GRU_thalmann_focus.txt` |
 | 重建决议与决议组 | `common/decisions/GRU_reconstruction_decisions.txt`、同名 categories 文件 |
 | 重建数值与结算 | `common/scripted_effects/GRU_reconstruction_effects.txt`、`common/scripted_triggers/GRU_reconstruction_triggers.txt` |
 | 事件 | `events/GRU_reconstruction_events.txt` |
@@ -161,3 +162,16 @@ event GRU_reconstruction.97 GRU
 ## 2026-10-08 上台后政党名称
 
 希特勒就任后共产主义饼图显示“德国统一社会党”，长名同时更新为德国统一社会党（Sozialistische Einheitspartei Deutschlands）；介绍里的同名组织统一写作“德国统一社会党”。建政阶段仍为德国共产党，早年加入共产党的经历不改。使用独立set_party_name守卫，已经上台的旧存档重启后在红德国家输入`event GRU_reconstruction.97`可补更新党名，不重复人物创建、换树或奖励。此次仅开发目录。
+
+## 2026-10-20 — hongde 0.7.0 台尔曼线增量整合
+
+来源：用户提供的 `hongde-0.7.0.zip`，SHA-256：`632086d5737bba11d618506f3cd946e0f11bd566ee3aa0458e28fa76954385e9`。包内原59项重建树与42项民族派树的节点、前置、时长及奖励和开发版一致，本次只补入新增的24项台尔曼线，不用包内旧脚本覆盖已有修复、人物或政体。
+
+- 新树维护源：`common/national_focus/GRU_thalmann_focus.txt`。保留24项名称、描述、全部前置、数值和旗标；不参与开局树分配，也不挂入俄罗斯国策树。终点“公开集结！”要求民主集中制、先锋队的力量、成立各部门三项全部完成。修正原包 `reset_on_civil_war` 为引擎字段 `reset_on_civilwar`。
+- 正常入口仍是首次大选的 `.6`“顺利大选”：三个影响力均不高于80时进入。在事件按钮结算后，调用 `GRU_enter_thalmann_path` 完成原重建收尾并载入新树；保留原政治点、稳定度、支持率及筹备额外奖励。保留“被渗透的大选”和民族派大选的既有结果与优先级。弹窗打开时不提前换树，内战中断后旧按钮不再发奖。
+- 保留开发版共产主义政体、现任领袖、党名和国名。和原包一样，此树及其入口没有台尔曼人物任命或换旗效果；本次不凭路线名称补造这些功能。
+- 换树只执行一次：`GRU_thalmann_path` 防止重复载入清空已完成国策；结算、内战、叛军、动态GRU作用域均沿用现有守卫。原 `.97` 希特勒预览仍保留，显式从台尔曼预览切去民族派时清除台尔曼旗标；新 `.96` 不能覆盖已进入民族派的国家。
+- 包内台尔曼调试入口 `.97` 与当前版本冲突，改为 **`event GRU_reconstruction.96 GRU`**。动态国家换成实际Dxx；已切到目标国家可省略末尾标签。它需要现有GRU国家，不创建国家。未结算时仅给基础重建收尾，已经结算时只载树；重复不重发奖励、不抹除进度。`.98` 仍是正常释放接管，`.99` 仍是重建调试入口。不新增自动旧档补发。
+- 参考 KR `interface/nationalfocusview.gui` 的96×130间距与165×128节点框，将原包横坐标整体乘2，避免同排五青年节点、五部门节点和中间议会节点挤压；前置关系不变。原包的三个民族精神/决议图标改为已有带框国策图标：`GFX_goal_generic_cinema`、`GFX_goal_enlist_the_police`、`GFX_goal_LIB_Syndicalist_Rally`。不生成新美术。国策/原生效果格式对照已安装KR的GRU国策文件，图标登记对照KR `interface/kaiserreich/goals.gfx`。
+
+专项脚本现覆盖三树125节点、自然选举三种分支、80边界、重复调试、动态标签、内战竞态、新树奖励执行及三路AND终点；新版24项游戏字段另有原包SHA签名回归，忽略坐标和图标后必须一致。检查仍是静态和模型验证；用户需完全重启测试开发版，用新存档实际释放GRU，重建后走顺利大选，并检查新树、标题、图标和最新error.log。本轮仅开发目录，不构建上传目录、不推送GitHub。

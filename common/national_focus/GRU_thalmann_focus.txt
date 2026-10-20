@@ -1,0 +1,538 @@
+#####################################################################
+#  红德 - 台尔曼线国策树（DDR 国策）                                  #
+#  来源：用户提供的 hongde-0.7.0.zip；保留24节点及全部游戏效果。
+#                                                        （24 节点）  #
+#  载入方式：第一次大选「顺利大选」（事件 GRU_reconstruction.6）      #
+#            调用 GRU_enter_thalmann_path 显式载入，                  #
+#            顶替重建阶段的 GRU_red_germany_focus。                   #
+#  与另外两张树一致：不参与开局自动分配（country 权重恒为 0）。       #
+#  连接规则：源图自下而上画（实线由下指上），最下方为根；            #
+#            括号＝前置。只有「公开集结！」是三块「且」。              #
+#####################################################################
+
+
+focus_tree = {
+	id = GRU_thalmann_focus
+
+	country = {
+		factor = 0
+	}
+
+	default = no
+	reset_on_civilwar = no
+
+	continuous_focus_position = { x = 2600 y = 400 }
+
+	initial_show_position = { x = 10 y = 0 }
+
+	shortcut = {
+		name = GRU_shortcut_thalmann_line
+		target = GRU_brand_new_germany
+		scroll_wheel_factor = 0.5
+	}
+
+	focus = {
+		id = GRU_brand_new_germany
+		icon = GFX_goal_generic_revolutionary_government
+		cost = 3
+
+		x = 10
+		y = 0
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+			set_country_flag = GRU_ddr_proclaimed
+		}
+	}
+
+	focus = {
+		id = GRU_fate_of_the_royal_house
+		icon = GFX_focus_generic_monarchy_1
+		cost = 3
+
+		prerequisite = { focus = GRU_brand_new_germany }
+
+		x = 4
+		y = 1
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = -0.05
+			set_country_flag = GRU_hohenzollerns_resolved
+		}
+	}
+
+	focus = {
+		id = GRU_risen_from_the_ruins
+		icon = GFX_goal_generic_propaganda
+		cost = 3
+
+		prerequisite = { focus = GRU_brand_new_germany }
+
+		x = 10
+		y = 1
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.10
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_our_place_in_the_world
+		icon = GFX_focus_CONGO_place_in_the_world
+		cost = 3
+
+		prerequisite = { focus = GRU_brand_new_germany }
+
+		x = 16
+		y = 1
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_banner_of_marx_and_lenin
+		icon = GFX_focus_generic_red_flags
+		cost = 3
+
+		prerequisite = { focus = GRU_risen_from_the_ruins }
+
+		x = 4
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			set_country_flag = GRU_marxist_orthodoxy
+		}
+	}
+
+	focus = {
+		id = GRU_we_are_always_friends
+		icon = GFX_focus_russian_cooperation
+		cost = 3
+
+		prerequisite = { focus = GRU_risen_from_the_ruins }
+
+		x = 10
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_break_foreign_administrative_dependence
+		icon = GFX_goal_generic_purge_bureaucracy
+		cost = 3
+
+		prerequisite = { focus = GRU_risen_from_the_ruins }
+
+		x = 16
+		y = 2
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			set_country_flag = GRU_sovereign_administration
+		}
+	}
+
+	focus = {
+		id = GRU_song_of_the_party
+		icon = GFX_goal_generic_cinema
+		cost = 4
+
+		prerequisite = { focus = GRU_banner_of_marx_and_lenin }
+
+		x = 2
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_power_of_the_vanguard
+		icon = GFX_focus_generic_spur_communist_revolutions
+		cost = 4
+
+		prerequisite = { focus = GRU_song_of_the_party }
+
+		x = 0
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_free_german_youth
+		icon = GFX_goal_GRE_National_Youth_Organisation
+		cost = 4
+
+		prerequisite = { focus = GRU_song_of_the_party }
+
+		x = 2
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_manpower = 5000
+		}
+	}
+
+	focus = {
+		id = GRU_karl_marx_pioneers
+		icon = GFX_focus_JAP_form_pioneer_organizations
+		cost = 4
+
+		prerequisite = { focus = GRU_song_of_the_party }
+
+		x = 4
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_youth_re_education
+		icon = GFX_focus_JAP_politicize_the_education_system
+		cost = 4
+
+		prerequisite = { focus = GRU_song_of_the_party }
+
+		x = 6
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_socialist_arts
+		icon = GFX_focus_GER_fund_the_film_department
+		cost = 4
+
+		prerequisite = { focus = GRU_song_of_the_party }
+
+		x = 8
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_establish_the_ministries
+		icon = GFX_focus_GER_reich_ministry_of_public_enlightenment
+		cost = 4
+
+		prerequisite = { focus = GRU_break_foreign_administrative_dependence }
+
+		x = 18
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = GRU_stasi_in_action
+		icon = GFX_focus_GER_form_the_stasi
+		cost = 4
+
+		prerequisite = { focus = GRU_establish_the_ministries }
+
+		x = 16
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_peoples_police_for_the_people
+		icon = GFX_goal_enlist_the_police
+		cost = 4
+
+		prerequisite = { focus = GRU_establish_the_ministries }
+
+		x = 18
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_ministry_of_emergencies
+		icon = GFX_focus_BRA_end_the_state_of_emergency
+		cost = 4
+
+		prerequisite = { focus = GRU_establish_the_ministries }
+
+		x = 20
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_ministry_of_industry_and_agriculture
+		icon = GFX_focus_JAP_ministry_of_commerce_and_industry
+		cost = 4
+
+		prerequisite = { focus = GRU_establish_the_ministries }
+
+		x = 22
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_ministry_of_health
+		icon = GFX_goal_healthcare
+		cost = 4
+
+		prerequisite = { focus = GRU_establish_the_ministries }
+
+		x = 24
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_manpower = 3000
+		}
+	}
+
+	focus = {
+		id = GRU_socialist_democratic_politics
+		icon = GFX_goal_generic_workers_democracy
+		cost = 4
+
+		prerequisite = { focus = GRU_we_are_always_friends }
+
+		x = 10
+		y = 3
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.10
+		}
+	}
+
+	focus = {
+		id = GRU_improve_the_peoples_councils
+		icon = GFX_goal_generic_parliament
+		cost = 4
+
+		prerequisite = { focus = GRU_socialist_democratic_politics }
+
+		x = 10
+		y = 4
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_deal_with_the_opposition
+		icon = GFX_goal_generic_political_purge
+		cost = 4
+
+		prerequisite = { focus = GRU_improve_the_peoples_councils }
+
+		x = 10
+		y = 5
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = GRU_principle_of_democratic_centralism
+		icon = GFX_focus_generic_bastion_of_democracy
+		cost = 4
+
+		prerequisite = { focus = GRU_deal_with_the_opposition }
+
+		x = 10
+		y = 6
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = GRU_open_rally
+		icon = GFX_goal_LIB_Syndicalist_Rally
+		cost = 4
+
+		prerequisite = { focus = GRU_principle_of_democratic_centralism }
+		prerequisite = { focus = GRU_power_of_the_vanguard }
+		prerequisite = { focus = GRU_establish_the_ministries }
+		# 以上 3 个 prerequisite 块之间为「且」：每块都要满足
+
+		x = 10
+		y = 7
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.10
+			add_war_support = 0.10
+			set_country_flag = GRU_ddr_rally
+		}
+	}
+
+}

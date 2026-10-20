@@ -35,6 +35,8 @@ TREE = load(R / 'common/national_focus/GRU_red_germany_focus.txt')[0]
 FOCUSES = {n.value('id'): n for n in TREE.children('focus')}
 FOLLOWUP_TREE = load(R / 'common/national_focus/GRU_hitler_focus.txt')[0]
 FOLLOWUP_FOCUSES = {n.value('id'): n for n in FOLLOWUP_TREE.children('focus')}
+THALMANN_TREE = load(R / 'common/national_focus/GRU_thalmann_focus.txt')[0]
+THALMANN_FOCUSES = {n.value('id'): n for n in THALMANN_TREE.children('focus')}
 IDEOLOGY_GROUPS = {subtype.k: ideology.k for ideology in load(R / 'common/ideologies/00_ideologies.txt')[0].v
                    for subtype in ideology.one('types').v}
 HOOKS = load(R / 'common/on_actions/GRU_red_germany_on_actions.txt')[0]
@@ -169,6 +171,7 @@ def execute(nodes, w, tag, source=None):
         elif k in ('add_political_power', 'add_stability', 'add_war_support'):
             c[{'add_political_power': 'pp', 'add_stability': 'stability', 'add_war_support': 'war_support'}[k]] += float(v)
         elif k == 'add_research_slot': c['research_slots'] += int(v)
+        elif k == 'add_manpower': c['manpower'] = c.get('manpower', 0) + int(v)
         elif k == 'army_experience': c['army_experience'] += float(v)
         elif k == 'add_popularity':
             ideology = n.value('ideology')
@@ -477,10 +480,11 @@ class ReconstructionTests(unittest.TestCase):
                            8: (600 + 50 * prepared, .4, .2)}
                 for key, value in zip(('pp', 'stability', 'war_support'), rewards[outcome]):
                     self.assertAlmostEqual(c[key], value)
-                self.assertEqual(c['tree'], 'GRU_hitler_focus' if outcome == 8 else 'GRU_red_germany_focus')
-                self.assertEqual(c['loaded'], 2 if outcome == 8 else 1)
-                self.assertEqual(c['focuses'], set() if outcome == 8 else {'GRU_new_german_government'})
+                self.assertEqual(c['tree'], {6: 'GRU_thalmann_focus', 7: 'GRU_red_germany_focus', 8: 'GRU_hitler_focus'}[outcome])
+                self.assertEqual(c['loaded'], 1 if outcome == 7 else 2)
+                self.assertEqual(c['focuses'], {'GRU_new_german_government'} if outcome == 7 else set())
                 self.assertEqual('GRU_hitler_path' in c['flags'], outcome == 8)
+                self.assertEqual('GRU_thalmann_path' in c['flags'], outcome == 6)
                 self.assertEqual('GRU_sabotaged_election' in c['flags'], outcome == 7)
                 self.assertEqual(c['government'], 'communist')
                 if outcome == 8:
@@ -512,6 +516,8 @@ class ReconstructionTests(unittest.TestCase):
             before = deepcopy(c)
             choose(w, f'GRU_reconstruction.{outcome}')  # stale window must not award anything
             effect(w, 'GRU_enter_hitler_path')
+            effect(w, 'GRU_enter_thalmann_path')
+            self.assertFalse(fire(w, 'GRU_reconstruction.96'))
             self.assertFalse(fire(w, 'GRU_reconstruction.97'))
             self.assertFalse(fire(w, 'GRU_reconstruction.8'))
             self.assertEqual(c, before)
@@ -593,11 +599,12 @@ class ReconstructionTests(unittest.TestCase):
                 self.assertEqual(w['opened'], [(tag, eid)])
                 self.assertTrue(choose(w, eid))
                 self.assertIn('GRU_first_election_held', c['flags'])
-                self.assertEqual(c['tree'], 'GRU_red_germany_focus')
+                self.assertEqual(c['tree'], 'GRU_thalmann_focus' if outcome == 6 else 'GRU_red_germany_focus')
                 expected = deepcopy(c)
                 # The debug preview changes the tree and appoints the new leader.
                 # PP, stability, support and popularity retain the .6/.7 result.
                 expected['flags'].add('GRU_hitler_path')
+                expected['flags'].discard('GRU_thalmann_path')
                 expected.update(tree='GRU_hitler_focus', loaded=c['loaded'] + 1, focuses=set())
                 expected.update(leader='GRU_adolf_hitler', characters={'GRU_adolf_hitler'},
                                 leader_desc='GRU_adolf_hitler_leader_desc',
@@ -753,6 +760,66 @@ class ReconstructionTests(unittest.TestCase):
                          'GRU_hitler_father', 'GRU_hitler_stalin_pact',
                          'GRU_two_hails', 'GRU_hitler_augustus'} <= c['flags'])
 
+    def test_thalmann_preview_preserves_rewards_and_completed_progress(self):
+        for tag, settled in product(('GRU', 'D03'), (False, True)):
+            w, c = established(tag)
+            if settled:
+                c['flags'].add('GRU_first_election_scheduled')
+                effect(w, 'GRU_finish_reconstruction')
+            before = deepcopy(c)
+            self.assertTrue(fire(w, 'GRU_reconstruction.96'))
+            self.assertTrue(choose(w, 'GRU_reconstruction.96'))
+            self.assertEqual(c['tree'], 'GRU_thalmann_focus')
+            self.assertEqual(c['loaded'], before['loaded'] + 1)
+            self.assertEqual(c['leader'], before['leader'])
+            self.assertEqual(c['party_names'], before['party_names'])
+            self.assertEqual(c['government'], 'communist')
+            for key, delta in (('pp', 100), ('stability', .15)):
+                self.assertAlmostEqual(c[key], before[key] + (0 if settled else delta))
+            self.assertEqual(c['war_support'], before['war_support'])
+            c['focuses'].add('GRU_brand_new_germany')
+            before = deepcopy(c)
+            self.assertTrue(fire(w, 'GRU_reconstruction.96'))
+            choose(w, 'GRU_reconstruction.96')
+            effect(w, 'GRU_load_thalmann_focus_tree')
+            effect(w, 'GRU_enter_thalmann_path')
+            effect(w, 'GRU_finish_reconstruction')
+            advance(w, 100)
+            self.assertEqual(c, before)
+
+    def test_thalmann_loader_rejects_other_countries_unsettled_and_unsafe_routes(self):
+        for original, flag, settled in product(('GRU', 'GER', 'RUS'),
+                (None, 'GRU_reconstruction_rebel', 'GRU_civil_war_started', 'GRU_hitler_path'), (False, True)):
+            w, c = established()
+            c['original'] = original
+            if flag: c['flags'].add(flag)
+            if settled: c['flags'].add('GRU_first_election_held')
+            before = deepcopy(c)
+            effect(w, 'GRU_load_thalmann_focus_tree')
+            if original == 'GRU' and flag is None and settled:
+                self.assertEqual(c['tree'], 'GRU_thalmann_focus')
+            else:
+                self.assertEqual(c, before)
+            if original != 'GRU' or flag:
+                self.assertFalse(fire(w, 'GRU_reconstruction.96'))
+                self.assertEqual(c, before)
+
+    def test_thalmann_focus_rewards_and_final_three_way_requirement(self):
+        w, c = established()
+        for focus in THALMANN_FOCUSES.values():
+            execute(focus.one('completion_reward').v, w, 'GRU')
+        self.assertEqual(c['manpower'], 8000)
+        self.assertEqual(c['government'], 'communist')
+        self.assertEqual(c['leader'], 'KR occupation leader')
+        self.assertEqual(c['tree'], 'GRU_red_germany_focus')
+        self.assertTrue({'GRU_ddr_proclaimed', 'GRU_hohenzollerns_resolved', 'GRU_marxist_orthodoxy',
+                         'GRU_sovereign_administration', 'GRU_ddr_rally'} <= c['flags'])
+        required = [set(n.v for n in p.v) for p in THALMANN_FOCUSES['GRU_open_rally'].children('prerequisite')]
+        expected = {'GRU_principle_of_democratic_centralism', 'GRU_power_of_the_vanguard', 'GRU_establish_the_ministries'}
+        self.assertEqual(required, [{k} for k in ('GRU_principle_of_democratic_centralism', 'GRU_power_of_the_vanguard', 'GRU_establish_the_ministries')])
+        for missing in expected:
+            self.assertFalse(all(group & (expected - {missing}) for group in required))
+
     def test_civil_war_preserves_original_government_for_both_legal_rebels(self):
         for influence, expected in (((100, 100, 0), 'national_populist'), ((0, 100, 100), 'paternal_autocrat')):
             w, c = established()
@@ -853,7 +920,9 @@ class ContentTests(unittest.TestCase):
 
     def test_tree_references_and_branch_reachability(self):
         self.assertFalse(FOCUSES.keys() & FOLLOWUP_FOCUSES.keys())
-        for tree, focuses, count in ((TREE, FOCUSES, 59), (FOLLOWUP_TREE, FOLLOWUP_FOCUSES, 42)):
+        self.assertFalse(THALMANN_FOCUSES.keys() & (FOCUSES.keys() | FOLLOWUP_FOCUSES.keys()))
+        for tree, focuses, count in ((TREE, FOCUSES, 59), (FOLLOWUP_TREE, FOLLOWUP_FOCUSES, 42),
+                                     (THALMANN_TREE, THALMANN_FOCUSES, 24)):
             with self.subTest(tree=tree.value('id')):
                 self.assertEqual(len(focuses), count)
                 self.assertEqual(len(tree.children('focus')), count)
@@ -898,6 +967,12 @@ class ContentTests(unittest.TestCase):
         digest = hashlib.sha256(json.dumps(signature, sort_keys=True, ensure_ascii=True).encode()).hexdigest()
         self.assertEqual(digest, '4176c74ae37e55b391f0a98180c9fac1d9cf97f7e2c0f19fe08358ff5be273ac')
 
+    def test_thalmann_gameplay_matches_070_package(self):
+        signature = {k: [n.norm() for n in f.v if n.k not in ('icon', 'x', 'y')]
+                     for k, f in THALMANN_FOCUSES.items()}
+        digest = hashlib.sha256(json.dumps(signature, sort_keys=True, ensure_ascii=True).encode()).hexdigest()
+        self.assertEqual(digest, '5c6c8fcdddb4b0b49a41900cc5bd5d0d628256df7130d123d513283387e85d07')
+
     def test_chinese_localization_and_custom_effect_references(self):
         p = R / 'localisation/simp_chinese/GRU_red_germany_l_simp_chinese.yml'
         b = p.read_bytes()
@@ -907,7 +982,7 @@ class ContentTests(unittest.TestCase):
         loc = dict(entries)
         self.assertEqual(len(loc), len(entries))
         self.assertNotIn('\ufffd', s)
-        for focus in FOCUSES.keys() | FOLLOWUP_FOCUSES.keys(): self.assertIn(focus, loc); self.assertIn(focus + '_desc', loc)
+        for focus in FOCUSES.keys() | FOLLOWUP_FOCUSES.keys() | THALMANN_FOCUSES.keys(): self.assertIn(focus, loc); self.assertIn(focus + '_desc', loc)
         for decision_id in DECISIONS: self.assertIn(decision_id, loc); self.assertIn(decision_id + '_desc', loc)
         def walk(nodes):
             for n in nodes:
@@ -947,7 +1022,7 @@ class ContentTests(unittest.TestCase):
         # calls are references; count only top-level event declarations locally.
         own_events = [n.value('id') for n in load(R / 'events/GRU_reconstruction_events.txt') if n.k == 'country_event']
         self.assertEqual(len(set(own_events)), len(own_events))
-        additions = set(FOCUSES) | set(FOLLOWUP_FOCUSES) | {k for k in EFFECTS if k.startswith('GRU_')} | set(TRIGGERS)
+        additions = set(FOCUSES) | set(FOLLOWUP_FOCUSES) | set(THALMANN_FOCUSES) | {k for k in EFFECTS if k.startswith('GRU_')} | set(TRIGGERS)
         pattern = re.compile(r'\b(?:' + '|'.join(map(re.escape, sorted(additions))) + r')\b')
         collisions = []
         for folder in ('common/national_focus', 'common/scripted_effects', 'common/scripted_triggers', 'events'):

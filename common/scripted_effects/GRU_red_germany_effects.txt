@@ -128,7 +128,11 @@ GRU_load_hitler_focus_tree = {
 				NOT = { has_country_flag = GRU_hitler_path }
 			}
 		}
-		hidden_effect = { set_country_flag = GRU_hitler_path }
+		hidden_effect = {
+			set_country_flag = GRU_hitler_path
+			# Explicit .97 preview may be used after an ordinary election.
+			clr_country_flag = GRU_thalmann_path
+		}
 		load_focus_tree = {
 			tree = GRU_hitler_focus
 			keep_completed = no
@@ -150,5 +154,43 @@ GRU_enter_hitler_path = {
 		}
 		GRU_finish_reconstruction = yes
 		GRU_load_hitler_focus_tree = yes
+	}
+}
+
+# Ordinary-election follow-up from hongde 0.7.0. Loading is separate from the
+# guarded settlement so the .96 preview never pays an election reward twice.
+# Keep the communist government, current leader and party names unchanged.
+GRU_load_thalmann_focus_tree = {
+	if = {
+		limit = {
+			hidden_trigger = {
+				GRU_is_red_germany = yes
+				has_country_flag = GRU_first_election_held
+				NOT = { has_country_flag = GRU_reconstruction_rebel }
+				NOT = { has_country_flag = GRU_civil_war_started }
+				NOT = { has_country_flag = GRU_hitler_path }
+				NOT = { has_country_flag = GRU_thalmann_path }
+			}
+		}
+		hidden_effect = { set_country_flag = GRU_thalmann_path }
+		load_focus_tree = {
+			tree = GRU_thalmann_focus
+			keep_completed = no
+		}
+		mark_focus_tree_layout_dirty = yes
+	}
+}
+
+GRU_enter_thalmann_path = {
+	if = {
+		limit = {
+			hidden_trigger = {
+				GRU_can_resolve_first_election = yes
+				NOT = { has_country_flag = GRU_hitler_path }
+				NOT = { has_country_flag = GRU_thalmann_path }
+			}
+		}
+		GRU_finish_reconstruction = yes
+		GRU_load_thalmann_focus_tree = yes
 	}
 }
