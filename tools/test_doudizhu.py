@@ -44,6 +44,16 @@ def audit(model):
         card = get(model, f"table_{i}")
         if card:
             assert owners[card-1] == 9
+    snapshots = []
+    for seat in (1, 2, 3):
+        cards = [get(model, f"public_card_{seat}_{i}") for i in range(1, 21)]
+        count = get(model, f"public_n_{seat}")
+        assert all(cards[:count]) and not any(cards[count:])
+        assert all(owners[c-1] == 9 for c in cards if c)
+        ranks = Counter(game.rank(c) for c in cards if c)
+        assert all(ranks[r] == get(model, f"play_{seat}_{r}") for r in range(1, 16))
+        snapshots += [c for c in cards if c]
+    assert len(set(snapshots)) == len(snapshots)
 
 
 class LifecycleTests(unittest.TestCase):
@@ -131,6 +141,37 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(get(model, "turn"), 1)
         self.assertEqual(get(model, "passes"), 0)
 
+    def test_round_action_stamps_survive_passes_but_not_new_lead(self):
+        model = self.playable()
+        setv(model, turn=1, last_kind=0, trick=5, trick_closed=1, passes=0)
+        call(model, "clear_flags")
+        card = min(c for c in range(1, 55) if get(model, f"owner_{c}") == 1)
+        call(model, f"select_{card}")
+        call(model, "read_selection")
+        call(model, "commit_play")
+        self.assertEqual(get(model, "trick"), 6)
+        self.assertEqual(get(model, "trick_closed"), 0)
+        self.assertEqual(get(model, "action_trick_1"), 6)
+        call(model, "commit_pass")
+        call(model, "commit_pass")
+        self.assertEqual(get(model, "trick"), 6)
+        self.assertEqual(get(model, "trick_closed"), 1)
+        self.assertEqual([get(model, f"action_{s}") for s in (1, 2, 3)], [1, 2, 2])
+        self.assertEqual([get(model, f"action_trick_{s}") for s in (1, 2, 3)], [6, 6, 6])
+        card = min(c for c in range(1, 55) if get(model, f"owner_{c}") == 1)
+        call(model, f"select_{card}")
+        call(model, "read_selection")
+        call(model, "commit_play")
+        self.assertEqual(get(model, "trick"), 7)
+        self.assertEqual(get(model, "trick_closed"), 0)
+        self.assertEqual(get(model, "action_trick_1"), 7)
+        self.assertEqual([get(model, f"action_trick_{s}") for s in (2, 3)], [6, 6])
+        # Merely selecting or hinting must not count as a public action.
+        setv(model, turn=1)
+        before = [get(model, f"action_trick_{s}") for s in (1, 2, 3)]
+        call(model, "hint")
+        self.assertEqual(before, [get(model, f"action_trick_{s}") for s in (1, 2, 3)])
+
     def test_invalid_play_pass_and_hint_are_non_destructive(self):
         model = self.playable()
         setv(model, last_kind=0, last_n=0, last_player=0)
@@ -149,6 +190,74 @@ class LifecycleTests(unittest.TestCase):
             if get(model, f"owner_{c}") != 1:
                 call(model, f"select_{c}")
                 self.assertEqual(get(model, f"sel_{c}"), 0)
+
+    def test_each_seat_keeps_physical_play_until_its_next_successful_play(self):
+        model = self.model()
+        setv(model, phase=2, turn=1, landlord=1, trick=0)
+        # Give each player distinct suits and several spare cards. The public
+        # snapshots must preserve actual suits, not reconstruct them by rank.
+        for c in range(1, 55):
+            setv(model, **{f"owner_{c}": (c - 1) % 3 + 1})
+        call(model, "recount")
+
+        def play(seat, selected):
+            setv(model, turn=seat)
+            call(model, "clear_flags")
+            for card in selected:
+                if seat == 1:
+                    call(model, f"select_{card}")
+                else:
+                    key = f"s_{game.rank(card)}"
+                    setv(model, **{key: get(model, key) + 1})
+            call(model, "read_selection" if seat == 1 else "classify")
+            self.assertEqual(get(model, "beats"), 1)
+            call(model, "commit_play")
+
+        def snapshot(seat):
+            return tuple(get(model, f"public_card_{seat}_{i}") for i in range(1, 21))
+
+        play(1, [1, 4])  # pair of threes, different physical suits
+        first = snapshot(1)
+        self.assertEqual(first[:3], (1, 4, 0))
+        call(model, "commit_pass")
+        call(model, "commit_pass")
+        self.assertEqual(get(model, "table_n"), 0)
+        self.assertEqual(snapshot(1), first)
+        self.assertEqual(get(model, "public_trick_1"), 1)
+        play(1, [7])  # same player replaces a pair with a single; tail clears
+        self.assertEqual(snapshot(1), (7,) + (0,) * 19)
+        play(2, [11])
+        play(3, [15])
+        saved = [snapshot(s) for s in (1, 2, 3)]
+        self.assertEqual([x[0] for x in saved], [7, 11, 15])
+        call(model, "commit_pass")
+        call(model, "commit_pass")
+        self.assertEqual([snapshot(s) for s in (1, 2, 3)], saved)
+        play(3, [18])
+        self.assertEqual(snapshot(3), (18,) + (0,) * 19)
+        self.assertEqual([snapshot(s) for s in (1, 2)], saved[:2])
+        # Isolate new-game reset from automatic bidding/playing that could
+        # legitimately populate a fresh snapshot during the same call.
+        model.effects = {**model.effects, **load_effects("RUS_ddz_process_ai = { }")}
+        setv(model, phase=3)
+        call(model, "new_game")
+        self.assertEqual([snapshot(s) for s in (1, 2, 3)], [(0,) * 20] * 3)
+        self.assertEqual([get(model, f"public_n_{s}") for s in (1, 2, 3)], [0] * 3)
+
+    def test_public_piles_center_each_visible_row_without_overlap(self):
+        model = self.model()
+        for count in range(1, 21):
+            setv(model, **{f"public_n_{s}": count for s in (1, 2, 3)})
+            call(model, "refresh")
+            for seat, center, columns, step in ((1, 500, 20, 27), (2, 355, 10, 22), (3, 645, 10, 22)):
+                for row in range((count - 1) // columns + 1):
+                    row_count = min(columns, count - row * columns)
+                    positions = [model.vars[game.v(f"public_x_{seat}_{row * columns + i}")]
+                                 for i in range(1, row_count + 1)]
+                    self.assertEqual((positions[0] + positions[-1] + 34) / 2, center)
+                    self.assertTrue(all(b - a == step for a, b in zip(positions, positions[1:])))
+                    self.assertGreaterEqual(positions[0], 220 if seat != 3 else 510)
+                    self.assertLessEqual(positions[-1] + 34, 490 if seat == 2 else 780)
 
     def test_physical_selected_suit_is_removed(self):
         model = self.playable()

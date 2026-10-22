@@ -19,7 +19,7 @@ class ScriptVM(ScriptModel):
         super().__init__(load_effects(text if text is not None else next(iter(rules.outputs().values()))))
 
     def evaluate(self, name, counts, previous=rules.Move()):
-        stem = "a" if name == "choose_move" else "s"
+        stem = "a" if name in ("choose_move", "choose_team_move") else "s"
         self.vars.update({rules.v(f"{stem}_{r}"): c for r, c in enumerate(counts, 1)})
         self.vars.update({rules.v("last_" + key): value for key, value in (
             ("kind", previous.kind), ("power", previous.power), ("len", previous.length), ("n", previous.n))})
@@ -155,11 +155,264 @@ class RulesTests(unittest.TestCase):
 
     def test_generator_public_effects_and_names(self):
         self.assertLess(len(rules.PATTERNS), 400)
-        self.assertEqual(set(self.vm.effects), {rules.v(s) for s in ("compare", "classify", "ai_offer", "choose_move")})
+        self.assertEqual(set(self.vm.effects), {rules.v(s) for s in (
+            "compare", "classify", "ai_offer", "choose_move", "strategy_offer", "choose_strategy_move", "choose_team_move")})
         text = next(iter(rules.outputs().values()))
         self.assertNotIn("random", text)
         self.assertNotIn("every_country", text)
         self.assertNotIn("while", text)
+
+
+class TeamMoveTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.vm = ScriptVM()
+
+    def team_move(self, hand, previous, *, turn=2, landlord=3, last_player=1,
+                  remaining=(5, 7, 8), passes=0):
+        self.vm.vars.update({rules.v(k): value for k, value in (
+            ("turn", turn), ("landlord", landlord), ("last_player", last_player),
+            ("passes", passes), *[(f"count_{s}", n) for s, n in enumerate(remaining, 1)])})
+        expected = rules.choose_team_move(hand, previous, turn=turn, landlord=landlord,
+                                         last_player=last_player, remaining=remaining, passes=passes)
+        move = self.vm.evaluate("choose_team_move", hand, previous)
+        self.assertEqual(self.vm.selected(), expected)
+        self.assertEqual(move, rules.classify(expected))
+        self.assertTrue(all(0 <= selected <= count for selected, count in zip(expected, hand)))
+        self.assertEqual(bool(self.vm.vars[rules.v("beats")]), move.beats(previous))
+        self.assertEqual(tuple(self.vm.vars[rules.v(f"a_{r}")] for r in range(1, 16)), hand)
+        return expected
+
+    def test_ordinary_teammate_lead_is_held_in_all_seats(self):
+        hand = cards((4, 1), (8, 2), (13, 4), (14, 1), (15, 1))
+        for turn, landlord, mate in itertools.permutations((1, 2, 3)):
+            for previous in (rules.Move(1, 2, 1, 1), rules.Move(2, 5, 1, 2), rules.Move(13, 1, 1, 4)):
+                self.assertTrue(any(rules.choose_move(hand, previous)))
+                self.assertEqual(self.team_move(hand, previous, turn=turn, landlord=landlord,
+                                               last_player=mate), cards())
+
+    def test_landlord_and_farmer_answering_landlord_keep_normal_picker(self):
+        hand = cards((5, 1), (7, 2), (12, 4), (14, 1), (15, 1))
+        previous = rules.Move(2, 4, 1, 2)
+        expected = rules.choose_move(hand, previous)
+        self.assertEqual(self.team_move(hand, previous, landlord=2), expected)
+        self.assertEqual(self.team_move(hand, previous, landlord=1), expected)
+
+    def test_free_lead_and_invalid_context_keep_normal_picker(self):
+        hand = cards((3, 1), (4, 3), (7, 2))
+        self.assertEqual(self.team_move(hand, rules.Move()), rules.choose_move(hand))
+        previous = rules.Move(1, 1, 1, 1)
+        self.assertEqual(self.team_move(hand, previous, last_player=0), rules.choose_move(hand, previous))
+        self.assertEqual(self.team_move(hand, previous, landlord=0), rules.choose_move(hand, previous))
+
+    def test_finishing_hand_always_wins_including_bomb_and_rocket(self):
+        previous = rules.Move(1, 3, 1, 1)
+        for hand in (cards((8, 1)), cards((9, 4)), cards((14, 1), (15, 1))):
+            self.assertEqual(self.team_move(hand, previous, remaining=(1, sum(hand), 1), passes=1), hand)
+
+    def test_complex_whole_hand_finish_overrides_team_holds_and_feeding(self):
+        for hand in (cards((8, 4), (11, 2)), cards((8, 3), (9, 3), (11, 1), (12, 1)),
+                     cards(*[(r, 1) for r in range(8, 13)]), cards((8, 3), (9, 3), (11, 2), (12, 2))):
+            whole = rules.classify(hand)
+            previous = rules.Move(whole.kind, whole.power - 1, whole.length, whole.n)
+            self.assertEqual(self.team_move(hand, previous, remaining=(1, sum(hand), 1), passes=1), hand)
+            self.assertEqual(self.team_move(hand, rules.Move(), landlord=1,
+                                           remaining=(5, sum(hand), 1)), hand)
+
+    def test_next_landlord_single_blocks_with_highest_ordinary_card(self):
+        hand = cards((4, 1), (9, 2), (12, 4), (13, 1), (14, 1), (15, 1))
+        self.assertEqual(self.team_move(hand, rules.Move(1, 3, 1, 1), remaining=(5, sum(hand), 1)),
+                         cards((13, 1)))
+
+    def test_next_landlord_pair_blocks_high_without_splitting_bomb(self):
+        hand = cards((8, 2), (10, 2), (11, 3), (13, 4), (14, 1), (15, 1))
+        self.assertEqual(self.team_move(hand, rules.Move(2, 6, 1, 2), remaining=(5, sum(hand), 2)),
+                         cards((11, 2)))
+
+    def test_blocking_wraps_seat_three_to_one(self):
+        hand = cards((4, 1), (11, 1), (13, 1))
+        self.assertEqual(self.team_move(hand, rules.Move(1, 3, 1, 1), turn=3, landlord=1,
+                                       last_player=2, remaining=(1, 5, sum(hand))), cards((13, 1)))
+
+    def test_landlord_already_passed_does_not_trigger_takeover(self):
+        hand = cards((4, 1), (13, 1), (14, 1), (15, 1))
+        previous = rules.Move(1, 3, 1, 1)
+        self.assertEqual(self.team_move(hand, previous, turn=3, landlord=2, last_player=1,
+                                       remaining=(5, 1, sum(hand)), passes=1), cards())
+        # Even an inconsistent hand-crafted save cannot use stale pass history
+        # to claim the landlord still needs an emergency block.
+        self.assertEqual(self.team_move(hand, previous, remaining=(5, sum(hand), 1), passes=1), cards())
+
+    def test_preserves_almost_finished_teammate_strong_lead(self):
+        hand = cards((4, 1), (13, 2), (15, 1))
+        for kind in (1, 2):
+            for left in (1, 2):
+                self.assertEqual(self.team_move(hand, rules.Move(kind, 12, 1, kind),
+                                               remaining=(left, sum(hand), kind)), cards())
+
+    def test_emergency_does_not_waste_jokers_or_bombs(self):
+        hand = cards((1, 1), (13, 4), (14, 1), (15, 1))
+        for kind in (1, 2):
+            self.assertEqual(self.team_move(hand, rules.Move(kind, 12, 1, kind),
+                                           remaining=(5, sum(hand), kind)), cards())
+
+    def test_near_finish_requires_matching_pattern_and_next_seat(self):
+        hand = cards((3, 1), (7, 3), (13, 2))
+        self.assertEqual(self.team_move(hand, rules.Move(1, 2, 1, 1), remaining=(5, sum(hand), 2)), cards())
+        self.assertEqual(self.team_move(hand, rules.Move(2, 2, 1, 2), remaining=(5, sum(hand), 1)), cards())
+        self.assertEqual(self.team_move(hand, rules.Move(3, 2, 1, 3), remaining=(5, sum(hand), 3)), cards())
+        self.assertEqual(self.team_move(hand, rules.Move(1, 2, 1, 1), turn=3, landlord=2,
+                                       last_player=1, remaining=(5, 1, sum(hand))), cards())
+
+    def test_opponent_private_cards_never_affect_the_move(self):
+        hand, previous = cards((3, 1), (8, 2), (13, 1)), rules.Move(1, 2, 1, 1)
+        args = dict(remaining=(5, sum(hand), 1))
+        expected = self.team_move(hand, previous, **args)
+        for private in (0, 1, 3, 4, 99):
+            self.vm.vars.update({rules.v(f"h_{s}_{r}"): private for s in (1, 3) for r in range(1, 16)})
+            self.vm.vars.update({rules.v(f"owner_{c}"): private for c in range(1, 55)})
+            self.assertEqual(self.team_move(hand, previous, **args), expected)
+        # Check the generated call graph as well as fixtures: no path can read
+        # hidden hand ranks/owners. Team policy's only new hand input is counts.
+        generated = next(iter(rules.outputs().values()))
+        self.assertNotRegex(generated, r"RUS_ddz_(?:h_[123]_\d+|owner_\d+)")
+
+
+    def test_next_enemy_reports_one_prefers_non_single_lead(self):
+        hand = cards((2, 1), (7, 2), (13, 1))
+        selected = self.team_move(hand, rules.Move(), remaining=(5, sum(hand), 1))
+        self.assertEqual(selected, cards((7, 2)))
+
+    def test_only_singles_lead_high_against_next_enemy_one_card(self):
+        hand = cards((2, 1), (7, 1), (13, 1))
+        self.assertEqual(self.team_move(hand, rules.Move(), remaining=(5, sum(hand), 1)), cards((13, 1)))
+
+    def test_next_enemy_reports_two_avoids_pair_lead(self):
+        hand = cards((2, 2), (13, 1))
+        selected = self.team_move(hand, rules.Move(), remaining=(5, sum(hand), 2))
+        self.assertEqual(rules.classify(selected).kind, 1)
+
+    def test_free_lead_feeds_next_farmer_with_one_card(self):
+        hand = cards((1, 4), (5, 1), (7, 2), (14, 1), (15, 1))
+        selected = self.team_move(hand, rules.Move(), turn=2, landlord=1, last_player=2,
+                                  remaining=(5, sum(hand), 1))
+        self.assertEqual(selected, cards((5, 1)))
+        # A complete finishing combination takes priority over giving the lead.
+        hand = cards((7, 3), (8, 2))
+        self.assertEqual(self.team_move(hand, rules.Move(), turn=2, landlord=1,
+                                       remaining=(5, 5, 1)), hand)
+
+    def test_two_card_teammate_not_assumed_to_have_pair(self):
+        hand = cards((1, 2), (4, 3), (7, 1))
+        selected = self.team_move(hand, rules.Move(), turn=2, landlord=1, remaining=(5, 6, 2))
+        self.assertEqual(rules.classify(selected).kind, 5)
+
+    def test_follow_enemy_high_single_and_pair_for_urgent_next_seat(self):
+        hand = cards((4, 1), (7, 2), (12, 3), (13, 4), (14, 1), (15, 1))
+        for turn, landlord, last in ((2, 3, 3), (2, 2, 1)):
+            for kind in (1, 2):
+                selected = self.team_move(hand, rules.Move(kind, 3, 1, kind), turn=turn,
+                                          landlord=landlord, last_player=last, remaining=(5, sum(hand), kind))
+                self.assertEqual(selected, cards((12, kind)))
+
+    def test_normal_response_prefers_intact_single_and_pair(self):
+        hand = cards((4, 2), (7, 3), (10, 1), (11, 2), (13, 4), (14, 1), (15, 1))
+        # Previous landlord is not the actor's immediate next seat here.
+        self.assertEqual(self.team_move(hand, rules.Move(1, 3, 1, 1), landlord=1), cards((10, 1)))
+        self.assertEqual(self.team_move(hand, rules.Move(2, 5, 1, 2), landlord=1), cards((11, 2)))
+
+    def test_nonurgent_response_can_pass_to_preserve_bomb_and_rocket(self):
+        hand = cards((1, 1), (10, 4), (14, 1), (15, 1))
+        self.assertEqual(self.team_move(hand, rules.Move(1, 5, 1, 1), landlord=1), cards())
+        # An enemy close to going out justifies committing a whole bomb;
+        # even then no single/pair is split from it or from the rocket.
+        selected = self.team_move(hand, rules.Move(1, 5, 1, 1), landlord=1, remaining=(1, sum(hand), 7))
+        self.assertEqual(selected, cards((10, 4)))
+        self.assertEqual(self.team_move(cards((10, 4)), rules.Move(1, 5, 1, 1), landlord=1), cards((10, 4)))
+
+    def test_landlord_counts_both_farmer_enemies_for_bomb_urgency(self):
+        hand = cards((1, 1), (10, 4), (14, 1), (15, 1))
+        previous = rules.Move(1, 5, 1, 1)
+        self.assertEqual(self.team_move(hand, previous, landlord=2, remaining=(5, sum(hand), 5)), cards())
+        self.assertEqual(self.team_move(hand, previous, landlord=2, remaining=(1, sum(hand), 5)), cards((10, 4)))
+        self.assertEqual(self.team_move(hand, previous, landlord=2, remaining=(5, sum(hand), 2)), cards((10, 4)))
+
+    def test_team_context_does_not_leak_to_hint_picker(self):
+        hand = cards((4, 2), (10, 1), (13, 4))
+        previous = rules.Move(1, 3, 1, 1)
+        self.team_move(hand, previous, landlord=1)
+        self.vm.evaluate("choose_move", hand, previous)
+        self.assertEqual(self.vm.selected(), rules.choose_move(hand, previous))
+        self.assertEqual(self.vm.selected(), cards((4, 1)))
+
+    def test_safe_single_wing_not_hidden_by_lower_complete_bomb(self):
+        # 4444 + 777 + J can answer 555 + K with 777 + J, without
+        # rejecting the whole core merely because 4 was the lowest accessory.
+        hand = cards((2, 4), (5, 3), (9, 1))
+        previous = rules.Move(4, 3, 1, 4)
+        self.assertEqual(self.team_move(hand, previous, landlord=1, remaining=(7, 8, 6)),
+                         cards((5, 3), (9, 1)))
+        self.vm.evaluate("choose_move", hand, previous)
+        self.assertEqual(self.vm.selected(), rules.choose_move(hand, previous))
+        self.assertEqual(self.vm.selected(), cards((2, 1), (5, 3)))
+
+    def test_safe_pair_wing_not_hidden_by_lower_complete_bomb(self):
+        hand = cards((2, 4), (5, 3), (9, 2))
+        self.assertEqual(self.team_move(hand, rules.Move(5, 3, 1, 5), landlord=1,
+                                       remaining=(7, 9, 6)), cards((5, 3), (9, 2)))
+
+    def test_wing_selection_never_splits_held_rocket(self):
+        hand = cards((5, 3), (14, 1), (15, 1))
+        # No safe single wing exists. The nonurgent AI must pass instead of
+        # splitting the rocket, and ordinary bomb resource preservation applies.
+        self.assertEqual(self.team_move(hand, rules.Move(4, 3, 1, 4), landlord=1,
+                                       remaining=(7, 5, 6)), cards())
+
+    def test_rocket_as_two_wings_retains_whole_hand_and_safe_variant(self):
+        for hand in (cards((5, 4), (14, 1), (15, 1)),
+                     cards((5, 3), (6, 3), (14, 1), (15, 1))):
+            whole = rules.classify(hand)
+            previous = rules.Move(whole.kind, whole.power - 1, whole.length, whole.n)
+            self.assertEqual(self.team_move(hand, previous, remaining=(5, sum(hand), 7)), hand)
+        # A smaller lone wing must not prevent choosing both jokers together
+        # when the two-wing pattern has no other safe complete allocation.
+        hand = cards((3, 1), (5, 3), (6, 3), (14, 1), (15, 1))
+        self.assertEqual(self.team_move(hand, rules.Move(9, 4, 2, 8), landlord=1,
+                                       remaining=(7, 9, 6)), cards((5, 3), (6, 3), (14, 1), (15, 1)))
+
+    def test_full_team_games_with_public_state_and_card_conservation(self):
+        rng = random.Random(20261022)
+        deck = [r for r in range(13) for _ in range(4)] + [13, 14]
+        voluntary_passes = 0
+        for game in range(18):
+            rng.shuffle(deck)
+            hands = [[part.count(r) for r in range(15)] for part in (deck[:20], deck[20:37], deck[37:])]
+            turn, previous, passes, last_player = 1, rules.Move(), 0, 0
+            played = [0] * 15
+            for step in range(163):
+                hand = tuple(hands[turn - 1])
+                selected = self.team_move(hand, previous, turn=turn, landlord=1, last_player=last_player,
+                                          remaining=tuple(map(sum, hands)), passes=passes)
+                move = rules.classify(selected)
+                if move.kind:
+                    self.assertTrue(move.beats(previous))
+                    hands[turn - 1] = [h - c for h, c in zip(hand, selected)]
+                    played = [p + c for p, c in zip(played, selected)]
+                    self.assertEqual([played[r] + sum(h[r] for h in hands) for r in range(15)], [4] * 13 + [1, 1])
+                    previous, last_player, passes = move, turn, 0
+                    if not sum(hands[turn - 1]):
+                        break
+                else:
+                    self.assertTrue(previous.kind, "A free lead always plays at least one card")
+                    if any(rules.choose_move(hand, previous)):
+                        voluntary_passes += 1
+                    passes += 1
+                    if passes == 2:
+                        previous, last_player, passes = rules.Move(), 0, 0
+                turn = turn % 3 + 1
+            else:
+                self.fail(f"Team game {game} did not finish within finite card/pass bound")
+        self.assertGreater(voluntary_passes, 0)
 
 
 if __name__ == "__main__":

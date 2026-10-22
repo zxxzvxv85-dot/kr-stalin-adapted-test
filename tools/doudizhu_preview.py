@@ -9,7 +9,7 @@ from pathlib import Path
 import re
 
 from PIL import Image, ImageDraw, ImageFont
-from doudizhu_gui import ASSET_DIR, HAND_X, HAND_Y, HAND_SELECTED_Y, HAND_STEP
+from doudizhu_gui import ASSET_DIR, HAND_X, HAND_Y, HAND_SELECTED_Y, HAND_STEP, PUBLIC_PILES, public_card_position
 from hoi4_politics_blocks import load
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -78,12 +78,24 @@ def preview(target: Path):
         label(name,(px,584 if seat==1 else 248,pw,42))
         label('地主' if seat==1 else '农民',(px,651 if seat==1 else 295,pw,24),16,'#e3c56c')
         label('手牌 '+str({1:20,2:15,3:17}[seat])+' 张',(px,627 if seat==1 else 324,pw,24))
+        action = {1:'本轮：待出牌',2:'本轮：已出牌',3:'本轮：不出'}[seat]
+        label(action,(px,440 if seat==1 else 353,pw,24),16,'#e3c56c' if seat==3 else '#a6d7a0')
     label('你的座位',(20,465,140,24),16,'#e3c56c')
-    label('上一手：拉扎尔·卡冈诺维奇',(215,246,570,26))
+    label('当前需压过：拉扎尔·卡冈诺维奇',(215,199,570,24))
     table=Image.open(ROOT/ASSET_DIR/'table_faces.png')
-    for index,card in enumerate([29,31]):
-        base.alpha_composite(table.crop(((card-1)*34,0,card*34,50)),(round(500-27/2-17+index*27),282))
-    label('轮到你出牌  ·  点击手牌选中，再点击“出牌”',(225,378,550,92),20,'#e7d6a7')
+    # Deliberately include a 20-card public pile to pressure-test both rows.
+    # These are static layout fixtures, not a claim about an actual played deal.
+    public={
+        1:[29,31],
+        2:[1,2,3,5,6,7,9,10,11,13,14,15,17,18,19,22,26,30,34,38],
+        3:[41,43,44,54],
+    }
+    titles={1:'你的上次出牌',2:'左侧牌友 · 当前待压过',3:'右侧牌友 · 上次出牌'}
+    for seat,pile in PUBLIC_PILES.items():
+        label(titles[seat],(pile['title_x'],pile['title_y'],pile['title_w'],22),16,'#e7d6a7' if seat==2 else '#b5b7a8')
+        for slot,card in enumerate(public[seat],1):
+            base.alpha_composite(table.crop(((card-1)*34,0,card*34,50)),public_card_position(seat,slot,len(public[seat])))
+    label('轮到你出牌  ·  点击手牌选中，再点击“出牌”',(225,438,550,36),16,'#e7d6a7')
     label('已选 2 张',(425,476,300,24))
     for index,card in enumerate([1,2,4,7,9,10,13,16,18,21,22,25,30,33,37,42,44,47,49,54]):
         paste(f'card_{card:02d}.png',HAND_X+index*HAND_STEP,HAND_SELECTED_Y if card in [42,44] else HAND_Y)
@@ -91,7 +103,7 @@ def preview(target: Path):
         d.rounded_rectangle((x,614,x+122,647),radius=2,fill='#494b3a',outline='#a29d75')
         label(value,(x,619,123,28))
     label('玩法说明',(821,653,150,24))
-    label('静态布局检查 · 原生界面坐标与实际纹理 · 非游戏截图',(0,685,1000,24),13,'#a3a79e')
+    label('静态压力布局检查 · 三路公开牌面／20张出牌与手牌 · 非游戏截图',(0,685,1000,24),13,'#a3a79e')
     target.parent.mkdir(parents=True,exist_ok=True)
     base.convert('RGB').save(target)
     return target

@@ -53,9 +53,14 @@ class CardTableUI(unittest.TestCase):
             self.assertIn('RUS_ddz_phase = 2',self.triggers[name+'_click_enabled'].raw())
             self.assertIn('RUS_ddz_turn = 1',self.triggers[name+'_click_enabled'].raw())
             self.assertIn(f'RUS_ddz_select_{card} = yes',self.effects[name+'_click'].raw())
-        for slot in range(1,21):
-            self.assertEqual(self.properties[f'ddz_table_{slot}'].value('x'),f'RUS_ddz_table_x_{slot}')
-            self.assertEqual(self.properties[f'ddz_table_{slot}'].value('frame'),f'RUS_ddz_table_{slot}')
+        self.assertFalse(any(name.startswith('ddz_table_') and name.removeprefix('ddz_table_').isdigit() for name in self.widgets))
+        for seat in range(1,4):
+            for slot in range(1,21):
+                name=f'ddz_public_{seat}_{slot}'
+                self.assertEqual(self.properties[name].value('frame'),f'RUS_ddz_public_card_{seat}_{slot}')
+                self.assertEqual(self.properties[name].value('x'),f'RUS_ddz_public_x_{seat}_{slot}')
+                pos=self.widgets[name].one('position')
+                self.assertEqual((int(pos.value('x')),int(pos.value('y'))),gui.public_card_position(seat,slot))
 
     def test_bidding_and_play_visibility(self):
         for bid in range(4):
@@ -118,6 +123,101 @@ class CardTableUI(unittest.TestCase):
             # Only public played-card snapshots are referenced, never other hands.
             self.assertNotIn('RUS_ddz_owner_',loc[f'RUS_ddz_action_played_{seat}'])
 
+    def test_visible_round_actions_distinguish_new_and_completed_tricks(self):
+        from doudizhu_script_model import ScriptModel
+        model = ScriptModel({})
+        definitions = {n.value('name'): n for n in parse(self.sources['common/scripted_localisation/RUS_doudizhu_gui.txt'])}
+        for seat in range(1, 4):
+            name = f'ddz_round_action_{seat}'
+            self.assertIn(name, self.widgets)
+            self.assertEqual(self.widgets[name].one('position').value('y'), '440' if seat == 1 else '353')
+            self.assertIn('RUS_ddz_phase > 1', self.triggers[name+'_visible'].raw())
+            def label():
+                for entry in definitions[f'GetRUSDDZRoundAction{seat}'].children('text'):
+                    trigger = entry.one('trigger')
+                    if trigger is None or model.check(trigger):
+                        return entry.value('localization_key')
+                self.fail('No round action fallback')
+            model.vars.update({'RUS_ddz_trick': 4, 'RUS_ddz_trick_closed': 0,
+                               'RUS_ddz_phase': 2, 'RUS_ddz_people_ready': 1,
+                               f'RUS_ddz_action_trick_{seat}': 3, f'RUS_ddz_action_{seat}': 2})
+            self.assertEqual(label(), 'RUS_ddz_previous_trick_passed')
+            model.vars[f'RUS_ddz_action_trick_{seat}'] = 4
+            self.assertEqual(label(), 'RUS_ddz_trick_passed')
+            model.vars[f'RUS_ddz_action_{seat}'] = 1
+            self.assertEqual(label(), 'RUS_ddz_trick_played')
+            model.vars['RUS_ddz_trick_closed'] = 1
+            self.assertEqual(label(), 'RUS_ddz_previous_trick_played')
+            model.vars[f'RUS_ddz_action_{seat}'] = 2
+            self.assertEqual(label(), 'RUS_ddz_previous_trick_passed')
+            model.vars.update({'RUS_ddz_trick': 5, 'RUS_ddz_trick_closed': 0})
+            self.assertEqual(label(), 'RUS_ddz_previous_trick_passed')
+            model.vars['RUS_ddz_phase'] = 3
+            self.assertEqual(label(), 'RUS_ddz_trick_ended')
+            self.assertTrue(model.check(self.triggers[name+'_visible']))
+            # No play ever happened when everyone declined the bid or abandoned
+            # during bidding. Do not display a waiting-to-play status then.
+            model.vars['RUS_ddz_trick'] = 0
+            self.assertFalse(model.check(self.triggers[name+'_visible']))
+            model.vars['RUS_ddz_phase'] = 2
+            self.assertTrue(model.check(self.triggers[name+'_visible']))
+
+    def test_public_piles_persist_through_pass_other_turn_and_trick_change(self):
+        from doudizhu_script_model import ScriptModel
+        model=ScriptModel({})
+        for seat in range(1,4):
+            model.vars.update({'RUS_ddz_phase':2,'RUS_ddz_people_ready':1,'RUS_ddz_trick':3,'RUS_ddz_trick_closed':0,
+                               'RUS_ddz_turn':seat,'RUS_ddz_last_player':seat,
+                               f'RUS_ddz_action_{seat}':1,f'RUS_ddz_public_n_{seat}':2,
+                               f'RUS_ddz_public_card_{seat}_1':29,f'RUS_ddz_public_card_{seat}_2':31,
+                               f'RUS_ddz_public_trick_{seat}':3})
+            title=self.triggers[f'ddz_public_title_{seat}_visible']
+            first=self.triggers[f'ddz_public_{seat}_1_visible']
+            second=self.triggers[f'ddz_public_{seat}_2_visible']
+            third=self.triggers[f'ddz_public_{seat}_3_visible']
+            for changes in ({}, {f'RUS_ddz_action_{seat}':2},
+                            {'RUS_ddz_turn':seat%3+1,'RUS_ddz_last_player':seat%3+1},
+                            {'RUS_ddz_trick_closed':1}, {'RUS_ddz_trick':4,'RUS_ddz_trick_closed':0},
+                            {'RUS_ddz_phase':3}):
+                model.vars.update(changes)
+                self.assertTrue(model.check(title))
+                self.assertTrue(model.check(first))
+                self.assertTrue(model.check(second))
+                self.assertFalse(model.check(third))
+            # A new game clears the seat's count. Even a stale old card ID must
+            # stay hidden; another seat's populated pile must not activate it.
+            model.vars.update({'RUS_ddz_phase':2,f'RUS_ddz_public_n_{seat}':0})
+            self.assertFalse(model.check(title))
+            self.assertFalse(model.check(first))
+            model.vars.update({'RUS_ddz_people_ready':0,f'RUS_ddz_public_n_{seat}':2})
+            self.assertFalse(model.check(title))
+            self.assertFalse(model.check(first))
+            for slot in range(1,21):
+                raw=self.triggers[f'ddz_public_{seat}_{slot}_visible'].raw()
+                self.assertNotIn('RUS_ddz_action_',raw)
+                self.assertNotIn('RUS_ddz_trick',raw)
+                self.assertNotIn('RUS_ddz_last_player',raw)
+
+    def test_public_titles_distinguish_current_target_from_previous_cards(self):
+        from doudizhu_script_model import ScriptModel
+        model=ScriptModel({})
+        definitions={n.value('name'):n for n in parse(self.sources['common/scripted_localisation/RUS_doudizhu_gui.txt'])}
+        for seat in range(1,4):
+            def label():
+                for entry in definitions[f'GetRUSDDZPublicPileTitle{seat}'].children('text'):
+                    condition=entry.one('trigger')
+                    if condition is None or model.check(condition):
+                        return entry.value('localization_key')
+            model.vars.update({'RUS_ddz_phase':2,'RUS_ddz_trick':5,'RUS_ddz_trick_closed':0,
+                               'RUS_ddz_last_kind':2,'RUS_ddz_last_player':seat,
+                               f'RUS_ddz_public_trick_{seat}':5})
+            self.assertEqual(label(),f'RUS_ddz_public_current_{seat}')
+            for changes in ({'RUS_ddz_trick_closed':1}, {'RUS_ddz_trick_closed':0,'RUS_ddz_trick':6},
+                            {'RUS_ddz_trick':5,'RUS_ddz_last_player':seat%3+1},
+                            {'RUS_ddz_last_player':seat,'RUS_ddz_phase':3}):
+                model.vars.update(changes)
+                self.assertEqual(label(),f'RUS_ddz_public_previous_{seat}')
+
     def test_text_keys_and_dynamic_loc_exist(self):
         loc=self.sources['localisation/RUS_doudizhu_l_simp_chinese.yml']
         entries=re.findall(r'^ ([^ :]+):0 "(.*)"$',loc,re.M)
@@ -153,10 +253,28 @@ class CardTableUI(unittest.TestCase):
         self.assertGreaterEqual(gui.HAND_SELECTED_Y,500)
         self.assertLess(gui.HAND_Y+gui.CARD_HEIGHT,614)
         self.assertGreaterEqual(gui.HAND_STEP,25)
-        for count in range(1,21):
-            start=500-(count-1)*27/2-17
-            self.assertGreaterEqual(start,210)
-            self.assertLessEqual(start+(count-1)*27+34,790)
+        for seat in range(1,4):
+            for count in range(1,21):
+                rows={}
+                for slot in range(1,count+1):
+                    x,y=gui.public_card_position(seat,slot,count)
+                    self.assertGreaterEqual(x,220)
+                    self.assertLessEqual(x+34,780)
+                    self.assertGreaterEqual(y,248)
+                    self.assertLessEqual(y+50,438)
+                    rows.setdefault(y,[]).append(x)
+                for positions in rows.values():
+                    actual_center=(min(positions)+max(positions)+34)/2
+                    self.assertAlmostEqual(actual_center,gui.PUBLIC_PILES[seat]['center'],delta=.5)
+                    self.assertLessEqual(len(positions),gui.PUBLIC_PILES[seat]['columns'])
+            pile=gui.PUBLIC_PILES[seat]
+            self.assertLessEqual(pile['title_y']+22,pile['y'])
+        # The two AI piles cannot cross the midline and their second rows stay
+        # above the player pile's title. The status line cannot cover any cards.
+        self.assertLess(gui.public_card_position(2,10)[0]+34,500)
+        self.assertGreater(gui.public_card_position(3,1)[0],500)
+        self.assertLessEqual(gui.public_card_position(2,20)[1]+50,358)
+        self.assertLessEqual(gui.public_card_position(1,20)[1]+50,438)
 
     def test_asset_integrity_and_frame_dimensions(self):
         self.assertEqual(gui.validate_assets(ROOT),[])

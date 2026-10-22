@@ -56,6 +56,19 @@ def effects():
     def effect(name, *lines):
         result.append(block(v(name), list(lines)))
 
+    public_positions = []
+    for seat, center, columns, step in ((1, 500, 20, 27), (2, 355, 10, 22), (3, 645, 10, 22)):
+        for row in range(20 // columns):
+            public_positions += [setv("public_row_n", v(f"public_n_{seat}")),
+                                 sub("public_row_n", row * columns),
+                                 iff(eq("public_row_n", columns, ">"), setv("public_row_n", columns)),
+                                 iff(eq("public_row_n", 0, "<"), setv("public_row_n", 0)),
+                                 setv("public_x", v("public_row_n")), sub("public_x"),
+                                 f"multiply_variable = {{ {v('public_x')} = {-step / 2} }}",
+                                 add("public_x", center - 17)]
+            for slot in range(row * columns + 1, (row + 1) * columns + 1):
+                public_positions += [setv(f"public_x_{seat}_{slot}", v("public_x")), add("public_x", step)]
+
     effect("clear_flags", *[setv(f"sel_{c}", 0) for c in range(1, 55)],
            *[setv(f"s_{r}", 0) for r in range(1, 16)],
            setv("selected_count", 0), setv("selection_legal", 0))
@@ -72,6 +85,7 @@ def effects():
            setv("table_x", v("table_n")), sub("table_x"),
            f"multiply_variable = {{ {v('table_x')} = -13.5 }}", add("table_x", 483),
            *[line for i in range(1, 21) for line in (setv(f"table_x_{i}", v("table_x")), add("table_x", 27))],
+           *public_positions,
            add("dirty"))
     effect("read_selection", *[setv(f"s_{r}", 0) for r in range(1, 16)],
            *[iff([eq(f"owner_{c}", 1), eq(f"sel_{c}", 1)], add(f"s_{rank(c)}")) for c in range(1, 55)],
@@ -99,10 +113,15 @@ def effects():
            call("pick_people"), setv("message", 5),
            iff(eq("people_ready", 1),
                *[setv(name, 0) for name in ["message", "landlord", "bid", "bidder", "bids_taken", "winner",
-                                           "last_kind", "last_power", "last_len", "last_n", "last_player", "passes"]],
+                                           "last_kind", "last_power", "last_len", "last_n", "last_player", "passes",
+                                           "trick", "trick_closed"]],
                *[setv(f"seat_bid_{s}", -1) for s in range(1, 4)],
                *[setv(f"action_{s}", 0) for s in range(1, 4)],
+               *[setv(f"action_trick_{s}", 0) for s in range(1, 4)],
                *[setv(f"play_{s}_{r}", 0) for s in range(1, 4) for r in range(1, 16)],
+               *[setv(f"public_n_{s}", 0) for s in range(1, 4)],
+               *[setv(f"public_trick_{s}", 0) for s in range(1, 4)],
+               *[setv(f"public_card_{s}_{i}", 0) for s in range(1, 4) for i in range(1, 21)],
                call("clear_table"), call("clear_flags"), call("deal"), setv("phase", 1),
                block("random_list", [block("1", setv("turn", s)) for s in range(1, 4)]),
                call("process_ai")), call("refresh")))
@@ -137,21 +156,30 @@ def effects():
                           "OR = { AND = { " + eq("turn", 1) + " " + eq(f"sel_{c}", 1) + " } "
                           + "AND = { " + eq("turn", 1, ">") + " " + eq(f"s_{rank(c)}", 0, ">") + " } }"],
                          setv(f"owner_{c}", 9), sub(f"s_{rank(c)}"), setv("played_card", c), call("record_card")))
-    effect("commit_play", *[setv(f"last_{name}", v(name)) for name in ("kind", "power", "len", "n")],
-           *[iff(eq("turn", s), setv(f"action_{s}", 1),
+    # Keep the completed trick visible until the next lead. Stamps prevent a
+    # previous pass being displayed as an action in the new trick.
+    effect("commit_play", iff(eq("last_kind", 0), add("trick"), setv("trick_closed", 0)),
+           *[setv(f"last_{name}", v(name)) for name in ("kind", "power", "len", "n")],
+           *[iff(eq("turn", s), setv(f"action_{s}", 1), setv(f"action_trick_{s}", v("trick")),
                  *[setv(f"play_{s}_{r}", v(f"s_{r}")) for r in range(1, 16)]) for s in range(1, 4)],
            setv("last_player", v("turn")), setv("passes", 0), call("clear_table"), *commit,
+           # Snapshot physical cards only after a successful play. Passing and
+           # clearing the comparison target never erase another seat's display.
+           *[iff(eq("turn", s), setv(f"public_n_{s}", v("table_n")),
+                 setv(f"public_trick_{s}", v("trick")),
+                 *[setv(f"public_card_{s}_{i}", v(f"table_{i}")) for i in range(1, 21)])
+             for s in range(1, 4)],
            call("clear_flags"), call("recount"),
            *[iff([eq("turn", s), eq(f"count_{s}", 0)], setv("winner", s), setv("phase", 3)) for s in range(1, 4)],
            iff(eq("phase", 2), call("next_turn")))
-    effect("commit_pass", *[iff(eq("turn", s), setv(f"action_{s}", 2)) for s in range(1, 4)],
+    effect("commit_pass", *[iff(eq("turn", s), setv(f"action_{s}", 2), setv(f"action_trick_{s}", v("trick"))) for s in range(1, 4)],
            add("passes"), iff(eq("passes", 2),
            *[setv(f"last_{name}", 0) for name in ("kind", "power", "len", "n", "player")],
-           setv("passes", 0), call("clear_table")), call("clear_flags"), call("next_turn"))
+           setv("passes", 0), setv("trick_closed", 1), call("clear_table")), call("clear_flags"), call("next_turn"))
     # At most two computer players before a human action; six also covers bidding -> play transition.
     effect("process_ai", block("for_loop_effect", ["start = 0", "end = 6", "value = RUS_ddz_ai_loop", "break = RUS_ddz_ai_break",
            iff([eq("phase", 1), eq("turn", 1, ">")], call("ai_bid")),
-           iff([eq("phase", 2), eq("turn", 1, ">")], call("load_actor"), call("choose_move"),
+           iff([eq("phase", 2), eq("turn", 1, ">")], call("load_actor"), call("choose_team_move"),
                iff(eq("beats", 1), call("commit_play")), block("else", call("commit_pass"))) ]))
     for c in range(1, 55):
         effect(f"select_{c}", iff([eq("phase", 2), eq("turn", 1), eq(f"owner_{c}", 1)],

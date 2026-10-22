@@ -770,21 +770,42 @@ defined_text = {
 	}
 	text = {
 		trigger = {
+			check_variable = { RUS_ddz_phase = 2 }
 			check_variable = { RUS_ddz_last_player = 1 }
 		}
 		localization_key = RUS_ddz_last_player_1
 	}
 	text = {
 		trigger = {
+			check_variable = { RUS_ddz_phase = 2 }
 			check_variable = { RUS_ddz_last_player = 2 }
 		}
 		localization_key = RUS_ddz_last_player_2
 	}
 	text = {
 		trigger = {
+			check_variable = { RUS_ddz_phase = 2 }
 			check_variable = { RUS_ddz_last_player = 3 }
 		}
 		localization_key = RUS_ddz_last_player_3
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_last_player = 1 }
+		}
+		localization_key = RUS_ddz_final_player_1
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_last_player = 2 }
+		}
+		localization_key = RUS_ddz_final_player_2
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_last_player = 3 }
+		}
+		localization_key = RUS_ddz_final_player_3
 	}
 	text = {
 		localization_key = RUS_ddz_table_empty
@@ -830,6 +851,71 @@ defined_text = {
 }
 
 defined_text = {
+	name = GetRUSDDZRoundAction1
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 1 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_1 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_1 = 1 }
+		}
+		localization_key = RUS_ddz_previous_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 1 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_1 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_1 = 2 }
+		}
+		localization_key = RUS_ddz_previous_trick_passed
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 0 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_1 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_1 = 1 }
+		}
+		localization_key = RUS_ddz_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 0 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_1 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_1 = 2 }
+		}
+		localization_key = RUS_ddz_trick_passed
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_phase = 3 }
+		}
+		localization_key = RUS_ddz_trick_ended
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_action_trick_1 > 0 }
+			check_variable = { RUS_ddz_action_trick_1 < RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_1 = 1 }
+		}
+		localization_key = RUS_ddz_previous_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_action_trick_1 > 0 }
+			check_variable = { RUS_ddz_action_trick_1 < RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_1 = 2 }
+		}
+		localization_key = RUS_ddz_previous_trick_passed
+	}
+	text = {
+		localization_key = RUS_ddz_trick_waiting
+	}
+}
+
+defined_text = {
 	name = GetRUSDDZRole2
 	text = {
 		trigger = {
@@ -868,6 +954,71 @@ defined_text = {
 }
 
 defined_text = {
+	name = GetRUSDDZRoundAction2
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 1 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_2 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_2 = 1 }
+		}
+		localization_key = RUS_ddz_previous_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 1 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_2 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_2 = 2 }
+		}
+		localization_key = RUS_ddz_previous_trick_passed
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 0 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_2 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_2 = 1 }
+		}
+		localization_key = RUS_ddz_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 0 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_2 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_2 = 2 }
+		}
+		localization_key = RUS_ddz_trick_passed
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_phase = 3 }
+		}
+		localization_key = RUS_ddz_trick_ended
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_action_trick_2 > 0 }
+			check_variable = { RUS_ddz_action_trick_2 < RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_2 = 1 }
+		}
+		localization_key = RUS_ddz_previous_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_action_trick_2 > 0 }
+			check_variable = { RUS_ddz_action_trick_2 < RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_2 = 2 }
+		}
+		localization_key = RUS_ddz_previous_trick_passed
+	}
+	text = {
+		localization_key = RUS_ddz_trick_waiting
+	}
+}
+
+defined_text = {
 	name = GetRUSDDZRole3
 	text = {
 		trigger = {
@@ -902,5 +1053,121 @@ defined_text = {
 	}
 	text = {
 		localization_key = RUS_ddz_bid_waiting
+	}
+}
+
+defined_text = {
+	name = GetRUSDDZRoundAction3
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 1 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_3 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_3 = 1 }
+		}
+		localization_key = RUS_ddz_previous_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 1 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_3 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_3 = 2 }
+		}
+		localization_key = RUS_ddz_previous_trick_passed
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 0 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_3 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_3 = 1 }
+		}
+		localization_key = RUS_ddz_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_trick_closed = 0 }
+			check_variable = { RUS_ddz_trick > 0 }
+			check_variable = { RUS_ddz_action_trick_3 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_3 = 2 }
+		}
+		localization_key = RUS_ddz_trick_passed
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_phase = 3 }
+		}
+		localization_key = RUS_ddz_trick_ended
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_action_trick_3 > 0 }
+			check_variable = { RUS_ddz_action_trick_3 < RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_3 = 1 }
+		}
+		localization_key = RUS_ddz_previous_trick_played
+	}
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_action_trick_3 > 0 }
+			check_variable = { RUS_ddz_action_trick_3 < RUS_ddz_trick }
+			check_variable = { RUS_ddz_action_3 = 2 }
+		}
+		localization_key = RUS_ddz_previous_trick_passed
+	}
+	text = {
+		localization_key = RUS_ddz_trick_waiting
+	}
+}
+
+defined_text = {
+	name = GetRUSDDZPublicPileTitle1
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_phase = 2 }
+			check_variable = { RUS_ddz_last_kind > 0 }
+			check_variable = { RUS_ddz_last_player = 1 }
+			check_variable = { RUS_ddz_public_trick_1 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_trick_closed = 0 }
+		}
+		localization_key = RUS_ddz_public_current_1
+	}
+	text = {
+		localization_key = RUS_ddz_public_previous_1
+	}
+}
+
+defined_text = {
+	name = GetRUSDDZPublicPileTitle2
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_phase = 2 }
+			check_variable = { RUS_ddz_last_kind > 0 }
+			check_variable = { RUS_ddz_last_player = 2 }
+			check_variable = { RUS_ddz_public_trick_2 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_trick_closed = 0 }
+		}
+		localization_key = RUS_ddz_public_current_2
+	}
+	text = {
+		localization_key = RUS_ddz_public_previous_2
+	}
+}
+
+defined_text = {
+	name = GetRUSDDZPublicPileTitle3
+	text = {
+		trigger = {
+			check_variable = { RUS_ddz_phase = 2 }
+			check_variable = { RUS_ddz_last_kind > 0 }
+			check_variable = { RUS_ddz_last_player = 3 }
+			check_variable = { RUS_ddz_public_trick_3 = RUS_ddz_trick }
+			check_variable = { RUS_ddz_trick_closed = 0 }
+		}
+		localization_key = RUS_ddz_public_current_3
+	}
+	text = {
+		localization_key = RUS_ddz_public_previous_3
 	}
 }
