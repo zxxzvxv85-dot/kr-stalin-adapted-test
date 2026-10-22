@@ -77,7 +77,7 @@ def main():
     manifest=json.loads((ROOT/'tools/design/RUS_future_domestic_sources.json').read_text(encoding='utf-8'))
     provenance={s['id']:s for s in manifest['sources']}
     reused={k:s for k,s in provenance.items() if s['original_kr_focus']}
-    assert len(reused)==13  # 192 now uses the user's approved local KX icon.
+    assert len(reused)==12  # 257 now has a generated portrait instead of a shared vanilla sprite.
     assert len(sprites)==2*(170-len(reused))
     mutual = set()
     or_merges = 0

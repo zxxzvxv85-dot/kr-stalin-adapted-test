@@ -1,0 +1,47 @@
+{
+  "tool": "built-in image_gen",
+  "model": null,
+  "model_note": "The built-in tool did not expose a model identifier.",
+  "focus_id": "RUS_future_domestic_257",
+  "focus_name": "新青年派",
+  "generation_prompt": "Use case: precise-object-edit / style-transfer.\nCreate one complete replacement national-focus icon for Hearts of Iron IV Kaiserreich, on a genuinely transparent square canvas.\nImage 1 is the existing small game icon and is the EDIT TARGET / exact composition and material reference. Image 2 is the supplied photograph of Grigory Zinoviev and is the new FACE AND HAIRSTYLE REFERENCE ONLY.\nReplace the portrait in image 1 with a newly illustrated portrait based on image 2: recognizable older fuller face, broad forehead, distinctive thick swept-up wavy hair, the intense front-facing eyes and subtle closed-mouth expression from the photograph. Retain the photograph's facial structure and likeness, but redraw it entirely into the SAME monochrome historical engraved / hand-painted photo-collage treatment as the portrait in image 1. Use charcoal-black shadows, steel-gray midtones, restrained chalk-white highlights; face, hair, dark suit and white collar remain black-and-white. Simplify facial detail into clear strong planes legible at 100x100 pixels. This must look like the same artist and same game-icon family as image 1, not a photograph cut out or pasted into a frame, not a shiny sculpted bust.\nRe-create the COMPLETE finished icon coherently in one generated image. Preserve image 1's silhouette and composition: centered portrait with hair rising above a narrow dark oval backing; small subdued antique-gold leaf ornaments at the upper sides and dark crimson laurel/ribbon ornament curving around the lower sides. Keep the original close-cropped bust scale, frame shape, red and gold distribution, matte dark metal edging and restrained visual weight. The rear frame must remain behind the portrait, never cover the face; the hair can overlap its top. Keep a modest transparent margin approximately matching image 1, and keep the whole badge centered. Light is from upper left as in historical HOI4 icons, clear bright face against dark hair and backing, strong readable contrast. Avoid new ornaments, extra stars, text, letters, labels, UI, connecting lines, rectangular photo background, realistic flesh colors, glossy gold, white outline, glow, modern vector style, heavy grain, or overly detailed filigree. Output one icon only, high-resolution square, real alpha transparency.",
+  "input_images": [
+    {
+      "role": "edit target and composition/material reference",
+      "path": "gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_257.png",
+      "git_revision": "db04f17",
+      "sprite": "GFX_focus_SOV_zinovyevists"
+    },
+    {
+      "role": "user-provided face and hairstyle reference; not pasted into output",
+      "filename": "ea1830734523247e4cd5cf85217aacbe.jpg"
+    }
+  ],
+  "style_references_inspected": [
+    "RUS_kornilov.png",
+    "RUS_radsocs.png",
+    "RUS_revolution_in_spirit.png",
+    "RUS_savinkov.png"
+  ],
+  "generation_mode": "One complete portrait-and-frame icon edited together with image_gen; no local portrait compositing.",
+  "transparent_background": true,
+  "original_generation_file": "exec-8d6f3cb5-76a9-4635-8eb6-0a5265f616f7.png",
+  "project_source": "tools/design/generated_focus_icons/new_youth_zinoviev_20261022.png",
+  "game_asset": "gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_257.png",
+  "generated_size": [
+    1254,
+    1254
+  ],
+  "game_size": [
+    100,
+    100
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "processing": "Existing package_icon() scales the entire generated image proportionally to 100x100 and centers it on a transparent canvas; no face cutout, compositing or local artistic edits.",
+  "qa": "Inspected generated portrait enlarged and native 100x100 in color/grayscale beside the previous portrait and four genuine KR icons; face recognizable, strong gray tonal contrast, red/gold rear frame intact, no visible white halo. Source has near-opaque interior alpha 252-253 from the built-in output, preserved unchanged. Runtime verification not performed.",
+  "source_sha256": "c4358ca318104e01a2c8f58e5f0eb13f8b612555eb9b52aa3a37b0d12185330b",
+  "game_asset_sha256": "130ae137ba912f46a2bd738cab762d7c7135ebab3b07451e824b5840433b4e7e"
+}
