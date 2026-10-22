@@ -1,0 +1,14 @@
+# Native decision format follows KR political discourse decisions and the development GUI launcher.
+RUS_ddz_test_category = {
+    RUS_ddz_open_table = {
+        icon = GFX_decision_generic_political_discourse
+        cost = 0
+        visible = { is_ai = no }
+        available = { hidden_trigger = { original_tag = RUS is_ai = no } }
+        complete_effect = {
+            custom_effect_tooltip = RUS_ddz_open_table_tt
+            hidden_effect = { RUS_ddz_open = yes }
+        }
+        ai_will_do = { base = 0 }
+    }
+}
