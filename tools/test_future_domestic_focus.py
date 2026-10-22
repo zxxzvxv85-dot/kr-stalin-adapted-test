@@ -22,13 +22,13 @@ def main():
            if c.get('vertex')=='1' and c.get('value','').strip()
            and not c.get('style','').startswith('text;')]
     ids = {PREFIX+registry[c.get('id')]['suffix'] for c in vertices}
-    assert len(ids)==171
+    assert len(ids)==170
     domestic_ids={PREFIX+s['suffix'] for s in registry.values() if s['phase']=='domestic'}
     plan_ids=ids-domestic_ids
     domestic=load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')
     phase_file=load(ROOT/'common/national_focus/00_RUS_future_five_year_plan_skeleton.txt')
     plan=[n for n in phase_file if n.k=='shared_focus']
-    assert len(domestic)==154 and all(n.k=='shared_focus' for n in domestic)
+    assert len(domestic)==153 and all(n.k=='shared_focus' for n in domestic)
     assert all(n.one('allow_branch').one('NOT').value('has_government')=='national_populist' for n in domestic)
     assert len(plan)==17 and {n.value('id') for n in plan}==plan_ids
     new=domestic+plan
@@ -78,7 +78,7 @@ def main():
     provenance={s['id']:s for s in manifest['sources']}
     reused={k:s for k,s in provenance.items() if s['original_kr_focus']}
     assert len(reused)==13  # 192 now uses the user's approved local KX icon.
-    assert len(sprites)==2*(171-len(reused))
+    assert len(sprites)==2*(170-len(reused))
     mutual = set()
     or_merges = 0
     for key,n in by_id.items():
@@ -111,7 +111,7 @@ def main():
     # Three economic approaches must all exclude one another.
     assert all(tuple(sorted((PREFIX+a,PREFIX+b))) in mutual for a,b in [('163','166'),('166','169'),('163','169')])
     # Invisible gates are mandatory available checks, never drawable prerequisite links.
-    for target,solid,hidden in [('375','349','323')]:
+    for target,solid,hidden in [('375','349','323'),('424','151','428')]:
         n=by_id[PREFIX+target]
         assert [v.v for p in n.children('prerequisite') for v in p.children('focus')]==[PREFIX+solid]
         assert [v.v for v in n.one('available').children('has_completed_focus')]==[PREFIX+hidden]
@@ -130,7 +130,7 @@ def main():
     assert by_id[PREFIX+'390'].value('icon')=='GFX_focus_CHL_union_of_hispanic_republics'
     # The new education chain replaces the former blank shortcut to "向左".
     expected={'218':{'210'},'221':{'210'},'224':{'218','221'},'226':{'218','221'},
-              '229':{'226'},'231':{'224'},'233':{'229','231'}}
+              '229':{'224','226'},'231':{'224','226'},'233':{'229','231'}}
     for suffix,parents in expected.items():
         groups=by_id[PREFIX+suffix].children('prerequisite')
         assert len(groups)==1 and {v.v for v in groups[0].children('focus')}=={PREFIX+p for p in parents}
@@ -139,13 +139,12 @@ def main():
         n=by_id[PREFIX+suffix]
         return all(any(v.v in done for v in p.children('focus')) for p in n.children('prerequisite')) and not any(m.value('focus') in done for m in n.children('mutually_exclusive'))
     assert not can_take('233',{PREFIX+'210'}), 'Education choices must not be bypassed'
-    for philosophy,publicity in product(['218','221'],['224','226']):
+    for philosophy,publicity,endpoint in product(['218','221'],['224','226'],['229','231']):
         done={PREFIX+'210'}
         assert can_take(philosophy,done);done.add(PREFIX+philosophy)
         assert not can_take('221' if philosophy=='218' else '218',done)
         assert can_take(publicity,done);done.add(PREFIX+publicity)
         assert not can_take('226' if publicity=='224' else '224',done)
-        endpoint='229' if publicity=='226' else '231'
         assert can_take(endpoint,done);done.add(PREFIX+endpoint)
         assert not can_take('231' if endpoint=='229' else '229',done)
         assert can_take('233',done)
@@ -165,23 +164,26 @@ def main():
         assert registry[s['sprite']]==registry[s['sprite']+'_shine']
         assert registry[s['sprite']].replace('\\','/').endswith(Path(s['source']).name)
     adaptation=by_id[PREFIX+'249']
-    assert [v.v for v in adaptation.one('prerequisite').children('focus')]==[PREFIX+'151']
+    assert not adaptation.children('prerequisite'), 'The latest drawing makes adaptation an independent root'
     assert not any(v.value('focus')==PREFIX+'151' for v in adaptation.children('mutually_exclusive'))
     for language in ['simp_chinese','english','russian']:
         raw=(ROOT/f'localisation/{language}/RUS_future_domestic_l_{language}.yml').read_bytes()
         assert raw.startswith(b'\xef\xbb\xbf')
         keys=re.findall(r'^\s+([^ :]+):0 ',raw.decode('utf-8-sig'),re.M)
-        assert len(keys)==len(set(keys))==343
+        assert len(keys)==len(set(keys))==341
         assert set(keys)==ids|{i+'_desc' for i in ids}|{'RUS_future_domestic_preview_only_tt'}
         assert '第一个五年计划（' not in raw.decode('utf-8-sig')
+        assert '奠基经济发展（' not in raw.decode('utf-8-sig')
     b=manifest['existing_conservative_bounds']; n=manifest['new_bounds']
     assert n['min_x']-b['max_x']>=6 and n['min_y']-b['max_y']>=4
-    assert len(manifest['recovered_free_end_edges'])==11
-    assert manifest['phase_counts']=={'domestic':154,'five_year_plan':17}
+    assert len(manifest['recovered_free_end_edges'])==8
+    assert manifest['phase_counts']=={'domestic':153,'five_year_plan':17}
+    assert PREFIX+'214' not in ids
+    assert not any(v.v==PREFIX+'189' for p in by_id[PREFIX+'189'].children('prerequisite') for v in p.children('focus'))
     assert not manifest['planned_stage_entry']['implemented']
     assert set(manifest['planned_stage_entry']['any_completed'])=={PREFIX+s for s in ['177','182','183']}
     assert manifest['planned_stage_entry']['all_completed']==[PREFIX+'237']
-    print(f'PASS: 154 domestic + 17 independent five-year-plan focuses; no automatic switching or cross-stage prerequisites; {or_merges} OR merges; education 4-route choices; four new unique icons; 1 hidden AND gate; 7 exclusions; revised geometry and three-language keys/BOM valid.')
+    print(f'PASS: 153 domestic + 17 hidden independent five-year-plan focuses; no automatic switching or cross-stage prerequisites; {or_merges} OR merges; education 8-route choices; unique icons; 2 hidden AND gates; 7 exclusions; revised geometry and three-language keys/BOM valid.')
 
 
 if __name__=='__main__':

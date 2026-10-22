@@ -52,11 +52,12 @@ def read_layout():
     cells = ET.parse(ROOT / SOURCE).getroot().findall('.//mxCell')
     vertices = {c.get('id'): c for c in cells if c.get('vertex') == '1'}
     named = {k: c for k, c in vertices.items() if label(c) and not c.get('style', '').startswith('text;')}
-    assert len(named) == 171, f'Expected 171 focuses, found {len(named)}'
+    assert len(named) == 170, f'Expected 170 focuses, found {len(named)}'
     assert len({label(c) for c in named.values()}) == len(named)
     registry = json.loads((ROOT/REGISTRY).read_text(encoding='utf-8'))
     assert set(registry)==set(named), 'Stable ID registry must cover the entire drawing'
     assert len({v['suffix'] for v in registry.values()})==len(named)
+    by_suffix = {v['suffix']: key for key, v in registry.items()}
     edges = set()
     hidden = set()
     mutex = set()
@@ -134,6 +135,12 @@ def read_layout():
         if suffix == '638':
             assert name == '第一个五年计划（前置：左边三选一+激发阶级意识）'
             name = '第一个五年计划'
+        if suffix == '424':
+            assert name == '奠基经济发展（需要完成成立执行委员会）'
+            name = '奠基经济发展'
+            # The user's inline annotation is an additional mandatory gate,
+            # without an extra visible connector across the layout.
+            hidden.add((by_suffix['428'], key))
         assert name==entry['name'], f'Changed name needs a registry update: {key}'
         nodes.append({'cell_id': key, 'suffix': suffix, 'phase':phase,
                       'id': PREFIX + suffix, 'name': name, 'x': x, 'y': y})
