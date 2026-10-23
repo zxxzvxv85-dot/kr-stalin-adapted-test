@@ -15,14 +15,20 @@ class CardTableUI(unittest.TestCase):
     def setUpClass(cls):
         cls.sources = gui.outputs()
         cls.window = parse(cls.sources['interface/RUS_doudizhu.gui'])[0].one('containerWindowType')
-        cls.widgets = {n.value('name').strip('"'): n for n in cls.window.v if isinstance(n.v,list) and n.k in {'buttonType','iconType','instantTextBoxType'}}
+        def descendants(node):
+            for child in node.v:
+                if child.k in {'buttonType','iconType','instantTextBoxType','containerWindowType'}:
+                    yield child
+                    if child.k=='containerWindowType':yield from descendants(child)
+        cls.nodes = list(descendants(cls.window))
+        cls.widgets = {n.value('name').strip('"'):n for n in cls.nodes}
         cls.script = parse(cls.sources['common/scripted_guis/RUS_doudizhu.txt'])[0].one('RUS_doudizhu_gui')
         cls.triggers = {n.k:n for n in cls.script.one('triggers').v}
         cls.effects = {n.k:n for n in cls.script.one('effects').v}
         cls.properties = {n.k:n for n in cls.script.one('properties').v}
 
     def test_unique_widget_names(self):
-        names = [n.value('name') for n in self.window.v if n.k in {'buttonType','iconType','instantTextBoxType'}]
+        names = [n.value('name') for n in self.nodes]
         self.assertEqual(len(names),len(set(names)))
 
     def test_every_script_reference_has_widget(self):
@@ -61,6 +67,37 @@ class CardTableUI(unittest.TestCase):
                 self.assertEqual(self.properties[name].value('x'),f'RUS_ddz_public_x_{seat}_{slot}')
                 pos=self.widgets[name].one('position')
                 self.assertEqual((int(pos.value('x')),int(pos.value('y'))),gui.public_card_position(seat,slot))
+
+    def test_native_animations_have_one_active_bank_and_safe_children(self):
+        from doudizhu_script_model import ScriptModel
+        model=ScriptModel({})
+        model.vars.update({'RUS_ddz_phase':2,'RUS_ddz_people_ready':1,'RUS_ddz_owner_1':1})
+        for bank in (0,1,0):
+            model.vars['RUS_ddz_deal_bank']=bank
+            visible=[]
+            for alt in ('','_alternate'):
+                name='ddz_hand_1'+alt+'_deal'
+                window=self.widgets[name]
+                self.assertEqual(window.value('show_animation_type'),'decelerated')
+                self.assertEqual(window.one('show_position').value('y'),'0')
+                self.assertLessEqual(int(window.value('animation_time')),750)
+                if model.check(self.triggers[name+'_visible']):visible.append(name)
+            self.assertEqual(visible,['ddz_hand_1'+('_alternate' if bank else '')+'_deal'])
+        for seat in range(1,4):
+            model.vars.update({f'RUS_ddz_public_n_{seat}':1,f'RUS_ddz_public_card_{seat}_1':17})
+            for bank in (0,1,0):
+                model.vars[f'RUS_ddz_public_bank_{seat}']=bank
+                visible=[]
+                for alt in ('','_alternate'):
+                    name=f'ddz_public_{seat}_1'+alt+'_slide'
+                    window=self.widgets[name]
+                    self.assertEqual(int(window.value('animation_time')),gui.PLAY_ANIMATION_MS)
+                    self.assertEqual((int(window.one('position').value('x')),int(window.one('position').value('y'))),gui.PLAY_SLIDE[seat])
+                    if model.check(self.triggers[name+'_visible']):visible.append(name)
+                self.assertEqual(visible,[f'ddz_public_{seat}_1'+('_alternate' if bank else '')+'_slide'])
+        # Animation is cosmetic and uses native wall-clock transitions: no date,
+        # timed events, hidden GUI clicks, or script callbacks advance the game.
+        self.assertNotIn('country_event',self.sources['common/scripted_guis/RUS_doudizhu.txt'])
 
     def test_bidding_and_play_visibility(self):
         for bid in range(4):
@@ -240,6 +277,7 @@ class CardTableUI(unittest.TestCase):
 
     def test_static_geometry_inside_window(self):
         for name,widget in self.widgets.items():
+            if widget.k=='containerWindowType':continue
             pos=widget.one('position')
             x,y=int(pos.value('x')),int(pos.value('y'))
             self.assertGreaterEqual(x,0,name)

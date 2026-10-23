@@ -119,6 +119,8 @@ def effects():
                *[setv(f"action_{s}", 0) for s in range(1, 4)],
                *[setv(f"action_trick_{s}", 0) for s in range(1, 4)],
                *[setv(f"play_{s}_{r}", 0) for s in range(1, 4) for r in range(1, 16)],
+               add("deal_bank"), iff(eq("deal_bank", 1, ">"), setv("deal_bank", 0)),
+               *[setv(f"public_bank_{s}", 0) for s in range(1, 4)],
                *[setv(f"public_n_{s}", 0) for s in range(1, 4)],
                *[setv(f"public_trick_{s}", 0) for s in range(1, 4)],
                *[setv(f"public_card_{s}_{i}", 0) for s in range(1, 4) for i in range(1, 21)],
@@ -165,7 +167,9 @@ def effects():
            setv("last_player", v("turn")), setv("passes", 0), call("clear_table"), *commit,
            # Snapshot physical cards only after a successful play. Passing and
            # clearing the comparison target never erase another seat's display.
-           *[iff(eq("turn", s), setv(f"public_n_{s}", v("table_n")),
+           *[iff(eq("turn", s), add(f"public_bank_{s}"),
+                 iff(eq(f"public_bank_{s}", 1, ">"), setv(f"public_bank_{s}", 0)),
+                 setv(f"public_n_{s}", v("table_n")),
                  setv(f"public_trick_{s}", v("trick")),
                  *[setv(f"public_card_{s}_{i}", v(f"table_{i}")) for i in range(1, 21)])
              for s in range(1, 4)],

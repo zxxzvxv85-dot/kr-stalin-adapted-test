@@ -4183,6 +4183,16 @@ RUS_ddz_new_game = {
 			set_variable = { RUS_ddz_play_3_13 = 0 }
 			set_variable = { RUS_ddz_play_3_14 = 0 }
 			set_variable = { RUS_ddz_play_3_15 = 0 }
+			add_to_variable = { RUS_ddz_deal_bank = 1 }
+			if = {
+				limit = {
+					check_variable = { RUS_ddz_deal_bank > 1 }
+				}
+				set_variable = { RUS_ddz_deal_bank = 0 }
+			}
+			set_variable = { RUS_ddz_public_bank_1 = 0 }
+			set_variable = { RUS_ddz_public_bank_2 = 0 }
+			set_variable = { RUS_ddz_public_bank_3 = 0 }
 			set_variable = { RUS_ddz_public_n_1 = 0 }
 			set_variable = { RUS_ddz_public_n_2 = 0 }
 			set_variable = { RUS_ddz_public_n_3 = 0 }
@@ -5582,6 +5592,13 @@ RUS_ddz_commit_play = {
 		limit = {
 			check_variable = { RUS_ddz_turn = 1 }
 		}
+		add_to_variable = { RUS_ddz_public_bank_1 = 1 }
+		if = {
+			limit = {
+				check_variable = { RUS_ddz_public_bank_1 > 1 }
+			}
+			set_variable = { RUS_ddz_public_bank_1 = 0 }
+		}
 		set_variable = { RUS_ddz_public_n_1 = RUS_ddz_table_n }
 		set_variable = { RUS_ddz_public_trick_1 = RUS_ddz_trick }
 		set_variable = { RUS_ddz_public_card_1_1 = RUS_ddz_table_1 }
@@ -5609,6 +5626,13 @@ RUS_ddz_commit_play = {
 		limit = {
 			check_variable = { RUS_ddz_turn = 2 }
 		}
+		add_to_variable = { RUS_ddz_public_bank_2 = 1 }
+		if = {
+			limit = {
+				check_variable = { RUS_ddz_public_bank_2 > 1 }
+			}
+			set_variable = { RUS_ddz_public_bank_2 = 0 }
+		}
 		set_variable = { RUS_ddz_public_n_2 = RUS_ddz_table_n }
 		set_variable = { RUS_ddz_public_trick_2 = RUS_ddz_trick }
 		set_variable = { RUS_ddz_public_card_2_1 = RUS_ddz_table_1 }
@@ -5635,6 +5659,13 @@ RUS_ddz_commit_play = {
 	if = {
 		limit = {
 			check_variable = { RUS_ddz_turn = 3 }
+		}
+		add_to_variable = { RUS_ddz_public_bank_3 = 1 }
+		if = {
+			limit = {
+				check_variable = { RUS_ddz_public_bank_3 > 1 }
+			}
+			set_variable = { RUS_ddz_public_bank_3 = 0 }
 		}
 		set_variable = { RUS_ddz_public_n_3 = RUS_ddz_table_n }
 		set_variable = { RUS_ddz_public_trick_3 = RUS_ddz_trick }

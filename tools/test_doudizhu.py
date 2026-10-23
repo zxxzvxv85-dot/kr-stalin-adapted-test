@@ -69,6 +69,33 @@ class LifecycleTests(unittest.TestCase):
         audit(model)
         return model
 
+    def test_animation_bank_restarts_only_for_new_game_or_successful_play(self):
+        model=self.playable()
+        self.assertEqual(get(model,'deal_bank'),1)
+        before=[get(model,f'public_bank_{seat}') for seat in (1,2,3)]
+        call(model,'hint')
+        self.assertEqual([get(model,f'public_bank_{seat}') for seat in (1,2,3)],before)
+        for seat in (1,2,3):
+            # Legal single-card plays replace even equal-size public piles.
+            for attempt in range(2):
+                card=next(c for c in range(1,55) if get(model,f'owner_{c}')==seat)
+                setv(model,turn=seat,last_kind=0,phase=2)
+                call(model,'clear_flags')
+                setv(model,**{f's_{game.rank(card)}':1,f'sel_{card}':1})
+                call(model,'classify')
+                previous=get(model,f'public_bank_{seat}')
+                other={s:get(model,f'public_bank_{s}') for s in (1,2,3) if s!=seat}
+                call(model,'commit_play')
+                self.assertEqual(get(model,f'public_bank_{seat}'),1-previous)
+                self.assertEqual({s:get(model,f'public_bank_{s}') for s in other},other)
+                previous=get(model,f'public_bank_{seat}')
+                call(model,'commit_pass')
+                self.assertEqual(get(model,f'public_bank_{seat}'),previous)
+        setv(model,phase=3)
+        call(model,'new_game')
+        self.assertEqual(get(model,'deal_bank'),0)
+        audit(model)
+
     def test_deck_no_replacement_and_conservation(self):
         model = self.model()
         for seed in range(100):
