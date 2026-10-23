@@ -6,15 +6,35 @@ scripted_gui = {
 		ai_enabled = { always = no }
 		visible = { original_tag = RUS has_country_flag = RUS_congress_demo_initialized }
 		triggers = {
-			RUS_congress_expand_visible = { RUS = { NOT = { has_country_flag = RUS_congress_show_children } } }
-			RUS_congress_legend_main_visible = { RUS = { NOT = { has_country_flag = RUS_congress_show_children } } }
-			RUS_congress_legend_title_visible = { RUS = { NOT = { has_country_flag = RUS_congress_show_children } } }
-			RUS_congress_collapse_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
-			RUS_congress_legend_children_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_collapsed_hint_visible = { RUS = { NOT = { has_country_flag = RUS_congress_show_children } } }
+			RUS_congress_key_new_youth_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_name_new_youth_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_count_new_youth_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_share_new_youth_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_key_new_theory_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_name_new_theory_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_count_new_theory_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_share_new_theory_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_key_new_society_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_name_new_society_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_count_new_society_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_share_new_society_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_key_sr_populists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_name_sr_populists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_count_sr_populists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_share_sr_populists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_key_sr_maximalists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_name_sr_maximalists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_count_sr_maximalists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
+			RUS_congress_share_sr_maximalists_visible = { RUS = { has_country_flag = RUS_congress_show_children } }
 		}
 		effects = {
-			RUS_congress_expand_click = { hidden_effect = { RUS = { set_country_flag = RUS_congress_show_children RUS_congress_refresh_display = yes log = "[GetLogRoot]: Congress child view; revision=[?RUS_congress_revision]" } } }
-			RUS_congress_collapse_click = { hidden_effect = { RUS = { clr_country_flag = RUS_congress_show_children RUS_congress_refresh_display = yes log = "[GetLogRoot]: Congress main view; revision=[?RUS_congress_revision]" } } }
+			RUS_congress_toggle_click = { hidden_effect = { RUS = {
+				if = { limit = { has_country_flag = RUS_congress_show_children } clr_country_flag = RUS_congress_show_children }
+				else = { set_country_flag = RUS_congress_show_children }
+				RUS_congress_refresh_display = yes
+				log = "[GetLogRoot]: Congress view toggled; revision=[?RUS_congress_revision]"
+			} } }
 		}
 		properties = {
 			RUS_congress_seat_0 = { frame = RUS.RUS_congress_seats^0 }
@@ -817,6 +837,46 @@ scripted_gui = {
 			RUS_congress_seat_797 = { frame = RUS.RUS_congress_seats^797 }
 			RUS_congress_seat_798 = { frame = RUS.RUS_congress_seats^798 }
 			RUS_congress_seat_799 = { frame = RUS.RUS_congress_seats^799 }
+			RUS_congress_name_bolsheviks = { y = RUS.RUS_congress_bolsheviks_row_y }
+			RUS_congress_count_bolsheviks = { y = RUS.RUS_congress_bolsheviks_row_y }
+			RUS_congress_share_bolsheviks = { y = RUS.RUS_congress_bolsheviks_row_y }
+			RUS_congress_name_unions = { y = RUS.RUS_congress_unions_row_y }
+			RUS_congress_count_unions = { y = RUS.RUS_congress_unions_row_y }
+			RUS_congress_share_unions = { y = RUS.RUS_congress_unions_row_y }
+			RUS_congress_name_labour = { y = RUS.RUS_congress_labour_row_y }
+			RUS_congress_count_labour = { y = RUS.RUS_congress_labour_row_y }
+			RUS_congress_share_labour = { y = RUS.RUS_congress_labour_row_y }
+			RUS_congress_name_new_youth = { y = RUS.RUS_congress_new_youth_row_y }
+			RUS_congress_count_new_youth = { y = RUS.RUS_congress_new_youth_row_y }
+			RUS_congress_share_new_youth = { y = RUS.RUS_congress_new_youth_row_y }
+			RUS_congress_name_new_theory = { y = RUS.RUS_congress_new_theory_row_y }
+			RUS_congress_count_new_theory = { y = RUS.RUS_congress_new_theory_row_y }
+			RUS_congress_share_new_theory = { y = RUS.RUS_congress_new_theory_row_y }
+			RUS_congress_name_new_society = { y = RUS.RUS_congress_new_society_row_y }
+			RUS_congress_count_new_society = { y = RUS.RUS_congress_new_society_row_y }
+			RUS_congress_share_new_society = { y = RUS.RUS_congress_new_society_row_y }
+			RUS_congress_name_sr = { y = RUS.RUS_congress_sr_row_y }
+			RUS_congress_count_sr = { y = RUS.RUS_congress_sr_row_y }
+			RUS_congress_share_sr = { y = RUS.RUS_congress_sr_row_y }
+			RUS_congress_name_sr_populists = { y = RUS.RUS_congress_sr_populists_row_y }
+			RUS_congress_count_sr_populists = { y = RUS.RUS_congress_sr_populists_row_y }
+			RUS_congress_share_sr_populists = { y = RUS.RUS_congress_sr_populists_row_y }
+			RUS_congress_name_sr_maximalists = { y = RUS.RUS_congress_sr_maximalists_row_y }
+			RUS_congress_count_sr_maximalists = { y = RUS.RUS_congress_sr_maximalists_row_y }
+			RUS_congress_share_sr_maximalists = { y = RUS.RUS_congress_sr_maximalists_row_y }
+			RUS_congress_name_democrats = { y = RUS.RUS_congress_democrats_row_y }
+			RUS_congress_count_democrats = { y = RUS.RUS_congress_democrats_row_y }
+			RUS_congress_share_democrats = { y = RUS.RUS_congress_democrats_row_y }
+			RUS_congress_key_bolsheviks = { y = RUS.RUS_congress_bolsheviks_icon_y }
+			RUS_congress_key_unions = { y = RUS.RUS_congress_unions_icon_y }
+			RUS_congress_key_labour = { y = RUS.RUS_congress_labour_icon_y }
+			RUS_congress_key_new_youth = { y = RUS.RUS_congress_new_youth_icon_y }
+			RUS_congress_key_new_theory = { y = RUS.RUS_congress_new_theory_icon_y }
+			RUS_congress_key_new_society = { y = RUS.RUS_congress_new_society_icon_y }
+			RUS_congress_key_sr = { y = RUS.RUS_congress_sr_icon_y }
+			RUS_congress_key_sr_populists = { y = RUS.RUS_congress_sr_populists_icon_y }
+			RUS_congress_key_sr_maximalists = { y = RUS.RUS_congress_sr_maximalists_icon_y }
+			RUS_congress_key_democrats = { y = RUS.RUS_congress_democrats_icon_y }
 		}
 	}
 }
