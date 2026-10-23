@@ -8,7 +8,7 @@ import json
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / 'tools/design/adviser_faction_icons_referenced_20261023/manifest.json'
+MANIFEST = ROOT / 'tools/design/adviser_faction_icons_coloured_20261023/manifest.json'
 
 
 def main():
