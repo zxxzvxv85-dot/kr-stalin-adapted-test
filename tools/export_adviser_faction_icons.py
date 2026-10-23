@@ -5,10 +5,10 @@ import hashlib
 import io
 import json
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / 'tools/design/adviser_faction_icons_gold_20261023/manifest.json'
+MANIFEST = ROOT / 'tools/design/adviser_faction_icons_referenced_20261023/manifest.json'
 
 
 def main():
@@ -25,10 +25,15 @@ def main():
         source, target = ROOT / item['source'], ROOT / item['destination']
         assert hashlib.sha256(source.read_bytes()).hexdigest() == item['source_sha256'], source
         with Image.open(source) as original:
-            assert original.mode == 'RGBA' and original.width == original.height
+            assert original.mode == 'RGBA' and original.width > 0 and original.height > 0
             assert list(original.size) == item['source_size']
             assert original.getextrema()[3] == (0, 255)
-            image = original.resize(tuple(manifest['size']), Image.Resampling.LANCZOS)
+            fitted = ImageOps.contain(original, tuple(manifest['size']), Image.Resampling.LANCZOS)
+            if fitted.size == tuple(manifest['size']):
+                image = fitted
+            else:
+                image = Image.new('RGBA', tuple(manifest['size']))
+                image.alpha_composite(fitted, ((image.width - fitted.width) // 2, (image.height - fitted.height) // 2))
         alpha = image.getchannel('A')
         assert alpha.getextrema()[0] == 0 and alpha.getextrema()[1] >= 220, target
         assert max(alpha.getpixel(point) for point in ((0, 0), (0, 19), (19, 0), (19, 19))) <= 3
