@@ -254,6 +254,9 @@ def patch_event(n):
     if key=='russia_events.924' and 'RUS_opening_revolt_ready' not in raw:
         nn=node(raw);trigger=nn.one('trigger')
         raw=fields(raw,{'trigger':'trigger = { OR = {\n\t\tAND = { has_country_flag = RUS_opening_active has_country_flag = RUS_opening_revolt_ready has_government = national_populist RUS_boris_savinkov = { is_country_leader = yes } is_subject = no }\n\t\tAND = {\n'+indent(trigger.inner(),3)+'\n\t\t}\n\t} }'})
+    if key == 'russia_events.924':
+        from provisional_government_content import patch_revolution_event
+        raw = patch_revolution_event(raw)
     return clean_block(raw) if raw!=n.raw() else raw
 
 def render_events():

@@ -1,4 +1,4 @@
-"""Integration checks for the draw.io preview: no playable rewards or old-tree edits."""
+"""Integration checks for the drawing, six authored focuses and retained previews."""
 from collections import Counter
 import hashlib
 import json
@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 from itertools import product
 
 from PIL import Image
-from hoi4_politics_blocks import load
+from hoi4_politics_blocks import load, parse
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'RUS_future_domestic_'
@@ -110,11 +110,27 @@ def main():
     assert data_digest(retained_textures)=='440007df0a87a01dbbcd67e03a13cb3809e5632b707ab7ce91147768956a1cad', 'An existing focus icon changed'
     mutual = set()
     or_merges = 0
+    authored = {PREFIX+s for s in ['154','133','136','138','140','142']}
+    manual = {PREFIX+s for s in ['133','136','140']}
+    expected_rewards = {
+        PREFIX+'133': 'add_political_power = -25\nadd_stability = 0.1\nset_temp_variable = { RUS_influence_cost_change_var = 20 }\nRUS_decrease_german_economic_influence_cost = yes\ncustom_effect_tooltip = RUS_socrus_reduce_influence_decisions',
+        PREFIX+'136': 'add_command_power = 75\nadd_political_power = -10\ncountry_event = russia_socialist_events.100\nRUS_abolish_hosts = yes\nadd_popularity = { ideology = national_populist popularity = -0.05 }\nadd_popularity = { ideology = paternal_autocrat popularity = -0.1 }',
+        PREFIX+'138': 'add_political_power = 10',
+        PREFIX+'142': 'add_political_power = 10',
+    }
     for key,n in by_id.items():
-        assert n.one('completion_reward').v==[]
+        assert [e.norm() for e in n.one('completion_reward').v] == [e.norm() for e in parse(expected_rewards.get(key, ''))]
         assert n.one('select_effect') is None
-        assert n.one('ai_will_do').value('factor')=='0'
-        assert n.one('available').one('custom_trigger_tooltip').value('always')=='no'
+        assert n.one('ai_will_do').value('factor')==('1' if key in manual else '0')
+        if key in manual:
+            assert n.one('available').one('hidden_trigger').value('has_socialist_government')=='yes'
+        else:
+            tip=n.one('available').one('custom_trigger_tooltip')
+            assert tip.value('always')=='no'
+            expected_tip=('RUS_provisional_revolution_event_only_tt' if key==PREFIX+'154'
+                          else 'RUS_provisional_pending_event_only_tt' if key in authored
+                          else 'RUS_future_domestic_preview_only_tt')
+            assert tip.value('tooltip')==expected_tip
         prereqs=n.children('prerequisite')
         assert len(prereqs)<=1, 'Unannotated AND prerequisite'
         for p in prereqs:

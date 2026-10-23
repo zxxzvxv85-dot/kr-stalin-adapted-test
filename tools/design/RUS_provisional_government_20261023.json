@@ -1,0 +1,90 @@
+{
+  "source": "tools/design/RUS_provisional_government_source_20261023.drawio",
+  "source_path": "C:/Users/Administrator/Downloads/临时政府 (2).drawio",
+  "date": "2026-10-23",
+  "scope": "Only six annotated provisional-government focuses and the Brumaire revolution event. Other previews and the first-five-year-plan phase remain unchanged.",
+  "clarifications": [
+    "妥协的艺术：35天，完成奖励留空。",
+    "工人政党的联合、整合农村组织：暂不绑定现有事件，等待用户编写对应事件。",
+    "用户截图补充：133追加德国资本束缚决议花费降低20；136追加最后一章事件、移除哥萨克军团和对应师、国家民粹支持率-5%、家长制独裁支持率-10%。"
+  ],
+  "references": [
+    "1521695605/common/national_focus/AFG focus (Afghanistan).txt:1827 (native add_command_power)",
+    "1521695605/common/national_focus/RUS focus (Russia).txt:780 (native add_stability)",
+    "1521695605/common/national_focus/RUS focus (Russia).txt:162 (native add_political_power)",
+    "1521695605/events/RUS events (Russia).txt (native complete_national_focus)",
+    "2946487287/localisation/simp_chinese/KR_country_specific/RUS - Russia l_simp_chinese.yml (russia_events.924)",
+    "1521695605/common/national_focus/RUS focus (Russia).txt:9172 (German capital decision discount)",
+    "1521695605/common/national_focus/RUS focus (Russia).txt (RUS_slay_militarism reward: russia_socialist_events.100, RUS_abolish_hosts, popularity)",
+    "2946487287/localisation/simp_chinese/KR_country_specific/RUS - Russia l_simp_chinese.yml:735,4900,8777 (Cossack removal, Last Chapter and decision discount tooltips)"
+  ],
+  "focuses": {
+    "133": {
+      "name": "重建工农联盟",
+      "mode": "manual",
+      "cost": 1,
+      "description": "尽管资产阶级政府不愿承认，但如今俄罗斯的城乡对立已十分明显。为了团结工人与农民这革命的大多数，一个行之有效的工农联盟实在不可或缺。",
+      "reward": [
+        "add_political_power = -25",
+        "add_stability = 0.1",
+        "set_temp_variable = { RUS_influence_cost_change_var = 20 }",
+        "RUS_decrease_german_economic_influence_cost = yes",
+        "custom_effect_tooltip = RUS_socrus_reduce_influence_decisions"
+      ]
+    },
+    "136": {
+      "name": "消灭白匪武装",
+      "mode": "manual",
+      "cost": 1,
+      "description": "盘踞在彼得格勒与南俄罗斯的白匪势力派系林立、缺乏统一领导，充其量不过是又一场跳梁小丑式的表演。我们只需要临门踹上一脚，他们便会土崩瓦解。",
+      "reward": [
+        "add_command_power = 75",
+        "add_political_power = -10",
+        "country_event = russia_socialist_events.100",
+        "RUS_abolish_hosts = yes",
+        "add_popularity = { ideology = national_populist popularity = -0.05 }",
+        "add_popularity = { ideology = paternal_autocrat popularity = -0.1 }"
+      ]
+    },
+    "138": {
+      "name": "工人政党的联合",
+      "mode": "pending_event",
+      "cost": 0,
+      "description": "坦白来说，自社会民主工党分裂以来，俄罗斯已经几十年没有一个统一的工人政党了。现实的差距固然让我们无法立刻做到这一点，但至少我们应该做出最基本的尝试。",
+      "reward": [
+        "add_political_power = 10"
+      ]
+    },
+    "140": {
+      "name": "妥协的艺术",
+      "mode": "manual",
+      "cost": 5,
+      "description": "各路革命者如今已云集莫斯科。无论他们各自的乌托邦有多么互不相容，现在都到了该收敛锋芒的时候了——当务之急是捏合出一个能真正运作起来的政府。",
+      "reward": []
+    },
+    "142": {
+      "name": "整合农村组织",
+      "mode": "pending_event",
+      "cost": 0,
+      "description": "几乎每个政党都在农村经营着各自的势力范围，这种各自为政的割据状态已不可容忍。既然同属联合政府，那么至少在名义与形式上，这些地方组织都必须接受中央的统一管辖。",
+      "reward": [
+        "add_political_power = 10"
+      ]
+    },
+    "154": {
+      "name": "雾月革命之余波",
+      "mode": "revolution_event",
+      "cost": 0,
+      "description": "又一场革命如新生儿般呱呱坠地，只是大多数革命者们尚处于彷徨和惊愕之中……",
+      "reward": []
+    }
+  },
+  "event": {
+    "id": "russia_events.924",
+    "title": "雾月革命",
+    "description": "如今的革命形势已经超乎了所有人的预料：不可一世的前白军政府，竟在一夜之间土崩瓦解。\n\n随着元首的仓皇倒台与军队的哗变，那些曾在秘密警察追捕下东躲西藏的社会主义政党，终于得以重新走上台前。\n\n然而实事求是地说，如今的权力交接更像是一场匆忙的军事政变，一出翻版的二月革命——伴随着质疑、猜忌，以及无穷无尽的混乱。在真正的苏维埃大会召开、赋予政权合法性之前，我们自然不能指望这个临时拼凑的班子能有什么实际作为。\n\n尽管目前“政令不出莫斯科”的现状令人无奈，但各地方倒是乐于接受来自中央的名义管辖——前提是那些命令不触及他们的地盘。各地的村社、官僚和新兴的工会苏维埃都在观望，毕竟安于现状，总比再卷入一场血腥的全面内战来得强。",
+    "option": "人民发声的时候到了！",
+    "tooltip": "占据首都的革命者们尚无力统领全国，一场新的苏维埃大会已迫在眉睫……"
+  },
+  "source_sha256": "900870b8c1bb6a5e97fcd675ce3b7460085f46523e959ad66775c1e5116eff55"
+}
