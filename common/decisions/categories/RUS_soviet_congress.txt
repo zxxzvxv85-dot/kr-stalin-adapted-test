@@ -3,7 +3,14 @@ RUS_congress_category = {
     icon = GFX_decision_category_generic_political_actions
     priority = 110
     allowed = { original_tag = RUS }
-    visible = { is_ai = no }
+    visible = { is_ai = no has_country_flag = RUS_congress_demo_initialized }
     visible_when_empty = yes
     scripted_gui = RUS_congress_gui
+}
+RUS_congress_entry_category = {
+    icon = GFX_decision_category_generic_political_actions
+    priority = 110
+    allowed = { original_tag = RUS }
+    visible = { is_ai = no NOT = { has_country_flag = RUS_congress_demo_initialized } }
+    visible_when_empty = no
 }

@@ -1,4 +1,4 @@
-RUS_congress_category = {
+RUS_congress_entry_category = {
     RUS_congress_view = {
         icon = GFX_decision_generic_political_discourse
         cost = 0
@@ -6,7 +6,10 @@ RUS_congress_category = {
         available = { hidden_trigger = { original_tag = RUS is_ai = no } }
         complete_effect = {
             custom_effect_tooltip = RUS_congress_view_tt
-            hidden_effect = { RUS_congress_prepare_demo = yes }
+            hidden_effect = {
+                RUS_congress_prepare_demo = yes
+                log = "[GetLogRoot]: Congress demo opened; seats=[?RUS_congress_bolsheviks_seats]/[?RUS_congress_unions_seats]/[?RUS_congress_labour_seats]/[?RUS_congress_sr_seats]/[?RUS_congress_democrats_seats]; revision=[?RUS_congress_revision]"
+            }
         }
         ai_will_do = { base = 0 }
     }

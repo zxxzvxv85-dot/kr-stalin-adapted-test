@@ -12,16 +12,24 @@ import re
 from PIL import Image
 from doudizhu_script_model import ScriptModel
 from hoi4_politics_blocks import load
-from generate_soviet_congress import ROOT, PARTIES, CHILDREN, ALL_PARTIES, FRAMES, LEADERS, TOTAL, WIDTH, HEIGHT, outputs, seats, leader_portraits
+from generate_soviet_congress import ROOT, PARTIES, CHILDREN, ALL_PARTIES, FRAMES, LEADERS, TOTAL, WIDTH, HEIGHT, outputs, seats, leader_portraits, leader_textures, portrait_texticon
 
 
 class CongressModel(ScriptModel):
     def __init__(self, effects):
         super().__init__(effects); self.arrays={}
 
+    def check(self,nodes):
+        nodes=nodes.v if hasattr(nodes,'v') else nodes
+        return all(self.check(n.v) if n.k=='RUS' else super(CongressModel,self).check([n]) for n in nodes)
+
     def run(self, nodes):
         for node in nodes:
-            if node.k=='clear_array':
+            if node.k=='log':
+                continue
+            elif node.k=='RUS':
+                self.run(node.v)
+            elif node.k=='clear_array':
                 self.arrays[node.v]=[]
             elif node.k=='add_to_array':
                 self.arrays.setdefault(node.v[0].k,[]).append(self.number(node.v[0].v))
@@ -87,20 +95,36 @@ def main():
     gui=load(ROOT/'interface/RUS_soviet_congress.gui')[0].v[0]
     icons=gui.children('iconType'); by_name={n.value('name').strip('"'):n for n in icons}
     sg=load(ROOT/'common/scripted_guis/RUS_soviet_congress.txt')[0].v[0]
-    assert sg.value('context_type')=='decision_category' and sg.value('dirty')=='RUS_congress_revision'
+    assert sg.value('context_type')=='decision_category' and sg.value('dirty')=='RUS.RUS_congress_revision'
     assert sg.value('window_name').strip('"')==gui.value('name').strip('"')
     props=sg.one('properties').v; assert len(props)==800
     for i,node in enumerate(props):
         assert node.k=='RUS_congress_seat_'+str(i)
-        assert node.k in by_name and node.value('frame')==f'RUS_congress_seats^{i}'
+        assert node.k in by_name and node.value('frame')==f'RUS.RUS_congress_seats^{i}'
         pos=by_name[node.k].one('position'); assert (int(pos.value('x')),int(pos.value('y')))==points[i]
-    category=load(ROOT/'common/decisions/categories/RUS_soviet_congress.txt')[0]
+    cats={n.k:n for n in load(ROOT/'common/decisions/categories/RUS_soviet_congress.txt')}
+    category=cats['RUS_congress_category']; entry=cats['RUS_congress_entry_category']
     assert category.value('scripted_gui')==sg.k
     assert category.value('visible_when_empty')=='yes'
     assert category.one('allowed').value('original_tag')=='RUS' and category.one('visible').value('is_ai')=='no'
     decision=load(ROOT/'common/decisions/RUS_soviet_congress.txt')[0].v[0]
     assert decision.value('cost')=='0'
     assert decision.one('complete_effect').one('hidden_effect').value('RUS_congress_prepare_demo')=='yes'
+    # Unlike a root GUI visible trigger, category visibility prevents construction
+    # of any uninitialised window. Execute the real launcher before showing it.
+    fresh=CongressModel(effects)
+    assert not fresh.check(category.one('visible')) and fresh.check(entry.one('visible'))
+    assert entry.one('scripted_gui') is None
+    fresh.run(decision.one('complete_effect').one('hidden_effect').v)
+    assert fresh.check(category.one('visible')) and not fresh.check(entry.one('visible'))
+    assert len(fresh.arrays['RUS_congress_seats'])==800
+    assert Counter(fresh.arrays['RUS_congress_seats'])=={1:240,2:160,3:120,4:200,5:80}
+    # Read GUI bindings as an unscoped host: data must explicitly select RUS,
+    # rather than accidentally passing because the fixture is already a country.
+    for i,node in enumerate(props):
+        tag,reference=node.value('frame').split('.',1)
+        name,index=reference.split('^')
+        assert tag=='RUS' and fresh.arrays[name][int(index)]==next(frame for frame,cut in [(1,240),(2,400),(3,520),(4,720),(5,800)] if i<cut)
     # Execute the actual two buttons, preserving all parent/child seat variables.
     check_partition(model,default,False)
     saved={k:v for k,v in model.vars.items() if k.endswith('_seats')}
@@ -129,6 +153,25 @@ def main():
     assert LEADERS['bolsheviks']==['RUS_yakov_sverdlov']
     assert LEADERS['new_theory']==['RUS_daniil_sulimov','RUS_vladimir_levitsky']
     assert set(portraits)=={c for cs in LEADERS.values() for c in cs}
+    recruited={n.v for n in load(ROOT/'history/countries/RUS - Russia.txt') if n.k=='recruit_character'}
+    assert set(portraits)<=recruited
+    # Audit the actual installed Chinese font definitions, not a Pillow substitute.
+    cn_fonts=load(ROOT.parent/'2946487287/interface/core_chinese.gfx')[0]
+    font_names={n.value('name').strip('"') for n in cn_fonts.v}
+    def walk(nodes):
+        for n in nodes:
+            yield n
+            if isinstance(n.v,list): yield from walk(n.v)
+    used_fonts={n.v.strip('"') for n in walk(gui.v) if n.k in {'font','buttonFont'}}
+    assert used_fonts<=font_names,(used_fonts-font_names)
+    assert 'hoi_14mbs' not in used_fonts and 'Main_14' in used_fonts
+    gfx=load(ROOT/'interface/RUS_soviet_congress.gfx')[0]
+    sprites={n.value('name').strip('"'):n for n in gfx.v}
+    for char,texture in leader_textures().items():
+        sprite=sprites['GFX_'+portrait_texticon(char)]
+        assert sprite.value('legacy_lazy_load')=='no'
+        assert sprite.value('texturefile').strip('"')==texture
+        assert any((root/texture).is_file() for root in [ROOT,ROOT.parent/'1521695605'])
     registry=json.loads((ROOT/'tools/design/RUS_future_domestic_ids.json').read_text(encoding='utf-8'))
     names={n['suffix']:n['name'] for n in registry.values()}
     assert all(names[suffix]==name for _,name,suffix,_,_ in PARTIES)
@@ -144,9 +187,19 @@ def main():
             for key,chars in LEADERS.items():
                 tip=values['RUS_congress_leaders_'+key+'_tt']
                 for char in chars:
-                    assert '$'+char+'$' in tip
-                    assert '£'+portraits[char].removeprefix('GFX_') in tip
-    print('PASS: 800 seats; five parent parties and five contained subfactions; both display modes; all distributions/percentages; repeated entry/toggle preserves state; invalid totals rejected; leader/portrait tooltip bindings; geometry/decision/GUI/BOM/assets/generator parity.')
+                    assert '['+char+'.GetName]' in tip
+                    assert '$'+char+'$' not in tip
+                    assert '£'+portrait_texticon(char) in tip
+                assert '[?RUS.RUS_congress_' in tip
+            for key,_,_,count,_ in PARTIES:
+                refs=re.findall(r'\[\?([^|\]]+)\|',values['RUS_congress_value_'+key])
+                assert len(refs)==2
+                resolved=[]
+                for ref in refs:
+                    tag,name=ref.split('.',1); assert tag=='RUS'
+                    resolved.append(fresh.vars[name])
+                assert resolved==[count,count/8]
+    print('PASS: installed Chinese font coverage; pre-init category hidden; real decision initialises 800 seats before display; explicit RUS frames/variables; non-lazy portrait texticons/native names; five parents/five children, distributions/toggle persistence and all GUI/BOM/asset bindings.')
 
 
 if __name__=='__main__':

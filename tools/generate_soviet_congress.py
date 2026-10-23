@@ -64,6 +64,27 @@ def leader_portraits():
     return result
 
 
+def leader_textures():
+    """Resolve the existing adviser artwork; text icons need non-lazy aliases."""
+    from hoi4_politics_blocks import load
+    portraits=leader_portraits(); wanted=set(portraits.values()); textures={}
+    for root in [ROOT.parent/'1521695605',ROOT]:
+        for path in sorted((root/'interface').rglob('*.gfx')):
+            for block in load(path):
+                if not isinstance(block.v,list): continue
+                for node in block.v:
+                    name=node.value('name').strip('"')
+                    if name in wanted:
+                        texture=next((n.v.strip('"') for n in node.v if n.k.lower()=='texturefile'),None)
+                        if texture: textures[name]=texture
+    if wanted-set(textures): raise ValueError('Missing installed adviser sprites: '+str(sorted(wanted-set(textures))))
+    return {char:textures[sprite] for char,sprite in sorted(portraits.items())}
+
+
+def portrait_texticon(char):
+    return 'RUS_congress_face_'+char.removeprefix('RUS_')
+
+
 def display_parties(expanded=False):
     return [row for parent in PARTIES for row in (CHILDREN.get(parent[0],[parent]) if expanded else [parent])]
 
@@ -141,46 +162,48 @@ def outputs():
             y=451+26*i
             gui += [icon(f'RUS_congress_key_{mode}_{key}',25,y+4,'GFX_RUS_congress_seats',f'frame = {FRAMES[key]} scale = 2')]
             if expanded:
-                gui += [text(f'RUS_congress_name_{mode}_{key}',43,y,'RUS_congress_short_'+key,112,18,font='hoi_14mbs',align='left'),
-                        text(f'RUS_congress_value_{mode}_{key}',151,y,'RUS_congress_value_'+key,109,18,font='hoi_14mbs',align='right',tooltip='RUS_congress_leaders_'+key+'_tt')]
+                gui += [text(f'RUS_congress_name_{mode}_{key}',43,y,'RUS_congress_short_'+key,112,18,font='Main_14',align='left'),
+                        text(f'RUS_congress_value_{mode}_{key}',151,y,'RUS_congress_value_'+key,109,18,font='Main_14',align='right',tooltip='RUS_congress_leaders_'+key+'_tt')]
             else:
                 gui += [text(f'RUS_congress_name_{mode}_{key}',47,y,'RUS_congress_name_'+key,332,18,align='left'),
                         text(f'RUS_congress_value_{mode}_{key}',377,y,'RUS_congress_value_'+key,135,18,align='right',tooltip='RUS_congress_leaders_'+key+'_tt')]
         if expanded:
             for parent,heading_y,first_y in [('labour',447,467),('sr',527,547)]:
-                gui += [text('RUS_congress_group_'+parent,282,heading_y,'RUS_congress_group_'+parent,232,18,font='hoi_14mbs',align='left',tooltip='RUS_congress_leaders_'+parent+'_tt')]
+                gui += [text('RUS_congress_group_'+parent,282,heading_y,'RUS_congress_group_'+parent,232,18,font='Main_14',align='left',tooltip='RUS_congress_leaders_'+parent+'_tt')]
                 for i,(key,_,_,_,_) in enumerate(CHILDREN[parent]):
                     y=first_y+18*i
                     gui += [icon('RUS_congress_child_key_'+key,288,y+4,'GFX_RUS_congress_seats',f'frame = {FRAMES[key]} scale = 1.5'),
-                            text('RUS_congress_child_name_'+key,302,y,'RUS_congress_childname_'+key,92,18,font='hoi_14mbs',align='left'),
-                            text('RUS_congress_child_value_'+key,397,y,'RUS_congress_value_'+key,117,18,font='hoi_14mbs',align='right',tooltip='RUS_congress_leaders_'+key+'_tt')]
+                            text('RUS_congress_child_name_'+key,302,y,'RUS_congress_childname_'+key,92,18,font='Main_14',align='left'),
+                            text('RUS_congress_child_value_'+key,397,y,'RUS_congress_value_'+key,117,18,font='Main_14',align='right',tooltip='RUS_congress_leaders_'+key+'_tt')]
         gui += ['\t\t}']
     for action in ['expand','collapse']:
         gui += [f'\t\tbuttonType = {{ name = "RUS_congress_{action}" position = {{ x = 194 y = 198 }} quadTextureSprite = "GFX_button_148x34" buttonText = "RUS_congress_{action}" buttonFont = "hoi_16mbs" clicksound = click_default }}']
     gui += [text('RUS_congress_footer',22,596,'RUS_congress_footer',height=18), '\t}', '}']
     out['interface/RUS_soviet_congress.gui']='\n'.join(gui)+'\n'
-    out['interface/RUS_soviet_congress.gfx']='''spriteTypes = {
+    gfx='''spriteTypes = {
     spriteType = { name = "GFX_RUS_congress_panel" texturefile = "gfx/interface/RUS_soviet_congress/panel.png" noOfFrames = 1 }
     spriteType = { name = "GFX_RUS_congress_seats" texturefile = "gfx/interface/RUS_soviet_congress/seats.png" noOfFrames = 10 }
-}
 '''
+    for char,texture in leader_textures().items():
+        gfx+=f'    spriteType = {{ name = "GFX_{portrait_texticon(char)}" texturefile = "{texture}" noOfFrames = 1 legacy_lazy_load = no }}\n'
+    out['interface/RUS_soviet_congress.gfx']=gfx+'}\n'
     scripted=['scripted_gui = {', '\tRUS_congress_gui = {', '\t\tcontext_type = decision_category',
-              '\t\twindow_name = "RUS_congress_window"', '\t\tdirty = RUS_congress_revision',
+              '\t\twindow_name = "RUS_congress_window"', '\t\tdirty = RUS.RUS_congress_revision',
               '\t\tai_enabled = { always = no }',
               '\t\tvisible = { original_tag = RUS has_country_flag = RUS_congress_demo_initialized }',
               '\t\ttriggers = {',
-              '\t\t\tRUS_congress_expand_visible = { NOT = { has_country_flag = RUS_congress_show_children } }',
-              '\t\t\tRUS_congress_legend_main_visible = { NOT = { has_country_flag = RUS_congress_show_children } }',
-              '\t\t\tRUS_congress_legend_title_visible = { NOT = { has_country_flag = RUS_congress_show_children } }',
-              '\t\t\tRUS_congress_collapse_visible = { has_country_flag = RUS_congress_show_children }',
-              '\t\t\tRUS_congress_legend_children_visible = { has_country_flag = RUS_congress_show_children }',
+              '\t\t\tRUS_congress_expand_visible = { RUS = { NOT = { has_country_flag = RUS_congress_show_children } } }',
+              '\t\t\tRUS_congress_legend_main_visible = { RUS = { NOT = { has_country_flag = RUS_congress_show_children } } }',
+              '\t\t\tRUS_congress_legend_title_visible = { RUS = { NOT = { has_country_flag = RUS_congress_show_children } } }',
+              '\t\t\tRUS_congress_collapse_visible = { RUS = { has_country_flag = RUS_congress_show_children } }',
+              '\t\t\tRUS_congress_legend_children_visible = { RUS = { has_country_flag = RUS_congress_show_children } }',
               '\t\t}',
               '\t\teffects = {',
-              '\t\t\tRUS_congress_expand_click = { hidden_effect = { set_country_flag = RUS_congress_show_children RUS_congress_refresh_display = yes } }',
-              '\t\t\tRUS_congress_collapse_click = { hidden_effect = { clr_country_flag = RUS_congress_show_children RUS_congress_refresh_display = yes } }',
+              '\t\t\tRUS_congress_expand_click = { hidden_effect = { RUS = { set_country_flag = RUS_congress_show_children RUS_congress_refresh_display = yes log = "[GetLogRoot]: Congress child view; revision=[?RUS_congress_revision]" } } }',
+              '\t\t\tRUS_congress_collapse_click = { hidden_effect = { RUS = { clr_country_flag = RUS_congress_show_children RUS_congress_refresh_display = yes log = "[GetLogRoot]: Congress main view; revision=[?RUS_congress_revision]" } } }',
               '\t\t}',
               '\t\tproperties = {']
-    scripted += [f'\t\t\tRUS_congress_seat_{i} = {{ frame = RUS_congress_seats^{i} }}' for i in range(TOTAL)]
+    scripted += [f'\t\t\tRUS_congress_seat_{i} = {{ frame = RUS.RUS_congress_seats^{i} }}' for i in range(TOTAL)]
     scripted += ['\t\t}', '\t}', '}']
     out['common/scripted_guis/RUS_soviet_congress.txt']='\n'.join(scripted)+'\n'
     effects=['# Display state only. Call refresh after changing integer seat counts; their sum must remain 800.',
@@ -224,12 +247,19 @@ RUS_congress_category = {
     icon = GFX_decision_category_generic_political_actions
     priority = 110
     allowed = { original_tag = RUS }
-    visible = { is_ai = no }
+    visible = { is_ai = no has_country_flag = RUS_congress_demo_initialized }
     visible_when_empty = yes
     scripted_gui = RUS_congress_gui
 }
+RUS_congress_entry_category = {
+    icon = GFX_decision_category_generic_political_actions
+    priority = 110
+    allowed = { original_tag = RUS }
+    visible = { is_ai = no NOT = { has_country_flag = RUS_congress_demo_initialized } }
+    visible_when_empty = no
+}
 '''
-    out['common/decisions/RUS_soviet_congress.txt']='''RUS_congress_category = {
+    out['common/decisions/RUS_soviet_congress.txt']='''RUS_congress_entry_category = {
     RUS_congress_view = {
         icon = GFX_decision_generic_political_discourse
         cost = 0
@@ -237,7 +267,10 @@ RUS_congress_category = {
         available = { hidden_trigger = { original_tag = RUS is_ai = no } }
         complete_effect = {
             custom_effect_tooltip = RUS_congress_view_tt
-            hidden_effect = { RUS_congress_prepare_demo = yes }
+            hidden_effect = {
+                RUS_congress_prepare_demo = yes
+                log = "[GetLogRoot]: Congress demo opened; seats=[?RUS_congress_bolsheviks_seats]/[?RUS_congress_unions_seats]/[?RUS_congress_labour_seats]/[?RUS_congress_sr_seats]/[?RUS_congress_democrats_seats]; revision=[?RUS_congress_revision]"
+            }
         }
         ai_will_do = { base = 0 }
     }
@@ -245,6 +278,8 @@ RUS_congress_category = {
 '''
     loc={
         'RUS_congress_category':'苏维埃与工会代表大会',
+        'RUS_congress_entry_category':'苏维埃与工会代表大会',
+        'RUS_congress_entry_category_desc':'召集各派代表，查看大会的席位构成。',
         'RUS_congress_category_desc':'来自各地苏维埃、工会与社会主义政党的代表齐聚一堂，共商共和国的前途。',
         'RUS_congress_view':'查看代表大会（测试）',
         'RUS_congress_view_desc':'查看各派代表的席位分布及大会的议案通过门槛。',
@@ -263,10 +298,10 @@ RUS_congress_category = {
     }
     for key,name,_,_,_ in ALL_PARTIES:
         loc['RUS_congress_name_'+key]=name
-        loc['RUS_congress_value_'+key]=f'§Y[?RUS_congress_{key}_seats|0]§!席  /  [?RUS_congress_{key}_percent|1]%'
+        loc['RUS_congress_value_'+key]=f'§Y[?RUS.RUS_congress_{key}_seats|0]§!席  /  [?RUS.RUS_congress_{key}_percent|1]%'
     for key,value in SHORT_NAMES.items(): loc['RUS_congress_short_'+key]=value
     for parent,rows in CHILDREN.items():
-        loc['RUS_congress_group_'+parent]=f'§Y{SHORT_NAMES[parent]} · [?RUS_congress_{parent}_seats|0]席§!'
+        loc['RUS_congress_group_'+parent]=f'§Y{SHORT_NAMES[parent]} · [?RUS.RUS_congress_{parent}_seats|0]席§!'
         for key,name,_,_,_ in rows: loc['RUS_congress_childname_'+key]=name.split(' · ')[1]
     portraits=leader_portraits()
     for key,name,_,_,_ in ALL_PARTIES:
@@ -275,8 +310,8 @@ RUS_congress_category = {
         if parent: lines += ['所属主派系：§Y'+next(row[1] for row in PARTIES if row[0]==parent)+'§!']
         lines += [loc['RUS_congress_value_'+key],'','§Y派系领导人§!']
         for char in LEADERS[key]:
-            # Localisation keys work even before the character has been recruited.
-            lines += ['£'+portraits[char].removeprefix('GFX_')+'  §Y$'+char+'$§!','']
+            # Character.GetName is the same native lookup used by the card GUI.
+            lines += ['£'+portrait_texticon(char)+'  §Y['+char+'.GetName]§!','']
         loc['RUS_congress_leaders_'+key+'_tt']='\n'.join(lines).rstrip()
     # The mod's current Chinese-only political preview retains Chinese titles in other UIs.
     for lang in ['simp_chinese','english','russian']:
