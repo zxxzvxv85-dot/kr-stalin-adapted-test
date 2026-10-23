@@ -44,6 +44,8 @@ def audit(model):
         card = get(model, f"table_{i}")
         if card:
             assert owners[card-1] == 9
+    played_counts = Counter(game.rank(card) for card,owner in enumerate(owners,1) if owner==9)
+    assert all(get(model,f"seen_{r}")==played_counts[r] for r in range(1,16))
     snapshots = []
     for seat in (1, 2, 3):
         cards = [get(model, f"public_card_{seat}_{i}") for i in range(1, 21)]

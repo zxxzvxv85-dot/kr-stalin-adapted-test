@@ -204,32 +204,47 @@ def choose_move(hand: Iterable[int], previous: Move = Move()) -> tuple[int, ...]
 
 def choose_team_move(hand: Iterable[int], previous: Move = Move(), *, turn: int,
                      landlord: int, last_player: int, remaining: tuple[int, int, int],
-                     passes: int = 0) -> tuple[int, ...]:
+                     passes: int = 0, public_played: tuple[int, ...] = (0,) * 15) -> tuple[int, ...]:
     """Conservative teamwork using only public information and the actor's hand.
 
     The fallback/hint picker deliberately stays unchanged. A farmer normally
     passes a teammate, including after the landlord passes. Going out wins the
     team immediately. The sole non-winning takeover is a high single/pair to
-    block the next-seat landlord with exactly that many cards remaining. Never
-    spend a joker or split a bomb for this speculative block; preserve an almost
+    block the next-seat landlord with exactly that many cards remaining. A lone
+    joker can be used for this emergency. Give the next farmer a chance to take
+    a low single/pair from a non-urgent landlord; own immediate wins always lead. Never
+    split a rocket or bomb for this speculative block; preserve an almost
     finished teammate's already strong (A or higher) lead as well.
     """
     hand = tuple(hand)
     if turn not in (1, 2, 3) or landlord not in (1, 2, 3):
         return choose_move(hand, previous)
-    chosen = choose_strategy_move(hand, previous, turn=turn, landlord=landlord, remaining=remaining)
+    chosen = choose_strategy_move(hand, previous, turn=turn, landlord=landlord, remaining=remaining, public_played=public_played)
     friendly_lead = (previous.kind and turn in (1, 2, 3) and landlord in (1, 2, 3)
                      and last_player in (1, 2, 3)
                      and turn != landlord and last_player not in (turn, landlord))
-    if not friendly_lead or (sum(chosen) == sum(hand) and any(chosen)):
+    if sum(chosen) == sum(hand) and any(chosen):
+        return chosen
+    # Give the next farmer a chance to finish on the landlord's low single/pair.
+    # Counts are only an opportunity, never proof of that teammate's card type.
+    next_seat = turn % 3 + 1
+    if (not friendly_lead and turn != landlord and last_player == landlord
+            and passes == 0 and previous.kind in (1, 2) and previous.power <= 8
+            and next_seat != landlord and remaining[next_seat - 1] == previous.kind
+            and remaining[landlord - 1] > 2):
+        return (0,) * 15
+    if not friendly_lead:
         return chosen
     hold = (0,) * 15
     if (turn % 3 + 1 != landlord or passes != 0
             or previous.kind not in (1, 2)
             or remaining[landlord - 1] != previous.kind
-            or (remaining[last_player - 1] <= 2 and previous.power >= 12)):
+            or (remaining[last_player - 1] <= 2 and previous.power >= 12)
+            or not public_threat(hand, public_played, previous)):
         return hold
-    for r in range(13, previous.power, -1):
+    for r in range(15 if previous.kind == 1 else 13, previous.power, -1):
+        if r >= 14 and hand[13] and hand[14]:
+            continue  # Never break an intact rocket for a speculative block.
         if previous.kind <= hand[r - 1] < 4:
             result = [0] * 15
             result[r - 1] = previous.kind
@@ -237,7 +252,18 @@ def choose_team_move(hand: Iterable[int], previous: Move = Move(), *, turn: int,
     return hold
 
 
-def strategy_score(hand, selected, move, previous, *, turn, landlord, remaining):
+def public_threat(hand, played, move):
+    """Upper bound from the deck minus own hand and cumulative public discards.
+
+    The unknown pool includes BOTH other players. It cannot reveal which one has
+    a card; only an empty higher-rank pool proves a single/pair safe from its kind.
+    Bombs remain possible and this helper does not claim invulnerability to them.
+    """
+    return any((4 if r < 13 else 1) - hand[r] - played[r] >= move.kind
+               for r in range(move.power, 15))
+
+
+def strategy_score(hand, selected, move, previous, *, turn, landlord, remaining, public_played=(0,) * 15):
     """Bounded public-state heuristics, independent of generated script syntax.
 
     Preserve complete bombs and rockets, prefer intact responses, and change
@@ -256,7 +282,9 @@ def strategy_score(hand, selected, move, previous, *, turn, landlord, remaining)
     if (not winning and 0 < previous.kind < 13 and move.kind >= 13
             and sum(hand) > 3 and all(n > 2 for n in enemy_counts)):
         return None
-    urgent_follow = enemy and next_n in (1, 2) and previous.kind == next_n
+    urgent_follow = (enemy and next_n in (1, 2) and previous.kind == next_n
+                     or turn != landlord and previous.kind in (1, 2)
+                     and remaining[landlord - 1] == previous.kind)
     score = (100 - move.power if previous.kind else move.n * 100 - move.power)
     if not previous.kind:
         if enemy and next_n == 1:
@@ -266,7 +294,7 @@ def strategy_score(hand, selected, move, previous, *, turn, landlord, remaining)
         elif not enemy and next_n == 1 and move.kind == 1:
             score = 5000 - move.power
     elif urgent_follow and move.kind == previous.kind:
-        score = 500 + move.power
+        score = 500 + move.power if public_threat(hand, public_played, move) else 2000 - move.power
     elif not urgent_follow:
         score -= sum(100 if h == 2 and c == 1 else 200 if h == 3 and 0 < c < 3 else 0
                      for h, c in zip(hand[:13], selected[:13]))
@@ -279,7 +307,7 @@ def strategy_score(hand, selected, move, previous, *, turn, landlord, remaining)
     return score
 
 
-def choose_strategy_move(hand, previous, *, turn, landlord, remaining):
+def choose_strategy_move(hand, previous, *, turn, landlord, remaining, public_played=(0,) * 15):
     hand = tuple(hand)
     best, best_score = (0,) * 15, -1000000
     selections = [selection for pattern in PATTERNS for selection in strategy_candidates(hand, pattern)]
@@ -292,7 +320,7 @@ def choose_strategy_move(hand, previous, *, turn, landlord, remaining):
         if not move.beats(previous):
             continue
         score = strategy_score(hand, selected, move, previous, turn=turn,
-                               landlord=landlord, remaining=remaining)
+                               landlord=landlord, remaining=remaining, public_played=public_played)
         if score is not None and score > best_score:
             best, best_score = selected, score
     return best
@@ -501,6 +529,17 @@ def choose_effect():
     return block("RUS_ddz_choose_move", rows)
 
 
+def public_threat_effect():
+    # compare uses a normal strict > against kind-1, avoiding unsupported >= forms.
+    rows=[setv("strategy_threat",0),setv("strategy_needed","kind"),op("subtract_from","strategy_needed",1)]
+    for rank in range(1,16):
+        rows.append(iff(check("power","<",rank), [setv("strategy_unknown",4 if rank<=13 else 1),
+            op("subtract_from","strategy_unknown",f"a_{rank}"),
+            op("subtract_from","strategy_unknown",f"seen_{rank}"),
+            iff(check("strategy_unknown",">","strategy_needed"),setv("strategy_threat",1))]))
+    return block("RUS_ddz_public_threat",rows)
+
+
 def strategy_offer_effect():
     rows = ["RUS_ddz_compare = yes", setv("strategy_protected", 0)]
     for r in range(1, 14):
@@ -521,7 +560,9 @@ def strategy_offer_effect():
                  [setv("score", 5000), op("subtract_from", "score", "power")])]
     score.append(iff(check("last_kind", "=", 0), lead))
     score.append(iff([check("last_kind", ">", 0), check("strategy_urgent_follow", "=", 1),
-                      check("kind", "=", "last_kind")], [setv("score", 500), op("add_to", "score", "power")]))
+                      check("kind", "=", "last_kind")], ["RUS_ddz_public_threat = yes",
+                       iff(check("strategy_threat", "=", 1), [setv("score", 500), op("add_to", "score", "power")]),
+                       block("else", [setv("score", 2000), op("subtract_from", "score", "power")])]))
     intact = []
     for r in range(1, 14):
         intact += [iff([check(f"a_{r}", "=", 2), check(f"c_{r}", "=", 1)], op("subtract_from", "score", 100)),
@@ -545,14 +586,20 @@ def choose_strategy_effect():
     rows += [setv("best_score", -1000000), setv("hand_n", 0), setv("strategy_next_seat", "turn"),
              op("add_to", "strategy_next_seat", 1),
              iff(check("strategy_next_seat", "=", 4), setv("strategy_next_seat", 1)),
-             setv("strategy_next_n", 0), setv("strategy_next_enemy", 0), setv("strategy_urgent_follow", 0),
+             setv("strategy_next_n", 0), setv("strategy_landlord_n", 0),
+             setv("strategy_next_enemy", 0), setv("strategy_urgent_follow", 0),
              setv("strategy_enemies_safe", 1), setv("strategy_bomb_hold", 0)]
     rows += [iff(check("strategy_next_seat", "=", s), setv("strategy_next_n", f"count_{s}")) for s in (1, 2, 3)]
+    rows += [iff(check("landlord", "=", s), setv("strategy_landlord_n", f"count_{s}")) for s in (1, 2, 3)]
     rows += [iff(block("OR", [check("turn", "=", "landlord"), check("strategy_next_seat", "=", "landlord")]),
                  setv("strategy_next_enemy", 1)),
              iff([check("strategy_next_enemy", "=", 1), block("OR", [
                  block("AND", [check("strategy_next_n", "=", n), check("last_kind", "=", n)]) for n in (1, 2)])],
                  setv("strategy_urgent_follow", 1))]
+    rows.append(iff([block("NOT", [check("turn", "=", "landlord")]),
+                     block("OR", [block("AND", [check("last_kind", "=", n),
+                                               check("strategy_landlord_n", "=", n)]) for n in (1, 2)])],
+                    setv("strategy_urgent_follow", 1)))
     rows += [op("add_to", "hand_n", f"a_{r}") for r in range(1, 16)]
     for seat in (1, 2, 3):
         rows.append(iff([check(f"count_{seat}", "<", 3), block("OR", [
@@ -581,34 +628,46 @@ def choose_team_effect():
                  block("NOT", [check("last_player", "=", "turn")]),
                  block("NOT", [block("AND", [check("beats", "=", 1),
                                                check("n", "=", "hand_n")])])]
-    hold = [setv(f"s_{r}", 0) for r in range(1, 16)]
+    hold = [setv("kind", "last_kind"), setv("power", "last_power"), "RUS_ddz_public_threat = yes",
+            *[setv(f"s_{r}", 0) for r in range(1, 16)]]
     hold += [setv("team_next_seat", "turn"), op("add_to", "team_next_seat", 1),
              iff(check("team_next_seat", "=", 4), setv("team_next_seat", 1)),
              setv("team_landlord_n", 0), setv("team_mate_n", 0)]
     for seat in range(1, 4):
         hold += [iff(check("landlord", "=", seat), setv("team_landlord_n", f"count_{seat}")),
                  iff(check("last_player", "=", seat), setv("team_mate_n", f"count_{seat}"))]
-    emergency = [check("team_next_seat", "=", "landlord"), check("passes", "=", 0),
+    emergency = [check("strategy_threat", "=", 1), check("team_next_seat", "=", "landlord"), check("passes", "=", 0),
                  block("OR", [block("AND", [check("last_kind", "=", kind),
                                               check("team_landlord_n", "=", kind)])
                               for kind in (1, 2)]),
                  block("NOT", [block("AND", [check("team_mate_n", "<", 3),
                                               check("last_power", ">", 11)])])]
     blockers = []
-    # Ascending overwrite deliberately selects the highest ordinary rank, not
-    # the cheapest response. A fourth copy protects the entire bomb from splits.
+    # Ascending overwrite selects the highest safe rank, including a lone joker.
+    # A fourth copy and a held two-joker rocket remain protected from splits.
     for kind in (1, 2):
         candidates = []
-        for r in range(1, 14):
+        for r in range(1, 16 if kind == 1 else 14):
+            safe = ([block("NOT", [block("AND", [check("a_14", "=", 1), check("a_15", "=", 1)])])]
+                    if r >= 14 else [])
             candidates.append(iff([check("last_power", "<", r),
-                                   check(f"a_{r}", ">", kind - 1), check(f"a_{r}", "<", 4)],
+                                   check(f"a_{r}", ">", kind - 1), check(f"a_{r}", "<", 4), *safe],
                                   [setv(f"s_{at}", kind if at == r else 0) for at in range(1, 16)]))
         blockers.append(iff(check("last_kind", "=", kind), candidates))
     hold.append(iff(emergency, blockers))
     hold.append("RUS_ddz_classify = yes")
     valid_context = [check("turn", ">", 0), check("turn", "<", 4), check("landlord", ">", 0), check("landlord", "<", 4)]
+    yield_to_mate = [*valid_context, check("last_player", "=", "landlord"),
+                     block("NOT", [check("turn", "=", "landlord")]), check("passes", "=", 0),
+                     check("last_power", "<", 9), check("strategy_landlord_n", ">", 2),
+                     check("strategy_next_enemy", "=", 0),
+                     block("OR", [block("AND", [check("last_kind", "=", n),
+                                               check("strategy_next_n", "=", n)]) for n in (1, 2)]),
+                     block("NOT", [block("AND", [check("beats", "=", 1), check("n", "=", "hand_n")])])]
     return block("RUS_ddz_choose_team_move", [iff(valid_context, "RUS_ddz_choose_strategy_move = yes"),
                                               block("else", ["RUS_ddz_choose_move = yes"]),
+                                              iff(yield_to_mate, [*[setv(f"s_{r}", 0) for r in range(1, 16)],
+                                                                 "RUS_ddz_classify = yes"]),
                                               iff(friendly, hold)])
 
 
@@ -616,7 +675,7 @@ def outputs() -> dict[str, str]:
     text = "# Generated by tools/doudizhu_rules.py; edit the source, then use the parent generator.\n"
     text += "# Rank IDs 1..15: 3..A, 2, small joker, big joker. See module docstring for wing rules.\n\n"
     text += "\n\n".join((compare_effect(), classify_effect(), offer_effect(), choose_effect(),
-                            strategy_offer_effect(), choose_strategy_effect(),
+                            public_threat_effect(), strategy_offer_effect(), choose_strategy_effect(),
                             choose_team_effect())) + "\n"
     return {"common/scripted_effects/RUS_doudizhu_rules.txt": text}
 

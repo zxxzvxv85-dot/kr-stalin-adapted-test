@@ -156,7 +156,7 @@ class RulesTests(unittest.TestCase):
     def test_generator_public_effects_and_names(self):
         self.assertLess(len(rules.PATTERNS), 400)
         self.assertEqual(set(self.vm.effects), {rules.v(s) for s in (
-            "compare", "classify", "ai_offer", "choose_move", "strategy_offer", "choose_strategy_move", "choose_team_move")})
+            "compare", "classify", "ai_offer", "choose_move", "public_threat", "strategy_offer", "choose_strategy_move", "choose_team_move")})
         text = next(iter(rules.outputs().values()))
         self.assertNotIn("random", text)
         self.assertNotIn("every_country", text)
@@ -169,12 +169,13 @@ class TeamMoveTests(unittest.TestCase):
         cls.vm = ScriptVM()
 
     def team_move(self, hand, previous, *, turn=2, landlord=3, last_player=1,
-                  remaining=(5, 7, 8), passes=0):
+                  remaining=(5, 7, 8), passes=0, public_played=(0,) * 15):
         self.vm.vars.update({rules.v(k): value for k, value in (
             ("turn", turn), ("landlord", landlord), ("last_player", last_player),
             ("passes", passes), *[(f"count_{s}", n) for s, n in enumerate(remaining, 1)])})
+        self.vm.vars.update({rules.v(f"seen_{r}"):c for r,c in enumerate(public_played,1)})
         expected = rules.choose_team_move(hand, previous, turn=turn, landlord=landlord,
-                                         last_player=last_player, remaining=remaining, passes=passes)
+                                         last_player=last_player, remaining=remaining, passes=passes, public_played=public_played)
         move = self.vm.evaluate("choose_team_move", hand, previous)
         self.assertEqual(self.vm.selected(), expected)
         self.assertEqual(move, rules.classify(expected))
@@ -380,6 +381,63 @@ class TeamMoveTests(unittest.TestCase):
         self.assertEqual(self.team_move(hand, rules.Move(9, 4, 2, 8), landlord=1,
                                        remaining=(7, 9, 6)), cards((5, 3), (6, 3), (14, 1), (15, 1)))
 
+    def test_farmer_after_landlord_also_blocks_last_single_and_pair(self):
+        # turn2 is directly after landlord1; its next seat is teammate3.
+        for kind in (1,2):
+            hand=cards((4,kind),(10,kind),(13,kind))
+            selected=self.team_move(hand,rules.Move(kind,3,1,kind),turn=2,landlord=1,
+                                    last_player=1,remaining=(kind,sum(hand),6))
+            self.assertEqual(selected,cards((13,kind)))
+
+    def test_yields_low_landlord_play_to_next_nearly_finished_farmer(self):
+        for turn,landlord,mate in ((2,1,3),(3,2,1),(1,3,2)):
+            for kind in (1,2):
+                hand=cards((5,kind),(10,kind),(13,kind))
+                remaining=[6]*3;remaining[turn-1]=sum(hand);remaining[mate-1]=kind
+                self.assertEqual(self.team_move(hand,rules.Move(kind,3,1,kind),turn=turn,
+                                               landlord=landlord,last_player=landlord,
+                                               remaining=tuple(remaining)),cards())
+
+    def test_yield_is_disabled_for_urgent_landlord_high_play_or_wrong_count(self):
+        hand=cards((5,1),(10,1),(13,1))
+        for previous,remaining in ((rules.Move(1,3,1,1),(1,3,1)),
+                                   (rules.Move(1,11,1,1),(6,3,1)),
+                                   (rules.Move(1,3,1,1),(6,3,2))):
+            self.assertTrue(any(self.team_move(hand,previous,turn=2,landlord=1,
+                                             last_player=1,remaining=remaining)))
+        # Seeing two remaining cards alone must not assume a pair for a single.
+        self.assertEqual(self.team_move(hand,rules.Move(1,3,1,1),turn=2,landlord=1,
+                                       last_player=1,remaining=(6,3,2)),cards((5,1)))
+
+    def test_immediate_win_overrides_yield_to_teammate(self):
+        hand=cards((6,2))
+        self.assertEqual(self.team_move(hand,rules.Move(2,3,1,2),turn=2,landlord=1,
+                                       last_player=1,remaining=(6,2,2)),hand)
+
+    def test_lone_joker_can_block_last_card_landlord_but_intact_rocket_is_held(self):
+        for joker in (14,15):
+            hand=cards((2,1),(joker,1))
+            self.assertEqual(self.team_move(hand,rules.Move(1,5,1,1),turn=3,landlord=1,
+                                           last_player=2,remaining=(1,5,2)),cards((joker,1)))
+        hand=cards((2,1),(14,1),(15,1))
+        self.assertEqual(self.team_move(hand,rules.Move(1,5,1,1),turn=3,landlord=1,
+                                       last_player=2,remaining=(1,5,3)),cards())
+
+    def test_cheapest_publicly_safe_block_preserves_higher_control(self):
+        hand=cards((5,1),(12,1),(13,1))
+        played=cards((13,3),(14,1),(15,1))
+        self.assertEqual(self.team_move(hand,rules.Move(1,4,1,1),turn=2,landlord=1,
+                                       last_player=1,remaining=(1,3,5),public_played=played),cards((12,1)))
+        # Unseen jokers restore uncertainty: no knowledge of their owner is used.
+        self.assertEqual(self.team_move(hand,rules.Move(1,4,1,1),turn=2,landlord=1,
+                                       last_player=1,remaining=(1,3,5)),cards((13,1)))
+
+    def test_publicly_safe_teammate_lead_is_not_stolen(self):
+        hand=cards((5,1),(13,1))
+        played=cards((12,1),(13,3),(14,1),(15,1))
+        self.assertEqual(self.team_move(hand,rules.Move(1,12,1,1),turn=3,landlord=1,
+                                       last_player=2,remaining=(1,5,2),public_played=played),cards())
+
     def test_full_team_games_with_public_state_and_card_conservation(self):
         rng = random.Random(20261022)
         deck = [r for r in range(13) for _ in range(4)] + [13, 14]
@@ -392,7 +450,7 @@ class TeamMoveTests(unittest.TestCase):
             for step in range(163):
                 hand = tuple(hands[turn - 1])
                 selected = self.team_move(hand, previous, turn=turn, landlord=1, last_player=last_player,
-                                          remaining=tuple(map(sum, hands)), passes=passes)
+                                          remaining=tuple(map(sum, hands)), passes=passes, public_played=tuple(played))
                 move = rules.classify(selected)
                 if move.kind:
                     self.assertTrue(move.beats(previous))

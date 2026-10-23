@@ -121,6 +121,7 @@ def effects():
                *[setv(f"play_{s}_{r}", 0) for s in range(1, 4) for r in range(1, 16)],
                add("deal_bank"), iff(eq("deal_bank", 1, ">"), setv("deal_bank", 0)),
                *[setv(f"public_bank_{s}", 0) for s in range(1, 4)],
+               *[setv(f"seen_{r}", 0) for r in range(1, 16)],
                *[setv(f"public_n_{s}", 0) for s in range(1, 4)],
                *[setv(f"public_trick_{s}", 0) for s in range(1, 4)],
                *[setv(f"public_card_{s}_{i}", 0) for s in range(1, 4) for i in range(1, 21)],
@@ -157,7 +158,7 @@ def effects():
         commit.append(iff([eq(f"owner_{c}", v("turn")),
                           "OR = { AND = { " + eq("turn", 1) + " " + eq(f"sel_{c}", 1) + " } "
                           + "AND = { " + eq("turn", 1, ">") + " " + eq(f"s_{rank(c)}", 0, ">") + " } }"],
-                         setv(f"owner_{c}", 9), sub(f"s_{rank(c)}"), setv("played_card", c), call("record_card")))
+                         setv(f"owner_{c}", 9), add(f"seen_{rank(c)}"), sub(f"s_{rank(c)}"), setv("played_card", c), call("record_card")))
     # Keep the completed trick visible until the next lead. Stamps prevent a
     # previous pass being displayed as an action in the new trick.
     effect("commit_play", iff(eq("last_kind", 0), add("trick"), setv("trick_closed", 0)),
