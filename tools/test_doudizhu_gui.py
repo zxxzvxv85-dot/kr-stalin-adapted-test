@@ -80,7 +80,8 @@ class CardTableUI(unittest.TestCase):
                 window=self.widgets[name]
                 self.assertEqual(window.value('show_animation_type'),'decelerated')
                 self.assertEqual(window.one('show_position').value('y'),'0')
-                self.assertLessEqual(int(window.value('animation_time')),750)
+                self.assertGreaterEqual(int(window.value('animation_time')),900)
+                self.assertLessEqual(int(window.value('animation_time')),3500)
                 if model.check(self.triggers[name+'_visible']):visible.append(name)
             self.assertEqual(visible,['ddz_hand_1'+('_alternate' if bank else '')+'_deal'])
         for seat in range(1,4):

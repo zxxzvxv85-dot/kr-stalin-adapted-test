@@ -197,7 +197,7 @@ def outputs():
     for slot in range(1, 4):
         x = 438 + (slot - 1) * 42
         icon(f'ddz_bottom_back_{slot}', 'GFX_RUS_ddz_back', x, 121, .78, eq('phase', 1))
-        animate_last(f'ddz_bottom_deal_{slot}', eq('phase', 1), 0, 50, 200 + slot * 80)
+        animate_last(f'ddz_bottom_deal_{slot}', eq('phase', 1), 0, 50, 600 + slot * 400)
         name = f'ddz_bottom_{slot}'
         icon(name, 'GFX_RUS_ddz_faces', x, 121, .78, gt('phase', 1) + '\n' + gt(f'bottom_{slot}', 0))
         properties.append(block(name, f'frame = {P}bottom_{slot}'))
@@ -281,7 +281,7 @@ def outputs():
             visible = gt('phase', 0) + '\n' + eq(f'owner_{card}', 1) + '\n' + eq('deal_bank', bank)
             button(name, '', HAND_X, HAND_Y, f'{P}select_{card} = yes', enable=playing, condition=visible, tip=P + 'play_tt', sprite=f'GFX_RUS_ddz_card_{card}')
             properties.append(block(name, f'x = {P}x_{card}\ny = {P}y_{card}'))
-            animate_last(name + '_deal', visible, 0, -245, 220 + card * 9)
+            animate_last(name + '_deal', visible, 0, -245, 900 + card * 40)
     text('ddz_selected', P + 'selected', 425, 476, 300, 24, 'hoi_16mbs', eq('phase', 2))
     for name, x, effect in [('play', 242, 'player_play'), ('pass', 377, 'player_pass'), ('hint', 512, 'hint'), ('clear', 647, 'clear_selection')]:
         enable = playing + ('\n' + gt('last_kind', 0) if name == 'pass' else '')
