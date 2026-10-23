@@ -2,12 +2,12 @@
 # Solid merges are OR; dotted edges are additional hidden mandatory requirements.
 # Preview only: rewards and duration balancing have not been implemented.
 
-# 雾月革命之余波
+# 适应革命形势
 shared_focus = {
-	id = RUS_future_domestic_154
-	icon = GFX_goal_RUS_future_domestic_154
+	id = RUS_future_domestic_249
+	icon = GFX_goal_RUS_future_domestic_249
 	cost = 7
-	x = 106
+	x = 107
 	y = 45
 	available = {
 		custom_trigger_tooltip = {
@@ -20,12 +20,125 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 雾月革命之余波
+shared_focus = {
+	id = RUS_future_domestic_154
+	icon = GFX_goal_RUS_future_domestic_154
+	cost = 7
+	x = 138
+	y = 45
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 俄罗斯共产党（布尔什维克）
+shared_focus = {
+	id = RUS_future_domestic_473
+	icon = GFX_goal_RUS_future_domestic_473
+	cost = 7
+	x = 97
+	y = 46
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_249 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 工会联盟
+shared_focus = {
+	id = RUS_future_domestic_275
+	icon = GFX_goal_RUS_future_domestic_275
+	cost = 7
+	x = 101
+	y = 46
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_249 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 全俄罗斯劳工联盟
+shared_focus = {
+	id = RUS_future_domestic_253
+	icon = GFX_goal_RUS_future_domestic_253
+	cost = 7
+	x = 107
+	y = 46
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_249 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 社会革命党
+shared_focus = {
+	id = RUS_future_domestic_269
+	icon = GFX_goal_RUS_radsocs
+	cost = 7
+	x = 113
+	y = 46
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_249 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 社会主义民主联盟
+shared_focus = {
+	id = RUS_future_domestic_273
+	icon = GFX_goal_RUS_future_domestic_273
+	cost = 7
+	x = 118
+	y = 46
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_249 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 重建工农联盟
 shared_focus = {
 	id = RUS_future_domestic_133
 	icon = GFX_goal_RUS_future_domestic_133
 	cost = 7
-	x = 105
+	x = 137
 	y = 46
 	available = {
 		custom_trigger_tooltip = {
@@ -44,7 +157,7 @@ shared_focus = {
 	id = RUS_future_domestic_136
 	icon = GFX_goal_RUS_future_domestic_136
 	cost = 7
-	x = 107
+	x = 139
 	y = 46
 	available = {
 		custom_trigger_tooltip = {
@@ -58,12 +171,221 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 协调党群关系
+shared_focus = {
+	id = RUS_future_domestic_337
+	icon = GFX_goal_RUS_future_domestic_337
+	cost = 7
+	x = 93
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_473 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 《怎么办？》
+shared_focus = {
+	id = RUS_future_domestic_349
+	icon = GFX_goal_RUS_future_domestic_349
+	cost = 7
+	x = 97
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_473 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 回归列宁主义
+shared_focus = {
+	id = RUS_future_domestic_323
+	icon = GFX_goal_RUS_future_domestic_323
+	cost = 7
+	x = 99
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_473 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 新青年派
+shared_focus = {
+	id = RUS_future_domestic_257
+	icon = GFX_goal_RUS_future_domestic_257
+	cost = 7
+	x = 104
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_253 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 新理论派
+shared_focus = {
+	id = RUS_future_domestic_262
+	icon = GFX_goal_RUS_future_domestic_262
+	cost = 7
+	x = 107
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_253 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 新社会派
+shared_focus = {
+	id = RUS_future_domestic_265
+	icon = GFX_goal_RUS_future_domestic_265
+	cost = 7
+	x = 110
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_253 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 社会民粹主义
+shared_focus = {
+	id = RUS_future_domestic_290
+	icon = GFX_goal_generic_farmer_and_worker
+	cost = 7
+	x = 112
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_269 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 党的现代化
+shared_focus = {
+	id = RUS_future_domestic_280
+	icon = GFX_goal_RUS_future_domestic_280
+	cost = 7
+	x = 114
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_269 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 与泽勒派合作
+shared_focus = {
+	id = RUS_future_domestic_276
+	icon = GFX_goal_generic_enforce_labor_regulation
+	cost = 7
+	x = 116
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_269 focus = RUS_future_domestic_273 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 吸收前共和国政党
+shared_focus = {
+	id = RUS_future_domestic_302
+	icon = GFX_goal_RUS_future_domestic_302
+	cost = 7
+	x = 118
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_273 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 文化民族协会
+shared_focus = {
+	id = RUS_future_domestic_293
+	icon = GFX_goal_LIT_Bund
+	cost = 7
+	x = 120
+	y = 47
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_273 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 工人政党的凯旋
 shared_focus = {
 	id = RUS_future_domestic_138
 	icon = GFX_goal_RUS_future_domestic_138
 	cost = 7
-	x = 104
+	x = 136
 	y = 47
 	available = {
 		custom_trigger_tooltip = {
@@ -82,7 +404,7 @@ shared_focus = {
 	id = RUS_future_domestic_140
 	icon = GFX_goal_generic_debt_negotiations
 	cost = 7
-	x = 106
+	x = 138
 	y = 47
 	available = {
 		custom_trigger_tooltip = {
@@ -101,7 +423,7 @@ shared_focus = {
 	id = RUS_future_domestic_142
 	icon = GFX_goal_RUS_future_domestic_142
 	cost = 7
-	x = 108
+	x = 140
 	y = 47
 	available = {
 		custom_trigger_tooltip = {
@@ -115,12 +437,298 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 布尔什维克军官团
+shared_focus = {
+	id = RUS_future_domestic_367
+	icon = GFX_goal_RUS_future_domestic_367
+	cost = 7
+	x = 91
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_337 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 车间里的党小组
+shared_focus = {
+	id = RUS_future_domestic_360
+	icon = GFX_goal_RUS_future_domestic_360
+	cost = 7
+	x = 93
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_337 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 农村的同志们
+shared_focus = {
+	id = RUS_future_domestic_362
+	icon = GFX_goal_RUS_future_domestic_362
+	cost = 7
+	x = 95
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_337 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 实事求是
+shared_focus = {
+	id = RUS_future_domestic_375
+	icon = GFX_goal_RUS_future_domestic_375
+	cost = 7
+	x = 97
+	y = 48
+	available = {
+		has_completed_focus = RUS_future_domestic_323
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_349 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 手段与目的
+shared_focus = {
+	id = RUS_future_domestic_333
+	icon = GFX_goal_RUS_future_domestic_333
+	cost = 7
+	x = 99
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_323 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 抢占文化阵地
+shared_focus = {
+	id = RUS_future_domestic_331
+	icon = GFX_goal_RUS_future_domestic_331
+	cost = 7
+	x = 101
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_257 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 消灭阶级剥削
+shared_focus = {
+	id = RUS_future_domestic_392
+	icon = GFX_goal_RUS_future_domestic_392
+	cost = 7
+	x = 103
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_257 focus = RUS_future_domestic_262 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 推崇工会地位
+shared_focus = {
+	id = RUS_future_domestic_327
+	icon = GFX_goal_RUS_future_domestic_327
+	cost = 7
+	x = 105
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_262 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 相信群众自发性
+shared_focus = {
+	id = RUS_future_domestic_284
+	icon = GFX_goal_RUS_future_domestic_284
+	cost = 7
+	x = 107
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_262 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 建设福利国家
+shared_focus = {
+	id = RUS_future_domestic_394
+	icon = GFX_goal_RUS_future_domestic_394
+	cost = 7
+	x = 109
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_262 focus = RUS_future_domestic_265 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 支持私营企业
+shared_focus = {
+	id = RUS_future_domestic_297
+	icon = GFX_goal_RUS_future_domestic_297
+	cost = 7
+	x = 111
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_265 focus = RUS_future_domestic_290 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 土地社会化草案
+shared_focus = {
+	id = RUS_future_domestic_295
+	icon = GFX_goal_RUS_future_domestic_295
+	cost = 7
+	x = 113
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_290 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 民主党派统一阵线
+shared_focus = {
+	id = RUS_future_domestic_288
+	icon = GFX_goal_RUS_taurida_palace
+	cost = 7
+	x = 116
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_280 focus = RUS_future_domestic_302 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 打造工人合作社
+shared_focus = {
+	id = RUS_future_domestic_800
+	icon = GFX_goal_RUS_future_domestic_800
+	cost = 7
+	x = 118
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_302 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 普适的革命文化
+shared_focus = {
+	id = RUS_future_domestic_801
+	icon = GFX_goal_RUS_future_domestic_801
+	cost = 7
+	x = 120
+	y = 48
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_293 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 纠正历史进程
 shared_focus = {
 	id = RUS_future_domestic_144
 	icon = GFX_goal_generic_syndicalist_council
 	cost = 7
-	x = 106
+	x = 138
 	y = 48
 	available = {
 		custom_trigger_tooltip = {
@@ -134,12 +742,318 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 军队政治工作
+shared_focus = {
+	id = RUS_future_domestic_368
+	icon = GFX_goal_RUS_future_domestic_368
+	cost = 7
+	x = 90
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_367 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 工人学管理
+shared_focus = {
+	id = RUS_future_domestic_357
+	icon = GFX_goal_RUS_future_domestic_357
+	cost = 7
+	x = 92
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_360 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 干部学技术
+shared_focus = {
+	id = RUS_future_domestic_351
+	icon = GFX_goal_RUS_future_domestic_351
+	cost = 7
+	x = 94
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_360 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 实践的理论
+shared_focus = {
+	id = RUS_future_domestic_372
+	icon = GFX_goal_RUS_future_domestic_372
+	cost = 7
+	x = 96
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_375 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 理论的实践
+shared_focus = {
+	id = RUS_future_domestic_379
+	icon = GFX_goal_RUS_future_domestic_379
+	cost = 7
+	x = 98
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_375 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 对工人的承诺
+shared_focus = {
+	id = RUS_future_domestic_345
+	icon = GFX_goal_RUS_future_domestic_345
+	cost = 7
+	x = 100
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_275 focus = RUS_future_domestic_331 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 揭露“伪革命”
+shared_focus = {
+	id = RUS_future_domestic_343
+	icon = GFX_goal_RUS_future_domestic_343
+	cost = 7
+	x = 102
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_331 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 终结压迫
+shared_focus = {
+	id = RUS_future_domestic_382
+	icon = GFX_goal_RUS_future_domestic_382
+	cost = 7
+	x = 104
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_327 focus = RUS_future_domestic_392 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 呼吁党权下放
+shared_focus = {
+	id = RUS_future_domestic_387
+	icon = GFX_goal_RUS_future_domestic_387
+	cost = 7
+	x = 106
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_284 focus = RUS_future_domestic_327 }
+	mutually_exclusive = { focus = RUS_future_domestic_389 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 弥合分裂
+shared_focus = {
+	id = RUS_future_domestic_389
+	icon = GFX_goal_RUS_future_domestic_389
+	cost = 7
+	x = 108
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_284 }
+	mutually_exclusive = { focus = RUS_future_domestic_387 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 调和矛盾
+shared_focus = {
+	id = RUS_future_domestic_384
+	icon = GFX_goal_RUS_future_domestic_384
+	cost = 7
+	x = 110
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_284 focus = RUS_future_domestic_394 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 民主带来社会主义
+shared_focus = {
+	id = RUS_future_domestic_278
+	icon = GFX_goal_RUS_socialist_democracy
+	cost = 7
+	x = 112
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_295 focus = RUS_future_domestic_297 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 捍卫自由权利
+shared_focus = {
+	id = RUS_future_domestic_299
+	icon = GFX_goal_RUS_future_domestic_299
+	cost = 7
+	x = 115
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_288 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 激发公民意识
+shared_focus = {
+	id = RUS_future_domestic_469
+	icon = GFX_goal_RUS_future_domestic_469
+	cost = 7
+	x = 117
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_288 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 自发的，民主的运动方针
+shared_focus = {
+	id = RUS_future_domestic_802
+	icon = GFX_goal_RUS_future_domestic_802
+	cost = 7
+	x = 120
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_800 focus = RUS_future_domestic_801 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 红色绅士的任期
 shared_focus = {
 	id = RUS_future_domestic_174
 	icon = GFX_goal_RUS_future_domestic_174
 	cost = 7
-	x = 99
+	x = 131
+	y = 49
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_144 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 起草新宪法
+shared_focus = {
+	id = RUS_future_domestic_305
+	icon = GFX_goal_constitutional_guarantees
+	cost = 7
+	x = 138
 	y = 49
 	available = {
 		custom_trigger_tooltip = {
@@ -158,7 +1072,7 @@ shared_focus = {
 	id = RUS_future_domestic_151
 	icon = GFX_goal_RUS_future_domestic_151
 	cost = 7
-	x = 113
+	x = 145
 	y = 49
 	available = {
 		custom_trigger_tooltip = {
@@ -172,12 +1086,183 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 军事主动权
+shared_focus = {
+	id = RUS_future_domestic_369
+	icon = GFX_goal_RUS_future_domestic_369
+	cost = 7
+	x = 91
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_367 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 参与斗争
+shared_focus = {
+	id = RUS_future_domestic_370
+	icon = GFX_goal_RUS_future_domestic_370
+	cost = 7
+	x = 93
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_351 focus = RUS_future_domestic_357 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 支持最高纲领派
+shared_focus = {
+	id = RUS_future_domestic_364
+	icon = GFX_goal_RUS_future_domestic_364
+	cost = 7
+	x = 95
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_362 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# “有这么一个党！”
+shared_focus = {
+	id = RUS_future_domestic_376
+	icon = GFX_goal_RUS_future_domestic_376
+	cost = 7
+	x = 97
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_372 focus = RUS_future_domestic_379 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 革命的交响乐
+shared_focus = {
+	id = RUS_future_domestic_380
+	icon = GFX_goal_RUS_future_domestic_380
+	cost = 7
+	x = 99
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_333 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 推崇先锋主义
+shared_focus = {
+	id = RUS_future_domestic_341
+	icon = GFX_goal_RUS_future_domestic_341
+	cost = 7
+	x = 101
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_331 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 俄罗斯式工团主义
+shared_focus = {
+	id = RUS_future_domestic_347
+	icon = GFX_goal_RUS_future_domestic_347
+	cost = 7
+	x = 107
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_387 focus = RUS_future_domestic_389 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 乡村苏维埃自治章程
+shared_focus = {
+	id = RUS_future_domestic_292
+	icon = GFX_goal_RUS_future_domestic_292
+	cost = 7
+	x = 113
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_278 focus = RUS_future_domestic_299 focus = RUS_future_domestic_469 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 赋权乡村民兵
+shared_focus = {
+	id = RUS_future_domestic_304
+	icon = GFX_goal_RUS_future_domestic_304
+	cost = 7
+	x = 116
+	y = 50
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_469 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 稳定局势
 shared_focus = {
 	id = RUS_future_domestic_309
 	icon = GFX_goal_RUS_future_domestic_309
 	cost = 7
-	x = 94
+	x = 125
 	y = 50
 	available = {
 		custom_trigger_tooltip = {
@@ -196,7 +1281,7 @@ shared_focus = {
 	id = RUS_future_domestic_239
 	icon = GFX_goal_RUS_future_domestic_239
 	cost = 7
-	x = 97
+	x = 129
 	y = 50
 	available = {
 		custom_trigger_tooltip = {
@@ -215,7 +1300,7 @@ shared_focus = {
 	id = RUS_future_domestic_243
 	icon = GFX_goal_RUS_future_domestic_243
 	cost = 7
-	x = 100
+	x = 132
 	y = 50
 	available = {
 		custom_trigger_tooltip = {
@@ -229,12 +1314,12 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 起草新宪法
+# 大会的非常手段？
 shared_focus = {
-	id = RUS_future_domestic_305
-	icon = GFX_goal_constitutional_guarantees
+	id = RUS_future_domestic_805
+	icon = GFX_goal_RUS_future_domestic_805
 	cost = 7
-	x = 103
+	x = 135
 	y = 50
 	available = {
 		custom_trigger_tooltip = {
@@ -243,20 +1328,39 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_151 focus = RUS_future_domestic_174 }
+	prerequisite = { focus = RUS_future_domestic_174 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
 
-# 奠基经济发展
+# 为发展奠基
 shared_focus = {
 	id = RUS_future_domestic_424
 	icon = GFX_goal_RUS_future_domestic_424
 	cost = 7
-	x = 106
+	x = 138
 	y = 50
 	available = {
 		has_completed_focus = RUS_future_domestic_428
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_151 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 继续电气化工程
+shared_focus = {
+	id = RUS_future_domestic_804
+	icon = GFX_goal_RUS_future_domestic_804
+	cost = 7
+	x = 141
+	y = 50
+	available = {
 		custom_trigger_tooltip = {
 			tooltip = RUS_future_domestic_preview_only_tt
 			always = no
@@ -273,7 +1377,7 @@ shared_focus = {
 	id = RUS_future_domestic_407
 	icon = GFX_goal_RUS_future_domestic_407
 	cost = 7
-	x = 113
+	x = 145
 	y = 50
 	available = {
 		custom_trigger_tooltip = {
@@ -292,7 +1396,7 @@ shared_focus = {
 	id = RUS_future_domestic_463
 	icon = GFX_goal_RUS_future_domestic_463
 	cost = 7
-	x = 116
+	x = 148
 	y = 50
 	available = {
 		custom_trigger_tooltip = {
@@ -311,7 +1415,7 @@ shared_focus = {
 	id = RUS_future_domestic_205
 	icon = GFX_goal_RUS_future_domestic_205
 	cost = 7
-	x = 119
+	x = 151
 	y = 50
 	available = {
 		custom_trigger_tooltip = {
@@ -325,12 +1429,126 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 民主专政
+shared_focus = {
+	id = RUS_future_domestic_353
+	icon = GFX_goal_RUS_future_domestic_353
+	cost = 7
+	x = 100
+	y = 51
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_345 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 罪不可恕……
+shared_focus = {
+	id = RUS_future_domestic_355
+	icon = GFX_goal_RUS_future_domestic_355
+	cost = 7
+	x = 102
+	y = 51
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_343 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 火焰永不灭
+shared_focus = {
+	id = RUS_future_domestic_390
+	icon = GFX_focus_CHL_union_of_hispanic_republics
+	cost = 7
+	x = 107
+	y = 51
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_347 focus = RUS_future_domestic_382 focus = RUS_future_domestic_384 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 团结即是胜利
+shared_focus = {
+	id = RUS_future_domestic_448
+	icon = GFX_goal_RUS_future_domestic_448
+	cost = 7
+	x = 113
+	y = 51
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_292 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 民主的自卫
+shared_focus = {
+	id = RUS_future_domestic_300
+	icon = GFX_focus_generic_bastion_of_democracy
+	cost = 7
+	x = 116
+	y = 51
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_304 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 人性面孔的社会主义
+shared_focus = {
+	id = RUS_future_domestic_803
+	icon = GFX_goal_RUS_future_domestic_803
+	cost = 7
+	x = 120
+	y = 51
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_469 focus = RUS_future_domestic_802 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 全俄劳联的地位
 shared_focus = {
 	id = RUS_future_domestic_312
 	icon = GFX_goal_RUS_future_domestic_312
 	cost = 7
-	x = 92
+	x = 123
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -349,7 +1567,7 @@ shared_focus = {
 	id = RUS_future_domestic_460
 	icon = GFX_goal_RUS_future_domestic_460
 	cost = 7
-	x = 94
+	x = 125
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -368,7 +1586,7 @@ shared_focus = {
 	id = RUS_future_domestic_314
 	icon = GFX_goal_RUS_future_domestic_314
 	cost = 7
-	x = 96
+	x = 127
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -382,12 +1600,12 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 设立法案执行条例
+# 设立执行条例
 shared_focus = {
 	id = RUS_future_domestic_398
 	icon = GFX_goal_RUS_future_domestic_398
 	cost = 7
-	x = 98
+	x = 130
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -406,7 +1624,7 @@ shared_focus = {
 	id = RUS_future_domestic_396
 	icon = GFX_goal_RUS_future_domestic_396
 	cost = 7
-	x = 100
+	x = 132
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -425,7 +1643,7 @@ shared_focus = {
 	id = RUS_future_domestic_450
 	icon = GFX_goal_RUS_future_domestic_450
 	cost = 7
-	x = 102
+	x = 134
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -444,7 +1662,7 @@ shared_focus = {
 	id = RUS_future_domestic_621
 	icon = GFX_goal_RUS_future_domestic_621
 	cost = 7
-	x = 105
+	x = 137
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -463,7 +1681,7 @@ shared_focus = {
 	id = RUS_future_domestic_420
 	icon = GFX_goal_RUS_future_domestic_420
 	cost = 7
-	x = 107
+	x = 139
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -482,7 +1700,7 @@ shared_focus = {
 	id = RUS_future_domestic_408
 	icon = GFX_goal_RUS_future_domestic_408
 	cost = 7
-	x = 111
+	x = 143
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -501,7 +1719,7 @@ shared_focus = {
 	id = RUS_future_domestic_457
 	icon = GFX_goal_RUS_future_domestic_457
 	cost = 7
-	x = 113
+	x = 145
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -520,7 +1738,7 @@ shared_focus = {
 	id = RUS_future_domestic_409
 	icon = GFX_goal_RUS_future_domestic_409
 	cost = 7
-	x = 115
+	x = 147
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -534,31 +1752,12 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 专业技能培训
-shared_focus = {
-	id = RUS_future_domestic_212
-	icon = GFX_goal_RUS_future_domestic_212
-	cost = 7
-	x = 117
-	y = 51
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_205 focus = RUS_future_domestic_463 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
 # 对文化革命
 shared_focus = {
 	id = RUS_future_domestic_210
 	icon = GFX_goal_RUS_future_domestic_210
 	cost = 7
-	x = 119
+	x = 151
 	y = 51
 	available = {
 		custom_trigger_tooltip = {
@@ -572,13 +1771,13 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 适应革命形势
+# 年轻的列宁，向前进
 shared_focus = {
-	id = RUS_future_domestic_249
-	icon = GFX_goal_RUS_future_domestic_249
+	id = RUS_future_domestic_338
+	icon = GFX_goal_RUS_future_domestic_338
 	cost = 7
-	x = 139
-	y = 51
+	x = 101
+	y = 52
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = RUS_future_domestic_preview_only_tt
@@ -586,6 +1785,7 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_341 focus = RUS_future_domestic_353 focus = RUS_future_domestic_355 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
@@ -595,7 +1795,7 @@ shared_focus = {
 	id = RUS_future_domestic_316
 	icon = GFX_goal_RUS_future_domestic_316
 	cost = 7
-	x = 91
+	x = 122
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -614,7 +1814,7 @@ shared_focus = {
 	id = RUS_future_domestic_318
 	icon = GFX_goal_RUS_future_domestic_318
 	cost = 7
-	x = 93
+	x = 124
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -633,7 +1833,7 @@ shared_focus = {
 	id = RUS_future_domestic_320
 	icon = GFX_goal_RUS_future_domestic_320
 	cost = 7
-	x = 96
+	x = 127
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -642,17 +1842,17 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_460 }
+	prerequisite = { focus = RUS_future_domestic_314 focus = RUS_future_domestic_460 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
 
-# 要求常态化紧急权力
+# 战时国家体制
 shared_focus = {
 	id = RUS_future_domestic_400
 	icon = GFX_goal_RUS_future_domestic_400
 	cost = 7
-	x = 99
+	x = 131
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -671,7 +1871,7 @@ shared_focus = {
 	id = RUS_future_domestic_452
 	icon = GFX_goal_RUS_future_domestic_452
 	cost = 7
-	x = 101
+	x = 133
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -690,7 +1890,7 @@ shared_focus = {
 	id = RUS_future_domestic_160
 	icon = GFX_goal_RUS_future_domestic_160
 	cost = 7
-	x = 106
+	x = 138
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -709,7 +1909,7 @@ shared_focus = {
 	id = RUS_future_domestic_411
 	icon = GFX_goal_RUS_future_domestic_411
 	cost = 7
-	x = 113
+	x = 145
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -723,12 +1923,31 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
+# 专业技能培训
+shared_focus = {
+	id = RUS_future_domestic_212
+	icon = GFX_goal_RUS_future_domestic_212
+	cost = 7
+	x = 148
+	y = 52
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_205 focus = RUS_future_domestic_463 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
 # 理论指导优先
 shared_focus = {
 	id = RUS_future_domestic_218
 	icon = GFX_goal_RUS_future_domestic_218
 	cost = 7
-	x = 118
+	x = 150
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -748,7 +1967,7 @@ shared_focus = {
 	id = RUS_future_domestic_221
 	icon = GFX_goal_RUS_future_domestic_221
 	cost = 7
-	x = 120
+	x = 152
 	y = 52
 	available = {
 		custom_trigger_tooltip = {
@@ -763,107 +1982,12 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 俄罗斯共产党（布尔什维克）
+# 行政高效化
 shared_focus = {
-	id = RUS_future_domestic_473
-	icon = GFX_goal_RUS_future_domestic_473
+	id = RUS_future_domestic_477
+	icon = GFX_goal_RUS_future_domestic_477
 	cost = 7
-	x = 129
-	y = 52
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_249 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 工会联盟
-shared_focus = {
-	id = RUS_future_domestic_275
-	icon = GFX_goal_RUS_future_domestic_275
-	cost = 7
-	x = 133
-	y = 52
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_249 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 全俄罗斯劳工联盟
-shared_focus = {
-	id = RUS_future_domestic_253
-	icon = GFX_goal_RUS_future_domestic_253
-	cost = 7
-	x = 139
-	y = 52
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_249 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 社会革命党
-shared_focus = {
-	id = RUS_future_domestic_269
-	icon = GFX_goal_RUS_radsocs
-	cost = 7
-	x = 145
-	y = 52
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_249 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 社会主义民主联盟
-shared_focus = {
-	id = RUS_future_domestic_273
-	icon = GFX_goal_RUS_future_domestic_273
-	cost = 7
-	x = 150
-	y = 52
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_249 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 联盟大权在握
-shared_focus = {
-	id = RUS_future_domestic_324
-	icon = GFX_goal_RUS_future_domestic_324
-	cost = 7
-	x = 93
+	x = 122
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -872,7 +1996,26 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_316 focus = RUS_future_domestic_318 focus = RUS_future_domestic_320 }
+	prerequisite = { focus = RUS_future_domestic_400 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 扩大紧急权力
+shared_focus = {
+	id = RUS_future_domestic_439
+	icon = GFX_goal_RUS_future_domestic_439
+	cost = 7
+	x = 128
+	y = 53
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_400 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
@@ -882,7 +2025,7 @@ shared_focus = {
 	id = RUS_future_domestic_403
 	icon = GFX_goal_RUS_future_domestic_403
 	cost = 7
-	x = 100
+	x = 132
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -901,7 +2044,7 @@ shared_focus = {
 	id = RUS_future_domestic_422
 	icon = GFX_goal_RUS_future_domestic_422
 	cost = 7
-	x = 102
+	x = 134
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -920,7 +2063,7 @@ shared_focus = {
 	id = RUS_future_domestic_421
 	icon = GFX_goal_RUS_future_domestic_421
 	cost = 7
-	x = 104
+	x = 136
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -939,7 +2082,7 @@ shared_focus = {
 	id = RUS_future_domestic_486
 	icon = GFX_goal_RUS_future_domestic_486
 	cost = 7
-	x = 106
+	x = 138
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -958,7 +2101,7 @@ shared_focus = {
 	id = RUS_future_domestic_377
 	icon = GFX_goal_RUS_future_domestic_377
 	cost = 7
-	x = 108
+	x = 140
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -977,7 +2120,7 @@ shared_focus = {
 	id = RUS_future_domestic_487
 	icon = GFX_goal_RUS_future_domestic_487
 	cost = 7
-	x = 110
+	x = 142
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -996,7 +2139,7 @@ shared_focus = {
 	id = RUS_future_domestic_187
 	icon = GFX_goal_RUS_future_domestic_187
 	cost = 7
-	x = 112
+	x = 144
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -1015,7 +2158,7 @@ shared_focus = {
 	id = RUS_future_domestic_207
 	icon = GFX_goal_RUS_future_domestic_207
 	cost = 7
-	x = 114
+	x = 146
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -1034,7 +2177,7 @@ shared_focus = {
 	id = RUS_future_domestic_224
 	icon = GFX_goal_RUS_future_domestic_224
 	cost = 7
-	x = 118
+	x = 150
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -1054,7 +2197,7 @@ shared_focus = {
 	id = RUS_future_domestic_226
 	icon = GFX_goal_RUS_future_domestic_226
 	cost = 7
-	x = 120
+	x = 152
 	y = 53
 	available = {
 		custom_trigger_tooltip = {
@@ -1069,221 +2212,12 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 协调党群关系
+# 规避大会弹劾权
 shared_focus = {
-	id = RUS_future_domestic_337
-	icon = GFX_goal_RUS_future_domestic_337
+	id = RUS_future_domestic_430
+	icon = GFX_goal_RUS_future_domestic_430
 	cost = 7
-	x = 125
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_473 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 《怎么办？》
-shared_focus = {
-	id = RUS_future_domestic_349
-	icon = GFX_goal_RUS_future_domestic_349
-	cost = 7
-	x = 129
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_473 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 回归列宁主义
-shared_focus = {
-	id = RUS_future_domestic_323
-	icon = GFX_goal_RUS_future_domestic_323
-	cost = 7
-	x = 131
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_473 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 新青年派
-shared_focus = {
-	id = RUS_future_domestic_257
-	icon = GFX_goal_RUS_future_domestic_257
-	cost = 7
-	x = 136
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_253 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 新理论派
-shared_focus = {
-	id = RUS_future_domestic_262
-	icon = GFX_goal_RUS_future_domestic_262
-	cost = 7
-	x = 139
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_253 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 新社会派
-shared_focus = {
-	id = RUS_future_domestic_265
-	icon = GFX_goal_RUS_future_domestic_265
-	cost = 7
-	x = 142
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_253 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 社会民粹主义
-shared_focus = {
-	id = RUS_future_domestic_290
-	icon = GFX_goal_generic_farmer_and_worker
-	cost = 7
-	x = 144
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_269 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 党的现代化
-shared_focus = {
-	id = RUS_future_domestic_280
-	icon = GFX_goal_RUS_future_domestic_280
-	cost = 7
-	x = 146
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_269 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 与泽勒派合作
-shared_focus = {
-	id = RUS_future_domestic_276
-	icon = GFX_goal_generic_enforce_labor_regulation
-	cost = 7
-	x = 148
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_269 focus = RUS_future_domestic_273 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 吸收前共和国政党
-shared_focus = {
-	id = RUS_future_domestic_302
-	icon = GFX_goal_RUS_future_domestic_302
-	cost = 7
-	x = 150
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_273 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 文化民族协会
-shared_focus = {
-	id = RUS_future_domestic_293
-	icon = GFX_goal_LIT_Bund
-	cost = 7
-	x = 152
-	y = 53
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_273 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 行政高效化法案
-shared_focus = {
-	id = RUS_future_domestic_477
-	icon = GFX_goal_RUS_future_domestic_477
-	cost = 7
-	x = 92
+	x = 120
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1292,17 +2226,17 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_324 focus = RUS_future_domestic_400 }
+	prerequisite = { focus = RUS_future_domestic_477 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
 
-# 扩大紧急权力范围
+# 地方行政名头
 shared_focus = {
-	id = RUS_future_domestic_439
-	icon = GFX_goal_RUS_future_domestic_439
+	id = RUS_future_domestic_432
+	icon = GFX_goal_RUS_future_domestic_432
 	cost = 7
-	x = 98
+	x = 122
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1311,7 +2245,83 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_324 focus = RUS_future_domestic_400 }
+	prerequisite = { focus = RUS_future_domestic_477 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 要求政治中立
+shared_focus = {
+	id = RUS_future_domestic_479
+	icon = GFX_goal_RUS_future_domestic_479
+	cost = 7
+	x = 124
+	y = 54
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_477 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 为“独裁”辩护
+shared_focus = {
+	id = RUS_future_domestic_441
+	icon = GFX_goal_RUS_future_domestic_441
+	cost = 7
+	x = 126
+	y = 54
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_439 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 为反革命敲定罪名
+shared_focus = {
+	id = RUS_future_domestic_443
+	icon = GFX_goal_RUS_future_domestic_443
+	cost = 7
+	x = 128
+	y = 54
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_439 }
+	completion_reward = { }
+	ai_will_do = { factor = 0 }
+}
+
+# 援引国防需求
+shared_focus = {
+	id = RUS_future_domestic_481
+	icon = GFX_goal_RUS_future_domestic_481
+	cost = 7
+	x = 130
+	y = 54
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = RUS_future_domestic_preview_only_tt
+			always = no
+		}
+	}
+	allow_branch = { NOT = { has_government = national_populist } }
+	prerequisite = { focus = RUS_future_domestic_439 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
@@ -1321,7 +2331,7 @@ shared_focus = {
 	id = RUS_future_domestic_428
 	icon = GFX_goal_RUS_future_domestic_428
 	cost = 7
-	x = 100
+	x = 132
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1340,7 +2350,7 @@ shared_focus = {
 	id = RUS_future_domestic_169
 	icon = GFX_goal_RUS_future_domestic_169
 	cost = 7
-	x = 103
+	x = 135
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1361,7 +2371,7 @@ shared_focus = {
 	id = RUS_future_domestic_166
 	icon = GFX_goal_RUS_future_domestic_166
 	cost = 7
-	x = 106
+	x = 138
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1382,7 +2392,7 @@ shared_focus = {
 	id = RUS_future_domestic_163
 	icon = GFX_goal_RUS_future_domestic_163
 	cost = 7
-	x = 109
+	x = 141
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1403,7 +2413,7 @@ shared_focus = {
 	id = RUS_future_domestic_202
 	icon = GFX_goal_RUS_future_domestic_202
 	cost = 7
-	x = 111
+	x = 143
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1422,7 +2432,7 @@ shared_focus = {
 	id = RUS_future_domestic_189
 	icon = GFX_goal_RUS_future_domestic_189
 	cost = 7
-	x = 113
+	x = 145
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1441,7 +2451,7 @@ shared_focus = {
 	id = RUS_future_domestic_237
 	icon = GFX_goal_RUS_future_domestic_237
 	cost = 7
-	x = 115
+	x = 148
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1460,7 +2470,7 @@ shared_focus = {
 	id = RUS_future_domestic_229
 	icon = GFX_goal_RUS_future_domestic_229
 	cost = 7
-	x = 118
+	x = 150
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1480,7 +2490,7 @@ shared_focus = {
 	id = RUS_future_domestic_231
 	icon = GFX_goal_RUS_future_domestic_231
 	cost = 7
-	x = 120
+	x = 152
 	y = 54
 	available = {
 		custom_trigger_tooltip = {
@@ -1495,13 +2505,13 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 布尔什维克军官团
+# 边缘化反对派声音
 shared_focus = {
-	id = RUS_future_domestic_367
-	icon = GFX_goal_RUS_future_domestic_367
+	id = RUS_future_domestic_434
+	icon = GFX_goal_RUS_future_domestic_434
 	cost = 7
 	x = 123
-	y = 54
+	y = 55
 	available = {
 		custom_trigger_tooltip = {
 			tooltip = RUS_future_domestic_preview_only_tt
@@ -1509,284 +2519,17 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_337 }
+	prerequisite = { focus = RUS_future_domestic_430 focus = RUS_future_domestic_432 focus = RUS_future_domestic_479 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
 
-# 车间里的党小组
+# 法制化镇压
 shared_focus = {
-	id = RUS_future_domestic_360
-	icon = GFX_goal_RUS_future_domestic_360
-	cost = 7
-	x = 125
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_337 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 农村的同志们
-shared_focus = {
-	id = RUS_future_domestic_362
-	icon = GFX_goal_RUS_future_domestic_362
+	id = RUS_future_domestic_445
+	icon = GFX_goal_RUS_future_domestic_445
 	cost = 7
 	x = 127
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_337 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 实事求是
-shared_focus = {
-	id = RUS_future_domestic_375
-	icon = GFX_goal_RUS_future_domestic_375
-	cost = 7
-	x = 129
-	y = 54
-	available = {
-		has_completed_focus = RUS_future_domestic_323
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_349 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 手段与目的
-shared_focus = {
-	id = RUS_future_domestic_333
-	icon = GFX_goal_RUS_future_domestic_333
-	cost = 7
-	x = 131
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_323 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 抢占文化阵地
-shared_focus = {
-	id = RUS_future_domestic_331
-	icon = GFX_goal_RUS_future_domestic_331
-	cost = 7
-	x = 133
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_257 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 消灭阶级剥削
-shared_focus = {
-	id = RUS_future_domestic_392
-	icon = GFX_goal_RUS_future_domestic_392
-	cost = 7
-	x = 135
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_257 focus = RUS_future_domestic_262 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 推崇工会地位
-shared_focus = {
-	id = RUS_future_domestic_327
-	icon = GFX_goal_RUS_future_domestic_327
-	cost = 7
-	x = 137
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_262 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 相信群众自发性
-shared_focus = {
-	id = RUS_future_domestic_284
-	icon = GFX_goal_RUS_future_domestic_284
-	cost = 7
-	x = 139
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_262 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 建设福利国家
-shared_focus = {
-	id = RUS_future_domestic_394
-	icon = GFX_goal_RUS_future_domestic_394
-	cost = 7
-	x = 141
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_262 focus = RUS_future_domestic_265 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 支持私营企业
-shared_focus = {
-	id = RUS_future_domestic_297
-	icon = GFX_goal_RUS_future_domestic_297
-	cost = 7
-	x = 143
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_265 focus = RUS_future_domestic_290 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 土地社会化草案
-shared_focus = {
-	id = RUS_future_domestic_295
-	icon = GFX_goal_RUS_future_domestic_295
-	cost = 7
-	x = 145
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_290 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 民主党派统一阵线
-shared_focus = {
-	id = RUS_future_domestic_288
-	icon = GFX_goal_RUS_taurida_palace
-	cost = 7
-	x = 148
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_280 focus = RUS_future_domestic_302 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 打造工人合作社
-shared_focus = {
-	id = RUS_future_domestic_800
-	icon = GFX_goal_RUS_future_domestic_800
-	cost = 7
-	x = 150
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_302 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 普适的革命文化
-shared_focus = {
-	id = RUS_future_domestic_801
-	icon = GFX_goal_RUS_future_domestic_801
-	cost = 7
-	x = 152
-	y = 54
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_293 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 规避大会弹劾权
-shared_focus = {
-	id = RUS_future_domestic_430
-	icon = GFX_goal_RUS_future_domestic_430
-	cost = 7
-	x = 90
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -1795,102 +2538,7 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_477 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 挂上地方行政名头
-shared_focus = {
-	id = RUS_future_domestic_432
-	icon = GFX_goal_RUS_future_domestic_432
-	cost = 7
-	x = 92
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_477 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 要求政治中立性
-shared_focus = {
-	id = RUS_future_domestic_479
-	icon = GFX_goal_RUS_future_domestic_479
-	cost = 7
-	x = 94
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_477 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 为“独裁”辩护
-shared_focus = {
-	id = RUS_future_domestic_441
-	icon = GFX_goal_RUS_future_domestic_441
-	cost = 7
-	x = 96
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_439 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 为反革命敲定罪名
-shared_focus = {
-	id = RUS_future_domestic_443
-	icon = GFX_goal_RUS_future_domestic_443
-	cost = 7
-	x = 98
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_439 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 援引国防需求
-shared_focus = {
-	id = RUS_future_domestic_481
-	icon = GFX_goal_RUS_future_domestic_481
-	cost = 7
-	x = 100
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_439 }
+	prerequisite = { focus = RUS_future_domestic_441 focus = RUS_future_domestic_443 focus = RUS_future_domestic_481 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
@@ -1900,7 +2548,7 @@ shared_focus = {
 	id = RUS_future_domestic_176
 	icon = GFX_goal_RUS_future_domestic_176
 	cost = 7
-	x = 102
+	x = 134
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -1919,7 +2567,7 @@ shared_focus = {
 	id = RUS_future_domestic_625
 	icon = GFX_goal_RUS_future_domestic_625
 	cost = 7
-	x = 104
+	x = 136
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -1938,7 +2586,7 @@ shared_focus = {
 	id = RUS_future_domestic_629
 	icon = GFX_goal_RUS_future_domestic_629
 	cost = 7
-	x = 106
+	x = 138
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -1957,7 +2605,7 @@ shared_focus = {
 	id = RUS_future_domestic_181
 	icon = GFX_goal_RUS_future_domestic_181
 	cost = 7
-	x = 108
+	x = 140
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -1976,7 +2624,7 @@ shared_focus = {
 	id = RUS_future_domestic_634
 	icon = GFX_goal_RUS_future_domestic_634
 	cost = 7
-	x = 110
+	x = 142
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -1995,7 +2643,7 @@ shared_focus = {
 	id = RUS_future_domestic_197
 	icon = GFX_goal_RUS_future_domestic_197
 	cost = 7
-	x = 112
+	x = 144
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -2014,7 +2662,7 @@ shared_focus = {
 	id = RUS_future_domestic_203
 	icon = GFX_goal_RUS_future_domestic_203
 	cost = 7
-	x = 114
+	x = 146
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -2033,7 +2681,7 @@ shared_focus = {
 	id = RUS_future_domestic_233
 	icon = GFX_goal_RUS_future_domestic_233
 	cost = 7
-	x = 119
+	x = 151
 	y = 55
 	available = {
 		custom_trigger_tooltip = {
@@ -2047,299 +2695,12 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 军队政治工作
+# 拱卫无产阶级国家
 shared_focus = {
-	id = RUS_future_domestic_368
-	icon = GFX_goal_RUS_future_domestic_368
+	id = RUS_future_domestic_447
+	icon = GFX_goal_RUS_future_domestic_447
 	cost = 7
-	x = 122
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_367 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 工人学管理
-shared_focus = {
-	id = RUS_future_domestic_357
-	icon = GFX_goal_RUS_future_domestic_357
-	cost = 7
-	x = 124
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_360 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 干部学技术
-shared_focus = {
-	id = RUS_future_domestic_351
-	icon = GFX_goal_RUS_future_domestic_351
-	cost = 7
-	x = 126
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_360 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 实践的理论
-shared_focus = {
-	id = RUS_future_domestic_372
-	icon = GFX_goal_RUS_future_domestic_372
-	cost = 7
-	x = 128
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_375 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 理论的实践
-shared_focus = {
-	id = RUS_future_domestic_379
-	icon = GFX_goal_RUS_future_domestic_379
-	cost = 7
-	x = 130
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_375 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 对工人的承诺
-shared_focus = {
-	id = RUS_future_domestic_345
-	icon = GFX_goal_RUS_future_domestic_345
-	cost = 7
-	x = 132
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_275 focus = RUS_future_domestic_331 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 揭露“伪革命”
-shared_focus = {
-	id = RUS_future_domestic_343
-	icon = GFX_goal_RUS_future_domestic_343
-	cost = 7
-	x = 134
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_331 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 终结压迫
-shared_focus = {
-	id = RUS_future_domestic_382
-	icon = GFX_goal_RUS_future_domestic_382
-	cost = 7
-	x = 136
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_327 focus = RUS_future_domestic_392 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 呼吁党权下放
-shared_focus = {
-	id = RUS_future_domestic_387
-	icon = GFX_goal_RUS_future_domestic_387
-	cost = 7
-	x = 138
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_284 focus = RUS_future_domestic_327 }
-	mutually_exclusive = { focus = RUS_future_domestic_389 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 弥合分裂
-shared_focus = {
-	id = RUS_future_domestic_389
-	icon = GFX_goal_RUS_future_domestic_389
-	cost = 7
-	x = 140
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_284 }
-	mutually_exclusive = { focus = RUS_future_domestic_387 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 调和矛盾
-shared_focus = {
-	id = RUS_future_domestic_384
-	icon = GFX_goal_RUS_future_domestic_384
-	cost = 7
-	x = 142
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_284 focus = RUS_future_domestic_394 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 民主带来社会主义
-shared_focus = {
-	id = RUS_future_domestic_278
-	icon = GFX_goal_RUS_socialist_democracy
-	cost = 7
-	x = 144
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_295 focus = RUS_future_domestic_297 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 捍卫自由权利
-shared_focus = {
-	id = RUS_future_domestic_299
-	icon = GFX_goal_RUS_future_domestic_299
-	cost = 7
-	x = 147
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_288 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 激发公民意识
-shared_focus = {
-	id = RUS_future_domestic_469
-	icon = GFX_goal_RUS_future_domestic_469
-	cost = 7
-	x = 149
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_288 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 自发的，民主的运动方针
-shared_focus = {
-	id = RUS_future_domestic_802
-	icon = GFX_goal_RUS_future_domestic_802
-	cost = 7
-	x = 152
-	y = 55
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_800 focus = RUS_future_domestic_801 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 边缘化反对派声音
-shared_focus = {
-	id = RUS_future_domestic_434
-	icon = GFX_goal_RUS_future_domestic_434
-	cost = 7
-	x = 93
+	x = 125
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2348,26 +2709,7 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_430 focus = RUS_future_domestic_432 focus = RUS_future_domestic_479 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 法制化镇压
-shared_focus = {
-	id = RUS_future_domestic_445
-	icon = GFX_goal_RUS_future_domestic_445
-	cost = 7
-	x = 97
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_441 focus = RUS_future_domestic_443 focus = RUS_future_domestic_481 }
+	prerequisite = { focus = RUS_future_domestic_434 focus = RUS_future_domestic_445 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
@@ -2377,7 +2719,7 @@ shared_focus = {
 	id = RUS_future_domestic_626
 	icon = GFX_goal_RUS_future_domestic_626
 	cost = 7
-	x = 103
+	x = 135
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2396,7 +2738,7 @@ shared_focus = {
 	id = RUS_future_domestic_179
 	icon = GFX_goal_RUS_future_domestic_179
 	cost = 7
-	x = 106
+	x = 138
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2415,7 +2757,7 @@ shared_focus = {
 	id = RUS_future_domestic_636
 	icon = GFX_goal_RUS_future_domestic_636
 	cost = 7
-	x = 109
+	x = 141
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2434,7 +2776,7 @@ shared_focus = {
 	id = RUS_future_domestic_199
 	icon = GFX_goal_RUS_future_domestic_199
 	cost = 7
-	x = 111
+	x = 143
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2453,7 +2795,7 @@ shared_focus = {
 	id = RUS_future_domestic_339
 	icon = GFX_goal_RUS_future_domestic_339
 	cost = 7
-	x = 113
+	x = 145
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2472,7 +2814,7 @@ shared_focus = {
 	id = RUS_future_domestic_455
 	icon = GFX_goal_RUS_future_domestic_455
 	cost = 7
-	x = 115
+	x = 147
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2491,7 +2833,7 @@ shared_focus = {
 	id = RUS_future_domestic_234
 	icon = GFX_goal_RUS_future_domestic_234
 	cost = 7
-	x = 117
+	x = 149
 	y = 56
 	available = {
 		custom_trigger_tooltip = {
@@ -2505,202 +2847,12 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 军事主动权
-shared_focus = {
-	id = RUS_future_domestic_369
-	icon = GFX_goal_RUS_future_domestic_369
-	cost = 7
-	x = 123
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_367 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 参与斗争
-shared_focus = {
-	id = RUS_future_domestic_370
-	icon = GFX_goal_RUS_future_domestic_370
-	cost = 7
-	x = 125
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_351 focus = RUS_future_domestic_357 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 支持最高纲领派
-shared_focus = {
-	id = RUS_future_domestic_364
-	icon = GFX_goal_RUS_future_domestic_364
-	cost = 7
-	x = 127
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_362 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# “有这么一个党！”
-shared_focus = {
-	id = RUS_future_domestic_376
-	icon = GFX_goal_RUS_future_domestic_376
-	cost = 7
-	x = 129
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_372 focus = RUS_future_domestic_379 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 革命的交响乐
-shared_focus = {
-	id = RUS_future_domestic_380
-	icon = GFX_goal_RUS_future_domestic_380
-	cost = 7
-	x = 131
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_333 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 推崇先锋主义
-shared_focus = {
-	id = RUS_future_domestic_341
-	icon = GFX_goal_RUS_future_domestic_341
-	cost = 7
-	x = 133
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_331 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 俄罗斯式工团主义
-shared_focus = {
-	id = RUS_future_domestic_347
-	icon = GFX_goal_RUS_future_domestic_347
-	cost = 7
-	x = 139
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_387 focus = RUS_future_domestic_389 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 乡村苏维埃自治章程
-shared_focus = {
-	id = RUS_future_domestic_292
-	icon = GFX_goal_RUS_future_domestic_292
-	cost = 7
-	x = 145
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_278 focus = RUS_future_domestic_299 focus = RUS_future_domestic_469 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 赋权乡村民兵
-shared_focus = {
-	id = RUS_future_domestic_304
-	icon = GFX_goal_RUS_future_domestic_304
-	cost = 7
-	x = 148
-	y = 56
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_469 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 拱卫无产阶级国家
-shared_focus = {
-	id = RUS_future_domestic_447
-	icon = GFX_goal_RUS_future_domestic_447
-	cost = 7
-	x = 95
-	y = 57
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_434 focus = RUS_future_domestic_445 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
 # 长远规划
 shared_focus = {
 	id = RUS_future_domestic_182
 	icon = GFX_goal_RUS_future_domestic_182
 	cost = 7
-	x = 103
+	x = 135
 	y = 57
 	available = {
 		custom_trigger_tooltip = {
@@ -2719,7 +2871,7 @@ shared_focus = {
 	id = RUS_future_domestic_631
 	icon = GFX_goal_RUS_future_domestic_631
 	cost = 7
-	x = 105
+	x = 137
 	y = 57
 	available = {
 		custom_trigger_tooltip = {
@@ -2738,7 +2890,7 @@ shared_focus = {
 	id = RUS_future_domestic_177
 	icon = GFX_goal_RUS_future_domestic_177
 	cost = 7
-	x = 107
+	x = 139
 	y = 57
 	available = {
 		custom_trigger_tooltip = {
@@ -2757,7 +2909,7 @@ shared_focus = {
 	id = RUS_future_domestic_183
 	icon = GFX_goal_RUS_future_domestic_183
 	cost = 7
-	x = 109
+	x = 141
 	y = 57
 	available = {
 		custom_trigger_tooltip = {
@@ -2776,82 +2928,6 @@ shared_focus = {
 	id = RUS_future_domestic_238
 	icon = GFX_goal_RUS_future_domestic_238
 	cost = 7
-	x = 113
-	y = 57
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_199 focus = RUS_future_domestic_455 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 民主专政
-shared_focus = {
-	id = RUS_future_domestic_353
-	icon = GFX_goal_RUS_future_domestic_353
-	cost = 7
-	x = 132
-	y = 57
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_345 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 罪不可恕……
-shared_focus = {
-	id = RUS_future_domestic_355
-	icon = GFX_goal_RUS_future_domestic_355
-	cost = 7
-	x = 134
-	y = 57
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_343 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 火焰永不灭
-shared_focus = {
-	id = RUS_future_domestic_390
-	icon = GFX_focus_CHL_union_of_hispanic_republics
-	cost = 7
-	x = 139
-	y = 57
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_347 focus = RUS_future_domestic_382 focus = RUS_future_domestic_384 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 团结即是胜利
-shared_focus = {
-	id = RUS_future_domestic_448
-	icon = GFX_goal_RUS_future_domestic_448
-	cost = 7
 	x = 145
 	y = 57
 	available = {
@@ -2861,64 +2937,7 @@ shared_focus = {
 		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_292 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 民主的自卫
-shared_focus = {
-	id = RUS_future_domestic_300
-	icon = GFX_focus_generic_bastion_of_democracy
-	cost = 7
-	x = 148
-	y = 57
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_304 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 人性面孔的社会主义
-shared_focus = {
-	id = RUS_future_domestic_803
-	icon = GFX_goal_RUS_future_domestic_803
-	cost = 7
-	x = 152
-	y = 57
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_469 focus = RUS_future_domestic_802 }
-	completion_reward = { }
-	ai_will_do = { factor = 0 }
-}
-
-# 年轻的列宁，向前进
-shared_focus = {
-	id = RUS_future_domestic_338
-	icon = GFX_goal_RUS_future_domestic_338
-	cost = 7
-	x = 133
-	y = 58
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = RUS_future_domestic_preview_only_tt
-			always = no
-		}
-	}
-	allow_branch = { NOT = { has_government = national_populist } }
-	prerequisite = { focus = RUS_future_domestic_341 focus = RUS_future_domestic_353 focus = RUS_future_domestic_355 }
+	prerequisite = { focus = RUS_future_domestic_199 focus = RUS_future_domestic_455 }
 	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }

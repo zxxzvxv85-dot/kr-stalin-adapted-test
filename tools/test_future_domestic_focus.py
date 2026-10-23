@@ -15,6 +15,14 @@ PREFIX = 'RUS_future_domestic_'
 TREE = 'common/national_focus/RUS focus (Russia).txt'
 
 
+def digest(text):
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+
+def data_digest(value):
+    return digest(json.dumps(value,ensure_ascii=False,separators=(',',':'),sort_keys=True))
+
+
 def main():
     source = ET.parse(ROOT/'tools/design/RUS_future_domestic_layout.drawio')
     registry=json.loads((ROOT/'tools/design/RUS_future_domestic_ids.json').read_text(encoding='utf-8'))
@@ -22,18 +30,32 @@ def main():
            if c.get('vertex')=='1' and c.get('value','').strip()
            and not c.get('style','').startswith('text;')]
     ids = {PREFIX+registry[c.get('id')]['suffix'] for c in vertices}
-    assert len(ids)==170
+    assert len(ids)==171
     domestic_ids={PREFIX+s['suffix'] for s in registry.values() if s['phase']=='domestic'}
     plan_ids=ids-domestic_ids
     domestic=load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')
     phase_file=load(ROOT/'common/national_focus/00_RUS_future_five_year_plan_skeleton.txt')
     plan=[n for n in phase_file if n.k=='shared_focus']
-    assert len(domestic)==153 and all(n.k=='shared_focus' for n in domestic)
+    assert len(domestic)==154 and all(n.k=='shared_focus' for n in domestic)
     assert all(n.one('allow_branch').one('NOT').value('has_government')=='national_populist' for n in domestic)
     assert len(plan)==17 and {n.value('id') for n in plan}==plan_ids
     new=domestic+plan
     by_id = {n.value('id'):n for n in new}
     assert set(by_id)==ids
+    assert PREFIX+'324' not in ids, 'The removed union-power focus must not return'
+    # Keep the user's 2026-10-22 graph edits explicit. The remainder is checked
+    # against the preceding accepted graph, excluding only the seven removed edges.
+    actual_edges={(v.v,key) for key,n in by_id.items()
+                  for p in n.children('prerequisite') for v in p.children('focus')}
+    added_edges={(PREFIX+s,PREFIX+t) for s,t in [('144','305'),('151','804'),('174','805'),('314','320')]}
+    removed_edges={(PREFIX+s,PREFIX+t) for s,t in [('151','305'),('174','305'),('316','324'),
+                   ('318','324'),('320','324'),('324','439'),('324','477')]}
+    assert added_edges<=actual_edges and not removed_edges&actual_edges
+    assert len(actual_edges)==226
+    assert data_digest(sorted(actual_edges-added_edges))=='3d4aea7f44eb62ff6d55997dbc523fc167c64c6bd879ceec8575ed32742fbca2', 'Unrequested prerequisite change'
+    for suffix,parents in {'804':{'151'},'805':{'174'},'305':{'144'},
+                           '320':{'314','460'},'439':{'400'},'477':{'400'}}.items():
+        assert {s for s,t in actual_edges if t==PREFIX+suffix}=={PREFIX+p for p in parents}
     # User-specified spacing: nearest same-row neighbors must be two x units.
     # Check distinct branches, not only the global no-overlap envelope.
     for left,right in [('133','136'),('138','140'),('140','142')]:
@@ -54,6 +76,9 @@ def main():
         assert int(n.value('x'))==ox+round((float(g.get('x'))-minx)/80)
         assert int(n.value('y'))==oy+round((float(g.get('y'))-miny)/120)
     tree = next(n for n in load(ROOT/TREE) if n.k=='focus_tree')
+    # The first-five-year-plan stage retains its previous definitions as well
+    # as its hidden selector. Other Russian routes are guarded by the opening suite.
+    assert digest((ROOT/'common/national_focus/00_RUS_future_five_year_plan_skeleton.txt').read_text(encoding='utf-8-sig'))=='6a7350d8c75ecf30a1382c70cca1d88481bef181722a6dcfe6fed9405a12826b', 'Hidden first-five-year-plan tree changed'
     refs = [n.v for n in tree.children('shared_focus') if n.v.startswith(PREFIX)]
     assert Counter(refs)==Counter(domestic_ids), 'Domestic integration missing, duplicated or still contains first-five-year-plan nodes'
     phase_tree=next(n for n in phase_file if n.k=='focus_tree')
@@ -78,7 +103,11 @@ def main():
     provenance={s['id']:s for s in manifest['sources']}
     reused={k:s for k,s in provenance.items() if s['original_kr_focus']}
     assert len(reused)==12  # 257 now has a generated portrait instead of a shared vanilla sprite.
-    assert len(sprites)==2*(170-len(reused))
+    assert len(sprites)==2*(171-len(reused))
+    retained_textures={key:hashlib.sha256((ROOT/s['destination']).read_bytes()).hexdigest()
+                       for key,s in provenance.items() if key not in {PREFIX+'804',PREFIX+'805'}}
+    assert len(retained_textures)==169
+    assert data_digest(retained_textures)=='440007df0a87a01dbbcd67e03a13cb3809e5632b707ab7ce91147768956a1cad', 'An existing focus icon changed'
     mutual = set()
     or_merges = 0
     for key,n in by_id.items():
@@ -170,20 +199,25 @@ def main():
         raw=(ROOT/f'localisation/{language}/RUS_future_domestic_l_{language}.yml').read_bytes()
         assert raw.startswith(b'\xef\xbb\xbf')
         keys=re.findall(r'^\s+([^ :]+):0 ',raw.decode('utf-8-sig'),re.M)
-        assert len(keys)==len(set(keys))==341
+        assert len(keys)==len(set(keys))==343
         assert set(keys)==ids|{i+'_desc' for i in ids}|{'RUS_future_domestic_preview_only_tt'}
         assert '第一个五年计划（' not in raw.decode('utf-8-sig')
         assert '奠基经济发展（' not in raw.decode('utf-8-sig')
+        for suffix,name in {'424':'为发展奠基','432':'地方行政名头','439':'扩大紧急权力',
+                            '477':'行政高效化','479':'要求政治中立','398':'设立执行条例',
+                            '400':'战时国家体制','804':'继续电气化工程','805':'大会的非常手段？'}.items():
+            assert f' {PREFIX}{suffix}:0 "{name}"' in raw.decode('utf-8-sig')
     b=manifest['existing_conservative_bounds']; n=manifest['new_bounds']
     assert n['min_x']-b['max_x']>=6 and n['min_y']-b['max_y']>=4
     assert len(manifest['recovered_free_end_edges'])==8
-    assert manifest['phase_counts']=={'domestic':153,'five_year_plan':17}
+    assert manifest['phase_counts']=={'domestic':154,'five_year_plan':17}
+    assert {k:n[k] for k in ['min_x','max_x','min_y','max_y']}=={'min_x':90,'max_x':152,'min_y':45,'max_y':57}
     assert PREFIX+'214' not in ids
     assert not any(v.v==PREFIX+'189' for p in by_id[PREFIX+'189'].children('prerequisite') for v in p.children('focus'))
     assert not manifest['planned_stage_entry']['implemented']
     assert set(manifest['planned_stage_entry']['any_completed'])=={PREFIX+s for s in ['177','182','183']}
     assert manifest['planned_stage_entry']['all_completed']==[PREFIX+'237']
-    print(f'PASS: 153 domestic + 17 hidden independent five-year-plan focuses; no automatic switching or cross-stage prerequisites; {or_merges} OR merges; education 8-route choices; unique icons; 2 hidden AND gates; 7 exclusions; revised geometry and three-language keys/BOM valid.')
+    print(f'PASS: 154 domestic + 17 unchanged hidden first-five-year-plan focuses; 226 edges including four explicit additions and seven removals; 169 retained icons unchanged; {or_merges} OR merges; education 8-route choices; 2 hidden AND gates; 7 exclusions; revised geometry and three-language names/keys/BOM valid.')
 
 
 if __name__=='__main__':
