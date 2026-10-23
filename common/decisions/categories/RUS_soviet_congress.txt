@@ -3,9 +3,17 @@ RUS_congress_category = {
     icon = GFX_decision_category_generic_political_actions
     priority = 110
     allowed = { original_tag = RUS }
-    visible = { is_ai = no has_country_flag = RUS_congress_demo_initialized }
+    visible = { is_ai = no has_country_flag = RUS_congress_demo_initialized NOT = { has_country_flag = RUS_congress_show_children } }
     visible_when_empty = yes
-    scripted_gui = RUS_congress_gui
+    scripted_gui = RUS_congress_gui_main
+}
+RUS_congress_children_category = {
+    icon = GFX_decision_category_generic_political_actions
+    priority = 110
+    allowed = { original_tag = RUS }
+    visible = { is_ai = no has_country_flag = RUS_congress_demo_initialized has_country_flag = RUS_congress_show_children }
+    visible_when_empty = yes
+    scripted_gui = RUS_congress_gui_children
 }
 RUS_congress_entry_category = {
     icon = GFX_decision_category_generic_political_actions

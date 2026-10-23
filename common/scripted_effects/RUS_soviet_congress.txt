@@ -7,17 +7,38 @@ RUS_congress_refresh_display = {
 	add_to_temp_variable = { RUS_congress_sum = RUS_congress_sr_seats }
 	add_to_temp_variable = { RUS_congress_sum = RUS_congress_democrats_seats }
 	set_temp_variable = { RUS_congress_labour_sum = 0 }
-	add_to_temp_variable = { RUS_congress_labour_sum = RUS_congress_new_youth_seats }
+	add_to_temp_variable = { RUS_congress_labour_sum = RUS_congress_workers_opposition_seats }
 	add_to_temp_variable = { RUS_congress_labour_sum = RUS_congress_new_theory_seats }
 	add_to_temp_variable = { RUS_congress_labour_sum = RUS_congress_new_society_seats }
+	set_temp_variable = { RUS_congress_workers_opposition_sum = 0 }
+	add_to_temp_variable = { RUS_congress_workers_opposition_sum = RUS_congress_new_youth_seats }
+	add_to_temp_variable = { RUS_congress_workers_opposition_sum = RUS_congress_literary_union_seats }
+	add_to_temp_variable = { RUS_congress_workers_opposition_sum = RUS_congress_moderates_seats }
+	add_to_temp_variable = { RUS_congress_workers_opposition_sum = RUS_congress_left_syndicalists_seats }
+	set_temp_variable = { RUS_congress_new_theory_sum = 0 }
+	add_to_temp_variable = { RUS_congress_new_theory_sum = RUS_congress_young_guard_seats }
+	add_to_temp_variable = { RUS_congress_new_theory_sum = RUS_congress_anarcho_syndicalists_seats }
+	add_to_temp_variable = { RUS_congress_new_theory_sum = RUS_congress_old_guard_seats }
+	add_to_temp_variable = { RUS_congress_new_theory_sum = RUS_congress_right_syndicalists_seats }
 	set_temp_variable = { RUS_congress_sr_sum = 0 }
-	add_to_temp_variable = { RUS_congress_sr_sum = RUS_congress_sr_populists_seats }
 	add_to_temp_variable = { RUS_congress_sr_sum = RUS_congress_sr_maximalists_seats }
+	add_to_temp_variable = { RUS_congress_sr_sum = RUS_congress_sr_populists_seats }
+	add_to_temp_variable = { RUS_congress_sr_sum = RUS_congress_sr_democrats_seats }
+	set_temp_variable = { RUS_congress_civic_sum = 0 }
+	add_to_temp_variable = { RUS_congress_civic_sum = RUS_congress_citizens_from_populists }
+	add_to_temp_variable = { RUS_congress_civic_sum = RUS_congress_citizens_from_democrats }
 	if = {
 		limit = {
 			check_variable = { RUS_congress_sum = 800 }
 			check_variable = { RUS_congress_labour_sum = RUS_congress_labour_seats }
+			check_variable = { RUS_congress_workers_opposition_sum = RUS_congress_workers_opposition_seats }
+			check_variable = { RUS_congress_new_theory_sum = RUS_congress_new_theory_seats }
 			check_variable = { RUS_congress_sr_sum = RUS_congress_sr_seats }
+			check_variable = { RUS_congress_civic_sum = RUS_congress_sr_citizens_seats }
+			check_variable = { RUS_congress_citizens_from_populists > -1 }
+			check_variable = { RUS_congress_citizens_from_populists <= RUS_congress_sr_populists_seats }
+			check_variable = { RUS_congress_citizens_from_democrats > -1 }
+			check_variable = { RUS_congress_citizens_from_democrats <= RUS_congress_sr_democrats_seats }
 			check_variable = { RUS_congress_bolsheviks_seats > -1 }
 			check_variable = { RUS_congress_bolsheviks_seats < 801 }
 			check_variable = { RUS_congress_unions_seats > -1 }
@@ -28,16 +49,36 @@ RUS_congress_refresh_display = {
 			check_variable = { RUS_congress_sr_seats < 801 }
 			check_variable = { RUS_congress_democrats_seats > -1 }
 			check_variable = { RUS_congress_democrats_seats < 801 }
-			check_variable = { RUS_congress_new_youth_seats > -1 }
-			check_variable = { RUS_congress_new_youth_seats < 801 }
+			check_variable = { RUS_congress_workers_opposition_seats > -1 }
+			check_variable = { RUS_congress_workers_opposition_seats < 801 }
 			check_variable = { RUS_congress_new_theory_seats > -1 }
 			check_variable = { RUS_congress_new_theory_seats < 801 }
 			check_variable = { RUS_congress_new_society_seats > -1 }
 			check_variable = { RUS_congress_new_society_seats < 801 }
-			check_variable = { RUS_congress_sr_populists_seats > -1 }
-			check_variable = { RUS_congress_sr_populists_seats < 801 }
+			check_variable = { RUS_congress_new_youth_seats > -1 }
+			check_variable = { RUS_congress_new_youth_seats < 801 }
+			check_variable = { RUS_congress_literary_union_seats > -1 }
+			check_variable = { RUS_congress_literary_union_seats < 801 }
+			check_variable = { RUS_congress_moderates_seats > -1 }
+			check_variable = { RUS_congress_moderates_seats < 801 }
+			check_variable = { RUS_congress_left_syndicalists_seats > -1 }
+			check_variable = { RUS_congress_left_syndicalists_seats < 801 }
+			check_variable = { RUS_congress_young_guard_seats > -1 }
+			check_variable = { RUS_congress_young_guard_seats < 801 }
+			check_variable = { RUS_congress_anarcho_syndicalists_seats > -1 }
+			check_variable = { RUS_congress_anarcho_syndicalists_seats < 801 }
+			check_variable = { RUS_congress_old_guard_seats > -1 }
+			check_variable = { RUS_congress_old_guard_seats < 801 }
+			check_variable = { RUS_congress_right_syndicalists_seats > -1 }
+			check_variable = { RUS_congress_right_syndicalists_seats < 801 }
 			check_variable = { RUS_congress_sr_maximalists_seats > -1 }
 			check_variable = { RUS_congress_sr_maximalists_seats < 801 }
+			check_variable = { RUS_congress_sr_populists_seats > -1 }
+			check_variable = { RUS_congress_sr_populists_seats < 801 }
+			check_variable = { RUS_congress_sr_democrats_seats > -1 }
+			check_variable = { RUS_congress_sr_democrats_seats < 801 }
+			check_variable = { RUS_congress_sr_citizens_seats > -1 }
+			check_variable = { RUS_congress_sr_citizens_seats < 801 }
 		}
 		clear_array = RUS_congress_seats
 		set_variable = { RUS_congress_bolsheviks_percent = RUS_congress_bolsheviks_seats }
@@ -50,16 +91,36 @@ RUS_congress_refresh_display = {
 		divide_variable = { RUS_congress_sr_percent = 8 }
 		set_variable = { RUS_congress_democrats_percent = RUS_congress_democrats_seats }
 		divide_variable = { RUS_congress_democrats_percent = 8 }
-		set_variable = { RUS_congress_new_youth_percent = RUS_congress_new_youth_seats }
-		divide_variable = { RUS_congress_new_youth_percent = 8 }
+		set_variable = { RUS_congress_workers_opposition_percent = RUS_congress_workers_opposition_seats }
+		divide_variable = { RUS_congress_workers_opposition_percent = 8 }
 		set_variable = { RUS_congress_new_theory_percent = RUS_congress_new_theory_seats }
 		divide_variable = { RUS_congress_new_theory_percent = 8 }
 		set_variable = { RUS_congress_new_society_percent = RUS_congress_new_society_seats }
 		divide_variable = { RUS_congress_new_society_percent = 8 }
-		set_variable = { RUS_congress_sr_populists_percent = RUS_congress_sr_populists_seats }
-		divide_variable = { RUS_congress_sr_populists_percent = 8 }
+		set_variable = { RUS_congress_new_youth_percent = RUS_congress_new_youth_seats }
+		divide_variable = { RUS_congress_new_youth_percent = 8 }
+		set_variable = { RUS_congress_literary_union_percent = RUS_congress_literary_union_seats }
+		divide_variable = { RUS_congress_literary_union_percent = 8 }
+		set_variable = { RUS_congress_moderates_percent = RUS_congress_moderates_seats }
+		divide_variable = { RUS_congress_moderates_percent = 8 }
+		set_variable = { RUS_congress_left_syndicalists_percent = RUS_congress_left_syndicalists_seats }
+		divide_variable = { RUS_congress_left_syndicalists_percent = 8 }
+		set_variable = { RUS_congress_young_guard_percent = RUS_congress_young_guard_seats }
+		divide_variable = { RUS_congress_young_guard_percent = 8 }
+		set_variable = { RUS_congress_anarcho_syndicalists_percent = RUS_congress_anarcho_syndicalists_seats }
+		divide_variable = { RUS_congress_anarcho_syndicalists_percent = 8 }
+		set_variable = { RUS_congress_old_guard_percent = RUS_congress_old_guard_seats }
+		divide_variable = { RUS_congress_old_guard_percent = 8 }
+		set_variable = { RUS_congress_right_syndicalists_percent = RUS_congress_right_syndicalists_seats }
+		divide_variable = { RUS_congress_right_syndicalists_percent = 8 }
 		set_variable = { RUS_congress_sr_maximalists_percent = RUS_congress_sr_maximalists_seats }
 		divide_variable = { RUS_congress_sr_maximalists_percent = 8 }
+		set_variable = { RUS_congress_sr_populists_percent = RUS_congress_sr_populists_seats }
+		divide_variable = { RUS_congress_sr_populists_percent = 8 }
+		set_variable = { RUS_congress_sr_democrats_percent = RUS_congress_sr_democrats_seats }
+		divide_variable = { RUS_congress_sr_democrats_percent = 8 }
+		set_variable = { RUS_congress_sr_citizens_percent = RUS_congress_sr_citizens_seats }
+		divide_variable = { RUS_congress_sr_citizens_percent = 8 }
 		set_temp_variable = { RUS_congress_i = 0 }
 		while_loop_effect = {
 			limit = { check_variable = { RUS_congress_i < RUS_congress_bolsheviks_seats } }
@@ -86,13 +147,49 @@ RUS_congress_refresh_display = {
 			set_temp_variable = { RUS_congress_i = 0 }
 			while_loop_effect = {
 				limit = { check_variable = { RUS_congress_i < RUS_congress_new_youth_seats } }
-				add_to_array = { RUS_congress_seats = 6 }
+				add_to_array = { RUS_congress_seats = 9 }
 				add_to_temp_variable = { RUS_congress_i = 1 }
 			}
 			set_temp_variable = { RUS_congress_i = 0 }
 			while_loop_effect = {
-				limit = { check_variable = { RUS_congress_i < RUS_congress_new_theory_seats } }
-				add_to_array = { RUS_congress_seats = 7 }
+				limit = { check_variable = { RUS_congress_i < RUS_congress_literary_union_seats } }
+				add_to_array = { RUS_congress_seats = 10 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_moderates_seats } }
+				add_to_array = { RUS_congress_seats = 11 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_left_syndicalists_seats } }
+				add_to_array = { RUS_congress_seats = 12 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_young_guard_seats } }
+				add_to_array = { RUS_congress_seats = 13 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_anarcho_syndicalists_seats } }
+				add_to_array = { RUS_congress_seats = 14 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_old_guard_seats } }
+				add_to_array = { RUS_congress_seats = 15 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_right_syndicalists_seats } }
+				add_to_array = { RUS_congress_seats = 16 }
 				add_to_temp_variable = { RUS_congress_i = 1 }
 			}
 			set_temp_variable = { RUS_congress_i = 0 }
@@ -115,14 +212,30 @@ RUS_congress_refresh_display = {
 			limit = { has_country_flag = RUS_congress_show_children }
 			set_temp_variable = { RUS_congress_i = 0 }
 			while_loop_effect = {
-				limit = { check_variable = { RUS_congress_i < RUS_congress_sr_populists_seats } }
-				add_to_array = { RUS_congress_seats = 9 }
+				limit = { check_variable = { RUS_congress_i < RUS_congress_sr_maximalists_seats } }
+				add_to_array = { RUS_congress_seats = 17 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_sr_populists_remainder = RUS_congress_sr_populists_seats }
+			subtract_from_temp_variable = { RUS_congress_sr_populists_remainder = RUS_congress_citizens_from_populists }
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_sr_populists_remainder } }
+				add_to_array = { RUS_congress_seats = 18 }
+				add_to_temp_variable = { RUS_congress_i = 1 }
+			}
+			set_temp_variable = { RUS_congress_sr_democrats_remainder = RUS_congress_sr_democrats_seats }
+			subtract_from_temp_variable = { RUS_congress_sr_democrats_remainder = RUS_congress_citizens_from_democrats }
+			set_temp_variable = { RUS_congress_i = 0 }
+			while_loop_effect = {
+				limit = { check_variable = { RUS_congress_i < RUS_congress_sr_democrats_remainder } }
+				add_to_array = { RUS_congress_seats = 19 }
 				add_to_temp_variable = { RUS_congress_i = 1 }
 			}
 			set_temp_variable = { RUS_congress_i = 0 }
 			while_loop_effect = {
-				limit = { check_variable = { RUS_congress_i < RUS_congress_sr_maximalists_seats } }
-				add_to_array = { RUS_congress_seats = 10 }
+				limit = { check_variable = { RUS_congress_i < RUS_congress_sr_citizens_seats } }
+				add_to_array = { RUS_congress_seats = 20 }
 				add_to_temp_variable = { RUS_congress_i = 1 }
 			}
 		}
@@ -131,42 +244,6 @@ RUS_congress_refresh_display = {
 			limit = { check_variable = { RUS_congress_i < RUS_congress_democrats_seats } }
 			add_to_array = { RUS_congress_seats = 5 }
 			add_to_temp_variable = { RUS_congress_i = 1 }
-		}
-		if = {
-			limit = { NOT = { has_country_flag = RUS_congress_show_children } }
-			set_variable = { RUS_congress_bolsheviks_row_y = 646 }
-			set_variable = { RUS_congress_bolsheviks_icon_y = 651 }
-			set_variable = { RUS_congress_unions_row_y = 682 }
-			set_variable = { RUS_congress_unions_icon_y = 687 }
-			set_variable = { RUS_congress_labour_row_y = 718 }
-			set_variable = { RUS_congress_labour_icon_y = 723 }
-			set_variable = { RUS_congress_sr_row_y = 754 }
-			set_variable = { RUS_congress_sr_icon_y = 759 }
-			set_variable = { RUS_congress_democrats_row_y = 790 }
-			set_variable = { RUS_congress_democrats_icon_y = 795 }
-		}
-		if = {
-			limit = { has_country_flag = RUS_congress_show_children }
-			set_variable = { RUS_congress_bolsheviks_row_y = 646 }
-			set_variable = { RUS_congress_bolsheviks_icon_y = 651 }
-			set_variable = { RUS_congress_unions_row_y = 682 }
-			set_variable = { RUS_congress_unions_icon_y = 687 }
-			set_variable = { RUS_congress_labour_row_y = 718 }
-			set_variable = { RUS_congress_labour_icon_y = 723 }
-			set_variable = { RUS_congress_new_youth_row_y = 754 }
-			set_variable = { RUS_congress_new_youth_icon_y = 759 }
-			set_variable = { RUS_congress_new_theory_row_y = 786 }
-			set_variable = { RUS_congress_new_theory_icon_y = 791 }
-			set_variable = { RUS_congress_new_society_row_y = 818 }
-			set_variable = { RUS_congress_new_society_icon_y = 823 }
-			set_variable = { RUS_congress_sr_row_y = 860 }
-			set_variable = { RUS_congress_sr_icon_y = 865 }
-			set_variable = { RUS_congress_sr_populists_row_y = 896 }
-			set_variable = { RUS_congress_sr_populists_icon_y = 901 }
-			set_variable = { RUS_congress_sr_maximalists_row_y = 928 }
-			set_variable = { RUS_congress_sr_maximalists_icon_y = 933 }
-			set_variable = { RUS_congress_democrats_row_y = 970 }
-			set_variable = { RUS_congress_democrats_icon_y = 975 }
 		}
 		add_to_variable = { RUS_congress_revision = 1 }
 	}
@@ -180,11 +257,23 @@ RUS_congress_prepare_demo = {
 		set_variable = { RUS_congress_labour_seats = 120 }
 		set_variable = { RUS_congress_sr_seats = 200 }
 		set_variable = { RUS_congress_democrats_seats = 80 }
-		set_variable = { RUS_congress_new_youth_seats = 40 }
+		set_variable = { RUS_congress_workers_opposition_seats = 40 }
 		set_variable = { RUS_congress_new_theory_seats = 40 }
 		set_variable = { RUS_congress_new_society_seats = 40 }
-		set_variable = { RUS_congress_sr_populists_seats = 100 }
+		set_variable = { RUS_congress_new_youth_seats = 10 }
+		set_variable = { RUS_congress_literary_union_seats = 10 }
+		set_variable = { RUS_congress_moderates_seats = 10 }
+		set_variable = { RUS_congress_left_syndicalists_seats = 10 }
+		set_variable = { RUS_congress_young_guard_seats = 10 }
+		set_variable = { RUS_congress_anarcho_syndicalists_seats = 10 }
+		set_variable = { RUS_congress_old_guard_seats = 10 }
+		set_variable = { RUS_congress_right_syndicalists_seats = 10 }
 		set_variable = { RUS_congress_sr_maximalists_seats = 100 }
+		set_variable = { RUS_congress_sr_populists_seats = 50 }
+		set_variable = { RUS_congress_sr_democrats_seats = 50 }
+		set_variable = { RUS_congress_sr_citizens_seats = 50 }
+		set_variable = { RUS_congress_citizens_from_populists = 25 }
+		set_variable = { RUS_congress_citizens_from_democrats = 25 }
 		RUS_congress_refresh_display = yes
 		set_country_flag = RUS_congress_demo_initialized
 	}
