@@ -1,0 +1,13 @@
+RUS_congress_category = {
+    RUS_congress_view = {
+        icon = GFX_decision_generic_political_discourse
+        cost = 0
+        visible = { NOT = { has_country_flag = RUS_congress_demo_initialized } }
+        available = { hidden_trigger = { original_tag = RUS is_ai = no } }
+        complete_effect = {
+            custom_effect_tooltip = RUS_congress_view_tt
+            hidden_effect = { RUS_congress_prepare_demo = yes }
+        }
+        ai_will_do = { base = 0 }
+    }
+}
