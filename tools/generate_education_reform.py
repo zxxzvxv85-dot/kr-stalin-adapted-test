@@ -277,9 +277,9 @@ def localisations():
       'RUS_edu_gates':'已完成宣传：§Y[?RUS_education_completed_activities|0]§! 次',
       'RUS_edu_gates_tooltip':'[RUSEducationNextGate]\\n仅正常完成宣传活动计数；开始、取消和调节热情不计数。',
       'RUS_edu_dashboard_hint':'悬浮指标查看规则；当前国家修正见“教育改革”。',
-      'RUS_edu_basic_tooltip':'§C基础教育水平§!：[?RUS_basic_education_level|2]%\\n扫盲、学校与夜校主要提升此项。\\n三组教育国策要求：30%／45%／60%。',
-      'RUS_edu_higher_tooltip':'§Y高等教育水平§!：[?RUS_higher_education_level|2]%\\n大学、科研与师资培养主要提升此项。\\n高等教育活动要求基础教育达到35%。\\n后两组教育国策要求：15%／25%。',
-      'RUS_edu_heat_tooltip':'§O民众热情§!：[?RUS_education_enthusiasm|2]%\\n每日自然下降0.10；55%时教育收益最高。\\n当前教育收益倍率：[?RUS_edu_quality_percent|2]%。\\n过低降低参与；过高损害稳定与生产效率增长。\\n全部修正连续变化；色带仅作位置参考。',
+      'RUS_edu_basic_tooltip':'§C基础教育水平§!：[?RUS_basic_education_level|2]%\\n反映民众的识字程度与基本知识，有助于生产、建设和人员培养。\\n可通过扫盲、学校与夜校提升。',
+      'RUS_edu_higher_tooltip':'§Y高等教育水平§!：[?RUS_higher_education_level|2]%\\n反映专业人才培养与科学研究水平，有助于科研和技术发展。\\n可通过大学、科研与师资培养提升。',
+      'RUS_edu_heat_tooltip':'§O民众热情§!：[?RUS_education_enthusiasm|2]%\\n反映民众参与教育与社会活动的积极性，会随时间减退，需要宣传维持。\\n热情适中有利于教育；过低会削弱参与，过高会干扰教学、生产与社会秩序。',
       'RUS_edu_free_slot_tt':'有空余宣传栏位',
       'RUS_edu_control_free_tt':'没有正在进行的热情调节活动',
       'RUS_edu_cooldown_tt':'此活动已结束冷却',
@@ -309,8 +309,7 @@ def localisations():
             gains=[]
             if a['basic']:gains.append(f'基础教育水平：§G+{a["basic"]:g}§!')
             if a['higher']:gains.append(f'高等教育水平：§G+{a["higher"]:g}§!')
-            progress='全期增量（按日结算）：\\n'+'\\n'.join(gains) if gains else ''
-            if gains:progress+='\\n受热情、教育路线和顾问影响。'
+            progress='教育提升：\\n'+'\\n'.join(gains) if gains else ''
             if a['heat']: progress+=f'\\n民众热情：每30天 §Y{a["heat"]:+g}§!'
             finish='完成宣传次数：§G+1§!。'
         else:
