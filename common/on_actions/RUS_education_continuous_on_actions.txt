@@ -1,0 +1,15 @@
+on_actions = {
+on_daily_RUS = {
+	effect = {
+		if = {
+			limit = { original_tag = RUS has_socialist_government = yes NOT = { has_country_flag = RUS_education_system_active } NOT = { has_idea = RUS_malformed_education_system } }
+			add_ideas = RUS_malformed_education_system
+		}
+		if = {
+			limit = { has_country_flag = RUS_education_system_active }
+			RUS_education_daily = yes
+		}
+	}
+}
+
+}

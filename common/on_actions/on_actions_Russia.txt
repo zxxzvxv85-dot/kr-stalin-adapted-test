@@ -620,70 +620,9 @@ on_actions = {
 				}
 				RUS_kamenev_update_agenda_traits = yes
 			}
-			if = {
-				limit = {
-					original_tag = RUS
-					RUS_completed_focus_science_of_marxism = yes
-					NOT = { has_country_flag = RUS_education_reform_completed }
-					OR = {
-						NOT = { has_country_flag = RUS_education_reform_started }
-						has_idea = RUS_malformed_education_system
-						NOT = { has_dynamic_modifier = { modifier = RUS_reforming_education_system } }
-					}
-				}
-				RUS_education_reform_start = yes
-			}
-			if = {
-				limit = {
-					original_tag = RUS
-					has_country_flag = RUS_education_reform_started
-					NOT = { has_country_flag = RUS_education_reform_completed }
-					NOT = { has_country_flag = RUS_education_reform_baseline_applied }
-					NOT = { has_country_flag = RUS_edu_compulsory_education_done }
-					NOT = { has_country_flag = RUS_edu_higher_education_done }
-					NOT = { has_country_flag = RUS_edu_grassroots_cadres_done }
-					NOT = { has_country_flag = RUS_edu_cadre_rotation_done }
-					NOT = { has_country_flag = RUS_edu_cultural_propaganda_done }
-					NOT = { has_country_flag = RUS_edu_production_tech_done }
-					check_variable = { RUS_education_reform_repeat_count < 0.1 }
-				}
-				set_variable = { RUS_education_research_speed = -0.05 }
-				set_variable = { RUS_education_start_efficiency = -0.10 }
-				set_variable = { RUS_education_efficiency_growth = -0.10 }
-				set_variable = { RUS_education_party_popularity_stability_factor = 0 }
-				set_country_flag = RUS_education_reform_baseline_applied
-			}
-			if = {
-				limit = {
-					original_tag = RUS
-					OR = {
-						has_country_flag = RUS_education_reform_started
-						has_country_flag = RUS_education_reform_completed
-					}
-					NOT = { has_country_flag = RUS_education_recruitable_population_v1_migrated }
-				}
-				set_country_flag = RUS_education_recruitable_population_v1_migrated
-				set_variable = { RUS_education_recruitable_population_factor = 0 }
-				if = {
-					limit = { has_variable = RUS_education_reform_repeat_count }
-					set_variable = { RUS_education_recruitable_population_factor = var:RUS_education_reform_repeat_count }
-					multiply_variable = { RUS_education_recruitable_population_factor = -0.01 }
-				}
-				if = { limit = { has_country_flag = RUS_edu_compulsory_education_done } subtract_from_variable = { RUS_education_recruitable_population_factor = 0.01 } }
-				if = { limit = { has_country_flag = RUS_edu_higher_education_done } subtract_from_variable = { RUS_education_recruitable_population_factor = 0.01 } }
-				if = { limit = { has_country_flag = RUS_edu_grassroots_cadres_done } subtract_from_variable = { RUS_education_recruitable_population_factor = 0.01 } }
-				if = { limit = { has_country_flag = RUS_edu_cadre_rotation_done } subtract_from_variable = { RUS_education_recruitable_population_factor = 0.01 } }
-				if = { limit = { has_country_flag = RUS_edu_cultural_propaganda_done } subtract_from_variable = { RUS_education_recruitable_population_factor = 0.01 } }
-				if = { limit = { has_country_flag = RUS_edu_production_tech_done } subtract_from_variable = { RUS_education_recruitable_population_factor = 0.01 } }
-				if = {
-					limit = {
-						has_country_flag = RUS_education_reform_completed
-						NOT = { has_dynamic_modifier = { modifier = RUS_completed_education_reform } }
-					}
-					add_dynamic_modifier = { modifier = RUS_completed_education_reform }
-				}
-				force_update_dynamic_modifier = yes
-			}
+
+
+
 			if = {
 				limit = {
 					date > 1939.11.6

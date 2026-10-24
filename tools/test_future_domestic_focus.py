@@ -9,6 +9,7 @@ from itertools import product
 
 from PIL import Image
 from hoi4_politics_blocks import load, parse
+from education_reform_content import education_focuses
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'RUS_future_domestic_'
@@ -112,12 +113,16 @@ def main():
     or_merges = 0
     authored = {PREFIX+s for s in ['154','133','136','138','140','142']}
     manual = {PREFIX+s for s in ['133','136','140']}
+    education=education_focuses()
+    authored.update(PREFIX+s for s in education)
+    manual.update(PREFIX+s for s in education)
     expected_rewards = {
         PREFIX+'133': 'add_political_power = -25\nadd_stability = 0.1\nset_temp_variable = { RUS_influence_cost_change_var = 20 }\nRUS_decrease_german_economic_influence_cost = yes\ncustom_effect_tooltip = RUS_socrus_reduce_influence_decisions',
         PREFIX+'136': 'add_command_power = 75\nadd_political_power = -10\ncountry_event = russia_socialist_events.100\nRUS_abolish_hosts = yes\nadd_popularity = { ideology = national_populist popularity = -0.05 }\nadd_popularity = { ideology = paternal_autocrat popularity = -0.1 }',
         PREFIX+'138': 'add_political_power = 10',
         PREFIX+'142': 'add_political_power = 10',
     }
+    expected_rewards.update({PREFIX+s:'\n'.join(v['reward']) for s,v in education.items()})
     for key,n in by_id.items():
         assert [e.norm() for e in n.one('completion_reward').v] == [e.norm() for e in parse(expected_rewards.get(key, ''))]
         assert n.one('select_effect') is None

@@ -1,59 +1,5 @@
 RUS_easy_mode_refresh_other_dynamic = {
 	if = {
-		limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no has_dynamic_modifier = { modifier = RUS_reforming_education_system } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_research_speed_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_research_speed > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_research_speed_factor = var:RUS_education_research_speed } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_production_factory_start_efficiency_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_start_efficiency > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_production_factory_start_efficiency_factor = var:RUS_education_start_efficiency } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_production_factory_efficiency_gain_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_efficiency_growth > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_production_factory_efficiency_gain_factor = var:RUS_education_efficiency_growth } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_consumer_goods_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_consumer_goods_factor < 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_consumer_goods_factor = var:RUS_education_consumer_goods_factor } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_political_power_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_political_power_factor > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_political_power_factor = var:RUS_education_political_power_factor } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_political_power_gain = 0 }
-		if = { limit = { check_variable = { RUS_education_political_power_gain > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_political_power_gain = var:RUS_education_political_power_gain } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_military_industrial_organization_funds_gain = 0 }
-		if = { limit = { check_variable = { RUS_education_mio_funds_gain > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_military_industrial_organization_funds_gain = var:RUS_education_mio_funds_gain } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_military_industrial_organization_policy_cost = 0 }
-		if = { limit = { check_variable = { RUS_education_mio_policy_cost < 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_military_industrial_organization_policy_cost = var:RUS_education_mio_policy_cost } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_party_popularity_stability_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_party_popularity_stability_factor > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_party_popularity_stability_factor = var:RUS_education_party_popularity_stability_factor } }
-		set_variable = { RUS_easy_dyn_RUS_reforming_education_system_conscription_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_recruitable_population_factor > 0 } } set_variable = { RUS_easy_dyn_RUS_reforming_education_system_conscription_factor = var:RUS_education_recruitable_population_factor } }
-		if = { limit = { NOT = { has_dynamic_modifier = { modifier = RUS_reforming_education_system_easy_bonus } } } add_dynamic_modifier = { modifier = RUS_reforming_education_system_easy_bonus } }
-	}
-	else = {
-		if = { limit = { has_dynamic_modifier = { modifier = RUS_reforming_education_system_easy_bonus } } remove_dynamic_modifier = { modifier = RUS_reforming_education_system_easy_bonus } }
-	}
-	if = {
-		limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no has_dynamic_modifier = { modifier = RUS_completed_education_reform } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_research_speed_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_research_speed > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_research_speed_factor = var:RUS_education_research_speed } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_production_factory_start_efficiency_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_start_efficiency > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_production_factory_start_efficiency_factor = var:RUS_education_start_efficiency } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_production_factory_efficiency_gain_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_efficiency_growth > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_production_factory_efficiency_gain_factor = var:RUS_education_efficiency_growth } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_consumer_goods_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_consumer_goods_factor < 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_consumer_goods_factor = var:RUS_education_consumer_goods_factor } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_political_power_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_political_power_factor > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_political_power_factor = var:RUS_education_political_power_factor } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_political_power_gain = 0 }
-		if = { limit = { check_variable = { RUS_education_political_power_gain > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_political_power_gain = var:RUS_education_political_power_gain } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_military_industrial_organization_funds_gain = 0 }
-		if = { limit = { check_variable = { RUS_education_mio_funds_gain > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_military_industrial_organization_funds_gain = var:RUS_education_mio_funds_gain } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_military_industrial_organization_policy_cost = 0 }
-		if = { limit = { check_variable = { RUS_education_mio_policy_cost < 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_military_industrial_organization_policy_cost = var:RUS_education_mio_policy_cost } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_party_popularity_stability_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_party_popularity_stability_factor > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_party_popularity_stability_factor = var:RUS_education_party_popularity_stability_factor } }
-		set_variable = { RUS_easy_dyn_RUS_completed_education_reform_conscription_factor = 0 }
-		if = { limit = { check_variable = { RUS_education_recruitable_population_factor > 0 } } set_variable = { RUS_easy_dyn_RUS_completed_education_reform_conscription_factor = var:RUS_education_recruitable_population_factor } }
-		if = { limit = { NOT = { has_dynamic_modifier = { modifier = RUS_completed_education_reform_easy_bonus } } } add_dynamic_modifier = { modifier = RUS_completed_education_reform_easy_bonus } }
-	}
-	else = {
-		if = { limit = { has_dynamic_modifier = { modifier = RUS_completed_education_reform_easy_bonus } } remove_dynamic_modifier = { modifier = RUS_completed_education_reform_easy_bonus } }
-	}
-	if = {
 		limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no has_dynamic_modifier = { modifier = RUS_stalin_red_army_dynamic_modifier } }
 		set_variable = { RUS_easy_dyn_RUS_stalin_red_army_dynamic_modifier_supply_consumption_factor = 0 }
 		if = { limit = { check_variable = { RUS_stalin_red_army_supply_consumption_factor < 0 } } set_variable = { RUS_easy_dyn_RUS_stalin_red_army_dynamic_modifier_supply_consumption_factor = var:RUS_stalin_red_army_supply_consumption_factor } }

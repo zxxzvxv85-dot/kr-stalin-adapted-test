@@ -6,6 +6,7 @@ import re
 
 from hoi4_politics_blocks import load, parse
 from provisional_government_content import content, patch_revolution_event, localisation_outputs
+from education_reform_content import education_focuses
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'RUS_future_domestic_'
@@ -35,7 +36,8 @@ def main():
         assert node.value('cost') == cost
         assert [n.norm() for n in node.one('completion_reward').v] == [n.norm() for n in parse(rewards)]
         assert node.one('bypass') is None and node.one('select_effect') is None
-    assert len([n for n in focuses.values() if n.one('available').one('hidden_trigger')]) == 3
+    # This suite owns the six provisional focuses; education has its own manual nodes.
+    assert {s for s in expected if focuses[PREFIX+s].one('available').one('hidden_trigger')} == {'133','136','140'}
     assert spec['focuses']['138']['name'] == '工人政党的联合'
     effects = {n.k:n for n in load(ROOT/'common/scripted_effects/RUS effects (Russia).txt')}
     abolition = effects['RUS_abolish_hosts']
@@ -95,7 +97,7 @@ def main():
     path=ROOT/'localisation/simp_chinese/RUS_future_domestic_l_simp_chinese.yml'
     raw=path.read_bytes(); assert raw.startswith(b'\xef\xbb\xbf')
     values={k:json.loads(v) for k,v in re.findall(r'^\s+([^ :]+):0 (".*")$',raw.decode('utf-8-sig'),re.M)}
-    assert {key for key,value in values.items() if key.endswith('_desc') and value} == {PREFIX+s+'_desc' for s in expected}
+    assert {key for key,value in values.items() if key.endswith('_desc') and value} == {PREFIX+s+'_desc' for s in expected.keys() | education_focuses().keys()}
     for suffix in expected:
         assert values[PREFIX+suffix] == spec['focuses'][suffix]['name']
         assert values[PREFIX+suffix+'_desc'] == spec['focuses'][suffix]['description']

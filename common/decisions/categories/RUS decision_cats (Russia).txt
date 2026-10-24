@@ -326,14 +326,11 @@ RUS_tesla_minesweeper_category = {
 
 RUS_education_reform_category = {
 	icon = generic_research
-	picture = GFX_decision_cat_millet_mektepleri
 	priority = 82
 	allowed = { original_tag = RUS }
-	visible = {
-		has_country_flag = RUS_education_reform_started
-		NOT = { has_country_flag = RUS_education_reform_completed }
-	}
+	visible = { has_country_flag = RUS_education_system_active }
 	visible_when_empty = yes
+	scripted_gui = RUS_education_dashboard
 }
 
 RUS_economy_decisions = {

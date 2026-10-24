@@ -93,37 +93,10 @@ RUS_stalin_remove_obsolete_kirov_vst_right_traits = {
 }
 
 RUS_stalin_refresh_kalinin_education_effects = {
-	set_variable = { RUS_kalinin_education_time_75 = 75 }
-	set_variable = { RUS_kalinin_education_time_180 = 180 }
-	set_variable = { RUS_education_reform_repeat_limit = 18 }
-	set_variable = { RUS_kalinin_education_days_reduction = 0 }
-	set_variable = { RUS_kalinin_education_repeat_bonus = 0 }
-	set_variable = { RUS_kalinin_education_penalty_per_decision = -0.01 }
 	if = {
-		limit = { has_idea = RUS_mikhail_kalinin_advisor }
-		set_variable = { RUS_kalinin_education_days_reduction = 30 }
-		subtract_from_variable = { RUS_kalinin_education_time_75 = RUS_kalinin_education_days_reduction }
-		subtract_from_variable = { RUS_kalinin_education_time_180 = RUS_kalinin_education_days_reduction }
-		set_variable = { RUS_kalinin_education_repeat_bonus = 7 }
-		add_to_variable = { RUS_education_reform_repeat_limit = RUS_kalinin_education_repeat_bonus }
-		if = {
-			limit = {
-				has_country_flag = RUS_education_reform_completed
-				check_variable = { RUS_education_reform_repeat_count < RUS_education_reform_repeat_limit }
-			}
-			clr_country_flag = RUS_education_reform_completed
-			set_country_flag = RUS_education_reform_started
-			if = {
-				limit = { has_dynamic_modifier = { modifier = RUS_completed_education_reform } }
-				remove_dynamic_modifier = { modifier = RUS_completed_education_reform }
-			}
-			if = {
-				limit = { NOT = { has_dynamic_modifier = { modifier = RUS_reforming_education_system } } }
-				add_dynamic_modifier = { modifier = RUS_reforming_education_system }
-			}
-		}
+		limit = { has_country_flag = RUS_education_system_active }
+		RUS_education_refresh = yes
 	}
-	RUS_education_reform_check_completion = yes
 }
 
 RUS_stalin_refresh_advisor_relationship_effects = {
