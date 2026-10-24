@@ -171,9 +171,13 @@ def render_window(outputs, base, root: Path):
             label_key = 'RUS_agri_window_' + ('shutdown_label' if key == 'RUS_nat_close_system' else 'guide_label')
             label = local[label_key][i] if key in {'RUS_nat_close_system', 'RUS_nat_guide_decision'} else catalog[key]
             desc = local['RUS_agri_window_shutdown_desc'][i] if key == 'RUS_nat_close_system' else catalog.get(key + '_desc', '')
+            # Support/development effects already come from the canonical click
+            # tooltip. Do not repeat stock rewards or generic prose above them.
+            if key.startswith(('RUS_nat_support_', 'RUS_agri_exchange_')):
+                desc = ''
             costs = catalog.get(spec.value('custom_cost_text'), '')
             labels.append(label)
-            tips.append(f'§Y{label}§!\\n{desc}\\n\\n' + (costs + '\\n' if costs else '') + f'[!{name}_click_enabled]\\n[!{name}_click]')
+            tips.append(f'§Y{label}§!' + ('\\n' + desc if desc else '') + '\\n\\n' + (costs + '\\n' if costs else '') + f'[!{name}_click_enabled]\\n[!{name}_click]')
         button(name, 548, y, loc(key + '_label', labels), loc(key + '_tt', tips))
     shell.extend(['}\n', entries, '\n}\n'])
     result[GUI] = '\n'.join(shell)
