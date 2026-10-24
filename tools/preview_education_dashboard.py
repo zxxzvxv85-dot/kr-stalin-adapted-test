@@ -53,14 +53,18 @@ def wrap(text,font,width):
 def preview(m,dest):
     loc=localisation();window=load(ROOT/GUI)[0].v[0];im=Image.new('RGBA',(498,509),'#222b27');d=ImageDraw.Draw(im)
     d.rectangle((1,1,496,507),outline='#a39464');d.line((8,29,488,29),fill='#6f6b50')
-    props=load(ROOT/SGUI)[0].v[0].one('properties')
+    scripted=load(ROOT/SGUI)[0].v[0];props=scripted.one('properties');triggers=scripted.one('triggers')
     sprites={n.value('name').strip('"'):n for root in load(ROOT/GFX) for n in root.v}
     warnings=[]
     for n in window.v:
         if n.k not in ('iconType','instantTextBoxType'):continue
         name=n.value('name').strip('"');x=int(n.one('position').value('x'));y=int(n.one('position').value('y'))
+        visibility=triggers.one(name+'_visible') if triggers else None
+        if visibility and not m.check(visibility):continue
         if n.k=='iconType':
-            sprite=sprites[n.value('spriteType').strip('"')];image=Image.open(ROOT/sprite.value('texturefile').strip('"')).convert('RGBA');frames=int(sprite.value('noOfFrames'));w=image.width//frames
+            sprite=sprites[n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
+            path=next(r/relative for r in (ROOT,GAME) if (r/relative).is_file())
+            image=Image.open(path).convert('RGBA');frames=int(sprite.value('noOfFrames','1'));w=image.width//frames
             property=props.one(name);frame=round(m.vars.get(property.value('frame'),1)) if property else 1
             im.alpha_composite(image.crop(((frame-1)*w,0,frame*w,image.height)),(x,y));continue
         text=resolve(loc[n.value('text').strip('"')],m,loc);font=n.value('font').strip('"');width=int(n.value('maxWidth'));lines=wrap(text,font,width)
@@ -79,6 +83,8 @@ def preview(m,dest):
 
 def main():
     m=initialized();paths=[preview(m,ROOT/'output/education_system/教育面板_初始.png')]
+    assert m.start('literacy');paths.append(preview(m,ROOT/'output/education_system/教育面板_单项活动.png'))
+    m=initialized()
     m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'});m.vars.update({VARS['basic']:47.39,VARS['higher']:18.67,VARS['heat']:68.37,'RUS_education_completed_activities':6});m.call('RUS_education_refresh')
     for a,days in [('literacy',39),('university',75),('mentoring',42)]:assert m.start(a);m.vars['RUS_edu_days_'+a]=days
     m.call('RUS_education_refresh');paths.append(preview(m,ROOT/'output/education_system/教育面板_活动示意.png'))

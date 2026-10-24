@@ -230,25 +230,30 @@ def gui_outputs():
     for x,kind in zip((10,172,334),('basic','higher','heat')):
         text(kind+'_label','RUS_edu_'+kind+'_label',x,34,150)
         text(kind+'_value','RUS_edu_'+kind+'_value',x,56,150)
-        icon(kind+'_bar','GFX_RUS_edu_'+kind+'_bar',x,81,'RUS_edu_'+kind+'_tooltip')
+        icon(kind+'_bar','GFX_RUS_edu_'+kind+'_bar',x+16,81,'RUS_edu_'+kind+'_tooltip')
     text('edu_rates','RUS_edu_rates',6,104,484)
     text('edu_gates','RUS_edu_gates',6,131,484,tip='RUS_edu_gates_tooltip')
     props=[]
     for kind in VARS: props.append(f'{kind}_bar = {{ frame = RUS_edu_bar_{kind} }}')
+    icon('education_noticeboard','GFX_RUS_education_noticeboard',0,170)
+    triggers=[]
     for i,x in enumerate((6,168,330),1):
         icon(f'poster_{i}','GFX_RUS_education_posters',x,171,'RUS_edu_slot_'+str(i)+'_tooltip')
-        icon(f'activity_progress_{i}','GFX_RUS_edu_activity_bar',x+5,386)
-        text(f'activity_name_{i}','RUS_edu_slot_'+str(i)+'_name',x+1,403,158)
-        text(f'activity_days_{i}','RUS_edu_slot_'+str(i)+'_text',x+1,446,158)
+        icon(f'activity_progress_{i}','GFX_RUS_edu_activity_bar',x+21,386)
+        text(f'activity_name_{i}','RUS_edu_slot_'+str(i)+'_name',x+1,409,158)
+        text(f'activity_days_{i}','RUS_edu_slot_'+str(i)+'_text',x+1,454,158)
+        triggers += [f'activity_progress_{i}_visible = {{ check_variable = {{ RUS_edu_slot_{i} > 0 }} }}',
+                     f'activity_days_{i}_visible = {{ check_variable = {{ RUS_edu_slot_{i} > 0 }} }}']
         props += [f'poster_{i} = {{ frame = RUS_edu_slot_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_slot_{i}_progress }}']
-    text('edu_hint','RUS_edu_dashboard_hint',6,477,484)
+    text('edu_hint','RUS_edu_dashboard_hint',6,483,484)
     gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 0 y = 0 }','size = { width = 498 height = 509 }']+ui)+'}\n'
-    sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip()])+'}\n'
+    sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip()])+'}\n'
     sprites=[]
     for kind in ('basic','higher','heat','activity'):
         sprites.append(block('spriteType',[f'name = "GFX_RUS_edu_{kind}_bar"',f'texturefile = "{ART.as_posix()}/{kind}_bar.dds"','noOfFrames = 101']))
     sprites.append(block('spriteType',['name = "GFX_RUS_education_posters"',f'texturefile = "{ART.as_posix()}/posters.dds"',f'noOfFrames = {len(ACTIVITIES)+2}']))
-    for kind,texture in [('basic',f'{ART.as_posix()}/basic_texticon.dds'),('higher','gfx/texticons/research_icon.dds'),('heat','gfx/texticons/SOV_propaganda_text_icon.dds')]:
+    sprites.append(block('spriteType',['name = "GFX_RUS_education_noticeboard"','texturefile = "gfx/interface/propaganda/propaganda_bg.dds"','legacy_lazy_load = no']))
+    for kind,texture in [('basic',f'{ART.as_posix()}/basic_texticon.dds'),('higher',f'{ART.as_posix()}/higher_texticon.dds'),('heat','gfx/texticons/SOV_propaganda_text_icon.dds')]:
         sprites.append(block('spriteType',[f'name = "GFX_RUS_edu_{kind}_texticon"',f'texturefile = "{texture}"','legacy_lazy_load = no']))
     return {GUI:gui,SGUI:sgui,GFX:'spriteTypes = {\n'+''.join(sprites)+'}\n'}
 
@@ -299,6 +304,7 @@ def localisations():
       'RUS_edu_gate_done':'教育路线已确定',
       'RUS_edu_empty':'空闲栏位',
       'RUS_edu_locked':'完成“对文化革命”后开放',
+      'RUS_edu_blank':'',
     }
     for kind,name in KINDS.items(): l['RUS_edu_'+kind+'_free_tt']=name+'类没有其他在办活动'
     for a in ACTIVITIES+CONTROLS:
@@ -320,8 +326,9 @@ def localisations():
         l['RUS_edu_activity_'+aid]=a['name']
     for i in range(1,4):
         l[f'RUS_edu_slot_{i}_name']=f'[RUSEducationSlot{i}]'
-        l[f'RUS_edu_slot_{i}_text']=f'剩余 [?RUS_edu_slot_{i}_days|0] 天'
-        l[f'RUS_edu_slot_{i}_tooltip']=f'[RUSEducationSlot{i}]\\n剩余 [?RUS_edu_slot_{i}_days|0] 天'
+        l[f'RUS_edu_slot_{i}_text']=f'[RUSEducationSlot{i}Days]'
+        l[f'RUS_edu_slot_{i}_countdown']=f'剩余 [?RUS_edu_slot_{i}_days|0] 天'
+        l[f'RUS_edu_slot_{i}_tooltip']=f'[RUSEducationSlot{i}]\\n[RUSEducationSlot{i}Days]'
     for name,b,h,t in [('new_culture_popularisation',2,0,3),('new_culture_elite_art',0,2,-2),('revolutionary_realism',1,1,1),('revolutionary_romanticism',0,3,2)]:
         l['RUS_edu_legacy_'+name+'_tt']=f'教育改革开启后：基础教育§C+{b}§!，高等教育§Y+{h}§!，热情§O{t:+g}§!。'
     # Inline texticons use the same sprite aliases everywhere, including native
@@ -352,6 +359,9 @@ def scripted_loc():
         body=[f'name = RUSEducationSlot{i}',f'text = {{ trigger = {{ check_variable = {{ RUS_edu_slot_{i}_frame = 1 }} }} localization_key = RUS_edu_locked }}']
         for code,a in enumerate(ACTIVITIES,3): body.append(f'text = {{ trigger = {{ check_variable = {{ RUS_edu_slot_{i} = {code} }} }} localization_key = RUS_edu_activity_{a["id"]} }}')
         body+=['text = { localization_key = RUS_edu_empty }']; chunks.append(block('defined_text',body))
+        chunks.append(block('defined_text',[f'name = RUSEducationSlot{i}Days',
+            f'text = {{ trigger = {{ check_variable = {{ RUS_edu_slot_{i} > 0 }} }} localization_key = RUS_edu_slot_{i}_countdown }}',
+            'text = { localization_key = RUS_edu_blank }']))
     return ''.join(chunks).rstrip()+'\n'
 
 def render_outputs():
@@ -408,21 +418,29 @@ def integration_outputs():
     return outputs
 
 def render_assets():
-    from PIL import Image,ImageOps,ImageDraw
+    from PIL import Image,ImageOps
     result={}
-    book=Image.open(ROOT.parent/'1521695605/gfx/interface/ideas/generic_high_literacy.png').convert('RGBA')
-    book=ImageOps.contain(book,(24,24),Image.Resampling.LANCZOS)
-    b=io.BytesIO();book.save(b,format='DDS');result[ART/'basic_texticon.dds']=b.getvalue()
-    for kind,color in [('basic','#72c7de'),('higher','#e4bf61'),('heat','#de7852'),('activity','#91ad89')]:
-        strip=Image.new('RGBA',(150*101,10))
+    for kind in ('basic','higher'):
+        source=Image.open(ROOT/DESIGN/'icons'/(kind+'.source.png')).convert('RGBA')
+        alpha=source.getchannel('A');assert alpha.getextrema()==(0,255)
+        # Packaging only: preserve the complete AI-created silhouette and alpha.
+        source=source.crop(alpha.getbbox())
+        fit=ImageOps.contain(source,(22,22),Image.Resampling.LANCZOS)
+        icon=Image.new('RGBA',(24,24));icon.alpha_composite(fit,((24-fit.width)//2,(24-fit.height)//2))
+        b=io.BytesIO();icon.save(b,format='DDS');result[ART/(kind+'_texticon.dds')]=b.getvalue()
+    game=ROOT.parents[3]/'common/Hearts of Iron IV'
+    # Production's actual 118x21 artwork, unscaled and untinted. Its middle
+    # 21px band is the fill; the other two bands are shader start/end cap layers.
+    # Pack progress frames for scripted-GUI frame binding, keeping the native look.
+    for kind,filename in [('basic','prod_progress_bar2.dds'),('higher','prod_progress_bar2_yellow.dds'),('heat','prod_progress_bar2_red.dds'),('activity','prod_progress_bar2.dds')]:
+        background=Image.open(game/'gfx/interface/prod_progress_bar2_bg.dds').convert('RGBA')
+        fill=Image.open(game/'gfx/interface'/filename).convert('RGBA').crop((0,21,118,42))
+        assert background.size==(118,21)
+        strip=Image.new('RGBA',(118*101,21))
         for value in range(101):
-            im=Image.new('RGBA',(150,10),'#101a1b'); d=ImageDraw.Draw(im)
-            d.rectangle((0,0,149,9),outline='#7c785c')
-            if value: d.rectangle((1,2,min(148,1+round(value*1.47)),7),fill=color)
-            if kind=='heat':
-                # 40–70 is a reading aid, never a discrete modifier tier.
-                d.line((60,9,103,9),fill='#86bd87',width=1);d.line((82,0,82,2),fill='#fff1ba')
-            strip.paste(im,(value*150,0))
+            im=background.copy();right=round(118*value/100)
+            if right: im.alpha_composite(fill.crop((0,0,right,21)),(0,0))
+            strip.paste(im,(value*118,0))
         b=io.BytesIO();strip.save(b,format='DDS');result[ART/(kind+'_bar.dds')]=b.getvalue()
     strip=Image.new('RGBA',(160*(len(ACTIVITIES)+2),205),'#d8cfae')
     vanilla=Image.open(ROOT.parents[3]/'common/Hearts of Iron IV/gfx/interface/propaganda/SOV/SOV_propaganda_strip.dds').convert('RGBA')

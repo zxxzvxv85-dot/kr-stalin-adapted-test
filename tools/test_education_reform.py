@@ -182,7 +182,7 @@ class EducationTests(unittest.TestCase):
             else:parse((ROOT/p).read_text(encoding='utf-8-sig'))
         from PIL import Image
         for kind in ('basic','higher','heat','activity'):
-            with Image.open(ROOT/ART/(kind+'_bar.dds')) as im:self.assertEqual(im.size,(15150,10))
+            with Image.open(ROOT/ART/(kind+'_bar.dds')) as im:self.assertEqual(im.size,(11918,21))
         with Image.open(ROOT/ART/'posters.dds') as im:self.assertEqual(im.size,(2560,205))
         manifest=json.loads((ROOT/DESIGN/'poster_sources.json').read_text(encoding='utf-8'))
         self.assertEqual(len(manifest['sources']),14)
@@ -191,7 +191,44 @@ class EducationTests(unittest.TestCase):
             for n in container.v:
                 if n.k not in ('iconType','instantTextBoxType'):continue
                 pos=n.one('position');x=int(pos.value('x'));y=int(pos.value('y'))
-                w=int(n.value('maxWidth','160' if 'poster_' in n.value('name') else '150'))
+                if n.k=='iconType':
+                    sprites={x.value('name').strip('"'):x for root in load(ROOT/GFX) for x in root.v}
+                    sprite=sprites[n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
+                    path=next(r/relative for r in (ROOT,ROOT.parents[3]/'common/Hearts of Iron IV') if (r/relative).is_file())
+                    with Image.open(path) as im:w=im.width//int(sprite.value('noOfFrames','1'));h=im.height
+                    self.assertLessEqual(y+h,509)
+                else:w=int(n.value('maxWidth'))
                 self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,498);self.assertGreaterEqual(y,0);self.assertLess(y,509)
+    def test_native_bar_art_noticeboard_and_empty_slot_visibility(self):
+        from PIL import Image
+        game=ROOT.parents[3]/'common/Hearts of Iron IV'
+        for kind,source in [('basic','prod_progress_bar2.dds'),('higher','prod_progress_bar2_yellow.dds'),('heat','prod_progress_bar2_red.dds'),('activity','prod_progress_bar2.dds')]:
+            with Image.open(ROOT/ART/(kind+'_bar.dds')) as image, Image.open(game/'gfx/interface/prod_progress_bar2_bg.dds') as bg, Image.open(game/'gfx/interface'/source) as fg:
+                strip=image.convert('RGBA');base=bg.convert('RGBA');fill=fg.convert('RGBA').crop((0,21,118,42))
+                for pct in (0,20,55,100):
+                    expected=base.copy();right=round(118*pct/100)
+                    if right:expected.alpha_composite(fill.crop((0,0,right,21)),(0,0))
+                    self.assertEqual(strip.crop((pct*118,0,(pct+1)*118,21)).tobytes(),expected.tobytes())
+                self.assertNotEqual(strip.getpixel((20*118+10,10)),base.getpixel((10,10)),'The native fill layer must be visibly nonempty')
+        sprites={x.value('name').strip('"'):x for root in load(ROOT/GFX) for x in root.v}
+        self.assertEqual(sprites['GFX_RUS_education_noticeboard'].value('texturefile').strip('"'),'gfx/interface/propaganda/propaganda_bg.dds')
+        controls=load(ROOT/GUI)[0].v[0].v;names=[n.value('name').strip('"') for n in controls if n.value('name')]
+        self.assertLess(names.index('education_noticeboard'),names.index('poster_1'))
+        triggers=load(ROOT/SGUI)[0].v[0].one('triggers');m=initialized()
+        for i in range(1,4):
+            self.assertFalse(m.check(triggers.one(f'activity_progress_{i}_visible')))
+            self.assertFalse(m.check(triggers.one(f'activity_days_{i}_visible')))
+        m.start('literacy');self.assertTrue(m.check(triggers.one('activity_progress_1_visible')))
+        m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_progress_1_visible')))
+    def test_education_texticons_transparent_distinct_cool_warm_palettes(self):
+        from PIL import Image
+        sprites={x.value('name').strip('"'):x for root in load(ROOT/GFX) for x in root.v}
+        for kind in ('basic','higher'):
+            with Image.open(ROOT/ART/(kind+'_texticon.dds')) as image:
+                icon=image.convert('RGBA');self.assertEqual(icon.size,(24,24));self.assertEqual(icon.getchannel('A').getextrema(),(0,255))
+                pixels=[icon.getpixel((x,y)) for y in range(24) for x in range(24)];total=sum(c[3] for c in pixels)
+                means=[sum(c[i]*c[3] for c in pixels)/total for i in range(3)]
+                self.assertGreater(means[2]-means[0] if kind=='basic' else means[0]-means[2],10)
+                self.assertEqual(sprites[f'GFX_RUS_edu_{kind}_texticon'].value('texturefile').strip('"'),f'{ART.as_posix()}/{kind}_texticon.dds')
 
 if __name__=='__main__':unittest.main(verbosity=2)

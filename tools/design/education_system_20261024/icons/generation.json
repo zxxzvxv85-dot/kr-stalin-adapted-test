@@ -1,0 +1,65 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "model": "not reported by built-in tool",
+  "transparent_background": true,
+  "cli_used": false,
+  "sources": [
+    {
+      "id": "basic",
+      "path": "tools/design/education_system_20261024/icons/basic.source.png",
+      "sha256": "4bca5602d28212e6fd5487f1fd530c372963efd15d6b14d8441fcd96dc9f09db",
+      "dimensions": [
+        1292,
+        1218
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "final_prompt": "tools/design/education_system_20261024/icons/basic-cool.prompt.txt",
+      "palette": "cool blue-steel/silver and ivory",
+      "runtime_path": "gfx/interface/RUS_education/basic_texticon.dds",
+      "runtime_dimensions": [
+        24,
+        24
+      ]
+    },
+    {
+      "id": "higher",
+      "path": "tools/design/education_system_20261024/icons/higher.source.png",
+      "sha256": "e8e7074a14f0c2501837b6789958b9dac23c4637c92c6f22c1257f6449ca9c34",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "final_prompt": "tools/design/education_system_20261024/icons/higher.prompt.txt",
+      "palette": "warm antique gold/brass and ivory",
+      "runtime_path": "gfx/interface/RUS_education/higher_texticon.dds",
+      "runtime_dimensions": [
+        24,
+        24
+      ]
+    }
+  ],
+  "references": [
+    {
+      "path": "tools/assets/vanilla-cutouts/book2.png",
+      "sha256": "16be6f6843e4fa4f0ecf95f6b4a0e20cefd38366e55ff504f6ccd21bf454ead2"
+    },
+    {
+      "path": "tools/assets/vanilla-cutouts/University.png",
+      "sha256": "4ff57bcf515b4507800f2f03c4adcba1baa697bee89529f2a0c1cc64a82cad29"
+    },
+    {
+      "path": "tools/design/education_system_20261024/icons/basic-gold.reference.png",
+      "sha256": "66a0b3589647570f12cc7e47be60be01731ed8d81ddc4b1deebcc0469353c96d"
+    }
+  ],
+  "validation": "Both complete generated silhouettes preserved; true alpha confirmed; native 24x24 and enlarged views inspected on dark UI; basic is cool blue-silver and higher is warm gold. No creative editing or tinting performed in Python; only transparent-bound crop, proportional downsampling, padding and DDS packaging."
+}
