@@ -70,7 +70,20 @@ class EducationTests(unittest.TestCase):
         m.vars.update({VARS['basic']:100,VARS['higher']:100,VARS['heat']:55});m.call('RUS_education_refresh')
         for mod,(lo,hi,w) in BODY.items():self.assertAlmostEqual(m.vars[bv(mod)],.05 if mod=='political_power_factor' else hi)
         for cap in POOL_CAPS:self.assertEqual(m.vars[pv(cap)],0)
-        self.assertEqual(m.dynamic,{'RUS_education_social_capacity','RUS_education_permanent_results'})
+        self.assertEqual(m.dynamic,{'RUS_education_social_capacity'})
+    def test_one_education_spirit_includes_pooled_results_without_refresh_stacking(self):
+        m=initialized();m.vars.update({VARS['basic']:100,VARS['higher']:100,VARS['heat']:55})
+        for mod,cap in POOL_CAPS.items():m.vars[pv(mod)]=cap
+        # Remove only the retired attachment, preserving all earned contributions.
+        m.dynamic.add('RUS_education_permanent_results');m.call('RUS_education_refresh')
+        expected={'research_speed_factor':.20,'industrial_capacity_factory':.10,'stability_factor':.15,'political_power_factor':.15,'political_power_cost':-.20}
+        for mod,value in expected.items():self.assertAlmostEqual(m.vars[bv(mod)],value)
+        self.assertEqual(m.dynamic,{'RUS_education_social_capacity'})
+        before={mod:m.vars[bv(mod)] for mod in expected}
+        for _ in range(4):m.call('RUS_education_refresh')
+        self.assertEqual(before,{mod:m.vars[bv(mod)] for mod in expected})
+        primary=next(n for n in load(ROOT/DM) if n.k=='RUS_education_social_capacity')
+        for mod in expected:self.assertEqual(primary.value(mod),bv(mod))
     def test_heat_curve_and_continuity(self):
         m=initialized()
         for t in [0,19.999,20,39.999,40,47.39,54.9999,55,55.0001,69.999,70,84.999,85,100]:
@@ -220,6 +233,23 @@ class EducationTests(unittest.TestCase):
             self.assertFalse(m.check(triggers.one(f'activity_days_{i}_visible')))
         m.start('literacy');self.assertTrue(m.check(triggers.one('activity_progress_1_visible')))
         m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_progress_1_visible')))
+        window=load(ROOT/GUI)[0].v[0]
+        self.assertEqual(window.one('position').value('x'),'8')
+        by_name={n.value('name').strip('"'):n for n in controls if n.value('name')}
+        for kind in ('basic','higher','heat'):
+            panel=by_name[kind+'_panel'];px=int(panel.one('position').value('x'));py=int(panel.one('position').value('y'))
+            self.assertLess(names.index(kind+'_panel'),names.index(kind+'_label'))
+            for suffix,w,h in [('name_panel',150,28),('value_panel',96,22),('label',150,24),('value',96,18),('bar',118,21)]:
+                n=by_name[kind+'_'+suffix];x=int(n.one('position').value('x'));y=int(n.one('position').value('y'))
+                self.assertGreaterEqual(x,px);self.assertGreaterEqual(y,py)
+                self.assertLessEqual(x+w,px+160);self.assertLessEqual(y+h,py+82)
+                self.assertEqual(x+w/2,px+80)
+            for plate,label,w,h in [('name_panel','label',150,24),('value_panel','value',96,18)]:
+                self.assertLess(names.index(kind+'_'+plate),names.index(kind+'_'+label))
+                frame=by_name[kind+'_'+plate].one('position');text=by_name[kind+'_'+label].one('position')
+                self.assertEqual(frame.value('x'),text.value('x'))
+                self.assertGreaterEqual(int(text.value('y')),int(frame.value('y')))
+                self.assertLessEqual(int(text.value('y'))+h,int(frame.value('y'))+(28 if plate=='name_panel' else 22))
     def test_education_texticons_transparent_distinct_cool_warm_palettes(self):
         from PIL import Image
         sprites={x.value('name').strip('"'):x for root in load(ROOT/GFX) for x in root.v}

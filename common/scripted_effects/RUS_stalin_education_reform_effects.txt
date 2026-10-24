@@ -30,7 +30,6 @@ RUS_education_initialize = {
 		set_variable = { RUS_edu_slot_3_frame = 2 }
 		RUS_education_refresh = yes
 		add_dynamic_modifier = { modifier = RUS_education_social_capacity }
-		add_dynamic_modifier = { modifier = RUS_education_permanent_results }
 	}
 }
 
@@ -203,6 +202,16 @@ RUS_education_refresh = {
 	set_variable = { RUS_edu_quality_percent = RUS_edu_quality }
 	multiply_variable = { RUS_edu_quality_percent = 100 }
 	set_variable = { RUS_edu_slots = 2 }
+	set_variable = { RUS_edu_body_political_power_cost = 0 }
+	add_to_variable = { RUS_edu_body_industrial_capacity_factory = RUS_edu_permanent_industrial_capacity_factory }
+	add_to_variable = { RUS_edu_body_stability_factor = RUS_edu_permanent_stability_factor }
+	add_to_variable = { RUS_edu_body_political_power_cost = RUS_edu_permanent_political_power_cost }
+	add_to_variable = { RUS_edu_body_political_power_factor = RUS_edu_permanent_political_power_factor }
+	add_to_variable = { RUS_edu_body_research_speed_factor = RUS_edu_permanent_research_speed_factor }
+	if = {
+		limit = { has_dynamic_modifier = { modifier = RUS_education_permanent_results } }
+		remove_dynamic_modifier = { modifier = RUS_education_permanent_results }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_culture_open }
 		set_variable = { RUS_edu_slots = 3 }
