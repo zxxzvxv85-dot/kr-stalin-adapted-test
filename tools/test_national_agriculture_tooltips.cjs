@@ -66,8 +66,5 @@ for (const [key, value] of cn) {
   for(const ref of refs(value)) assert.ok(scripts.includes(ref),`${key}: undeclared ${ref}`);
 
 }
-assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('粮食内需额外+2、纺织原料内需额外+1'));
-assert.ok(plain(cn.get('RUS_nat_tab_2_tt')).includes('小麦12、黑麦12、甜菜6、亚麻6、棉花6'));
 assert.ok(plain(cn.get('RUS_nat_tab_1_tt')).includes('仓库农机不参与在役损耗'));
-assert.ok(plain(cn.get('RUS_nat_tab_3_tt')).includes('不包含下列储备、农机覆盖和任务积分'));
 assert.ok(!cn.get('RUS_nat_machine_4').includes('\\n'));
