@@ -17,7 +17,7 @@ import sys
 
 from hoi4_politics_blocks import load
 from provisional_government_content import content as provisional_content, localisation_outputs as provisional_localisation
-from education_reform_content import education_focuses
+from education_reform_content import education_focuses,color_poster_categories
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path('tools/design/RUS_future_domestic_layout.drawio')
@@ -323,7 +323,7 @@ def render_outputs():
         rows = ['l_'+lang+':', ' RUS_future_domestic_preview_only_tt:0 '+json.dumps(tips[lang], ensure_ascii=False)]
         for n in nodes:
             # Keep source titles on other language UIs until translations are authored.
-            desc = implemented[n['suffix']]['description'] if lang=='simp_chinese' and n['suffix'] in implemented else ''
+            desc = color_poster_categories(implemented[n['suffix']]['description']) if lang=='simp_chinese' and n['suffix'] in implemented else ''
             rows += [' '+n['id']+':0 '+json.dumps(n['name'], ensure_ascii=False),
                      ' '+n['id']+'_desc:0 '+json.dumps(desc, ensure_ascii=False)]
         result[Path(f'localisation/{lang}/RUS_future_domestic_l_{lang}.yml')] = ('\n'.join(rows)+'\n').encode('utf-8-sig')

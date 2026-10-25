@@ -10,6 +10,16 @@ POSTER_CATEGORIES = {
  5: ('国家与生活', (14, 15)),
  6: ('胜利与纪念', (6,)),
 }
+# Native core.gfx text colour codes; category buttons keep their plain labels.
+POSTER_CATEGORY_TEXT_COLORS = {1:'R',2:'Y',3:'G',4:'C',5:'O',6:'1'}
+
+def color_poster_categories(text):
+    import re
+    for category,(name,_) in POSTER_CATEGORIES.items():
+        text=re.sub(r'(?<!§[A-Za-z0-9])'+re.escape(name),
+                    lambda m:f'§{POSTER_CATEGORY_TEXT_COLORS[category]}{m[0]}§!',text)
+    return text
+
 POSTER_PREFIX_CATEGORY = {'EDU':4,'WOM':3,'YTH':3,'IND':2}
 HEAT_ECONOMIC_MODIFIERS = {'production_factory_start_efficiency_factor','production_factory_efficiency_gain_factor'}
 HEAT_WEEKLY_STABILITY_THRESHOLD = 75
@@ -167,7 +177,7 @@ def education_focuses():
         'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 360 } }',
         'hidden_effect = { RUS_education_start_mass_campaign = yes }']
     result['233']['reward'].append('add_research_slot = 1')
-    result['234']['reward'] += ['custom_effect_tooltip = RUS_edu_era_cost_tt',
+    result['234']['reward'] += ['custom_effect_tooltip = RUS_edu_era_cost_tt','custom_effect_tooltip = RUS_edu_era_time_tt',
         'hidden_effect = { set_country_flag = RUS_edu_era RUS_education_refresh = yes }']
     return result
 
