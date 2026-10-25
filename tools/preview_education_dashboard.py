@@ -97,7 +97,7 @@ def main():
     m.vars['RUS_edu_category']=4
     m.call('RUS_education_refresh');paths.append(preview(m,ROOT/'output/education_system/教育面板_活动示意.png'))
     for category in range(1,7):
-        m.vars.update(RUS_edu_category=category,RUS_edu_catalog_page=1);m.call('RUS_education_refresh')
+        m.vars.update(RUS_edu_category=category);m.call('RUS_education_refresh')
         paths.append(preview(m,ROOT/f'output/education_system/海报分类_{category}.png'))
     print('PASS: installed font atlases, generated coordinates, bounded text and packaged art. Not engine screenshots.');print('\n'.join(paths))
 if __name__=='__main__':main()

@@ -2,7 +2,6 @@
 from __future__ import annotations
 import hashlib
 import json
-import math
 from pathlib import Path
 import re
 import unittest
@@ -86,7 +85,7 @@ class EducationTests(unittest.TestCase):
         self.assertEqual(primary.value('stability_weekly'),bv('stability_weekly'))
         m.vars[VARS['heat']]=80;m.advance(1);self.assertEqual(m.vars['RUS_education_overheat_days'],1)
         m.vars[VARS['heat']]=75;m.advance(1);self.assertEqual(m.vars['RUS_education_overheat_days'],0)
-    def test_category_filters_pagination_and_switching_preserve_running_activities(self):
+    def test_category_filters_and_switching_preserve_running_activities(self):
         m=initialized();self.assertTrue(m.start('literacy'));m.advance(7)
         script=load(ROOT/SGUI)[0].v[0];clicks=script.one('effects');rules=script.one('triggers')
         before={k:v for k,v in m.vars.items() if not k.startswith('RUS_edu_catalog_') and k!='RUS_edu_category'}
@@ -95,15 +94,9 @@ class EducationTests(unittest.TestCase):
         for category,count in counts.items():
             m.run(clicks.one(f'edu_category_{category}_click').v)
             self.assertEqual(m.vars['RUS_edu_catalog_count'],count)
-            self.assertEqual(m.vars['RUS_edu_catalog_page'],1)
-            self.assertEqual(m.vars['RUS_edu_catalog_pages'],max(1,math.ceil(count/3)))
-            expected=[code for code,a in enumerate(ACTIVITIES,3) if a['category']==category]
-            seen=[]
-            for page in range(1,max(1,math.ceil(count/3))+1):
-                seen += [m.vars[f'RUS_edu_catalog_{i}_activity'] for i in range(1,4) if m.vars[f'RUS_edu_catalog_{i}_activity']]
-                m.run(clicks.one('edu_catalog_next_click').v)
+            expected=[code for code,a in enumerate(ACTIVITIES,3) if a['category']==category and active(a) in m.flags]
+            seen=[m.vars[f'RUS_edu_catalog_{i}_activity'] for i in range(1,4) if m.vars[f'RUS_edu_catalog_{i}_activity']]
             self.assertEqual(seen,expected)
-            self.assertFalse(m.check(rules.one('edu_catalog_next_click_enabled')))
             for a in ACTIVITIES:
                 if m.check(DECISIONS['RUS_education_'+a['id']].one('visible')):
                     self.assertEqual(a['category'],category)
@@ -111,10 +104,38 @@ class EducationTests(unittest.TestCase):
         self.assertTrue(m.check(rules.one('activity_progress_1_visible')))
         self.assertEqual(m.vars['RUS_edu_catalog_1_days'],83)
         self.assertEqual(before,{k:m.vars[k] for k in before});self.assertEqual(flags,m.flags)
-        m.run(clicks.one('edu_catalog_previous_click').v);self.assertEqual(m.vars['RUS_edu_catalog_page'],1)
         m.run(clicks.one('edu_category_3_click').v)
         m.end('literacy');self.assertEqual(m.vars['RUS_edu_active_count'],0)
         self.assertTrue(all(m.vars[f'RUS_edu_slot_{i}']==0 for i in range(1,4)))
+    def test_posters_require_started_campaign_and_clear_on_finish_or_cancel(self):
+        clicks=load(ROOT/SGUI)[0].v[0].one('effects')
+        for a in ACTIVITIES:
+            for cancel in (False,True):
+                m=initialized();m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'})
+                m.vars[VARS['basic']]=60
+                m.run(clicks.one(f'edu_category_{a["category"]}_click').v)
+                self.assertTrue(all(m.vars[f'RUS_edu_catalog_{i}_frame']==2 for i in range(1,4)))
+                self.assertTrue(m.start(a['id']))
+                self.assertEqual(m.vars['RUS_edu_catalog_1_activity'],ACTIVITIES.index(a)+3)
+                self.assertEqual(m.vars['RUS_edu_catalog_1_frame'],ACTIVITIES.index(a)+3)
+                self.assertEqual(m.vars['RUS_edu_catalog_1_days'],a['days'])
+                self.assertTrue(all(m.vars[f'RUS_edu_catalog_{i}_frame']==2 for i in (2,3)))
+                m.end(a['id'],cancel)
+                self.assertTrue(all(m.vars[f'RUS_edu_catalog_{i}_activity']==0 and m.vars[f'RUS_edu_catalog_{i}_frame']==2 for i in range(1,4)))
+        # Two campaigns in the same category appear once each, even if another
+        # running category occupies a gameplay slot between them.
+        m=initialized();m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'})
+        m.vars[VARS['basic']]=60;m.call('RUS_education_refresh')
+        for aid in ('literacy','mentoring','university'):
+            a=next(a for a in ACTIVITIES if a['id']==aid)
+            m.run(clicks.one(f'edu_category_{a["category"]}_click').v)
+            self.assertTrue(m.start(aid))
+        for category in (3,4,3,4):
+            m.run(clicks.one(f'edu_category_{category}_click').v)
+            displayed=[m.vars[f'RUS_edu_catalog_{i}_activity'] for i in range(1,4) if m.vars[f'RUS_edu_catalog_{i}_activity']]
+            expected=[code for code,a in enumerate(ACTIVITIES,3) if a['category']==category and active(a) in m.flags]
+            self.assertEqual(displayed,expected)
+            self.assertEqual(m.vars['RUS_edu_active_count'],3)
     def test_exact_initial_and_optimal_maxima(self):
         m=initialized()
         self.assertEqual([m.vars[VARS[k]] for k in ('basic','higher','heat')],[46,7,32])
@@ -271,9 +292,9 @@ class EducationTests(unittest.TestCase):
                     sprite=sprites[n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
                     path=next(r/relative for r in (ROOT,ROOT.parents[3]/'common/Hearts of Iron IV') if (r/relative).is_file())
                     with Image.open(path) as im:w=im.width//int(sprite.value('noOfFrames','1'));h=im.height
-                    self.assertLessEqual(y+h,633)
+                    self.assertLessEqual(y+h,601)
                 else:w=int(n.value('maxWidth'))
-                self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,498);self.assertGreaterEqual(y,0);self.assertLess(y,633)
+                self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,498);self.assertGreaterEqual(y,0);self.assertLess(y,601)
     def test_native_bar_art_noticeboard_and_empty_slot_visibility(self):
         from PIL import Image
         game=ROOT.parents[3]/'common/Hearts of Iron IV'
@@ -293,6 +314,8 @@ class EducationTests(unittest.TestCase):
         for i in range(1,4):
             self.assertFalse(m.check(triggers.one(f'activity_progress_{i}_visible')))
             self.assertFalse(m.check(triggers.one(f'activity_days_{i}_visible')))
+            self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_frame'],1 if i==3 else 2)
+            self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_activity'],0)
         m.start('literacy');self.assertTrue(m.check(triggers.one('activity_progress_1_visible')))
         m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_progress_1_visible')))
         window=load(ROOT/GUI)[0].v[0]

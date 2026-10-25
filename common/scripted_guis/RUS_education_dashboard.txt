@@ -14,8 +14,6 @@ RUS_education_dashboard = {
 	activity_progress_3 = { frame = RUS_edu_catalog_3_progress }
 }
 	triggers = {
-	edu_catalog_previous_click_enabled = { check_variable = { RUS_edu_catalog_page > 1 } }
-	edu_catalog_next_click_enabled = { check_variable = { RUS_edu_catalog_page < RUS_edu_catalog_pages } }
 	activity_progress_1_visible = { check_variable = { RUS_edu_catalog_1_running = 1 } }
 	activity_days_1_visible = { check_variable = { RUS_edu_catalog_1_running = 1 } }
 	activity_progress_2_visible = { check_variable = { RUS_edu_catalog_2_running = 1 } }
@@ -25,28 +23,22 @@ RUS_education_dashboard = {
 }
 	effects = {
 	edu_category_1_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 1 } set_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
+	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 1 } RUS_education_refresh = yes } }
 }
 	edu_category_2_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 2 } set_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
+	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 2 } RUS_education_refresh = yes } }
 }
 	edu_category_3_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 3 } set_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
+	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 3 } RUS_education_refresh = yes } }
 }
 	edu_category_4_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 4 } set_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
+	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 4 } RUS_education_refresh = yes } }
 }
 	edu_category_5_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 5 } set_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
+	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 5 } RUS_education_refresh = yes } }
 }
 	edu_category_6_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 6 } set_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
-}
-	edu_catalog_previous_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active check_variable = { RUS_edu_catalog_page > 1 } } subtract_from_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
-}
-	edu_catalog_next_click = {
-	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active check_variable = { RUS_edu_catalog_page < RUS_edu_catalog_pages } } add_to_variable = { RUS_edu_catalog_page = 1 } RUS_education_refresh = yes } }
+	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 6 } RUS_education_refresh = yes } }
 }
 }
 }

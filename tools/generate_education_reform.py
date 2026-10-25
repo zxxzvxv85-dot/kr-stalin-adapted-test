@@ -47,7 +47,7 @@ def effects():
     init=['set_country_flag = RUS_education_system_active','set_country_flag = RUS_education_reform_started',
           'remove_ideas = RUS_malformed_education_system',setv(VARS['basic'],46),setv(VARS['higher'],7),setv(VARS['heat'],32),
           setv('RUS_education_completed_activities',0),setv('RUS_edu_active_count',0),setv('RUS_edu_slots',2),
-          setv('RUS_education_overheat_days',0),setv('RUS_edu_category',4),setv('RUS_edu_catalog_page',1)]
+          setv('RUS_education_overheat_days',0),setv('RUS_edu_category',4)]
     for m in POOL_CAPS: init.append(setv(pv(m),0))
     # Explicit public interfaces: additive education/enthusiasm and reserved political pressure.
     for v in ['RUS_edu_external_basic_gain','RUS_edu_external_higher_gain','RUS_edu_external_heat_change','RUS_edu_external_pressure']:
@@ -198,24 +198,30 @@ def refresh_lines():
     return lines+['force_update_dynamic_modifier = yes']
 
 def catalog_lines():
-    lines=clamp('RUS_edu_category',1,6)+[setv('RUS_edu_catalog_pages',1),setv('RUS_edu_catalog_count',0)]
+    # The board shows campaigns actually in progress, not available posters.
+    # Category selection only filters this view and the decision list.
+    lines=clamp('RUS_edu_category',1,6)+[setv('RUS_edu_catalog_count',0)]
     for category in POSTER_CATEGORIES:
         entries=[(code,a) for code,a in enumerate(ACTIVITIES,3) if a['category']==category]
         lines+=cond(f'check_variable = {{ RUS_edu_category = {category} }}',[
-            setv('RUS_edu_catalog_pages',max(1,(len(entries)+2)//3)),setv('RUS_edu_catalog_count',len(entries))])
-    lines+=clamp('RUS_edu_catalog_page',1,'RUS_edu_catalog_pages')
+            setv('RUS_edu_catalog_count',len(entries))])
     for i in range(1,4):
         for suffix,value in [('activity',0),('frame',2),('running',0),('days',0),('progress',1)]:
             lines.append(setv(f'RUS_edu_catalog_{i}_{suffix}',value))
-    for category in POSTER_CATEGORIES:
-        entries=[(code,a) for code,a in enumerate(ACTIVITIES,3) if a['category']==category]
-        for offset,(code,a) in enumerate(entries):
-            i=offset%3+1;page=offset//3+1;prefix=f'RUS_edu_catalog_{i}_'
-            updates=[setv(prefix+'activity',code),setv(prefix+'frame',code)]
-            updates+=cond('has_country_flag = '+active(a),[setv(prefix+'running',1),setv(prefix+'days',remain(a)),
+    lines+=cond('check_variable = { RUS_edu_slots < 3 }',[setv('RUS_edu_catalog_3_frame',1)])
+    for code,a in enumerate(ACTIVITIES,3):
+        slots=[]
+        for i in range(1,4):
+            prefix=f'RUS_edu_catalog_{i}_'
+            # Only the first free display slot receives this active campaign.
+            updates=[setv(prefix+'activity',code),setv(prefix+'frame',code),
+                setv(prefix+'running',1),setv(prefix+'days',remain(a)),
                 setv(prefix+'progress',a['days']),op('subtract_from',prefix+'progress',remain(a)),
-                mul(prefix+'progress',f'{100/a["days"]:.12g}'),f'round_variable = {prefix}progress',add(prefix+'progress',1)])
-            lines+=cond(f'check_variable = {{ RUS_edu_category = {category} }} check_variable = {{ RUS_edu_catalog_page = {page} }}',updates)
+                mul(prefix+'progress',f'{100/a["days"]:.12g}'),f'round_variable = {prefix}progress',add(prefix+'progress',1)]
+            slots += [('if' if i==1 else 'else_if')+' = {',
+                f'\tlimit = {{ check_variable = {{ {prefix}activity = 0 }} check_variable = {{ RUS_edu_slots > {i-1} }} }}',
+                *['\t'+line for line in updates],'}']
+        lines+=cond(f'check_variable = {{ RUS_edu_category = {a["category"]} }} has_country_flag = {active(a)}',slots)
     return lines
 
 def decisions():
@@ -281,19 +287,14 @@ def gui_outputs():
     for category in POSTER_CATEGORIES:
         button(f'edu_category_{category}',f'RUS_edu_category_{category}',24+162*((category-1)%3),168+36*((category-1)//3))
     text('edu_catalog_heading','RUS_edu_catalog_heading',6,245,484)
-    button('edu_catalog_previous','RUS_edu_previous',70,590)
-    button('edu_catalog_next','RUS_edu_next',304,590)
     props=[]
     for kind in VARS: props.append(f'{kind}_bar = {{ frame = RUS_edu_bar_{kind} }}')
     icon('education_noticeboard','GFX_RUS_education_noticeboard',0,274)
     guard='has_country_flag = RUS_education_system_active'
-    triggers=['edu_catalog_previous_click_enabled = { check_variable = { RUS_edu_catalog_page > 1 } }',
-              'edu_catalog_next_click_enabled = { check_variable = { RUS_edu_catalog_page < RUS_edu_catalog_pages } }']
+    triggers=[]
     click_effects=[]
     for category in POSTER_CATEGORIES:
-        click_effects.append(block(f'edu_category_{category}_click',['hidden_effect = { '+f'if = {{ limit = {{ {guard} }} '+setv('RUS_edu_category',category)+' '+setv('RUS_edu_catalog_page',1)+' RUS_education_refresh = yes } }']).strip())
-    for name,condition,operation in [('previous','> 1',op('subtract_from','RUS_edu_catalog_page',1)),('next','< RUS_edu_catalog_pages',add('RUS_edu_catalog_page',1))]:
-        click_effects.append(block('edu_catalog_'+name+'_click',['hidden_effect = { '+f'if = {{ limit = {{ {guard} check_variable = {{ RUS_edu_catalog_page {condition} }} }} '+operation+' RUS_education_refresh = yes } }']).strip())
+        click_effects.append(block(f'edu_category_{category}_click',['hidden_effect = { '+f'if = {{ limit = {{ {guard} }} '+setv('RUS_edu_category',category)+' RUS_education_refresh = yes } }']).strip())
     for i,x in enumerate((6,168,330),1):
         icon(f'poster_{i}','GFX_RUS_education_posters',x,275,'RUS_edu_slot_'+str(i)+'_tooltip')
         icon(f'activity_progress_{i}','GFX_RUS_edu_activity_bar',x+21,490)
@@ -304,7 +305,7 @@ def gui_outputs():
         props += [f'poster_{i} = {{ frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
     # The category's custom-GUI anchor precedes its inner border in the user's
     # runtime screenshot. Correct the entire canvas, keeping the board and cards aligned.
-    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }','size = { width = 498 height = 633 }']+ui)+'}\n'
+    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }','size = { width = 498 height = 601 }']+ui)+'}\n'
     sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip(),block('effects',click_effects).strip()])+'}\n'
     sprites=[]
     for kind in ('basic','higher','heat','activity'):
@@ -361,11 +362,8 @@ def localisations():
       'RUS_edu_gate_second':'下一组：6次／基础45%／高等15%',
       'RUS_edu_gate_third':'下一组：10次／基础60%／高等25%',
       'RUS_edu_gate_done':'教育路线已确定',
-      'RUS_edu_empty':'',
-      'RUS_edu_catalog_none':'该分类暂无已实装宣传',
-      'RUS_edu_catalog_heading':'§Y[RUSEducationPosterCategory]  ·  [?RUS_edu_catalog_count|0]项  ·  [?RUS_edu_catalog_page|0]/[?RUS_edu_catalog_pages|0]页§!',
-      'RUS_edu_previous':'上一页',
-      'RUS_edu_next':'下一页',
+      'RUS_edu_empty':'空闲栏位',
+      'RUS_edu_catalog_heading':'§Y[RUSEducationPosterCategory]§!',
       'RUS_edu_locked':'完成“对文化革命”后开放',
       'RUS_edu_blank':'',
     }
@@ -422,8 +420,7 @@ def scripted_loc():
     chunks.append(block('defined_text',['name = RUSEducationPosterCategory']+[
         f'text = {{ trigger = {{ check_variable = {{ RUS_edu_category = {category} }} }} localization_key = RUS_edu_category_{category} }}' for category in POSTER_CATEGORIES]))
     for i in range(1,4):
-        body=[f'name = RUSEducationSlot{i}']
-        if i==2:body.append('text = { trigger = { check_variable = { RUS_edu_catalog_count = 0 } } localization_key = RUS_edu_catalog_none }')
+        body=[f'name = RUSEducationSlot{i}',f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_frame = 1 }} }} localization_key = RUS_edu_locked }}']
         for code,a in enumerate(ACTIVITIES,3): body.append(f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_activity = {code} }} }} localization_key = RUS_edu_activity_{a["id"]} }}')
         body+=['text = { localization_key = RUS_edu_empty }']; chunks.append(block('defined_text',body))
         chunks.append(block('defined_text',[f'name = RUSEducationSlot{i}Days',
