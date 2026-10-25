@@ -122,6 +122,34 @@ class EducationTests(unittest.TestCase):
         self.assertEqual(by_id['teachers']['permanent_modifiers'],{'political_power_cost':-.01})
         self.assertEqual(by_id['construction']['permanent_modifiers'],{'industrial_capacity_factory':.01})
         self.assertEqual(by_id['university']['permanent_modifiers'],{'research_speed_factor':.005})
+        # Compare native decision values with the unscaled authoring snapshot:
+        # each benefit is 2.5--5x, and every cost keeps its previous amount.
+        for a in ACTIVITIES+CONTROLS:
+            actual={n.k:float(n.v) for n in DECISIONS['RUS_education_'+a['id']].one('modifier').v}
+            for mod,base in a['base_temporary_modifiers'].items():
+                if (-base if mod in lower_better else base)>0:
+                    self.assertGreaterEqual(actual[mod]/base,2.5-1e-10)
+                    self.assertLessEqual(actual[mod]/base,5+1e-10)
+                else:self.assertEqual(actual[mod],base)
+        self.assertEqual(by_id['literacy']['modifiers'],{'research_speed_factor':.05,'production_speed_buildings_factor':-.05})
+        for a in ACTIVITIES:
+            construction=a['modifiers'].get('production_speed_buildings_factor',0)
+            if construction<0:self.assertEqual(construction,-.075 if a['id']=='teachers' else -.05)
+        for aid in ('pedagogy','ten_days','soviet_elections','harvest_battle'):
+            self.assertEqual(by_id[aid]['modifiers']['industrial_capacity_factory'],-.05)
+        for aid in ('schools','university','construction','advanced_theory','grain_delivery',
+                    'socialist_industry','volunteer_enlistment','women_frontline'):
+            self.assertEqual(by_id[aid]['modifiers']['consumer_goods_factor'],.05)
+        for aid in ('cultural_enemies','protect_children','lenin_banner','public_property'):
+            self.assertEqual(by_id[aid]['modifiers']['stability_factor'],-.05)
+        for aid,mod in [('teachers','production_speed_buildings_factor'),
+                        ('night_school','production_factory_efficiency_gain_factor'),
+                        ('defend_leningrad','industrial_capacity_factory'),
+                        ('defend_moscow','industrial_capacity_factory'),
+                        ('complete_collectivisation','stability_factor')]:
+            self.assertEqual(by_id[aid]['modifiers'][mod],-.075)
+        self.assertEqual(by_id['agriculture']['modifiers']['consumer_goods_factor'],.005)
+        self.assertEqual(by_id['literacy']['permanent_modifiers'],{'research_speed_factor':.002})
     def test_per_campaign_education_limits_include_route_advisor_and_heat_multipliers(self):
         for a in ACTIVITIES:
             for kind,cap in EDUCATION_GAIN_CAPS.items():self.assertLessEqual(a[kind],cap)

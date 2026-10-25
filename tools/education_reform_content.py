@@ -21,10 +21,10 @@ HEAT_POLITICAL_PRESSURE = .15
 # id, slogan, category, duration, PP, total base/higher gain, enthusiasm per 30 days, poster code, temporary modifiers
 ROWS = [
  ('literacy','知识打破奴隶的锁链！','basic',90,25,4,0,0,'EDU02',{'research_speed_factor':.01}),
- ('schools','让每一个村庄都有学校！','basic',120,40,4,0,-.5,'EDU01',{'monthly_population':.05,'stability_factor':.015,'consumer_goods_factor':.01}),
+ ('schools','让每一个村庄都有学校！','basic',120,40,4,0,-.5,'EDU01',{'monthly_population':.05,'stability_factor':.015,'consumer_goods_factor':.05}),
  ('night_school','工农群众，拿起书本！','basic',90,30,4,1,.5,'EDU66',{'equipment_conversion_speed':.10,'industrial_capacity_factory':.025}),
  ('teachers','为人民培养人民教师！','basic',120,40,4,2,0,'WOM16',{'political_advisor_cost_factor':-.10,'political_power_cost':-.025}),
- ('university','工农群众，走进大学！','higher',120,45,1,2,.5,'EDU42',{'research_speed_factor':.015,'consumer_goods_factor':.01}),
+ ('university','工农群众，走进大学！','higher',120,45,1,2,.5,'EDU42',{'research_speed_factor':.015,'consumer_goods_factor':.05}),
  ('science','科学必须服务于人民！','higher',180,55,0,2,0,'EDU56',{'research_speed_factor':.015,'local_resources_factor':.05}),
  ('pedagogy','培养建设新社会的师资！','higher',120,45,3,2,0,'EDU68',{'political_advisor_cost_factor':-.10,'political_power_factor':.025}),
  ('technical','掌握技术，建设社会主义！','technical',90,35,1,2,1,'EDU30',{'equipment_conversion_speed':.10,'industrial_capacity_factory':.02}),
@@ -44,30 +44,30 @@ ACTIVITIES += additional_activities()
 # The decision modifier applies each benefit and its explicit cost together.
 # Costs are separate authoring data so they cannot silently replace a benefit.
 CAMPAIGN_COSTS = {
- 'literacy':{'production_speed_buildings_factor':-.01},
- 'schools':{}, 'night_school':{'production_factory_efficiency_gain_factor':-.015},
- 'teachers':{'production_speed_buildings_factor':-.015}, 'university':{},
- 'science':{'political_power_cost':.05}, 'pedagogy':{'industrial_capacity_factory':-.01},
+ 'literacy':{'production_speed_buildings_factor':-.05},
+ 'schools':{}, 'night_school':{'production_factory_efficiency_gain_factor':-.075},
+ 'teachers':{'production_speed_buildings_factor':-.075}, 'university':{},
+ 'science':{'political_power_cost':.05}, 'pedagogy':{'industrial_capacity_factory':-.05},
  'technical':{'political_power_cost':.05}, 'agriculture':{'consumer_goods_factor':.005},
  'reading':{'political_power_cost':.025}, 'outreach':{'consumer_goods_factor':.005},
- 'construction':{'consumer_goods_factor':.01}, 'mentoring':{'political_power_cost':.05},
+ 'construction':{'consumer_goods_factor':.05}, 'mentoring':{'political_power_cost':.05},
  'library':{'political_power_cost':.025},
- 'defend_leningrad':{'industrial_capacity_factory':-.015}, 'defend_moscow':{'industrial_capacity_factory':-.015},
+ 'defend_leningrad':{'industrial_capacity_factory':-.075}, 'defend_moscow':{'industrial_capacity_factory':-.075},
  'march_west':{'supply_consumption_factor':.025}, 'defend_october':{'political_power_cost':.05},
  'dnieper_water':{'supply_consumption_factor':.025}, 'await_victory':{'political_power_cost':.025},
- 'advanced_theory':{'consumer_goods_factor':.01}, 'cultural_enemies':{'stability_factor':-.01},
- 'mothers_literacy':{'political_power_cost':.025}, 'children_workers':{'production_speed_buildings_factor':-.01},
- 'ten_days':{'industrial_capacity_factory':-.01}, 'book_fair':{'consumer_goods_factor':.005},
- 'grain_delivery':{'consumer_goods_factor':.01}, 'end_kitchen_slavery':{'production_speed_buildings_factor':-.02},
- 'soviet_elections':{'industrial_capacity_factory':-.01}, 'protect_children':{'stability_factor':-.01},
- 'lenin_banner':{'stability_factor':-.01}, 'labour_productivity':{'political_power_cost':.05},
- 'socialist_industry':{'consumer_goods_factor':.01}, 'lenin_electrification':{'production_lack_of_resource_penalty_factor':.025},
- 'tractors_nurseries':{'production_speed_buildings_factor':-.01}, 'agricultural_statistics':{'political_power_cost':.025},
- 'complete_collectivisation':{'stability_factor':-.015}, 'harvest_battle':{'industrial_capacity_factory':-.01},
+ 'advanced_theory':{'consumer_goods_factor':.05}, 'cultural_enemies':{'stability_factor':-.05},
+ 'mothers_literacy':{'political_power_cost':.025}, 'children_workers':{'production_speed_buildings_factor':-.05},
+ 'ten_days':{'industrial_capacity_factory':-.05}, 'book_fair':{'consumer_goods_factor':.005},
+ 'grain_delivery':{'consumer_goods_factor':.05}, 'end_kitchen_slavery':{'production_speed_buildings_factor':-.05},
+ 'soviet_elections':{'industrial_capacity_factory':-.05}, 'protect_children':{'stability_factor':-.05},
+ 'lenin_banner':{'stability_factor':-.05}, 'labour_productivity':{'political_power_cost':.05},
+ 'socialist_industry':{'consumer_goods_factor':.05}, 'lenin_electrification':{'production_lack_of_resource_penalty_factor':.025},
+ 'tractors_nurseries':{'production_speed_buildings_factor':-.05}, 'agricultural_statistics':{'political_power_cost':.025},
+ 'complete_collectivisation':{'stability_factor':-.075}, 'harvest_battle':{'industrial_capacity_factory':-.05},
  'vigilance':{'political_power_cost':.05}, 'production_vices':{'political_power_cost':.025},
- 'public_property':{'stability_factor':-.01}, 'false_shock_workers':{'political_power_cost':.05},
- 'motherland_calls':{'industrial_capacity_factory':-.02}, 'volunteer_enlistment':{'consumer_goods_factor':.01},
- 'red_banner_oath':{'training_time_army_factor':.025}, 'women_frontline':{'consumer_goods_factor':.01},
+ 'public_property':{'stability_factor':-.05}, 'false_shock_workers':{'political_power_cost':.05},
+ 'motherland_calls':{'industrial_capacity_factory':-.02}, 'volunteer_enlistment':{'consumer_goods_factor':.05},
+ 'red_banner_oath':{'training_time_army_factor':.025}, 'women_frontline':{'consumer_goods_factor':.05},
  'people_and_army':{'political_power_cost':.05}, 'honour_freedom':{'supply_consumption_factor':.025},
  'ukrainian_liberators':{'political_power_cost':.05}, 'beloved_motherland':{'consumer_goods_factor':.005},
  'long_live_peace':{'training_time_army_factor':.05},
@@ -84,6 +84,34 @@ CONTROLS = [
  dict(id='listen',name='听取群众的声音！',kind='control',days=30,cost=20,basic=0,higher=0,heat=10,modifiers={'political_power_cost':-.025}),
  dict(id='restore_order',name='让课堂与车间恢复秩序！',kind='control',days=30,cost=20,basic=0,higher=0,heat=-12,modifiers={'political_power_cost':-.025}),
 ]
+# Scale only beneficial native modifiers while a decision is running. The
+# independent permanent table, education gains and completion extras are not inputs.
+LOWER_IS_BETTER = {
+ 'political_power_cost','consumer_goods_factor','political_advisor_cost_factor',
+ 'resistance_growth_on_our_occupied_states','conversion_cost_civ_to_mil_factor',
+ 'conversion_cost_mil_to_civ_factor','production_lack_of_resource_penalty_factor',
+ 'supply_consumption_factor','experience_loss_factor','training_time_army_factor',
+}
+TEMPORARY_BENEFIT_MULTIPLIERS = {
+ 'industrial_capacity_factory':4, 'industrial_capacity_dockyard':4,
+ 'production_factory_start_efficiency_factor':4,
+ 'production_factory_efficiency_gain_factor':4,
+ 'production_factory_max_efficiency_factor':4,
+ 'political_power_cost':4, 'political_power_factor':3,
+ 'stability_factor':2.5, 'stability_weekly':5, 'war_support_factor':2.5,
+ 'political_advisor_cost_factor':2.5, 'consumer_goods_factor':2.5,
+ 'conversion_cost_civ_to_mil_factor':2.5, 'conversion_cost_mil_to_civ_factor':2.5,
+ 'production_speed_rail_way_factor':2.5, 'production_speed_infrastructure_factor':2.5,
+ 'production_speed_bunker_factor':2.5, 'equipment_conversion_speed':2.5,
+ 'training_time_army_factor':2.5, 'resistance_growth_on_our_occupied_states':2.5,
+}
+for activity in ACTIVITIES+CONTROLS:
+    activity['base_temporary_modifiers']=dict(activity['modifiers'])
+    for modifier,value in activity['base_temporary_modifiers'].items():
+        if (-value if modifier in LOWER_IS_BETTER else value)<=0:continue
+        factor=TEMPORARY_BENEFIT_MULTIPLIERS.get(modifier,3)
+        if modifier=='research_speed_factor':factor=5 if value<=.01 else 2.5
+        activity['modifiers'][modifier]=round(value*factor,12)
 from education_permanent_rewards import PERMANENT_REWARDS
 for activity in ACTIVITIES+CONTROLS:
     # Keep published permanent awards, without converting the new costs or

@@ -162,7 +162,7 @@ def build(archive, output):
         for a in CONTROLS:
             doc.add_heading(a['name'].strip('！'),2)
             condition='热情低于35' if a['id']=='listen' else '热情至少70'
-            doc.add_paragraph(f"条件 {condition}。花费20政治点，持续30天，冷却60天。期间每日政治点消耗减少0.025；结束时热情{a['heat']:+g}，按原有奖励永久减少每日政治点消耗0.005。")
+            doc.add_paragraph(f"条件 {condition}。花费20政治点，持续30天，冷却60天。期间每日政治点消耗减少{-a['modifiers']['political_power_cost']:g}；结束时热情{a['heat']:+g}，按原有奖励永久减少每日政治点消耗{-a['permanent_modifiers']['political_power_cost']:g}。")
         doc.add_paragraph('热情调节不占海报栏位，两项不能同时进行，不计完成宣传次数，也没有单独海报。')
         doc.add_heading('教育系统初值',2)
         doc.add_paragraph('基础教育46，高等教育7，民众热情32。热情每日自然下降0.10；两个教育水平不自然衰减。')
