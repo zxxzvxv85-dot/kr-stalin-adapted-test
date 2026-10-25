@@ -252,10 +252,16 @@ def main():
         if n.k in [x.get('source') for x in SPEC['nodes']]:
             assert [x.norm() for x in n.v if x.k!='available']==[x.norm() for x in b.v if x.k!='available']
             assert [x.norm() for x in n.one('available').v[:-1]]==[x.norm() for x in b.one('available').v]
+            guard=n.one('available').v[-1].one('custom_trigger_tooltip')
+            donor=next(x for x in SPEC['nodes'] if x.get('source')==n.k)
+            assert guard.value('tooltip')=='RUS_odb_not_merged_tt'
+            assert guard.one('NOT').value('has_country_flag')=='RUS_odb_merged_'+donor['id']
         elif n.k in armour_sources:
             assert [x.norm() for x in n.v if x.k!='available']==[x.norm() for x in b.v if x.k!='available']
             assert [x.norm() for x in n.one('available').v[:-1]]==[x.norm() for x in b.one('available').v]
-            assert n.one('available').v[-1].one('NOT').value('has_country_flag')=='RUS_adb_merged_'+armour_sources[n.k]
+            guard=n.one('available').v[-1].one('custom_trigger_tooltip')
+            assert guard.value('tooltip')=='RUS_adb_not_merged_tt'
+            assert guard.one('NOT').value('has_country_flag')=='RUS_adb_merged_'+armour_sources[n.k]
         else:assert n.norm()==b.norm()
     positions={(n['x'],n['y']) for n in SPEC['nodes']};assert len(positions)==17
     assert max(x for x,y in positions)==6 and max(y for x,y in positions)==4

@@ -29,8 +29,32 @@ def render_policies():
 def block(key, body):
     return key+' = {\n'+''.join((' '+s if s.strip() else '')+'\n' for s in body.strip().splitlines())+'}\n'
 
+
+def merge_availability(available, flag, prefix):
+    """Wrap only this bureau's donor flag; preserve all original requirements."""
+    gate='FROM = { custom_trigger_tooltip = { tooltip = '+prefix+'_not_merged_tt NOT = { has_country_flag = '+flag+' } } }'
+    existing=[n for n in available.v if flag in n.raw()]
+    assert len(existing)<=1
+    raw=available.raw()
+    if existing:
+        node=existing[0];assert node.k=='FROM'
+        wrapped=node.one('custom_trigger_tooltip')
+        assert len(node.v)==1
+        if wrapped:
+            assert len(wrapped.v)==2 and wrapped.value('tooltip')==prefix+'_not_merged_tt'
+        inner=wrapped or node
+        condition=inner.one('NOT')
+        assert condition is not None and len(condition.v)==1
+        assert condition.value('has_country_flag')==flag
+        raw=raw[:node.a-available.a]+gate+raw[node.b-available.a:]
+    else:
+        raw=raw.rstrip().removesuffix('}').rstrip()+'\n\t\t'+gate+'\n\t}'
+    return raw
+
+
 def render(spec):
     loc = dict(spec['localisation'])
+    loc['RUS_odb_not_merged_tt']='尚未被陆军兵器设计总局整合'
     company_names={n['id']:n['name'] for n in json.loads((ROOT/'tools/design/RUS_stalin_mio_names.json').read_text(encoding='utf-8'))}
     effects = []
     traits = []
@@ -347,9 +371,7 @@ def adapters(spec):
     for n in parse(text):
         if n.k not in by_source:continue
         available=n.one('available');flag='RUS_odb_merged_'+by_source[n.k]
-        raw=available.raw()
-        if flag not in raw:
-            raw=raw.rstrip().removesuffix('}').rstrip()+'\n\t\tFROM = { NOT = { has_country_flag = '+flag+' } }\n\t}'
+        raw=merge_availability(available,flag,'RUS_odb')
         raw='\n'.join(line.rstrip() for line in raw.splitlines())
         if raw!=available.raw():changes.append((available.a,available.b,raw))
     for a,b,s in sorted(changes,reverse=True):text=text[:a]+s+text[b:]

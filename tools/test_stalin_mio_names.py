@@ -120,10 +120,14 @@ def main():
     armour=json.loads((R/'tools/design/armour_design_bureau/spec.json').read_text(encoding='utf-8'))
     donors={x['source']:x['id'] for x in armour['nodes'] if x.get('source')}
     for a,b in zip(load(R/org_path),original):
-        if a.k not in donors:assert a.norm()==b.norm();continue
+        if a.k not in donors:
+            from test_support.mio_tooltips import without_merge_display
+            assert without_merge_display(a)==without_merge_display(b);continue
         assert [n.norm() for n in a.v if n.k!='available']==[n.norm() for n in b.v if n.k!='available']
         assert [n.norm() for n in a.one('available').v[:-1]]==[n.norm() for n in b.one('available').v]
-        assert a.one('available').v[-1].one('NOT').value('has_country_flag')=='RUS_adb_merged_'+donors[a.k]
+        guard=a.one('available').v[-1].one('custom_trigger_tooltip')
+        assert guard.value('tooltip')=='RUS_adb_not_merged_tt'
+        assert guard.one('NOT').value('has_country_flag')=='RUS_adb_merged_'+donors[a.k]
     for rel in build.render():
         p=R/rel
         if p.suffix=='.yml':
@@ -207,7 +211,10 @@ def main():
         assert labels['RUS_stalin_mio_reorganization.1.t']==report['title']
         assert labels['RUS_stalin_mio_reorganization.1.a']==report['option']
         assert '继续阅读' not in text and 'page_' not in text
-    from hoi4_bitmap_fonts import measure
+    from hoi4_bitmap_fonts import measure,glyph
+    for font in ('hoi_16mbs','hoi_18mbs','hoi4_typewriter16'):
+        for char in set(''.join(item['kind']+item['introduction'] for item in extracted.values()))-{'\n','\r'}:
+            glyph(font,char)
     assert measure('hoi4_typewriter22',report['title'])<=551
     assert measure(report['layout']['font'],report['option'])<=512
     # In-game evidence: trait titles leave scripted loc raw, whereas effect bodies expand it.

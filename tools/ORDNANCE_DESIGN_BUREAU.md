@@ -1,5 +1,7 @@
 # 陆军兵器设计总局
 
+2026-10-25显示修正：五家原厂的合并旗标门槛改用`RUS_odb_not_merged_tt`显示“尚未被陆军兵器设计总局整合”，NOT旗标和原有资格逻辑不变；生成适配器通过共用merge_availability原位更新，不重复追加。
+
 实机UI修正：五个整合特质标题直接由批准企业名称JSON生成中文，不再使用会原样输出的动态标题引用；悬浮正文Company函数保留。特质及MIO ID不变，可重启后继续已有总局存档。
 
 来源：`tools/design/ordnance_design_bureau/陆军兵器设计总局.drawio`，机制数值来源包括该图内嵌的五张截图。批准数值与连线在同目录`spec.json`。装甲总局已按另图独立实现，见`ARMOUR_DESIGN_BUREAU.md`，不套用本兵器总局数值。

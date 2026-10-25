@@ -7,7 +7,7 @@ from pathlib import Path
 from decimal import Decimal
 import argparse,json
 from hoi4_politics_blocks import load,parse
-from generate_ordnance_design_bureau import block
+from generate_ordnance_design_bureau import block,merge_availability
 
 ROOT=Path(__file__).resolve().parents[1]
 SPEC_PATH=ROOT/'tools/design/armour_design_bureau/spec.json'
@@ -21,6 +21,7 @@ def render(spec):
     byid={n['id']:n for n in spec['nodes']}
     loc={
       ORG:'陆军装甲设计总局','RUS_adb_initial_trait':'装甲车辆联合设计体系',
+      'RUS_adb_not_merged_tt':'尚未被陆军装甲设计总局整合',
       'RUS_adb_repeat_remaining_tt':'§C这项特质还可以培养$RIGHT|Y0$次。§!',
       'RUS_adb_learning_tt':'§g当被分配为£industrial_manufacturer_icon §H制造商§!时，该§H军工机构§!将逐渐获得£research_speed_icon §H研究加成§!（分配到多条生产线时效果不会叠加）\n\n每周£research_speed_icon §H研究加成§!增长：[?RUS_adb_policy_research_gain|2W%]\n£research_speed_icon §H研究加成§!软上限：[?RUS_adb_policy_research_cap|2W%]\n获取£research_speed_icon §H研究加成§!所需的最低每日§H经费§!：[?daily_funds_requirement|2W]\n\n[GetRUSAdbLearningStatus]§!',
       'RUS_adb_research_cic_tt':'\n§g提高§H军工机构§!规模，也将提高通过研究获取的额外£civ_factory_output §H经济产能盈余§!，每有一级规模提高[?RUS_adb_cic_per_level|G0]。\n\n在该活动期间，获取的£civ_factory_output §H经济产能盈余§!总值：[?RUS_adb_total_campaign_cic|W0]§!',
@@ -203,8 +204,9 @@ def adapters(spec):
     for org in parse(text):
         if org.k not in mapping:continue
         flag='RUS_adb_merged_'+mapping[org.k];n=org.one('available')
-        if flag not in n.raw():edits.append((n.ib,'\n\t\tFROM = { NOT = { has_country_flag = '+flag+' } }\n\t'))
-    for at,s in sorted(edits,reverse=True):text=text[:at].rstrip()+s+text[at:]
+        raw=merge_availability(n,flag,'RUS_adb')
+        if raw!=n.raw():edits.append((n.a,n.b,raw))
+    for start,end,raw in sorted(edits,reverse=True):text=text[:start]+raw+text[end:]
     paths={DONORS:text}
     text=(ROOT/FOCUS).read_text(encoding='utf-8-sig');n=next(n for n in parse(text) if n.value('id')=='RUS_future_foreign_030').one('completion_reward')
     if 'RUS_adb_unlock' not in n.raw():text=text[:n.ib].rstrip()+'\n\t\tRUS_adb_unlock = yes\n\t'+text[n.ib:]

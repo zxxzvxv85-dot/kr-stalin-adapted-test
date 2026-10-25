@@ -135,10 +135,14 @@ def main():
     donors={n['source']:n['id'] for n in SPEC['nodes'] if n.get('source')}
     for n in load(R/build.DONORS):
         b=original[n.k]
-        if n.k not in donors:assert n.norm()==b.norm();continue
+        if n.k not in donors:
+            from test_support.mio_tooltips import without_merge_display
+            assert without_merge_display(n)==without_merge_display(b);continue
         assert [x.norm() for x in n.v if x.k!='available']==[x.norm() for x in b.v if x.k!='available']
         assert [x.norm() for x in n.one('available').v[:-1]]==[x.norm() for x in b.one('available').v]
-        assert n.one('available').v[-1].one('NOT').value('has_country_flag')=='RUS_adb_merged_'+donors[n.k]
+        guard=n.one('available').v[-1].one('custom_trigger_tooltip')
+        assert guard.value('tooltip')=='RUS_adb_not_merged_tt'
+        assert guard.one('NOT').value('has_country_flag')=='RUS_adb_merged_'+donors[n.k]
     old=parse(subprocess.check_output(['git','show','4bbcbda:'+build.FOCUS]).decode('utf-8-sig'))
     for a,b in zip(load(R/build.FOCUS),old):
         if a.value('id')!='RUS_future_foreign_030':assert a.norm()==b.norm();continue
