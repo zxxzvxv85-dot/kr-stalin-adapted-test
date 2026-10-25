@@ -28,8 +28,6 @@ def extract():
     for p in files.values():
         for n in load(p):orgs[n.k]=n;org_sources[n.k]=str(p.resolve())
     approved=json.loads((ROOT/'tools/design/RUS_stalin_mio_names.json').read_text(encoding='utf-8'))
-    introductions=json.loads((ROOT/'tools/design/RUS_stalin_mio_reorganization_20261025.json').read_text(encoding='utf-8'))['introductions']
-    post_event={'RUSStalinMioIntro_'+item['id']:item['introduction'] for item in introductions}
     renamed={org:r['name'] for r in approved for org in [r['org']]+r.get('related',[])}
     def inherited(org,field,seen=()):
         assert org not in seen,('include cycle',org)
@@ -52,8 +50,7 @@ def extract():
         if intro_key and 'RUS_'+intro_key in loc:intro_key='RUS_'+intro_key
         if not intro_key:intro_key=owner+'_initial_trait'
         assert intro_key in loc,('initial trait not localised',org,intro_key)
-        expanded=re.sub(r'\[(RUSStalinMioIntro_\w+)\]',lambda m:post_event[m[1]],expand(intro_key))
-        expanded=plain(expanded);lines=expanded.splitlines();kind=lines[0].strip();body='\n'.join(lines[1:]).strip()
+        expanded=plain(expand(intro_key));lines=expanded.splitlines();kind=lines[0].strip();body='\n'.join(lines[1:]).strip()
         # Some native introductions keep their prose in the standard separate desc key.
         if not body and intro_key+'_desc' in loc:body=plain(expand(intro_key+'_desc'))
         assert not re.search(r'\$[\w.-]+\$|\[[A-Za-z_]',kind+'\n'+body),(org,'unresolved localisation')
@@ -64,7 +61,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--write',action='store_true');a=p.parse_args();rows=extract()
     if a.write:
         OUT.mkdir(parents=True,exist_ok=True)
-        text='RUS 军工机构介绍汇总\n\n机构名及介绍使用斯大林军工改组事件完成后的版本；正文逐字提取现有简体中文本地化与已批准的事件后条件文本，去除颜色代码。包括继承母机构介绍的衍生机构；只有类型、没有介绍正文的项目单独注明。不含特质效果、修正或数值。\n\n'
+        text='RUS 军工机构介绍汇总\n\n机构名使用斯大林军工改组后的批准名称；介绍逐字提取现有简体中文固定正文，去除颜色代码。包括继承母机构介绍的衍生机构；只有类型、没有介绍正文的项目单独注明。不含特质效果、修正或数值。\n\n'
         for i,r in enumerate(rows,1):
             variant={'RUS_sokol_construction_organisation':'（原索科尔建设分支）','RUS_sokol_production_organisation':'（原索科尔生产分支）'}.get(r['id'],'')
             text+=f'{i:02d}. {r["name"]}{variant}\n'

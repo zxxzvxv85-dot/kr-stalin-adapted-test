@@ -18,46 +18,19 @@ country_event = {
  is_triggered_only = yes
  fire_only_once = yes
  trigger = { tag = RUS has_country_flag = RUS_stalin_ml_promoted has_country_flag = RUS_stalin_mio_reorganization_scheduled has_socialist_government = yes NOT = { has_country_flag = RUS_stalin_mio_reorganization_done } }
+ immediate = { if = { limit = { tag = RUS has_country_flag = RUS_stalin_ml_promoted has_country_flag = RUS_stalin_mio_reorganization_scheduled has_socialist_government = yes NOT = { has_country_flag = RUS_stalin_mio_reorganization_done } } set_country_flag = RUS_stalin_mio_reorganization_shown } }
  option = {
   name = RUS_stalin_mio_reorganization.1.a
-  hidden_effect = { if = { limit = { tag = RUS has_country_flag = RUS_stalin_ml_promoted has_country_flag = RUS_stalin_mio_reorganization_scheduled has_socialist_government = yes NOT = { has_country_flag = RUS_stalin_mio_reorganization_done } } set_country_flag = RUS_stalin_mio_reorganization_page_1_read country_event = { id = RUS_stalin_mio_reorganization.2 } } }
- }
-}
-
-country_event = {
- id = RUS_stalin_mio_reorganization.2
- title = RUS_stalin_mio_reorganization.2.t
- desc = RUS_stalin_mio_reorganization.2.d
- picture = GFX_report_event_generic_factory_workers
- is_triggered_only = yes
- fire_only_once = yes
- trigger = { tag = RUS has_country_flag = RUS_stalin_ml_promoted has_country_flag = RUS_stalin_mio_reorganization_scheduled has_socialist_government = yes NOT = { has_country_flag = RUS_stalin_mio_reorganization_done } has_country_flag = RUS_stalin_mio_reorganization_page_1_read }
- option = {
-  name = RUS_stalin_mio_reorganization.2.a
-  hidden_effect = { if = { limit = { tag = RUS has_country_flag = RUS_stalin_ml_promoted has_country_flag = RUS_stalin_mio_reorganization_scheduled has_socialist_government = yes NOT = { has_country_flag = RUS_stalin_mio_reorganization_done } } set_country_flag = RUS_stalin_mio_reorganization_page_2_read country_event = { id = RUS_stalin_mio_reorganization.3 } } }
- }
-}
-
-country_event = {
- id = RUS_stalin_mio_reorganization.3
- title = RUS_stalin_mio_reorganization.3.t
- desc = RUS_stalin_mio_reorganization.3.d
- picture = GFX_report_event_generic_factory_workers
- is_triggered_only = yes
- fire_only_once = yes
- trigger = { tag = RUS has_country_flag = RUS_stalin_ml_promoted has_country_flag = RUS_stalin_mio_reorganization_scheduled has_socialist_government = yes NOT = { has_country_flag = RUS_stalin_mio_reorganization_done } has_country_flag = RUS_stalin_mio_reorganization_page_2_read }
- option = {
-  name = RUS_stalin_mio_reorganization.3.a
   effect_tooltip = { if = { limit = { has_dlc_aat = yes }
 		if = {
 			limit = { has_military_industrial_organization = RUS_sokol_organisation }
 			mio:RUS_sokol_organisation = { set_mio_name_key = RUS_stalin_mio_company_sokol }
 		}
-		if = {
+		else_if = {
 			limit = { has_military_industrial_organization = RUS_sokol_construction_organisation }
 			mio:RUS_sokol_construction_organisation = { set_mio_name_key = RUS_stalin_mio_company_sokol }
 		}
-		if = {
+		else_if = {
 			limit = { has_military_industrial_organization = RUS_sokol_production_organisation }
 			mio:RUS_sokol_production_organisation = { set_mio_name_key = RUS_stalin_mio_company_sokol }
 		}

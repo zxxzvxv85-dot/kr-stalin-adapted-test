@@ -56,8 +56,8 @@ class World:
                     self.fired.add(key)
                     # Deliberately do not simulate trigger filtering on a
                     # forced call: production guards must be actual effects.
-                    if event.value('hidden')=='yes':self.run(event.one('immediate').v)
-                    else:self.popups.append(key)
+                    if event.one('immediate'):self.run(event.one('immediate').v)
+                    if event.value('hidden')!='yes':self.popups.append(key)
             if _<days:self.day+=1
     def confirm(self):
         key=self.popups.pop(0);self.run(EVENTS[key].one('option').v);self.advance()
@@ -141,54 +141,74 @@ def main():
         w.run(EFFECTS['RUS_stalin_complete_mio_reorganization'].v);assert DONE not in w.flags
         w.advance(14);assert not w.popups and w.mios==original
         w.advance(1);assert w.popups==['RUS_stalin_mio_reorganization.1'] and w.mios==original
-        w.confirm();assert w.popups==['RUS_stalin_mio_reorganization.2'] and w.mios==original
-        w.confirm();assert w.popups==['RUS_stalin_mio_reorganization.3'] and w.mios==original
+        assert 'RUS_stalin_mio_reorganization_shown' in w.flags
         w.confirm();assert not w.popups and DONE in w.flags
         for org,state in w.mios.items():
             assert {k:v for k,v in state.items() if k!='name'}=={k:v for k,v in original[org].items() if k!='name'}
             assert state['name']==(MAPPING[org] if dlc and org in MAPPING else original[org]['name'])
-        once=copy.deepcopy(w.mios);w.run(EVENTS['RUS_stalin_mio_reorganization.3'].one('option').v)
+        once=copy.deepcopy(w.mios);w.run(EVENTS['RUS_stalin_mio_reorganization.1'].one('option').v)
         w.run(EFFECTS['RUS_stalin_queue_mio_reorganization'].v);assert w.mios==once and not w.queue
         w.advance(60);assert not w.popups
     for tag,flags in [('FER',['RUS_stalin_ml_promoted']),('RUS',[]),('RUS',[DONE,'RUS_stalin_ml_promoted'])]:
         w=World(tag=tag,flags=flags,leader=True);w.run(EFFECTS['RUS_stalin_queue_mio_reorganization'].v);assert not w.queue
     w=World(flags=['RUS_stalin_ml_promoted'],leader=True);w.run(EFFECTS['RUS_stalin_queue_mio_reorganization'].v)
     w.socialist=False;w.advance(15);assert not w.popups and DONE not in w.flags
-    # Native read-only previews must enumerate exactly the approved MIO names.
-    preview=EVENTS['RUS_stalin_mio_reorganization.3'].one('option').one('effect_tooltip')
+    # Every possible instance remains covered, but each company is displayed
+    # once. The first available Sokol variant supplies its native preview.
+    preview=EVENTS['RUS_stalin_mio_reorganization.1'].one('option').one('effect_tooltip')
     # The scoped checks are nested under the DLC condition.
-    preview_mios={scope.k[4:]:scope.value('set_mio_name_key') for outer in preview.v for inner in outer.children('if') for scope in inner.v if scope.k.startswith('mio:')}
+    preview_mios={scope.k[4:]:scope.value('set_mio_name_key') for outer in preview.v for inner in outer.v if inner.k in ('if','else_if') for scope in inner.v if scope.k.startswith('mio:')}
     assert preview_mios==MAPPING
+    def visible_previews(nodes,w):
+        result=[];selected=False
+        for n in nodes:
+            if n.k in ('if','else_if'):
+                if n.k=='if':selected=False
+                if not selected and w.cond(n.one('limit').v):
+                    selected=True
+                    result+=visible_previews([x for x in n.v if x.k!='limit'],w)
+            elif n.k.startswith('mio:'):
+                result.append((n.k[4:],n.value('set_mio_name_key')))
+            else:raise AssertionError(n.k)
+        return result
+    sokol=ROWS[0];assert sokol['id']=='sokol'
+    variants=[sokol['org']]+sokol['related']
+    for missing in [[],variants[:1],variants[:2],variants]:
+        for dlc in (False,True):
+            w=World(dlc=dlc,missing=missing)
+            visible=visible_previews(preview.v,w)
+            expected=[(next(org for org in [r['org']]+r.get('related',[]) if org in w.mios),build.key(r)) for r in ROWS if any(org in w.mios for org in [r['org']]+r.get('related',[]))] if dlc else []
+            assert visible==expected
+            assert len({label for org,label in visible})==len(visible)
     reorganization=json.loads(build.REORGANIZATION.read_text(encoding='utf-8'))
     assert len(reorganization['introductions'])==22
     assert sum(len(item['organizations']) for item in reorganization['introductions'])==24
     intro_text=(R/'localisation/replace/zz_RUS_stalin_mio_introductions_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
     intro_values={m[1]:json.loads(m[2]) for m in re.finditer(r'^ (\w+):0 (.+)$',intro_text,re.M)}
-    intro_helpers={n.value('name'):n for n in load(R/'common/scripted_localisation/RUS_stalin_mio_introductions.txt')}
+    assert not (R/'common/scripted_localisation/RUS_stalin_mio_introductions.txt').exists()
     for item in reorganization['introductions']:
-        helper='RUSStalinMioIntro_'+item['id'];key=item['localisation_key']
-        assert intro_values[key]==item['original_format'].replace('$'+item['old_body_key']+'$','['+helper+']')
+        key=item['localisation_key'];body_key='RUS_stalin_mio_intro_'+item['id']
+        assert intro_values[key]==item['original_format'].replace('$'+item['old_body_key']+'$','$'+body_key+'$')
         assert intro_values['RUS_stalin_mio_intro_'+item['id']]==item['introduction']
         assert item['old_body_key'] not in intro_values
-        for flags,new in [(['RUS_stalin_ml_promoted'],False),([DONE,'RUS_stalin_ml_promoted'],True)]:
-            w=World(flags=flags)
-            selected=next(t.value('localization_key') for t in intro_helpers[helper].children('text') if not t.one('trigger') or w.cond(t.one('trigger').v))
-            assert selected==('RUS_stalin_mio_intro_'+item['id'] if new else item['old_body_key'])
+    assert '[RUSStalinMioIntro_' not in intro_text
+    from extract_rus_mio_introductions import extract
+    extracted={r['id']:r for r in extract()}
+    for item in reorganization['introductions']:
+        for org in item['organizations']:
+            assert extracted[org]['introduction']==item['introduction'],org
     assert '（当前没有介绍正文。）' not in intro_text
-    report=reorganization['event'];assert len(EVENTS)==4 and len(report['pages'])==3
-    assert ''.join(report['pages']).replace('\n','')==''.join(report['paragraphs'])
-    from hoi4_bitmap_fonts import measure,font_data
-    line_height=max(f['height'] for f in font_data(report['layout']['font']))
-    for index,page in enumerate(report['pages'],1):
-        lines=0
-        for paragraph in page.split('\n'):
-            width=0;lines+=1
-            for char in paragraph:
-                advance=measure(report['layout']['font'],char)
-                if width+advance>512:lines+=1;width=0
-                width+=advance
-        assert lines*line_height<=230
-        assert measure('hoi4_typewriter22',report['title']+f'（{index}/3）')<=551
+    report=reorganization['event'];assert set(EVENTS)=={'RUS_stalin_mio_reorganization.0','RUS_stalin_mio_reorganization.1'}
+    for lang in ('simp_chinese','english','russian'):
+        text=(R/f'localisation/{lang}/RUS_stalin_mio_reorganization_l_{lang}.yml').read_text(encoding='utf-8-sig')
+        labels={k:json.loads(v) for k,v in re.findall(r'^ ([\w.]+):0 (.+)$',text,re.M)}
+        assert len(labels)==3
+        assert labels['RUS_stalin_mio_reorganization.1.d']=='\n'.join(report['paragraphs'])
+        assert labels['RUS_stalin_mio_reorganization.1.t']==report['title']
+        assert labels['RUS_stalin_mio_reorganization.1.a']==report['option']
+        assert '继续阅读' not in text and 'page_' not in text
+    from hoi4_bitmap_fonts import measure
+    assert measure('hoi4_typewriter22',report['title'])<=551
     assert measure(report['layout']['font'],report['option'])<=512
     # In-game evidence: trait titles leave scripted loc raw, whereas effect bodies expand it.
     # Both bureaus unlock after Stalin; keep all twelve titles literal, same approved source.
@@ -201,6 +221,6 @@ def main():
             assert labels[f'RUS_{prefix}_'+n['id']]=='整合'+companies[n['id']]
             assert '[RUSStalinMioCompany_'+n['id']+']' in labels[f'RUS_{prefix}_'+n['id']+'_unavailable_tt']
         assert '[RUSStalinMioMerge_' not in text
-    print('PASS: 15-day accession schedule; three native-size report pages; confirmation-only rename/22 introductions for 24 MIOs; 23 names + two Sokol variants, preserved institutions/progress/traits, native previews, country/DLC/duplicate gates and BOM/keys. Runtime UI remains to be checked.')
+    print('PASS: 15-day accession schedule; single full-text report; confirmation-only rename/22 introductions for 24 MIOs; 23 names + two Sokol variants, preserved institutions/progress/traits, native previews, country/DLC/duplicate gates and BOM/keys. Runtime UI remains to be checked.')
 
 if __name__=='__main__':main()
