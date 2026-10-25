@@ -265,6 +265,10 @@ def refresh_lines():
     lines+=cond('has_country_flag = RUS_edu_culture_open',[setv('RUS_edu_slots',3)])
     for a in ACTIVITIES+CONTROLS:
         lines += [setv(duration(a),a['days'])]+mul_if(duration(a),'RUS_edu_era',.5)
+        lines += cond('has_idea = RUS_mikhail_kalinin_advisor',[mul(duration(a),.75)])
+        # Engine timers use whole days. A representable 0.001 epsilon makes
+        # positive half-day ties round up in the engine and test fixture.
+        lines += [add(duration(a),.001),f'round_variable = {duration(a)}']
         v='RUS_edu_cost_'+a['id']; lines+=[setv(v,a['cost'])]
         if a['kind']!='control':
             lines+=mul_if(v,'RUS_edu_central',.8)
@@ -298,7 +302,7 @@ def catalog_lines():
         lines+=cond(f'check_variable = {{ RUS_edu_category = {category} }}',[
             setv('RUS_edu_catalog_count',len(entries))])
     for i in range(1,4):
-        for suffix,value in [('activity',0),('frame',2),('running',0),('days',0),('progress',1)]:
+        for suffix,value in [('activity',0),('frame',2),('running',0),('days',0),('age',0),('progress',1)]:
             lines.append(setv(f'RUS_edu_catalog_{i}_{suffix}',value))
     lines+=cond('check_variable = { RUS_edu_slots < 3 }',[setv('RUS_edu_catalog_3_frame',1)])
     for code,a in enumerate(ACTIVITIES,3):
@@ -309,7 +313,8 @@ def catalog_lines():
             updates=[setv(prefix+'activity',code),setv(prefix+'frame',code),
                 setv(prefix+'running',1),setv(prefix+'days',remain(a)),
                 setv(prefix+'progress',run_duration(a)),op('subtract_from',prefix+'progress',remain(a)),
-                op('divide',prefix+'progress',run_duration(a)),mul(prefix+'progress',100),f'round_variable = {prefix}progress',add(prefix+'progress',1)]
+                op('divide',prefix+'progress',run_duration(a)),mul(prefix+'progress',100),
+                setv(prefix+'age',prefix+'progress'),f'round_variable = {prefix}progress',add(prefix+'progress',1)]
             slots += [('if' if i==1 else 'else_if')+' = {',
                 f'\tlimit = {{ check_variable = {{ {prefix}activity = 0 }} check_variable = {{ RUS_edu_slots > {i-1} }} }}',
                 *['\t'+line for line in updates],'}']
@@ -425,7 +430,7 @@ def gui_outputs():
         text(f'activity_days_{i}','RUS_edu_slot_'+str(i)+'_text',x+1,558,158)
         triggers += [f'activity_progress_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}',
                      f'activity_days_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}']
-        props += [f'poster_{i} = {{ frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
+        props += [f'poster_{i} = {{ image = "[RUSEducationPosterAge{i}]" frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
     # The category's custom-GUI anchor precedes its inner border in the user's
     # runtime screenshot. Correct the entire canvas, keeping the board and cards aligned.
     gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }',f'size = {{ width = {canvas_width} height = 601 }}']+ui)+'}\n'
@@ -434,6 +439,8 @@ def gui_outputs():
     for kind in ('basic','higher','heat','activity'):
         sprites.append(block('spriteType',[f'name = "GFX_RUS_edu_{kind}_bar"',f'texturefile = "{ART.as_posix()}/{kind}_bar.dds"','noOfFrames = 101']))
     sprites.append(block('spriteType',['name = "GFX_RUS_education_posters"',f'texturefile = "{ART.as_posix()}/posters.dds"',f'noOfFrames = {len(ACTIVITIES)+2}']))
+    for stage in range(1,4):
+        sprites.append(block('spriteType',[f'name = "GFX_RUS_education_posters_aged_{stage}"',f'texturefile = "{ART.as_posix()}/posters_aged_{stage}.dds"',f'noOfFrames = {len(ACTIVITIES)+2}']))
     sprites.append(block('spriteType',['name = "GFX_RUS_education_noticeboard"','texturefile = "gfx/interface/propaganda/propaganda_bg.dds"','legacy_lazy_load = no']))
     for name in ('metric_panel','metric_name_panel','metric_value_panel'):
         sprites.append(block('spriteType',[f'name = "GFX_RUS_education_{name}"',f'texturefile = "{ART.as_posix()}/{name}.dds"']))
@@ -475,6 +482,8 @@ def localisations():
       'RUS_edu_unlock_culture_tt':'增加1个宣传栏位。\\n解锁文教与思想类海报。\\n基础教育达到35%后，可开展高等教育类活动。',
       'RUS_edu_unlock_technical_tt':'解锁经济与生产类海报及职业技术活动。',
       'RUS_edu_theory_tt':'§Y高等教育增量§!：§G+20%§!。',
+      'RUS_education_theory_research_slot':'理论研究计划',
+      'RUS_edu_theory_slot_bonus_tt':'临时科研槽：§G+1§!',
       'RUS_edu_practice_tt':'§C基础教育增量§!：§G+20%§!。',
       'RUS_edu_central_tt':'宣传活动政治点花费：§G-20%§!。\\n宣传活动正热情增量：§Y+25%§!。',
       'RUS_edu_amateur_tt':'活动教育增量：§G+10%§!。\\n文化活动正热情增量：§Y-25%§!。',
@@ -489,7 +498,7 @@ def localisations():
       'RUS_education_mass_enthusiasm':'群众热情澎湃',
       'RUS_edu_mass_hesitation_daily_tt':'每日§O民众热情§!：§Y-0.15§!',
       'RUS_edu_mass_enthusiasm_daily_tt':'每日§O民众热情§!：§Y+0.05§!',
-      'RUS_edu_kalinin_tt':'教育活动的教育增量：§G+20%§!。\\n海报政治点花费：§G-15%§!。',
+      'RUS_edu_kalinin_tt':'教育活动的教育增量：§G+20%§!。\\n海报政治点花费：§G-15%§!。\\n教育改革决议持续时间：§G-25%§!。',
       'RUS_edu_gate_first':'下一组：宣传3次／基础30%',
       'RUS_edu_gate_second':'下一组：6次／基础45%／高等15%',
       'RUS_edu_gate_third':'下一组：9次／基础60%／高等25%',
@@ -561,6 +570,9 @@ def scripted_loc():
     chunks.append(block('defined_text',['name = RUSEducationPosterCategory']+[
         f'text = {{ trigger = {{ check_variable = {{ RUS_edu_category = {category} }} }} localization_key = RUS_edu_category_{category} }}' for category in POSTER_CATEGORIES]))
     for i in range(1,4):
+        chunks.append(block('defined_text',[f'name = RUSEducationPosterAge{i}']+[
+            f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} check_variable = {{ RUS_edu_catalog_{i}_age >= {stage*25} }} }} localization_key = GFX_RUS_education_posters_aged_{stage} }}'
+            for stage in (3,2,1)]+['text = { localization_key = GFX_RUS_education_posters }']))
         body=[f'name = RUSEducationSlot{i}',f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_frame = 1 }} }} localization_key = RUS_edu_locked }}']
         for code,a in enumerate(ACTIVITIES,3): body.append(f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_activity = {code} }} }} localization_key = RUS_edu_activity_{a["id"]} }}')
         body+=['text = { localization_key = RUS_edu_empty }']; chunks.append(block('defined_text',body))
@@ -609,6 +621,21 @@ def integration_outputs():
     n=next(n for n in parse(text) if n.k=='RUS_stalin_refresh_kalinin_education_effects')
     replacement=block(n.k,cond('has_country_flag = RUS_education_system_active',['RUS_education_refresh = yes'])).rstrip()
     outputs[path]=text[:n.a]+replacement+text[n.b:]
+    path=Path('common/characters/RUS characters.txt');raw=(ROOT/path).read_bytes();text=raw.decode('utf-8-sig')
+    character=next(n for top in parse(text) for n in top.v if n.k=='RUS_mikhail_kalinin')
+    available=character.one('advisor').one('available')
+    if 'RUS_future_domestic_221' not in available.raw():
+        # Keep the previous route as an alternative; do not unlock other
+        # advisors or remove the shared collapse/role restrictions.
+        old=[n for n in available.v if n.k=='RUS_kamenev_post_election_advisors_unlocked' or
+             (n.k=='has_completed_focus' and n.v=='RUS_kamenev_marxist_education')]
+        assert len(old)==2
+        keep=[n.raw() for n in available.v if n not in old]
+        keep += ['OR = {','\thas_completed_focus = RUS_future_domestic_221',
+                 '\thidden_trigger = {']+['\t\t'+n.raw() for n in old]+['\t}','}']
+        replacement=block('available',keep).rstrip().replace('\n','\n\t\t\t')
+        text=text[:available.a]+replacement+text[available.b:]
+    outputs[path]=('\ufeff' if raw.startswith(b'\xef\xbb\xbf') else '')+text
     path=Path('common/country_leader/stalin_form_sov_traits.txt');text=(ROOT/path).read_bytes().decode('utf-8-sig')
     n=next(t for root in parse(text) for t in root.children('RUS_kalinin_engineer_of_human_souls'))
     body=n.raw()
@@ -625,6 +652,12 @@ def integration_outputs():
                 f'targeted_modifier = {{ tag = {r["target"]} attack_bonus_against_cores = {r["attack"]:g} }}']).strip())
     outputs[path]='ideas = {\n'+block('country',[block('RUS_malformed_education_system',['picture = SOV_opiate_of_the_masses',
         block('modifier',[f'{m} = {lo:g}' for m,(lo,hi,w) in BODY.items()]).strip()]).strip(),
+        block('RUS_education_theory_research_slot',['picture = generic_research_increase','allowed = { always = no }','removal_cost = -1',
+            block('on_add',cond('NOT = { has_country_flag = RUS_edu_theory_slot_active }',[
+                'set_country_flag = RUS_edu_theory_slot_active','add_research_slot = 1'])).strip(),
+            block('on_remove',cond('has_country_flag = RUS_edu_theory_slot_active',[
+                'clr_country_flag = RUS_edu_theory_slot_active','add_research_slot = -1'])).strip(),
+            'modifier = { custom_modifier_tooltip = RUS_edu_theory_slot_bonus_tt }']).strip(),
         'RUS_education_present_drive = { picture = generic_high_literacy modifier = { industrial_capacity_factory = 0.05 } }',
         *[block('RUS_education_mass_'+phase,['picture = generic_high_literacy','allowed = { always = no }','removal_cost = -1',
             'modifier = { custom_modifier_tooltip = RUS_edu_mass_'+phase+'_daily_tt }']).strip()
@@ -679,6 +712,47 @@ def render_assets():
         paper=Image.new('RGBA',(160,205),'#e1d9ba');paper.paste(fit,((160-fit.width)//2,(205-fit.height)//2))
         strip.paste(paper,(index*160,0))
     b=io.BytesIO();strip.save(b,format='DDS');result[ART/'posters.dds']=b.getvalue()
+    result.update(aged_poster_assets(strip,vanilla,game))
+    return result
+
+def aged_poster_assets(strip,vanilla,game):
+    """Package existing vanilla paper damage around each unchanged poster.
+
+    Vanilla's three aged atlases are different wear patterns, not time stages.
+    Reuse their alpha edges and neutral paper shading, accumulating damage so
+    later stages never restore a torn edge. Do not transplant vanilla artwork.
+    """
+    import numpy as np
+    from PIL import Image
+    clean=np.array(vanilla,dtype=float).reshape(205,26,160,4).transpose(1,0,2,3)[2:]/255
+    bright=(clean[:,:,:,:3].min(3)>.65)&(clean[:,:,:,3]>.95)
+    clean_luma=clean[:,:,:,:3].mean(3)
+    shading=np.ones((205,160));result={};previous={}
+    for stage in range(1,4):
+        path=game/f'gfx/interface/propaganda/SOV/SOV_propaganda_strip_aged_texture{stage}.dds'
+        native=Image.open(path).convert('RGBA')
+        native_array=np.array(native,dtype=float).reshape(205,26,160,4).transpose(1,0,2,3)[2:]/255
+        ratio=np.clip((native_array[:,:,:,:3].mean(3)+.05)/(clean_luma+.05),.45,1)
+        valid=bright&(native_array[:,:,:,3]>.95)
+        # Average over unrelated white/light paper areas; no original poster
+        # figures or lettering are copied into a new poster's colour layer.
+        paper_light=np.divide((ratio*valid).sum(0),valid.sum(0),out=np.ones((205,160)),where=valid.sum(0)>0)
+        shading=np.minimum(shading,paper_light)
+        worn=strip.copy()
+        for index in range(2,len(ACTIVITIES)+2):
+            sample=(index-2)%24
+            bounds=Image.fromarray((clean[sample]*255).astype('uint8'),'RGBA').getbbox()
+            mask=Image.fromarray((native_array[sample,:,:,3]*255).astype('uint8'),'L').crop(bounds).resize((160,205),Image.Resampling.LANCZOS)
+            alpha=np.array(mask,dtype=float)/255
+            alpha=np.minimum(previous.get(index,np.ones_like(alpha)),alpha);previous[index]=alpha
+            dirt=Image.fromarray((shading*255).astype('uint8'),'L').crop(bounds).resize((160,205),Image.Resampling.LANCZOS)
+            tile=np.array(strip.crop((index*160,0,(index+1)*160,205)),dtype=float)
+            luma=tile[:,:,:3].mean(2,keepdims=True)
+            rgb=tile[:,:,:3]*(1-.08*stage)+luma*(.08*stage)
+            tile[:,:,:3]=rgb*(np.array(dirt)[:,:,None]/255)* (1-.02*stage)
+            tile[:,:,3]*=alpha
+            worn.paste(Image.fromarray(np.clip(tile,0,255).astype('uint8'),'RGBA'),(index*160,0))
+        b=io.BytesIO();worn.save(b,format='DDS');result[ART/f'posters_aged_{stage}.dds']=b.getvalue()
     return result
 
 def main():

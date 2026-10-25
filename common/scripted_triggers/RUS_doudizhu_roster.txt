@@ -2146,10 +2146,15 @@ RUS_ddz_person_199900_eligible = {
 					NOT = {
 						has_country_flag = RUS_stalin_psr_balance_collapse_done
 					}
-					RUS_kamenev_post_election_advisors_unlocked = yes
 					RUS_stalin_can_hire_bolshevik_advisor = yes
-					has_completed_focus = RUS_kamenev_marxist_education
 					always = yes
+					OR = {
+						has_completed_focus = RUS_future_domestic_221
+						hidden_trigger = {
+							RUS_kamenev_post_election_advisors_unlocked = yes
+							has_completed_focus = RUS_kamenev_marxist_education
+						}
+					}
 				}
 			}
 		}

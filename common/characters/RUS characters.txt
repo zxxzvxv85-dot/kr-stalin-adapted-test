@@ -2364,11 +2364,17 @@ characters = {
 			slot = political_advisor
 			idea_token = RUS_mikhail_kalinin_advisor
 			desc = RUS_mikhail_kalinin_advisor_desc
-			available = { NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
-				RUS_kamenev_post_election_advisors_unlocked = yes
+			available = {
+				NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done }
 				RUS_stalin_can_hire_bolshevik_advisor = yes
-				has_completed_focus = RUS_kamenev_marxist_education
 				not_already_hired_except_as = political_advisor
+				OR = {
+					has_completed_focus = RUS_future_domestic_221
+					hidden_trigger = {
+						RUS_kamenev_post_election_advisors_unlocked = yes
+						has_completed_focus = RUS_kamenev_marxist_education
+					}
+				}
 			}
 			visible = { has_socialist_government = yes }
 			traits = { RUS_kalinin_engineer_of_human_souls KR_bolshevik_kalinin }

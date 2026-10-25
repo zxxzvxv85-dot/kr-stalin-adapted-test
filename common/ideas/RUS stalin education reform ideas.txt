@@ -13,6 +13,26 @@ country = {
 	conscription_factor = -0.15
 }
 }
+	RUS_education_theory_research_slot = {
+	picture = generic_research_increase
+	allowed = { always = no }
+	removal_cost = -1
+	on_add = {
+	if = {
+		limit = { NOT = { has_country_flag = RUS_edu_theory_slot_active } }
+		set_country_flag = RUS_edu_theory_slot_active
+		add_research_slot = 1
+	}
+}
+	on_remove = {
+	if = {
+		limit = { has_country_flag = RUS_edu_theory_slot_active }
+		clr_country_flag = RUS_edu_theory_slot_active
+		add_research_slot = -1
+	}
+}
+	modifier = { custom_modifier_tooltip = RUS_edu_theory_slot_bonus_tt }
+}
 	RUS_education_present_drive = { picture = generic_high_literacy modifier = { industrial_capacity_factory = 0.05 } }
 	RUS_education_mass_hesitation = {
 	picture = generic_high_literacy

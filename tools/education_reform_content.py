@@ -170,6 +170,12 @@ def education_focuses():
             result[suffix]=dict(name=spec['name'],cost=5,mode='manual',available=[],reward=[])
         assert result[suffix]['name']==spec['name']
         result[suffix]['description']=spec['description']
+    result['218']['reward'] += ['effect_tooltip = { add_research_slot = 1 }',
+        'add_timed_idea = { idea = RUS_education_theory_research_slot days = 365 }']
+    result['221']['reward'] += ['add_political_power = 150',
+        'if = { limit = { has_free_political_advisor_slot = yes hidden_trigger = { has_character = RUS_mikhail_kalinin NOT = { has_idea = RUS_mikhail_kalinin_advisor } NOT = { has_country_flag = RUS_stalin_psr_balance_collapse_done } RUS_mikhail_kalinin = { is_dead = no is_hired_as_advisor = no } } } activate_advisor = RUS_mikhail_kalinin_advisor }',
+        'else = { custom_effect_tooltip = available_political_advisor show_ideas_tooltip = RUS_mikhail_kalinin_advisor }',
+        'hidden_effect = { RUS_education_refresh = yes }']
     result['224']['reward'].append('custom_effect_tooltip = RUS_edu_repeat_campaign_tt')
     result['226']['reward'] += ['custom_effect_tooltip = RUS_edu_half_cost_tt',
         'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_hesitation days = 180 } }',

@@ -13,17 +13,31 @@ from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,act
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'))
 DECISIONS={n.k:n for root in load(ROOT/DEC) for n in root.v}
+IDEAS={n.k:n for root in load(ROOT/'common/ideas/RUS stalin education reform ideas.txt')
+       for country in root.children('country') for n in country.v}
 
 class EducationModel(ScriptModel):
     def __init__(self):
         super().__init__(EFFECTS);self.ideas=set();self.dynamic=set();self.done=set();self.expiry={};self.day=0
         self.at_war=False;self.state_scope=None
-        self.idea_expiry={};self.dynamic_expiry={}
+        self.idea_expiry={};self.dynamic_expiry={};self.research_slots=3
+        self.political_power=0;self.political_advisors=set();self.advisor_activations=[]
+        self.characters={'RUS_mikhail_kalinin'};self.kalinin_dead=False;self.kalinin_other_role=False
         self.states={i:dict(owned=True,controlled=True,modifiers={}) for i in (195,219,202)}
     def check(self,nodes):
         if hasattr(nodes,'v'): nodes=nodes.v
         for n in nodes:
             if n.k=='has_idea': ok=n.v in self.ideas
+            elif n.k=='has_character':ok=n.v in self.characters
+            elif n.k=='has_free_political_advisor_slot':
+                taken=self.political_advisors|({'RUS_mikhail_kalinin_advisor'} if 'RUS_mikhail_kalinin_advisor' in self.ideas else set())
+                ok=(len(taken)<3)==(n.v=='yes')
+            elif n.k=='RUS_mikhail_kalinin':ok=self.check(n.v)
+            elif n.k=='is_dead':ok=self.kalinin_dead==(n.v=='yes')
+            elif n.k=='is_hired_as_advisor':ok=(self.kalinin_other_role or 'RUS_mikhail_kalinin_advisor' in self.ideas)==(n.v=='yes')
+            elif n.k=='not_already_hired_except_as':ok=not self.kalinin_other_role
+            elif n.k=='RUS_kamenev_post_election_advisors_unlocked':ok='RUS_kamenev_post_election_advisors_unlocked' in self.flags
+            elif n.k=='RUS_stalin_can_hire_bolshevik_advisor':ok='RUS_stalin_psr_balance_collapse_done' not in self.flags
             elif n.k=='has_completed_focus':ok=n.v in self.done
             elif n.k=='has_socialist_government':ok=n.v=='yes'
             elif n.k=='has_war':ok=self.at_war==(n.v=='yes')
@@ -36,7 +50,7 @@ class EducationModel(ScriptModel):
         return True
     def run(self,nodes):
         pending=[]
-        native={'remove_ideas','add_ideas','add_dynamic_modifier','remove_dynamic_modifier','force_update_dynamic_modifier','effect_tooltip','custom_effect_tooltip','set_country_flag','add_timed_idea','RUS_nat_refresh'}
+        native={'remove_ideas','add_ideas','add_dynamic_modifier','remove_dynamic_modifier','force_update_dynamic_modifier','effect_tooltip','custom_effect_tooltip','show_ideas_tooltip','set_country_flag','add_timed_idea','add_research_slot','activate_advisor','add_political_power','RUS_nat_refresh'}
         for n in nodes:
             if n.k not in native and not n.k.isdigit():pending.append(n);continue
             if pending:super().run(pending);pending=[]
@@ -46,8 +60,12 @@ class EducationModel(ScriptModel):
             elif n.k=='set_country_flag':
                 if isinstance(n.v,str):self.flags.add(n.v)
                 else:self.flags.add(n.value('flag'));self.expiry[n.value('flag')]=self.day+int(n.value('days'))
-            elif n.k in ('remove_ideas','add_ideas'):
-                self.ideas.discard(n.v) if n.k=='remove_ideas' else self.ideas.add(n.v)
+            elif n.k=='remove_ideas':self.remove_idea(n.v)
+            elif n.k=='add_ideas':self.add_idea(n.v)
+            elif n.k=='add_research_slot':self.research_slots+=int(n.v)
+            elif n.k=='add_political_power':self.political_power+=float(n.v)
+            elif n.k=='activate_advisor':
+                self.political_advisors.add(n.v);self.ideas.add(n.v);self.advisor_activations.append(n.v)
             elif n.k=='add_dynamic_modifier':
                 if self.state_scope:self.states[self.state_scope]['modifiers'][n.value('modifier')]=int(n.value('days'))
                 else:
@@ -60,9 +78,19 @@ class EducationModel(ScriptModel):
             elif n.k=='remove_dynamic_modifier':
                 self.dynamic.discard(n.value('modifier'));self.dynamic_expiry.pop(n.value('modifier'),None)
             elif n.k=='add_timed_idea':
-                self.ideas.add(n.value('idea'));self.idea_expiry[n.value('idea')]=self.day+int(n.value('days'))
+                self.add_idea(n.value('idea'));self.idea_expiry[n.value('idea')]=self.day+int(n.value('days'))
             # Tooltip blocks are display only; never execute their effects.
         if pending:super().run(pending)
+    def add_idea(self,idea):
+        if idea in self.ideas:return
+        self.ideas.add(idea)
+        hook=IDEAS[idea].one('on_add') if idea in IDEAS else None
+        if hook:self.run(hook.v)
+    def remove_idea(self,idea):
+        if idea not in self.ideas:return
+        self.ideas.discard(idea);self.idea_expiry.pop(idea,None)
+        hook=IDEAS[idea].one('on_remove') if idea in IDEAS else None
+        if hook:self.run(hook.v)
     def call(self,name):
         if name=='RUS_nat_refresh':
             # Agriculture's own generator/tests validate recalculation. Here
@@ -80,7 +108,7 @@ class EducationModel(ScriptModel):
             for modifier,day in list(self.dynamic_expiry.items()):
                 if day<=self.day:self.dynamic.discard(modifier);del self.dynamic_expiry[modifier]
             for idea,day in list(self.idea_expiry.items()):
-                if day<=self.day:self.ideas.discard(idea);del self.idea_expiry[idea]
+                if day<=self.day:self.remove_idea(idea)
             for f,day in list(self.expiry.items()):
                 if day<=self.day:self.flags.discard(f);del self.expiry[f]
             self.call('RUS_education_daily')
@@ -99,6 +127,104 @@ def unlock_all(m):
     return m
 
 class EducationTests(unittest.TestCase):
+    def test_poster_aging_tracks_exact_progress_snapshot_and_resets_without_posting_available_art(self):
+        definitions=load(ROOT/'common/scripted_localisation/RUS_education_dashboard.txt')
+        selectors={i:next(n for n in definitions if n.value('name')==f'RUSEducationPosterAge{i}') for i in range(1,4)}
+        def sprite(m,i=1):
+            return next(n.value('localization_key') for n in selectors[i].children('text') if not n.one('trigger') or m.check(n.one('trigger')))
+        for a in ACTIVITIES:
+            m=unlock_all(initialized());m.flags.add('RUS_edu_era');m.ideas.add('RUS_mikhail_kalinin_advisor')
+            m.vars.update(RUS_edu_category=a['category'],RUS_basic_education_level=60)
+            m.call('RUS_education_refresh');self.assertTrue(m.start(a['id']))
+            total=m.vars[run_duration(a)]
+            # Each boundary uses the unrounded progress, including short
+            # campaigns whose quarter does not fall on a whole day.
+            for pct,stage in ((0,0),(24.99,0),(25,1),(49.99,1),(50,2),(74.99,2),(75,3),(99,3)):
+                m.vars[remain(a)]=total*(1-pct/100);m.call('RUS_education_refresh')
+                expected='GFX_RUS_education_posters'+(f'_aged_{stage}' if stage else '')
+                self.assertEqual(sprite(m),expected,(a['id'],pct))
+            # Changing category neither restarts wear nor posts an idle image.
+            m.vars['RUS_edu_category']=a['category']%6+1;m.call('RUS_education_refresh')
+            self.assertEqual(sprite(m),'GFX_RUS_education_posters');self.assertEqual(m.vars['RUS_edu_catalog_1_age'],0)
+            m.vars['RUS_edu_category']=a['category'];m.ideas.clear();m.flags.discard('RUS_edu_era')
+            m.call('RUS_education_refresh');self.assertEqual(sprite(m),'GFX_RUS_education_posters_aged_3')
+            m.end(a['id'],True)
+            self.assertTrue(all(sprite(m,i)=='GFX_RUS_education_posters' and m.vars[f'RUS_edu_catalog_{i}_age']==0 for i in range(1,4)))
+        m=unlock_all(initialized());m.vars.update(RUS_edu_category=4,RUS_basic_education_level=60)
+        m.call('RUS_education_refresh')
+        for aid in ('literacy','university','reading'):self.assertTrue(m.start(aid))
+        for a,pct in zip((a for a in ACTIVITIES if a['id'] in ('literacy','university','reading')),(10,40,80)):
+            m.vars[remain(a)]=m.vars[run_duration(a)]*(1-pct/100)
+        m.call('RUS_education_refresh')
+        self.assertEqual([sprite(m,i) for i in range(1,4)],['GFX_RUS_education_posters','GFX_RUS_education_posters_aged_1','GFX_RUS_education_posters_aged_3'])
+
+    def test_aged_poster_atlases_preserve_frames_placeholders_and_accumulate_paper_damage(self):
+        import numpy as np
+        from PIL import Image
+        with Image.open(ROOT/ART/'posters.dds') as image:base=np.array(image)
+        previous_alpha=base[:,:,3];brightness=base[:,:,:3].mean()
+        for stage in range(1,4):
+            with Image.open(ROOT/ART/f'posters_aged_{stage}.dds') as image:worn=np.array(image)
+            self.assertEqual(worn.shape,base.shape)
+            self.assertTrue(np.array_equal(worn[:,:320],base[:,:320]))
+            self.assertTrue(np.all(worn[:,:,3]<=previous_alpha));previous_alpha=worn[:,:,3]
+            self.assertLess(worn[:,:,:3].mean(),brightness);brightness=worn[:,:,:3].mean()
+            for index in range(2,len(ACTIVITIES)+2):
+                tile=worn[:,index*160:(index+1)*160]
+                self.assertTrue(np.any(tile[:,:,3]<255));self.assertGreater((tile[:,:,3]>200).mean(),.65)
+
+    def test_practice_unlocks_kalinin_and_autoappoints_only_with_a_free_slot_plus_150_pp(self):
+        character=next(n for root in load(ROOT/'common/characters/RUS characters.txt') for n in root.v if n.k=='RUS_mikhail_kalinin')
+        advisor=character.one('advisor');available=advisor.one('available')
+        reward=parse('\n'.join(education_focuses()['221']['reward']))
+        for taken in (0,2,3):
+            m=initialized();m.political_advisors={f'existing_{i}' for i in range(taken)}
+            original=set(m.political_advisors);self.assertFalse(m.check(available))
+            m.done.add('RUS_future_domestic_221');self.assertTrue(m.check(available))
+            m.run(reward);self.assertEqual(m.political_power,150)
+            self.assertIn('RUS_edu_practice',m.flags)
+            self.assertTrue(original<=m.political_advisors)
+            self.assertEqual('RUS_mikhail_kalinin_advisor' in m.ideas,taken<3)
+            if taken<3:
+                self.assertEqual(len(m.advisor_activations),1)
+                self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.85)
+                self.assertAlmostEqual(m.vars['RUS_edu_basic_multiplier'],1.2*1.2)
+            else:self.assertEqual(m.advisor_activations,[])
+        for blocked in ('already_hired','missing','dead','other_role','collapse'):
+            m=initialized();m.done.add('RUS_future_domestic_221')
+            if blocked=='already_hired':m.ideas.add('RUS_mikhail_kalinin_advisor')
+            if blocked=='missing':m.characters.clear()
+            if blocked=='dead':m.kalinin_dead=True
+            if blocked=='other_role':m.kalinin_other_role=True
+            if blocked=='collapse':m.flags.add('RUS_stalin_psr_balance_collapse_done')
+            m.run(reward);self.assertEqual(m.political_power,150);self.assertEqual(m.advisor_activations,[])
+        # The new focus is an alternative to the existing education/election
+        # route, and does not remove its collapse or role restrictions.
+        m=initialized();m.done.add('RUS_kamenev_marxist_education')
+        self.assertFalse(m.check(available));m.flags.add('RUS_kamenev_post_election_advisors_unlocked')
+        self.assertTrue(m.check(available))
+        m.flags.add('RUS_stalin_psr_balance_collapse_done');self.assertFalse(m.check(available))
+        history=(ROOT/'history/countries/RUS - Russia.txt').read_text(encoding='utf-8-sig')
+        self.assertIn('recruit_character = RUS_mikhail_kalinin',history)
+    def test_theory_research_slot_is_one_extra_for_365_days_and_removal_is_guarded(self):
+        idea='RUS_education_theory_research_slot';reward=parse('\n'.join(education_focuses()['218']['reward']))
+        m=initialized();m.flags.add('RUS_edu_era');m.run(reward)
+        self.assertEqual(m.research_slots,4);self.assertIn('RUS_edu_theory',m.flags)
+        self.assertEqual(m.vars['RUS_edu_higher_multiplier'],1.2)
+        self.assertIn(idea,m.ideas);self.assertEqual(m.idea_expiry[idea],365)
+        m.run(parse('add_timed_idea = { idea = '+idea+' days = 365 }'))
+        self.assertEqual(m.research_slots,4)
+        # Guard the ownership count even if an external reapplication invokes
+        # the on_add hook; native display blocks never execute their slot grant.
+        m.run(IDEAS[idea].one('on_add').v);self.assertEqual(m.research_slots,4)
+        m.advance(364);self.assertIn(idea,m.ideas);self.assertEqual(m.research_slots,4)
+        m.run(parse('add_research_slot = 1')) # Permanent slot earned meanwhile.
+        m.advance(1);self.assertNotIn(idea,m.ideas);self.assertEqual(m.research_slots,4)
+        self.assertNotIn('RUS_edu_theory_slot_active',m.flags)
+        m.run(IDEAS[idea].one('on_remove').v);self.assertEqual(m.research_slots,4)
+        m=initialized();m.run(reward);m.advance(10);m.remove_idea(idea)
+        self.assertEqual(m.research_slots,3)
+        m.remove_idea(idea);m.advance(365);self.assertEqual(m.research_slots,3)
     def test_era_halves_all_decision_durations_preserving_campaign_totals_and_running_snapshots(self):
         for accelerated in (False,True):
             for a in ACTIVITIES+CONTROLS:
@@ -296,6 +422,7 @@ class EducationTests(unittest.TestCase):
                     'RUS_edu_central','RUS_edu_completed_'+a['id'],'RUS_edu_era'})
                 m.ideas.add('RUS_mikhail_kalinin_advisor')
                 m.vars.update({VARS['basic']:40,VARS['higher']:7,VARS['heat']:55,'RUS_edu_category':a['category']})
+                m.call('RUS_education_refresh')
                 self.assertTrue(m.start(a['id']));before={k:m.vars[VARS[k]] for k in EDUCATION_GAIN_CAPS}
                 for _ in range(a['days']):m.call('RUS_education_tick_'+a['id'])
                 m.end(a['id'])
@@ -567,11 +694,17 @@ class EducationTests(unittest.TestCase):
         m.call('RUS_education_refresh');before={a['id']:m.vars['RUS_edu_cost_'+a['id']] for a in ACTIVITIES}
         m.ideas.add('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
         for aid,cost in before.items():self.assertAlmostEqual(m.vars['RUS_edu_cost_'+aid],cost*.85)
+        for a in ACTIVITIES+CONTROLS:self.assertEqual(m.vars[duration(a)],int(a['days']*.5*.75+.5))
+        self.assertEqual(m.vars['RUS_edu_duration_listen'],11)
         self.assertEqual(m.vars['RUS_edu_cost_listen'],20);self.assertEqual(m.vars['RUS_edu_cost_restore_order'],20)
         m.flags.discard('RUS_edu_amateur');m.flags.update({'RUS_edu_central','RUS_edu_completed_literacy'})
         m.call('RUS_education_refresh');self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.8*.75*.85*1.5)
         m.ideas.discard('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
         self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.8*.75*1.5)
+        self.assertEqual(m.vars['RUS_edu_duration_literacy'],45)
+        m.flags.discard('RUS_edu_era');m.ideas.add('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
+        self.assertEqual(m.vars['RUS_edu_duration_literacy'],68)
+        self.assertEqual(m.vars['RUS_edu_duration_listen'],23)
         for suffix,n,b,h in [('218',3,30,0),('224',6,45,15),('229',9,60,25)]:
             req=parse('\n'.join(education_focuses()[suffix]['available']))
             m=initialized();m.vars.update({'RUS_education_completed_activities':n,VARS['basic']:b,VARS['higher']:h})

@@ -33,7 +33,8 @@ def resolve(s,m,loc):
         name=n.value('name')
         for t in n.children('text'):
             if not t.one('trigger') or m.check(t.one('trigger')):
-                s=s.replace('['+name+']',loc[t.value('localization_key')]);break
+                key=t.value('localization_key')
+                s=s.replace('['+name+']',loc.get(key,key));break
     return re.sub(r'\[\?([\w]+)\|(\d+)\]',lambda x:f'{m.vars.get(x[1],0):.{x[2]}f}',s)
 
 def wrap(text,font,width):
@@ -66,7 +67,9 @@ def preview(m,dest):
             im.alpha_composite(image,(x,y));text=resolve(loc[n.value('buttonText').strip('"')],m,loc)
             render(im,x+(123-measure('hoi_16mbs',text))/2,y+9,text,'hoi_16mbs',COLOURS['!']);continue
         if n.k=='iconType':
-            sprite=sprites[n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
+            property=props.one(name) if props else None
+            image_key=property.value('image') if property else None
+            sprite=sprites[resolve(image_key.strip('"'),m,loc) if image_key else n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
             path=next(r/relative for r in (ROOT,GAME) if (r/relative).is_file())
             image=Image.open(path).convert('RGBA');frames=int(sprite.value('noOfFrames','1'));w=image.width//frames
             property=props.one(name);frame=round(m.vars.get(property.value('frame'),1)) if property else 1
