@@ -18,6 +18,7 @@ class EducationModel(ScriptModel):
     def __init__(self):
         super().__init__(EFFECTS);self.ideas=set();self.dynamic=set();self.done=set();self.expiry={};self.day=0
         self.at_war=False;self.state_scope=None
+        self.idea_expiry={}
         self.states={i:dict(owned=True,controlled=True,modifiers={}) for i in (195,219,202)}
     def check(self,nodes):
         if hasattr(nodes,'v'): nodes=nodes.v
@@ -51,7 +52,8 @@ class EducationModel(ScriptModel):
                 if self.state_scope:self.states[self.state_scope]['modifiers'][n.value('modifier')]=int(n.value('days'))
                 else:self.dynamic.add(n.value('modifier'))
             elif n.k=='remove_dynamic_modifier':self.dynamic.discard(n.value('modifier'))
-            elif n.k=='add_timed_idea':self.ideas.add(n.value('idea'))
+            elif n.k=='add_timed_idea':
+                self.ideas.add(n.value('idea'));self.idea_expiry[n.value('idea')]=self.day+int(n.value('days'))
             # Tooltip blocks are display only; never execute their effects.
         if pending:super().run(pending)
     def call(self,name):
@@ -68,6 +70,8 @@ class EducationModel(ScriptModel):
     def advance(self,days,auto_finish=True):
         for _ in range(days):
             self.day+=1
+            for idea,day in list(self.idea_expiry.items()):
+                if day<=self.day:self.ideas.discard(idea);del self.idea_expiry[idea]
             for f,day in list(self.expiry.items()):
                 if day<=self.day:self.flags.discard(f);del self.expiry[f]
             self.call('RUS_education_daily')
@@ -86,6 +90,24 @@ def unlock_all(m):
     return m
 
 class EducationTests(unittest.TestCase):
+    def test_dnieper_targeted_core_attack_is_30_days_and_not_a_state_reward(self):
+        a=next(a for a in ACTIVITIES if a['id']=='dnieper_water');idea='RUS_edu_dnieper_offensive'
+        self.assertNotIn('state_reward',a)
+        definition=load(ROOT/'common/ideas/RUS stalin education reform ideas.txt')[0].one('country').one(idea)
+        target=definition.one('targeted_modifier')
+        self.assertEqual(target.value('tag'),'UKR');self.assertEqual(float(target.value('attack_bonus_against_cores')),.05)
+        self.assertIsNone(definition.one('modifier'))
+        m=unlock_all(initialized());m.vars['RUS_edu_category']=1
+        m.states[202].update(owned=False,controlled=False)
+        self.assertTrue(m.start(a['id']));self.assertNotIn(idea,m.ideas)
+        m.end(a['id']);self.assertIn(idea,m.ideas);self.assertEqual(m.idea_expiry[idea],30)
+        self.assertFalse(m.states[202]['modifiers'])
+        m.advance(29);self.assertIn(idea,m.ideas)
+        m.end(a['id']);self.assertEqual(m.idea_expiry[idea],30)
+        m.advance(1);self.assertNotIn(idea,m.ideas)
+        m.end(a['id']);self.assertNotIn(idea,m.ideas)
+        m=unlock_all(initialized());m.vars['RUS_edu_category']=1
+        self.assertTrue(m.start(a['id']));m.end(a['id'],True);self.assertNotIn(idea,m.ideas)
     def test_new_unlocks_direct_begin_guards_and_war_end_cancellation(self):
         m=initialized();m.vars['RUS_edu_category']=1
         self.assertFalse(m.start('motherland_calls'));m.call('RUS_education_begin_motherland_calls')

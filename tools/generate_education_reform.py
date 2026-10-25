@@ -61,6 +61,10 @@ def state_reward_effects(a):
     return cond(f'owns_state = {state} controls_state = {state}',[
         f'{state} = {{ add_dynamic_modifier = {{ modifier = {modifier} days = {reward["days"]} }} }}'])
 
+def timed_reward_effects(a):
+    reward=a.get('timed_reward')
+    return [f'add_timed_idea = {{ idea = {reward["idea"]} days = {reward["days"]} }}'] if reward else []
+
 def agriculture_reward_effects(a):
     reward=a.get('agriculture_reward')
     if not reward:return []
@@ -147,7 +151,7 @@ def effects():
         else: finish += [add(VARS['heat'],a['heat'])]
         for m,v in a['modifiers'].items():
             if m in POOL_CAPS: finish.append(add(pv(m),f'{v/5:.12g}'))
-        finish+=state_reward_effects(a)+agriculture_reward_effects(a)
+        finish+=state_reward_effects(a)+timed_reward_effects(a)+agriculture_reward_effects(a)
         finish += ['RUS_education_cancel_'+a['id']+' = yes']
         out.append(block('RUS_education_finish_'+a['id'],cond('has_country_flag = '+active(a),finish)))
     # Existing culture events keep their public entry points, award bounded education gains,
@@ -288,6 +292,7 @@ def decisions():
         finish_preview=[f'custom_effect_tooltip = RUS_edu_{a["id"]}_finish_tt',
             f'effect_tooltip = {{ add_dynamic_modifier = {{ modifier = RUS_edu_result_{a["id"]} }} }}']
         if a.get('state_reward'):finish_preview.append(block('effect_tooltip',state_reward_effects(a)).strip())
+        if a.get('timed_reward'):finish_preview.append(block('effect_tooltip',timed_reward_effects(a)).strip())
         if a.get('agriculture_reward'):
             finish_preview+=cond(AGRICULTURE_GATE,[f'custom_effect_tooltip = RUS_edu_agriculture_{a["agriculture_reward"]}_tt'])
         finish_preview.append(f'hidden_effect = {{ RUS_education_finish_{a["id"]} = yes }}')
@@ -434,6 +439,7 @@ def localisations():
     for a in ACTIVITIES+CONTROLS:
         aid=a['id']; regular=a['kind']!='control'; key='RUS_education_'+aid
         l[key]=a['name']; l['RUS_edu_result_'+aid]='教育改革'
+        if a.get('timed_reward'):l[a['timed_reward']['idea']]=a['timed_reward']['name']
         l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】'
         if regular:
             gains=[]
@@ -538,9 +544,15 @@ def integration_outputs():
     if 'RUS_edu_kalinin_tt' not in body:body=body[:-1]+'\tcustom_modifier_tooltip = RUS_edu_kalinin_tt\n\t}'
     outputs[path]=text[:n.a]+body+text[n.b:]
     path=Path('common/ideas/RUS stalin education reform ideas.txt')
+    timed_ideas=[]
+    for a in ACTIVITIES:
+        if a.get('timed_reward'):
+            r=a['timed_reward']
+            timed_ideas.append(block(r['idea'],['picture = CZE_planning_bonus','allowed = { always = no }','removal_cost = -1',
+                f'targeted_modifier = {{ tag = {r["target"]} attack_bonus_against_cores = {r["attack"]:g} }}']).strip())
     outputs[path]='ideas = {\n'+block('country',[block('RUS_malformed_education_system',['picture = SOV_opiate_of_the_masses',
         block('modifier',[f'{m} = {lo:g}' for m,(lo,hi,w) in BODY.items()]).strip()]).strip(),
-        'RUS_education_present_drive = { picture = generic_high_literacy modifier = { industrial_capacity_factory = 0.05 } }'])+'}\n'
+        'RUS_education_present_drive = { picture = generic_high_literacy modifier = { industrial_capacity_factory = 0.05 } }',*timed_ideas])+'}\n'
     return outputs
 
 def render_assets():

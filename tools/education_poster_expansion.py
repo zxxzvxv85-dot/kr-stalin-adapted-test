@@ -72,9 +72,11 @@ def additional_activities():
     by_id={a['id']:a for a in rows}
     for aid,state,preset,days in [
         ('defend_leningrad',195,'city_defence',180),('defend_moscow',219,'city_defence',180),
-        ('dnieper_water',202,'reconstruction',180),('socialist_industry',219,'industrial_training',365),
+        ('socialist_industry',219,'industrial_training',365),
         ('lenin_electrification',195,'electrification',365),('ukrainian_liberators',202,'reconstruction',365),
     ]:by_id[aid]['state_reward']={'state':state,'preset':preset,'days':days}
+    by_id['dnieper_water']['timed_reward']={'idea':'RUS_edu_dnieper_offensive','name':'第聂伯河攻势',
+        'target':'UKR','attack':.05,'days':30}
     for aid,bonus in [('grain_delivery','wheat'),('tractors_nurseries','repair'),('agricultural_statistics','technical'),('harvest_battle','rye')]:
         by_id[aid]['agriculture_reward']=bonus
     return rows

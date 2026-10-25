@@ -644,8 +644,6 @@ RUS_education_reform_category = {
 		custom_trigger_tooltip = { tooltip = RUS_edu_military_free_tt NOT = { has_country_flag = RUS_edu_busy_military } }
 		has_completed_focus = RUS_future_foreign_062
 		has_war = yes
-		owns_state = 202
-		controls_state = 202
 		custom_trigger_tooltip = { tooltip = RUS_edu_cooldown_tt NOT = { has_country_flag = RUS_edu_cooldown_dnieper_water } }
 	}
 		cancel_trigger = { hidden_trigger = { OR = { NOT = { has_country_flag = RUS_education_system_active } NOT = { has_socialist_government = yes } has_war = no } } }
@@ -662,10 +660,7 @@ RUS_education_reform_category = {
 		custom_effect_tooltip = RUS_edu_dnieper_water_finish_tt
 		effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_result_dnieper_water } }
 		effect_tooltip = {
-		if = {
-			limit = { owns_state = 202 controls_state = 202 }
-			202 = { add_dynamic_modifier = { modifier = RUS_edu_state_reconstruction days = 180 } }
-		}
+		add_timed_idea = { idea = RUS_edu_dnieper_offensive days = 30 }
 	}
 		hidden_effect = { RUS_education_finish_dnieper_water = yes }
 	}

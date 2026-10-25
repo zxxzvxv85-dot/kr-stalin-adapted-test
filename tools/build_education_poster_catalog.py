@@ -144,6 +144,9 @@ def build(archive, output):
                 if a.get('agriculture_reward'):
                     text={'wheat':'小麦库存+4（上限12）','rye':'黑麦库存+3（上限12）','technical':'本季作物产量+5%','repair':'本季农机损耗率−5个百分点（不降低已有较强支援）'}[a['agriculture_reward']]
                     para(right,'国家农业启用且未关闭时，完成后：'+text,size=9)
+                if a.get('timed_reward'):
+                    r=a['timed_reward']
+                    para(right,f'完成后额外效果  对乌克兰核心领土攻击+{r["attack"]*100:g}%，持续{r["days"]}天',size=9)
                 para(right,'解锁条件  '+access,size=9)
                 doc.add_paragraph().paragraph_format.space_after=Pt(3)
         doc.add_page_break();doc.add_heading('热情调节与使用规则',1)
