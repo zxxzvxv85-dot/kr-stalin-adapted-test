@@ -229,12 +229,6 @@ country_event = {
 			set_country_flag = RUS_stalin_has_defeated_zinoviev
 			set_country_flag = RUS_stalingrad_tractor_factory
 			RUS_stalin_recalculate_red_army_dynamic_modifier = yes
-			if = {
-				limit = { has_dlc_aat = yes }
-				mio:RUS_tstz_organisation = {
-					set_mio_name_key = tstz_stalingrad
-				}
-			}
 			uncomplete_national_focus = { focus = RUS_bolshevik_gamble uncomplete_children = yes }
 			mark_focus_tree_layout_dirty = yes
 			news_event = {
@@ -242,7 +236,7 @@ country_event = {
 				days = 1
 			}
 		}
-		hidden_effect = { RUS_stalin_apply_mio_names = yes }
+		hidden_effect = { RUS_stalin_queue_mio_reorganization = yes }
 	}
 }
 

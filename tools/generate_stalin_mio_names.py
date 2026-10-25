@@ -1,4 +1,4 @@
-"""Native per-country MIO renaming. No template, stat, flag or save migration edits."""
+"""Event-gated native MIO names and introductions; preserve institutions/progress."""
 from pathlib import Path
 import argparse,json
 from hoi4_politics_blocks import load,parse
@@ -6,6 +6,7 @@ from hoi4_politics_blocks import load,parse
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=ROOT/'tools/design/RUS_stalin_mio_names.json'
 TRAITS=ROOT/'tools/design/RUS_stalin_mio_trait_names.json'
+REORGANIZATION=ROOT/'tools/design/RUS_stalin_mio_reorganization_20261025.json'
 STEM='RUS_stalin_mio_names'
 ENTRY='events/stalin_form_sov.txt'
 
@@ -13,6 +14,7 @@ def key(row):return 'RUS_stalin_mio_company_'+row['id']
 
 def render():
     rows=json.loads(SPEC.read_text(encoding='utf-8'))
+    reorganization=json.loads(REORGANIZATION.read_text(encoding='utf-8'))
     orgs={n.k:n for n in load(ROOT/'common/military_industrial_organization/organizations/RUS_organization.txt')}
     changes=[]
     for row in rows:
@@ -27,6 +29,7 @@ def render():
 '''
     triggers='''RUS_stalin_mio_names_active = {
  tag = RUS
+ has_country_flag = RUS_stalin_mio_reorganization_done
  OR = {
   has_country_flag = RUS_stalin_ml_promoted
   has_country_flag = RUS_stalin_communist_path
@@ -77,13 +80,119 @@ def render():
         f'common/on_actions/{STEM}_on_actions.txt':on,
         f'common/scripted_localisation/{STEM}_localisation.txt':''.join(loc),
     }
+    effects_addition='''
+RUS_stalin_queue_mio_reorganization = {
+ if = {
+  limit = {
+   tag = RUS
+   has_country_flag = RUS_stalin_ml_promoted
+   NOT = { has_country_flag = RUS_stalin_mio_reorganization_scheduled }
+   NOT = { has_country_flag = RUS_stalin_mio_reorganization_done }
+  }
+  set_country_flag = RUS_stalin_mio_reorganization_scheduled
+  country_event = { id = RUS_stalin_mio_reorganization.0 days = 15 }
+ }
+}
+
+RUS_stalin_complete_mio_reorganization = {
+ if = {
+  limit = {
+   tag = RUS
+   has_country_flag = RUS_stalin_ml_promoted
+   has_country_flag = RUS_stalin_mio_reorganization_scheduled
+   has_country_flag = RUS_stalin_mio_reorganization_page_2_read
+   has_socialist_government = yes
+   NOT = { has_country_flag = RUS_stalin_mio_reorganization_done }
+  }
+  set_country_flag = RUS_stalin_mio_reorganization_done
+  RUS_stalin_apply_mio_names = yes
+ }
+}
+'''
+    paths[f'common/scripted_effects/{STEM}_effects.txt']+=effects_addition
+    report=reorganization['event'];event_loc={};events=['add_namespace = '+report['namespace']+'\n']
+    assert len(report['pages'])==3 and report['delay_days']==15
+    eligible='tag = RUS has_country_flag = RUS_stalin_ml_promoted has_country_flag = RUS_stalin_mio_reorganization_scheduled has_socialist_government = yes NOT = { has_country_flag = RUS_stalin_mio_reorganization_done }'
+    # Recheck delayed delivery in executable effects rather than relying on
+    # the trigger block of an explicitly scheduled visible event.
+    events.append(f'''country_event = {{
+ id = {report['namespace']}.0
+ hidden = yes
+ is_triggered_only = yes
+ fire_only_once = yes
+ immediate = {{
+  if = {{ limit = {{ {eligible} }} country_event = {{ id = {report['namespace']}.1 }} }}
+ }}
+}}
+''')
+    for i,page in enumerate(report['pages'],1):
+        event_id=report['namespace']+'.'+str(i)
+        title=f'{report["title"]}（{i}/3）'
+        event_loc[event_id+'.t']=title;event_loc[event_id+'.d']=page
+        option_name=event_id+'.a';event_loc[option_name]=report['option'] if i==3 else '继续阅读。'
+        trigger=eligible
+        if i>1:trigger+=f' has_country_flag = RUS_stalin_mio_reorganization_page_{i-1}_read'
+        if i<3:
+            reward=f'hidden_effect = {{ if = {{ limit = {{ {eligible} }} set_country_flag = RUS_stalin_mio_reorganization_page_{i}_read country_event = {{ id = {report["namespace"]}.{i+1} }} }} }}'
+        else:
+            # Native name effects are a read-only preview; the real guarded
+            # mutation runs once after the player confirms the final page.
+            preview='if = { limit = { has_dlc_aat = yes }\n'+''.join(changes)+'}'
+            reward='effect_tooltip = { '+preview+' }\n\t\thidden_effect = { RUS_stalin_complete_mio_reorganization = yes }'
+        events.append(f'''country_event = {{
+ id = {event_id}
+ title = {event_id}.t
+ desc = {event_id}.d
+ picture = {report['picture']}
+ is_triggered_only = yes
+ fire_only_once = yes
+ trigger = {{ {trigger} }}
+ option = {{
+  name = {option_name}
+  {reward}
+ }}
+}}
+''')
+    paths['events/RUS_stalin_mio_reorganization_events.txt']='\n'.join(events)
+    for lang in ('simp_chinese','english','russian'):
+        paths[f'localisation/{lang}/RUS_stalin_mio_reorganization_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in event_loc.items())
+    intro_loc={};intro_helpers=[]
+    for item in reorganization['introductions']:
+        helper='RUSStalinMioIntro_'+item['id'];body_key='RUS_stalin_mio_intro_'+item['id']
+        original='$'+item['old_body_key']+'$'
+        assert item['original_format'].count(original)==1
+        intro_loc[item['localisation_key']]=item['original_format'].replace(original,'['+helper+']')
+        intro_loc[body_key]=item['introduction']
+        intro_helpers.append(f'''defined_text = {{
+ name = {helper}
+ text = {{ trigger = {{ FROM = {{ RUS_stalin_mio_names_active = yes }} }} localization_key = {body_key} }}
+ text = {{ localization_key = {item['old_body_key']} }}
+}}
+''')
+    paths['common/scripted_localisation/RUS_stalin_mio_introductions.txt']=''.join(intro_helpers)
+    paths['localisation/replace/zz_RUS_stalin_mio_introductions_l_simp_chinese.yml']='\ufeffl_simp_chinese:\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in intro_loc.items())
     for lang,entries in [('simp_chinese',cn),('english',fallback),('russian',fallback)]:
         paths[f'localisation/{lang}/{STEM}_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in entries.items())
     text=(ROOT/ENTRY).read_text(encoding='utf-8-sig')
     event=next(n for n in parse(text) if n.value('id')=='stalin_form_sov.5')
     option=next(n for n in event.children('option') if n.value('name')=='stalin_form_sov.5.b')
-    if 'RUS_stalin_apply_mio_names' not in option.raw():
-        text=text[:option.ib].rstrip()+'\n\t\thidden_effect = { RUS_stalin_apply_mio_names = yes }\n\t'+text[option.ib:]
+    removals=[]
+    for hidden in option.children('hidden_effect'):
+        if hidden.value('RUS_stalin_apply_mio_names')=='yes':
+            assert len(hidden.v)==1
+            removals.append((hidden.a,hidden.b))
+        for child in hidden.v:
+            if child.k=='if' and 'set_mio_name_key = tstz_stalingrad' in child.raw():
+                assert len(child.v)==2 and child.one('limit').value('has_dlc_aat')=='yes'
+                removals.append((child.a,child.b))
+    for start,end in sorted(removals,reverse=True):
+        line_start=text.rfind('\n',0,start)+1;line_end=text.find('\n',end)
+        assert not text[line_start:start].strip() and not text[end:line_end].strip()
+        text=text[:line_start]+text[line_end+1:]
+    event=next(n for n in parse(text) if n.value('id')=='stalin_form_sov.5')
+    option=next(n for n in event.children('option') if n.value('name')=='stalin_form_sov.5.b')
+    if 'RUS_stalin_queue_mio_reorganization' not in option.raw():
+        text=text[:option.ib].rstrip()+'\n\t\thidden_effect = { RUS_stalin_queue_mio_reorganization = yes }\n\t'+text[option.ib:]
     paths[ENTRY]=text
     return paths
 
