@@ -2,6 +2,18 @@
 from __future__ import annotations
 
 KINDS = {'basic': '基础教育', 'higher': '高等教育', 'technical': '职业技术', 'culture': '文化与社会动员'}
+POSTER_CATEGORIES = {
+ 1: ('军事与保卫', (1, 2, 4, 13)),
+ 2: ('经济与生产', (3, 7, 8)),
+ 3: ('社会与群体', (5, 10, 11)),
+ 4: ('文教与思想', (9, 12)),
+ 5: ('国家与生活', (14, 15)),
+ 6: ('胜利与纪念', (6,)),
+}
+POSTER_PREFIX_CATEGORY = {'EDU':4,'WOM':3,'YTH':3,'IND':2}
+HEAT_ECONOMIC_MODIFIERS = {'production_factory_start_efficiency_factor','production_factory_efficiency_gain_factor'}
+HEAT_WEEKLY_STABILITY_THRESHOLD = 75
+HEAT_WEEKLY_STABILITY_MAX_LOSS = .01
 # id, slogan, category, duration, PP, total base/higher gain, enthusiasm per 30 days, poster code, temporary modifiers
 ROWS = [
  ('literacy','知识打破奴隶的锁链！','basic',90,25,5,0,0,'EDU02',{'research_speed_factor':.01}),
@@ -20,6 +32,9 @@ ROWS = [
  ('library','让每个工人俱乐部都有图书室！','culture',120,30,2,1,1,'EDU07',{'research_speed_factor':.01,'stability_factor':.025}),
 ]
 ACTIVITIES = [dict(zip(('id','name','kind','days','cost','basic','higher','heat','poster','modifiers'), row)) for row in ROWS]
+for activity in ACTIVITIES:
+    prefix = ''.join(c for c in activity['poster'] if c.isalpha())
+    activity['category'] = POSTER_PREFIX_CATEGORY[prefix]
 CONTROLS = [
  dict(id='listen',name='听取群众的声音！',kind='control',days=30,cost=20,basic=0,higher=0,heat=10,modifiers={'political_power_cost':-.025}),
  dict(id='restore_order',name='让课堂与车间恢复秩序！',kind='control',days=30,cost=20,basic=0,higher=0,heat=-12,modifiers={'political_power_cost':-.025}),

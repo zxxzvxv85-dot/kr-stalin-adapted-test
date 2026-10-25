@@ -51,16 +51,20 @@ def wrap(text,font,width):
     return lines
 
 def preview(m,dest):
-    loc=localisation();window=load(ROOT/GUI)[0].v[0];im=Image.new('RGBA',(498,509),'#222b27');d=ImageDraw.Draw(im)
-    d.rectangle((1,1,496,507),outline='#a39464');d.line((8,29,488,29),fill='#6f6b50')
+    loc=localisation();window=load(ROOT/GUI)[0].v[0];height=int(window.one('size').value('height'));im=Image.new('RGBA',(498,height),'#222b27');d=ImageDraw.Draw(im)
+    d.rectangle((1,1,496,height-2),outline='#a39464');d.line((8,29,488,29),fill='#6f6b50')
     scripted=load(ROOT/SGUI)[0].v[0];props=scripted.one('properties');triggers=scripted.one('triggers')
     sprites={n.value('name').strip('"'):n for root in load(ROOT/GFX) for n in root.v}
     warnings=[]
     for n in window.v:
-        if n.k not in ('iconType','instantTextBoxType'):continue
+        if n.k not in ('iconType','instantTextBoxType','buttonType'):continue
         name=n.value('name').strip('"');x=int(n.one('position').value('x'));y=int(n.one('position').value('y'))
         visibility=triggers.one(name+'_visible') if triggers else None
         if visibility and not m.check(visibility):continue
+        if n.k=='buttonType':
+            image=Image.open(GAME/'gfx/interface/button_123x34.dds').convert('RGBA')
+            im.alpha_composite(image,(x,y));text=resolve(loc[n.value('buttonText').strip('"')],m,loc)
+            render(im,x+(123-measure('hoi_16mbs',text))/2,y+9,text,'hoi_16mbs',COLOURS['!']);continue
         if n.k=='iconType':
             sprite=sprites[n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
             path=next(r/relative for r in (ROOT,GAME) if (r/relative).is_file())
@@ -86,7 +90,14 @@ def main():
     assert m.start('literacy');paths.append(preview(m,ROOT/'output/education_system/教育面板_单项活动.png'))
     m=initialized()
     m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'});m.vars.update({VARS['basic']:47.39,VARS['higher']:18.67,VARS['heat']:68.37,'RUS_education_completed_activities':6});m.call('RUS_education_refresh')
-    for a,days in [('literacy',39),('university',75),('mentoring',42)]:assert m.start(a);m.vars['RUS_edu_days_'+a]=days
+    from education_reform_content import ACTIVITIES
+    for a,days in [('literacy',39),('university',75),('mentoring',42)]:
+        m.vars['RUS_edu_category']=next(x['category'] for x in ACTIVITIES if x['id']==a)
+        assert m.start(a);m.vars['RUS_edu_days_'+a]=days
+    m.vars['RUS_edu_category']=4
     m.call('RUS_education_refresh');paths.append(preview(m,ROOT/'output/education_system/教育面板_活动示意.png'))
+    for category in range(1,7):
+        m.vars.update(RUS_edu_category=category,RUS_edu_catalog_page=1);m.call('RUS_education_refresh')
+        paths.append(preview(m,ROOT/f'output/education_system/海报分类_{category}.png'))
     print('PASS: installed font atlases, generated coordinates, bounded text and packaged art. Not engine screenshots.');print('\n'.join(paths))
 if __name__=='__main__':main()

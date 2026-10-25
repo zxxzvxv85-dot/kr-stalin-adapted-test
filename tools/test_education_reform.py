@@ -9,7 +9,7 @@ import unittest
 from itertools import product
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import load,parse
-from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses
+from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS
 from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,render_outputs,DESIGN,ART
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'))
@@ -64,6 +64,57 @@ def initialized():
     m=EducationModel();m.call('RUS_education_initialize');return m
 
 class EducationTests(unittest.TestCase):
+    def test_selected_economic_bonuses_rise_with_heat_and_weekly_pressure_starts_above_75(self):
+        for basic,higher in [(20,5),(46,7),(80,80),(100,100)]:
+            m=initialized();m.vars.update({VARS['basic']:basic,VARS['higher']:higher})
+            previous=None
+            for heat in [0,10,32,55,70,75,75.01,80,90,100]:
+                m.vars[VARS['heat']]=heat;m.call('RUS_education_refresh')
+                values=[m.vars[bv(k)] for k in ['industrial_capacity_factory',*sorted(HEAT_ECONOMIC_MODIFIERS)]]
+                if previous:
+                    self.assertTrue(all(a>=b-1e-10 for a,b in zip(values,previous)))
+                previous=values
+                expected=-.01*(max(heat-75,0)/25)**2
+                self.assertAlmostEqual(m.vars[bv('stability_weekly')],expected,places=10)
+            if basic==100:
+                self.assertAlmostEqual(m.vars[bv('production_factory_start_efficiency_factor')],.10)
+                self.assertAlmostEqual(m.vars[bv('production_factory_efficiency_gain_factor')],.125)
+                self.assertAlmostEqual(m.vars[bv('industrial_capacity_factory')],.05)
+                # Research keeps the original overheating loss, rather than following industry.
+                self.assertAlmostEqual(m.vars[bv('research_speed_factor')],.05)
+        primary=next(n for n in load(ROOT/DM) if n.k=='RUS_education_social_capacity')
+        self.assertEqual(primary.value('stability_weekly'),bv('stability_weekly'))
+        m.vars[VARS['heat']]=80;m.advance(1);self.assertEqual(m.vars['RUS_education_overheat_days'],1)
+        m.vars[VARS['heat']]=75;m.advance(1);self.assertEqual(m.vars['RUS_education_overheat_days'],0)
+    def test_category_filters_pagination_and_switching_preserve_running_activities(self):
+        m=initialized();self.assertTrue(m.start('literacy'));m.advance(7)
+        script=load(ROOT/SGUI)[0].v[0];clicks=script.one('effects');rules=script.one('triggers')
+        before={k:v for k,v in m.vars.items() if not k.startswith('RUS_edu_catalog_') and k!='RUS_edu_category'}
+        flags=set(m.flags)
+        counts={1:0,2:1,3:3,4:10,5:0,6:0}
+        for category,count in counts.items():
+            m.run(clicks.one(f'edu_category_{category}_click').v)
+            self.assertEqual(m.vars['RUS_edu_catalog_count'],count)
+            self.assertEqual(m.vars['RUS_edu_catalog_page'],1)
+            self.assertEqual(m.vars['RUS_edu_catalog_pages'],max(1,math.ceil(count/3)))
+            expected=[code for code,a in enumerate(ACTIVITIES,3) if a['category']==category]
+            seen=[]
+            for page in range(1,max(1,math.ceil(count/3))+1):
+                seen += [m.vars[f'RUS_edu_catalog_{i}_activity'] for i in range(1,4) if m.vars[f'RUS_edu_catalog_{i}_activity']]
+                m.run(clicks.one('edu_catalog_next_click').v)
+            self.assertEqual(seen,expected)
+            self.assertFalse(m.check(rules.one('edu_catalog_next_click_enabled')))
+            for a in ACTIVITIES:
+                if m.check(DECISIONS['RUS_education_'+a['id']].one('visible')):
+                    self.assertEqual(a['category'],category)
+        m.run(clicks.one('edu_category_4_click').v)
+        self.assertTrue(m.check(rules.one('activity_progress_1_visible')))
+        self.assertEqual(m.vars['RUS_edu_catalog_1_days'],83)
+        self.assertEqual(before,{k:m.vars[k] for k in before});self.assertEqual(flags,m.flags)
+        m.run(clicks.one('edu_catalog_previous_click').v);self.assertEqual(m.vars['RUS_edu_catalog_page'],1)
+        m.run(clicks.one('edu_category_3_click').v)
+        m.end('literacy');self.assertEqual(m.vars['RUS_edu_active_count'],0)
+        self.assertTrue(all(m.vars[f'RUS_edu_slot_{i}']==0 for i in range(1,4)))
     def test_exact_initial_and_optimal_maxima(self):
         m=initialized()
         self.assertEqual([m.vars[VARS[k]] for k in ('basic','higher','heat')],[46,7,32])
@@ -71,7 +122,7 @@ class EducationTests(unittest.TestCase):
         m.vars.update({VARS['basic']:20,VARS['higher']:5,VARS['heat']:55});m.call('RUS_education_refresh')
         for mod,(lo,hi,w) in BODY.items():self.assertAlmostEqual(m.vars[bv(mod)],lo)
         m.vars.update({VARS['basic']:100,VARS['higher']:100,VARS['heat']:55});m.call('RUS_education_refresh')
-        for mod,(lo,hi,w) in BODY.items():self.assertAlmostEqual(m.vars[bv(mod)],.05 if mod=='political_power_factor' else hi)
+        for mod,(lo,hi,w) in BODY.items():self.assertAlmostEqual(m.vars[bv(mod)],hi*.775 if mod in HEAT_ECONOMIC_MODIFIERS else (.05 if mod=='political_power_factor' else hi))
         for cap in POOL_CAPS:self.assertEqual(m.vars[pv(cap)],0)
         self.assertEqual(m.dynamic,{'RUS_education_social_capacity'})
     def test_one_education_spirit_includes_pooled_results_without_refresh_stacking(self):
@@ -79,7 +130,7 @@ class EducationTests(unittest.TestCase):
         for mod,cap in POOL_CAPS.items():m.vars[pv(mod)]=cap
         # Remove only the retired attachment, preserving all earned contributions.
         m.dynamic.add('RUS_education_permanent_results');m.call('RUS_education_refresh')
-        expected={'research_speed_factor':.20,'industrial_capacity_factory':.10,'stability_factor':.15,'political_power_factor':.15,'political_power_cost':-.20}
+        expected={'research_speed_factor':.20,'industrial_capacity_factory':.1275,'stability_factor':.15,'political_power_factor':.15,'political_power_cost':-.20}
         for mod,value in expected.items():self.assertAlmostEqual(m.vars[bv(mod)],value)
         self.assertEqual(m.dynamic,{'RUS_education_social_capacity'})
         before={mod:m.vars[bv(mod)] for mod in expected}
@@ -120,7 +171,7 @@ class EducationTests(unittest.TestCase):
     def test_all_activity_lifecycles_and_native_pool_rewards(self):
         for a in ACTIVITIES:
             with self.subTest(a=a['id']):
-                m=initialized();m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'});m.vars[VARS['basic']]=40;m.call('RUS_education_refresh')
+                m=initialized();m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'});m.vars.update({VARS['basic']:40,'RUS_edu_category':a['category']});m.call('RUS_education_refresh')
                 self.assertTrue(m.start(a['id']));m.advance(a['days']);self.assertNotIn(active(a),m.flags)
                 self.assertEqual(m.vars['RUS_education_completed_activities'],1);self.assertEqual(m.vars['RUS_edu_active_count'],0)
                 self.assertTrue(all(m.vars[f'RUS_edu_slot_{i}']==0 for i in range(1,4)))
@@ -178,7 +229,7 @@ class EducationTests(unittest.TestCase):
             for a in ACTIVITIES:
                 if a['id']=='construction' and m.vars[VARS['heat']]>60:continue
                 if a['id'] in ('reading','outreach','library') and m.vars[VARS['heat']]<50:continue
-                m.start(a['id'])
+                m.vars['RUS_edu_category']=a['category'];m.start(a['id'])
             if m.vars[VARS['heat']]<35:m.start('listen')
             if m.vars[VARS['heat']]>=70:m.start('restore_order')
             m.advance(1)
@@ -203,6 +254,14 @@ class EducationTests(unittest.TestCase):
         manifest=json.loads((ROOT/DESIGN/'poster_sources.json').read_text(encoding='utf-8'))
         self.assertEqual(len(manifest['sources']),14)
         for a in manifest['sources']:self.assertEqual(hashlib.sha256((ROOT/a['path']).read_bytes()).hexdigest(),a['sha256'])
+        catalogue=json.loads((ROOT/DESIGN/'poster_catalog.json').read_text(encoding='utf-8'))['posters']
+        self.assertEqual(len(catalogue),271);self.assertEqual(len({p['code'] for p in catalogue}),271)
+        self.assertEqual(sum(bool(p['activity']) for p in catalogue),14)
+        by_code={p['code']:p for p in catalogue}
+        for a in manifest['sources']:self.assertEqual(by_code[a['poster']]['sha256'],a['sha256'])
+        from education_reform_content import POSTER_CATEGORIES
+        for p in catalogue:
+            self.assertIn(p['folder'],POSTER_CATEGORIES[p['category']][1]);self.assertRegex(p['title_zh'],r'[\u4e00-\u9fff]')
         for container in load(ROOT/GUI)[0].v:
             for n in container.v:
                 if n.k not in ('iconType','instantTextBoxType'):continue
@@ -212,9 +271,9 @@ class EducationTests(unittest.TestCase):
                     sprite=sprites[n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
                     path=next(r/relative for r in (ROOT,ROOT.parents[3]/'common/Hearts of Iron IV') if (r/relative).is_file())
                     with Image.open(path) as im:w=im.width//int(sprite.value('noOfFrames','1'));h=im.height
-                    self.assertLessEqual(y+h,509)
+                    self.assertLessEqual(y+h,633)
                 else:w=int(n.value('maxWidth'))
-                self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,498);self.assertGreaterEqual(y,0);self.assertLess(y,509)
+                self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,498);self.assertGreaterEqual(y,0);self.assertLess(y,633)
     def test_native_bar_art_noticeboard_and_empty_slot_visibility(self):
         from PIL import Image
         game=ROOT.parents[3]/'common/Hearts of Iron IV'
