@@ -31,7 +31,7 @@ def outputs():
                 'has_country_flag = RUS_football_scheduled '
                 'NOT = { has_country_flag = RUS_football_done }')
     # Explicit event delivery may bypass trigger filters; recheck in executable
-    # effects before showing the first page, as in the MIO report dispatcher.
+    # effects before showing the report, as in the MIO report dispatcher.
     events = ['add_namespace = RUS_football\n', f'''country_event = {{
  id = RUS_football.0
  hidden = yes
@@ -46,33 +46,24 @@ def outputs():
  }}
 }}
 ''']
-    loc = {}
-    count = len(spec['pages'])
-    for index, page in enumerate(spec['pages'], 1):
-        key = f'RUS_football.{index}'
-        previous = 'RUS_football_started' if index == 1 else f'RUS_football_page_{index-1}_read'
-        guard = eligible + ' has_country_flag = ' + previous
-        if index < count:
-            effect = f'set_country_flag = RUS_football_page_{index}_read country_event = {{ id = RUS_football.{index+1} }}'
-        else:
-            effect = 'set_country_flag = RUS_football_done'
-        events.append(f'''country_event = {{
- id = {key}
- title = {key}.t
- desc = {key}.d
+    guard = eligible + ' has_country_flag = RUS_football_started'
+    events.append(f'''country_event = {{
+ id = RUS_football.1
+ title = RUS_football.1.t
+ desc = RUS_football.1.d
  picture = {spec['picture']}
  is_triggered_only = yes
  fire_only_once = yes
  trigger = {{ {guard} }}
  option = {{
-  name = {key}.a
-  hidden_effect = {{ if = {{ limit = {{ {guard} }} {effect} }} }}
+  name = RUS_football.1.a
+  hidden_effect = {{ if = {{ limit = {{ {guard} }} set_country_flag = RUS_football_done }} }}
  }}
 }}
 ''')
-        loc[key+'.t'] = spec['title'] + f'（{index}/{count}）'
-        loc[key+'.d'] = page
-        loc[key+'.a'] = spec['option'] if index == count else '继续阅读。'
+    loc = {'RUS_football.1.t': spec['title'],
+           'RUS_football.1.d': '\n\n'.join(spec['paragraphs']),
+           'RUS_football.1.a': spec['option']}
     result = {EVENT: '\n'.join(events).encode('utf-8'),
               GFX: ('spriteTypes = {\n spriteType = {\n  name = "'+spec['picture']+'"\n'
                     '  texturefile = "'+spec['picture_path']+'"\n }\n}\n').encode('utf-8')}
@@ -118,7 +109,7 @@ def main():
         stale.append(spec['picture_path'])
     if stale:
         raise SystemExit('Stale football event outputs: '+', '.join(stale))
-    print('PASS: seven-day football event, three report pages, localisation and 210x176 photograph current.')
+    print('PASS: seven-day football event, single full-text report, localisation and 210x176 photograph current.')
 
 
 if __name__ == '__main__':

@@ -5,7 +5,7 @@ import re
 import subprocess
 from PIL import Image
 from hoi4_politics_blocks import load, parse
-from hoi4_bitmap_fonts import font_data, measure
+from hoi4_bitmap_fonts import measure
 import football_event_content as build
 
 ROOT = build.ROOT
@@ -70,43 +70,37 @@ def main():
     assert w.queue == [(7,'RUS_football.0')]
     w.advance(6); assert not w.popups
     w.advance(1); assert w.popups == ['RUS_football.1']
-    for index in (2,3):
-        w.confirm(); assert w.popups == [f'RUS_football.{index}']
     w.confirm(); assert not w.popups and 'RUS_football_done' in w.flags
     state = copy.deepcopy(w.__dict__)
-    w.run(EVENTS['RUS_football.3'].one('option').v); w.run(reward)
+    w.run(EVENTS['RUS_football.1'].one('option').v); w.run(reward)
     assert w.__dict__ == state
     w = World('FER'); w.run(reward); assert not w.queue
     w = World(); w.run(reward); w.focuses.clear(); w.advance(7); assert not w.popups
-    w = World(); w.run(EVENTS['RUS_football.2'].one('option').v); assert not w.queue and not w.flags
+    w = World(); w.run(EVENTS['RUS_football.1'].one('option').v); assert not w.queue and not w.flags
     spec = build.content()
-    assert len(EVENTS) == 4 and len(spec['pages']) == 3
-    assert ''.join(spec['pages']).replace('\n','') == ''.join(spec['paragraphs'])
-    line_height = max(f['height'] for f in font_data('hoi4_typewriter16'))
-    for index,page in enumerate(spec['pages'],1):
-        lines = 0
-        for paragraph in page.split('\n'):
-            width = 0; lines += 1
-            for c in paragraph:
-                advance = measure('hoi4_typewriter16',c)
-                if width+advance > 512: lines += 1; width = 0
-                width += advance
-        assert lines*line_height <= 230
-        assert measure('hoi4_typewriter22',spec['title']+f'（{index}/3）') <= 551
+    assert set(EVENTS) == {'RUS_football.0','RUS_football.1'}
+    import json
+    text = (ROOT/'localisation/simp_chinese/RUS_football_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
+    loc = {k:json.loads(v) for k,v in re.findall(r'^ ([\w.]+):0 (.+)$',text,re.M)}
+    assert loc['RUS_football.1.d'] == '\n\n'.join(spec['paragraphs'])
+    assert loc['RUS_football.1.t'] == spec['title']
+    assert loc['RUS_football.1.a'] == spec['option']
+    assert '继续阅读' not in text and 'RUS_football.2' not in text and 'RUS_football.3' not in text
+    assert measure('hoi4_typewriter22',spec['title']) <= 551
     assert measure('hoi4_typewriter16',spec['option']) <= 512
     for lang in ('simp_chinese','english','russian'):
         p = ROOT/f'localisation/{lang}/RUS_football_l_{lang}.yml'
         assert p.read_bytes().startswith(b'\xef\xbb\xbf')
         text = p.read_text(encoding='utf-8-sig')
         keys = re.findall(r'^ (\w+[.\w]*):0 ',text,re.M)
-        assert len(keys) == len(set(keys)) == 9
+        assert len(keys) == len(set(keys)) == 3
     picture = ROOT/spec['picture_path']
     assert hashlib.sha256(picture.read_bytes()).hexdigest() == spec['picture_sha256']
     image = Image.open(picture)
     assert image.size == (210,176) and image.mode == 'RGBA'
     assert image.getchannel('A').getextrema() == (0,255)
     assert any(n.value('name').strip('"') == spec['picture'] for n in load(ROOT/build.GFX)[0].v)
-    print('PASS: day 6/7, one schedule, three pages, guards/repeat completion, preserved preview focus, exact prose, font bounds and photograph.')
+    print('PASS: day 6/7, one schedule/window/option, guards/repeat completion, preserved preview focus, exact full prose, title/option and photograph.')
 
 
 if __name__ == '__main__':
