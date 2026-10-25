@@ -18,6 +18,7 @@ import sys
 from hoi4_politics_blocks import load
 from provisional_government_content import content as provisional_content, localisation_outputs as provisional_localisation
 from education_reform_content import education_focuses,color_poster_categories
+from football_event_content import focus_reward as football_focus_reward
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path('tools/design/RUS_future_domestic_layout.drawio')
@@ -285,8 +286,11 @@ def render_outputs():
             text += ['\tprerequisite = { '+ ' '.join('focus = '+p for p in parents[key])+' }']
         for other in exclusive[key]:
             text += ['\tmutually_exclusive = { focus = '+other+' }']
-        if authored and authored['reward']:
-            text += ['\tcompletion_reward = {'] + ['\t\t'+line for line in authored['reward']] + ['\t}']
+        reward = list(authored['reward']) if authored else []
+        if key == 'RUS_future_domestic_151':
+            reward += football_focus_reward()
+        if reward:
+            text += ['\tcompletion_reward = {'] + ['\t\t'+line for line in reward] + ['\t}']
         else:
             text += ['\tcompletion_reward = { }']
         text += ['\tai_will_do = { factor = '+('1' if authored and authored['mode']=='manual' else '0')+' }', '}', '']

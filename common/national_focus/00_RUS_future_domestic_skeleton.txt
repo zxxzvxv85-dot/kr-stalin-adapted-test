@@ -1090,7 +1090,15 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_144 }
-	completion_reward = { }
+	completion_reward = {
+		hidden_effect = {
+			if = {
+				limit = { tag = RUS NOT = { has_country_flag = RUS_football_scheduled } }
+				set_country_flag = RUS_football_scheduled
+				country_event = { id = RUS_football.0 days = 7 }
+			}
+		}
+	}
 	ai_will_do = { factor = 0 }
 }
 

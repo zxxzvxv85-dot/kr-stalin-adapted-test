@@ -123,6 +123,8 @@ def main():
         PREFIX+'142': 'add_political_power = 10',
     }
     expected_rewards.update({PREFIX+s:'\n'.join(v['reward']) for s,v in education.items()})
+    from football_event_content import focus_reward
+    expected_rewards[PREFIX+'151'] = '\n'.join(focus_reward())
     for key,n in by_id.items():
         assert [e.norm() for e in n.one('completion_reward').v] == [e.norm() for e in parse(expected_rewards.get(key, ''))]
         assert n.one('select_effect') is None
