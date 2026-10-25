@@ -18,7 +18,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
-from education_reform_content import ACTIVITIES, CONTROLS, POOL_CAPS, POSTER_CATEGORIES
+from education_reform_content import ACTIVITIES, CONTROLS, POSTER_CATEGORIES
 from education_poster_expansion import STATE_REWARDS,MILITARY_GATE,FINAL_STRUGGLE_GATE,VICTORY_GATE
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,6 +35,16 @@ MODIFIERS = {
  'training_time_army_factor':'陆军训练时间','local_org_regain':'地区组织度恢复',
  'state_production_speed_buildings_factor':'地区建造速度','local_building_slots_factor':'地区最大工厂数',
  'local_resources_factor':'地区资源获取',
+ 'monthly_population':'每月人口','equipment_conversion_speed':'装备改装速度',
+ 'political_advisor_cost_factor':'政治顾问花费','stability_weekly':'每周稳定度',
+ 'resistance_growth_on_our_occupied_states':'我方占领地区抵抗增长','production_speed_rail_way_factor':'铁路建设速度',
+ 'production_speed_supply_node_factor':'补给中心建设速度','production_factory_max_efficiency_factor':'生产效率上限',
+ 'production_speed_bunker_factor':'陆上要塞建设速度','experience_loss_factor':'有经验的士兵损失',
+ 'drift_defence_factor':'意识形态变化抵制力度','mobilization_speed':'动员速度',
+ 'conversion_cost_civ_to_mil_factor':'民用工厂转军用工厂花费','conversion_cost_mil_to_civ_factor':'军用工厂转民用工厂花费',
+ 'production_lack_of_resource_penalty_factor':'缺乏战略资源惩罚','supply_consumption_factor':'补给消耗',
+ 'industrial_capacity_dockyard':'海军船坞产出','max_planning_factor':'计划加成上限',
+ 'experience_gain_army_factor':'陆军经验增长','command_power_gain_mult':'指挥点数增长',
 }
 
 def modifier_text(values):
@@ -112,9 +122,9 @@ def build(archive, output):
         vals=[name,' '.join(f'{x:02}' for x in folders),str(sum(p['category']==cat for p in posters)),str(sum(a['category']==cat for a in ACTIVITIES))]
         for c,s in zip(row.cells,vals):c.text=s
     doc.add_heading('阅读说明',1)
-    doc.add_paragraph('决议页中的教育增量为基础总增量，实际提升受热情和教育路线影响；热情变化按每30天列示。正常完成宣传次数加1，取消不增加次数及永久效果。每类教学活动最多并行1项，总栏位为2项，完成对文化革命后为3项。')
+    doc.add_paragraph('决议页中的教育增量为基础总增量，实际提升受热情和教育路线影响；每次宣传加成后的总提升仍不超过基础教育4、高等教育2个百分点。热情变化按每30天列示。正常完成宣传次数加1，取消不增加次数。每类教学活动最多并行1项，总栏位为2项，完成对文化革命后为3项。')
     doc.add_paragraph('六类按钮筛选决议与当前在办海报，未开始的活动不张贴。基础教育、高等教育、职业技术、文化和国防动员各最多并行1项，热情调节决议在所有分类中保留。素材图录按原文件夹分类，游戏决议分类按主题指定。')
-    doc.add_paragraph('宣传完成后的永久修正计入教育改革精神，同类累计上限分别为工厂产出10%、稳定度15%、每日政治点消耗减少0.20、政治点获取10%、科研速度5%。活动临时修正、限时地区修正和农业支援另计。')
+    doc.add_paragraph('宣传的国家收益与代价在活动期间同时生效，结束或取消时移除。原有永久奖励按既定数额保留，新增加的临时效果与代价不转为永久修正。教育进度与正常完成次数保留；指定地区、农业奖励及第聂伯河攻势按各条目列示。')
     with zipfile.ZipFile(archive) as z:
         for start in range(0,len(ACTIVITIES),3):
             doc.add_page_break();doc.add_heading(f'已实装宣传决议 {start//3+1}',1)
@@ -131,8 +141,7 @@ def build(archive, output):
                 para(right,'教育基础增量  '+('；'.join(gains) or '无'))
                 para(right,f"热情变化  每30天 {a['heat']:+g}")
                 para(right,'期间效果  '+modifier_text(a['modifiers']))
-                perm={k:v/5 for k,v in a['modifiers'].items() if k in POOL_CAPS}
-                para(right,'完成后永久效果  '+modifier_text(perm))
+                if a['permanent_modifiers']:para(right,'完成后原有永久效果  '+modifier_text(a['permanent_modifiers']))
                 access={'basic':'完成共产主义教育理念','higher':'完成对文化革命且基础教育至少35','technical':'完成专业技能培训','culture':'完成对文化革命','military':'完成共产主义教育理念'}[a['kind']]
                 if a.get('gate'):access+='；'+{MILITARY_GATE:'完成军改第四阶段',FINAL_STRUGGLE_GATE:'完成最后的斗争',VICTORY_GATE:'完成胜利日'}[a['gate']]
                 if a.get('wartime'):access+='；正在交战（停战取消）'
@@ -153,7 +162,7 @@ def build(archive, output):
         for a in CONTROLS:
             doc.add_heading(a['name'].strip('！'),2)
             condition='热情低于35' if a['id']=='listen' else '热情至少70'
-            doc.add_paragraph(f"条件 {condition}。花费20政治点，持续30天，冷却60天。期间每日政治点消耗减少0.025；结束时热情{a['heat']:+g}，永久减少每日政治点消耗0.005。")
+            doc.add_paragraph(f"条件 {condition}。花费20政治点，持续30天，冷却60天。期间每日政治点消耗减少0.025；结束时热情{a['heat']:+g}，按原有奖励永久减少每日政治点消耗0.005。")
         doc.add_paragraph('热情调节不占海报栏位，两项不能同时进行，不计完成宣传次数，也没有单独海报。')
         doc.add_heading('教育系统初值',2)
         doc.add_paragraph('基础教育46，高等教育7，民众热情32。热情每日自然下降0.10；两个教育水平不自然衰减。')

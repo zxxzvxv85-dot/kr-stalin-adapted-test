@@ -10,7 +10,8 @@ import json
 import hashlib
 from pathlib import Path
 from education_reform_content import (ACTIVITIES, CONTROLS, BODY, POOL_CAPS, KINDS, POSTER_CATEGORIES,
-    HEAT_ECONOMIC_MODIFIERS, HEAT_WEEKLY_STABILITY_THRESHOLD, HEAT_WEEKLY_STABILITY_MAX_LOSS)
+    HEAT_ECONOMIC_MODIFIERS, HEAT_WEEKLY_STABILITY_THRESHOLD, HEAT_WEEKLY_STABILITY_MAX_LOSS,EDUCATION_GAIN_CAPS,
+    HEAT_QUALITY_CURVATURE,HEAT_STABILITY_PRESSURE,HEAT_POLITICAL_PRESSURE)
 from education_poster_expansion import (MILITARY_GATE, AGRICULTURE_GATE, STATE_REWARDS, CATEGORY_ICONS)
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -127,7 +128,11 @@ def effects():
             for kind in ('basic','higher'):
                 if a[kind]:
                     tick += [setv('RUS_edu_gain',f'{a[kind]/a["days"]:.12g}'),mul('RUS_edu_gain','RUS_edu_quality'),
-                             mul('RUS_edu_gain','RUS_edu_'+kind+'_multiplier'),add(VARS[kind],'RUS_edu_gain')]
+                             mul('RUS_edu_gain','RUS_edu_'+kind+'_multiplier')]
+                    # Limit after every multiplier. At most `days` daily pulses
+                    # can execute, including the guarded final-day top-up.
+                    tick += clamp('RUS_edu_gain',0,f'{EDUCATION_GAIN_CAPS[kind]/a["days"]:.12g}')
+                    tick += [add(VARS[kind],'RUS_edu_gain')]
             if a['heat']:
                 tick += [setv('RUS_edu_heat_gain',f'{a["heat"]/30:.12g}')]
                 if a['heat']>0:
@@ -149,8 +154,7 @@ def effects():
             # An expiry callback may precede the last daily pulse. Top up only one day.
             finish += ['RUS_education_tick_'+a['id']+' = yes',add('RUS_education_completed_activities',1)]
         else: finish += [add(VARS['heat'],a['heat'])]
-        for m,v in a['modifiers'].items():
-            if m in POOL_CAPS: finish.append(add(pv(m),f'{v/5:.12g}'))
+        for m,v in a['permanent_modifiers'].items():finish.append(add(pv(m),f'{v:.12g}'))
         finish+=state_reward_effects(a)+timed_reward_effects(a)+agriculture_reward_effects(a)
         finish += ['RUS_education_cancel_'+a['id']+' = yes']
         out.append(block('RUS_education_finish_'+a['id'],cond('has_country_flag = '+active(a),finish)))
@@ -171,9 +175,9 @@ def refresh_lines():
     lines += [setv('RUS_edu_deviation',VARS['heat']),op('subtract_from','RUS_edu_deviation',55),
         'if = { limit = { check_variable = { RUS_education_enthusiasm > 55 } } divide_variable = { RUS_edu_deviation = 45 } }',
         'else = { divide_variable = { RUS_edu_deviation = 55 } }',setv('RUS_edu_heat_square','RUS_edu_deviation'),mul('RUS_edu_heat_square','RUS_edu_deviation'),
-        setv('RUS_edu_quality_penalty','RUS_edu_heat_square'),
-        'if = { limit = { check_variable = { RUS_education_enthusiasm > 55 } } '+mul('RUS_edu_quality_penalty',.4)+' }',
-        'else = { '+mul('RUS_edu_quality_penalty',.5)+' }',setv('RUS_edu_quality',1),op('subtract_from','RUS_edu_quality','RUS_edu_quality_penalty'),
+        setv('RUS_edu_quality_denominator','RUS_edu_heat_square'),mul('RUS_edu_quality_denominator',HEAT_QUALITY_CURVATURE),
+        add('RUS_edu_quality_denominator',1),setv('RUS_edu_quality',1),op('divide','RUS_edu_quality','RUS_edu_quality_denominator'),
+        setv('RUS_edu_quality_penalty',1),op('subtract_from','RUS_edu_quality_penalty','RUS_edu_quality'),
         setv('RUS_edu_overheat',0)]
     lines+=cond('check_variable = { RUS_education_enthusiasm > 55 }',[setv('RUS_edu_overheat','RUS_edu_heat_square')])
     for kind,initial,span in [('basic',20,80),('higher',5,95)]:
@@ -198,9 +202,9 @@ def refresh_lines():
             lines += cond(f'check_variable = {{ {bv(m)} > 0 }}',[mul(bv(m),'RUS_edu_economic_mobilisation')])
         # Positive civic participation grows with education, preserving the -10% floor at zero progress.
         if m=='political_power_factor':
-            lines += [setv('RUS_edu_other','RUS_edu_heat_square'),mul('RUS_edu_other',-.10),add('RUS_edu_other',.05),
+            lines += [setv('RUS_edu_other','RUS_edu_quality_penalty'),mul('RUS_edu_other',-HEAT_POLITICAL_PRESSURE),add('RUS_edu_other',.05),
                       mul('RUS_edu_other','RUS_edu_weighted'),add(bv(m),'RUS_edu_other')]
-    lines += [setv(bv('stability_factor'),'RUS_edu_heat_square'),mul(bv('stability_factor'),-.05),
+    lines += [setv(bv('stability_factor'),'RUS_edu_quality_penalty'),mul(bv('stability_factor'),-HEAT_STABILITY_PRESSURE),
               setv(bv('industrial_capacity_factory'),VARS['heat']),mul(bv('industrial_capacity_factory'),.0005),
               setv(bv('stability_weekly'),0),
               setv('RUS_edu_quality_percent','RUS_edu_quality'),mul('RUS_edu_quality_percent',100),
@@ -220,10 +224,9 @@ def refresh_lines():
     for a in ACTIVITIES+CONTROLS:
         v='RUS_edu_cost_'+a['id']; lines+=[setv(v,a['cost'])]
         if a['kind']!='control': lines+=mul_if(v,'RUS_edu_central',.8)
-        for m,vv in a['modifiers'].items():
-            if m not in POOL_CAPS: continue
-            cap=POOL_CAPS[m]; v=delta(a,m)
-            lines += [setv(v,cap),op('subtract_from',v,pv(m))]+clamp(v,min(0,vv/5),max(0,vv/5))
+        for m,award in a['permanent_modifiers'].items():
+            v=delta(a,m)
+            lines += [setv(v,POOL_CAPS[m]),op('subtract_from',v,pv(m))]+clamp(v,min(0,award),max(0,award))
     for kind in VARS:
         v='RUS_edu_bar_'+kind
         lines += [setv(v,VARS[kind]),f'round_variable = {v}',add(v,1)]
@@ -289,8 +292,9 @@ def decisions():
         if a.get('gate'):visible.append(a['gate'])
         cancel_conditions='NOT = { has_country_flag = RUS_education_system_active } NOT = { has_socialist_government = yes }'
         if a.get('wartime'):cancel_conditions+=' has_war = no'
-        finish_preview=[f'custom_effect_tooltip = RUS_edu_{a["id"]}_finish_tt',
-            f'effect_tooltip = {{ add_dynamic_modifier = {{ modifier = RUS_edu_result_{a["id"]} }} }}']
+        finish_preview=[f'custom_effect_tooltip = RUS_edu_{a["id"]}_finish_tt']
+        if a['permanent_modifiers']:
+            finish_preview.append(f'effect_tooltip = {{ add_dynamic_modifier = {{ modifier = RUS_edu_result_{a["id"]} }} }}')
         if a.get('state_reward'):finish_preview.append(block('effect_tooltip',state_reward_effects(a)).strip())
         if a.get('timed_reward'):finish_preview.append(block('effect_tooltip',timed_reward_effects(a)).strip())
         if a.get('agriculture_reward'):
@@ -315,7 +319,9 @@ def modifiers():
               '# Retired attachment handle: never added; refresh removes it while preserving pooled variables.\n',
               block('RUS_education_permanent_results',['icon = GFX_idea_generic_high_literacy']+[f'{m} = {pv(m)}' for m in POOL_CAPS])]
     for a in ACTIVITIES+CONTROLS:
-        lines += [block('RUS_edu_result_'+a['id'],['icon = GFX_idea_generic_high_literacy']+[f'{m} = {delta(a,m)}' for m in a['modifiers'] if m in POOL_CAPS])]
+        if a['permanent_modifiers']:
+            lines.append(block('RUS_edu_result_'+a['id'],['icon = GFX_idea_generic_high_literacy']+
+                [f'{m} = {delta(a,m)}' for m in a['permanent_modifiers']]))
     for preset,(name,values) in STATE_REWARDS.items():
         lines.append(block('RUS_edu_state_'+preset,[
             'icon = GFX_decision_generic_industry',
@@ -438,7 +444,8 @@ def localisations():
     for kind,name in KINDS.items(): l['RUS_edu_'+kind+'_free_tt']=name+'类没有其他在办活动'
     for a in ACTIVITIES+CONTROLS:
         aid=a['id']; regular=a['kind']!='control'; key='RUS_education_'+aid
-        l[key]=a['name']; l['RUS_edu_result_'+aid]='教育改革'
+        l[key]=a['name']
+        if a['permanent_modifiers']:l['RUS_edu_result_'+aid]='教育改革'
         if a.get('timed_reward'):l[a['timed_reward']['idea']]=a['timed_reward']['name']
         l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】'
         if regular:

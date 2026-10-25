@@ -14,22 +14,26 @@ POSTER_PREFIX_CATEGORY = {'EDU':4,'WOM':3,'YTH':3,'IND':2}
 HEAT_ECONOMIC_MODIFIERS = {'production_factory_start_efficiency_factor','production_factory_efficiency_gain_factor'}
 HEAT_WEEKLY_STABILITY_THRESHOLD = 75
 HEAT_WEEKLY_STABILITY_MAX_LOSS = .01
+EDUCATION_GAIN_CAPS = {'basic':4, 'higher':2}
+HEAT_QUALITY_CURVATURE = 4
+HEAT_STABILITY_PRESSURE = .08
+HEAT_POLITICAL_PRESSURE = .15
 # id, slogan, category, duration, PP, total base/higher gain, enthusiasm per 30 days, poster code, temporary modifiers
 ROWS = [
- ('literacy','知识打破奴隶的锁链！','basic',90,25,5,0,0,'EDU02',{'research_speed_factor':.01}),
- ('schools','让每一个村庄都有学校！','basic',120,40,7,0,-.5,'EDU01',{'stability_factor':.025,'consumer_goods_factor':.01}),
- ('night_school','工农群众，拿起书本！','basic',90,30,4,1,.5,'EDU66',{'industrial_capacity_factory':.025}),
- ('teachers','为人民培养人民教师！','basic',120,40,4,2,0,'WOM16',{'political_power_cost':-.05}),
- ('university','工农群众，走进大学！','higher',120,45,1,6,.5,'EDU42',{'research_speed_factor':.025,'consumer_goods_factor':.01}),
- ('science','科学必须服务于人民！','higher',180,55,0,9,0,'EDU56',{'research_speed_factor':.025}),
- ('pedagogy','培养建设新社会的师资！','higher',120,45,3,5,0,'EDU68',{'political_power_factor':.025}),
- ('technical','掌握技术，建设社会主义！','technical',90,35,1,2,1,'EDU30',{'industrial_capacity_factory':.03}),
+ ('literacy','知识打破奴隶的锁链！','basic',90,25,4,0,0,'EDU02',{'research_speed_factor':.01}),
+ ('schools','让每一个村庄都有学校！','basic',120,40,4,0,-.5,'EDU01',{'monthly_population':.05,'stability_factor':.015,'consumer_goods_factor':.01}),
+ ('night_school','工农群众，拿起书本！','basic',90,30,4,1,.5,'EDU66',{'equipment_conversion_speed':.10,'industrial_capacity_factory':.025}),
+ ('teachers','为人民培养人民教师！','basic',120,40,4,2,0,'WOM16',{'political_advisor_cost_factor':-.10,'political_power_cost':-.025}),
+ ('university','工农群众，走进大学！','higher',120,45,1,2,.5,'EDU42',{'research_speed_factor':.015,'consumer_goods_factor':.01}),
+ ('science','科学必须服务于人民！','higher',180,55,0,2,0,'EDU56',{'research_speed_factor':.015,'local_resources_factor':.05}),
+ ('pedagogy','培养建设新社会的师资！','higher',120,45,3,2,0,'EDU68',{'political_advisor_cost_factor':-.10,'political_power_factor':.025}),
+ ('technical','掌握技术，建设社会主义！','technical',90,35,1,2,1,'EDU30',{'equipment_conversion_speed':.10,'industrial_capacity_factory':.02}),
  ('agriculture','把科学带到田野！','technical',90,30,2,1,1,'YTH03',{'industrial_capacity_factory':.025}),
- ('reading','让书籍走进千家万户！','culture',90,20,.5,.5,2,'EDU13',{'political_power_factor':.05}),
- ('outreach','把文化带到田野和车间！','culture',90,25,.5,0,3,'EDU44',{'stability_factor':.025}),
- ('construction','用劳动建设我们的新生活！','culture',90,25,0,0,4,'IND07',{'industrial_capacity_factory':.05}),
- ('mentoring','老工人，扶青年一把！','technical',90,30,1,2,1,'YTH06',{'industrial_capacity_factory':.025,'political_power_cost':-.05}),
- ('library','让每个工人俱乐部都有图书室！','culture',120,30,2,1,1,'EDU07',{'research_speed_factor':.01,'stability_factor':.025}),
+ ('reading','让书籍走进千家万户！','culture',90,20,.5,.5,2,'EDU13',{'stability_weekly':.0005,'political_power_factor':.025}),
+ ('outreach','把文化带到田野和车间！','culture',90,25,.5,0,3,'EDU44',{'resistance_growth_on_our_occupied_states':-.05,'stability_factor':.015}),
+ ('construction','用劳动建设我们的新生活！','culture',90,25,0,0,4,'IND07',{'production_speed_rail_way_factor':.10,'production_speed_supply_node_factor':.05,'industrial_capacity_factory':.025}),
+ ('mentoring','老工人，扶青年一把！','technical',90,30,1,2,1,'YTH06',{'equipment_conversion_speed':.10,'production_factory_max_efficiency_factor':.025,'industrial_capacity_factory':.015}),
+ ('library','让每个工人俱乐部都有图书室！','culture',120,30,2,1,1,'EDU07',{'political_advisor_cost_factor':-.05,'research_speed_factor':.01}),
 ]
 ACTIVITIES = [dict(zip(('id','name','kind','days','cost','basic','higher','heat','poster','modifiers'), row)) for row in ROWS]
 for activity in ACTIVITIES:
@@ -37,10 +41,54 @@ for activity in ACTIVITIES:
     activity['category'] = POSTER_PREFIX_CATEGORY[prefix]
 from education_poster_expansion import additional_activities
 ACTIVITIES += additional_activities()
+# The decision modifier applies each benefit and its explicit cost together.
+# Costs are separate authoring data so they cannot silently replace a benefit.
+CAMPAIGN_COSTS = {
+ 'literacy':{'production_speed_buildings_factor':-.01},
+ 'schools':{}, 'night_school':{'production_factory_efficiency_gain_factor':-.015},
+ 'teachers':{'production_speed_buildings_factor':-.015}, 'university':{},
+ 'science':{'political_power_cost':.05}, 'pedagogy':{'industrial_capacity_factory':-.01},
+ 'technical':{'political_power_cost':.05}, 'agriculture':{'consumer_goods_factor':.005},
+ 'reading':{'political_power_cost':.025}, 'outreach':{'consumer_goods_factor':.005},
+ 'construction':{'consumer_goods_factor':.01}, 'mentoring':{'political_power_cost':.05},
+ 'library':{'political_power_cost':.025},
+ 'defend_leningrad':{'industrial_capacity_factory':-.015}, 'defend_moscow':{'industrial_capacity_factory':-.015},
+ 'march_west':{'supply_consumption_factor':.025}, 'defend_october':{'political_power_cost':.05},
+ 'dnieper_water':{'supply_consumption_factor':.025}, 'await_victory':{'political_power_cost':.025},
+ 'advanced_theory':{'consumer_goods_factor':.01}, 'cultural_enemies':{'stability_factor':-.01},
+ 'mothers_literacy':{'political_power_cost':.025}, 'children_workers':{'production_speed_buildings_factor':-.01},
+ 'ten_days':{'industrial_capacity_factory':-.01}, 'book_fair':{'consumer_goods_factor':.005},
+ 'grain_delivery':{'consumer_goods_factor':.01}, 'end_kitchen_slavery':{'production_speed_buildings_factor':-.02},
+ 'soviet_elections':{'industrial_capacity_factory':-.01}, 'protect_children':{'stability_factor':-.01},
+ 'lenin_banner':{'stability_factor':-.01}, 'labour_productivity':{'political_power_cost':.05},
+ 'socialist_industry':{'consumer_goods_factor':.01}, 'lenin_electrification':{'production_lack_of_resource_penalty_factor':.025},
+ 'tractors_nurseries':{'production_speed_buildings_factor':-.01}, 'agricultural_statistics':{'political_power_cost':.025},
+ 'complete_collectivisation':{'stability_factor':-.015}, 'harvest_battle':{'industrial_capacity_factory':-.01},
+ 'vigilance':{'political_power_cost':.05}, 'production_vices':{'political_power_cost':.025},
+ 'public_property':{'stability_factor':-.01}, 'false_shock_workers':{'political_power_cost':.05},
+ 'motherland_calls':{'industrial_capacity_factory':-.02}, 'volunteer_enlistment':{'consumer_goods_factor':.01},
+ 'red_banner_oath':{'training_time_army_factor':.025}, 'women_frontline':{'consumer_goods_factor':.01},
+ 'people_and_army':{'political_power_cost':.05}, 'honour_freedom':{'supply_consumption_factor':.025},
+ 'ukrainian_liberators':{'political_power_cost':.05}, 'beloved_motherland':{'consumer_goods_factor':.005},
+ 'long_live_peace':{'training_time_army_factor':.05},
+}
+assert set(CAMPAIGN_COSTS)=={a['id'] for a in ACTIVITIES}
+for activity in ACTIVITIES:
+    costs=CAMPAIGN_COSTS[activity['id']]
+    assert not set(costs)&set(activity['modifiers']),activity['id']
+    activity['modifiers'].update(costs)
+    if activity['id'] in ('red_banner_oath','people_and_army'):
+        activity['modifiers']['experience_gain_army_factor']=.05
+    if activity['id']=='honour_freedom':activity['modifiers']['command_power_gain_mult']=.10
 CONTROLS = [
  dict(id='listen',name='听取群众的声音！',kind='control',days=30,cost=20,basic=0,higher=0,heat=10,modifiers={'political_power_cost':-.025}),
  dict(id='restore_order',name='让课堂与车间恢复秩序！',kind='control',days=30,cost=20,basic=0,higher=0,heat=-12,modifiers={'political_power_cost':-.025}),
 ]
+from education_permanent_rewards import PERMANENT_REWARDS
+for activity in ACTIVITIES+CONTROLS:
+    # Keep published permanent awards, without converting the new costs or
+    # additional temporary effects into permanent changes.
+    activity['permanent_modifiers']=dict(PERMANENT_REWARDS.get(activity['id'],{}))
 POOL_CAPS = {'industrial_capacity_factory':.10,'stability_factor':.15,'political_power_cost':-.2,'political_power_factor':.10,'research_speed_factor':.05}
 # lower endpoint, upper endpoint, weight of basic education (remaining weight = higher)
 BODY = {

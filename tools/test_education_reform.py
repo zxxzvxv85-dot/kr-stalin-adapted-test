@@ -8,7 +8,7 @@ import unittest
 from itertools import product
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import load,parse
-from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS
+from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS,EDUCATION_GAIN_CAPS
 from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,render_outputs,DESIGN,ART
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'))
@@ -90,6 +90,59 @@ def unlock_all(m):
     return m
 
 class EducationTests(unittest.TestCase):
+    def test_distinct_temporary_benefits_and_costs_keep_original_permanent_rewards(self):
+        modifiers={k for a in ACTIVITIES for k in a['modifiers']}
+        self.assertGreaterEqual(len(modifiers),30)
+        lower_better={'political_power_cost','consumer_goods_factor','political_advisor_cost_factor',
+            'resistance_growth_on_our_occupied_states','conversion_cost_civ_to_mil_factor','conversion_cost_mil_to_civ_factor',
+            'production_lack_of_resource_penalty_factor','supply_consumption_factor','experience_loss_factor','training_time_army_factor'}
+        for a in ACTIVITIES:
+            values=[-v if k in lower_better else v for k,v in a['modifiers'].items()]
+            self.assertTrue(any(v>0 for v in values),a['id']);self.assertTrue(any(v<0 for v in values),a['id'])
+            actual={n.k:float(n.v) for n in DECISIONS['RUS_education_'+a['id']].one('modifier').v}
+            self.assertEqual(actual,a['modifiers'])
+            for cancel in (False,True):
+                m=unlock_all(initialized());m.vars.update({VARS['basic']:40,'RUS_edu_category':a['category']})
+                for mod,cap in POOL_CAPS.items():m.vars[pv(mod)]=cap/2
+                before={mod:m.vars[pv(mod)] for mod in POOL_CAPS}
+                self.assertTrue(m.start(a['id']))
+                m.end(a['id'],cancel)
+                expected=dict(before)
+                if not cancel:
+                    for mod,award in a['permanent_modifiers'].items():
+                        cap=POOL_CAPS[mod];expected[mod]=min(max(before[mod]+award,min(0,cap)),max(0,cap))
+                self.assertEqual(expected,{mod:m.vars[pv(mod)] for mod in POOL_CAPS})
+                self.assertNotIn(active(a),m.flags)
+                finish=DECISIONS['RUS_education_'+a['id']].one('remove_effect').raw()
+                self.assertEqual('RUS_edu_result_' in finish,bool(a['permanent_modifiers']))
+                self.assertNotIn('add_tech_bonus',finish)
+            for mod,award in a['permanent_modifiers'].items():
+                self.assertGreater(award*POOL_CAPS[mod],0)
+        by_id={a['id']:a for a in ACTIVITIES}
+        self.assertEqual(by_id['teachers']['permanent_modifiers'],{'political_power_cost':-.01})
+        self.assertEqual(by_id['construction']['permanent_modifiers'],{'industrial_capacity_factory':.01})
+        self.assertEqual(by_id['university']['permanent_modifiers'],{'research_speed_factor':.005})
+    def test_per_campaign_education_limits_include_route_advisor_and_heat_multipliers(self):
+        for a in ACTIVITIES:
+            for kind,cap in EDUCATION_GAIN_CAPS.items():self.assertLessEqual(a[kind],cap)
+            for route in ('theory','practice'):
+                m=unlock_all(initialized());m.flags.update({'RUS_edu_'+route,'RUS_edu_amateur','RUS_edu_future'})
+                m.ideas.add('RUS_mikhail_kalinin_advisor')
+                m.vars.update({VARS['basic']:40,VARS['higher']:7,VARS['heat']:55,'RUS_edu_category':a['category']})
+                self.assertTrue(m.start(a['id']));before={k:m.vars[VARS[k]] for k in EDUCATION_GAIN_CAPS}
+                for _ in range(a['days']):m.call('RUS_education_tick_'+a['id'])
+                m.end(a['id'])
+                for kind,cap in EDUCATION_GAIN_CAPS.items():
+                    self.assertLessEqual(m.vars[VARS[kind]]-before[kind],cap+1e-9)
+                saved={k:m.vars[VARS[k]] for k in EDUCATION_GAIN_CAPS};m.end(a['id'])
+                self.assertEqual(saved,{k:m.vars[VARS[k]] for k in EDUCATION_GAIN_CAPS})
+        # Smaller rewards still benefit from multipliers below the hard limit.
+        m=unlock_all(initialized());m.flags.add('RUS_edu_practice')
+        m.vars.update({VARS['heat']:55,'RUS_edu_category':2});self.assertTrue(m.start('construction'))
+        m.end('construction',True)
+        m.vars['RUS_edu_category']=3;self.assertTrue(m.start('mentoring'))
+        before=m.vars[VARS['basic']];m.call('RUS_education_tick_mentoring')
+        self.assertAlmostEqual(m.vars[VARS['basic']]-before,1.2/90)
     def test_dnieper_targeted_core_attack_is_30_days_and_not_a_state_reward(self):
         a=next(a for a in ACTIVITIES if a['id']=='dnieper_water');idea='RUS_edu_dnieper_offensive'
         self.assertNotIn('state_reward',a)
@@ -186,8 +239,8 @@ class EducationTests(unittest.TestCase):
                 self.assertAlmostEqual(m.vars[bv('production_factory_start_efficiency_factor')],.10)
                 self.assertAlmostEqual(m.vars[bv('production_factory_efficiency_gain_factor')],.125)
                 self.assertAlmostEqual(m.vars[bv('industrial_capacity_factory')],.05)
-                # Research keeps the original overheating loss, rather than following industry.
-                self.assertAlmostEqual(m.vars[bv('research_speed_factor')],.05)
+                # Research retains its separate heat penalty as industry rises.
+                self.assertAlmostEqual(m.vars[bv('research_speed_factor')],-.05)
         primary=next(n for n in load(ROOT/DM) if n.k=='RUS_education_social_capacity')
         self.assertEqual(primary.value('stability_weekly'),bv('stability_weekly'))
         m.vars[VARS['heat']]=80;m.advance(1);self.assertEqual(m.vars['RUS_education_overheat_days'],1)
@@ -270,16 +323,20 @@ class EducationTests(unittest.TestCase):
         m=initialized()
         for t in [0,19.999,20,39.999,40,47.39,54.9999,55,55.0001,69.999,70,84.999,85,100]:
             m.vars[VARS['heat']]=t;m.call('RUS_education_refresh')
-            d=(t-55)/(55 if t<=55 else 45);q=1-(.5 if t<=55 else .4)*d*d
+            d=(t-55)/(55 if t<=55 else 45);q=1/(1+4*d*d)
             self.assertAlmostEqual(m.vars['RUS_edu_quality'],q,places=10)
-            self.assertAlmostEqual(m.vars[bv('stability_factor')],-.05*d*d,places=10)
+            self.assertAlmostEqual(m.vars[bv('stability_factor')],-.08*(1-q),places=10)
         for edge in (20,40,55,70,85):
             values=[]
             for t in (edge-.00001,edge+.00001):
                 m.vars[VARS['heat']]=t;m.call('RUS_education_refresh');values.append(m.vars['RUS_edu_quality'])
             self.assertLess(abs(values[0]-values[1]),.000001)
         m.vars[VARS['heat']]=47.39;m.call('RUS_education_refresh')
-        self.assertAlmostEqual(m.vars['RUS_edu_quality_percent'],99.042777,places=5)
+        self.assertAlmostEqual(m.vars['RUS_edu_quality_percent'],92.886908,places=5)
+        for t in (30,75):
+            m.vars[VARS['heat']]=t;m.call('RUS_education_refresh')
+            self.assertLess(m.vars['RUS_edu_quality'],.60)
+            self.assertLess(m.vars[bv('stability_factor')],-.03)
     def test_daily_decay_no_education_decay(self):
         m=initialized();m.advance(30)
         self.assertAlmostEqual(m.vars[VARS['heat']],29)
@@ -296,15 +353,14 @@ class EducationTests(unittest.TestCase):
         self.assertEqual(m.vars['RUS_edu_active_count'],3)
         m.end('reading',True);self.assertEqual(m.vars['RUS_edu_active_count'],2)
         self.assertFalse(m.start('reading'));self.assertEqual(m.vars['RUS_education_completed_activities'],0)
-    def test_all_activity_lifecycles_and_native_pool_rewards(self):
+    def test_all_activity_lifecycles_and_original_permanent_rewards(self):
         for a in ACTIVITIES:
             with self.subTest(a=a['id']):
                 m=unlock_all(initialized());m.vars.update({VARS['basic']:40,'RUS_edu_category':a['category']});m.call('RUS_education_refresh')
                 self.assertTrue(m.start(a['id']));m.advance(a['days']);self.assertNotIn(active(a),m.flags)
                 self.assertEqual(m.vars['RUS_education_completed_activities'],1);self.assertEqual(m.vars['RUS_edu_active_count'],0)
                 self.assertTrue(all(m.vars[f'RUS_edu_slot_{i}']==0 for i in range(1,4)))
-                for mod,v in a['modifiers'].items():
-                    if mod in POOL_CAPS:self.assertAlmostEqual(m.vars[pv(mod)],v/5)
+                for mod in POOL_CAPS:self.assertAlmostEqual(m.vars[pv(mod)],a['permanent_modifiers'].get(mod,0))
                 saved={mod:m.vars[pv(mod)] for mod in POOL_CAPS};m.end(a['id']);self.assertEqual(saved,{mod:m.vars[pv(mod)] for mod in POOL_CAPS})
                 self.assertEqual(m.vars['RUS_education_completed_activities'],1)
                 self.assertFalse(any(x.startswith('RUS_edu_result_') for x in m.dynamic))
@@ -365,7 +421,8 @@ class EducationTests(unittest.TestCase):
             for v in VARS.values():self.assertGreaterEqual(m.vars[v],0);self.assertLessEqual(m.vars[v],100)
             if day in (364,729,1094):checkpoints.append((m.vars[VARS['basic']],m.vars[VARS['higher']],m.vars[bv('research_speed_factor')] ))
         self.assertLess(checkpoints[0][2],checkpoints[1][2]);self.assertLess(checkpoints[1][2],checkpoints[2][2])
-        self.assertGreater(checkpoints[2][0],95);self.assertGreater(checkpoints[2][1],70)
+        for kind in (0,1):
+            self.assertLess(checkpoints[0][kind],checkpoints[1][kind]);self.assertLess(checkpoints[1][kind],checkpoints[2][kind])
         for mod,cap in POOL_CAPS.items():self.assertLessEqual(abs(m.vars[pv(mod)]),abs(cap)+.000001)
     def test_outputs_encoding_assets_and_gui_bounds(self):
         outputs=render_outputs()
