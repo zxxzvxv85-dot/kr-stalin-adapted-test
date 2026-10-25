@@ -51,8 +51,8 @@ def wrap(text,font,width):
     return lines
 
 def preview(m,dest):
-    loc=localisation();window=load(ROOT/GUI)[0].v[0];height=int(window.one('size').value('height'));im=Image.new('RGBA',(498,height),'#222b27');d=ImageDraw.Draw(im)
-    d.rectangle((1,1,496,height-2),outline='#a39464');d.line((8,29,488,29),fill='#6f6b50')
+    loc=localisation();window=load(ROOT/GUI)[0].v[0];height=int(window.one('size').value('height'));width=int(window.one('size').value('width'));im=Image.new('RGBA',(width,height),'#222b27');d=ImageDraw.Draw(im)
+    d.rectangle((1,1,width-2,height-2),outline='#a39464');d.line((8,29,width-10,29),fill='#6f6b50')
     scripted=load(ROOT/SGUI)[0].v[0];props=scripted.one('properties');triggers=scripted.one('triggers')
     sprites={n.value('name').strip('"'):n for root in load(ROOT/GFX) for n in root.v}
     warnings=[]

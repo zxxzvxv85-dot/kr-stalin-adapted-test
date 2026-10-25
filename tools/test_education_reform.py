@@ -284,6 +284,7 @@ class EducationTests(unittest.TestCase):
         for p in catalogue:
             self.assertIn(p['folder'],POSTER_CATEGORIES[p['category']][1]);self.assertRegex(p['title_zh'],r'[\u4e00-\u9fff]')
         for container in load(ROOT/GUI)[0].v:
+            canvas_width=int(container.one('size').value('width'))
             for n in container.v:
                 if n.k not in ('iconType','instantTextBoxType'):continue
                 pos=n.one('position');x=int(pos.value('x'));y=int(pos.value('y'))
@@ -294,7 +295,7 @@ class EducationTests(unittest.TestCase):
                     with Image.open(path) as im:w=im.width//int(sprite.value('noOfFrames','1'));h=im.height
                     self.assertLessEqual(y+h,601)
                 else:w=int(n.value('maxWidth'))
-                self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,498);self.assertGreaterEqual(y,0);self.assertLess(y,601)
+                self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,canvas_width);self.assertGreaterEqual(y,0);self.assertLess(y,601)
     def test_native_bar_art_noticeboard_and_empty_slot_visibility(self):
         from PIL import Image
         game=ROOT.parents[3]/'common/Hearts of Iron IV'

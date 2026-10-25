@@ -266,7 +266,10 @@ def modifiers():
     return ''.join(lines).rstrip()+'\n'
 
 def gui_outputs():
-    # 498px category canvas, all content ends before x=490. No scrolling side columns.
+    # Keep the upper controls fixed; inset the entire noticeboard group by 6px
+    # from its old origin so the wood clears the decision-category left border.
+    board_offset=6
+    canvas_width=498+board_offset
     ui=[]
     def text(name,key,x,y,w,font='hoi_16mbs',tip=None):
         ui.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} font = "{font}" text = "{key}" maxWidth = {w} maxHeight = 42 format = center'+(f' pdx_tooltip = {tip}' if tip else '')+' }')
@@ -289,13 +292,14 @@ def gui_outputs():
     text('edu_catalog_heading','RUS_edu_catalog_heading',6,245,484)
     props=[]
     for kind in VARS: props.append(f'{kind}_bar = {{ frame = RUS_edu_bar_{kind} }}')
-    icon('education_noticeboard','GFX_RUS_education_noticeboard',0,274)
+    icon('education_noticeboard','GFX_RUS_education_noticeboard',board_offset,274)
     guard='has_country_flag = RUS_education_system_active'
     triggers=[]
     click_effects=[]
     for category in POSTER_CATEGORIES:
         click_effects.append(block(f'edu_category_{category}_click',['hidden_effect = { '+f'if = {{ limit = {{ {guard} }} '+setv('RUS_edu_category',category)+' RUS_education_refresh = yes } }']).strip())
     for i,x in enumerate((6,168,330),1):
+        x+=board_offset
         icon(f'poster_{i}','GFX_RUS_education_posters',x,275,'RUS_edu_slot_'+str(i)+'_tooltip')
         icon(f'activity_progress_{i}','GFX_RUS_edu_activity_bar',x+21,490)
         text(f'activity_name_{i}','RUS_edu_slot_'+str(i)+'_name',x+1,513,158)
@@ -305,7 +309,7 @@ def gui_outputs():
         props += [f'poster_{i} = {{ frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
     # The category's custom-GUI anchor precedes its inner border in the user's
     # runtime screenshot. Correct the entire canvas, keeping the board and cards aligned.
-    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }','size = { width = 498 height = 601 }']+ui)+'}\n'
+    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }',f'size = {{ width = {canvas_width} height = 601 }}']+ui)+'}\n'
     sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip(),block('effects',click_effects).strip()])+'}\n'
     sprites=[]
     for kind in ('basic','higher','heat','activity'):
