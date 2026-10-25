@@ -144,6 +144,7 @@ def read_layout():
             # without an extra visible connector across the layout.
             hidden.add((by_suffix['428'], key))
         assert name==entry['name'], f'Changed name needs a registry update: {key}'
+        name = entry.get('display_name', name)
         nodes.append({'cell_id': key, 'suffix': suffix, 'phase':phase,
                       'id': PREFIX + suffix, 'name': name, 'x': x, 'y': y})
     nodes.sort(key=lambda n: (n['phase'],n['y'], n['x'], n['id']))

@@ -25,6 +25,12 @@ RUS_education_permanent_results = {
 	research_speed_factor = RUS_edu_permanent_research_speed_factor
 }
 
+RUS_edu_era_literacy = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	research_speed_factor = RUS_edu_era_bonus_literacy_research_speed_factor
+}
+
 RUS_edu_result_literacy = {
 	icon = GFX_idea_generic_high_literacy
 	research_speed_factor = RUS_edu_reward_literacy_research_speed_factor
@@ -34,6 +40,13 @@ RUS_edu_repeat_literacy = {
 	icon = GFX_idea_generic_high_literacy
 	research_speed_factor = 0.025
 	production_speed_buildings_factor = -0.025
+}
+
+RUS_edu_era_schools = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	monthly_population = RUS_edu_era_bonus_schools_monthly_population
+	stability_factor = RUS_edu_era_bonus_schools_stability_factor
 }
 
 RUS_edu_result_schools = {
@@ -48,6 +61,13 @@ RUS_edu_repeat_schools = {
 	consumer_goods_factor = 0.025
 }
 
+RUS_edu_era_night_school = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	equipment_conversion_speed = RUS_edu_era_bonus_night_school_equipment_conversion_speed
+	industrial_capacity_factory = RUS_edu_era_bonus_night_school_industrial_capacity_factory
+}
+
 RUS_edu_result_night_school = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = RUS_edu_reward_night_school_industrial_capacity_factory
@@ -58,6 +78,13 @@ RUS_edu_repeat_night_school = {
 	equipment_conversion_speed = 0.125
 	industrial_capacity_factory = 0.05
 	production_factory_efficiency_gain_factor = -0.0375
+}
+
+RUS_edu_era_teachers = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	political_advisor_cost_factor = RUS_edu_era_bonus_teachers_political_advisor_cost_factor
+	political_power_cost = RUS_edu_era_bonus_teachers_political_power_cost
 }
 
 RUS_edu_result_teachers = {
@@ -72,6 +99,12 @@ RUS_edu_repeat_teachers = {
 	production_speed_buildings_factor = -0.0375
 }
 
+RUS_edu_era_university = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	research_speed_factor = RUS_edu_era_bonus_university_research_speed_factor
+}
+
 RUS_edu_result_university = {
 	icon = GFX_idea_generic_high_literacy
 	research_speed_factor = RUS_edu_reward_university_research_speed_factor
@@ -81,6 +114,13 @@ RUS_edu_repeat_university = {
 	icon = GFX_idea_generic_high_literacy
 	research_speed_factor = 0.01875
 	consumer_goods_factor = 0.025
+}
+
+RUS_edu_era_science = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	research_speed_factor = RUS_edu_era_bonus_science_research_speed_factor
+	local_resources_factor = RUS_edu_era_bonus_science_local_resources_factor
 }
 
 RUS_edu_result_science = {
@@ -95,6 +135,13 @@ RUS_edu_repeat_science = {
 	political_power_cost = 0.025
 }
 
+RUS_edu_era_pedagogy = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	political_advisor_cost_factor = RUS_edu_era_bonus_pedagogy_political_advisor_cost_factor
+	political_power_factor = RUS_edu_era_bonus_pedagogy_political_power_factor
+}
+
 RUS_edu_result_pedagogy = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_factor = RUS_edu_reward_pedagogy_political_power_factor
@@ -105,6 +152,13 @@ RUS_edu_repeat_pedagogy = {
 	political_advisor_cost_factor = -0.125
 	political_power_factor = 0.0375
 	industrial_capacity_factory = -0.025
+}
+
+RUS_edu_era_technical = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	equipment_conversion_speed = RUS_edu_era_bonus_technical_equipment_conversion_speed
+	industrial_capacity_factory = RUS_edu_era_bonus_technical_industrial_capacity_factory
 }
 
 RUS_edu_result_technical = {
@@ -119,6 +173,12 @@ RUS_edu_repeat_technical = {
 	political_power_cost = 0.025
 }
 
+RUS_edu_era_agriculture = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	industrial_capacity_factory = RUS_edu_era_bonus_agriculture_industrial_capacity_factory
+}
+
 RUS_edu_result_agriculture = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = RUS_edu_reward_agriculture_industrial_capacity_factory
@@ -128,6 +188,13 @@ RUS_edu_repeat_agriculture = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = 0.05
 	consumer_goods_factor = 0.0025
+}
+
+RUS_edu_era_reading = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	stability_weekly = RUS_edu_era_bonus_reading_stability_weekly
+	political_power_factor = RUS_edu_era_bonus_reading_political_power_factor
 }
 
 RUS_edu_result_reading = {
@@ -142,6 +209,13 @@ RUS_edu_repeat_reading = {
 	political_power_cost = 0.0125
 }
 
+RUS_edu_era_outreach = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	resistance_growth_on_our_occupied_states = RUS_edu_era_bonus_outreach_resistance_growth_on_our_occupied_states
+	stability_factor = RUS_edu_era_bonus_outreach_stability_factor
+}
+
 RUS_edu_result_outreach = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_outreach_stability_factor
@@ -152,6 +226,14 @@ RUS_edu_repeat_outreach = {
 	resistance_growth_on_our_occupied_states = -0.0625
 	stability_factor = 0.01875
 	consumer_goods_factor = 0.0025
+}
+
+RUS_edu_era_construction = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	production_speed_rail_way_factor = RUS_edu_era_bonus_construction_production_speed_rail_way_factor
+	production_speed_supply_node_factor = RUS_edu_era_bonus_construction_production_speed_supply_node_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_construction_industrial_capacity_factory
 }
 
 RUS_edu_result_construction = {
@@ -165,6 +247,14 @@ RUS_edu_repeat_construction = {
 	production_speed_supply_node_factor = 0.075
 	industrial_capacity_factory = 0.05
 	consumer_goods_factor = 0.025
+}
+
+RUS_edu_era_mentoring = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	equipment_conversion_speed = RUS_edu_era_bonus_mentoring_equipment_conversion_speed
+	production_factory_max_efficiency_factor = RUS_edu_era_bonus_mentoring_production_factory_max_efficiency_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_mentoring_industrial_capacity_factory
 }
 
 RUS_edu_result_mentoring = {
@@ -181,6 +271,13 @@ RUS_edu_repeat_mentoring = {
 	political_power_cost = 0.025
 }
 
+RUS_edu_era_library = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	political_advisor_cost_factor = RUS_edu_era_bonus_library_political_advisor_cost_factor
+	research_speed_factor = RUS_edu_era_bonus_library_research_speed_factor
+}
+
 RUS_edu_result_library = {
 	icon = GFX_idea_generic_high_literacy
 	research_speed_factor = RUS_edu_reward_library_research_speed_factor
@@ -192,6 +289,14 @@ RUS_edu_repeat_library = {
 	political_advisor_cost_factor = -0.0625
 	research_speed_factor = 0.025
 	political_power_cost = 0.0125
+}
+
+RUS_edu_era_defend_leningrad = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	army_defence_factor = RUS_edu_era_bonus_defend_leningrad_army_defence_factor
+	production_speed_bunker_factor = RUS_edu_era_bonus_defend_leningrad_production_speed_bunker_factor
+	stability_factor = RUS_edu_era_bonus_defend_leningrad_stability_factor
 }
 
 RUS_edu_result_defend_leningrad = {
@@ -207,6 +312,14 @@ RUS_edu_repeat_defend_leningrad = {
 	industrial_capacity_factory = -0.0375
 }
 
+RUS_edu_era_defend_moscow = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	army_defence_factor = RUS_edu_era_bonus_defend_moscow_army_defence_factor
+	production_speed_bunker_factor = RUS_edu_era_bonus_defend_moscow_production_speed_bunker_factor
+	stability_factor = RUS_edu_era_bonus_defend_moscow_stability_factor
+}
+
 RUS_edu_result_defend_moscow = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_defend_moscow_stability_factor
@@ -218,6 +331,14 @@ RUS_edu_repeat_defend_moscow = {
 	production_speed_bunker_factor = 0.125
 	stability_factor = 0.0125
 	industrial_capacity_factory = -0.0375
+}
+
+RUS_edu_era_march_west = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	army_attack_factor = RUS_edu_era_bonus_march_west_army_attack_factor
+	planning_speed = RUS_edu_era_bonus_march_west_planning_speed
+	political_power_factor = RUS_edu_era_bonus_march_west_political_power_factor
 }
 
 RUS_edu_result_march_west = {
@@ -233,6 +354,13 @@ RUS_edu_repeat_march_west = {
 	supply_consumption_factor = 0.0125
 }
 
+RUS_edu_era_defend_october = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	war_support_factor = RUS_edu_era_bonus_defend_october_war_support_factor
+	stability_factor = RUS_edu_era_bonus_defend_october_stability_factor
+}
+
 RUS_edu_result_defend_october = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_defend_october_stability_factor
@@ -243,6 +371,13 @@ RUS_edu_repeat_defend_october = {
 	war_support_factor = 0.09375
 	stability_factor = 0.03125
 	political_power_cost = 0.025
+}
+
+RUS_edu_era_dnieper_water = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	army_morale_factor = RUS_edu_era_bonus_dnieper_water_army_morale_factor
+	stability_factor = RUS_edu_era_bonus_dnieper_water_stability_factor
 }
 
 RUS_edu_result_dnieper_water = {
@@ -257,6 +392,13 @@ RUS_edu_repeat_dnieper_water = {
 	supply_consumption_factor = 0.0125
 }
 
+RUS_edu_era_await_victory = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	experience_loss_factor = RUS_edu_era_bonus_await_victory_experience_loss_factor
+	stability_factor = RUS_edu_era_bonus_await_victory_stability_factor
+}
+
 RUS_edu_result_await_victory = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_await_victory_stability_factor
@@ -267,6 +409,13 @@ RUS_edu_repeat_await_victory = {
 	experience_loss_factor = -0.075
 	stability_factor = 0.03125
 	political_power_cost = 0.0125
+}
+
+RUS_edu_era_advanced_theory = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	research_speed_factor = RUS_edu_era_bonus_advanced_theory_research_speed_factor
+	political_power_factor = RUS_edu_era_bonus_advanced_theory_political_power_factor
 }
 
 RUS_edu_result_advanced_theory = {
@@ -282,6 +431,13 @@ RUS_edu_repeat_advanced_theory = {
 	consumer_goods_factor = 0.025
 }
 
+RUS_edu_era_cultural_enemies = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	resistance_growth_on_our_occupied_states = RUS_edu_era_bonus_cultural_enemies_resistance_growth_on_our_occupied_states
+	political_power_factor = RUS_edu_era_bonus_cultural_enemies_political_power_factor
+}
+
 RUS_edu_result_cultural_enemies = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_factor = RUS_edu_reward_cultural_enemies_political_power_factor
@@ -295,6 +451,13 @@ RUS_edu_repeat_cultural_enemies = {
 	stability_factor = -0.025
 }
 
+RUS_edu_era_mothers_literacy = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	monthly_population = RUS_edu_era_bonus_mothers_literacy_monthly_population
+	stability_factor = RUS_edu_era_bonus_mothers_literacy_stability_factor
+}
+
 RUS_edu_result_mothers_literacy = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_mothers_literacy_stability_factor
@@ -305,6 +468,13 @@ RUS_edu_repeat_mothers_literacy = {
 	monthly_population = 0.075
 	stability_factor = 0.01875
 	political_power_cost = 0.0125
+}
+
+RUS_edu_era_children_workers = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	monthly_population = RUS_edu_era_bonus_children_workers_monthly_population
+	political_power_cost = RUS_edu_era_bonus_children_workers_political_power_cost
 }
 
 RUS_edu_result_children_workers = {
@@ -320,6 +490,13 @@ RUS_edu_repeat_children_workers = {
 	production_speed_buildings_factor = -0.025
 }
 
+RUS_edu_era_ten_days = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	drift_defence_factor = RUS_edu_era_bonus_ten_days_drift_defence_factor
+	political_power_factor = RUS_edu_era_bonus_ten_days_political_power_factor
+}
+
 RUS_edu_result_ten_days = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_factor = RUS_edu_reward_ten_days_political_power_factor
@@ -330,6 +507,14 @@ RUS_edu_repeat_ten_days = {
 	drift_defence_factor = 0.15
 	political_power_factor = 0.0375
 	industrial_capacity_factory = -0.025
+}
+
+RUS_edu_era_book_fair = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	stability_weekly = RUS_edu_era_bonus_book_fair_stability_weekly
+	research_speed_factor = RUS_edu_era_bonus_book_fair_research_speed_factor
+	political_power_cost = RUS_edu_era_bonus_book_fair_political_power_cost
 }
 
 RUS_edu_result_book_fair = {
@@ -346,6 +531,13 @@ RUS_edu_repeat_book_fair = {
 	consumer_goods_factor = 0.0025
 }
 
+RUS_edu_era_grain_delivery = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	stability_factor = RUS_edu_era_bonus_grain_delivery_stability_factor
+	political_power_cost = RUS_edu_era_bonus_grain_delivery_political_power_cost
+}
+
 RUS_edu_result_grain_delivery = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_grain_delivery_stability_factor
@@ -357,6 +549,13 @@ RUS_edu_repeat_grain_delivery = {
 	stability_factor = 0.03125
 	political_power_cost = -0.05
 	consumer_goods_factor = 0.025
+}
+
+RUS_edu_era_end_kitchen_slavery = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	consumer_goods_factor = RUS_edu_era_bonus_end_kitchen_slavery_consumer_goods_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_end_kitchen_slavery_industrial_capacity_factory
 }
 
 RUS_edu_result_end_kitchen_slavery = {
@@ -372,6 +571,13 @@ RUS_edu_repeat_end_kitchen_slavery = {
 	production_speed_buildings_factor = -0.025
 }
 
+RUS_edu_era_soviet_elections = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	political_advisor_cost_factor = RUS_edu_era_bonus_soviet_elections_political_advisor_cost_factor
+	political_power_factor = RUS_edu_era_bonus_soviet_elections_political_power_factor
+}
+
 RUS_edu_result_soviet_elections = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_factor = RUS_edu_reward_soviet_elections_political_power_factor
@@ -383,6 +589,13 @@ RUS_edu_repeat_soviet_elections = {
 	political_advisor_cost_factor = -0.125
 	political_power_factor = 0.0375
 	industrial_capacity_factory = -0.025
+}
+
+RUS_edu_era_protect_children = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	drift_defence_factor = RUS_edu_era_bonus_protect_children_drift_defence_factor
+	research_speed_factor = RUS_edu_era_bonus_protect_children_research_speed_factor
 }
 
 RUS_edu_result_protect_children = {
@@ -398,6 +611,13 @@ RUS_edu_repeat_protect_children = {
 	stability_factor = -0.025
 }
 
+RUS_edu_era_lenin_banner = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	mobilization_speed = RUS_edu_era_bonus_lenin_banner_mobilization_speed
+	political_power_factor = RUS_edu_era_bonus_lenin_banner_political_power_factor
+}
+
 RUS_edu_result_lenin_banner = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_factor = RUS_edu_reward_lenin_banner_political_power_factor
@@ -408,6 +628,13 @@ RUS_edu_repeat_lenin_banner = {
 	mobilization_speed = 0.15
 	political_power_factor = 0.0375
 	stability_factor = -0.025
+}
+
+RUS_edu_era_labour_productivity = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	production_factory_max_efficiency_factor = RUS_edu_era_bonus_labour_productivity_production_factory_max_efficiency_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_labour_productivity_industrial_capacity_factory
 }
 
 RUS_edu_result_labour_productivity = {
@@ -422,6 +649,13 @@ RUS_edu_repeat_labour_productivity = {
 	political_power_cost = 0.025
 }
 
+RUS_edu_era_socialist_industry = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	conversion_cost_civ_to_mil_factor = RUS_edu_era_bonus_socialist_industry_conversion_cost_civ_to_mil_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_socialist_industry_industrial_capacity_factory
+}
+
 RUS_edu_result_socialist_industry = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = RUS_edu_reward_socialist_industry_industrial_capacity_factory
@@ -432,6 +666,14 @@ RUS_edu_repeat_socialist_industry = {
 	conversion_cost_civ_to_mil_factor = -0.125
 	industrial_capacity_factory = 0.05
 	consumer_goods_factor = 0.025
+}
+
+RUS_edu_era_lenin_electrification = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	production_speed_rail_way_factor = RUS_edu_era_bonus_lenin_electrification_production_speed_rail_way_factor
+	production_speed_infrastructure_factor = RUS_edu_era_bonus_lenin_electrification_production_speed_infrastructure_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_lenin_electrification_industrial_capacity_factory
 }
 
 RUS_edu_result_lenin_electrification = {
@@ -445,6 +687,14 @@ RUS_edu_repeat_lenin_electrification = {
 	production_speed_infrastructure_factor = 0.125
 	industrial_capacity_factory = 0.03
 	production_lack_of_resource_penalty_factor = 0.0125
+}
+
+RUS_edu_era_tractors_nurseries = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	equipment_conversion_speed = RUS_edu_era_bonus_tractors_nurseries_equipment_conversion_speed
+	consumer_goods_factor = RUS_edu_era_bonus_tractors_nurseries_consumer_goods_factor
+	stability_factor = RUS_edu_era_bonus_tractors_nurseries_stability_factor
 }
 
 RUS_edu_result_tractors_nurseries = {
@@ -461,6 +711,13 @@ RUS_edu_repeat_tractors_nurseries = {
 	production_speed_buildings_factor = -0.025
 }
 
+RUS_edu_era_agricultural_statistics = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	production_lack_of_resource_penalty_factor = RUS_edu_era_bonus_agricultural_statistics_production_lack_of_resource_penalty_factor
+	research_speed_factor = RUS_edu_era_bonus_agricultural_statistics_research_speed_factor
+}
+
 RUS_edu_result_agricultural_statistics = {
 	icon = GFX_idea_generic_high_literacy
 	research_speed_factor = RUS_edu_reward_agricultural_statistics_research_speed_factor
@@ -472,6 +729,13 @@ RUS_edu_repeat_agricultural_statistics = {
 	production_lack_of_resource_penalty_factor = -0.075
 	research_speed_factor = 0.01875
 	political_power_cost = 0.0125
+}
+
+RUS_edu_era_complete_collectivisation = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	consumer_goods_factor = RUS_edu_era_bonus_complete_collectivisation_consumer_goods_factor
+	political_power_factor = RUS_edu_era_bonus_complete_collectivisation_political_power_factor
 }
 
 RUS_edu_result_complete_collectivisation = {
@@ -487,6 +751,13 @@ RUS_edu_repeat_complete_collectivisation = {
 	stability_factor = -0.0375
 }
 
+RUS_edu_era_harvest_battle = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	supply_consumption_factor = RUS_edu_era_bonus_harvest_battle_supply_consumption_factor
+	stability_factor = RUS_edu_era_bonus_harvest_battle_stability_factor
+}
+
 RUS_edu_result_harvest_battle = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = RUS_edu_reward_harvest_battle_industrial_capacity_factory
@@ -498,6 +769,14 @@ RUS_edu_repeat_harvest_battle = {
 	supply_consumption_factor = -0.0375
 	stability_factor = 0.03125
 	industrial_capacity_factory = -0.025
+}
+
+RUS_edu_era_vigilance = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	enemy_operative_detection_chance_factor = RUS_edu_era_bonus_vigilance_enemy_operative_detection_chance_factor
+	resistance_growth_on_our_occupied_states = RUS_edu_era_bonus_vigilance_resistance_growth_on_our_occupied_states
+	stability_factor = RUS_edu_era_bonus_vigilance_stability_factor
 }
 
 RUS_edu_result_vigilance = {
@@ -513,6 +792,13 @@ RUS_edu_repeat_vigilance = {
 	political_power_cost = 0.025
 }
 
+RUS_edu_era_production_vices = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	production_lack_of_resource_penalty_factor = RUS_edu_era_bonus_production_vices_production_lack_of_resource_penalty_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_production_vices_industrial_capacity_factory
+}
+
 RUS_edu_result_production_vices = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = RUS_edu_reward_production_vices_industrial_capacity_factory
@@ -523,6 +809,13 @@ RUS_edu_repeat_production_vices = {
 	production_lack_of_resource_penalty_factor = -0.075
 	industrial_capacity_factory = 0.05
 	political_power_cost = 0.0125
+}
+
+RUS_edu_era_public_property = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	political_advisor_cost_factor = RUS_edu_era_bonus_public_property_political_advisor_cost_factor
+	political_power_cost = RUS_edu_era_bonus_public_property_political_power_cost
 }
 
 RUS_edu_result_public_property = {
@@ -538,6 +831,14 @@ RUS_edu_repeat_public_property = {
 	stability_factor = -0.025
 }
 
+RUS_edu_era_false_shock_workers = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	production_factory_max_efficiency_factor = RUS_edu_era_bonus_false_shock_workers_production_factory_max_efficiency_factor
+	production_factory_efficiency_gain_factor = RUS_edu_era_bonus_false_shock_workers_production_factory_efficiency_gain_factor
+	industrial_capacity_factory = RUS_edu_era_bonus_false_shock_workers_industrial_capacity_factory
+}
+
 RUS_edu_result_false_shock_workers = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = RUS_edu_reward_false_shock_workers_industrial_capacity_factory
@@ -549,6 +850,14 @@ RUS_edu_repeat_false_shock_workers = {
 	production_factory_efficiency_gain_factor = 0.05
 	industrial_capacity_factory = 0.03
 	political_power_cost = 0.025
+}
+
+RUS_edu_era_motherland_calls = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	mobilization_speed = RUS_edu_era_bonus_motherland_calls_mobilization_speed
+	conscription_factor = RUS_edu_era_bonus_motherland_calls_conscription_factor
+	stability_factor = RUS_edu_era_bonus_motherland_calls_stability_factor
 }
 
 RUS_edu_result_motherland_calls = {
@@ -564,6 +873,13 @@ RUS_edu_repeat_motherland_calls = {
 	industrial_capacity_factory = -0.01
 }
 
+RUS_edu_era_volunteer_enlistment = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	training_time_army_factor = RUS_edu_era_bonus_volunteer_enlistment_training_time_army_factor
+	political_power_factor = RUS_edu_era_bonus_volunteer_enlistment_political_power_factor
+}
+
 RUS_edu_result_volunteer_enlistment = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_factor = RUS_edu_reward_volunteer_enlistment_political_power_factor
@@ -574,6 +890,15 @@ RUS_edu_repeat_volunteer_enlistment = {
 	training_time_army_factor = -0.125
 	political_power_factor = 0.0375
 	consumer_goods_factor = 0.025
+}
+
+RUS_edu_era_red_banner_oath = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	experience_loss_factor = RUS_edu_era_bonus_red_banner_oath_experience_loss_factor
+	army_morale_factor = RUS_edu_era_bonus_red_banner_oath_army_morale_factor
+	stability_factor = RUS_edu_era_bonus_red_banner_oath_stability_factor
+	experience_gain_army_factor = RUS_edu_era_bonus_red_banner_oath_experience_gain_army_factor
 }
 
 RUS_edu_result_red_banner_oath = {
@@ -590,6 +915,14 @@ RUS_edu_repeat_red_banner_oath = {
 	experience_gain_army_factor = 0.075
 }
 
+RUS_edu_era_women_frontline = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	conversion_cost_civ_to_mil_factor = RUS_edu_era_bonus_women_frontline_conversion_cost_civ_to_mil_factor
+	industrial_capacity_dockyard = RUS_edu_era_bonus_women_frontline_industrial_capacity_dockyard
+	industrial_capacity_factory = RUS_edu_era_bonus_women_frontline_industrial_capacity_factory
+}
+
 RUS_edu_result_women_frontline = {
 	icon = GFX_idea_generic_high_literacy
 	industrial_capacity_factory = RUS_edu_reward_women_frontline_industrial_capacity_factory
@@ -601,6 +934,15 @@ RUS_edu_repeat_women_frontline = {
 	industrial_capacity_dockyard = 0.1
 	industrial_capacity_factory = 0.05
 	consumer_goods_factor = 0.025
+}
+
+RUS_edu_era_people_and_army = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	supply_consumption_factor = RUS_edu_era_bonus_people_and_army_supply_consumption_factor
+	army_org_factor = RUS_edu_era_bonus_people_and_army_army_org_factor
+	stability_factor = RUS_edu_era_bonus_people_and_army_stability_factor
+	experience_gain_army_factor = RUS_edu_era_bonus_people_and_army_experience_gain_army_factor
 }
 
 RUS_edu_result_people_and_army = {
@@ -617,6 +959,15 @@ RUS_edu_repeat_people_and_army = {
 	experience_gain_army_factor = 0.075
 }
 
+RUS_edu_era_honour_freedom = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	max_planning_factor = RUS_edu_era_bonus_honour_freedom_max_planning_factor
+	army_defence_factor = RUS_edu_era_bonus_honour_freedom_army_defence_factor
+	political_power_factor = RUS_edu_era_bonus_honour_freedom_political_power_factor
+	command_power_gain_mult = RUS_edu_era_bonus_honour_freedom_command_power_gain_mult
+}
+
 RUS_edu_result_honour_freedom = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_factor = RUS_edu_reward_honour_freedom_political_power_factor
@@ -631,6 +982,13 @@ RUS_edu_repeat_honour_freedom = {
 	command_power_gain_mult = 0.15
 }
 
+RUS_edu_era_ukrainian_liberators = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	resistance_growth_on_our_occupied_states = RUS_edu_era_bonus_ukrainian_liberators_resistance_growth_on_our_occupied_states
+	stability_factor = RUS_edu_era_bonus_ukrainian_liberators_stability_factor
+}
+
 RUS_edu_result_ukrainian_liberators = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_ukrainian_liberators_stability_factor
@@ -641,6 +999,14 @@ RUS_edu_repeat_ukrainian_liberators = {
 	resistance_growth_on_our_occupied_states = -0.125
 	stability_factor = 0.03125
 	political_power_cost = 0.025
+}
+
+RUS_edu_era_beloved_motherland = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	production_speed_infrastructure_factor = RUS_edu_era_bonus_beloved_motherland_production_speed_infrastructure_factor
+	stability_factor = RUS_edu_era_bonus_beloved_motherland_stability_factor
+	war_support_factor = RUS_edu_era_bonus_beloved_motherland_war_support_factor
 }
 
 RUS_edu_result_beloved_motherland = {
@@ -657,6 +1023,14 @@ RUS_edu_repeat_beloved_motherland = {
 	consumer_goods_factor = 0.0025
 }
 
+RUS_edu_era_long_live_peace = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	conversion_cost_mil_to_civ_factor = RUS_edu_era_bonus_long_live_peace_conversion_cost_mil_to_civ_factor
+	consumer_goods_factor = RUS_edu_era_bonus_long_live_peace_consumer_goods_factor
+	stability_factor = RUS_edu_era_bonus_long_live_peace_stability_factor
+}
+
 RUS_edu_result_long_live_peace = {
 	icon = GFX_idea_generic_high_literacy
 	stability_factor = RUS_edu_reward_long_live_peace_stability_factor
@@ -670,9 +1044,21 @@ RUS_edu_repeat_long_live_peace = {
 	training_time_army_factor = 0.025
 }
 
+RUS_edu_era_listen = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	political_power_cost = RUS_edu_era_bonus_listen_political_power_cost
+}
+
 RUS_edu_result_listen = {
 	icon = GFX_idea_generic_high_literacy
 	political_power_cost = RUS_edu_reward_listen_political_power_cost
+}
+
+RUS_edu_era_restore_order = {
+	icon = GFX_idea_generic_high_literacy
+	enable = { has_country_flag = RUS_education_system_active has_country_flag = RUS_edu_era has_socialist_government = yes }
+	political_power_cost = RUS_edu_era_bonus_restore_order_political_power_cost
 }
 
 RUS_edu_result_restore_order = {

@@ -1957,8 +1957,8 @@ shared_focus = {
 	x = 150
 	y = 52
 	available = {
-		NOT = { check_variable = { RUS_education_completed_activities < 3 } }
-		NOT = { check_variable = { RUS_basic_education_level < 30 } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_3_tt NOT = { check_variable = { RUS_education_completed_activities < 3 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_basic_30_tt NOT = { check_variable = { RUS_basic_education_level < 30 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
@@ -1981,8 +1981,8 @@ shared_focus = {
 	x = 152
 	y = 52
 	available = {
-		NOT = { check_variable = { RUS_education_completed_activities < 3 } }
-		NOT = { check_variable = { RUS_basic_education_level < 30 } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_3_tt NOT = { check_variable = { RUS_education_completed_activities < 3 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_basic_30_tt NOT = { check_variable = { RUS_basic_education_level < 30 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
@@ -2197,9 +2197,9 @@ shared_focus = {
 	x = 150
 	y = 53
 	available = {
-		NOT = { check_variable = { RUS_education_completed_activities < 6 } }
-		NOT = { check_variable = { RUS_basic_education_level < 45 } }
-		NOT = { check_variable = { RUS_higher_education_level < 15 } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_6_tt NOT = { check_variable = { RUS_education_completed_activities < 6 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_basic_45_tt NOT = { check_variable = { RUS_basic_education_level < 45 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_higher_15_tt NOT = { check_variable = { RUS_higher_education_level < 15 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
@@ -2221,9 +2221,9 @@ shared_focus = {
 	x = 152
 	y = 53
 	available = {
-		NOT = { check_variable = { RUS_education_completed_activities < 6 } }
-		NOT = { check_variable = { RUS_basic_education_level < 45 } }
-		NOT = { check_variable = { RUS_higher_education_level < 15 } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_6_tt NOT = { check_variable = { RUS_education_completed_activities < 6 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_basic_45_tt NOT = { check_variable = { RUS_basic_education_level < 45 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_higher_15_tt NOT = { check_variable = { RUS_higher_education_level < 15 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
@@ -2499,9 +2499,9 @@ shared_focus = {
 	x = 150
 	y = 54
 	available = {
-		NOT = { check_variable = { RUS_education_completed_activities < 9 } }
-		NOT = { check_variable = { RUS_basic_education_level < 60 } }
-		NOT = { check_variable = { RUS_higher_education_level < 25 } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_9_tt NOT = { check_variable = { RUS_education_completed_activities < 9 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_basic_60_tt NOT = { check_variable = { RUS_basic_education_level < 60 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_higher_25_tt NOT = { check_variable = { RUS_higher_education_level < 25 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
@@ -2523,9 +2523,9 @@ shared_focus = {
 	x = 152
 	y = 54
 	available = {
-		NOT = { check_variable = { RUS_education_completed_activities < 9 } }
-		NOT = { check_variable = { RUS_basic_education_level < 60 } }
-		NOT = { check_variable = { RUS_higher_education_level < 25 } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_9_tt NOT = { check_variable = { RUS_education_completed_activities < 9 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_basic_60_tt NOT = { check_variable = { RUS_basic_education_level < 60 } } }
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_higher_25_tt NOT = { check_variable = { RUS_higher_education_level < 25 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
@@ -2717,6 +2717,7 @@ shared_focus = {
 	x = 151
 	y = 55
 	available = {
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_12_tt NOT = { check_variable = { RUS_education_completed_activities < 12 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
@@ -2860,7 +2861,7 @@ shared_focus = {
 	ai_will_do = { factor = 0 }
 }
 
-# 时代召唤
+# 时代，前进！
 shared_focus = {
 	id = RUS_future_domestic_234
 	icon = GFX_goal_RUS_future_domestic_234
@@ -2868,13 +2869,15 @@ shared_focus = {
 	x = 149
 	y = 56
 	available = {
+		custom_trigger_tooltip = { tooltip = RUS_edu_focus_posters_20_tt NOT = { check_variable = { RUS_education_completed_activities < 20 } } }
 		hidden_trigger = { has_socialist_government = yes }
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_233 focus = RUS_future_domestic_237 }
 	completion_reward = {
 		custom_effect_tooltip = RUS_edu_era_cost_tt
-		custom_effect_tooltip = RUS_edu_era_time_tt
+		custom_effect_tooltip = RUS_edu_era_slots_tt
+		custom_effect_tooltip = RUS_edu_era_positive_tt
 		hidden_effect = { set_country_flag = RUS_edu_era RUS_education_refresh = yes }
 	}
 	ai_will_do = { factor = 1 }

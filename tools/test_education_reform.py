@@ -8,7 +8,7 @@ import unittest
 from itertools import product
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import load,parse
-from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS,EDUCATION_GAIN_CAPS
+from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS,EDUCATION_GAIN_CAPS,LOWER_IS_BETTER
 from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,repeated,duration,run_duration,render_outputs,DESIGN,ART
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'))
@@ -127,6 +127,75 @@ def unlock_all(m):
     return m
 
 class EducationTests(unittest.TestCase):
+    def test_focus_requirements_are_visible_and_enforce_3_6_9_12_20_boundaries(self):
+        focuses={n.value('id'):n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')}
+        locale=(ROOT/'localisation/simp_chinese/RUS_education_dashboard_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
+        for suffix,count,basic,higher in [('218',3,30,0),('221',3,30,0),('224',6,45,15),('226',6,45,15),('229',9,60,25),('231',9,60,25),('233',12,0,0),('234',20,0,0)]:
+            req=focuses['RUS_future_domestic_'+suffix].one('available')
+            tips=req.children('custom_trigger_tooltip')
+            self.assertIn(f'RUS_edu_focus_posters_{count}_tt',[n.value('tooltip') for n in tips])
+            self.assertFalse(req.children('NOT'))
+            for n in tips:self.assertIn(' '+n.value('tooltip')+':0 ',locale)
+            m=initialized();m.vars.update(RUS_education_completed_activities=count,RUS_basic_education_level=basic,RUS_higher_education_level=higher)
+            self.assertTrue(m.check(req))
+            for variable,minimum in [('RUS_education_completed_activities',count)]+([(VARS['basic'],basic)] if basic else [])+([(VARS['higher'],higher)] if higher else []):
+                m.vars[variable]=minimum-.001;self.assertFalse(m.check(req));m.vars[variable]=minimum
+        self.assertEqual(education_focuses()['234']['name'],'时代，前进！')
+
+    def test_era_doubles_only_native_benefits_and_multiplies_repeat_benefits_without_changing_rewards(self):
+        modifiers={n.k:n for n in load(ROOT/DM)}
+        for a in ACTIVITIES+CONTROLS:
+            for repeat in (False,True):
+                m=unlock_all(initialized());m.vars.update(RUS_basic_education_level=60,RUS_edu_category=a.get('category',4))
+                if a['id']=='restore_order':m.vars[VARS['heat']]=80
+                regular=a['kind']!='control'
+                if repeat and regular:m.flags.update({'RUS_edu_central','RUS_edu_completed_'+a['id']})
+                m.call('RUS_education_refresh');self.assertTrue(m.start(a['id']))
+                addon='RUS_edu_era_'+a['id'];self.assertNotIn(addon,m.dynamic)
+                original_days=m.vars[run_duration(a)];m.flags.add('RUS_edu_era');m.call('RUS_education_refresh')
+                self.assertIn(addon,m.dynamic);self.assertEqual(m.vars[duration(a)],a['days']);self.assertEqual(m.vars[run_duration(a)],original_days)
+                definition=modifiers[addon];factor=1.5 if repeat and regular else 1
+                for modifier,value in a['modifiers'].items():
+                    benefit=(value<0 if modifier in LOWER_IS_BETTER else value>0)
+                    field=definition.one(modifier)
+                    if benefit:self.assertAlmostEqual(m.vars[field.v]+value*factor,value*factor*2)
+                    else:self.assertIsNone(field,(a['id'],modifier))
+                # Repeated refreshes cannot grant another copy or raise pools.
+                before=set(m.dynamic);m.call('RUS_education_refresh');self.assertEqual(m.dynamic,before)
+                m.end(a['id']);self.assertNotIn(addon,m.dynamic)
+                for modifier in POOL_CAPS:self.assertAlmostEqual(m.vars[pv(modifier)],a['permanent_modifiers'].get(modifier,0))
+                after=dict(m.vars);m.end(a['id']);self.assertEqual(after,m.vars)
+                m=unlock_all(initialized());m.flags.add('RUS_edu_era');m.vars.update(RUS_basic_education_level=60,RUS_edu_category=a.get('category',4))
+                if a['id']=='restore_order':m.vars[VARS['heat']]=80
+                m.call('RUS_education_refresh');self.assertTrue(m.start(a['id']));self.assertIn(addon,m.dynamic)
+                m.end(a['id'],True);self.assertNotIn(addon,m.dynamic)
+                for modifier in POOL_CAPS:self.assertEqual(m.vars[pv(modifier)],0)
+
+    def test_era_adds_two_real_slots_and_paginates_four_matching_posters(self):
+        m=initialized();m.flags.add('RUS_edu_era');m.call('RUS_education_refresh');self.assertEqual(m.vars['RUS_edu_slots'],4)
+        m=unlock_all(initialized());m.flags.add('RUS_edu_era');m.vars[VARS['basic']]=60;m.call('RUS_education_refresh')
+        self.assertEqual(m.vars['RUS_edu_slots'],5)
+        chosen=[next(a for a in ACTIVITIES if a['kind']==kind and a['category']==(1 if kind=='military' else 4)) for kind in ('basic','higher','culture','technical','military')]
+        for a in chosen:
+            m.vars['RUS_edu_category']=a['category'];m.call('RUS_education_refresh');self.assertTrue(m.start(a['id']))
+        self.assertEqual(m.vars['RUS_edu_active_count'],5)
+        self.assertEqual(len({m.vars[f'RUS_edu_slot_{i}'] for i in range(1,6)}),5)
+        m.vars['RUS_edu_category']=4;m.call('RUS_education_refresh')
+        self.assertEqual(m.vars['RUS_edu_catalog_running_count'],4)
+        scripted=load(ROOT/SGUI)[0].v[0];self.assertTrue(m.check(scripted.one('triggers').one('edu_board_next_visible')))
+        first={m.vars[f'RUS_edu_catalog_{i}_activity'] for i in range(1,4)}
+        days={a['id']:m.vars[remain(a)] for a in chosen}
+        m.run(scripted.one('effects').one('edu_board_next_click').v)
+        self.assertEqual(m.vars['RUS_edu_board_page'],2)
+        last={m.vars[f'RUS_edu_catalog_{i}_activity'] for i in range(1,3)}-{0}
+        self.assertEqual(first|last,{ACTIVITIES.index(a)+3 for a in chosen if a['category']==4});self.assertFalse(first&last)
+        self.assertFalse(m.check(scripted.one('triggers').one('poster_3_visible')))
+        self.assertEqual(days,{a['id']:m.vars[remain(a)] for a in chosen})
+        m.end(chosen[0]['id'],True);self.assertEqual(m.vars['RUS_edu_board_page'],1)
+        self.assertFalse(m.check(scripted.one('triggers').one('edu_board_next_visible')))
+        for a in chosen:m.end(a['id'],True)
+        self.assertEqual(m.vars['RUS_edu_active_count'],0);self.assertTrue(all(m.vars[f'RUS_edu_slot_{i}']==0 for i in range(1,6)))
+
     def test_poster_aging_tracks_exact_progress_snapshot_and_resets_without_posting_available_art(self):
         definitions=load(ROOT/'common/scripted_localisation/RUS_education_dashboard.txt')
         selectors={i:next(n for n in definitions if n.value('name')==f'RUSEducationPosterAge{i}') for i in range(1,4)}
@@ -225,15 +294,15 @@ class EducationTests(unittest.TestCase):
         m=initialized();m.run(reward);m.advance(10);m.remove_idea(idea)
         self.assertEqual(m.research_slots,3)
         m.remove_idea(idea);m.advance(365);self.assertEqual(m.research_slots,3)
-    def test_era_halves_all_decision_durations_preserving_campaign_totals_and_running_snapshots(self):
+    def test_kalinin_shortens_all_decision_durations_preserving_campaign_totals_and_running_snapshots(self):
         for accelerated in (False,True):
             for a in ACTIVITIES+CONTROLS:
                 m=unlock_all(initialized())
-                if accelerated:m.flags.add('RUS_edu_era')
+                if accelerated:m.ideas.add('RUS_mikhail_kalinin_advisor')
                 if a['kind']!='control':m.flags.update({'RUS_edu_central','RUS_edu_completed_'+a['id']})
                 m.vars.update({VARS['basic']:40,VARS['heat']:80 if a['id']=='restore_order' else 32,
                                'RUS_edu_category':a.get('category',4)})
-                m.call('RUS_education_refresh');expected=a['days']/(2 if accelerated else 1)
+                m.call('RUS_education_refresh');expected=int(a['days']*(.75 if accelerated else 1)+.5)
                 self.assertTrue(m.start(a['id']));self.assertEqual(m.vars[remain(a)],expected)
                 self.assertEqual(m.vars[run_duration(a)],expected)
                 d=DECISIONS['RUS_education_'+a['id']]
@@ -249,26 +318,27 @@ class EducationTests(unittest.TestCase):
             a=next(a for a in ACTIVITIES if a['id']==aid)
             for accelerated in (False,True):
                 m=unlock_all(initialized())
-                if accelerated:m.flags.add('RUS_edu_era')
+                if accelerated:m.ideas.add('RUS_mikhail_kalinin_advisor')
                 m.vars.update({VARS['basic']:40,VARS['higher']:7,VARS['heat']:55,'RUS_edu_category':a['category']})
                 m.call('RUS_education_refresh');self.assertTrue(m.start(aid))
                 before={k:m.vars[VARS[k]] for k in ('basic','higher')}
+                m.vars['RUS_edu_basic_multiplier']=1;m.vars['RUS_edu_higher_multiplier']=1
                 for _ in range(int(m.vars[run_duration(a)])):m.call('RUS_education_tick_'+aid)
                 m.end(aid)
                 totals.append({k:m.vars[VARS[k]]-before[k] for k in before})
             for k in totals[0]:self.assertAlmostEqual(totals[0][k],totals[1][k],places=9)
         a=next(a for a in ACTIVITIES if a['id']=='literacy')
         m=initialized();self.assertTrue(m.start('literacy'));m.advance(10)
-        m.flags.add('RUS_edu_era');m.call('RUS_education_refresh')
-        self.assertEqual(m.vars[duration(a)],45);self.assertEqual(m.vars[run_duration(a)],90)
+        m.ideas.add('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
+        self.assertEqual(m.vars[duration(a)],68);self.assertEqual(m.vars[run_duration(a)],90)
         self.assertEqual(m.vars[remain(a)],80)
         m.advance(35);self.assertIn(active(a),m.flags)
         self.assertEqual(m.vars['RUS_edu_catalog_1_progress'],51)
         m.advance(45);self.assertNotIn(active(a),m.flags)
         self.assertEqual(m.vars['RUS_education_completed_activities'],1)
         for aid,heat in [('listen',32),('restore_order',80)]:
-            m=initialized();m.flags.add('RUS_edu_era');m.vars[VARS['heat']]=heat
-            m.call('RUS_education_refresh');self.assertTrue(m.start(aid));m.advance(14)
+            m=initialized();m.ideas.add('RUS_mikhail_kalinin_advisor');m.vars[VARS['heat']]=heat
+            m.call('RUS_education_refresh');self.assertTrue(m.start(aid));m.advance(22)
             a=next(a for a in CONTROLS if a['id']==aid);self.assertIn(active(a),m.flags)
             m.advance(1);self.assertNotIn(active(a),m.flags)
             self.assertEqual(m.vars['RUS_education_completed_activities'],0)
@@ -324,7 +394,7 @@ class EducationTests(unittest.TestCase):
         m.vars[VARS['heat']]=55;self.assertTrue(m.start('mentoring'))
         self.assertIn(repeated(a),m.flags);self.assertIn('RUS_edu_repeat_mentoring',m.dynamic)
         before=m.vars[VARS['basic']];m.call('RUS_education_tick_mentoring')
-        self.assertAlmostEqual(m.vars[VARS['basic']]-before,1.5/45)
+        self.assertAlmostEqual(m.vars[VARS['basic']]-before,1.5/90)
         self.assertAlmostEqual(m.vars['RUS_edu_heat_gain'],1.25*1.5/30)
         before={k:m.vars[pv(k)] for k in POOL_CAPS};m.end('mentoring')
         for k in POOL_CAPS:self.assertAlmostEqual(m.vars[pv(k)]-before[k],a['permanent_modifiers'].get(k,0))
@@ -694,14 +764,14 @@ class EducationTests(unittest.TestCase):
         m.call('RUS_education_refresh');before={a['id']:m.vars['RUS_edu_cost_'+a['id']] for a in ACTIVITIES}
         m.ideas.add('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
         for aid,cost in before.items():self.assertAlmostEqual(m.vars['RUS_edu_cost_'+aid],cost*.85)
-        for a in ACTIVITIES+CONTROLS:self.assertEqual(m.vars[duration(a)],int(a['days']*.5*.75+.5))
-        self.assertEqual(m.vars['RUS_edu_duration_listen'],11)
+        for a in ACTIVITIES+CONTROLS:self.assertEqual(m.vars[duration(a)],int(a['days']*.75+.5))
+        self.assertEqual(m.vars['RUS_edu_duration_listen'],23)
         self.assertEqual(m.vars['RUS_edu_cost_listen'],20);self.assertEqual(m.vars['RUS_edu_cost_restore_order'],20)
         m.flags.discard('RUS_edu_amateur');m.flags.update({'RUS_edu_central','RUS_edu_completed_literacy'})
         m.call('RUS_education_refresh');self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.8*.75*.85*1.5)
         m.ideas.discard('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
         self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.8*.75*1.5)
-        self.assertEqual(m.vars['RUS_edu_duration_literacy'],45)
+        self.assertEqual(m.vars['RUS_edu_duration_literacy'],90)
         m.flags.discard('RUS_edu_era');m.ideas.add('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
         self.assertEqual(m.vars['RUS_edu_duration_literacy'],68)
         self.assertEqual(m.vars['RUS_edu_duration_listen'],23)

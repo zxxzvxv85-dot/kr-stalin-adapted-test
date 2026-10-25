@@ -183,11 +183,14 @@ def education_focuses():
         'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 360 } }',
         'hidden_effect = { RUS_education_start_mass_campaign = yes }']
     result['233']['reward'].append('add_research_slot = 1')
-    result['234']['reward'] += ['custom_effect_tooltip = RUS_edu_era_cost_tt','custom_effect_tooltip = RUS_edu_era_time_tt',
+    result['233']['available'] += gate(12,0,0)
+    result['234']['available'] += gate(20,0,0)
+    result['234']['reward'] += ['custom_effect_tooltip = RUS_edu_era_cost_tt','custom_effect_tooltip = RUS_edu_era_slots_tt','custom_effect_tooltip = RUS_edu_era_positive_tt',
         'hidden_effect = { set_country_flag = RUS_edu_era RUS_education_refresh = yes }']
     return result
 
 def gate(count,basic,higher):
-    rows=[f'NOT = {{ check_variable = {{ RUS_education_completed_activities < {count} }} }}', f'NOT = {{ check_variable = {{ RUS_basic_education_level < {basic} }} }}']
-    if higher: rows.append(f'NOT = {{ check_variable = {{ RUS_higher_education_level < {higher} }} }}')
+    rows=[f'custom_trigger_tooltip = {{ tooltip = RUS_edu_focus_posters_{count}_tt NOT = {{ check_variable = {{ RUS_education_completed_activities < {count} }} }} }}']
+    if basic:rows.append(f'custom_trigger_tooltip = {{ tooltip = RUS_edu_focus_basic_{basic}_tt NOT = {{ check_variable = {{ RUS_basic_education_level < {basic} }} }} }}')
+    if higher: rows.append(f'custom_trigger_tooltip = {{ tooltip = RUS_edu_focus_higher_{higher}_tt NOT = {{ check_variable = {{ RUS_higher_education_level < {higher} }} }} }}')
     return rows
