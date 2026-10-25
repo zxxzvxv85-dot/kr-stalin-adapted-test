@@ -146,12 +146,30 @@ def education_focuses():
        '各地分散编写的教材与宣传品难免质量不一。集中组织印刷、发行与讲习，可以使有限的纸张和师资送到更需要它们的地方，也让共和国的声音传得更远。'),
       ('226','鼓励业余创作',gate(6,45,15),['custom_effect_tooltip = RUS_edu_amateur_tt','hidden_effect = { set_country_flag = RUS_edu_amateur RUS_education_refresh = yes }'],
        '工人俱乐部的剧本、乡村读书会的刊物和青年人的画作，不应只等待上级批准才获得生命。让群众参与知识与文化的创造，教育才能成为他们自己的事业。'),
-      ('229','"现在"',gate(10,60,25),['custom_effect_tooltip = RUS_edu_now_tt','add_timed_idea = { idea = RUS_education_present_drive days = 180 }','hidden_effect = { add_to_variable = { RUS_basic_education_level = 8 } add_to_variable = { RUS_higher_education_level = 3 } add_to_variable = { RUS_education_enthusiasm = 10 } RUS_education_refresh = yes }'],
+      ('229','"现在"',gate(9,60,25),['custom_effect_tooltip = RUS_edu_now_tt','add_timed_idea = { idea = RUS_education_present_drive days = 180 }','hidden_effect = { add_to_variable = { RUS_basic_education_level = 8 } add_to_variable = { RUS_higher_education_level = 3 } add_to_variable = { RUS_education_enthusiasm = 10 } RUS_education_refresh = yes }'],
        '共和国不能永远等待一个遥远而完美的明天。将已经积累的师资、技术与组织力量投入当前的建设，让教育的成果尽早走进车间与田野。'),
-      ('231','“将来”',gate(10,60,25),['custom_effect_tooltip = RUS_edu_future_tt','hidden_effect = { set_country_flag = RUS_edu_future RUS_education_refresh = yes }'],
+      ('231','“将来”',gate(9,60,25),['custom_effect_tooltip = RUS_edu_future_tt','hidden_effect = { set_country_flag = RUS_edu_future RUS_education_refresh = yes }'],
        '今日播下的种子未必能由今日的人收获。我们仍须为后来的劳动者留下更完备的大学、实验室和研究传统，让共和国不因眼前的需要而耗尽长远的力量。'),
     ]
-    return {i:dict(name=n,cost=5,mode='manual',available=a,reward=r,description=d) for i,n,a,r,d in rows}
+    result={i:dict(name=n,cost=5,mode='manual',available=a,reward=r,description=d) for i,n,a,r,d in rows}
+    from pathlib import Path
+    import json
+    source=json.loads((Path(__file__).parent/'design/RUS_education_focus_update_20261024.json').read_text(encoding='utf-8'))
+    for suffix,spec in source['focuses'].items():
+        if suffix not in result:
+            result[suffix]=dict(name=spec['name'],cost=5,mode='manual',available=[],reward=[])
+        assert result[suffix]['name']==spec['name']
+        result[suffix]['description']=spec['description']
+    result['224']['reward'].append('custom_effect_tooltip = RUS_edu_repeat_campaign_tt')
+    result['226']['reward'] += ['custom_effect_tooltip = RUS_edu_half_cost_tt',
+        'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_hesitation days = 180 } }',
+        'custom_effect_tooltip = RUS_edu_mass_transition_tt',
+        'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 180 } }',
+        'hidden_effect = { RUS_education_start_mass_campaign = yes }']
+    result['233']['reward'].append('add_research_slot = 1')
+    result['234']['reward'] += ['custom_effect_tooltip = RUS_edu_era_cost_tt',
+        'hidden_effect = { set_country_flag = RUS_edu_era RUS_education_refresh = yes }']
+    return result
 
 def gate(count,basic,higher):
     rows=[f'NOT = {{ check_variable = {{ RUS_education_completed_activities < {count} }} }}', f'NOT = {{ check_variable = {{ RUS_basic_education_level < {basic} }} }}']

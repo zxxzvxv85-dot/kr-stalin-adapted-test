@@ -44,10 +44,25 @@ def delta(a,mod): return 'RUS_edu_reward_'+a['id']+'_'+mod
 def active(a): return 'RUS_edu_running_'+a['id']
 def remain(a): return 'RUS_edu_days_'+a['id']
 
+def repeated(a): return 'RUS_edu_repeated_'+a['id']
+
+def repeat_condition(a):
+    return 'has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_'+a['id']
+
+def category_requirements(a):
+    # The drawing opens social/life posters at entry and economic posters with
+    # professional training. Retain earlier cultural access as an alternative.
+    if a['category']==2:
+        if a['kind']=='culture':
+            return ['OR = { has_country_flag = RUS_edu_technical_open has_country_flag = RUS_edu_culture_open }']
+        return ['has_country_flag = RUS_edu_technical_open']
+    if a['category'] in (3,5):return []
+    if a['kind'] in ('higher','culture'):return ['has_country_flag = RUS_edu_culture_open']
+    if a['kind']=='technical':return ['has_country_flag = RUS_edu_technical_open']
+    return []
+
 def access_requirements(a):
-    rows=[]
-    if a['kind'] in ('higher','culture'):rows.append('has_country_flag = RUS_edu_culture_open')
-    if a['kind']=='technical':rows.append('has_country_flag = RUS_edu_technical_open')
+    rows=category_requirements(a)
     if a['kind']=='higher':rows.append('NOT = { check_variable = { RUS_basic_education_level < 35 } }')
     if a.get('gate'):rows.append(a['gate'])
     if a.get('wartime'):rows.append('has_war = yes')
@@ -87,7 +102,8 @@ def effects():
     init=['set_country_flag = RUS_education_system_active','set_country_flag = RUS_education_reform_started',
           'remove_ideas = RUS_malformed_education_system',setv(VARS['basic'],46),setv(VARS['higher'],7),setv(VARS['heat'],32),
           setv('RUS_education_completed_activities',0),setv('RUS_edu_active_count',0),setv('RUS_edu_slots',2),
-          setv('RUS_education_overheat_days',0),setv('RUS_edu_category',4)]
+          setv('RUS_education_overheat_days',0),setv('RUS_edu_category',4),
+          setv('RUS_edu_mass_phase',0),setv('RUS_edu_mass_days',0)]
     for m in POOL_CAPS: init.append(setv(pv(m),0))
     # Explicit public interfaces: additive education/enthusiasm and reserved political pressure.
     for v in ['RUS_edu_external_basic_gain','RUS_edu_external_higher_gain','RUS_edu_external_heat_change','RUS_edu_external_pressure']:
@@ -97,8 +113,22 @@ def effects():
     out.append(block('RUS_education_initialize',cond('NOT = { has_country_flag = RUS_education_system_active }',init)))
     # Old upstream focuses may still call this, but cannot open the new system early.
     out.append(block('RUS_education_reform_start',cond('has_completed_focus = RUS_future_domestic_205',['RUS_education_initialize = yes'])))
+    out.append(block('RUS_education_start_mass_campaign',cond('NOT = { has_country_flag = RUS_edu_mass_campaign_started }',[
+        'set_country_flag = RUS_edu_mass_campaign_started',setv('RUS_edu_mass_phase',1),setv('RUS_edu_mass_days',180),
+        'add_timed_idea = { idea = RUS_education_mass_hesitation days = 180 }','RUS_education_refresh = yes'])))
+    # One branch per day: 180 hesitation pulses, then 180 enthusiasm pulses.
+    mass=cond('check_variable = { RUS_edu_mass_phase = 1 }',[
+        add(VARS['heat'],-.15),op('subtract_from','RUS_edu_mass_days',1),
+        *cond('NOT = { check_variable = { RUS_edu_mass_days > 0 } }',[
+            'remove_ideas = RUS_education_mass_hesitation',setv('RUS_edu_mass_phase',2),setv('RUS_edu_mass_days',180),
+            'add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 180 }'])])
+    mass+=['else_if = {','\tlimit = { check_variable = { RUS_edu_mass_phase = 2 } }',
+        '\t'+add(VARS['heat'],.05),'\t'+op('subtract_from','RUS_edu_mass_days',1),
+        *['\t'+s for s in cond('NOT = { check_variable = { RUS_edu_mass_days > 0 } }',[
+            'remove_ideas = RUS_education_mass_enthusiasm',setv('RUS_edu_mass_phase',0),setv('RUS_edu_mass_days',0)])],'}']
+    out.append(block('RUS_education_mass_daily',mass))
     out.append(block('RUS_education_refresh',refresh_lines()))
-    daily=['RUS_education_refresh = yes',add(VARS['heat'],-.1)]
+    daily=['RUS_education_refresh = yes',add(VARS['heat'],-.1),'RUS_education_mass_daily = yes']
     for a in ACTIVITIES: daily += cond('has_country_flag = '+active(a),['RUS_education_tick_'+a['id']+' = yes'])
     for a in CONTROLS:
         daily += cond('has_country_flag = '+active(a),[op('subtract_from',remain(a),1)]+clamp(remain(a),0,a['days']))
@@ -116,6 +146,8 @@ def effects():
         else: req+=' NOT = { has_country_flag = RUS_edu_control_busy }'
         begin=['set_country_flag = '+active(a),setv(remain(a),a['days'])]
         if regular:
+            begin += cond(repeat_condition(a),['set_country_flag = '+repeated(a),
+                f'add_dynamic_modifier = {{ modifier = RUS_edu_repeat_{a["id"]} days = {a["days"]} }}'])
             begin += ['set_country_flag = RUS_edu_busy_'+a['kind'],add('RUS_edu_active_count',1)]
             for i in range(1,4):
                 begin += [('if' if i==1 else 'else_if')+' = {',f'\tlimit = {{ check_variable = {{ RUS_edu_slot_{i} = 0 }} }}',
@@ -129,6 +161,7 @@ def effects():
                 if a[kind]:
                     tick += [setv('RUS_edu_gain',f'{a[kind]/a["days"]:.12g}'),mul('RUS_edu_gain','RUS_edu_quality'),
                              mul('RUS_edu_gain','RUS_edu_'+kind+'_multiplier')]
+                    tick += mul_if('RUS_edu_gain',repeated(a),1.5)
                     # Limit after every multiplier. At most `days` daily pulses
                     # can execute, including the guarded final-day top-up.
                     tick += clamp('RUS_edu_gain',0,f'{EDUCATION_GAIN_CAPS[kind]/a["days"]:.12g}')
@@ -138,11 +171,14 @@ def effects():
                 if a['heat']>0:
                     tick += mul_if('RUS_edu_heat_gain','RUS_edu_central',1.25)
                     if a['kind']=='culture': tick+=mul_if('RUS_edu_heat_gain','RUS_edu_amateur',.75)
+                tick += mul_if('RUS_edu_heat_gain',repeated(a),1.5)
                 tick += [add(VARS['heat'],'RUS_edu_heat_gain')]
             tick += [op('subtract_from',remain(a),1)]
             out.append(block('RUS_education_tick_'+a['id'],cond('has_country_flag = '+active(a)+' check_variable = { '+remain(a)+' > 0 }',tick)))
         release=['clr_country_flag = '+active(a)]
         if regular:
+            release += ['clr_country_flag = '+repeated(a),
+                        f'remove_dynamic_modifier = {{ modifier = RUS_edu_repeat_{a["id"]} }}']
             release += ['clr_country_flag = RUS_edu_busy_'+a['kind'],op('subtract_from','RUS_edu_active_count',1)]
             for i in range(1,4): release+=cond(f'check_variable = {{ RUS_edu_slot_{i} = {code} }}',[setv(f'RUS_edu_slot_{i}',0)])
         else: release+=['clr_country_flag = RUS_edu_control_busy']
@@ -152,7 +188,8 @@ def effects():
         finish=[]
         if regular:
             # An expiry callback may precede the last daily pulse. Top up only one day.
-            finish += ['RUS_education_tick_'+a['id']+' = yes',add('RUS_education_completed_activities',1)]
+            finish += ['RUS_education_tick_'+a['id']+' = yes',add('RUS_education_completed_activities',1),
+                       'set_country_flag = RUS_edu_completed_'+a['id']]
         else: finish += [add(VARS['heat'],a['heat'])]
         for m,v in a['permanent_modifiers'].items():finish.append(add(pv(m),f'{v:.12g}'))
         finish+=state_reward_effects(a)+timed_reward_effects(a)+agriculture_reward_effects(a)
@@ -223,7 +260,11 @@ def refresh_lines():
     lines+=cond('has_country_flag = RUS_edu_culture_open',[setv('RUS_edu_slots',3)])
     for a in ACTIVITIES+CONTROLS:
         v='RUS_edu_cost_'+a['id']; lines+=[setv(v,a['cost'])]
-        if a['kind']!='control': lines+=mul_if(v,'RUS_edu_central',.8)
+        if a['kind']!='control':
+            lines+=mul_if(v,'RUS_edu_central',.8)
+            lines+=mul_if(v,'RUS_edu_amateur',.5)
+            lines+=mul_if(v,'RUS_edu_era',.75)
+            lines+=cond(repeat_condition(a),[mul(v,1.5)])
         for m,award in a['permanent_modifiers'].items():
             v=delta(a,m)
             lines += [setv(v,POOL_CAPS[m]),op('subtract_from',v,pv(m))]+clamp(v,min(0,award),max(0,award))
@@ -287,8 +328,7 @@ def decisions():
         avail += [f'custom_trigger_tooltip = {{ tooltip = RUS_edu_cooldown_tt NOT = {{ has_country_flag = RUS_edu_cooldown_{a["id"]} }} }}']
         visible=['has_country_flag = RUS_education_system_active']
         if regular: visible+=[f'check_variable = {{ RUS_edu_category = {a["category"]} }}']
-        if a['kind'] in ('higher','culture'): visible+=['has_country_flag = RUS_edu_culture_open']
-        if a['kind']=='technical': visible+=['has_country_flag = RUS_edu_technical_open']
+        if regular:visible+=category_requirements(a)
         if a.get('gate'):visible.append(a['gate'])
         cancel_conditions='NOT = { has_country_flag = RUS_education_system_active } NOT = { has_socialist_government = yes }'
         if a.get('wartime'):cancel_conditions+=' has_war = no'
@@ -300,12 +340,17 @@ def decisions():
         if a.get('agriculture_reward'):
             finish_preview+=cond(AGRICULTURE_GATE,[f'custom_effect_tooltip = RUS_edu_agriculture_{a["agriculture_reward"]}_tt'])
         finish_preview.append(f'hidden_effect = {{ RUS_education_finish_{a["id"]} = yes }}')
+        start_preview=[f'custom_effect_tooltip = RUS_edu_{a["id"]}_progress_tt']
+        if regular:
+            start_preview+=cond('hidden_trigger = { '+repeat_condition(a)+' }',[
+                f'effect_tooltip = {{ add_dynamic_modifier = {{ modifier = RUS_edu_repeat_{a["id"]} days = {a["days"]} }} }}'])
+        start_preview.append(f'hidden_effect = {{ RUS_education_begin_{a["id"]} = yes }}')
         body=[f'icon = {decision_icon(a)}','fire_only_once = no',f'cost = RUS_edu_cost_{a["id"]}?{a["cost"]}',
               f'days_remove = {a["days"]}',f'days_re_enable = {90 if regular else 60}',
               block('visible',visible).strip(),block('available',avail).strip(),
               'cancel_trigger = { hidden_trigger = { OR = { '+cancel_conditions+' } } }',
               block('modifier',[f'{m} = {v:g}' for m,v in a['modifiers'].items()]).strip(),
-              block('complete_effect',[f'custom_effect_tooltip = RUS_edu_{a["id"]}_progress_tt',f'hidden_effect = {{ RUS_education_begin_{a["id"]} = yes }}']).strip(),
+              block('complete_effect',start_preview).strip(),
               f'cancel_effect = {{ hidden_effect = {{ RUS_education_cancel_{a["id"]} = yes }} }}',
               block('remove_effect',finish_preview).strip(),
               'ai_will_do = { base = 1 }']
@@ -322,6 +367,9 @@ def modifiers():
         if a['permanent_modifiers']:
             lines.append(block('RUS_edu_result_'+a['id'],['icon = GFX_idea_generic_high_literacy']+
                 [f'{m} = {delta(a,m)}' for m in a['permanent_modifiers']]))
+        if a['kind']!='control':
+            lines.append(block('RUS_edu_repeat_'+a['id'],['icon = GFX_idea_generic_high_literacy']+
+                [f'{m} = {v*.5:g}' for m,v in a['modifiers'].items()]))
     for preset,(name,values) in STATE_REWARDS.items():
         lines.append(block('RUS_edu_state_'+preset,[
             'icon = GFX_decision_generic_industry',
@@ -416,19 +464,27 @@ def localisations():
       'RUS_edu_free_slot_tt':'有空余宣传栏位',
       'RUS_edu_control_free_tt':'没有正在进行的热情调节活动',
       'RUS_edu_cooldown_tt':'此活动已结束冷却',
-      'RUS_edu_unlock_basic_tt':'开启教育与文化建设：2个宣传栏位。\\n解锁基础教育类活动。',
-      'RUS_edu_unlock_culture_tt':'增加1个宣传栏位。\\n解锁文化与社会动员类活动。\\n基础教育达到35%后，可开展高等教育类活动。',
-      'RUS_edu_unlock_technical_tt':'解锁职业技术类活动。',
+      'RUS_edu_unlock_basic_tt':'开启教育与文化建设：2个宣传栏位。\\n解锁基础教育、社会与群体、国家与生活类海报。',
+      'RUS_edu_unlock_culture_tt':'增加1个宣传栏位。\\n解锁文教与思想类海报。\\n基础教育达到35%后，可开展高等教育类活动。',
+      'RUS_edu_unlock_technical_tt':'解锁经济与生产类海报及职业技术活动。',
       'RUS_edu_theory_tt':'§Y高等教育增量§!：§G+20%§!。',
       'RUS_edu_practice_tt':'§C基础教育增量§!：§G+20%§!。',
       'RUS_edu_central_tt':'宣传活动政治点花费：§G−20%§!。\\n宣传活动正热情增量：§Y+25%§!。',
       'RUS_edu_amateur_tt':'活动教育增量：§G+10%§!。\\n文化活动正热情增量：§Y−25%§!。',
       'RUS_edu_now_tt':'§C基础教育§!：§G+8§!；§Y高等教育§!：§G+3§!；§O民众热情§!：§Y+10§!。',
       'RUS_edu_future_tt':'§Y高等教育增量§!：§G+20%§!。',
+      'RUS_edu_repeat_campaign_tt':'重复开展已完成的海报：花费、临时修正、教育及热情增量§Y×1.5§!。',
+      'RUS_edu_half_cost_tt':'所有海报政治点花费：§G−50%§!。',
+      'RUS_edu_era_cost_tt':'所有海报政治点花费：§G−25%§!。',
+      'RUS_edu_mass_transition_tt':'180天后获得：',
+      'RUS_education_mass_hesitation':'群众犹豫不决',
+      'RUS_education_mass_enthusiasm':'群众热情澎湃',
+      'RUS_edu_mass_hesitation_daily_tt':'每日§O民众热情§!：§Y−0.15§!',
+      'RUS_edu_mass_enthusiasm_daily_tt':'每日§O民众热情§!：§Y+0.05§!',
       'RUS_edu_kalinin_tt':'教育活动的教育增量：§G+20%§!。',
       'RUS_edu_gate_first':'下一组：宣传3次／基础30%',
       'RUS_edu_gate_second':'下一组：6次／基础45%／高等15%',
-      'RUS_edu_gate_third':'下一组：10次／基础60%／高等25%',
+      'RUS_edu_gate_third':'下一组：9次／基础60%／高等25%',
       'RUS_edu_gate_done':'教育路线已确定',
       'RUS_edu_empty':'空闲栏位',
       'RUS_edu_catalog_heading':'§Y[RUSEducationPosterCategory]§!',
@@ -446,6 +502,7 @@ def localisations():
         aid=a['id']; regular=a['kind']!='control'; key='RUS_education_'+aid
         l[key]=a['name']
         if a['permanent_modifiers']:l['RUS_edu_result_'+aid]='教育改革'
+        if regular:l['RUS_edu_repeat_'+aid]='重复宣传：'+a['name']
         if a.get('timed_reward'):l[a['timed_reward']['idea']]=a['timed_reward']['name']
         l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】'
         if regular:
@@ -559,7 +616,10 @@ def integration_outputs():
                 f'targeted_modifier = {{ tag = {r["target"]} attack_bonus_against_cores = {r["attack"]:g} }}']).strip())
     outputs[path]='ideas = {\n'+block('country',[block('RUS_malformed_education_system',['picture = SOV_opiate_of_the_masses',
         block('modifier',[f'{m} = {lo:g}' for m,(lo,hi,w) in BODY.items()]).strip()]).strip(),
-        'RUS_education_present_drive = { picture = generic_high_literacy modifier = { industrial_capacity_factory = 0.05 } }',*timed_ideas])+'}\n'
+        'RUS_education_present_drive = { picture = generic_high_literacy modifier = { industrial_capacity_factory = 0.05 } }',
+        *[block('RUS_education_mass_'+phase,['picture = generic_high_literacy','allowed = { always = no }','removal_cost = -1',
+            'modifier = { custom_modifier_tooltip = RUS_edu_mass_'+phase+'_daily_tt }']).strip()
+          for phase in ('hesitation','enthusiasm')],*timed_ideas])+'}\n'
     return outputs
 
 def render_assets():

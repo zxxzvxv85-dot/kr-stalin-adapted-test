@@ -23,6 +23,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_literacy_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_literacy } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_literacy days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_literacy = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_literacy = yes } }
@@ -57,6 +61,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_schools_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_schools } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_schools days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_schools = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_schools = yes } }
@@ -91,6 +99,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_night_school_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_night_school } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_night_school days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_night_school = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_night_school = yes } }
@@ -125,6 +137,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_teachers_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_teachers } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_teachers days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_teachers = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_teachers = yes } }
@@ -160,6 +176,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_university_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_university } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_university days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_university = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_university = yes } }
@@ -196,6 +216,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_science_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_science } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_science days = 180 } }
+		}
 		hidden_effect = { RUS_education_begin_science = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_science = yes } }
@@ -232,6 +256,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_pedagogy_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_pedagogy } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_pedagogy days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_pedagogy = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_pedagogy = yes } }
@@ -267,6 +295,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_technical_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_technical } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_technical days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_technical = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_technical = yes } }
@@ -286,7 +318,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 3 }
-		has_country_flag = RUS_edu_technical_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -301,6 +332,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_agriculture_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agriculture } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_agriculture days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_agriculture = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_agriculture = yes } }
@@ -336,6 +371,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_reading_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_reading } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_reading days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_reading = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_reading = yes } }
@@ -371,6 +410,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_outreach_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_outreach } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_outreach days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_outreach = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_outreach = yes } }
@@ -390,12 +433,13 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 2 }
-		has_country_flag = RUS_edu_culture_open
+		OR = { has_country_flag = RUS_edu_technical_open has_country_flag = RUS_edu_culture_open }
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
 		custom_trigger_tooltip = { tooltip = RUS_edu_free_slot_tt check_variable = { RUS_edu_active_count < RUS_edu_slots } }
 		custom_trigger_tooltip = { tooltip = RUS_edu_culture_free_tt NOT = { has_country_flag = RUS_edu_busy_culture } }
+		OR = { has_country_flag = RUS_edu_technical_open has_country_flag = RUS_edu_culture_open }
 		custom_trigger_tooltip = { tooltip = RUS_edu_cooldown_tt NOT = { has_country_flag = RUS_edu_cooldown_construction } }
 	}
 		cancel_trigger = { hidden_trigger = { OR = { NOT = { has_country_flag = RUS_education_system_active } NOT = { has_socialist_government = yes } } } }
@@ -407,6 +451,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_construction_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_construction } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_construction days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_construction = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_construction = yes } }
@@ -426,7 +474,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 3 }
-		has_country_flag = RUS_edu_technical_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -443,6 +490,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_mentoring_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mentoring } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_mentoring days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_mentoring = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_mentoring = yes } }
@@ -478,6 +529,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_library_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_library } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_library days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_library = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_library = yes } }
@@ -518,6 +573,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_defend_leningrad_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_leningrad } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_defend_leningrad days = 60 } }
+		}
 		hidden_effect = { RUS_education_begin_defend_leningrad = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_defend_leningrad = yes } }
@@ -564,6 +623,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_defend_moscow_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_moscow } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_defend_moscow days = 60 } }
+		}
 		hidden_effect = { RUS_education_begin_defend_moscow = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_defend_moscow = yes } }
@@ -608,6 +671,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_march_west_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_march_west } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_march_west days = 60 } }
+		}
 		hidden_effect = { RUS_education_begin_march_west = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_march_west = yes } }
@@ -645,6 +712,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_defend_october_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_october } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_defend_october days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_defend_october = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_defend_october = yes } }
@@ -682,6 +753,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_dnieper_water_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_dnieper_water } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_dnieper_water days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_dnieper_water = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_dnieper_water = yes } }
@@ -722,6 +797,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_await_victory_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_await_victory } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_await_victory days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_await_victory = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_await_victory = yes } }
@@ -758,6 +837,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_advanced_theory_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_advanced_theory } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_advanced_theory days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_advanced_theory = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_advanced_theory = yes } }
@@ -793,6 +876,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_cultural_enemies_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_cultural_enemies } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_cultural_enemies days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_cultural_enemies = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_cultural_enemies = yes } }
@@ -827,6 +914,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_mothers_literacy_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mothers_literacy } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_mothers_literacy days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_mothers_literacy = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_mothers_literacy = yes } }
@@ -861,6 +952,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_children_workers_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_children_workers } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_children_workers days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_children_workers = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_children_workers = yes } }
@@ -896,6 +991,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_ten_days_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ten_days } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_ten_days days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_ten_days = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_ten_days = yes } }
@@ -932,6 +1031,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_book_fair_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_book_fair } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_book_fair days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_book_fair = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_book_fair = yes } }
@@ -951,7 +1054,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 3 }
-		has_country_flag = RUS_edu_culture_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -967,6 +1069,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_grain_delivery_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_grain_delivery } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_grain_delivery days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_grain_delivery = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_grain_delivery = yes } }
@@ -990,7 +1096,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 3 }
-		has_country_flag = RUS_edu_culture_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -1006,6 +1111,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_end_kitchen_slavery_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_end_kitchen_slavery } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_end_kitchen_slavery days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_end_kitchen_slavery = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_end_kitchen_slavery = yes } }
@@ -1025,7 +1134,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 3 }
-		has_country_flag = RUS_edu_culture_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -1041,6 +1149,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_soviet_elections_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_soviet_elections } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_soviet_elections days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_soviet_elections = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_soviet_elections = yes } }
@@ -1075,6 +1187,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_protect_children_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_protect_children } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_protect_children days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_protect_children = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_protect_children = yes } }
@@ -1094,7 +1210,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 3 }
-		has_country_flag = RUS_edu_culture_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -1110,6 +1225,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_lenin_banner_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_banner } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_lenin_banner days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_lenin_banner = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_lenin_banner = yes } }
@@ -1145,6 +1264,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_labour_productivity_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_labour_productivity } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_labour_productivity days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_labour_productivity = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_labour_productivity = yes } }
@@ -1182,6 +1305,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_socialist_industry_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_socialist_industry } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_socialist_industry days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_socialist_industry = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_socialist_industry = yes } }
@@ -1226,6 +1353,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_lenin_electrification_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_electrification } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_lenin_electrification days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_lenin_electrification = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_lenin_electrification = yes } }
@@ -1268,6 +1399,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_tractors_nurseries_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_tractors_nurseries } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_tractors_nurseries days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_tractors_nurseries = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_tractors_nurseries = yes } }
@@ -1307,6 +1442,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_agricultural_statistics_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agricultural_statistics } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_agricultural_statistics days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_agricultural_statistics = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_agricultural_statistics = yes } }
@@ -1346,6 +1485,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_complete_collectivisation_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_complete_collectivisation } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_complete_collectivisation days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_complete_collectivisation = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_complete_collectivisation = yes } }
@@ -1381,6 +1524,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_harvest_battle_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_harvest_battle } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_harvest_battle days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_harvest_battle = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_harvest_battle = yes } }
@@ -1404,7 +1551,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 5 }
-		has_country_flag = RUS_edu_culture_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -1421,6 +1567,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_vigilance_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_vigilance } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_vigilance days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_vigilance = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_vigilance = yes } }
@@ -1440,7 +1590,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 5 }
-		has_country_flag = RUS_edu_culture_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -1456,6 +1605,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_production_vices_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_production_vices } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_production_vices days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_production_vices = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_production_vices = yes } }
@@ -1475,7 +1628,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 5 }
-		has_country_flag = RUS_edu_culture_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -1491,6 +1643,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_public_property_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_public_property } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_public_property days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_public_property = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_public_property = yes } }
@@ -1510,7 +1666,6 @@ RUS_education_reform_category = {
 		visible = {
 		has_country_flag = RUS_education_system_active
 		check_variable = { RUS_edu_category = 5 }
-		has_country_flag = RUS_edu_technical_open
 	}
 		available = {
 		hidden_trigger = { has_country_flag = RUS_education_system_active has_socialist_government = yes }
@@ -1527,6 +1682,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_false_shock_workers_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_false_shock_workers } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_false_shock_workers days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_false_shock_workers = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_false_shock_workers = yes } }
@@ -1564,6 +1723,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_motherland_calls_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_motherland_calls } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_motherland_calls days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_motherland_calls = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_motherland_calls = yes } }
@@ -1600,6 +1763,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_volunteer_enlistment_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_volunteer_enlistment } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_volunteer_enlistment days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_volunteer_enlistment = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_volunteer_enlistment = yes } }
@@ -1638,6 +1805,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_red_banner_oath_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_red_banner_oath } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_red_banner_oath days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_red_banner_oath = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_red_banner_oath = yes } }
@@ -1675,6 +1846,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_women_frontline_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_women_frontline } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_women_frontline days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_women_frontline = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_women_frontline = yes } }
@@ -1713,6 +1888,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_people_and_army_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_people_and_army } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_people_and_army days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_people_and_army = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_people_and_army = yes } }
@@ -1751,6 +1930,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_honour_freedom_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_honour_freedom } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_honour_freedom days = 90 } }
+		}
 		hidden_effect = { RUS_education_begin_honour_freedom = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_honour_freedom = yes } }
@@ -1790,6 +1973,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_ukrainian_liberators_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ukrainian_liberators } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_ukrainian_liberators days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_ukrainian_liberators = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_ukrainian_liberators = yes } }
@@ -1834,6 +2021,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_beloved_motherland_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_beloved_motherland } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_beloved_motherland days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_beloved_motherland = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_beloved_motherland = yes } }
@@ -1872,6 +2063,10 @@ RUS_education_reform_category = {
 	}
 		complete_effect = {
 		custom_effect_tooltip = RUS_edu_long_live_peace_progress_tt
+		if = {
+			limit = { hidden_trigger = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_long_live_peace } }
+			effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_repeat_long_live_peace days = 120 } }
+		}
 		hidden_effect = { RUS_education_begin_long_live_peace = yes }
 	}
 		cancel_effect = { hidden_effect = { RUS_education_cancel_long_live_peace = yes } }
