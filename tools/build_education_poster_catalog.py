@@ -19,6 +19,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 from education_reform_content import ACTIVITIES, CONTROLS, POOL_CAPS, POSTER_CATEGORIES
+from education_poster_expansion import STATE_REWARDS,MILITARY_GATE,FINAL_STRUGGLE_GATE,VICTORY_GATE
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT/'tools/design/education_system_20261024/poster_catalog.json'
@@ -26,6 +27,14 @@ MODIFIERS = {
  'research_speed_factor':'科研速度', 'industrial_capacity_factory':'工厂产出',
  'stability_factor':'稳定度', 'consumer_goods_factor':'生活消费品工厂系数',
  'political_power_factor':'政治点获取', 'political_power_cost':'每日政治点消耗',
+ 'army_defence_factor':'陆军师防御','army_attack_factor':'陆军师攻击','army_morale_factor':'陆军组织度恢复',
+ 'army_org_factor':'陆军组织度','planning_speed':'计划速度','war_support_factor':'战争支持度',
+ 'production_factory_efficiency_gain_factor':'生产效率增长','production_factory_start_efficiency_factor':'基础生产效率',
+ 'production_speed_buildings_factor':'建造速度','production_speed_infrastructure_factor':'基础设施建造速度',
+ 'enemy_operative_detection_chance_factor':'敌方特工被发现几率','conscription_factor':'适役人口系数',
+ 'training_time_army_factor':'陆军训练时间','local_org_regain':'地区组织度恢复',
+ 'state_production_speed_buildings_factor':'地区建造速度','local_building_slots_factor':'地区最大工厂数',
+ 'local_resources_factor':'地区资源获取',
 }
 
 def modifier_text(values):
@@ -90,10 +99,11 @@ def build(archive, output):
     assert hashlib.sha256(archive.read_bytes()).hexdigest()==manifest['sha256'],'Archive differs from recorded source'
     posters=manifest['posters'];by_code={p['code']:p for p in posters}
     assert len(posters)==len(by_code)==271
+    adopted=len({a['poster'] for a in ACTIVITIES});unused=len(posters)-adopted
     doc=Document();configure(doc)
     doc.add_paragraph('教育改革宣传决议与苏联海报图录','Title')
     doc.add_paragraph('测试版现有宣传效果与完整素材目录','Subtitle')
-    doc.add_paragraph('本册列出教育改革系统现有的14项海报宣传与2项热情调节，并按六类收录03_USSR素材包的全部271张海报。已采用海报标明对应决议；其余标明未采用及效果未配置。')
+    doc.add_paragraph(f'本册列出教育改革系统现有的{len(ACTIVITIES)}项海报宣传与2项热情调节，并按六类收录03_USSR素材包的全部271张海报。已采用海报标明对应决议；其余标明未采用及效果未配置。')
     doc.add_paragraph('素材中文标题用于检索，以画面和原文件名拟定，不作为经过考证的历史正式译名。游戏宣传口号另列，保留模组背景下的改编名称。')
     doc.add_heading('六类目录',1)
     t=table(doc,7,[1.65,1.25,1.1,2.9],True)
@@ -103,8 +113,8 @@ def build(archive, output):
         for c,s in zip(row.cells,vals):c.text=s
     doc.add_heading('阅读说明',1)
     doc.add_paragraph('决议页中的教育增量为基础总增量，实际提升受热情和教育路线影响；热情变化按每30天列示。正常完成宣传次数加1，取消不增加次数及永久效果。每类教学活动最多并行1项，总栏位为2项，完成对文化革命后为3项。')
-    doc.add_paragraph('六类按钮用于浏览素材主题，不改变基础教育、高等教育、职业技术、文化活动的原有并行限制。热情调节决议在所有分类中保留。')
-    doc.add_paragraph('14项宣传完成后的永久修正计入教育改革精神，同类累计上限分别为工厂产出10%、稳定度15%、每日政治点消耗减少0.20、政治点获取10%、科研速度5%。活动临时修正另计。')
+    doc.add_paragraph('六类按钮筛选决议与当前在办海报，未开始的活动不张贴。基础教育、高等教育、职业技术、文化和国防动员各最多并行1项，热情调节决议在所有分类中保留。素材图录按原文件夹分类，游戏决议分类按主题指定。')
+    doc.add_paragraph('宣传完成后的永久修正计入教育改革精神，同类累计上限分别为工厂产出10%、稳定度15%、每日政治点消耗减少0.20、政治点获取10%、科研速度5%。活动临时修正、限时地区修正和农业支援另计。')
     with zipfile.ZipFile(archive) as z:
         for start in range(0,len(ACTIVITIES),3):
             doc.add_page_break();doc.add_heading(f'已实装宣传决议 {start//3+1}',1)
@@ -123,7 +133,17 @@ def build(archive, output):
                 para(right,'期间效果  '+modifier_text(a['modifiers']))
                 perm={k:v/5 for k,v in a['modifiers'].items() if k in POOL_CAPS}
                 para(right,'完成后永久效果  '+modifier_text(perm))
-                access={'basic':'完成共产主义教育理念','higher':'完成对文化革命且基础教育至少35','technical':'完成专业技能培训','culture':'完成对文化革命'}[a['kind']]
+                access={'basic':'完成共产主义教育理念','higher':'完成对文化革命且基础教育至少35','technical':'完成专业技能培训','culture':'完成对文化革命','military':'完成共产主义教育理念'}[a['kind']]
+                if a.get('gate'):access+='；'+{MILITARY_GATE:'完成军改第四阶段',FINAL_STRUGGLE_GATE:'完成最后的斗争',VICTORY_GATE:'完成胜利日'}[a['gate']]
+                if a.get('wartime'):access+='；正在交战（停战取消）'
+                if a.get('state_reward'):
+                    r=a['state_reward'];name,values=STATE_REWARDS[r['preset']]
+                    state_name={195:'彼得格勒／列宁格勒',219:'莫斯科',202:'基辅'}[r['state']]
+                    para(right,f'完成地区效果  {state_name}：{name}，{r["days"]}天；'+modifier_text(values),size=9)
+                    access+='；拥有并控制'+state_name
+                if a.get('agriculture_reward'):
+                    text={'wheat':'小麦库存+4（上限12）','rye':'黑麦库存+3（上限12）','technical':'本季作物产量+5%','repair':'本季农机损耗率−5个百分点（不降低已有较强支援）'}[a['agriculture_reward']]
+                    para(right,'国家农业启用且未关闭时，完成后：'+text,size=9)
                 para(right,'解锁条件  '+access,size=9)
                 doc.add_paragraph().paragraph_format.space_after=Pt(3)
         doc.add_page_break();doc.add_heading('热情调节与使用规则',1)
@@ -141,7 +161,7 @@ def build(archive, output):
         for line in ['第一组  完成宣传3次，基础教育至少30。','第二组  完成宣传6次，基础教育至少45，高等教育至少15。','第三组  完成宣传10次，基础教育至少60，高等教育至少25。']:
             doc.add_paragraph(line)
         doc.add_heading('素材采用状态',2)
-        doc.add_paragraph('已实装14张；未采用257张，均未配置决议效果。未采用素材只收录于后续图录，不加入GUI或可执行决议。')
+        doc.add_paragraph(f'已实装{adopted}张素材、{len(ACTIVITIES)}项宣传；未采用{unused}张，均未配置决议效果。未采用素材只收录于后续图录，不加入GUI或可执行决议。')
         for category,(name,folders) in POSTER_CATEGORIES.items():
             entries=[p for p in posters if p['category']==category]
             for start in range(0,len(entries),6):
@@ -155,7 +175,7 @@ def build(archive, output):
                     p=para(cell,status,False,9);p.alignment=WD_ALIGN_PARAGRAPH.CENTER
                     p=para(cell,f"原目录 {item['folder']:02}",False,8);p.alignment=WD_ALIGN_PARAGRAPH.CENTER
     output.parent.mkdir(parents=True,exist_ok=True);doc.save(output)
-    print(f'Created {output} ({output.stat().st_size:,} bytes); 271 catalogue entries and 14 illustrated decisions.')
+    print(f'Created {output} ({output.stat().st_size:,} bytes); 271 catalogue entries and {len(ACTIVITIES)} illustrated decisions.')
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--archive',type=Path,default=Path('C:/Users/Administrator/Downloads/03_USSR.zip'))

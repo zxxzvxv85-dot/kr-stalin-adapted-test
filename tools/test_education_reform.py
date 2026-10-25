@@ -17,33 +17,49 @@ DECISIONS={n.k:n for root in load(ROOT/DEC) for n in root.v}
 class EducationModel(ScriptModel):
     def __init__(self):
         super().__init__(EFFECTS);self.ideas=set();self.dynamic=set();self.done=set();self.expiry={};self.day=0
+        self.at_war=False;self.state_scope=None
+        self.states={i:dict(owned=True,controlled=True,modifiers={}) for i in (195,219,202)}
     def check(self,nodes):
         if hasattr(nodes,'v'): nodes=nodes.v
         for n in nodes:
             if n.k=='has_idea': ok=n.v in self.ideas
             elif n.k=='has_completed_focus':ok=n.v in self.done
             elif n.k=='has_socialist_government':ok=n.v=='yes'
-            elif n.k=='has_dynamic_modifier':ok=n.value('modifier') in self.dynamic
+            elif n.k=='has_war':ok=self.at_war==(n.v=='yes')
+            elif n.k in ('owns_state','controls_state'):
+                ok=self.states.get(int(n.v),{}).get('owned' if n.k=='owns_state' else 'controlled',False)
+            elif n.k=='has_dynamic_modifier':ok=n.value('modifier') in (self.states[self.state_scope]['modifiers'] if self.state_scope else self.dynamic)
             elif n.k in ('custom_trigger_tooltip','custom_override_tooltip'):ok=self.check([x for x in n.v if x.k!='tooltip'])
             else:ok=super().check([n])
             if not ok:return False
         return True
     def run(self,nodes):
         pending=[]
-        native={'remove_ideas','add_ideas','add_dynamic_modifier','remove_dynamic_modifier','force_update_dynamic_modifier','effect_tooltip','custom_effect_tooltip','set_country_flag','add_timed_idea'}
+        native={'remove_ideas','add_ideas','add_dynamic_modifier','remove_dynamic_modifier','force_update_dynamic_modifier','effect_tooltip','custom_effect_tooltip','set_country_flag','add_timed_idea','RUS_nat_refresh'}
         for n in nodes:
-            if n.k not in native:pending.append(n);continue
+            if n.k not in native and not n.k.isdigit():pending.append(n);continue
             if pending:super().run(pending);pending=[]
-            if n.k=='set_country_flag':
+            if n.k=='RUS_nat_refresh':self.call(n.k)
+            elif n.k.isdigit():
+                before=self.state_scope;self.state_scope=int(n.k);self.run(n.v);self.state_scope=before
+            elif n.k=='set_country_flag':
                 if isinstance(n.v,str):self.flags.add(n.v)
                 else:self.flags.add(n.value('flag'));self.expiry[n.value('flag')]=self.day+int(n.value('days'))
             elif n.k in ('remove_ideas','add_ideas'):
                 self.ideas.discard(n.v) if n.k=='remove_ideas' else self.ideas.add(n.v)
-            elif n.k=='add_dynamic_modifier':self.dynamic.add(n.value('modifier'))
+            elif n.k=='add_dynamic_modifier':
+                if self.state_scope:self.states[self.state_scope]['modifiers'][n.value('modifier')]=int(n.value('days'))
+                else:self.dynamic.add(n.value('modifier'))
             elif n.k=='remove_dynamic_modifier':self.dynamic.discard(n.value('modifier'))
             elif n.k=='add_timed_idea':self.ideas.add(n.value('idea'))
             # Tooltip blocks are display only; never execute their effects.
         if pending:super().run(pending)
+    def call(self,name):
+        if name=='RUS_nat_refresh':
+            # Agriculture's own generator/tests validate recalculation. Here
+            # record the handoff after checking the real stock/support writes.
+            self.calls[name]=self.calls.get(name,0)+1;return
+        super().call(name)
     def start(self,aid):
         d=DECISIONS['RUS_education_'+aid]
         if not self.check(d.one('visible')) or not self.check(d.one('available')):return False
@@ -57,12 +73,81 @@ class EducationModel(ScriptModel):
             self.call('RUS_education_daily')
             if auto_finish:
                 for a in ACTIVITIES+CONTROLS:
-                    if active(a) in self.flags and self.vars[remain(a)]<=0:self.end(a['id'])
+                    if active(a) in self.flags:
+                        if self.check(DECISIONS['RUS_education_'+a['id']].one('cancel_trigger')):self.end(a['id'],True)
+                        elif self.vars[remain(a)]<=0:self.end(a['id'])
 
 def initialized():
     m=EducationModel();m.call('RUS_education_initialize');return m
 
+def unlock_all(m):
+    m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open','RUS_fr_basic_reform_completed'})
+    m.done.update({'RUS_future_foreign_062','RUS_future_foreign_005'});m.at_war=True
+    return m
+
 class EducationTests(unittest.TestCase):
+    def test_new_unlocks_direct_begin_guards_and_war_end_cancellation(self):
+        m=initialized();m.vars['RUS_edu_category']=1
+        self.assertFalse(m.start('motherland_calls'));m.call('RUS_education_begin_motherland_calls')
+        self.assertEqual(m.vars['RUS_edu_active_count'],0)
+        m.flags.add('RUS_fr_basic_reform_completed');self.assertTrue(m.start('motherland_calls'));m.end('motherland_calls',True)
+        self.assertFalse(m.start('defend_leningrad'))
+        m.done.add('RUS_future_foreign_062');self.assertFalse(m.start('defend_leningrad'))
+        m.call('RUS_education_begin_defend_leningrad');self.assertEqual(m.vars['RUS_edu_active_count'],0)
+        m.at_war=True;self.assertTrue(m.start('defend_leningrad'));m.at_war=False;m.advance(1)
+        self.assertEqual(m.vars['RUS_edu_active_count'],0);self.assertEqual(m.vars['RUS_education_completed_activities'],0)
+        self.assertFalse(m.states[195]['modifiers'])
+        m.flags.add('RUS_edu_culture_open');m.vars['RUS_edu_category']=6
+        self.assertFalse(m.start('long_live_peace'));m.done.add('RUS_future_foreign_005')
+        self.assertTrue(m.start('long_live_peace'))
+    def test_state_rewards_only_on_completion_with_current_ownership(self):
+        for a in [a for a in ACTIVITIES if a.get('state_reward')]:
+            for cancel,lost in ((False,False),(True,False),(False,True)):
+                m=unlock_all(initialized());m.vars['RUS_edu_category']=a['category']
+                self.assertTrue(m.start(a['id']));reward=a['state_reward'];state=reward['state']
+                self.assertFalse(m.states[state]['modifiers'])
+                if lost:m.states[state]['controlled']=False
+                m.end(a['id'],cancel)
+                expected={} if cancel or lost else {'RUS_edu_state_'+reward['preset']:reward['days']}
+                self.assertEqual(m.states[state]['modifiers'],expected)
+                m.end(a['id']);self.assertEqual(m.states[state]['modifiers'],expected)
+                self.assertEqual(m.vars['RUS_education_completed_activities'],0 if cancel else 1)
+        # Occupied or foreign territory never satisfies a city-targeted activity.
+        m=unlock_all(initialized());m.vars['RUS_edu_category']=1;m.states[219]['owned']=False
+        self.assertFalse(m.start('defend_moscow'));m.call('RUS_education_begin_defend_moscow')
+        self.assertEqual(m.vars['RUS_edu_active_count'],0)
+        from education_poster_expansion import STATE_REWARDS
+        definitions={n.k:n for n in load(ROOT/DM)}
+        for preset in STATE_REWARDS:
+            enable=definitions['RUS_edu_state_'+preset].one('enable')
+            self.assertEqual(enable.one('owner').value('original_tag'),'RUS')
+            self.assertEqual(enable.one('controller').value('original_tag'),'RUS')
+    def test_agricultural_handoffs_caps_shutdown_and_no_repeat_rewards(self):
+        for enabled,closed,cancel in product((False,True),repeat=3):
+            m=unlock_all(initialized());m.vars.update(RUS_edu_category=3,RUS_nat_wheat_stock=11)
+            if enabled:m.flags.add('RUS_nat_enabled')
+            if closed:m.flags.add('RUS_nat_system_closed')
+            self.assertTrue(m.start('grain_delivery'));m.end('grain_delivery',cancel)
+            granted=enabled and not closed and not cancel
+            self.assertEqual(m.vars['RUS_nat_wheat_stock'],12 if granted else 11)
+            self.assertEqual(m.calls.get('RUS_nat_refresh',0),int(granted))
+            m.end('grain_delivery');self.assertEqual(m.calls.get('RUS_nat_refresh',0),int(granted))
+        for aid,var,start,expected in [('harvest_battle','RUS_nat_rye_stock',10,12),
+                ('agricultural_statistics','RUS_nat_technical_support',0,1),
+                ('tractors_nurseries','RUS_nat_repair_support',0,.05),
+                ('tractors_nurseries','RUS_nat_repair_support',.08,.08)]:
+            m=unlock_all(initialized());m.flags.add('RUS_nat_enabled');m.vars.update(RUS_edu_category=2);m.vars[var]=start
+            self.assertTrue(m.start(aid));m.end(aid);self.assertEqual(m.vars[var],expected)
+    def test_decision_icons_match_topics_and_resolve_to_installed_sprites(self):
+        game=ROOT.parents[3]/'common/Hearts of Iron IV'
+        files=[game/'interface/decisions.gfx',ROOT.parent/'1521695605/interface/kaiserreich/decisions.gfx',ROOT/GFX]
+        names={m for path in files for m in re.findall(r'name\s*=\s*"([^"]+)"',path.read_text(encoding='utf-8-sig'))}
+        from generate_education_reform import decision_icon
+        self.assertEqual(len(ACTIVITIES),51);self.assertEqual(len({a['id'] for a in ACTIVITIES}),51)
+        for a in ACTIVITIES+CONTROLS:
+            icon=DECISIONS['RUS_education_'+a['id']].value('icon')
+            self.assertEqual(icon,decision_icon(a));self.assertIn(icon,names)
+        self.assertGreaterEqual(len({decision_icon(a) for a in ACTIVITIES}),8)
     def test_selected_economic_bonuses_rise_with_heat_and_weekly_pressure_starts_above_75(self):
         for basic,higher in [(20,5),(46,7),(80,80),(100,100)]:
             m=initialized();m.vars.update({VARS['basic']:basic,VARS['higher']:higher})
@@ -90,7 +175,7 @@ class EducationTests(unittest.TestCase):
         script=load(ROOT/SGUI)[0].v[0];clicks=script.one('effects');rules=script.one('triggers')
         before={k:v for k,v in m.vars.items() if not k.startswith('RUS_edu_catalog_') and k!='RUS_edu_category'}
         flags=set(m.flags)
-        counts={1:0,2:1,3:3,4:10,5:0,6:0}
+        counts={c:sum(a['category']==c for a in ACTIVITIES) for c in range(1,7)}
         for category,count in counts.items():
             m.run(clicks.one(f'edu_category_{category}_click').v)
             self.assertEqual(m.vars['RUS_edu_catalog_count'],count)
@@ -111,7 +196,7 @@ class EducationTests(unittest.TestCase):
         clicks=load(ROOT/SGUI)[0].v[0].one('effects')
         for a in ACTIVITIES:
             for cancel in (False,True):
-                m=initialized();m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'})
+                m=unlock_all(initialized())
                 m.vars[VARS['basic']]=60
                 m.run(clicks.one(f'edu_category_{a["category"]}_click').v)
                 self.assertTrue(all(m.vars[f'RUS_edu_catalog_{i}_frame']==2 for i in range(1,4)))
@@ -192,7 +277,7 @@ class EducationTests(unittest.TestCase):
     def test_all_activity_lifecycles_and_native_pool_rewards(self):
         for a in ACTIVITIES:
             with self.subTest(a=a['id']):
-                m=initialized();m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'});m.vars.update({VARS['basic']:40,'RUS_edu_category':a['category']});m.call('RUS_education_refresh')
+                m=unlock_all(initialized());m.vars.update({VARS['basic']:40,'RUS_edu_category':a['category']});m.call('RUS_education_refresh')
                 self.assertTrue(m.start(a['id']));m.advance(a['days']);self.assertNotIn(active(a),m.flags)
                 self.assertEqual(m.vars['RUS_education_completed_activities'],1);self.assertEqual(m.vars['RUS_edu_active_count'],0)
                 self.assertTrue(all(m.vars[f'RUS_edu_slot_{i}']==0 for i in range(1,4)))
@@ -271,13 +356,14 @@ class EducationTests(unittest.TestCase):
         from PIL import Image
         for kind in ('basic','higher','heat','activity'):
             with Image.open(ROOT/ART/(kind+'_bar.dds')) as im:self.assertEqual(im.size,(11918,21))
-        with Image.open(ROOT/ART/'posters.dds') as im:self.assertEqual(im.size,(2560,205))
+        with Image.open(ROOT/ART/'posters.dds') as im:self.assertEqual(im.size,(160*(len(ACTIVITIES)+2),205))
         manifest=json.loads((ROOT/DESIGN/'poster_sources.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(manifest['sources']),14)
+        self.assertEqual(len(manifest['sources']),len(ACTIVITIES))
         for a in manifest['sources']:self.assertEqual(hashlib.sha256((ROOT/a['path']).read_bytes()).hexdigest(),a['sha256'])
         catalogue=json.loads((ROOT/DESIGN/'poster_catalog.json').read_text(encoding='utf-8'))['posters']
         self.assertEqual(len(catalogue),271);self.assertEqual(len({p['code'] for p in catalogue}),271)
-        self.assertEqual(sum(bool(p['activity']) for p in catalogue),14)
+        self.assertEqual(sum(bool(p['activity']) for p in catalogue),len({a['poster'] for a in ACTIVITIES}))
+        self.assertEqual({aid for p in catalogue for aid in p['activities']},{a['id'] for a in ACTIVITIES})
         by_code={p['code']:p for p in catalogue}
         for a in manifest['sources']:self.assertEqual(by_code[a['poster']]['sha256'],a['sha256'])
         from education_reform_content import POSTER_CATEGORIES

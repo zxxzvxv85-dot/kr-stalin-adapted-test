@@ -8,7 +8,7 @@ from PIL import Image,ImageDraw
 from hoi4_politics_blocks import load
 from hoi4_bitmap_fonts import measure,render,font_data,plain
 from generate_education_reform import ROOT,GUI,GFX,SGUI,VARS
-from test_education_reform import initialized
+from test_education_reform import initialized,unlock_all
 
 COLOURS={'C':'#72c7de','Y':'#e4bf61','O':'#de7852','G':'#86bd87','!':'#e3dfcf'}
 GAME=ROOT.parents[3]/'common/Hearts of Iron IV'
@@ -99,5 +99,12 @@ def main():
     for category in range(1,7):
         m.vars.update(RUS_edu_category=category);m.call('RUS_education_refresh')
         paths.append(preview(m,ROOT/f'output/education_system/海报分类_{category}.png'))
+    for category in range(1,7):
+        m=unlock_all(initialized());m.vars.update(RUS_edu_category=category)
+        a=next(a for a in ACTIVITIES[14:] if a['category']==category)
+        assert m.start(a['id']);paths.append(preview(m,ROOT/f'output/education_system/新增海报_{category}.png'))
+    # All campaign names must fit the existing two-line label, including long slogans.
+    for a in ACTIVITIES:
+        assert len(wrap(a['name'],'hoi_16mbs',158))*max(f['height'] for f in font_data('hoi_16mbs'))<=42,a['id']
     print('PASS: installed font atlases, generated coordinates, bounded text and packaged art. Not engine screenshots.');print('\n'.join(paths))
 if __name__=='__main__':main()

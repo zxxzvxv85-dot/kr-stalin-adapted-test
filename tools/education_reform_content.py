@@ -1,7 +1,7 @@
 """Education balance and focus authoring source; importing never writes files."""
 from __future__ import annotations
 
-KINDS = {'basic': '基础教育', 'higher': '高等教育', 'technical': '职业技术', 'culture': '文化与社会动员'}
+KINDS = {'basic': '基础教育', 'higher': '高等教育', 'technical': '职业技术', 'culture': '文化与社会动员', 'military':'国防动员'}
 POSTER_CATEGORIES = {
  1: ('军事与保卫', (1, 2, 4, 13)),
  2: ('经济与生产', (3, 7, 8)),
@@ -35,6 +35,8 @@ ACTIVITIES = [dict(zip(('id','name','kind','days','cost','basic','higher','heat'
 for activity in ACTIVITIES:
     prefix = ''.join(c for c in activity['poster'] if c.isalpha())
     activity['category'] = POSTER_PREFIX_CATEGORY[prefix]
+from education_poster_expansion import additional_activities
+ACTIVITIES += additional_activities()
 CONTROLS = [
  dict(id='listen',name='听取群众的声音！',kind='control',days=30,cost=20,basic=0,higher=0,heat=10,modifiers={'political_power_cost':-.025}),
  dict(id='restore_order',name='让课堂与车间恢复秩序！',kind='control',days=30,cost=20,basic=0,higher=0,heat=-12,modifiers={'political_power_cost':-.025}),
