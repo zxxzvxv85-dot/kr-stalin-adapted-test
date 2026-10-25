@@ -47,6 +47,7 @@ def outputs():
 }}
 ''']
     guard = eligible + ' has_country_flag = RUS_football_started'
+    reward = ' '.join(f'{key} = {value}' for key,value in spec['option_reward'].items())
     events.append(f'''country_event = {{
  id = RUS_football.1
  title = RUS_football.1.t
@@ -57,7 +58,14 @@ def outputs():
  trigger = {{ {guard} }}
  option = {{
   name = RUS_football.1.a
-  hidden_effect = {{ if = {{ limit = {{ {guard} }} set_country_flag = RUS_football_done }} }}
+  effect_tooltip = {{ {reward} }}
+  hidden_effect = {{
+   if = {{
+    limit = {{ tag = RUS NOT = {{ has_country_flag = RUS_football_done }} }}
+    set_country_flag = RUS_football_done
+    {reward}
+   }}
+  }}
  }}
 }}
 ''')

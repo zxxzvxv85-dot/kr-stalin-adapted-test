@@ -21,6 +21,8 @@ class World:
         self.queue = []
         self.popups = []
         self.fired = set()
+        self.stability = 0.5
+        self.political_power = 100
 
     def condition(self, nodes):
         def one(n):
@@ -38,6 +40,9 @@ class World:
                 if self.condition(n.one('limit').v):
                     self.run([x for x in n.v if x.k != 'limit'])
             elif n.k == 'set_country_flag': self.flags.add(n.v)
+            elif n.k == 'add_stability': self.stability += float(n.v)
+            elif n.k == 'add_political_power': self.political_power += float(n.v)
+            elif n.k == 'effect_tooltip': pass  # Display only; never execute rewards twice.
             elif n.k == 'country_event': self.queue.append((self.day+int(n.value('days') or 0), n.value('id')))
             elif n.k != 'name': raise AssertionError(n.k)
 
@@ -70,13 +75,24 @@ def main():
     assert w.queue == [(7,'RUS_football.0')]
     w.advance(6); assert not w.popups
     w.advance(1); assert w.popups == ['RUS_football.1']
+    assert w.stability == 0.5 and w.political_power == 100
     w.confirm(); assert not w.popups and 'RUS_football_done' in w.flags
+    assert w.stability == 0.52 and w.political_power == 105
     state = copy.deepcopy(w.__dict__)
     w.run(EVENTS['RUS_football.1'].one('option').v); w.run(reward)
     assert w.__dict__ == state
     w = World('FER'); w.run(reward); assert not w.queue
     w = World(); w.run(reward); w.focuses.clear(); w.advance(7); assert not w.popups
-    w = World(); w.run(EVENTS['RUS_football.1'].one('option').v); assert not w.queue and not w.flags
+    # Console preview can award the requested effects without scheduling flags.
+    option = EVENTS['RUS_football.1'].one('option')
+    w = World(); w.focuses.clear(); w.run(option.v)
+    assert not w.queue and 'RUS_football_done' in w.flags
+    assert w.stability == 0.52 and w.political_power == 105
+    w = World('FER'); w.run(option.v)
+    assert not w.flags and w.stability == 0.5 and w.political_power == 100
+    preview = option.one('effect_tooltip')
+    assert preview.value('add_stability') == '0.02' and preview.value('add_political_power') == '5'
+    assert len(preview.v) == 2
     spec = build.content()
     assert set(EVENTS) == {'RUS_football.0','RUS_football.1'}
     import json
@@ -100,7 +116,7 @@ def main():
     assert image.size == (210,176) and image.mode == 'RGBA'
     assert image.getchannel('A').getextrema() == (0,255)
     assert any(n.value('name').strip('"') == spec['picture'] for n in load(ROOT/build.GFX)[0].v)
-    print('PASS: day 6/7, one schedule/window/option, guards/repeat completion, preserved preview focus, exact full prose, title/option and photograph.')
+    print('PASS: day 6/7, one window/option, native +2% stability/+5 PP preview and single reward, console/foreign guards, preserved preview focus, prose and photograph.')
 
 
 if __name__ == '__main__':

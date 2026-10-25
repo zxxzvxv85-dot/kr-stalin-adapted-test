@@ -24,6 +24,13 @@ country_event = {
  trigger = { tag = RUS has_completed_focus = RUS_future_domestic_151 has_country_flag = RUS_football_scheduled NOT = { has_country_flag = RUS_football_done } has_country_flag = RUS_football_started }
  option = {
   name = RUS_football.1.a
-  hidden_effect = { if = { limit = { tag = RUS has_completed_focus = RUS_future_domestic_151 has_country_flag = RUS_football_scheduled NOT = { has_country_flag = RUS_football_done } has_country_flag = RUS_football_started } set_country_flag = RUS_football_done } }
+  effect_tooltip = { add_stability = 0.02 add_political_power = 5 }
+  hidden_effect = {
+   if = {
+    limit = { tag = RUS NOT = { has_country_flag = RUS_football_done } }
+    set_country_flag = RUS_football_done
+    add_stability = 0.02 add_political_power = 5
+   }
+  }
  }
 }
