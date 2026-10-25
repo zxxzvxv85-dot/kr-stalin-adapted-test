@@ -152,7 +152,7 @@ class EducationTests(unittest.TestCase):
         self.assertNotIn('RUS_edu_repeat_mentoring',m.dynamic)
         m=initialized();m.flags.update({'RUS_edu_amateur','RUS_edu_era'});m.call('RUS_education_refresh')
         self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.5*.75)
-    def test_mass_mood_has_two_exact_180_day_phases_and_no_permanent_heat_change(self):
+    def test_mass_mood_has_180_then_360_days_and_no_permanent_heat_change(self):
         m=initialized();m.vars[VARS['heat']]=90;m.call('RUS_education_start_mass_campaign')
         self.assertIn('RUS_education_mass_hesitation',m.ideas)
         m.advance(179);self.assertEqual(m.vars['RUS_edu_mass_phase'],1)
@@ -161,13 +161,16 @@ class EducationTests(unittest.TestCase):
         m.advance(1);self.assertAlmostEqual(m.vars[VARS['heat']],45)
         self.assertNotIn('RUS_education_mass_hesitation',m.ideas)
         self.assertIn('RUS_education_mass_enthusiasm',m.ideas)
-        self.assertEqual(m.vars['RUS_edu_mass_days'],180)
+        self.assertEqual(m.vars['RUS_edu_mass_days'],360)
         m.advance(179);self.assertAlmostEqual(m.vars[VARS['heat']],36.05)
+        self.assertIn('RUS_education_mass_enthusiasm',m.ideas)
+        self.assertEqual(m.vars['RUS_edu_mass_days'],181)
+        m.advance(180);self.assertAlmostEqual(m.vars[VARS['heat']],27.05)
         self.assertEqual(m.vars['RUS_edu_mass_days'],1)
-        m.advance(1);self.assertAlmostEqual(m.vars[VARS['heat']],36)
+        m.advance(1);self.assertAlmostEqual(m.vars[VARS['heat']],27)
         self.assertEqual(m.vars['RUS_edu_mass_phase'],0);self.assertEqual(m.vars['RUS_edu_mass_days'],0)
         self.assertNotIn('RUS_education_mass_enthusiasm',m.ideas)
-        m.advance(10);self.assertAlmostEqual(m.vars[VARS['heat']],35)
+        m.advance(10);self.assertAlmostEqual(m.vars[VARS['heat']],26)
     def test_distinct_temporary_benefits_and_costs_keep_original_permanent_rewards(self):
         modifiers={k for a in ACTIVITIES for k in a['modifiers']}
         self.assertGreaterEqual(len(modifiers),30)

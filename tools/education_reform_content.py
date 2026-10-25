@@ -164,7 +164,7 @@ def education_focuses():
     result['226']['reward'] += ['custom_effect_tooltip = RUS_edu_half_cost_tt',
         'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_hesitation days = 180 } }',
         'custom_effect_tooltip = RUS_edu_mass_transition_tt',
-        'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 180 } }',
+        'effect_tooltip = { add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 360 } }',
         'hidden_effect = { RUS_education_start_mass_campaign = yes }']
     result['233']['reward'].append('add_research_slot = 1')
     result['234']['reward'] += ['custom_effect_tooltip = RUS_edu_era_cost_tt',

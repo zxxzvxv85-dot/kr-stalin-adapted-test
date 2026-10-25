@@ -116,12 +116,12 @@ def effects():
     out.append(block('RUS_education_start_mass_campaign',cond('NOT = { has_country_flag = RUS_edu_mass_campaign_started }',[
         'set_country_flag = RUS_edu_mass_campaign_started',setv('RUS_edu_mass_phase',1),setv('RUS_edu_mass_days',180),
         'add_timed_idea = { idea = RUS_education_mass_hesitation days = 180 }','RUS_education_refresh = yes'])))
-    # One branch per day: 180 hesitation pulses, then 180 enthusiasm pulses.
+    # One branch per day: 180 hesitation pulses, then 360 enthusiasm pulses.
     mass=cond('check_variable = { RUS_edu_mass_phase = 1 }',[
         add(VARS['heat'],-.15),op('subtract_from','RUS_edu_mass_days',1),
         *cond('NOT = { check_variable = { RUS_edu_mass_days > 0 } }',[
-            'remove_ideas = RUS_education_mass_hesitation',setv('RUS_edu_mass_phase',2),setv('RUS_edu_mass_days',180),
-            'add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 180 }'])])
+            'remove_ideas = RUS_education_mass_hesitation',setv('RUS_edu_mass_phase',2),setv('RUS_edu_mass_days',360),
+            'add_timed_idea = { idea = RUS_education_mass_enthusiasm days = 360 }'])])
     mass+=['else_if = {','\tlimit = { check_variable = { RUS_edu_mass_phase = 2 } }',
         '\t'+add(VARS['heat'],.05),'\t'+op('subtract_from','RUS_edu_mass_days',1),
         *['\t'+s for s in cond('NOT = { check_variable = { RUS_edu_mass_days > 0 } }',[
@@ -469,17 +469,17 @@ def localisations():
       'RUS_edu_unlock_technical_tt':'解锁经济与生产类海报及职业技术活动。',
       'RUS_edu_theory_tt':'§Y高等教育增量§!：§G+20%§!。',
       'RUS_edu_practice_tt':'§C基础教育增量§!：§G+20%§!。',
-      'RUS_edu_central_tt':'宣传活动政治点花费：§G−20%§!。\\n宣传活动正热情增量：§Y+25%§!。',
-      'RUS_edu_amateur_tt':'活动教育增量：§G+10%§!。\\n文化活动正热情增量：§Y−25%§!。',
+      'RUS_edu_central_tt':'宣传活动政治点花费：§G-20%§!。\\n宣传活动正热情增量：§Y+25%§!。',
+      'RUS_edu_amateur_tt':'活动教育增量：§G+10%§!。\\n文化活动正热情增量：§Y-25%§!。',
       'RUS_edu_now_tt':'§C基础教育§!：§G+8§!；§Y高等教育§!：§G+3§!；§O民众热情§!：§Y+10§!。',
       'RUS_edu_future_tt':'§Y高等教育增量§!：§G+20%§!。',
       'RUS_edu_repeat_campaign_tt':'重复开展已完成的海报：花费、临时修正、教育及热情增量§Y×1.5§!。',
-      'RUS_edu_half_cost_tt':'所有海报政治点花费：§G−50%§!。',
-      'RUS_edu_era_cost_tt':'所有海报政治点花费：§G−25%§!。',
+      'RUS_edu_half_cost_tt':'所有海报政治点花费：§G-50%§!。',
+      'RUS_edu_era_cost_tt':'所有海报政治点花费：§G-25%§!。',
       'RUS_edu_mass_transition_tt':'180天后获得：',
       'RUS_education_mass_hesitation':'群众犹豫不决',
       'RUS_education_mass_enthusiasm':'群众热情澎湃',
-      'RUS_edu_mass_hesitation_daily_tt':'每日§O民众热情§!：§Y−0.15§!',
+      'RUS_edu_mass_hesitation_daily_tt':'每日§O民众热情§!：§Y-0.15§!',
       'RUS_edu_mass_enthusiasm_daily_tt':'每日§O民众热情§!：§Y+0.05§!',
       'RUS_edu_kalinin_tt':'教育活动的教育增量：§G+20%§!。',
       'RUS_edu_gate_first':'下一组：宣传3次／基础30%',
@@ -496,7 +496,7 @@ def localisations():
     l.update({'RUS_edu_agriculture_wheat_tt':'小麦库存：§G+4§!单位',
               'RUS_edu_agriculture_rye_tt':'黑麦库存：§G+3§!单位',
               'RUS_edu_agriculture_technical_tt':'本季作物产量：§G+5%§!',
-              'RUS_edu_agriculture_repair_tt':'本季农机损耗率：§G−5§!个百分点'})
+              'RUS_edu_agriculture_repair_tt':'本季农机损耗率：§G-5§!个百分点'})
     for kind,name in KINDS.items(): l['RUS_edu_'+kind+'_free_tt']=name+'类没有其他在办活动'
     for a in ACTIVITIES+CONTROLS:
         aid=a['id']; regular=a['kind']!='control'; key='RUS_education_'+aid
