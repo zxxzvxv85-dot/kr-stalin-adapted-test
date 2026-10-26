@@ -912,20 +912,25 @@ class EducationTests(unittest.TestCase):
                     self.assertEqual(strip.crop((pct*118,0,(pct+1)*118,21)).tobytes(),expected.tobytes())
                 self.assertNotEqual(strip.getpixel((20*118+10,10)),base.getpixel((10,10)),'The native fill layer must be visibly nonempty')
         sprites={x.value('name').strip('"'):x for root in load(ROOT/GFX) for x in root.v}
-        self.assertEqual(sprites['GFX_RUS_education_noticeboard'].value('texturefile').strip('"'),'gfx/interface/RUS_education/workbench/clipboard.png')
+        self.assertEqual(sprites['GFX_RUS_education_noticeboard'].value('texturefile').strip('"'),'gfx/interface/propaganda/propaganda_bg.dds')
+        with Image.open(ROOT/'gfx/interface/RUS_education/workbench/desk.png') as desk, Image.open(game/'gfx/interface/propaganda/propaganda_bg.dds') as wood:
+            self.assertEqual(desk.getchannel('A').getextrema(),(255,255))
+            # The original board keeps its grain; both adjoining rows meet exactly.
+            self.assertEqual(desk.crop((2,334,496,541)).convert('RGB').tobytes(),wood.crop((2,0,496,207)).convert('RGB').tobytes())
+            for joint in (334,541):
+                self.assertEqual(desk.crop((2,joint-1,496,joint)).tobytes(),desk.crop((2,joint,496,joint+1)).tobytes())
         controls=load(ROOT/GUI)[0].v[0].v;names=[n.value('name').strip('"') for n in controls if n.value('name')]
         self.assertLess(names.index('education_noticeboard'),names.index('poster_1'))
         triggers=load(ROOT/SGUI)[0].v[0].one('triggers');m=initialized()
         for i in range(1,4):
             self.assertFalse(m.check(triggers.one(f'activity_progress_{i}_visible')))
             self.assertFalse(m.check(triggers.one(f'activity_days_{i}_visible')))
-            self.assertFalse(m.check(triggers.one(f'poster_{i}_visible')))
-            self.assertTrue(m.check(triggers.one(f'poster_{"locked" if i==3 else "empty"}_{i}_visible')))
+            self.assertFalse(any(name in names for name in (f'poster_empty_{i}',f'poster_locked_{i}')))
+            self.assertTrue(m.check(triggers.one(f'poster_{i}_visible')) if triggers.one(f'poster_{i}_visible') else True)
             self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_frame'],1 if i==3 else 2)
             self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_activity'],0)
         m.start('literacy');self.assertTrue(m.check(triggers.one('activity_progress_1_visible')))
-        self.assertTrue(m.check(triggers.one('poster_1_visible')))
-        self.assertFalse(m.check(triggers.one('poster_empty_1_visible')))
+        self.assertGreater(m.vars['RUS_edu_catalog_1_frame'],2)
         m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_progress_1_visible')))
         window=load(ROOT/GUI)[0].v[0]
         self.assertEqual(window.one('position').value('x'),'4')

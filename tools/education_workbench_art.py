@@ -62,10 +62,15 @@ def render():
         icon=fit(subject,box);paste(out,icon,((size[0]-icon.width)//2,top))
         return out
     out={}
-    wood=images['wood'];desk=Image.new('RGBA',tuple(data['canvas']))
-    for y in range(0,desk.height,wood.height):desk.alpha_composite(wood,(0,y))
-    rgb=ImageEnhance.Color(desk.convert('RGB')).enhance(.75)
-    rgb=ImageEnhance.Brightness(rgb).enhance(.85);desk=rgb.convert('RGBA')
+    # Anchor the untouched native board at y334, then reflect its grain above
+    # and below. Matching edge rows avoid horizontal repeat seams or a colour
+    # jump under the native overlay. Use opaque RGB so its ragged alpha edge
+    # does not leave black holes at the extension joints.
+    wood=images['wood'].convert('RGB');desk=Image.new('RGBA',tuple(data['canvas']))
+    for y in range(desk.height):
+        phase=(y-334)%(2*wood.height)
+        source_y=phase if phase<wood.height else 2*wood.height-1-phase
+        desk.paste(wood.crop((0,source_y,wood.width,source_y+1)),(0,y))
     ImageDraw.Draw(desk).rectangle((0,0,desk.width-1,desk.height-1),outline='#66523b',width=2)
     out['desk']=desk
     out['memo']=plate((406,64));out['metric_plate']=plate((160,82))

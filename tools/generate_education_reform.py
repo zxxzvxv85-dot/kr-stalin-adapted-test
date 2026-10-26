@@ -449,7 +449,7 @@ def gui_outputs():
         button(f'edu_category_{category}',f'GFX_RUS_edu_workbench_category_{category}',x,182,f'RUS_edu_category_{category}_tooltip')
         text(f'edu_category_{category}_label',f'RUS_edu_category_icon_{category}',x,242,72,h=18,transparent=True)
     text('edu_catalog_heading','RUS_edu_catalog_heading',54,282,390,h=22)
-    icon('education_noticeboard','GFX_RUS_education_noticeboard',0,298)
+    icon('education_noticeboard','GFX_RUS_education_noticeboard',0,334)
     button('edu_board_next','GFX_RUS_edu_workbench_page',444,278,'RUS_edu_board_next_tooltip')
     props=[f'{kind}_bar = {{ frame = RUS_edu_bar_{kind} }}' for kind in VARS]
     guard='has_country_flag = RUS_education_system_active'
@@ -465,19 +465,14 @@ def gui_outputs():
         'if = { limit = { check_variable = { RUS_edu_board_page = 1 } } '+setv('RUS_edu_board_page',2)+' }',
         'else = { '+setv('RUS_edu_board_page',1)+' }','RUS_education_refresh = yes']),'}']).strip())
     for i,x in enumerate((6,168,330),1):
-        page=' check_variable = { RUS_edu_board_page < 2 }' if i==3 else ''
-        icon(f'poster_empty_{i}','GFX_RUS_edu_workbench_pockets',x,334,frame=2)
-        icon(f'poster_locked_{i}','GFX_RUS_edu_workbench_pockets',x,334,frame=1)
         icon(f'poster_{i}','GFX_RUS_education_posters',x,334,'RUS_edu_slot_'+str(i)+'_tooltip')
         icon(f'activity_progress_{i}','GFX_RUS_edu_activity_bar',x+21,547)
         text(f'activity_name_{i}','RUS_edu_slot_'+str(i)+'_name',x+1,574,158,h=36)
         text(f'activity_days_{i}','RUS_edu_slot_'+str(i)+'_text',x+1,612,158,h=22)
-        triggers += [f'poster_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }}'+page+' }',
-                     f'poster_empty_{i}_visible = {{ NOT = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }} check_variable = {{ RUS_edu_catalog_{i}_frame > 1 }}'+page+' }',
-                     f'poster_locked_{i}_visible = {{ NOT = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }} check_variable = {{ RUS_edu_catalog_{i}_frame = 1 }}'+page+' }',
-                     f'activity_progress_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}',
+        triggers += [f'activity_progress_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}',
                      f'activity_days_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}']
-        if i==3:triggers += ['activity_name_3_visible = { check_variable = { RUS_edu_board_page < 2 } }']
+        if i==3:triggers += ['poster_3_visible = { check_variable = { RUS_edu_board_page < 2 } }',
+                            'activity_name_3_visible = { check_variable = { RUS_edu_board_page < 2 } }']
         props += [f'poster_{i} = {{ image = "[RUSEducationPosterAge{i}]" frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
     gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 4 y = 0 }','size = { width = 498 height = 660 }']+ui)+'}\n'
     sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip(),block('effects',click_effects).strip()])+'}\n'
@@ -487,15 +482,14 @@ def gui_outputs():
     sprites.append(block('spriteType',['name = "GFX_RUS_education_posters"',f'texturefile = "{ART.as_posix()}/posters.dds"',f'noOfFrames = {len(ACTIVITIES)+2}']))
     for stage in range(1,4):
         sprites.append(block('spriteType',[f'name = "GFX_RUS_education_posters_aged_{stage}"',f'texturefile = "{ART.as_posix()}/posters_aged_{stage}.dds"',f'noOfFrames = {len(ACTIVITIES)+2}']))
-    sprites.append(block('spriteType',['name = "GFX_RUS_education_noticeboard"',f'texturefile = "{WORKBENCH.as_posix()}/clipboard.png"','legacy_lazy_load = no']))
+    sprites.append(block('spriteType',['name = "GFX_RUS_education_noticeboard"','texturefile = "gfx/interface/propaganda/propaganda_bg.dds"','legacy_lazy_load = no']))
     for name in ('metric_panel','metric_name_panel','metric_value_panel'):
         path=WORKBENCH/'metric_plate.png' if name=='metric_panel' else ART/(name+'.dds')
         sprites.append(block('spriteType',[f'name = "GFX_RUS_education_{name}"',f'texturefile = "{path.as_posix()}"']))
     for kind,texture in [('basic',f'{ART.as_posix()}/basic_texticon.dds'),('higher',f'{ART.as_posix()}/higher_texticon.dds'),('heat','gfx/texticons/SOV_propaganda_text_icon.dds')]:
         sprites.append(block('spriteType',[f'name = "GFX_RUS_edu_{kind}_texticon"',f'texturefile = "{texture}"','legacy_lazy_load = no']))
-    for name in ['desk','memo','intro','page','selection','pockets']+[f'category_{c}' for c in POSTER_CATEGORIES]:
+    for name in ['desk','memo','intro','page','selection']+[f'category_{c}' for c in POSTER_CATEGORIES]:
         fields=[f'name = "GFX_RUS_edu_workbench_{name}"',f'texturefile = "{WORKBENCH.as_posix()}/{name}.png"','legacy_lazy_load = no']
-        if name=='pockets':fields.append('noOfFrames = 2')
         if name in ('intro','page') or name.startswith('category_'):fields+=['noOfFrames = 1','effectFile = "gfx/FX/buttonstate.lua"']
         sprites.append(block('spriteType',fields))
     return {GUI:gui,SGUI:sgui,GFX:'spriteTypes = {\n'+''.join(sprites)+'}\n'}
@@ -605,8 +599,8 @@ def localisations():
         l['RUS_edu_'+aid+'_finish_tt']=finish
         l['RUS_edu_activity_'+aid]=a['name']
     for i in range(1,4):
-        l[f'RUS_edu_slot_{i}_name']=f'§b[RUSEducationSlot{i}]§!'
-        l[f'RUS_edu_slot_{i}_text']=f'§b[RUSEducationSlot{i}Days]§!'
+        l[f'RUS_edu_slot_{i}_name']=f'[RUSEducationSlot{i}]'
+        l[f'RUS_edu_slot_{i}_text']=f'[RUSEducationSlot{i}Days]'
         l[f'RUS_edu_slot_{i}_countdown']=f'剩余 [?RUS_edu_catalog_{i}_days|0] 天'
         l[f'RUS_edu_slot_{i}_tooltip']=f'[RUSEducationSlot{i}]\\n[RUSEducationSlot{i}Days]'
     from education_workbench_art import spec as workbench_spec

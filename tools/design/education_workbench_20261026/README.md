@@ -8,6 +8,6 @@
 
 六个72×84纸签按钮分别使用钢盔、工厂、握手、书册、地球仪、红星奖章；完整类别和功能留在悬浮里。原版`interface/core.gfx`的`GFX_button_123x34`确认单帧按钮配合`gfx/FX/buttonstate.lua`的悬浮/按下效果。选中状态另用透明金框，不能挡住按钮；文字控件`alwaystransparent=yes`，允许点击穿透。文件物件切换原有介绍展开状态，文件加放大镜物件循环翻阅当前类在办海报的两页。
 
-整体498×660，横向偏移4，与原生`countrydecisionview.gui`的502像素决议槽对齐。原生进度条、三项数值内联图标、在办海报与三档磨损图集保持原文件。新的双帧空栏纸张只在无在办活动时使用，未开展活动不会借此张贴海报。
+整体498×660，横向偏移4，与原生`countrydecisionview.gui`的502像素决议槽对齐。原生进度条、三项数值内联图标、在办海报与三档磨损图集保持原文件。后续按用户要求，下方恢复原版木板背景及海报图集中的空栏/锁定胶痕帧；clipboard.png和pockets.png保留为先前设计产物，当前GUI不引用。未开展活动不会张贴真正海报。原木板y334–540纹理原样保留，桌面背景用同一木纹上下镜像续接，不再变色或循环堆叠透明边缘；y333/334、y540/541两组接缝相邻行完全一致，消除横向断层与透明黑孔。
 
-字体黑色使用原版`interface/core.gfx`的`b={0 0 0}`。GUI生成器管理坐标；不可直接改输出或把文字画进按钮贴图。修改后运行`python tools/validate.py --group education structure`，再用`preview_education_dashboard.py`生成原字体校样。原生悬浮、点击命中、长介绍流排与滚动仍须用户在游戏内确认，预览不模拟引擎。
+上方纸签字体黑色使用原版`interface/core.gfx`的`b={0 0 0}`。海报名称与倒计时恢复浅色。GUI生成器管理坐标；不可直接改输出或把文字画进按钮贴图。修改后运行`python tools/validate.py --group education structure`，再用`preview_education_dashboard.py`生成原字体校样。原生悬浮、点击命中、长介绍流排与滚动仍须用户在游戏内确认，预览不模拟引擎。
