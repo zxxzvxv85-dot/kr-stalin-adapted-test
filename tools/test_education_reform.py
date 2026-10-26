@@ -647,6 +647,7 @@ class EducationTests(unittest.TestCase):
         counts={c:sum(a['category']==c for a in ACTIVITIES) for c in range(1,7)}
         for category,count in counts.items():
             m.run(clicks.one(f'edu_category_{category}_click').v)
+            self.assertEqual([c for c in counts if m.check(rules.one(f'edu_category_{c}_selected_visible'))],[category])
             self.assertEqual(m.vars['RUS_edu_catalog_count'],count)
             expected=[code for code,a in enumerate(ACTIVITIES,3) if a['category']==category and active(a) in m.flags]
             seen=[m.vars[f'RUS_edu_catalog_{i}_activity'] for i in range(1,4) if m.vars[f'RUS_edu_catalog_{i}_activity']]
@@ -871,6 +872,34 @@ class EducationTests(unittest.TestCase):
                     self.assertLessEqual(y+h,canvas_height)
                 else:w=int(n.value('maxWidth'))
                 self.assertGreaterEqual(x,0);self.assertLessEqual(x+w,canvas_width);self.assertGreaterEqual(y,0);self.assertLess(y,canvas_height)
+    def test_workbench_object_buttons_sources_and_native_slot_bounds(self):
+        from education_workbench_art import check_assets
+        from PIL import Image
+        check_assets()
+        window=load(ROOT/GUI)[0].v[0]
+        native=(ROOT.parents[3]/'common/Hearts of Iron IV/interface/countrydecisionview.gui').read_text(encoding='utf-8-sig')
+        slot_width=int(re.search(r'name\s*=\s*"decision_grid".*?size\s*=\s*{\s*width\s*=\s*(\d+)',native,re.S)[1])
+        self.assertLessEqual(int(window.one('position').value('x'))+int(window.one('size').value('width')),slot_width)
+        sprites={s.value('name').strip('"'):s for root in load(ROOT/GFX) for s in root.v}
+        buttons={n.value('name').strip('"'):n for n in window.children('buttonType')}
+        expected={'edu_intro_toggle','edu_board_next'}|{f'edu_category_{c}' for c in range(1,7)}
+        self.assertEqual(set(buttons),expected)
+        labels={n.value('name').strip('"'):n for n in window.children('instantTextBoxType')}
+        for name in expected-{'edu_board_next'}:
+            label=labels['edu_intro_label' if name=='edu_intro_toggle' else name+'_label']
+            self.assertEqual(label.value('alwaystransparent'),'yes','Captions must pass clicks to object buttons')
+        textures=[]
+        for name,button in buttons.items():
+            sprite=sprites[button.value('quadTextureSprite').strip('"')]
+            self.assertEqual(sprite.value('effectFile').strip('"'),'gfx/FX/buttonstate.lua')
+            self.assertEqual(sprite.value('noOfFrames'),'1')
+            self.assertIsNotNone(button.one('pdx_tooltip'))
+            with Image.open(ROOT/sprite.value('texturefile').strip('"')) as image:
+                self.assertEqual(image.mode,'RGBA');self.assertEqual(image.getchannel('A').getextrema(),(0,255))
+                self.assertLessEqual(int(button.one('position').value('x'))+image.width,498)
+                self.assertLessEqual(int(button.one('position').value('y'))+image.height,660)
+                textures.append(hashlib.sha256(image.tobytes()).hexdigest())
+        self.assertEqual(len(set(textures)),len(textures))
     def test_native_bar_art_noticeboard_and_empty_slot_visibility(self):
         from PIL import Image
         game=ROOT.parents[3]/'common/Hearts of Iron IV'
@@ -883,19 +912,23 @@ class EducationTests(unittest.TestCase):
                     self.assertEqual(strip.crop((pct*118,0,(pct+1)*118,21)).tobytes(),expected.tobytes())
                 self.assertNotEqual(strip.getpixel((20*118+10,10)),base.getpixel((10,10)),'The native fill layer must be visibly nonempty')
         sprites={x.value('name').strip('"'):x for root in load(ROOT/GFX) for x in root.v}
-        self.assertEqual(sprites['GFX_RUS_education_noticeboard'].value('texturefile').strip('"'),'gfx/interface/propaganda/propaganda_bg.dds')
+        self.assertEqual(sprites['GFX_RUS_education_noticeboard'].value('texturefile').strip('"'),'gfx/interface/RUS_education/workbench/clipboard.png')
         controls=load(ROOT/GUI)[0].v[0].v;names=[n.value('name').strip('"') for n in controls if n.value('name')]
         self.assertLess(names.index('education_noticeboard'),names.index('poster_1'))
         triggers=load(ROOT/SGUI)[0].v[0].one('triggers');m=initialized()
         for i in range(1,4):
             self.assertFalse(m.check(triggers.one(f'activity_progress_{i}_visible')))
             self.assertFalse(m.check(triggers.one(f'activity_days_{i}_visible')))
+            self.assertFalse(m.check(triggers.one(f'poster_{i}_visible')))
+            self.assertTrue(m.check(triggers.one(f'poster_{"locked" if i==3 else "empty"}_{i}_visible')))
             self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_frame'],1 if i==3 else 2)
             self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_activity'],0)
         m.start('literacy');self.assertTrue(m.check(triggers.one('activity_progress_1_visible')))
+        self.assertTrue(m.check(triggers.one('poster_1_visible')))
+        self.assertFalse(m.check(triggers.one('poster_empty_1_visible')))
         m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_progress_1_visible')))
         window=load(ROOT/GUI)[0].v[0]
-        self.assertEqual(window.one('position').value('x'),'8')
+        self.assertEqual(window.one('position').value('x'),'4')
         by_name={n.value('name').strip('"'):n for n in controls if n.value('name')}
         for kind in ('basic','higher','heat'):
             panel=by_name[kind+'_panel'];px=int(panel.one('position').value('x'));py=int(panel.one('position').value('y'))

@@ -10,7 +10,7 @@ from hoi4_bitmap_fonts import measure,render,font_data,plain
 from generate_education_reform import ROOT,GUI,GFX,SGUI,VARS
 from test_education_reform import initialized,unlock_all
 
-COLOURS={'C':'#72c7de','Y':'#e4bf61','O':'#de7852','G':'#86bd87','R':'#ff3232','!':'#e3dfcf'}
+COLOURS={'C':'#72c7de','Y':'#e4bf61','O':'#de7852','G':'#86bd87','R':'#ff3232','b':'#000000','!':'#e3dfcf'}
 GAME=ROOT.parents[3]/'common/Hearts of Iron IV'
 
 def inline_image(token):
@@ -63,16 +63,20 @@ def preview(m,dest):
         visibility=triggers.one(name+'_visible') if triggers else None
         if visibility and not m.check(visibility):continue
         if n.k=='buttonType':
-            image=Image.open(GAME/'gfx/interface/button_123x34.dds').convert('RGBA')
-            im.alpha_composite(image,(x,y));text=resolve(loc[n.value('buttonText').strip('"')],m,loc)
-            render(im,x+(123-measure('hoi_16mbs',text))/2,y+9,text,'hoi_16mbs',COLOURS['!']);continue
+            sprite=sprites.get(n.value('quadTextureSprite').strip('"'))
+            path=ROOT/sprite.value('texturefile').strip('"') if sprite else GAME/'gfx/interface/button_123x34.dds'
+            image=Image.open(path).convert('RGBA');im.alpha_composite(image,(x,y))
+            if n.one('buttonText'):
+                text=resolve(loc[n.value('buttonText').strip('"')],m,loc)
+                render(im,x+(image.width-measure('hoi_16mbs',text))/2,y+9,text,'hoi_16mbs',COLOURS['!'])
+            continue
         if n.k=='iconType':
             property=props.one(name) if props else None
             image_key=property.value('image') if property else None
             sprite=sprites[resolve(image_key.strip('"'),m,loc) if image_key else n.value('spriteType').strip('"')];relative=sprite.value('texturefile').strip('"')
             path=next(r/relative for r in (ROOT,GAME) if (r/relative).is_file())
             image=Image.open(path).convert('RGBA');frames=int(sprite.value('noOfFrames','1'));w=image.width//frames
-            property=props.one(name);frame=round(m.vars.get(property.value('frame'),1)) if property else 1
+            property=props.one(name);frame=round(m.vars.get(property.value('frame'),1)) if property else int(n.value('frame','1'))
             im.alpha_composite(image.crop(((frame-1)*w,0,frame*w,image.height)),(x,y));continue
         text=resolve(loc[n.value('text').strip('"')],m,loc);font=n.value('font').strip('"');width=int(n.value('maxWidth'));lines=wrap(text,font,width)
         height=max(f['height'] for f in font_data(font))
