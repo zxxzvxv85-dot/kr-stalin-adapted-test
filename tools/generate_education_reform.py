@@ -421,16 +421,18 @@ def modifiers():
     return ''.join(lines).rstrip()+'\n'
 
 def gui_outputs():
-    # Keep the upper controls fixed; inset the entire noticeboard group by 6px
-    # from its old origin so the wood clears the decision-category left border.
+    # Remove the duplicate 26px title band, preserving relative control geometry.
+    # The noticeboard keeps its 6px inset from the category's left border.
+    panel_shift=26
     board_offset=6
     canvas_width=498+board_offset
     ui=[]
     def text(name,key,x,y,w,font='hoi_16mbs',tip=None):
+        y-=panel_shift
         ui.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} font = "{font}" text = "{key}" maxWidth = {w} maxHeight = 42 format = center'+(f' pdx_tooltip = {tip}' if tip else '')+' }')
     def icon(name,sprite,x,y,tip=None):
+        y-=panel_shift
         ui.append(f'iconType = {{ name = "{name}" spriteType = "{sprite}" position = {{ x = {x} y = {y} }}'+(f' pdx_tooltip = {tip}' if tip else '')+' }')
-    text('edu_title','RUS_edu_dashboard_title',4,4,486,'hoi_18mbs')
     for x,kind in zip((6,168,330),('basic','higher','heat')):
         icon(kind+'_panel','GFX_RUS_education_metric_panel',x,30)
         icon(kind+'_name_panel','GFX_RUS_education_metric_name_panel',x+5,33)
@@ -441,6 +443,7 @@ def gui_outputs():
     text('edu_rates','RUS_edu_rates',6,118,484)
     text('edu_gates','RUS_edu_gates',6,143,484,tip='RUS_edu_gates_tooltip')
     def button(name,key,x,y):
+        y-=panel_shift
         ui.append(f'buttonType = {{ name = "{name}" position = {{ x = {x} y = {y} }} quadTextureSprite = "GFX_button_123x34" buttonText = "{key}" buttonFont = "hoi_16mbs" clicksound = click_default }}')
     for category in POSTER_CATEGORIES:
         button(f'edu_category_{category}',f'RUS_edu_category_{category}',24+162*((category-1)%3),168+36*((category-1)//3))
@@ -470,7 +473,7 @@ def gui_outputs():
         props += [f'poster_{i} = {{ image = "[RUSEducationPosterAge{i}]" frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
     # The category's custom-GUI anchor precedes its inner border in the user's
     # runtime screenshot. Correct the entire canvas, keeping the board and cards aligned.
-    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }',f'size = {{ width = {canvas_width} height = 601 }}']+ui)+'}\n'
+    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }',f'size = {{ width = {canvas_width} height = {601-panel_shift} }}']+ui)+'}\n'
     sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip(),block('effects',click_effects).strip()])+'}\n'
     sprites=[]
     for kind in ('basic','higher','heat','activity'):
