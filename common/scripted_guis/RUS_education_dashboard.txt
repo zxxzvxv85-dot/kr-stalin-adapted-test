@@ -21,8 +21,8 @@ RUS_education_dashboard = {
 	activity_days_1_visible = { check_variable = { RUS_edu_catalog_1_running = 1 } }
 	activity_days_2_visible = { check_variable = { RUS_edu_catalog_2_running = 1 } }
 	activity_days_3_visible = { check_variable = { RUS_edu_catalog_3_running = 1 } }
-	poster_3_visible = { check_variable = { RUS_edu_board_page < 2 } }
-	activity_name_3_visible = { check_variable = { RUS_edu_board_page < 2 } }
+	poster_3_visible = { OR = { check_variable = { RUS_edu_board_page < 2 } check_variable = { RUS_edu_slots > 5 } check_variable = { RUS_edu_catalog_3_running = 1 } } }
+	activity_name_3_visible = { OR = { check_variable = { RUS_edu_board_page < 2 } check_variable = { RUS_edu_slots > 5 } check_variable = { RUS_edu_catalog_3_running = 1 } } }
 }
 	effects = {
 	edu_intro_toggle_click = {

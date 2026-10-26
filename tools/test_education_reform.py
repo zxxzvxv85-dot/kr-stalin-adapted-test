@@ -9,12 +9,12 @@ from itertools import product
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import load,parse
 from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS,EDUCATION_GAIN_CAPS,LOWER_IS_BETTER
-from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,repeated,duration,run_duration,render_outputs,DESIGN,ART
+from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,repeated,duration,run_duration,render_outputs,DESIGN,ART,extra_preview,extra_value,localisations
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'))
 DECISIONS={n.k:n for root in load(ROOT/DEC) for n in root.v}
 IDEAS={n.k:n for root in load(ROOT/'common/ideas/RUS stalin education reform ideas.txt')
-       for country in root.children('country') for n in country.v}
+       for country in root.v if country.k in ('country','hidden_ideas') for n in country.v}
 
 class EducationModel(ScriptModel):
     def __init__(self):
@@ -127,6 +127,29 @@ def unlock_all(m):
     return m
 
 class EducationTests(unittest.TestCase):
+    def test_poster_attachments_are_hidden_and_education_body_stays_visible(self):
+        definitions={n.k:n for n in load(ROOT/DM)}
+        self.assertIsNotNone(definitions['RUS_education_social_capacity'].one('icon'))
+        for a in ACTIVITIES+CONTROLS:
+            keys=['RUS_edu_era_'+a['id']]
+            if a['kind']!='control':keys.append('RUS_edu_repeat_'+a['id'])
+            for key in keys:
+                self.assertIsNone(definitions[key].one('icon'))
+            preview=definitions[extra_preview(a)]
+            self.assertIsNotNone(preview.one('icon'))
+            for modifier in a['modifiers']:
+                self.assertEqual(preview.value(modifier),extra_value(a,modifier))
+        root=load(ROOT/'common/ideas/RUS stalin education reform ideas.txt')[0]
+        visible={n.k for n in root.one('country').v}
+        hidden={n.k for n in root.one('hidden_ideas').v}
+        self.assertEqual(hidden,{a['timed_reward']['idea'] for a in ACTIVITIES if a.get('timed_reward')})
+        self.assertFalse(visible&hidden)
+        for a in ACTIVITIES:
+            if a.get('timed_reward'):
+                key=a['timed_reward']['idea'];self.assertIn(key,IDEAS)
+                self.assertIn(key+'_preview',visible)
+                self.assertEqual([n.norm() for n in IDEAS[key].v],[n.norm() for n in IDEAS[key+'_preview'].v])
+        self.assertNotIn('_preview',(ROOT/FX).read_text(encoding='utf-8-sig'),'Readonly tooltip copies must never execute')
     def test_daily_and_completion_heat_stay_bounded_with_fixed_point_storage(self):
         from decimal import Decimal,ROUND_DOWN
         # The ordinary fixture uses Python floats. Exercise coarse fixed-point
@@ -163,10 +186,10 @@ class EducationTests(unittest.TestCase):
                     self.assertFalse(any(c.op in ('>=','<=') for c in n.v),(path,n.raw()))
         text=(ROOT/FX).read_text(encoding='utf-8-sig')
         self.assertFalse(re.findall(r'(?<![\w.])-?\d+\.\d{6,}(?![\w.])',text),'Unsafe long decimal literals in native script')
-    def test_focus_requirements_are_visible_and_enforce_3_6_9_12_20_boundaries(self):
+    def test_focus_requirements_are_visible_and_enforce_3_6_9_12_40_boundaries(self):
         focuses={n.value('id'):n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')}
         locale=(ROOT/'localisation/simp_chinese/RUS_education_dashboard_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
-        for suffix,count,basic,higher in [('218',3,30,0),('221',3,30,0),('224',6,45,15),('226',6,45,15),('229',9,60,25),('231',9,60,25),('233',12,0,0),('234',20,0,0)]:
+        for suffix,count,basic,higher in [('218',3,30,0),('221',3,30,0),('224',6,45,15),('226',6,45,15),('229',9,60,25),('231',9,60,25),('233',12,0,0),('234',40,0,0)]:
             req=focuses['RUS_future_domestic_'+suffix].one('available')
             tips=req.children('custom_trigger_tooltip')
             self.assertIn(f'RUS_edu_focus_posters_{count}_tt',[n.value('tooltip') for n in tips])
@@ -344,7 +367,7 @@ class EducationTests(unittest.TestCase):
                 self.assertEqual(m.vars[run_duration(a)],expected)
                 d=DECISIONS['RUS_education_'+a['id']]
                 self.assertEqual(d.value('days_remove').split('?')[0],duration(a))
-                self.assertEqual(int(d.value('days_re_enable')),60 if a['kind']=='control' else 90)
+                self.assertEqual(int(d.value('days_re_enable')),0 if a['kind']=='control' else 90)
                 if a['kind']!='control':
                     self.assertEqual(m.dynamic_expiry['RUS_edu_repeat_'+a['id']],expected)
                 m.end(a['id'],True)
@@ -547,7 +570,7 @@ class EducationTests(unittest.TestCase):
     def test_dnieper_targeted_core_attack_is_30_days_and_not_a_state_reward(self):
         a=next(a for a in ACTIVITIES if a['id']=='dnieper_water');idea='RUS_edu_dnieper_offensive'
         self.assertNotIn('state_reward',a)
-        definition=load(ROOT/'common/ideas/RUS stalin education reform ideas.txt')[0].one('country').one(idea)
+        definition=load(ROOT/'common/ideas/RUS stalin education reform ideas.txt')[0].one('hidden_ideas').one(idea)
         target=definition.one('targeted_modifier')
         self.assertEqual(target.value('tag'),'UKR');self.assertEqual(float(target.value('attack_bonus_against_cores')),.05)
         self.assertIsNone(definition.one('modifier'))
@@ -555,6 +578,7 @@ class EducationTests(unittest.TestCase):
         m.states[202].update(owned=False,controlled=False)
         self.assertTrue(m.start(a['id']));self.assertNotIn(idea,m.ideas)
         m.end(a['id']);self.assertIn(idea,m.ideas);self.assertEqual(m.idea_expiry[idea],30)
+        self.assertNotIn(idea+'_preview',m.ideas)
         self.assertFalse(m.states[202]['modifiers'])
         m.advance(29);self.assertIn(idea,m.ideas)
         m.end(a['id']);self.assertEqual(m.idea_expiry[idea],30)
@@ -753,22 +777,117 @@ class EducationTests(unittest.TestCase):
         for mod in expected:self.assertEqual(primary.value(mod),bv(mod))
     def test_heat_curve_and_continuity(self):
         m=initialized()
-        for t in [0,19.999,20,39.999,40,47.39,54.9999,55,55.0001,69.999,70,84.999,85,100]:
+        for t,expected in [(0,.2),(49,.6),(50,.9),(55,1),(60,.9),(61,.60000143),(100,.2)]:
             m.vars[VARS['heat']]=t;m.call('RUS_education_refresh')
-            d=(t-55)/(55 if t<=55 else 45);q=1/(1+4*d*d)
-            self.assertAlmostEqual(m.vars['RUS_edu_quality'],q,places=10)
-            self.assertAlmostEqual(m.vars[bv('stability_factor')],-.08*(1-q),places=10)
-        for edge in (20,40,55,70,85):
+            self.assertAlmostEqual(m.vars['RUS_edu_quality'],expected,places=7)
+        # Existing political/stability pressure is independent of the new yield.
+        for t in (0,30,49,50,55,60,61,75,100):
+            m.vars[VARS['heat']]=t;m.call('RUS_education_refresh')
+            d=(t-55)/(55 if t<=55 else 45);pressure=1-1/(1+4*d*d)
+            self.assertAlmostEqual(m.vars[bv('stability_factor')],-.08*pressure,places=10)
+        for edge in (49,50,55,60,61):
             values=[]
-            for t in (edge-.00001,edge+.00001):
+            for t in (edge-.0000001,edge+.0000001):
                 m.vars[VARS['heat']]=t;m.call('RUS_education_refresh');values.append(m.vars['RUS_edu_quality'])
             self.assertLess(abs(values[0]-values[1]),.000001)
-        m.vars[VARS['heat']]=47.39;m.call('RUS_education_refresh')
-        self.assertAlmostEqual(m.vars['RUS_edu_quality_percent'],92.886908,places=5)
+        for t in (50+i*.25 for i in range(41)):
+            m.vars[VARS['heat']]=t;m.call('RUS_education_refresh')
+            self.assertGreaterEqual(m.vars['RUS_edu_quality'],.9)
         for t in (30,75):
             m.vars[VARS['heat']]=t;m.call('RUS_education_refresh')
             self.assertLess(m.vars['RUS_edu_quality'],.60)
             self.assertLess(m.vars[bv('stability_factor')],-.03)
+
+    def test_display_hides_yield_and_highlights_best_heat_range(self):
+        locale={match[1]:json.loads(match[2]) for match in re.finditer(r'^ ([^:]+):0 (".*")$',
+            localisations()[Path('localisation/simp_chinese/RUS_education_dashboard_l_simp_chinese.yml')].decode('utf-8-sig'),re.M)}
+        self.assertNotIn('quality_percent',locale['RUS_edu_rates'])
+        self.assertNotIn('倍率',locale['RUS_edu_rates'])
+        self.assertIn('RUS_edu_active_count',locale['RUS_edu_rates'])
+        self.assertIn('§R将热情保持在50-60之间最好。§!',locale['RUS_edu_heat_tooltip'])
+        self.assertIn('40',locale['RUS_edu_gate_era'])
+
+    def test_controls_have_no_cooldown_but_keep_duration_cost_and_mutual_exclusion(self):
+        for aid,heat in [('listen',20),('restore_order',80)]:
+            other='restore_order' if aid=='listen' else 'listen'
+            for cancel in (False,True):
+                m=initialized();m.vars[VARS['heat']]=heat
+                m.flags.add('RUS_edu_cooldown_'+aid);m.call('RUS_education_refresh')
+                self.assertTrue(m.start(aid),'Old cooldown flags cannot block these controls')
+                self.assertFalse(m.start(other));self.assertFalse(m.start(aid))
+                self.assertEqual(m.vars['RUS_edu_cost_'+aid],20)
+                self.assertEqual(m.vars['RUS_edu_run_duration_'+aid],30)
+                m.end(aid,cancel);m.vars[VARS['heat']]=heat;m.call('RUS_education_refresh')
+                self.assertTrue(m.start(aid))
+                self.assertNotIn('RUS_edu_cooldown_'+aid,m.expiry)
+
+    def test_combined_supplemental_tooltip_matches_live_era_and_repeat_values(self):
+        for a in ACTIVITIES+CONTROLS:
+            decision=DECISIONS['RUS_education_'+a['id']]
+            text=decision.one('complete_effect').raw()
+            self.assertEqual(text.count('add_dynamic_modifier ='),1)
+            self.assertIn(extra_preview(a),text)
+            for era,repeat in product((False,True),repeat=2):
+                m=unlock_all(initialized());m.vars[VARS['heat']]=80 if a['id']=='restore_order' else 32
+                m.vars['RUS_edu_category']=a.get('category',4)
+                if era:m.flags.add('RUS_edu_era')
+                repeating=repeat and a['kind']!='control'
+                if repeating:m.flags.update({'RUS_edu_central','RUS_edu_completed_'+a['id']})
+                m.call('RUS_education_refresh')
+                expected={}
+                for modifier,value in a['modifiers'].items():
+                    benefit=value<0 if modifier in LOWER_IS_BETTER else value>0
+                    expected[modifier]=(value*.5 if repeating else 0)+(value*(1.5 if repeating else 1) if era and benefit else 0)
+                    self.assertAlmostEqual(m.vars[extra_value(a,modifier)],expected[modifier])
+                self.assertTrue(m.start(a['id']))
+                self.assertFalse(any('_preview' in key for key in m.dynamic))
+                for modifier,value in expected.items():self.assertAlmostEqual(m.vars[extra_value(a,modifier)],value)
+
+    def test_kalinin_adds_sixth_slot_and_one_duplicate_without_cancelling_on_dismissal(self):
+        scripted=load(ROOT/SGUI)[0].v[0]
+        for culture,era in product((False,True),repeat=2):
+            m=initialized()
+            if culture:m.flags.add('RUS_edu_culture_open')
+            if era:m.flags.add('RUS_edu_era')
+            m.ideas.add('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
+            self.assertEqual(m.vars['RUS_edu_slots'],3+int(culture)+2*int(era))
+        m=unlock_all(initialized());m.flags.add('RUS_edu_era');m.ideas.add('RUS_mikhail_kalinin_advisor')
+        m.vars[VARS['basic']]=60;m.call('RUS_education_refresh')
+        chosen=[next(a for a in ACTIVITIES if a['kind']==kind) for kind in ('basic','higher','technical','culture','military')]
+        chosen.append(next(a for a in ACTIVITIES if a['kind']=='basic' and a!=chosen[0]))
+        for a in chosen:
+            m.vars['RUS_edu_category']=a['category'];m.call('RUS_education_refresh');self.assertTrue(m.start(a['id']))
+        self.assertEqual(m.vars['RUS_edu_active_count'],6);self.assertEqual(m.vars['RUS_edu_duplicate_count'],1)
+        self.assertNotEqual(m.vars['RUS_edu_slot_6'],0)
+        # Force all six onto one view to exercise the backend's second-page record,
+        # independently of current content's cross-category distribution.
+        m.vars['RUS_edu_category']=4;m.call('RUS_education_refresh')
+        # Directly seed display records through actual active flags in one category.
+        same=[a for a in ACTIVITIES if a['category']==4][:6]
+        display=unlock_all(initialized());display.flags.add('RUS_edu_era');display.ideas.add('RUS_mikhail_kalinin_advisor')
+        for a in same:
+            display.flags.add(active(a));display.vars[remain(a)]=40;display.vars[run_duration(a)]=90
+        display.vars['RUS_edu_category']=4;display.vars['RUS_edu_board_page']=2;display.call('RUS_education_refresh')
+        self.assertEqual(display.vars['RUS_edu_catalog_running_count'],6)
+        self.assertEqual(display.vars['RUS_edu_catalog_3_activity'],ACTIVITIES.index(same[-1])+3)
+        self.assertTrue(display.check(scripted.one('triggers').one('poster_3_visible')))
+        display.ideas.discard('RUS_mikhail_kalinin_advisor');display.call('RUS_education_refresh')
+        self.assertEqual(display.vars['RUS_edu_catalog_3_activity'],ACTIVITIES.index(same[-1])+3)
+        self.assertTrue(display.check(scripted.one('triggers').one('poster_3_visible')))
+        m.ideas.discard('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
+        self.assertEqual(m.vars['RUS_edu_slots'],5);self.assertEqual(m.vars['RUS_edu_active_count'],6)
+        self.assertTrue(all(active(a) in m.flags for a in chosen));self.assertNotEqual(m.vars['RUS_edu_slot_6'],0)
+        m.end(chosen[0]['id'],True)
+        self.assertIn('RUS_edu_busy_basic',m.flags);self.assertEqual(m.vars['RUS_edu_kind_count_basic'],1)
+        m.end(chosen[1]['id'],True)
+        third=next(a for a in ACTIVITIES if a['kind']=='basic' and a not in chosen)
+        m.vars['RUS_edu_category']=third['category'];m.call('RUS_education_refresh');self.assertFalse(m.start(third['id']))
+        m.ideas.add('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh');self.assertTrue(m.start(third['id']))
+        fourth=next(a for a in ACTIVITIES if a['kind']=='basic' and a not in chosen and a!=third)
+        m.vars['RUS_edu_category']=fourth['category'];m.call('RUS_education_refresh');self.assertFalse(m.start(fourth['id']))
+        # A free sixth slot cannot permit a second duplicated kind.
+        other=next(a for a in ACTIVITIES if a['kind']=='technical' and a not in chosen)
+        m.vars['RUS_edu_category']=other['category'];m.call('RUS_education_refresh');self.assertFalse(m.start(other['id']))
     def test_daily_decay_no_education_decay(self):
         m=initialized();m.advance(30)
         self.assertAlmostEqual(m.vars[VARS['heat']],29)

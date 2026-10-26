@@ -25,7 +25,8 @@ HEAT_ECONOMIC_MODIFIERS = {'production_factory_start_efficiency_factor','product
 HEAT_WEEKLY_STABILITY_THRESHOLD = 75
 HEAT_WEEKLY_STABILITY_MAX_LOSS = .01
 EDUCATION_GAIN_CAPS = {'basic':4, 'higher':2}
-HEAT_QUALITY_CURVATURE = 4
+HEAT_QUALITY_CURVATURE = 4  # Existing political/stability pressure curve only.
+HEAT_QUALITY_WINDOW = (50,60)
 HEAT_STABILITY_PRESSURE = .08
 HEAT_POLITICAL_PRESSURE = .15
 # id, slogan, category, duration, PP, total base/higher gain, enthusiasm per 30 days, poster code, temporary modifiers
@@ -184,7 +185,7 @@ def education_focuses():
         'hidden_effect = { RUS_education_start_mass_campaign = yes }']
     result['233']['reward'].append('add_research_slot = 1')
     result['233']['available'] += gate(12,0,0)
-    result['234']['available'] += gate(20,0,0)
+    result['234']['available'] += gate(40,0,0)
     result['234']['reward'] += ['custom_effect_tooltip = RUS_edu_era_cost_tt','custom_effect_tooltip = RUS_edu_era_slots_tt','custom_effect_tooltip = RUS_edu_era_positive_tt',
         'hidden_effect = { set_country_flag = RUS_edu_era RUS_education_refresh = yes }']
     return result
