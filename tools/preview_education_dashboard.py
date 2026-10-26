@@ -10,7 +10,7 @@ from hoi4_bitmap_fonts import measure,render,font_data,plain
 from generate_education_reform import ROOT,GUI,GFX,SGUI,VARS
 from test_education_reform import initialized,unlock_all
 
-COLOURS={'C':'#72c7de','Y':'#e4bf61','O':'#de7852','G':'#86bd87','R':'#ff3232','b':'#000000','!':'#e3dfcf'}
+COLOURS={'C':'#72c7de','Y':'#e4bf61','O':'#de7852','G':'#86bd87','R':'#ff3232','b':'#000000','W':'#ffffff','!':'#e3dfcf'}
 GAME=ROOT.parents[3]/'common/Hearts of Iron IV'
 
 def inline_image(token):

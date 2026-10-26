@@ -466,22 +466,23 @@ def gui_outputs():
         'else = { '+setv('RUS_edu_board_page',1)+' }','RUS_education_refresh = yes']),'}']).strip())
     for i,x in enumerate((6,168,330),1):
         icon(f'poster_{i}','GFX_RUS_education_posters',x,334,'RUS_edu_slot_'+str(i)+'_tooltip')
-        icon(f'activity_progress_{i}','GFX_RUS_edu_activity_bar',x+21,547)
-        text(f'activity_name_{i}','RUS_edu_slot_'+str(i)+'_name',x+1,574,158,h=36)
-        text(f'activity_days_{i}','RUS_edu_slot_'+str(i)+'_text',x+1,612,158,h=22)
-        triggers += [f'activity_progress_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}',
-                     f'activity_days_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}']
+        text(f'activity_name_{i}','RUS_edu_slot_'+str(i)+'_name',x+1,550,158,h=36)
+        text(f'activity_days_{i}','RUS_edu_slot_'+str(i)+'_text',x+1,588,158,h=22)
+        triggers += [f'activity_days_{i}_visible = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} }}']
         if i==3:triggers += ['poster_3_visible = { check_variable = { RUS_edu_board_page < 2 } }',
                             'activity_name_3_visible = { check_variable = { RUS_edu_board_page < 2 } }']
-        props += [f'poster_{i} = {{ image = "[RUSEducationPosterAge{i}]" frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
-    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 4 y = 0 }','size = { width = 498 height = 660 }']+ui)+'}\n'
+        props += [f'poster_{i} = {{ image = "[RUSEducationPosterAge{i}]" frame = RUS_edu_catalog_{i}_frame }}']
+    # The 502px slot spacing is narrower than its 510px native category face.
+    # Runtime screenshot: x4 overlaps the left border; shift the group 6px.
+    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 10 y = 0 }','size = { width = 498 height = 636 }']+ui)+'}\n'
     sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip(),block('effects',click_effects).strip()])+'}\n'
     sprites=[]
-    for kind in ('basic','higher','heat','activity'):
-        sprites.append(block('spriteType',[f'name = "GFX_RUS_edu_{kind}_bar"',f'texturefile = "{ART.as_posix()}/{kind}_bar.dds"','noOfFrames = 101']))
-    sprites.append(block('spriteType',['name = "GFX_RUS_education_posters"',f'texturefile = "{ART.as_posix()}/posters.dds"',f'noOfFrames = {len(ACTIVITIES)+2}']))
-    for stage in range(1,4):
-        sprites.append(block('spriteType',[f'name = "GFX_RUS_education_posters_aged_{stage}"',f'texturefile = "{ART.as_posix()}/posters_aged_{stage}.dds"',f'noOfFrames = {len(ACTIVITIES)+2}']))
+    for kind in ('basic','higher','heat'):
+        path=ART/(kind+'_bar.dds')
+        sprites.append(block('spriteType',[f'name = "GFX_RUS_edu_{kind}_bar"',f'texturefile = "{path.as_posix()}"','noOfFrames = 101']))
+    from education_poster_individual_art import WEAR_SPRITES
+    for level,sprite in enumerate(WEAR_SPRITES):
+        sprites.append(block('spriteType',[f'name = "{sprite}"',f'texturefile = "{WORKBENCH.as_posix()}/posters_posted_{level}.png"',f'noOfFrames = {len(ACTIVITIES)+2}']))
     sprites.append(block('spriteType',['name = "GFX_RUS_education_noticeboard"','texturefile = "gfx/interface/propaganda/propaganda_bg.dds"','legacy_lazy_load = no']))
     for name in ('metric_panel','metric_name_panel','metric_value_panel'):
         path=WORKBENCH/'metric_plate.png' if name=='metric_panel' else ART/(name+'.dds')
@@ -503,7 +504,7 @@ def localisations():
       'RUS_education_reform_category_desc':'[RUSEducationIntroduction]',
       'RUS_edu_intro_full':introduction,
       'RUS_edu_intro_empty':'',
-      'RUS_edu_intro_toggle':'§b[RUSEducationIntroToggle]§!',
+      'RUS_edu_intro_toggle':'§W[RUSEducationIntroToggle]§!',
       'RUS_edu_intro_tooltip':'[RUSEducationIntroToggle]\\n左键：展开或收起教育纲领。',
       'RUS_edu_intro_expand':'展开介绍',
       'RUS_edu_intro_collapse':'收起介绍',
@@ -606,7 +607,7 @@ def localisations():
     from education_workbench_art import spec as workbench_spec
     for row in workbench_spec()['categories']:
         category=row['id'];name=POSTER_CATEGORIES[category][0]
-        l[f'RUS_edu_category_icon_{category}']='§b'+row['label']+'§!'
+        l[f'RUS_edu_category_icon_{category}']='§W'+row['label']+'§!'
         l[f'RUS_edu_category_{category}_tooltip']=name+'\\n左键：切换至本类在办海报。'
     l['RUS_edu_board_next_tooltip']=l['RUS_edu_board_next']+'\\n左键：翻阅本类在办海报。'
     for name,b,h,t in [('new_culture_popularisation',2,0,3),('new_culture_elite_art',0,2,-2),('revolutionary_realism',1,1,1),('revolutionary_romanticism',0,3,2)]:
@@ -631,6 +632,7 @@ def localisations():
     return outputs
 
 def scripted_loc():
+    from education_poster_individual_art import WEAR_SPRITES
     chunks=[]
     for helper,opened,closed in [('RUSEducationIntroduction','RUS_edu_intro_full','RUS_edu_intro_empty'),
                                  ('RUSEducationIntroToggle','RUS_edu_intro_collapse','RUS_edu_intro_expand')]:
@@ -647,8 +649,8 @@ def scripted_loc():
         f'text = {{ trigger = {{ check_variable = {{ RUS_edu_category = {category} }} }} localization_key = RUS_edu_category_{category} }}' for category in POSTER_CATEGORIES]))
     for i in range(1,4):
         chunks.append(block('defined_text',[f'name = RUSEducationPosterAge{i}']+[
-            f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} check_variable = {{ RUS_edu_catalog_{i}_age >= {stage*25} }} }} localization_key = GFX_RUS_education_posters_aged_{stage} }}'
-            for stage in (3,2,1)]+['text = { localization_key = GFX_RUS_education_posters }']))
+            f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} check_variable = {{ RUS_edu_catalog_{i}_age >= {level*12.5:g} }} }} localization_key = {WEAR_SPRITES[level]} }}'
+            for level in range(6,0,-1)]+['text = { localization_key = GFX_RUS_education_posters }']))
         body=[f'name = RUSEducationSlot{i}',f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_frame = 1 }} }} localization_key = RUS_edu_locked }}']
         for code,a in enumerate(ACTIVITIES,3): body.append(f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_activity = {code} }} }} localization_key = RUS_edu_activity_{a["id"]} }}')
         body+=['text = { localization_key = RUS_edu_empty }']; chunks.append(block('defined_text',body))

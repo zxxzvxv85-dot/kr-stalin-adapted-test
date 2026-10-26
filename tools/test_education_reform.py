@@ -208,9 +208,10 @@ class EducationTests(unittest.TestCase):
             total=m.vars[run_duration(a)]
             # Each boundary uses the unrounded progress, including short
             # campaigns whose quarter does not fall on a whole day.
-            for pct,stage in ((0,0),(24.99,0),(25,1),(49.99,1),(50,2),(74.99,2),(75,3),(99,3)):
+            from education_poster_individual_art import WEAR_SPRITES
+            for pct,level in ((0,0),(12.49,0),(12.5,1),(24.99,1),(25,2),(37.49,2),(37.5,3),(49.99,3),(50,4),(62.49,4),(62.5,5),(74.99,5),(75,6),(99,6)):
                 m.vars[remain(a)]=total*(1-pct/100);m.call('RUS_education_refresh')
-                expected='GFX_RUS_education_posters'+(f'_aged_{stage}' if stage else '')
+                expected=WEAR_SPRITES[level]
                 self.assertEqual(sprite(m),expected,(a['id'],pct))
             # Changing category neither restarts wear nor posts an idle image.
             m.vars['RUS_edu_category']=a['category']%6+1;m.call('RUS_education_refresh')
@@ -225,7 +226,7 @@ class EducationTests(unittest.TestCase):
         for a,pct in zip((a for a in ACTIVITIES if a['id'] in ('literacy','university','reading')),(10,40,80)):
             m.vars[remain(a)]=m.vars[run_duration(a)]*(1-pct/100)
         m.call('RUS_education_refresh')
-        self.assertEqual([sprite(m,i) for i in range(1,4)],['GFX_RUS_education_posters','GFX_RUS_education_posters_aged_1','GFX_RUS_education_posters_aged_3'])
+        self.assertEqual([sprite(m,i) for i in range(1,4)],['GFX_RUS_education_posters','GFX_RUS_education_posters_wear_37','GFX_RUS_education_posters_aged_3'])
 
     def test_aged_poster_atlases_preserve_frames_placeholders_and_accumulate_paper_damage(self):
         import numpy as np
@@ -656,7 +657,7 @@ class EducationTests(unittest.TestCase):
                 if m.check(DECISIONS['RUS_education_'+a['id']].one('visible')):
                     self.assertEqual(a['category'],category)
         m.run(clicks.one('edu_category_4_click').v)
-        self.assertTrue(m.check(rules.one('activity_progress_1_visible')))
+        self.assertTrue(m.check(rules.one('activity_days_1_visible')))
         self.assertEqual(m.vars['RUS_edu_catalog_1_days'],83)
         self.assertEqual(before,{k:m.vars[k] for k in before});self.assertEqual(flags,m.flags)
         m.run(clicks.one('edu_category_3_click').v)
@@ -879,7 +880,9 @@ class EducationTests(unittest.TestCase):
         window=load(ROOT/GUI)[0].v[0]
         native=(ROOT.parents[3]/'common/Hearts of Iron IV/interface/countrydecisionview.gui').read_text(encoding='utf-8-sig')
         slot_width=int(re.search(r'name\s*=\s*"decision_grid".*?size\s*=\s*{\s*width\s*=\s*(\d+)',native,re.S)[1])
-        self.assertLessEqual(int(window.one('position').value('x'))+int(window.one('size').value('width')),slot_width)
+        face_width=int(re.search(r'name\s*=\s*"decision_category_desc".*?size\s*=\s*{\s*width\s*=\s*(\d+)',native,re.S)[1])
+        self.assertLessEqual(int(window.one('size').value('width')),slot_width)
+        self.assertLessEqual(int(window.one('position').value('x'))+int(window.one('size').value('width')),face_width)
         sprites={s.value('name').strip('"'):s for root in load(ROOT/GFX) for s in root.v}
         buttons={n.value('name').strip('"'):n for n in window.children('buttonType')}
         expected={'edu_intro_toggle','edu_board_next'}|{f'edu_category_{c}' for c in range(1,7)}
@@ -923,17 +926,17 @@ class EducationTests(unittest.TestCase):
         self.assertLess(names.index('education_noticeboard'),names.index('poster_1'))
         triggers=load(ROOT/SGUI)[0].v[0].one('triggers');m=initialized()
         for i in range(1,4):
-            self.assertFalse(m.check(triggers.one(f'activity_progress_{i}_visible')))
+            self.assertNotIn(f'activity_progress_{i}',names)
             self.assertFalse(m.check(triggers.one(f'activity_days_{i}_visible')))
             self.assertFalse(any(name in names for name in (f'poster_empty_{i}',f'poster_locked_{i}')))
             self.assertTrue(m.check(triggers.one(f'poster_{i}_visible')) if triggers.one(f'poster_{i}_visible') else True)
             self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_frame'],1 if i==3 else 2)
             self.assertEqual(m.vars[f'RUS_edu_catalog_{i}_activity'],0)
-        m.start('literacy');self.assertTrue(m.check(triggers.one('activity_progress_1_visible')))
+        m.start('literacy');self.assertTrue(m.check(triggers.one('activity_days_1_visible')))
         self.assertGreater(m.vars['RUS_edu_catalog_1_frame'],2)
-        m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_progress_1_visible')))
+        m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_days_1_visible')))
         window=load(ROOT/GUI)[0].v[0]
-        self.assertEqual(window.one('position').value('x'),'4')
+        self.assertEqual(window.one('position').value('x'),'10')
         by_name={n.value('name').strip('"'):n for n in controls if n.value('name')}
         for kind in ('basic','higher','heat'):
             panel=by_name[kind+'_panel'];px=int(panel.one('position').value('x'));py=int(panel.one('position').value('y'))
@@ -949,6 +952,43 @@ class EducationTests(unittest.TestCase):
                 self.assertEqual(frame.value('x'),text.value('x'))
                 self.assertGreaterEqual(int(text.value('y')),int(frame.value('y')))
                 self.assertLessEqual(int(text.value('y'))+h,int(frame.value('y'))+(28 if plate=='name_panel' else 22))
+    def test_posted_paper_has_transparent_mount_and_preserves_wear_without_activity_progress(self):
+        from PIL import Image,ImageOps
+        import numpy as np
+        folder=ROOT/'gfx/interface/RUS_education/workbench'
+        from education_poster_individual_art import check_inputs
+        check_inputs()
+        manifest=json.loads((ROOT/'tools/design/education_poster_individual_20261026/manifest.json').read_text(encoding='utf-8'))
+        tops={}
+        for row in manifest['posters']:
+            x0,y0,x1,y1=row['paper_bounds']
+            fitted=ImageOps.contain(Image.new('L',(x1-x0,y1-y0)),(154,199),Image.Resampling.LANCZOS)
+            tops[row['id']]=(205-fitted.height)//2
+        with Image.open(ROOT/ART/'posters.dds') as image:original=np.array(image)
+        previous=None
+        for stage in range(7):
+            with Image.open(folder/f'posters_posted_{stage}.png') as image:posted=np.array(image)
+            self.assertEqual(posted.shape,original.shape)
+            self.assertTrue(np.array_equal(posted[:,:320],original[:,:320]))
+            if previous is not None:self.assertTrue(np.all(posted[:,:,3]<=previous))
+            previous=posted[:,:,3]
+            for index,a in enumerate(ACTIVITIES,2):
+                tile=posted[:,index*160:(index+1)*160]
+                self.assertGreater((tile[:,:,3]==0).sum(),100)
+                self.assertGreater(tile[:,:,3].max(),200)
+                if stage==0:
+                    # Use each edited sheet's actual footprint, including its
+                    # own corners. A landscape has no shared beige mount.
+                    top=tops[a['id']]
+                    if top>5:self.assertFalse(tile[:top-2,:,3].any())
+        window=load(ROOT/GUI)[0].v[0]
+        names=[n.value('name').strip('"') for n in window.v if n.value('name')]
+        for i in range(1,4):
+            self.assertNotIn(f'activity_progress_{i}',names)
+            self.assertIn(f'activity_days_{i}',names)
+        loc=(ROOT/'localisation/simp_chinese/RUS_education_dashboard_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
+        for key in ['RUS_edu_intro_toggle']+[f'RUS_edu_category_icon_{i}' for i in range(1,7)]:
+            self.assertRegex(loc,rf'{key}:0 "§W')
     def test_education_texticons_transparent_distinct_cool_warm_palettes(self):
         from PIL import Image
         sprites={x.value('name').strip('"'):x for root in load(ROOT/GFX) for x in root.v}

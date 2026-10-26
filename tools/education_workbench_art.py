@@ -22,6 +22,12 @@ def check_assets():
     for entry in manifest['outputs']:
         path=ROOT/entry['path']
         assert hashlib.sha256(path.read_bytes()).hexdigest()==entry['sha256'],path
+    from education_poster_individual_art import check_inputs
+    check_inputs()
+    for entry in data.get('derivative_inputs',[]):
+        base=ROOT if entry['root']=='mod' else ROOT.parents[3]/'common/Hearts of Iron IV'
+        path=base/entry['path']
+        assert hashlib.sha256(path.read_bytes()).hexdigest()==entry['sha256'],path
 
 
 def render():
@@ -55,11 +61,12 @@ def render():
         out.alpha_composite(dark,(6,6));return out
     paper_source=images['clipboard'].crop((9,35,491,456))
     def paper(size):return nine(paper_source,size,(6,6,6,6))
-    def paper_button(subject,size,box,top=5):
+    def paper_button(subject,size,box,top=5,caption=False):
         out=Image.new('RGBA',size)
         sheet=paper((size[0]-8,size[1]-6))
         paste(out,sheet,(4,3))
         icon=fit(subject,box);paste(out,icon,((size[0]-icon.width)//2,top))
+        if caption:out.alpha_composite(images['dark_panel'].resize((size[0]-6,22),Image.Resampling.LANCZOS),(3,size[1]-25))
         return out
     out={}
     # Anchor the untouched native board at y334, then reflect its grain above
@@ -79,8 +86,8 @@ def render():
         subject=images[row['object']]
         if row['id']==6:
             subject=subject.copy();star=fit(images['star'],(36,36));subject.alpha_composite(star,((subject.width-star.width)//2,(subject.height-star.height)//2))
-        out['category_'+str(row['id'])]=paper_button(subject,(72,84),(52,49),7)
-    out['intro']=paper_button(images['documents'],(72,68),(44,42),1)
+        out['category_'+str(row['id'])]=paper_button(subject,(72,84),(52,49),7,True)
+    out['intro']=paper_button(images['documents'],(72,68),(44,42),1,True)
     page=paper_button(images['documents'],(44,44),(26,29),2)
     glass=fit(images['magnifier'],(34,25));paste(page,glass,(9,16));out['page']=page
     selected=nine(images['paper_frame'],(80,92),(9,9,9,9))
@@ -99,7 +106,13 @@ def render():
         paste(pocket,mark,((160-mark.width)//2,(205-mark.height)//2),False)
         pockets.alpha_composite(pocket,(frame*160,0))
     out['pockets']=pockets
+    out.update(posted_posters())
     return out
+
+
+def posted_posters():
+    from education_poster_individual_art import render_atlases
+    return render_atlases()
 
 
 def main():
@@ -109,7 +122,7 @@ def main():
         for name,image in render().items():
             path=ROOT/ART/(name+'.png');path.parent.mkdir(parents=True,exist_ok=True);image.save(path,optimize=True)
             outputs.append({'path':path.relative_to(ROOT).as_posix(),'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'size':list(image.size)})
-        (ROOT/DESIGN/'manifest.json').write_text(json.dumps({'tool':'deterministic Pillow packaging; no image generation','outputs':outputs},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        (ROOT/DESIGN/'manifest.json').write_text(json.dumps({'tool':'deterministic packaging; poster sources individually edited with built-in image_gen','outputs':outputs},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     check_assets();print('PASS: education workbench source/archive and packaged art hashes.')
 
 
