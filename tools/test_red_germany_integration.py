@@ -110,6 +110,7 @@ def condition(nodes, w, tag, source=None):
             return c['leader'] == n.value('name')
         if k == 'has_country_flag': return v in c['flags']
         if k == 'has_war': return c['war'] == (v == 'yes')
+        if k == 'is_government_in_exile': return bool(c.get('exile_host')) == (v == 'yes')
         if k == 'is_ai': return c['ai'] == (v == 'yes')
         if k == 'is_subject': return bool(c['overlord']) == (v == 'yes')
         if k == 'has_political_power': return cmp(c['pp'], n.op, float(v))

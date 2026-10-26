@@ -1,0 +1,91 @@
+# Country scope: the Russian host. KR's landless CHI exile at game start uses
+# become_exiled_in directly; do not release/transfer any German or Russian land.
+RUS_future_foreign_establish_german_exile = {
+	if = {
+		limit = {
+			hidden_trigger = {
+				original_tag = RUS
+				has_socialist_government = yes
+				NOT = { has_capitulated = yes }
+				NOT = { country_exists = GRU }
+				GRU = {
+					NOT = { is_government_in_exile = yes }
+					NOT = { has_country_flag = GRU_socialist_exile_created }
+					NOT = {
+						any_country_with_original_tag = {
+							OR = {
+								exists = yes
+								is_government_in_exile = yes
+								has_country_flag = GRU_red_germany_established
+							}
+						}
+					}
+				}
+			}
+		}
+		effect_tooltip = {
+			GRU = {
+				set_politics = { ruling_party = communist elections_allowed = no }
+				become_exiled_in = { target = PREV legitimacy = 25 }
+			}
+		}
+		hidden_effect = {
+			# Match KR's generate_new_german_puppet homeland setup. Cores give
+			# the landless government a homeland; ownership/control stay intact.
+			every_state = {
+				limit = { is_germany = yes }
+				add_core_of = GRU
+			}
+			GRU = {
+				set_country_flag = GRU_socialist_exile_created
+				set_cosmetic_tag = GRU_red_germany
+				set_politics = { ruling_party = communist elections_allowed = no }
+				set_party_name = {
+					ideology = communist
+					name = GRU_red_communist_party
+					long_name = GRU_red_communist_party_long
+				}
+				set_popularities = {
+					communist = 55
+					radical_socialist = 0
+					syndicalist = 15
+					totalist = 10
+					social_democrat = 10
+					social_liberal = 3
+					social_conservative = 2
+					authoritarian_democrat = 2
+					paternal_autocrat = 1
+					market_liberal = 1
+					national_populist = 1
+				}
+				# Use KR's German socialist civilian leader when available. Do not
+				# remove Blyukher or another Russian commander to staff the exile.
+				if = {
+					limit = {
+						GER = {
+							has_character = GER_willi_munzenberg
+							GER_willi_munzenberg = { is_dead = no }
+							NOT = { has_country_leader = { character = GER_willi_munzenberg ruling_only = yes } }
+						}
+					}
+					GER_willi_munzenberg = {
+						set_nationality = PREV
+						add_country_leader_role = {
+							promote_leader = yes
+							country_leader = { ideology = marxism_leninism_subtype desc = GER_willi_munzenberg_leader_desc }
+						}
+					}
+				}
+				else = {
+					create_country_leader = {
+						name = RUS_german_exile_council
+						ideology = marxism_leninism_subtype
+						picture = GFX_portrait_unknown
+					}
+				}
+				set_government_flags = yes
+				become_exiled_in = { target = PREV legitimacy = 25 }
+			}
+		}
+	}
+}
