@@ -96,11 +96,12 @@ def preview_category(m,dest):
     """
     import json
     path=ROOT/'localisation/replace/RUS_education_dashboard_l_simp_chinese.yml'
-    loc={k:json.loads(v) for k,v in re.findall(r'^ ([\w.]+):0 (".*")$',path.read_text(encoding='utf-8-sig'),re.M)}
-    font='hoi_16mbs';lines=wrap(loc['RUS_education_reform_category_desc'],font,470)
+    loc=localisation()|{k:json.loads(v) for k,v in re.findall(r'^ ([\w.]+):0 (".*")$',path.read_text(encoding='utf-8-sig'),re.M)}
+    font='hoi_16mbs';description=resolve(loc['RUS_education_reform_category_desc'],m,loc)
+    lines=wrap(description,font,470) if description else []
     line_height=max(f['height'] for f in font_data(font))
     dashboard=Image.open(preview(m,dest.with_name(dest.stem+'_GUI.png'))).convert('RGBA')
-    offset=58+6+len(lines)*line_height+12
+    offset=58+(6+len(lines)*line_height+12 if lines else 8)
     im=Image.new('RGBA',(520,offset+dashboard.height+8),'#222b27')
     d=ImageDraw.Draw(im);d.rectangle((1,1,518,im.height-2),outline='#a39464')
     title=loc['RUS_education_reform_category']
@@ -121,6 +122,8 @@ def preview_category(m,dest):
 def main():
     m=initialized();paths=[preview(m,ROOT/'output/education_system/教育面板_初始.png')]
     paths.append(preview_category(m,ROOT/'output/education_system/教育分类_介绍与面板.png'))
+    opened=initialized();opened.flags.add('RUS_edu_intro_open')
+    paths.append(preview_category(opened,ROOT/'output/education_system/教育分类_展开介绍.png'))
     assert m.start('literacy');paths.append(preview(m,ROOT/'output/education_system/教育面板_单项活动.png'))
     m=initialized()
     m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'});m.vars.update({VARS['basic']:47.39,VARS['higher']:18.67,VARS['heat']:68.37,'RUS_education_completed_activities':6});m.call('RUS_education_refresh')

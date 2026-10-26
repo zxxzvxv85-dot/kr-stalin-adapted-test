@@ -609,6 +609,36 @@ class EducationTests(unittest.TestCase):
         self.assertEqual(primary.value('stability_weekly'),bv('stability_weekly'))
         m.vars[VARS['heat']]=80;m.advance(1);self.assertEqual(m.vars['RUS_education_overheat_days'],1)
         m.vars[VARS['heat']]=75;m.advance(1);self.assertEqual(m.vars['RUS_education_overheat_days'],0)
+    def test_collapsible_introduction_preserves_running_activities(self):
+        script=load(ROOT/SGUI)[0].v[0];click=script.one('effects').one('edu_intro_toggle_click')
+        definitions={n.value('name'):n for n in load(ROOT/'common/scripted_localisation/RUS_education_dashboard.txt')}
+        loc={}
+        for folder in ('simp_chinese','replace'):
+            p=ROOT/f'localisation/{folder}/RUS_education_dashboard_l_simp_chinese.yml'
+            loc.update({k:json.loads(v) for k,v in re.findall(r'^ ([\w.]+):0 (.+)$',p.read_text(encoding='utf-8-sig'),re.M)})
+        def label(name,m):
+            text=next(n for n in definitions[name].children('text') if not n.one('trigger') or m.check(n.one('trigger')))
+            return loc[text.value('localization_key')]
+        m=initialized();self.assertTrue(m.start('literacy'));m.advance(7)
+        self.assertEqual(label('RUSEducationIntroduction',m),'')
+        self.assertEqual(label('RUSEducationIntroToggle',m),'展开介绍')
+        before=dict(m.vars);flags=set(m.flags)
+        m.run(click.v)
+        self.assertEqual(m.vars,before);self.assertEqual(m.flags,flags|{'RUS_edu_intro_open'})
+        source=json.loads((ROOT/'tools/design/RUS_education_intro_20261025.json').read_text(encoding='utf-8'))
+        full='\n\n'.join(source['paragraphs']+['§R'+source['slogan']+'§!'])
+        self.assertEqual(label('RUSEducationIntroduction',m),full)
+        self.assertEqual(label('RUSEducationIntroToggle',m),'收起介绍')
+        m.run(script.one('effects').one('edu_category_2_click').v)
+        self.assertIn('RUS_edu_intro_open',m.flags)
+        before=dict(m.vars);flags=set(m.flags)
+        m.run(click.v)
+        self.assertEqual(m.vars,before);self.assertEqual(m.flags,flags-{'RUS_edu_intro_open'})
+        self.assertEqual(label('RUSEducationIntroduction',m),'')
+        self.assertEqual(label('RUSEducationIntroToggle',m),'展开介绍')
+        self.assertIn(active(next(a for a in ACTIVITIES if a['id']=='literacy')),m.flags)
+        inactive=EducationModel();before=dict(inactive.vars);flags=set(inactive.flags);inactive.run(click.v)
+        self.assertEqual(inactive.vars,before);self.assertEqual(inactive.flags,flags)
     def test_category_filters_and_switching_preserve_running_activities(self):
         m=initialized();self.assertTrue(m.start('literacy'));m.advance(7)
         script=load(ROOT/SGUI)[0].v[0];clicks=script.one('effects');rules=script.one('triggers')

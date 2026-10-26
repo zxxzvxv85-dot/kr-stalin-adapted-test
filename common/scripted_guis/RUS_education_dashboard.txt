@@ -25,6 +25,15 @@ RUS_education_dashboard = {
 	activity_days_3_visible = { check_variable = { RUS_edu_catalog_3_running = 1 } }
 }
 	effects = {
+	edu_intro_toggle_click = {
+	hidden_effect = {
+	if = {
+		limit = { has_country_flag = RUS_education_system_active }
+		if = { limit = { has_country_flag = RUS_edu_intro_open } clr_country_flag = RUS_edu_intro_open }
+		else = { set_country_flag = RUS_edu_intro_open }
+	}
+	}
+}
 	edu_category_1_click = {
 	hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } set_variable = { RUS_edu_category = 1 } set_variable = { RUS_edu_board_page = 1 } RUS_education_refresh = yes } }
 }

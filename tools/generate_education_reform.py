@@ -424,14 +424,15 @@ def gui_outputs():
     # Remove the duplicate 26px title band, preserving relative control geometry.
     # The noticeboard keeps its 6px inset from the category's left border.
     panel_shift=26
+    intro_control_height=36
     board_offset=6
     canvas_width=498+board_offset
-    ui=[]
+    ui=['buttonType = { name = "edu_intro_toggle" position = { x = 186 y = 4 } quadTextureSprite = "GFX_button_123x34" buttonText = "RUS_edu_intro_toggle" buttonFont = "hoi_16mbs" clicksound = click_default }']
     def text(name,key,x,y,w,font='hoi_16mbs',tip=None):
-        y-=panel_shift
+        y+=intro_control_height-panel_shift
         ui.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} font = "{font}" text = "{key}" maxWidth = {w} maxHeight = 42 format = center'+(f' pdx_tooltip = {tip}' if tip else '')+' }')
     def icon(name,sprite,x,y,tip=None):
-        y-=panel_shift
+        y+=intro_control_height-panel_shift
         ui.append(f'iconType = {{ name = "{name}" spriteType = "{sprite}" position = {{ x = {x} y = {y} }}'+(f' pdx_tooltip = {tip}' if tip else '')+' }')
     for x,kind in zip((6,168,330),('basic','higher','heat')):
         icon(kind+'_panel','GFX_RUS_education_metric_panel',x,30)
@@ -443,7 +444,7 @@ def gui_outputs():
     text('edu_rates','RUS_edu_rates',6,118,484)
     text('edu_gates','RUS_edu_gates',6,143,484,tip='RUS_edu_gates_tooltip')
     def button(name,key,x,y):
-        y-=panel_shift
+        y+=intro_control_height-panel_shift
         ui.append(f'buttonType = {{ name = "{name}" position = {{ x = {x} y = {y} }} quadTextureSprite = "GFX_button_123x34" buttonText = "{key}" buttonFont = "hoi_16mbs" clicksound = click_default }}')
     for category in POSTER_CATEGORIES:
         button(f'edu_category_{category}',f'RUS_edu_category_{category}',24+162*((category-1)%3),168+36*((category-1)//3))
@@ -456,7 +457,10 @@ def gui_outputs():
     triggers=['edu_board_next_visible = { check_variable = { RUS_edu_catalog_running_count > 3 } }',
               'poster_3_visible = { check_variable = { RUS_edu_board_page < 2 } }',
               'activity_name_3_visible = { check_variable = { RUS_edu_board_page < 2 } }']
-    click_effects=[]
+    click_effects=[block('edu_intro_toggle_click',[
+        'hidden_effect = {',*cond(guard,[
+            'if = { limit = { has_country_flag = RUS_edu_intro_open } clr_country_flag = RUS_edu_intro_open }',
+            'else = { set_country_flag = RUS_edu_intro_open }']),'}']).strip()]
     for category in POSTER_CATEGORIES:
         click_effects.append(block(f'edu_category_{category}_click',['hidden_effect = { '+f'if = {{ limit = {{ {guard} }} '+setv('RUS_edu_category',category)+' '+setv('RUS_edu_board_page',1)+' RUS_education_refresh = yes } }']).strip())
     click_effects.append(block('edu_board_next_click',['hidden_effect = {',*cond(guard+' check_variable = { RUS_edu_catalog_running_count > 3 }',[
@@ -473,7 +477,7 @@ def gui_outputs():
         props += [f'poster_{i} = {{ image = "[RUSEducationPosterAge{i}]" frame = RUS_edu_catalog_{i}_frame }}',f'activity_progress_{i} = {{ frame = RUS_edu_catalog_{i}_progress }}']
     # The category's custom-GUI anchor precedes its inner border in the user's
     # runtime screenshot. Correct the entire canvas, keeping the board and cards aligned.
-    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }',f'size = {{ width = {canvas_width} height = {601-panel_shift} }}']+ui)+'}\n'
+    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 8 y = 0 }',f'size = {{ width = {canvas_width} height = {601-panel_shift+intro_control_height} }}']+ui)+'}\n'
     sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip(),block('effects',click_effects).strip()])+'}\n'
     sprites=[]
     for kind in ('basic','higher','heat','activity'):
@@ -493,7 +497,12 @@ def localisations():
     introduction='\n\n'.join(intro['paragraphs']+[f'§{intro["slogan_color"]}{intro["slogan"]}§!'])
     l={
       'RUS_education_reform_category':'教育与文化建设',
-      'RUS_education_reform_category_desc':introduction,
+      'RUS_education_reform_category_desc':'[RUSEducationIntroduction]',
+      'RUS_edu_intro_full':introduction,
+      'RUS_edu_intro_empty':'',
+      'RUS_edu_intro_toggle':'[RUSEducationIntroToggle]',
+      'RUS_edu_intro_expand':'展开介绍',
+      'RUS_edu_intro_collapse':'收起介绍',
       'RUS_education_social_capacity':'教育改革',
       'RUS_education_social_capacity_desc':'',
       'RUS_education_permanent_results':'教育改革',
@@ -613,6 +622,11 @@ def localisations():
 
 def scripted_loc():
     chunks=[]
+    for helper,opened,closed in [('RUSEducationIntroduction','RUS_edu_intro_full','RUS_edu_intro_empty'),
+                                 ('RUSEducationIntroToggle','RUS_edu_intro_collapse','RUS_edu_intro_expand')]:
+        chunks.append(block('defined_text',['name = '+helper,
+            block('text',['trigger = { has_country_flag = RUS_edu_intro_open }','localization_key = '+opened]).strip(),
+            'text = { localization_key = '+closed+' }']))
     choices=[('RUS_edu_gate_done','has_completed_focus = RUS_future_domestic_234'),
              ('RUS_edu_gate_era','has_completed_focus = RUS_future_domestic_233'),
              ('RUS_edu_gate_left','OR = { has_country_flag = RUS_edu_future has_completed_focus = RUS_future_domestic_229 }'),
