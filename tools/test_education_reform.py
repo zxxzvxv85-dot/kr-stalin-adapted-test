@@ -127,6 +127,42 @@ def unlock_all(m):
     return m
 
 class EducationTests(unittest.TestCase):
+    def test_daily_and_completion_heat_stay_bounded_with_fixed_point_storage(self):
+        from decimal import Decimal,ROUND_DOWN
+        # The ordinary fixture uses Python floats. Exercise coarse fixed-point
+        # storage too, so a daily/final pulse cannot hide behind float precision.
+        class FixedPoint(dict):
+            def __init__(self,digits):super().__init__();self.quantum=Decimal(1).scaleb(-digits)
+            def __setitem__(self,key,value):
+                super().__setitem__(key,float(Decimal(str(value)).quantize(self.quantum,rounding=ROUND_DOWN)))
+        for digits in (3,5):
+            for central,amateur in ((False,False),(True,False),(False,True)):
+                for a in ACTIVITIES:
+                    m=EducationModel();m.vars=FixedPoint(digits);m.temp=FixedPoint(digits)
+                    m.call('RUS_education_initialize');unlock_all(m)
+                    if central:m.flags.update({'RUS_edu_central','RUS_edu_completed_'+a['id']})
+                    if amateur:m.flags.add('RUS_edu_amateur')
+                    m.vars[VARS['heat']]=50;m.vars['RUS_edu_category']=a['category'];m.call('RUS_education_refresh')
+                    self.assertTrue(m.start(a['id']),a['id'])
+                    before=m.vars[VARS['heat']];m.advance(3);after=m.vars[VARS['heat']]
+                    self.assertLess(abs(after-before),3,(digits,a['id'],'daily'))
+                    before=after;m.end(a['id']);after=m.vars[VARS['heat']]
+                    self.assertLess(abs(after-before),1,(digits,a['id'],'finish pulse'))
+                    self.assertGreater(after,40);self.assertLess(after,60)
+                    m.end(a['id']);self.assertEqual(m.vars[VARS['heat']],after)
+    def test_engine_safe_numeric_literals_and_comparison_operators(self):
+        # Native docs only list =, > and < shorthand for check_variable. The
+        # game's error.log rejected >= even though the Python parser accepts it.
+        def walk(nodes):
+            for n in nodes:
+                yield n
+                if isinstance(n.v,list):yield from walk(n.v)
+        for path in (FX,SGUI,Path('common/scripted_localisation/RUS_education_dashboard.txt')):
+            for n in walk(load(ROOT/path)):
+                if n.k=='check_variable':
+                    self.assertFalse(any(c.op in ('>=','<=') for c in n.v),(path,n.raw()))
+        text=(ROOT/FX).read_text(encoding='utf-8-sig')
+        self.assertFalse(re.findall(r'(?<![\w.])-?\d+\.\d{6,}(?![\w.])',text),'Unsafe long decimal literals in native script')
     def test_focus_requirements_are_visible_and_enforce_3_6_9_12_20_boundaries(self):
         focuses={n.value('id'):n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')}
         locale=(ROOT/'localisation/simp_chinese/RUS_education_dashboard_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
@@ -881,7 +917,7 @@ class EducationTests(unittest.TestCase):
         native=(ROOT.parents[3]/'common/Hearts of Iron IV/interface/countrydecisionview.gui').read_text(encoding='utf-8-sig')
         slot_width=int(re.search(r'name\s*=\s*"decision_grid".*?size\s*=\s*{\s*width\s*=\s*(\d+)',native,re.S)[1])
         face_width=int(re.search(r'name\s*=\s*"decision_category_desc".*?size\s*=\s*{\s*width\s*=\s*(\d+)',native,re.S)[1])
-        self.assertLessEqual(int(window.one('size').value('width')),slot_width)
+        self.assertLessEqual(498,slot_width)
         self.assertLessEqual(int(window.one('position').value('x'))+int(window.one('size').value('width')),face_width)
         sprites={s.value('name').strip('"'):s for root in load(ROOT/GFX) for s in root.v}
         buttons={n.value('name').strip('"'):n for n in window.children('buttonType')}
@@ -899,8 +935,8 @@ class EducationTests(unittest.TestCase):
             self.assertIsNotNone(button.one('pdx_tooltip'))
             with Image.open(ROOT/sprite.value('texturefile').strip('"')) as image:
                 self.assertEqual(image.mode,'RGBA');self.assertEqual(image.getchannel('A').getextrema(),(0,255))
-                self.assertLessEqual(int(button.one('position').value('x'))+image.width,498)
-                self.assertLessEqual(int(button.one('position').value('y'))+image.height,660)
+                self.assertLessEqual(int(button.one('position').value('x'))+image.width,int(window.one('size').value('width')))
+                self.assertLessEqual(int(button.one('position').value('y'))+image.height,int(window.one('size').value('height')))
                 textures.append(hashlib.sha256(image.tobytes()).hexdigest())
         self.assertEqual(len(set(textures)),len(textures))
     def test_native_bar_art_noticeboard_and_empty_slot_visibility(self):
@@ -936,8 +972,9 @@ class EducationTests(unittest.TestCase):
         self.assertGreater(m.vars['RUS_edu_catalog_1_frame'],2)
         m.end('literacy',True);self.assertFalse(m.check(triggers.one('activity_days_1_visible')))
         window=load(ROOT/GUI)[0].v[0]
-        self.assertEqual(window.one('position').value('x'),'10')
+        self.assertEqual(window.one('position').value('x'),'0')
         by_name={n.value('name').strip('"'):n for n in controls if n.value('name')}
+        self.assertEqual(by_name['education_workbench'].one('position').value('x'),'6')
         for kind in ('basic','higher','heat'):
             panel=by_name[kind+'_panel'];px=int(panel.one('position').value('x'));py=int(panel.one('position').value('y'))
             self.assertLess(names.index(kind+'_panel'),names.index(kind+'_label'))

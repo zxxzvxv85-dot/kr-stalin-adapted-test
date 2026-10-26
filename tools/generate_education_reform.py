@@ -179,7 +179,9 @@ def effects():
                     tick += clamp('RUS_edu_gain',0,'RUS_edu_daily_cap')
                     tick += [add(VARS[kind],'RUS_edu_gain')]
             if a['heat']:
-                tick += [setv('RUS_edu_heat_gain',f'{a["heat"]/30:.12g}')]
+                # Let the engine compute the daily fraction. Long repeating
+                # decimal literals are unsafe in its fixed-point parser.
+                tick += [setv('RUS_edu_heat_gain',a['heat']),op('divide','RUS_edu_heat_gain',30)]
                 if a['heat']>0:
                     tick += mul_if('RUS_edu_heat_gain','RUS_edu_central',1.25)
                     if a['kind']=='culture': tick+=mul_if('RUS_edu_heat_gain','RUS_edu_amateur',.75)
@@ -423,12 +425,18 @@ def modifiers():
 def gui_outputs():
     # A native-size desk: paper objects are real buttons, not painted labels.
     from education_workbench_art import ART as WORKBENCH
+    # decision_category owns the root position. Offset the actual controls;
+    # runtime screenshots showed that changing only root x was ineffective.
+    content_offset=6
     ui=[]
     def text(name,key,x,y,w,font='hoi_16mbs',tip=None,h=42,transparent=False):
+        x+=content_offset
         ui.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} font = "{font}" text = "{key}" maxWidth = {w} maxHeight = {h} format = center'+(f' pdx_tooltip = {tip}' if tip else '')+(' alwaystransparent = yes' if transparent else '')+' }')
     def icon(name,sprite,x,y,tip=None,frame=1):
+        x+=content_offset
         ui.append(f'iconType = {{ name = "{name}" spriteType = "{sprite}" position = {{ x = {x} y = {y} }} frame = {frame}'+(f' pdx_tooltip = {tip}' if tip else ' alwaystransparent = yes')+' }')
     def button(name,sprite,x,y,tip):
+        x+=content_offset
         ui.append(f'buttonType = {{ name = "{name}" position = {{ x = {x} y = {y} }} quadTextureSprite = "{sprite}" pdx_tooltip = {tip} clicksound = click_default }}')
     icon('education_workbench','GFX_RUS_edu_workbench_desk',0,0)
     icon('education_memo','GFX_RUS_edu_workbench_memo',86,8)
@@ -472,9 +480,9 @@ def gui_outputs():
         if i==3:triggers += ['poster_3_visible = { check_variable = { RUS_edu_board_page < 2 } }',
                             'activity_name_3_visible = { check_variable = { RUS_edu_board_page < 2 } }']
         props += [f'poster_{i} = {{ image = "[RUSEducationPosterAge{i}]" frame = RUS_edu_catalog_{i}_frame }}']
-    # The 502px slot spacing is narrower than its 510px native category face.
-    # Runtime screenshot: x4 overlaps the left border; shift the group 6px.
-    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 10 y = 0 }','size = { width = 498 height = 636 }']+ui)+'}\n'
+    # Keep the 498px board unchanged, plus the real 6px control inset. The
+    # resulting 504px root remains within the native 510px category face.
+    gui='guiTypes = {\n'+block('containerWindowType',['name = "RUS_education_dashboard_window"','position = { x = 0 y = 0 }','size = { width = 504 height = 636 }']+ui)+'}\n'
     sgui='scripted_gui = {\n'+block('RUS_education_dashboard',['context_type = decision_category','window_name = "RUS_education_dashboard_window"',block('properties',props).strip(),block('triggers',triggers).strip(),block('effects',click_effects).strip()])+'}\n'
     sprites=[]
     for kind in ('basic','higher','heat'):
@@ -649,7 +657,7 @@ def scripted_loc():
         f'text = {{ trigger = {{ check_variable = {{ RUS_edu_category = {category} }} }} localization_key = RUS_edu_category_{category} }}' for category in POSTER_CATEGORIES]))
     for i in range(1,4):
         chunks.append(block('defined_text',[f'name = RUSEducationPosterAge{i}']+[
-            f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} check_variable = {{ RUS_edu_catalog_{i}_age >= {level*12.5:g} }} }} localization_key = {WEAR_SPRITES[level]} }}'
+            f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_running = 1 }} NOT = {{ check_variable = {{ RUS_edu_catalog_{i}_age < {level*12.5:g} }} }} }} localization_key = {WEAR_SPRITES[level]} }}'
             for level in range(6,0,-1)]+['text = { localization_key = GFX_RUS_education_posters }']))
         body=[f'name = RUSEducationSlot{i}',f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_frame = 1 }} }} localization_key = RUS_edu_locked }}']
         for code,a in enumerate(ACTIVITIES,3): body.append(f'text = {{ trigger = {{ check_variable = {{ RUS_edu_catalog_{i}_activity = {code} }} }} localization_key = RUS_edu_activity_{a["id"]} }}')

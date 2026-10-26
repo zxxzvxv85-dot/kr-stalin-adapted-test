@@ -9256,7 +9256,8 @@ RUS_education_tick_schools = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = -0.0166666666667 }
+		set_variable = { RUS_edu_heat_gain = -0.5 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_repeated_schools }
 			multiply_variable = { RUS_edu_heat_gain = 1.5 }
@@ -9382,7 +9383,8 @@ RUS_education_tick_night_school = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0166666666667 }
+		set_variable = { RUS_edu_heat_gain = 0.5 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -9632,7 +9634,8 @@ RUS_education_tick_university = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0166666666667 }
+		set_variable = { RUS_edu_heat_gain = 0.5 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -9989,7 +9992,8 @@ RUS_education_tick_technical = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10119,7 +10123,8 @@ RUS_education_tick_agriculture = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10249,7 +10254,8 @@ RUS_education_tick_reading = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10370,7 +10376,8 @@ RUS_education_tick_outreach = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10478,7 +10485,8 @@ RUS_education_begin_construction = {
 RUS_education_tick_construction = {
 	if = {
 		limit = { has_country_flag = RUS_edu_running_construction check_variable = { RUS_edu_days_construction > 0 } }
-		set_variable = { RUS_edu_heat_gain = 0.133333333333 }
+		set_variable = { RUS_edu_heat_gain = 4 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10612,7 +10620,8 @@ RUS_education_tick_mentoring = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10743,7 +10752,8 @@ RUS_education_tick_library = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10865,7 +10875,8 @@ RUS_education_tick_defend_leningrad = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.133333333333 }
+		set_variable = { RUS_edu_heat_gain = 4 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -10986,7 +10997,8 @@ RUS_education_tick_defend_moscow = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.133333333333 }
+		set_variable = { RUS_edu_heat_gain = 4 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -11107,7 +11119,8 @@ RUS_education_tick_march_west = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.166666666667 }
+		set_variable = { RUS_edu_heat_gain = 5 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -11224,7 +11237,8 @@ RUS_education_tick_defend_october = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.133333333333 }
+		set_variable = { RUS_edu_heat_gain = 4 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -11354,7 +11368,8 @@ RUS_education_tick_dnieper_water = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -11472,7 +11487,8 @@ RUS_education_tick_await_victory = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -11602,7 +11618,8 @@ RUS_education_tick_advanced_theory = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -11733,7 +11750,8 @@ RUS_education_tick_cultural_enemies = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -11855,7 +11873,8 @@ RUS_education_tick_mothers_literacy = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = -0.0166666666667 }
+		set_variable = { RUS_edu_heat_gain = -0.5 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_repeated_mothers_literacy }
 			multiply_variable = { RUS_edu_heat_gain = 1.5 }
@@ -12102,7 +12121,8 @@ RUS_education_tick_ten_days = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -12236,7 +12256,8 @@ RUS_education_tick_book_fair = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -12358,7 +12379,8 @@ RUS_education_tick_grain_delivery = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -12500,7 +12522,8 @@ RUS_education_tick_end_kitchen_slavery = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -12622,7 +12645,8 @@ RUS_education_tick_soviet_elections = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -12744,7 +12768,8 @@ RUS_education_tick_protect_children = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -12862,7 +12887,8 @@ RUS_education_tick_lenin_banner = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -12996,7 +13022,8 @@ RUS_education_tick_labour_productivity = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -13126,7 +13153,8 @@ RUS_education_tick_socialist_industry = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -13260,7 +13288,8 @@ RUS_education_tick_lenin_electrification = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -13394,7 +13423,8 @@ RUS_education_tick_tractors_nurseries = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -13659,7 +13689,8 @@ RUS_education_tick_complete_collectivisation = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -13790,7 +13821,8 @@ RUS_education_tick_harvest_battle = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -13915,7 +13947,8 @@ RUS_education_tick_vigilance = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -14049,7 +14082,8 @@ RUS_education_tick_production_vices = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = -0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = -1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_repeated_production_vices }
 			multiply_variable = { RUS_edu_heat_gain = 1.5 }
@@ -14162,7 +14196,8 @@ RUS_education_tick_public_property = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -14297,7 +14332,8 @@ RUS_education_tick_false_shock_workers = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = -0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = -1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_repeated_false_shock_workers }
 			multiply_variable = { RUS_edu_heat_gain = 1.5 }
@@ -14410,7 +14446,8 @@ RUS_education_tick_motherland_calls = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -14527,7 +14564,8 @@ RUS_education_tick_volunteer_enlistment = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -14644,7 +14682,8 @@ RUS_education_tick_red_banner_oath = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -14774,7 +14813,8 @@ RUS_education_tick_women_frontline = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0666666666667 }
+		set_variable = { RUS_edu_heat_gain = 2 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -14891,7 +14931,8 @@ RUS_education_tick_people_and_army = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -15008,7 +15049,8 @@ RUS_education_tick_honour_freedom = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_basic_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.1 }
+		set_variable = { RUS_edu_heat_gain = 3 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -15138,7 +15180,8 @@ RUS_education_tick_ukrainian_liberators = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -15276,7 +15319,8 @@ RUS_education_tick_beloved_motherland = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = 0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = 1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central }
 			multiply_variable = { RUS_edu_heat_gain = 1.25 }
@@ -15411,7 +15455,8 @@ RUS_education_tick_long_live_peace = {
 		if = { limit = { check_variable = { RUS_edu_gain < 0 } } set_variable = { RUS_edu_gain = 0 } }
 		if = { limit = { check_variable = { RUS_edu_gain > RUS_edu_daily_cap } } set_variable = { RUS_edu_gain = RUS_edu_daily_cap } }
 		add_to_variable = { RUS_higher_education_level = RUS_edu_gain }
-		set_variable = { RUS_edu_heat_gain = -0.0333333333333 }
+		set_variable = { RUS_edu_heat_gain = -1 }
+		divide_variable = { RUS_edu_heat_gain = 30 }
 		if = {
 			limit = { has_country_flag = RUS_edu_repeated_long_live_peace }
 			multiply_variable = { RUS_edu_heat_gain = 1.5 }
