@@ -486,9 +486,11 @@ def gui_outputs():
     return {GUI:gui,SGUI:sgui,GFX:'spriteTypes = {\n'+''.join(sprites)+'}\n'}
 
 def localisations():
+    intro=json.loads((ROOT/'tools/design/RUS_education_intro_20261025.json').read_text(encoding='utf-8'))
+    introduction='\n\n'.join(intro['paragraphs']+[f'§{intro["slogan_color"]}{intro["slogan"]}§!'])
     l={
       'RUS_education_reform_category':'教育与文化建设',
-      'RUS_education_reform_category_desc':'',
+      'RUS_education_reform_category_desc':introduction,
       'RUS_education_social_capacity':'教育改革',
       'RUS_education_social_capacity_desc':'',
       'RUS_education_permanent_results':'教育改革',

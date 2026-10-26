@@ -10,7 +10,7 @@ from hoi4_bitmap_fonts import measure,render,font_data,plain
 from generate_education_reform import ROOT,GUI,GFX,SGUI,VARS
 from test_education_reform import initialized,unlock_all
 
-COLOURS={'C':'#72c7de','Y':'#e4bf61','O':'#de7852','G':'#86bd87','!':'#e3dfcf'}
+COLOURS={'C':'#72c7de','Y':'#e4bf61','O':'#de7852','G':'#86bd87','R':'#ff3232','!':'#e3dfcf'}
 GAME=ROOT.parents[3]/'common/Hearts of Iron IV'
 
 def inline_image(token):
@@ -88,8 +88,39 @@ def preview(m,dest):
     assert not warnings,warnings
     dest.parent.mkdir(parents=True,exist_ok=True);im.convert('RGB').save(dest);return str(dest)
 
+def preview_category(m,dest):
+    """Include native category heading/description above the unchanged GUI.
+
+    Width/font come from countrydecisionview.gui; vertical flow is a layout
+    proof, not an emulation of the engine's category-height calculation.
+    """
+    import json
+    path=ROOT/'localisation/replace/RUS_education_dashboard_l_simp_chinese.yml'
+    loc={k:json.loads(v) for k,v in re.findall(r'^ ([\w.]+):0 (".*")$',path.read_text(encoding='utf-8-sig'),re.M)}
+    font='hoi_16mbs';lines=wrap(loc['RUS_education_reform_category_desc'],font,470)
+    line_height=max(f['height'] for f in font_data(font))
+    dashboard=Image.open(preview(m,dest.with_name(dest.stem+'_GUI.png'))).convert('RGBA')
+    offset=58+6+len(lines)*line_height+12
+    im=Image.new('RGBA',(520,offset+dashboard.height+8),'#222b27')
+    d=ImageDraw.Draw(im);d.rectangle((1,1,518,im.height-2),outline='#a39464')
+    title=loc['RUS_education_reform_category']
+    render(im,(520-measure('hoi_20b',title))/2,20,title,'hoi_20b',COLOURS['!'])
+    d.line((8,56,512,56),fill='#6f6b50')
+    colour=COLOURS['!']
+    for row,line in enumerate(lines):
+        x=14
+        for chunk in re.split(r'(§.)',line):
+            if chunk.startswith('§'):colour=COLOURS.get(chunk[1],COLOURS['!']);continue
+            render(im,x,64+row*line_height,chunk,font,colour);x+=measure(font,chunk)
+        assert x<=14+470
+    im.alpha_composite(dashboard,(8,offset))
+    im.convert('RGB').save(dest)
+    return str(dest)
+
+
 def main():
     m=initialized();paths=[preview(m,ROOT/'output/education_system/教育面板_初始.png')]
+    paths.append(preview_category(m,ROOT/'output/education_system/教育分类_介绍与面板.png'))
     assert m.start('literacy');paths.append(preview(m,ROOT/'output/education_system/教育面板_单项活动.png'))
     m=initialized()
     m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open'});m.vars.update({VARS['basic']:47.39,VARS['higher']:18.67,VARS['heat']:68.37,'RUS_education_completed_activities':6});m.call('RUS_education_refresh')
