@@ -10,7 +10,7 @@ import re
 import unittest
 from doudizhu_script_model import ScriptModel
 from hoi4_politics_blocks import load,parse,KR
-from import_lenin_revival import ROOT,SOURCE,TRAIT,ACCEPTANCE,render_outputs,source_files
+from import_lenin_revival import ROOT,SOURCE,TRAIT,render_outputs,source_files
 
 TREE=load(ROOT/'common/national_focus/00_RUS_lenin_revival_focus.txt')[0]
 FOCUSES={n.value('id'):n for n in TREE.children('focus')}
@@ -158,17 +158,21 @@ class LeninRevivalTests(unittest.TestCase):
             reward=[n.norm() for n in new.one('completion_reward').v if n.k!='RUS_LR_appoint_lenin']
             self.assertEqual(reward,[n.norm() for n in old.one('completion_reward').v],key)
         self.assertEqual(len(IDEAS),14);self.assertEqual(len(EVENTS),4)
-    def test_gwr_portrait_and_trait_reuse_exact_source_values(self):
+    def test_gwr_portrait_and_trait_has_fivefold_benefits_no_penalties_and_fixed_additions(self):
         portrait=json.loads((SOURCE/'portrait_source.json').read_text(encoding='utf-8'))
         data=(ROOT/portrait['destination']).read_bytes()
         self.assertEqual(hashlib.sha256(data).hexdigest(),portrait['sha256'])
         from PIL import Image
         with Image.open(ROOT/portrait['destination']) as im:self.assertEqual(im.size,(156,210))
-        old=parse((SOURCE/'trait_gwr_source.txt').read_text(encoding='utf-8'))[0]
         current=load(ROOT/'common/country_leader/RUS_lenin_revival_traits.txt')[0].one(TRAIT)
-        expected={key:n.v for n in old.v for key in ACCEPTANCE.get(n.k,(n.k,))}
+        expected={'random':'no','trade_laws_cost_factor':'-0.75','economy_cost_factor':'-0.75',
+            'war_stability_factor':'0.25','industrial_capacity_factory':'0.25',
+            'political_power_factor':'0.5','drift_defence_factor':'1',
+            'political_advisor_cost_factor':'-1','communist_drift':'0.25','compliance_gain':'0.25'}
         self.assertEqual({n.k:n.v for n in current.v},expected)
-        self.assertEqual(current.value('political_power_factor'),'0.1');self.assertEqual(current.value('war_support_factor'),'-0.05')
+        self.assertIsNone(current.one('war_support_factor'))
+        self.assertIsNone(current.one('improve_relations_maintain_cost_factor'))
+        self.assertFalse(any(n.k.endswith('_acceptance') for n in current.v))
     def test_localisation_assets_and_supported_modifiers(self):
         outputs=render_outputs()
         for path,data in outputs.items():self.assertEqual((ROOT/path).read_bytes(),data,path)

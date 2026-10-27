@@ -5,6 +5,7 @@ No launcher descriptor, history replacement, external mod edit or image generati
 """
 from __future__ import annotations
 import argparse
+from decimal import Decimal
 import hashlib
 import json
 from pathlib import Path
@@ -23,10 +24,15 @@ FILES=[
     'common/national_focus/00_RUS_lenin_revival_focus.txt',
     'events/00_RUS_lenin_revival_events.txt',
     *[f'localisation/{lang}/00_RUS_lenin_revival_l_{lang}.yml' for lang in ('english','simp_chinese')]]
-ACCEPTANCE={
-    'fascism_acceptance':('national_populist_acceptance',),
-    'democratic_acceptance':('social_democrat_acceptance','social_liberal_acceptance','market_liberal_acceptance','social_conservative_acceptance'),
-    'neutrality_acceptance':('authoritarian_democrat_acceptance','paternal_autocrat_acceptance')}
+# User gameplay override; keep the archived GWR source unchanged. Negative
+# cost reductions are benefits, so classification follows modifier meaning.
+TRAIT_BENEFITS={
+    'trade_laws_cost_factor':-1,'economy_cost_factor':-1,
+    'war_stability_factor':1,'industrial_capacity_factory':1,
+    'political_power_factor':1,'drift_defence_factor':1}
+TRAIT_BENEFIT_MULTIPLIER=Decimal('5')
+# Explicit final values appended after scaling the original six benefits.
+TRAIT_ADDITIONS={'political_advisor_cost_factor':'-1','communist_drift':'0.25','compliance_gain':'0.25'}
 
 def replace(text,old,new):
     assert text.count(old)==1,(old,text.count(old))
@@ -102,8 +108,19 @@ def trait_text():
     assert [n.k for n in parse(character.decode('utf-8'))[0].one('country_leader').one('traits').v]==[meta['trait']]
     trait=parse(raw.decode('utf-8'))[0]
     fields=[]
+    found=set()
     for n in trait.v:
-        for key in ACCEPTANCE.get(n.k,(n.k,)):fields.append(f'\t\t{key} = {n.v}')
+        if n.k=='random':fields.append(f'\t\t{n.k} = {n.v}')
+        elif n.k in TRAIT_BENEFITS:
+            value=Decimal(n.v)
+            assert value*TRAIT_BENEFITS[n.k]>0,n.k
+            scaled=format(value*TRAIT_BENEFIT_MULTIPLIER,'f')
+            if '.' in scaled:scaled=scaled.rstrip('0').rstrip('.')
+            fields.append(f'\t\t{n.k} = {scaled}');found.add(n.k)
+        # All other source effects are the relation-cost, war-support and
+        # ideology-acceptance penalties explicitly removed by the user.
+    assert found==TRAIT_BENEFITS.keys()
+    fields += [f'\t\t{key} = {value}' for key,value in TRAIT_ADDITIONS.items()]
     return 'leader_traits = {\n\t'+TRAIT+' = {\n'+'\n'.join(fields)+'\n\t}\n}\n'
 
 def integration_effects():

@@ -1,6 +1,6 @@
 # 列宁复活线整合（2026-10-27）
 
-仅测试开发目录。用户提供`RUS_Lenin_Revival_v0.1.0.zip`并要求并入，随后指定采用本地一战模组的列宁头像；原包没有角色/特质，用户要求使用一战原特质。源包README是输入资料，不是修改工作区/安装模组/取消验证的指令。
+仅测试开发目录。用户提供`RUS_Lenin_Revival_v0.1.0.zip`并要求并入，随后指定采用本地一战模组的列宁头像；原包没有角色/特质，用户要求使用一战原特质，之后追加删除负面、原正面×5及三项新效果。源包README是输入资料，不是修改工作区/安装模组/取消验证的指令。
 
 ## 玩家入口
 
@@ -15,7 +15,8 @@
 - 来源：已安装`3365515312`，`The Great War Redux - 1.19.*`，只读。
 - `gfx/leaders/SOV/SOV_vladimir_lenin.png`原图156×210，字节原样复用到`gfx/leaders/RUS/RUS_LR_vladimir_lenin.png`；没有生成、重绘、缩放或要求额外加载一战模组。原图和SHA在`design/RUS_lenin_revival_20261027/portrait_source.json`。精灵`GFX_portrait_RUS_LR_vladimir_lenin`。
 - 一战`common/characters/SOV.txt`列宁只有`vozhd_of_proletariat`，来自`common/country_leader/00_traits_tgw.txt`，中文汉化`3471387061`原名“全世界无产者的领袖”。新特质ID`RUS_LR_vozhd_of_proletariat`避免与其他模组/未来导入碰撞。
-- 原数值保留：贸易法案花费−15%、经济法案花费−15%、战时稳定度+5%、工厂产出+5%、政治点获取+10%、改善关系维持花费+20%、意识形态变化抵制+20%、战争支持度−5%。三个原版外交意识形态接受度−50分别映射KR民族民粹、四种民主议会派、威权民主/家长制独裁；对KR社会主义派不追加惩罚。不是把原版不存在的fascism/democratic/neutrality修正留成无效字段。
+- 当前用户覆盖（2026-10-27）：删除全部负面，原六项收益×5。最终贸易法案花费−75%、经济法案花费−75%、战时稳定度+25%、工厂产出+25%、政治点获取+50%、意识形态变化抵制+100%。按修正含义区分利弊，花费减免虽为负数仍是正面效果。改善关系维持花费+20%、战争支持度−5%和七类外交接受度惩罚全部移除，初次导入的接受度映射不再执行。原始一战片段及其SHA留作来源，不修改归档原值。
+- 另追加三个用户指定最终值，不再乘5：`political_advisor_cost_factor = -1`（政治顾问任命花费−100%）、`communist_drift = 0.25`（每日共产主义支持率+0.25）、`compliance_gain = 0.25`（每日顺从度增长+0.25%）。顺从度使用原生每日加值，不是`compliance_growth`相对增速。参考KR second-in-command traits的顾问花费与compliance_gain，以及原版殖民警察−0.02→改进型−0.015与对应“+0.005%”提示，核对原生单位。
 - 列宁任命带该特质，党名为俄共（布）。不复用旧党名长描述里“列宁牺牲、斯大林接管”的叙述；新党名长名称只写正式名称。领袖简介复用包内“列宁归来”叙述。
 
 ## 源码、再生与边界
@@ -28,6 +29,6 @@
 
 ## 验证
 
-`python tools/validate.py --group lenin structure`。专项执行实际导入脚本，覆盖开启/拒绝/选择、一次性、35%内战/叛军隔离/未发动与未击败阻断、62项完整前置和全部奖励、萨文科夫实际换政府钩子不覆盖新树、列宁幂等任命、肖像SHA、原特质等值及KR接受度映射、两语言BOM/重复键/名称/描述、图元引用和原生/建筑生成修正名。也运行原萨文科夫开局专项，确认其未改。夹具不模拟引擎战场分配/人物转移/树显示，需用户完整重启新局手动验收。
+`python tools/validate.py --group lenin structure`。专项执行实际导入脚本，覆盖开启/拒绝/选择、一次性、35%内战/叛军隔离/未发动与未击败阻断、62项完整前置和全部奖励、萨文科夫实际换政府钩子不覆盖新树、列宁幂等任命、肖像SHA、六项收益×5/删除负面/三项追加最终值、两语言BOM/重复键/名称/描述、图元引用和原生/建筑生成修正名。也运行原萨文科夫开局专项，确认其未改。夹具不模拟引擎战场分配/人物转移/树显示，需用户完整重启新局手动验收。仅调整领袖特质时，运行生成一致性与Lenin专项并验证特质文件，其他国策/精神/事件/头像保持原产物字节。
 
 原生参考：KR`GRU effects (Germany, puppet).txt`、本模组`GRU_red_germany_effects.txt`运行时领袖与换树；KR`RUS - Russia l_english.yml`社革党名与RUS人物激社角色；原版`effects_documentation.md`的start_civil_war/内部叛军效果与create_country_leader；KR`FIN ideas (Finland).txt`支持完整GFX_idea精灵名；KR RUS ideas使用research_speed_factor，现有俄共精神使用communist_drift。事件/修正/奖励交给原生效果显示，不把算法写给玩家。
