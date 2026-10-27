@@ -1,0 +1,82 @@
+add_namespace = RUS_lenin_revival
+
+country_event = {
+	id = RUS_lenin_revival.1
+	title = RUS_lenin_revival.1.t
+	desc = RUS_lenin_revival.1.desc
+	picture = GFX_report_event_RUS_lenin
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { original_tag = RUS NOT = { has_country_flag = RUS_LR_choice_resolved } NOT = { has_country_flag = RUS_LR_sr_rebel } }
+
+	option = {
+		name = RUS_lenin_revival.1.a
+		add_political_power = 25
+		set_country_flag = RUS_LR_declined
+		set_country_flag = RUS_LR_choice_resolved
+	}
+
+	option = {
+		name = RUS_lenin_revival.1.b
+		add_political_power = 50
+		add_stability = 0.05
+		hidden_effect = { RUS_LR_enter_route = yes }
+	}
+}
+
+country_event = {
+	id = RUS_lenin_revival.20
+	title = RUS_lenin_revival.20.t
+	desc = RUS_lenin_revival.20.desc
+	picture = GFX_report_event_RUS_country_flag_decide
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_LR_is_active = yes has_government = communist NOT = { has_country_flag = RUS_LR_civil_war_started } NOT = { any_country = { civilwar_target = ROOT } } }
+
+	option = {
+		name = RUS_lenin_revival.20.a
+		add_war_support = 0.05
+		hidden_effect = { set_country_flag = RUS_LR_civil_war_started }
+		start_civil_war = {
+			ideology = radical_socialist
+			size = 0.35
+			set_country_flag = RUS_LR_sr_rebel
+			clr_country_flag = RUS_LR_enabled
+			load_focus_tree = { tree = generic_focus keep_completed = no }
+		}
+	}
+}
+
+country_event = {
+	id = RUS_lenin_revival.21
+	title = RUS_lenin_revival.21.t
+	desc = RUS_lenin_revival.21.desc
+	picture = GFX_report_event_RUS_country_flag_decide
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_LR_is_active = yes RUS_LR_sr_defeated = yes NOT = { has_country_flag = RUS_LR_sr_defeat_seen } }
+
+	option = {
+		name = RUS_lenin_revival.21.a
+		hidden_effect = { set_country_flag = RUS_LR_sr_defeat_seen }
+		add_political_power = 100
+		add_stability = 0.05
+	}
+}
+
+country_event = {
+	id = RUS_lenin_revival.22
+	title = RUS_lenin_revival.22.t
+	desc = RUS_lenin_revival.22.desc
+	picture = GFX_report_event_RUS_country_flag_decide
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_LR_is_active = yes has_completed_focus = RUS_LR_economic_victory NOT = { has_country_flag = RUS_LR_economic_victory_seen } }
+
+	option = {
+		name = RUS_lenin_revival.22.a
+		hidden_effect = { set_country_flag = RUS_LR_economic_victory_seen }
+		add_political_power = 100
+		add_stability = 0.05
+	}
+}

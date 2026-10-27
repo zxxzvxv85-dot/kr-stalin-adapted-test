@@ -1,0 +1,913 @@
+############################################################################################################
+# Lenin Revival - standalone focus tree
+# Generated from 列宁复活线.drawio
+# All content in this file is new; no existing mod file is modified.
+############################################################################################################
+
+focus_tree = {
+	id = RUS_lenin_revival_focus
+	default = no
+	country = {
+		factor = 0
+	}
+	initial_show_position = { x = 6 y = 0 }
+
+focus = {
+	id = RUS_LR_return_to_the_urals
+	icon = GFX_goal_generic_democratic_socialism
+	cost = 5
+	x = 6
+	y = 0
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.03
+		set_country_flag = RUS_LR_return_begun
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_proclaim_the_return
+	icon = GFX_goal_generic_revolutionary_government
+	cost = 5
+	x = 2
+	y = 1
+	prerequisite = { focus = RUS_LR_return_to_the_urals }
+	completion_reward = {
+		set_politics = { ruling_party = communist elections_allowed = no }
+		RUS_LR_appoint_lenin = yes
+		add_ideas = RUS_LR_lenin_returned
+		add_political_power = 75
+		add_stability = 0.05
+		set_country_flag = RUS_LR_bolsheviks_returned
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_rally_old_bolsheviks
+	icon = GFX_goal_generic_council
+	cost = 4
+	x = 10
+	y = 1
+	prerequisite = { focus = RUS_LR_return_to_the_urals }
+	completion_reward = {
+		add_ideas = RUS_LR_old_bolsheviks
+		army_experience = 25
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_russias_present_and_future
+	icon = GFX_goal_generic_stable_government
+	cost = 4
+	x = 0
+	y = 2
+	prerequisite = { focus = RUS_LR_proclaim_the_return }
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_socialism_in_russia
+	icon = GFX_goal_generic_workers_democracy
+	cost = 4
+	x = 4
+	y = 2
+	prerequisite = { focus = RUS_LR_proclaim_the_return }
+	completion_reward = {
+		add_popularity = { ideology = communist popularity = 0.05 }
+		add_stability = 0.03
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_revolutionary_orthodoxy
+	icon = GFX_goal_generic_solidarity
+	cost = 4
+	x = 8
+	y = 2
+	prerequisite = { focus = RUS_LR_rally_old_bolsheviks }
+	completion_reward = {
+		add_ideas = RUS_LR_revolutionary_legacy
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_bolsheviks_enter_parliament
+	icon = GFX_goal_generic_parliament
+	cost = 4
+	x = 12
+	y = 2
+	prerequisite = { focus = RUS_LR_rally_old_bolsheviks }
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unshakable_dictatorship
+	icon = GFX_goal_generic_police_state
+	cost = 4
+	x = 0
+	y = 3
+	prerequisite = { focus = RUS_LR_russias_present_and_future }
+	completion_reward = {
+		add_war_support = 0.03
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_critique_revisionism
+	icon = GFX_goal_generic_seize_press
+	cost = 4
+	x = 4
+	y = 3
+	prerequisite = { focus = RUS_LR_socialism_in_russia }
+	completion_reward = {
+		add_stability = 0.02
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_reconcile_zinoviev_kamenev
+	icon = GFX_goal_generic_union_agreement
+	cost = 4
+	x = 8
+	y = 3
+	prerequisite = { focus = RUS_LR_revolutionary_orthodoxy }
+	completion_reward = {
+		add_political_power = 25
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_bolsheviks_and_sr
+	icon = GFX_goal_generic_elections
+	cost = 4
+	x = 12
+	y = 3
+	prerequisite = { focus = RUS_LR_bolsheviks_enter_parliament }
+	completion_reward = {
+		add_war_support = 0.03
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_lessons_of_october
+	icon = GFX_goal_generic_army_mass_assault
+	cost = 4
+	x = 0
+	y = 4
+	prerequisite = { focus = RUS_LR_unshakable_dictatorship }
+	completion_reward = {
+		add_war_support = 0.05
+		army_experience = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_peasants_and_workers
+	icon = GFX_goal_generic_agriculture2
+	cost = 4
+	x = 4
+	y = 4
+	prerequisite = { focus = RUS_LR_critique_revisionism }
+	completion_reward = {
+		add_stability = 0.03
+		add_manpower = 10000
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_criticize_trotsky
+	icon = GFX_goal_generic_socialist_army
+	cost = 4
+	x = 8
+	y = 4
+	prerequisite = { focus = RUS_LR_reconcile_zinoviev_kamenev }
+	completion_reward = {
+		army_experience = 25
+		add_war_support = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_bukharins_return
+	icon = GFX_goal_generic_solidarity
+	cost = 4
+	x = 12
+	y = 4
+	prerequisite = { focus = RUS_LR_bolsheviks_and_sr }
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unreasonable_sr
+	icon = GFX_goal_generic_suspend_constitution
+	cost = 5
+	x = 10
+	y = 5
+	prerequisite = { focus = RUS_LR_criticize_trotsky }
+	prerequisite = { focus = RUS_LR_bukharins_return }
+	completion_reward = {
+		add_ideas = RUS_LR_revolutionary_army
+		add_war_support = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_break_with_revisionism
+	icon = GFX_goal_generic_controlled_board
+	cost = 5
+	x = 2
+	y = 5
+	prerequisite = { focus = RUS_LR_lessons_of_october }
+	prerequisite = { focus = RUS_LR_peasants_and_workers }
+	completion_reward = {
+		add_political_power = 75
+		add_stability = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_revolution_returns
+	icon = GFX_goal_generic_barricades
+	cost = 6
+	x = 6
+	y = 6
+	prerequisite = { focus = RUS_LR_unreasonable_sr }
+	prerequisite = { focus = RUS_LR_break_with_revisionism }
+	available = { NOT = { any_country = { civilwar_target = ROOT } } }
+	completion_reward = {
+		set_cosmetic_tag = RUS_sov
+		add_ideas = RUS_LR_wartime_economy
+		add_war_support = 0.10
+		country_event = { id = RUS_lenin_revival.20 days = 1 }
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_rethink_peasant_policy
+	icon = GFX_goal_generic_agriculture2
+	cost = 4
+	x = 0
+	y = 7
+	prerequisite = { focus = RUS_LR_revolution_returns }
+	completion_reward = {
+		add_stability = 0.03
+		add_manpower = 15000
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_mechanized_red_army
+	icon = GFX_goal_generic_army_tanks3
+	cost = 5
+	x = 6
+	y = 7
+	prerequisite = { focus = RUS_LR_revolution_returns }
+	completion_reward = {
+		add_ideas = RUS_LR_mechanized_red_army
+		army_experience = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_peoples_army
+	icon = GFX_goal_generic_socialist_army
+	cost = 5
+	x = 10
+	y = 7
+	prerequisite = { focus = RUS_LR_revolution_returns }
+	completion_reward = {
+		add_war_support = 0.05
+		add_manpower = 10000
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_win_peasant_support
+	icon = GFX_goal_generic_recovery
+	cost = 4
+	x = 0
+	y = 8
+	prerequisite = { focus = RUS_LR_rethink_peasant_policy }
+	completion_reward = {
+		add_stability = 0.03
+		add_manpower = 15000
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_secure_logistics
+	icon = GFX_goal_generic_railroad
+	cost = 5
+	x = 6
+	y = 8
+	prerequisite = { focus = RUS_LR_mechanized_red_army }
+	completion_reward = {
+		add_equipment_to_stockpile = { type = infantry_equipment amount = 5000 }
+		add_war_support = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_strengthen_arts
+	icon = GFX_goal_generic_cinema
+	cost = 4
+	x = 10
+	y = 8
+	prerequisite = { focus = RUS_LR_peoples_army }
+	completion_reward = {
+		add_stability = 0.03
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_soldiers_and_civilians
+	icon = GFX_goal_generic_army_cooperation
+	cost = 5
+	x = 2
+	y = 9
+	prerequisite = { focus = RUS_LR_win_peasant_support }
+	prerequisite = { focus = RUS_LR_secure_logistics }
+	completion_reward = {
+		add_manpower = 20000
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_sing_and_march
+	icon = GFX_goal_generic_solidarity
+	cost = 5
+	x = 8
+	y = 9
+	prerequisite = { focus = RUS_LR_secure_logistics }
+	prerequisite = { focus = RUS_LR_strengthen_arts }
+	completion_reward = {
+		add_war_support = 0.05
+		army_experience = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_declare_sr_defeat
+	icon = GFX_goal_generic_crush_syndicalists
+	cost = 6
+	x = 6
+	y = 10
+	prerequisite = { focus = RUS_LR_soldiers_and_civilians }
+	prerequisite = { focus = RUS_LR_sing_and_march }
+	available = { custom_trigger_tooltip = { tooltip = RUS_LR_sr_defeated_tt RUS_LR_sr_defeated = yes } }
+	completion_reward = {
+		add_political_power = 100
+		add_stability = 0.05
+		country_event = { id = RUS_lenin_revival.21 days = 1 }
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_true_socialist_russia
+	icon = GFX_goal_generic_stable_government
+	cost = 7
+	x = 18
+	y = 11
+	prerequisite = { focus = RUS_LR_declare_sr_defeat }
+	completion_reward = {
+		add_ideas = RUS_LR_soviet_legitimacy
+		add_political_power = 100
+		add_stability = 0.05
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_restore_party_congress
+	icon = GFX_goal_generic_parliament
+	cost = 5
+	x = 16
+	y = 12
+	prerequisite = { focus = RUS_LR_true_socialist_russia }
+	completion_reward = {
+		add_ideas = RUS_LR_party_democracy
+		add_stability = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_end_organizational_chaos
+	icon = GFX_goal_generic_enforce_labor_regulation
+	cost = 5
+	x = 22
+	y = 12
+	prerequisite = { focus = RUS_LR_true_socialist_russia }
+	completion_reward = {
+		add_ideas = RUS_LR_democratic_centralism
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_after_victory
+	icon = GFX_goal_generic_recovery
+	cost = 5
+	x = 18
+	y = 12
+	prerequisite = { focus = RUS_LR_true_socialist_russia }
+	completion_reward = {
+		add_stability = 0.03
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_restore_council_of_peoples_commissars
+	icon = GFX_goal_generic_council
+	cost = 5
+	x = 20
+	y = 12
+	prerequisite = { focus = RUS_LR_true_socialist_russia }
+	completion_reward = {
+		add_stability = 0.03
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_bring_debate_back
+	icon = GFX_goal_generic_dissolve_parliament1
+	cost = 5
+	x = 16
+	y = 13
+	prerequisite = { focus = RUS_LR_restore_party_congress }
+	completion_reward = {
+		add_stability = 0.02
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unify_party_discipline
+	icon = GFX_goal_generic_police_state
+	cost = 5
+	x = 22
+	y = 13
+	prerequisite = { focus = RUS_LR_end_organizational_chaos }
+	completion_reward = {
+		add_stability = 0.02
+		add_war_support = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_restart_railways
+	icon = GFX_goal_generic_railroad
+	cost = 5
+	x = 18
+	y = 13
+	prerequisite = { focus = RUS_LR_after_victory }
+	completion_reward = {
+		add_ideas = RUS_LR_railways
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_rebuild_local_soviets
+	icon = GFX_goal_generic_stable_government
+	cost = 5
+	x = 20
+	y = 13
+	prerequisite = { focus = RUS_LR_restore_council_of_peoples_commissars }
+	completion_reward = {
+		add_stability = 0.03
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_against_personality_cult
+	icon = GFX_goal_generic_workers_democracy
+	cost = 6
+	x = 16
+	y = 14
+	prerequisite = { focus = RUS_LR_bring_debate_back }
+	completion_reward = {
+		add_ideas = RUS_LR_collective_leadership
+		add_stability = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_rectify_local_party
+	icon = GFX_goal_generic_investigate_corruption
+	cost = 5
+	x = 22
+	y = 14
+	prerequisite = { focus = RUS_LR_unify_party_discipline }
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_end_wartime_measures
+	icon = GFX_goal_generic_dissolve_parliament1
+	cost = 5
+	x = 18
+	y = 14
+	prerequisite = { focus = RUS_LR_restart_railways }
+	completion_reward = {
+		add_stability = 0.03
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unify_republic_laws
+	icon = GFX_goal_generic_controlled_board
+	cost = 5
+	x = 20
+	y = 14
+	prerequisite = { focus = RUS_LR_rebuild_local_soviets }
+	completion_reward = {
+		add_stability = 0.03
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_collective_leadership
+	icon = GFX_goal_generic_council
+	cost = 6
+	x = 16
+	y = 15
+	prerequisite = { focus = RUS_LR_against_personality_cult }
+	completion_reward = {
+		add_stability = 0.03
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_carry_out_central_decisions
+	icon = GFX_goal_generic_stable_government
+	cost = 5
+	x = 22
+	y = 15
+	prerequisite = { focus = RUS_LR_rectify_local_party }
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_restore_agriculture
+	icon = GFX_goal_generic_agriculture2
+	cost = 5
+	x = 18
+	y = 15
+	prerequisite = { focus = RUS_LR_end_wartime_measures }
+	completion_reward = {
+		add_manpower = 15000
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unify_state_finance
+	icon = GFX_goal_generic_financial_markets
+	cost = 5
+	x = 20
+	y = 15
+	prerequisite = { focus = RUS_LR_unify_republic_laws }
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_party_responsibility
+	icon = GFX_goal_generic_improve_industry
+	cost = 8
+	x = 18
+	y = 16
+	prerequisite = { focus = RUS_LR_collective_leadership }
+	prerequisite = { focus = RUS_LR_carry_out_central_decisions }
+	prerequisite = { focus = RUS_LR_restore_agriculture }
+	prerequisite = { focus = RUS_LR_unify_state_finance }
+	completion_reward = {
+		remove_ideas = RUS_LR_wartime_economy
+		add_political_power = 100
+		add_stability = 0.05
+		add_tech_bonus = { name = RUS_LR_construction_bonus bonus = 0.5 uses = 1 category = industry }
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_establish_gosplan
+	icon = GFX_goal_generic_controlled_board
+	cost = 6
+	x = 16
+	y = 17
+	prerequisite = { focus = RUS_LR_party_responsibility }
+	completion_reward = {
+		add_ideas = RUS_LR_gosplan
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unify_industrial_statistics
+	icon = GFX_goal_generic_investigate_corruption
+	cost = 4
+	x = 14
+	y = 18
+	prerequisite = { focus = RUS_LR_establish_gosplan }
+	completion_reward = {
+		add_political_power = 25
+		add_stability = 0.02
+		add_tech_bonus = { name = RUS_LR_statistics_bonus bonus = 0.5 uses = 1 category = industry }
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_expand_farm_tool_production
+	icon = GFX_goal_generic_agriculture2
+	cost = 4
+	x = 18
+	y = 18
+	prerequisite = { focus = RUS_LR_establish_gosplan }
+	completion_reward = {
+		add_manpower = 10000
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_survey_production_capacity
+	icon = GFX_goal_generic_investigate_corruption
+	cost = 4
+	x = 16
+	y = 18
+	prerequisite = { focus = RUS_LR_establish_gosplan }
+	completion_reward = {
+		add_political_power = 25
+		add_stability = 0.02
+		add_tech_bonus = { name = RUS_LR_survey_bonus bonus = 0.5 uses = 1 category = industry }
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_state_control_heavy_industry
+	icon = GFX_goal_generic_improve_industry
+	cost = 5
+	x = 14
+	y = 19
+	prerequisite = { focus = RUS_LR_unify_industrial_statistics }
+	completion_reward = {
+		add_ideas = RUS_LR_planned_economy
+		add_political_power = 50
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unify_energy_and_mining
+	icon = GFX_goal_generic_improve_industry
+	cost = 5
+	x = 14
+	y = 20
+	prerequisite = { focus = RUS_LR_state_control_heavy_industry }
+	completion_reward = {
+		add_political_power = 25
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unified_material_distribution
+	icon = GFX_goal_generic_controlled_board
+	cost = 5
+	x = 16
+	y = 19
+	prerequisite = { focus = RUS_LR_survey_production_capacity }
+	completion_reward = {
+		add_stability = 0.02
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_planning_on_real_numbers
+	icon = GFX_goal_generic_financial_markets
+	cost = 5
+	x = 16
+	y = 20
+	prerequisite = { focus = RUS_LR_unified_material_distribution }
+	completion_reward = {
+		add_political_power = 25
+		add_tech_bonus = { name = RUS_LR_planning_bonus bonus = 0.5 uses = 1 category = industry }
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unified_rail_dispatch
+	icon = GFX_goal_generic_railroad
+	cost = 5
+	x = 16
+	y = 21
+	prerequisite = { focus = RUS_LR_planning_on_real_numbers }
+	completion_reward = {
+		add_political_power = 25
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_central_raw_material_allocation
+	icon = GFX_goal_generic_improve_industry
+	cost = 5
+	x = 14
+	y = 21
+	prerequisite = { focus = RUS_LR_unify_energy_and_mining }
+	completion_reward = {
+		add_political_power = 25
+		add_stability = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_foundation_of_planned_economy
+	icon = GFX_goal_generic_controlled_board
+	cost = 6
+	x = 16
+	y = 22
+	prerequisite = { focus = RUS_LR_unified_rail_dispatch }
+	completion_reward = {
+		add_political_power = 50
+		add_stability = 0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_restore_machine_building
+	icon = GFX_goal_generic_construct_mil_factory
+	cost = 6
+	x = 14
+	y = 22
+	prerequisite = { focus = RUS_LR_central_raw_material_allocation }
+	completion_reward = {
+		army_experience = 25
+		add_political_power = 25
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_establish_agricultural_cooperatives
+	icon = GFX_goal_generic_agriculture2
+	cost = 5
+	x = 18
+	y = 19
+	prerequisite = { focus = RUS_LR_expand_farm_tool_production }
+	completion_reward = {
+		add_ideas = RUS_LR_collectivization
+		add_stability = -0.02
+		add_manpower = 10000
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_unify_grain_procurement
+	icon = GFX_goal_generic_financial_markets
+	cost = 5
+	x = 18
+	y = 20
+	prerequisite = { focus = RUS_LR_establish_agricultural_cooperatives }
+	completion_reward = {
+		add_stability = 0.02
+		add_manpower = 10000
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_begin_agricultural_mechanization
+	icon = GFX_goal_generic_agriculture2
+	cost = 6
+	x = 18
+	y = 21
+	prerequisite = { focus = RUS_LR_unify_grain_procurement }
+	completion_reward = {
+		add_manpower = 15000
+		add_war_support = 0.02
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_adopt_collective_farms
+	icon = GFX_goal_generic_agriculture2
+	cost = 6
+	x = 18
+	y = 22
+	prerequisite = { focus = RUS_LR_begin_agricultural_mechanization }
+	completion_reward = {
+		add_manpower = 20000
+		add_stability = -0.03
+	}
+	ai_will_do = { factor = 1 }
+}
+
+focus = {
+	id = RUS_LR_economic_victory
+	icon = GFX_goal_generic_improve_industry
+	cost = 8
+	x = 16
+	y = 23
+	prerequisite = { focus = RUS_LR_restore_machine_building }
+	prerequisite = { focus = RUS_LR_foundation_of_planned_economy }
+	prerequisite = { focus = RUS_LR_adopt_collective_farms }
+	completion_reward = {
+		add_political_power = 150
+		add_stability = 0.05
+		add_tech_bonus = { name = RUS_LR_economic_victory_bonus bonus = 0.5 uses = 2 category = industry }
+		country_event = { id = RUS_lenin_revival.22 days = 1 }
+	}
+	ai_will_do = { factor = 1 }
+}
+
+}

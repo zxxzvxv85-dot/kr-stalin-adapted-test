@@ -1,0 +1,12 @@
+RUS_LR_is_active = {
+	original_tag = RUS
+	has_country_flag = RUS_LR_enabled
+	NOT = { has_country_flag = RUS_LR_sr_rebel }
+}
+
+RUS_LR_sr_defeated = {
+	RUS_LR_is_active = yes
+	has_country_flag = RUS_LR_civil_war_started
+	NOT = { any_country = { civilwar_target = ROOT } }
+	NOT = { any_country = { has_country_flag = RUS_LR_sr_rebel exists = yes } }
+}

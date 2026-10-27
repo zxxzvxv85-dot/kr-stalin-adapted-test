@@ -1,0 +1,16 @@
+RUS_lenin_revival_category = {
+
+	RUS_LR_enable_easter_egg = {
+		icon = GFX_decision_generic_decision
+		allowed = { original_tag = RUS }
+		visible = { NOT = { has_country_flag = RUS_LR_choice_made } NOT = { has_country_flag = RUS_LR_sr_rebel } }
+		available = { hidden_trigger = { NOT = { has_country_flag = RUS_LR_choice_made } NOT = { has_country_flag = RUS_LR_sr_rebel } } }
+		cost = 0
+		fire_only_once = yes
+		complete_effect = {
+			set_country_flag = RUS_LR_choice_made
+			country_event = { id = RUS_lenin_revival.1 days = 1 }
+		}
+		ai_will_do = { factor = 0 }
+	}
+}
