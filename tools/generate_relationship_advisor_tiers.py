@@ -47,6 +47,7 @@ ADVISORS = [
             "stability_factor": 0.15,
             "party_popularity_stability_factor": 0.25,
             "political_power_gain": 0.25,
+            "war_support_factor": -0.05,
         },
         "bop": 0.01,
         "legacy": ["RUS_relationship_scaled_zhdanov", "RUS_ardent_revolutionary", "KR_bolshevik_zhdanov_bop"],
@@ -88,7 +89,7 @@ ADVISORS = [
         "sprite": 13,
         "name": "RUS_relationship_scaled_kirov",
         "effects": {
-            "consumer_goods_expected_value": -0.03,
+            "consumer_goods_expected_value": 0.03,
             "production_speed_infrastructure_factor": 0.15,
             "production_speed_industrial_complex_factor": 0.15,
         },
