@@ -10,6 +10,7 @@ from itertools import product
 from PIL import Image
 from hoi4_politics_blocks import load, parse
 from education_reform_content import education_focuses
+from future_economic_preview_content import focus_rewards as economic_preview_rewards
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'RUS_future_domestic_'
@@ -124,6 +125,7 @@ def main():
         PREFIX+'142': 'add_political_power = 10',
     }
     expected_rewards.update({PREFIX+s:'\n'.join(v['reward']) for s,v in education.items()})
+    expected_rewards.update({PREFIX+s:'\n'.join(v) for s,v in economic_preview_rewards().items()})
     from football_event_content import focus_reward
     expected_rewards[PREFIX+'151'] = '\n'.join(focus_reward())
     for key,n in by_id.items():
