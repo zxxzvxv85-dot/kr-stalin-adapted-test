@@ -23582,12 +23582,7 @@ focus_tree = {
 		completion_reward = {
 			log = "[GetLogRoot]: Focus Completed RUS_new_airbases"
 			RUS_decrease_black_monday = yes
-			add_tech_bonus = {
-				name = RUS_new_airbases
-				bonus = 1
-				uses = 1
-				category = cat_anti_air
-			}
+
 			custom_effect_tooltip = tooltip_white_line
 			if = {
 				limit = { controls_state = 219 } #Moscow
@@ -28759,8 +28754,8 @@ focus_tree = {
 			}
 
 			# RUS_EASY_MODE_TECH_START
-			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_universal_hull_standards bonus = 2 uses = 2 category = mio_cat_tech_all_armor_and_modules } }
-			else = { add_tech_bonus = { name = RUS_fr_universal_hull_standards bonus = 1.00 uses = 2 category = mio_cat_tech_all_armor_and_modules } }
+			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_universal_hull_standards bonus = 2 uses = 1 category = mio_cat_tech_all_armor_and_modules } }
+			else = { add_tech_bonus = { name = RUS_fr_universal_hull_standards bonus = 1.00 uses = 1 category = mio_cat_tech_all_armor_and_modules } }
 			# RUS_EASY_MODE_TECH_END
 
 			set_country_flag = RUS_fr_okmo_half_xp_cost
@@ -28833,10 +28828,6 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 
-			# RUS_EASY_MODE_TECH_START
-			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_hull_structural_durability_trials bonus = 2 uses = 1 category = mio_cat_tech_all_armor_and_modules } }
-			else = { add_tech_bonus = { name = RUS_fr_hull_structural_durability_trials bonus = 1.00 uses = 1 category = mio_cat_tech_all_armor_and_modules } }
-			# RUS_EASY_MODE_TECH_END
 
 			add_ideas = RUS_fr_tank_destroyer_structural_idea
 			set_country_flag = RUS_fr_tank_destroyer_structural_results
