@@ -17,6 +17,11 @@ VDV_UNLOCK = "RUS_stalin_air_assault_special_forces_infantry"
 VDV_BASE_BONUS = "RUS_easy_mode_air_assault_base_bonus"
 VDV_EXTRA_COPIES = Decimal(9)
 
+# These bureau technologies encode battalion width/terrain geometry. Their
+# positive terrain entries are not combat rewards to duplicate in easy mode.
+# Keep their historical, unboosted runtime behaviour when regenerating.
+EXCLUDED_TECH_PREFIXES = ("RUS_adb_logistics_bonus_",)
+
 
 def number_text(number: Decimal) -> str:
     return format(number, "f").rstrip("0").rstrip(".") if "." in format(number, "f") else str(number)
@@ -86,6 +91,8 @@ def render() -> tuple[str, str]:
             if root.k != "technologies":
                 continue
             for technology in root.v:
+                if technology.k.startswith(EXCLUDED_TECH_PREFIXES):
+                    continue
                 stats = [line for child in technology.v for line in render_stat(child, 2)]
                 if not stats:
                     continue

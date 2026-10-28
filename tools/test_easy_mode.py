@@ -44,7 +44,25 @@ assert "allowed = { is_ai = no original_tag = RUS }" in category
 technology = (ROOT / "common/technologies/RUS_easy_mode_bonus_technologies.txt").read_text(encoding="utf-8")
 assert "RUS_fr_armour_priority_self_propelled_bonus_easy_bonus" in technology
 assert "supply_consumption = -0.30" in technology
-assert "soft_attack = 0.15" in technology
+normal_armour = load(ROOT / "common/technologies/RUS_fr_armour_programme.txt")[0]
+easy_armour = load(ROOT / "common/technologies/RUS_easy_mode_bonus_technologies.txt")[0]
+assert not any(n.k.startswith("RUS_adb_logistics_bonus_") for n in easy_armour.v)
+for tree, suffix in ((normal_armour, ""), (easy_armour, "_easy_bonus")):
+    coordination = tree.one("RUS_fr_armour_priority_self_propelled_bonus" + suffix)
+    for unit in ("light_armor", "medium_armor", "heavy_armor", "super_heavy_armor", "modern_armor", "amphibious_armor"):
+        assert float(coordination.one(unit).value("soft_attack")) == 0.10
+        assert float(coordination.one(unit).value("hard_attack")) == 0.10
+    td = tree.one("RUS_fr_tank_destroyer_breakthrough_bonus" + suffix)
+    assert float(td.one("category_tank_destroyers").value("breakthrough")) == 0.25
+    assert td.one("allow").value("always") == "no"
+
+# The durability reward is direct, so both armour priorities receive it, and
+# its technology survives the later removal/consolidation of the old spirit.
+foci = {n.value("id"): n for tree in load(ROOT / "common/national_focus/RUS focus (Russia).txt") for n in tree.children("focus")}
+durability = foci["RUS_fr_hull_structural_durability_trials"]
+assert durability.one("completion_reward").one("set_technology").value("RUS_fr_tank_destroyer_breakthrough_bonus") == "1"
+assert durability.one("mutually_exclusive").value("focus") == "RUS_fr_self_propelled_direct_fire_system"
+assert foci["RUS_fr_self_propelled_direct_fire_system"].one("mutually_exclusive").value("focus") == "RUS_fr_hull_structural_durability_trials"
 agriculture = (ROOT / "common/scripted_effects/RUS_national_agriculture_effects.txt").read_text(encoding="utf-8")
 assert agriculture.count("= 1.10 } }\nelse = { multiply_variable = { RUS_nat_") == 10
 assert "RUS_nat_preview_retention = 1.00" in agriculture
