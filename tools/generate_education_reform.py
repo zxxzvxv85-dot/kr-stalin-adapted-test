@@ -565,6 +565,7 @@ def gui_outputs():
 def localisations():
     intro=json.loads((ROOT/'tools/design/RUS_education_intro_20261025.json').read_text(encoding='utf-8'))
     introduction='\n\n'.join(intro['paragraphs']+[f'§{intro["slogan_color"]}{intro["slogan"]}§!'])
+    spirit_introduction='\n\n'.join([intro['paragraphs'][-1],f'§{intro["slogan_color"]}{intro["slogan"]}§!'])
     l={
       'RUS_education_reform_category':'教育与文化建设',
       'RUS_education_reform_category_desc':'[RUSEducationIntroduction]',
@@ -575,7 +576,7 @@ def localisations():
       'RUS_edu_intro_expand':'展开介绍',
       'RUS_edu_intro_collapse':'收起介绍',
       'RUS_education_social_capacity':'教育改革',
-      'RUS_education_social_capacity_desc':'',
+      'RUS_education_social_capacity_desc':spirit_introduction,
       'RUS_education_permanent_results':'教育改革',
       'RUS_education_permanent_results_desc':'',
       'RUS_education_present_drive':'教育成果投入生产',

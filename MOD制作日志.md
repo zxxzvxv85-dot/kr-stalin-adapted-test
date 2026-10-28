@@ -2,6 +2,13 @@
 
 最后更新：2026-10-28
 
+## 2026-10-28 — 教育改革精神加入两段介绍
+
+- 按用户截图，将原教育纲领最后一段“我们必须意识到……”和末尾“学习，学习，再学习！”作为可见动态精神RUS_education_social_capacity“教育改革”的介绍，中间保留空行，口号用§R亮红色。直接复用tools/design/RUS_education_intro_20261025.json最后一段与原slogan/color字段，不手抄另一份正文、不移动或删去GUI既有可折叠全文。
+- 修改generate_education_reform.py的本地化源后显式再生，仅中/英/俄三套既有dashboard本地化中social_capacity_desc一键改变（该系统三语沿用中文文本的既有策略），UTF-8 BOM及键名保留；其余正文、GUI、图片、修正数值、决议及事件逐字节不变，退役的permanent_results句柄仍为空且不重新挂载。
+- 精确文本/空行/§R口号断言、三语编码及重复键、生成一致性通过；完整教育48项回归通过。三份本地化RHoiScribe均绿色，无需新增UI图或运行时脚本；repair仅dry-run，不应用历史建议。项目扫描沿本轮国策任务已尝试但未完成，不宣称全项目通过。未启动游戏，实际精神悬浮排版由用户重启后查看。
+- 与同轮“妥协的艺术”分开本地提交，只修改测试版开发目录，不构建上传或推送GitHub。
+
 ## 2026-10-28 — 妥协的艺术减少德国经济影响
 
 - 按用户截图为RUS_future_domestic_140“妥协的艺术”追加德国经济影响−2：set_temp_variable RUS_influence_change=-2，再调用现有RUS_change_german_economic_influence一次。沿用KR同名效果及RUS原版国策原生提示RUS_economy_influence_tt，未用另写文本伪造效果，不增加德国影响、不改对德外交关系或费用折扣。
