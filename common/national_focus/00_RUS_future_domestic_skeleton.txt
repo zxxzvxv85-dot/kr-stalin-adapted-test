@@ -420,7 +420,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_133 focus = RUS_future_domestic_136 }
-	completion_reward = { }
+	completion_reward = {
+		set_temp_variable = { RUS_influence_change = -2 }
+		RUS_change_german_economic_influence = yes
+	}
 	ai_will_do = { factor = 1 }
 }
 

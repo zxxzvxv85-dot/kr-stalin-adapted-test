@@ -120,6 +120,7 @@ def main():
         PREFIX+'133': 'add_political_power = -25\nadd_stability = 0.1\nset_temp_variable = { RUS_influence_cost_change_var = 20 }\nRUS_decrease_german_economic_influence_cost = yes\ncustom_effect_tooltip = RUS_socrus_reduce_influence_decisions',
         PREFIX+'136': 'add_command_power = 75\nadd_political_power = -10\ncountry_event = russia_socialist_events.100\nRUS_abolish_hosts = yes\nadd_popularity = { ideology = national_populist popularity = -0.05 }\nadd_popularity = { ideology = paternal_autocrat popularity = -0.1 }',
         PREFIX+'138': 'add_political_power = 10',
+        PREFIX+'140': 'set_temp_variable = { RUS_influence_change = -2 }\nRUS_change_german_economic_influence = yes',
         PREFIX+'142': 'add_political_power = 10',
     }
     expected_rewards.update({PREFIX+s:'\n'.join(v['reward']) for s,v in education.items()})

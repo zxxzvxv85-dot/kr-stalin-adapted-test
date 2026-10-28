@@ -2,6 +2,13 @@
 
 最后更新：2026-10-28
 
+## 2026-10-28 — 妥协的艺术减少德国经济影响
+
+- 按用户截图为RUS_future_domestic_140“妥协的艺术”追加德国经济影响−2：set_temp_variable RUS_influence_change=-2，再调用现有RUS_change_german_economic_influence一次。沿用KR同名效果及RUS原版国策原生提示RUS_economy_influence_tt，未用另写文本伪造效果，不增加德国影响、不改对德外交关系或费用折扣。
+- 修改provisional_government的140源规格后显式写入生成文本，仅00_RUS_future_domestic_skeleton.txt一份运行时输出变化；不重绘171图标、不改其他生成文件。原35日、可选条件、任选前置与AI权重保留；原奖励为空。现有helper在无德国影响变量时不执行，夹在0–10范围，降至零沿用原版清除事件，既有helper不改。
+- 更新两项既有奖励基线，未来内政/临时政府专项、完整生成一致性、runtime_structure 437脚本/297本地化0错误、Git空白检查通过。AST核对只140完成奖励及源规格reward变化，原其他字段不变。RHoiScribe单文件仅15处自定义效果索引诊断，其中新增原版helper已核实定义及KR同类调用，无括号/未闭合阻断；repair dry-run完成142项建议未应用；全项目扫描未完成，已停止等待，不宣称通过。
+- 开工干净，fetch因GitHub连接失败，未pull/推送。只测试开发并本地提交，不启动游戏，不补发已完成国策的旧档。
+
 ## 2026-10-28 — 自行直射火力坦克加成减量与坦歼突破
 
 - 按用户截图修改自行直射火力系统：仅侧重装甲时取得的RUS_fr_armour_priority_self_propelled_bonus中，轻/中/重/超重/现代/两栖六种坦克soft_attack和hard_attack各0.15→0.10。原自行火炮对人员+10%、对装甲+100%、侧重装甲自行火炮补给消耗−30%均不改；中英俄对应提示15.0→10.0，名称/叙事不重写。
