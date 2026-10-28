@@ -552,22 +552,7 @@ RUS_fr_show_logistics_legacy_rewards = {
 
 RUS_fr_show_armour_design_legacy_rewards = {
 	effect_tooltip = {
-		
-		# RUS_EASY_MODE_TECH_START
-		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
-			name = RUS_NPP_tanks
-			bonus = 2
-			uses = 2
-			category = mio_cat_tech_all_armor_and_modules
-		} }
-		else = { add_tech_bonus = {
-			name = RUS_NPP_tanks
-			bonus = 1
-			uses = 2
-			category = mio_cat_tech_all_armor_and_modules
-		} }
-		# RUS_EASY_MODE_TECH_END
-		
+
 		custom_effect_tooltip = RUS_tanks_design_focus_tt
 		RUS_spawn_breakthrough_tanks = yes
 		if = {
@@ -820,25 +805,7 @@ RUS_fr_apply_armour_design_legacy_rewards = {
 		limit = { NOT = { has_country_flag = RUS_fr_armour_design_legacy_rewards_applied } }
 		if = {
 			limit = { NOT = { has_completed_focus = RUS_NPP_tanks } }
-			
-			# RUS_EASY_MODE_TECH_START
-			if = {
-				limit = {
-					hidden_trigger = {
-						has_country_flag = RUS_easy_mode_enabled
-						is_ai = no
-					}
-				}
-				add_tech_bonus = {
-					name = RUS_NPP_tanks
-					bonus = 2
-					uses = 2
-					category = mio_cat_tech_all_armor_and_modules
-				}
-			}
-			else = { add_tech_bonus = { name = RUS_NPP_tanks bonus = 1 uses = 2 category = mio_cat_tech_all_armor_and_modules } }
-			# RUS_EASY_MODE_TECH_END
-			
+
 			RUS_spawn_breakthrough_tanks = yes
 			if = {
 				limit = { has_dlc_aat = no has_idea = sormovo }

@@ -28520,7 +28520,14 @@ focus_tree = {
 				}
 			}
 			RUS_fr_show_armour_design_legacy_rewards = yes
-			RUS_fr_apply_armour_design_legacy_rewards = yes
+			hidden_effect = { RUS_fr_apply_armour_design_legacy_rewards = yes }
+			if = {
+				limit = { has_dlc_gtd = yes }
+				add_breakthrough_progress = {
+					specialization = specialization_land
+					value = 1
+				}
+			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
 
