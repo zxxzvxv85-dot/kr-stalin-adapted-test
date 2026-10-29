@@ -27864,7 +27864,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			RUS_fr_show_small_arms_legacy_rewards = yes
-			RUS_fr_apply_small_arms_legacy_rewards = yes
+			hidden_effect = { RUS_fr_apply_small_arms_legacy_rewards = yes }
 
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_small_arms_standardisation_committee bonus = 1.5 uses = 1 category = infantry_weapons category = support_tech } }
@@ -28016,7 +28016,7 @@ focus_tree = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			if = { limit = { has_dlc_gtd = yes NOT = { is_special_project_completed = sp:sp_land_super_heavy_howitzer } } sp:sp_land_super_heavy_howitzer = { add_project_progress_ratio = 0.15 } }
 			RUS_fr_show_land_warfare_legacy_rewards = yes
-			RUS_fr_apply_expand_ird_legacy_rewards = yes
+			hidden_effect = { RUS_fr_apply_expand_ird_legacy_rewards = yes }
 			add_ideas = RUS_fr_support_fire_joint_trials_idea
 			if = {
 				limit = {
@@ -28176,7 +28176,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			RUS_fr_show_mechanisation_legacy_rewards = yes
-			RUS_fr_apply_mechanisation_legacy_rewards = yes
+			hidden_effect = { RUS_fr_apply_mechanisation_legacy_rewards = yes }
 
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_mechanisation_wave bonus = 1 uses = 1 category = motorized_equipment category = cat_mechanized_equipment } }
@@ -28316,7 +28316,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RUS_fr_focus_materials_instant_completion_tt
 			RUS_fr_show_logistics_legacy_rewards = yes
-			RUS_fr_apply_logistics_legacy_rewards = yes
+			hidden_effect = { RUS_fr_apply_logistics_legacy_rewards = yes }
 
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_mechanised_logistics_regulations bonus = 2 uses = 1 category = logistics_tech } }
