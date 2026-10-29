@@ -172,7 +172,7 @@ def effects():
             req+=' '+' '.join(access_requirements(a))
         else: req+=' NOT = { has_country_flag = RUS_edu_control_busy }'
         begin=['set_country_flag = '+active(a),setv(run_duration(a),duration(a)),setv(remain(a),run_duration(a)),
-               add(repeat_cost(a),5)]
+               add(repeat_cost(a),5 if regular else 1)]
         if regular:
             begin += cond(repeat_condition(a),['set_country_flag = '+repeated(a),
                 f'add_dynamic_modifier = {{ modifier = RUS_edu_repeat_{a["id"]} days = {run_duration(a)} }}'])
@@ -660,7 +660,7 @@ def localisations():
         if a.get('timed_reward'):
             l[a['timed_reward']['idea']]=a['timed_reward']['name']
             l[a['timed_reward']['idea']+'_preview']='$'+a['timed_reward']['idea']+'$'
-        l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】\\n再次开展时，基础政治点花费累加§R5§!。'
+        l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】\\n再次开展时，基础政治点花费累加§R'+('5' if regular else '1')+'§!。'
         if regular:
             gains=[]
             if a['basic']:gains.append(f'基础教育水平：§G+{a["basic"]:g}§!')

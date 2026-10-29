@@ -470,20 +470,21 @@ class EducationTests(unittest.TestCase):
         for a in ACTIVITIES+CONTROLS:
             with self.subTest(aid=a['id']):
                 m=unlock_all(initialized());aid=a['id'];key='RUS_edu_cost_'+aid
+                step=1 if a['kind']=='control' else 5
                 m.vars[VARS['basic']]=35
                 m.vars['RUS_edu_category']=a.get('category',4)
                 for attempt in range(3):
                     m.vars[VARS['heat']]=80 if aid=='restore_order' else 32
                     m.flags.discard('RUS_edu_cooldown_'+aid)
                     m.call('RUS_education_refresh')
-                    self.assertEqual(m.vars[key],a['cost']+5*attempt)
+                    self.assertEqual(m.vars[key],a['cost']+step*attempt)
                     self.assertTrue(m.start(aid))
-                    self.assertEqual(m.vars[key],a['cost']+5*(attempt+1))
+                    self.assertEqual(m.vars[key],a['cost']+step*(attempt+1))
                     self.assertFalse(m.start(aid),'An unavailable double click must not add another charge')
                     m.call('RUS_education_refresh');m.call('RUS_education_initialize')
-                    self.assertEqual(m.vars[key],a['cost']+5*(attempt+1))
+                    self.assertEqual(m.vars[key],a['cost']+step*(attempt+1))
                     m.end(aid,cancel=attempt!=1)
-                    self.assertEqual(m.vars[key],a['cost']+5*(attempt+1))
+                    self.assertEqual(m.vars[key],a['cost']+step*(attempt+1))
                 other='schools' if aid!='schools' else 'literacy'
                 original=next(x['cost'] for x in ACTIVITIES if x['id']==other)
                 self.assertEqual(m.vars['RUS_edu_cost_'+other],original)
@@ -852,7 +853,7 @@ class EducationTests(unittest.TestCase):
                 m.flags.add('RUS_edu_cooldown_'+aid);m.call('RUS_education_refresh')
                 self.assertTrue(m.start(aid),'Old cooldown flags cannot block these controls')
                 self.assertFalse(m.start(other));self.assertFalse(m.start(aid))
-                self.assertEqual(m.vars['RUS_edu_cost_'+aid],25) # Next attempt, after this start paid the initial 20.
+                self.assertEqual(m.vars['RUS_edu_cost_'+aid],21) # Next attempt, after this start paid the initial 20.
                 self.assertEqual(m.vars['RUS_edu_run_duration_'+aid],30)
                 m.end(aid,cancel);m.vars[VARS['heat']]=heat;m.call('RUS_education_refresh')
                 self.assertTrue(m.start(aid))
