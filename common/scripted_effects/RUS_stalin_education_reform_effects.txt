@@ -22,6 +22,59 @@ RUS_education_initialize = {
 		set_variable = { RUS_edu_permanent_political_power_cost = 0 }
 		set_variable = { RUS_edu_permanent_political_power_factor = 0 }
 		set_variable = { RUS_edu_permanent_research_speed_factor = 0 }
+		set_variable = { RUS_edu_repeat_cost_literacy = 0 }
+		set_variable = { RUS_edu_repeat_cost_schools = 0 }
+		set_variable = { RUS_edu_repeat_cost_night_school = 0 }
+		set_variable = { RUS_edu_repeat_cost_teachers = 0 }
+		set_variable = { RUS_edu_repeat_cost_university = 0 }
+		set_variable = { RUS_edu_repeat_cost_science = 0 }
+		set_variable = { RUS_edu_repeat_cost_pedagogy = 0 }
+		set_variable = { RUS_edu_repeat_cost_technical = 0 }
+		set_variable = { RUS_edu_repeat_cost_agriculture = 0 }
+		set_variable = { RUS_edu_repeat_cost_reading = 0 }
+		set_variable = { RUS_edu_repeat_cost_outreach = 0 }
+		set_variable = { RUS_edu_repeat_cost_construction = 0 }
+		set_variable = { RUS_edu_repeat_cost_mentoring = 0 }
+		set_variable = { RUS_edu_repeat_cost_library = 0 }
+		set_variable = { RUS_edu_repeat_cost_defend_leningrad = 0 }
+		set_variable = { RUS_edu_repeat_cost_defend_moscow = 0 }
+		set_variable = { RUS_edu_repeat_cost_march_west = 0 }
+		set_variable = { RUS_edu_repeat_cost_defend_october = 0 }
+		set_variable = { RUS_edu_repeat_cost_dnieper_water = 0 }
+		set_variable = { RUS_edu_repeat_cost_await_victory = 0 }
+		set_variable = { RUS_edu_repeat_cost_advanced_theory = 0 }
+		set_variable = { RUS_edu_repeat_cost_cultural_enemies = 0 }
+		set_variable = { RUS_edu_repeat_cost_mothers_literacy = 0 }
+		set_variable = { RUS_edu_repeat_cost_children_workers = 0 }
+		set_variable = { RUS_edu_repeat_cost_ten_days = 0 }
+		set_variable = { RUS_edu_repeat_cost_book_fair = 0 }
+		set_variable = { RUS_edu_repeat_cost_grain_delivery = 0 }
+		set_variable = { RUS_edu_repeat_cost_end_kitchen_slavery = 0 }
+		set_variable = { RUS_edu_repeat_cost_soviet_elections = 0 }
+		set_variable = { RUS_edu_repeat_cost_protect_children = 0 }
+		set_variable = { RUS_edu_repeat_cost_lenin_banner = 0 }
+		set_variable = { RUS_edu_repeat_cost_labour_productivity = 0 }
+		set_variable = { RUS_edu_repeat_cost_socialist_industry = 0 }
+		set_variable = { RUS_edu_repeat_cost_lenin_electrification = 0 }
+		set_variable = { RUS_edu_repeat_cost_tractors_nurseries = 0 }
+		set_variable = { RUS_edu_repeat_cost_agricultural_statistics = 0 }
+		set_variable = { RUS_edu_repeat_cost_complete_collectivisation = 0 }
+		set_variable = { RUS_edu_repeat_cost_harvest_battle = 0 }
+		set_variable = { RUS_edu_repeat_cost_vigilance = 0 }
+		set_variable = { RUS_edu_repeat_cost_production_vices = 0 }
+		set_variable = { RUS_edu_repeat_cost_public_property = 0 }
+		set_variable = { RUS_edu_repeat_cost_false_shock_workers = 0 }
+		set_variable = { RUS_edu_repeat_cost_motherland_calls = 0 }
+		set_variable = { RUS_edu_repeat_cost_volunteer_enlistment = 0 }
+		set_variable = { RUS_edu_repeat_cost_red_banner_oath = 0 }
+		set_variable = { RUS_edu_repeat_cost_women_frontline = 0 }
+		set_variable = { RUS_edu_repeat_cost_people_and_army = 0 }
+		set_variable = { RUS_edu_repeat_cost_honour_freedom = 0 }
+		set_variable = { RUS_edu_repeat_cost_ukrainian_liberators = 0 }
+		set_variable = { RUS_edu_repeat_cost_beloved_motherland = 0 }
+		set_variable = { RUS_edu_repeat_cost_long_live_peace = 0 }
+		set_variable = { RUS_edu_repeat_cost_listen = 0 }
+		set_variable = { RUS_edu_repeat_cost_restore_order = 0 }
 		set_variable = { RUS_edu_external_basic_gain = 0 }
 		set_variable = { RUS_edu_external_higher_gain = 0 }
 		set_variable = { RUS_edu_external_heat_change = 0 }
@@ -660,6 +713,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_literacy
 	set_variable = { RUS_edu_cost_literacy = 25 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_literacy }
+		add_to_variable = { RUS_edu_cost_literacy = RUS_edu_repeat_cost_literacy }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_literacy = 0.8 }
 	}
@@ -723,6 +780,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_schools = 0.001 }
 	round_variable = RUS_edu_duration_schools
 	set_variable = { RUS_edu_cost_schools = 40 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_schools }
+		add_to_variable = { RUS_edu_cost_schools = RUS_edu_repeat_cost_schools }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_schools = 0.8 }
@@ -802,6 +863,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_night_school
 	set_variable = { RUS_edu_cost_night_school = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_night_school }
+		add_to_variable = { RUS_edu_cost_night_school = RUS_edu_repeat_cost_night_school }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_night_school = 0.8 }
 	}
@@ -879,6 +944,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_teachers = 0.001 }
 	round_variable = RUS_edu_duration_teachers
 	set_variable = { RUS_edu_cost_teachers = 40 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_teachers }
+		add_to_variable = { RUS_edu_cost_teachers = RUS_edu_repeat_cost_teachers }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_teachers = 0.8 }
@@ -958,6 +1027,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_university
 	set_variable = { RUS_edu_cost_university = 45 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_university }
+		add_to_variable = { RUS_edu_cost_university = RUS_edu_repeat_cost_university }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_university = 0.8 }
 	}
@@ -1021,6 +1094,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_science = 0.001 }
 	round_variable = RUS_edu_duration_science
 	set_variable = { RUS_edu_cost_science = 55 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_science }
+		add_to_variable = { RUS_edu_cost_science = RUS_edu_repeat_cost_science }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_science = 0.8 }
@@ -1100,6 +1177,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_pedagogy
 	set_variable = { RUS_edu_cost_pedagogy = 45 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_pedagogy }
+		add_to_variable = { RUS_edu_cost_pedagogy = RUS_edu_repeat_cost_pedagogy }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_pedagogy = 0.8 }
 	}
@@ -1177,6 +1258,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_technical = 0.001 }
 	round_variable = RUS_edu_duration_technical
 	set_variable = { RUS_edu_cost_technical = 35 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_technical }
+		add_to_variable = { RUS_edu_cost_technical = RUS_edu_repeat_cost_technical }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_technical = 0.8 }
@@ -1256,6 +1341,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_agriculture
 	set_variable = { RUS_edu_cost_agriculture = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_agriculture }
+		add_to_variable = { RUS_edu_cost_agriculture = RUS_edu_repeat_cost_agriculture }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_agriculture = 0.8 }
 	}
@@ -1319,6 +1408,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_reading = 0.001 }
 	round_variable = RUS_edu_duration_reading
 	set_variable = { RUS_edu_cost_reading = 20 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_reading }
+		add_to_variable = { RUS_edu_cost_reading = RUS_edu_repeat_cost_reading }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_reading = 0.8 }
@@ -1398,6 +1491,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_outreach
 	set_variable = { RUS_edu_cost_outreach = 25 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_outreach }
+		add_to_variable = { RUS_edu_cost_outreach = RUS_edu_repeat_cost_outreach }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_outreach = 0.8 }
 	}
@@ -1475,6 +1572,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_construction = 0.001 }
 	round_variable = RUS_edu_duration_construction
 	set_variable = { RUS_edu_cost_construction = 25 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_construction }
+		add_to_variable = { RUS_edu_cost_construction = RUS_edu_repeat_cost_construction }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_construction = 0.8 }
@@ -1567,6 +1668,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_mentoring = 0.001 }
 	round_variable = RUS_edu_duration_mentoring
 	set_variable = { RUS_edu_cost_mentoring = 30 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_mentoring }
+		add_to_variable = { RUS_edu_cost_mentoring = RUS_edu_repeat_cost_mentoring }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_mentoring = 0.8 }
@@ -1664,6 +1769,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_library
 	set_variable = { RUS_edu_cost_library = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_library }
+		add_to_variable = { RUS_edu_cost_library = RUS_edu_repeat_cost_library }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_library = 0.8 }
 	}
@@ -1745,6 +1854,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_defend_leningrad = 0.001 }
 	round_variable = RUS_edu_duration_defend_leningrad
 	set_variable = { RUS_edu_cost_defend_leningrad = 35 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_defend_leningrad }
+		add_to_variable = { RUS_edu_cost_defend_leningrad = RUS_edu_repeat_cost_defend_leningrad }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_defend_leningrad = 0.8 }
@@ -1838,6 +1951,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_defend_moscow
 	set_variable = { RUS_edu_cost_defend_moscow = 35 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_defend_moscow }
+		add_to_variable = { RUS_edu_cost_defend_moscow = RUS_edu_repeat_cost_defend_moscow }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_defend_moscow = 0.8 }
 	}
@@ -1929,6 +2046,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_march_west = 0.001 }
 	round_variable = RUS_edu_duration_march_west
 	set_variable = { RUS_edu_cost_march_west = 40 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_march_west }
+		add_to_variable = { RUS_edu_cost_march_west = RUS_edu_repeat_cost_march_west }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_march_west = 0.8 }
@@ -2022,6 +2143,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_defend_october
 	set_variable = { RUS_edu_cost_defend_october = 35 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_defend_october }
+		add_to_variable = { RUS_edu_cost_defend_october = RUS_edu_repeat_cost_defend_october }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_defend_october = 0.8 }
 	}
@@ -2099,6 +2224,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_dnieper_water = 0.001 }
 	round_variable = RUS_edu_duration_dnieper_water
 	set_variable = { RUS_edu_cost_dnieper_water = 40 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_dnieper_water }
+		add_to_variable = { RUS_edu_cost_dnieper_water = RUS_edu_repeat_cost_dnieper_water }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_dnieper_water = 0.8 }
@@ -2178,6 +2307,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_await_victory
 	set_variable = { RUS_edu_cost_await_victory = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_await_victory }
+		add_to_variable = { RUS_edu_cost_await_victory = RUS_edu_repeat_cost_await_victory }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_await_victory = 0.8 }
 	}
@@ -2255,6 +2388,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_advanced_theory = 0.001 }
 	round_variable = RUS_edu_duration_advanced_theory
 	set_variable = { RUS_edu_cost_advanced_theory = 45 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_advanced_theory }
+		add_to_variable = { RUS_edu_cost_advanced_theory = RUS_edu_repeat_cost_advanced_theory }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_advanced_theory = 0.8 }
@@ -2338,6 +2475,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_cultural_enemies
 	set_variable = { RUS_edu_cost_cultural_enemies = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_cultural_enemies }
+		add_to_variable = { RUS_edu_cost_cultural_enemies = RUS_edu_repeat_cost_cultural_enemies }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_cultural_enemies = 0.8 }
 	}
@@ -2420,6 +2561,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_mothers_literacy
 	set_variable = { RUS_edu_cost_mothers_literacy = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_mothers_literacy }
+		add_to_variable = { RUS_edu_cost_mothers_literacy = RUS_edu_repeat_cost_mothers_literacy }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_mothers_literacy = 0.8 }
 	}
@@ -2497,6 +2642,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_children_workers = 0.001 }
 	round_variable = RUS_edu_duration_children_workers
 	set_variable = { RUS_edu_cost_children_workers = 30 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_children_workers }
+		add_to_variable = { RUS_edu_cost_children_workers = RUS_edu_repeat_cost_children_workers }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_children_workers = 0.8 }
@@ -2580,6 +2729,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_ten_days
 	set_variable = { RUS_edu_cost_ten_days = 25 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_ten_days }
+		add_to_variable = { RUS_edu_cost_ten_days = RUS_edu_repeat_cost_ten_days }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_ten_days = 0.8 }
 	}
@@ -2657,6 +2810,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_book_fair = 0.001 }
 	round_variable = RUS_edu_duration_book_fair
 	set_variable = { RUS_edu_cost_book_fair = 25 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_book_fair }
+		add_to_variable = { RUS_edu_cost_book_fair = RUS_edu_repeat_cost_book_fair }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_book_fair = 0.8 }
@@ -2754,6 +2911,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_grain_delivery
 	set_variable = { RUS_edu_cost_grain_delivery = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_grain_delivery }
+		add_to_variable = { RUS_edu_cost_grain_delivery = RUS_edu_repeat_cost_grain_delivery }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_grain_delivery = 0.8 }
 	}
@@ -2835,6 +2996,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_end_kitchen_slavery = 0.001 }
 	round_variable = RUS_edu_duration_end_kitchen_slavery
 	set_variable = { RUS_edu_cost_end_kitchen_slavery = 35 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_end_kitchen_slavery }
+		add_to_variable = { RUS_edu_cost_end_kitchen_slavery = RUS_edu_repeat_cost_end_kitchen_slavery }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_end_kitchen_slavery = 0.8 }
@@ -2918,6 +3083,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_soviet_elections
 	set_variable = { RUS_edu_cost_soviet_elections = 25 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_soviet_elections }
+		add_to_variable = { RUS_edu_cost_soviet_elections = RUS_edu_repeat_cost_soviet_elections }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_soviet_elections = 0.8 }
 	}
@@ -2999,6 +3168,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_protect_children = 0.001 }
 	round_variable = RUS_edu_duration_protect_children
 	set_variable = { RUS_edu_cost_protect_children = 25 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_protect_children }
+		add_to_variable = { RUS_edu_cost_protect_children = RUS_edu_repeat_cost_protect_children }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_protect_children = 0.8 }
@@ -3082,6 +3255,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_lenin_banner
 	set_variable = { RUS_edu_cost_lenin_banner = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_lenin_banner }
+		add_to_variable = { RUS_edu_cost_lenin_banner = RUS_edu_repeat_cost_lenin_banner }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_lenin_banner = 0.8 }
 	}
@@ -3159,6 +3336,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_labour_productivity = 0.001 }
 	round_variable = RUS_edu_duration_labour_productivity
 	set_variable = { RUS_edu_cost_labour_productivity = 35 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_labour_productivity }
+		add_to_variable = { RUS_edu_cost_labour_productivity = RUS_edu_repeat_cost_labour_productivity }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_labour_productivity = 0.8 }
@@ -3238,6 +3419,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_socialist_industry
 	set_variable = { RUS_edu_cost_socialist_industry = 45 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_socialist_industry }
+		add_to_variable = { RUS_edu_cost_socialist_industry = RUS_edu_repeat_cost_socialist_industry }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_socialist_industry = 0.8 }
 	}
@@ -3315,6 +3500,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_lenin_electrification = 0.001 }
 	round_variable = RUS_edu_duration_lenin_electrification
 	set_variable = { RUS_edu_cost_lenin_electrification = 45 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_lenin_electrification }
+		add_to_variable = { RUS_edu_cost_lenin_electrification = RUS_edu_repeat_cost_lenin_electrification }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_lenin_electrification = 0.8 }
@@ -3407,6 +3596,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_tractors_nurseries = 0.001 }
 	round_variable = RUS_edu_duration_tractors_nurseries
 	set_variable = { RUS_edu_cost_tractors_nurseries = 35 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_tractors_nurseries }
+		add_to_variable = { RUS_edu_cost_tractors_nurseries = RUS_edu_repeat_cost_tractors_nurseries }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_tractors_nurseries = 0.8 }
@@ -3504,6 +3697,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_agricultural_statistics
 	set_variable = { RUS_edu_cost_agricultural_statistics = 35 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_agricultural_statistics }
+		add_to_variable = { RUS_edu_cost_agricultural_statistics = RUS_edu_repeat_cost_agricultural_statistics }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_agricultural_statistics = 0.8 }
 	}
@@ -3585,6 +3782,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_complete_collectivisation = 0.001 }
 	round_variable = RUS_edu_duration_complete_collectivisation
 	set_variable = { RUS_edu_cost_complete_collectivisation = 40 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_complete_collectivisation }
+		add_to_variable = { RUS_edu_cost_complete_collectivisation = RUS_edu_repeat_cost_complete_collectivisation }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_complete_collectivisation = 0.8 }
@@ -3668,6 +3869,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_harvest_battle
 	set_variable = { RUS_edu_cost_harvest_battle = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_harvest_battle }
+		add_to_variable = { RUS_edu_cost_harvest_battle = RUS_edu_repeat_cost_harvest_battle }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_harvest_battle = 0.8 }
 	}
@@ -3749,6 +3954,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_vigilance = 0.001 }
 	round_variable = RUS_edu_duration_vigilance
 	set_variable = { RUS_edu_cost_vigilance = 25 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_vigilance }
+		add_to_variable = { RUS_edu_cost_vigilance = RUS_edu_repeat_cost_vigilance }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_vigilance = 0.8 }
@@ -3842,6 +4051,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_production_vices
 	set_variable = { RUS_edu_cost_production_vices = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_production_vices }
+		add_to_variable = { RUS_edu_cost_production_vices = RUS_edu_repeat_cost_production_vices }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_production_vices = 0.8 }
 	}
@@ -3919,6 +4132,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_public_property = 0.001 }
 	round_variable = RUS_edu_duration_public_property
 	set_variable = { RUS_edu_cost_public_property = 30 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_public_property }
+		add_to_variable = { RUS_edu_cost_public_property = RUS_edu_repeat_cost_public_property }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_public_property = 0.8 }
@@ -4001,6 +4218,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_false_shock_workers = 0.001 }
 	round_variable = RUS_edu_duration_false_shock_workers
 	set_variable = { RUS_edu_cost_false_shock_workers = 30 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_false_shock_workers }
+		add_to_variable = { RUS_edu_cost_false_shock_workers = RUS_edu_repeat_cost_false_shock_workers }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_false_shock_workers = 0.8 }
@@ -4094,6 +4315,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_motherland_calls
 	set_variable = { RUS_edu_cost_motherland_calls = 35 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_motherland_calls }
+		add_to_variable = { RUS_edu_cost_motherland_calls = RUS_edu_repeat_cost_motherland_calls }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_motherland_calls = 0.8 }
 	}
@@ -4186,6 +4411,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_volunteer_enlistment
 	set_variable = { RUS_edu_cost_volunteer_enlistment = 30 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_volunteer_enlistment }
+		add_to_variable = { RUS_edu_cost_volunteer_enlistment = RUS_edu_repeat_cost_volunteer_enlistment }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_volunteer_enlistment = 0.8 }
 	}
@@ -4263,6 +4492,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_red_banner_oath = 0.001 }
 	round_variable = RUS_edu_duration_red_banner_oath
 	set_variable = { RUS_edu_cost_red_banner_oath = 30 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_red_banner_oath }
+		add_to_variable = { RUS_edu_cost_red_banner_oath = RUS_edu_repeat_cost_red_banner_oath }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_red_banner_oath = 0.8 }
@@ -4370,6 +4603,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_women_frontline
 	set_variable = { RUS_edu_cost_women_frontline = 35 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_women_frontline }
+		add_to_variable = { RUS_edu_cost_women_frontline = RUS_edu_repeat_cost_women_frontline }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_women_frontline = 0.8 }
 	}
@@ -4461,6 +4698,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_people_and_army = 0.001 }
 	round_variable = RUS_edu_duration_people_and_army
 	set_variable = { RUS_edu_cost_people_and_army = 35 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_people_and_army }
+		add_to_variable = { RUS_edu_cost_people_and_army = RUS_edu_repeat_cost_people_and_army }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_people_and_army = 0.8 }
@@ -4568,6 +4809,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_honour_freedom
 	set_variable = { RUS_edu_cost_honour_freedom = 35 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_honour_freedom }
+		add_to_variable = { RUS_edu_cost_honour_freedom = RUS_edu_repeat_cost_honour_freedom }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_honour_freedom = 0.8 }
 	}
@@ -4674,6 +4919,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_ukrainian_liberators
 	set_variable = { RUS_edu_cost_ukrainian_liberators = 40 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_ukrainian_liberators }
+		add_to_variable = { RUS_edu_cost_ukrainian_liberators = RUS_edu_repeat_cost_ukrainian_liberators }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_ukrainian_liberators = 0.8 }
 	}
@@ -4751,6 +5000,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_beloved_motherland = 0.001 }
 	round_variable = RUS_edu_duration_beloved_motherland
 	set_variable = { RUS_edu_cost_beloved_motherland = 35 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_beloved_motherland }
+		add_to_variable = { RUS_edu_cost_beloved_motherland = RUS_edu_repeat_cost_beloved_motherland }
+	}
 	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_beloved_motherland = 0.8 }
@@ -4848,6 +5101,10 @@ RUS_education_refresh = {
 	round_variable = RUS_edu_duration_long_live_peace
 	set_variable = { RUS_edu_cost_long_live_peace = 35 }
 	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_long_live_peace }
+		add_to_variable = { RUS_edu_cost_long_live_peace = RUS_edu_repeat_cost_long_live_peace }
+	}
+	if = {
 		limit = { has_country_flag = RUS_edu_central }
 		multiply_variable = { RUS_edu_cost_long_live_peace = 0.8 }
 	}
@@ -4939,6 +5196,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_listen = 0.001 }
 	round_variable = RUS_edu_duration_listen
 	set_variable = { RUS_edu_cost_listen = 20 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_listen }
+		add_to_variable = { RUS_edu_cost_listen = RUS_edu_repeat_cost_listen }
+	}
 	set_variable = { RUS_edu_reward_listen_political_power_cost = -0.2 }
 	subtract_from_variable = { RUS_edu_reward_listen_political_power_cost = RUS_edu_permanent_political_power_cost }
 	if = { limit = { check_variable = { RUS_edu_reward_listen_political_power_cost < -0.005 } } set_variable = { RUS_edu_reward_listen_political_power_cost = -0.005 } }
@@ -4970,6 +5231,10 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_duration_restore_order = 0.001 }
 	round_variable = RUS_edu_duration_restore_order
 	set_variable = { RUS_edu_cost_restore_order = 20 }
+	if = {
+		limit = { has_variable = RUS_edu_repeat_cost_restore_order }
+		add_to_variable = { RUS_edu_cost_restore_order = RUS_edu_repeat_cost_restore_order }
+	}
 	set_variable = { RUS_edu_reward_restore_order_political_power_cost = -0.2 }
 	subtract_from_variable = { RUS_edu_reward_restore_order_political_power_cost = RUS_edu_permanent_political_power_cost }
 	if = { limit = { check_variable = { RUS_edu_reward_restore_order_political_power_cost < -0.005 } } set_variable = { RUS_edu_reward_restore_order_political_power_cost = -0.005 } }
@@ -11523,6 +11788,7 @@ RUS_education_begin_literacy = {
 		set_country_flag = RUS_edu_running_literacy
 		set_variable = { RUS_edu_run_duration_literacy = RUS_edu_duration_literacy }
 		set_variable = { RUS_edu_days_literacy = RUS_edu_run_duration_literacy }
+		add_to_variable = { RUS_edu_repeat_cost_literacy = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_literacy }
 			set_country_flag = RUS_edu_repeated_literacy
@@ -11638,6 +11904,7 @@ RUS_education_begin_schools = {
 		set_country_flag = RUS_edu_running_schools
 		set_variable = { RUS_edu_run_duration_schools = RUS_edu_duration_schools }
 		set_variable = { RUS_edu_days_schools = RUS_edu_run_duration_schools }
+		add_to_variable = { RUS_edu_repeat_cost_schools = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_schools }
 			set_country_flag = RUS_edu_repeated_schools
@@ -11760,6 +12027,7 @@ RUS_education_begin_night_school = {
 		set_country_flag = RUS_edu_running_night_school
 		set_variable = { RUS_edu_run_duration_night_school = RUS_edu_duration_night_school }
 		set_variable = { RUS_edu_days_night_school = RUS_edu_run_duration_night_school }
+		add_to_variable = { RUS_edu_repeat_cost_night_school = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_night_school }
 			set_country_flag = RUS_edu_repeated_night_school
@@ -11899,6 +12167,7 @@ RUS_education_begin_teachers = {
 		set_country_flag = RUS_edu_running_teachers
 		set_variable = { RUS_edu_run_duration_teachers = RUS_edu_duration_teachers }
 		set_variable = { RUS_edu_days_teachers = RUS_edu_run_duration_teachers }
+		add_to_variable = { RUS_edu_repeat_cost_teachers = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_teachers }
 			set_country_flag = RUS_edu_repeated_teachers
@@ -12027,6 +12296,7 @@ RUS_education_begin_university = {
 		set_country_flag = RUS_edu_running_university
 		set_variable = { RUS_edu_run_duration_university = RUS_edu_duration_university }
 		set_variable = { RUS_edu_days_university = RUS_edu_run_duration_university }
+		add_to_variable = { RUS_edu_repeat_cost_university = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_university }
 			set_country_flag = RUS_edu_repeated_university
@@ -12166,6 +12436,7 @@ RUS_education_begin_science = {
 		set_country_flag = RUS_edu_running_science
 		set_variable = { RUS_edu_run_duration_science = RUS_edu_duration_science }
 		set_variable = { RUS_edu_days_science = RUS_edu_run_duration_science }
+		add_to_variable = { RUS_edu_repeat_cost_science = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_science }
 			set_country_flag = RUS_edu_repeated_science
@@ -12281,6 +12552,7 @@ RUS_education_begin_pedagogy = {
 		set_country_flag = RUS_edu_running_pedagogy
 		set_variable = { RUS_edu_run_duration_pedagogy = RUS_edu_duration_pedagogy }
 		set_variable = { RUS_edu_days_pedagogy = RUS_edu_run_duration_pedagogy }
+		add_to_variable = { RUS_edu_repeat_cost_pedagogy = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_pedagogy }
 			set_country_flag = RUS_edu_repeated_pedagogy
@@ -12409,6 +12681,7 @@ RUS_education_begin_technical = {
 		set_country_flag = RUS_edu_running_technical
 		set_variable = { RUS_edu_run_duration_technical = RUS_edu_duration_technical }
 		set_variable = { RUS_edu_days_technical = RUS_edu_run_duration_technical }
+		add_to_variable = { RUS_edu_repeat_cost_technical = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_technical }
 			set_country_flag = RUS_edu_repeated_technical
@@ -12548,6 +12821,7 @@ RUS_education_begin_agriculture = {
 		set_country_flag = RUS_edu_running_agriculture
 		set_variable = { RUS_edu_run_duration_agriculture = RUS_edu_duration_agriculture }
 		set_variable = { RUS_edu_days_agriculture = RUS_edu_run_duration_agriculture }
+		add_to_variable = { RUS_edu_repeat_cost_agriculture = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agriculture }
 			set_country_flag = RUS_edu_repeated_agriculture
@@ -12687,6 +12961,7 @@ RUS_education_begin_reading = {
 		set_country_flag = RUS_edu_running_reading
 		set_variable = { RUS_edu_run_duration_reading = RUS_edu_duration_reading }
 		set_variable = { RUS_edu_days_reading = RUS_edu_run_duration_reading }
+		add_to_variable = { RUS_edu_repeat_cost_reading = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_reading }
 			set_country_flag = RUS_edu_repeated_reading
@@ -12830,6 +13105,7 @@ RUS_education_begin_outreach = {
 		set_country_flag = RUS_edu_running_outreach
 		set_variable = { RUS_edu_run_duration_outreach = RUS_edu_duration_outreach }
 		set_variable = { RUS_edu_days_outreach = RUS_edu_run_duration_outreach }
+		add_to_variable = { RUS_edu_repeat_cost_outreach = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_outreach }
 			set_country_flag = RUS_edu_repeated_outreach
@@ -12960,6 +13236,7 @@ RUS_education_begin_construction = {
 		set_country_flag = RUS_edu_running_construction
 		set_variable = { RUS_edu_run_duration_construction = RUS_edu_duration_construction }
 		set_variable = { RUS_edu_days_construction = RUS_edu_run_duration_construction }
+		add_to_variable = { RUS_edu_repeat_cost_construction = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_construction }
 			set_country_flag = RUS_edu_repeated_construction
@@ -13077,6 +13354,7 @@ RUS_education_begin_mentoring = {
 		set_country_flag = RUS_edu_running_mentoring
 		set_variable = { RUS_edu_run_duration_mentoring = RUS_edu_duration_mentoring }
 		set_variable = { RUS_edu_days_mentoring = RUS_edu_run_duration_mentoring }
+		add_to_variable = { RUS_edu_repeat_cost_mentoring = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mentoring }
 			set_country_flag = RUS_edu_repeated_mentoring
@@ -13217,6 +13495,7 @@ RUS_education_begin_library = {
 		set_country_flag = RUS_edu_running_library
 		set_variable = { RUS_edu_run_duration_library = RUS_edu_duration_library }
 		set_variable = { RUS_edu_days_library = RUS_edu_run_duration_library }
+		add_to_variable = { RUS_edu_repeat_cost_library = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_library }
 			set_country_flag = RUS_edu_repeated_library
@@ -13361,6 +13640,7 @@ RUS_education_begin_defend_leningrad = {
 		set_country_flag = RUS_edu_running_defend_leningrad
 		set_variable = { RUS_edu_run_duration_defend_leningrad = RUS_edu_duration_defend_leningrad }
 		set_variable = { RUS_edu_days_defend_leningrad = RUS_edu_run_duration_defend_leningrad }
+		add_to_variable = { RUS_edu_repeat_cost_defend_leningrad = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_leningrad }
 			set_country_flag = RUS_edu_repeated_defend_leningrad
@@ -13491,6 +13771,7 @@ RUS_education_begin_defend_moscow = {
 		set_country_flag = RUS_edu_running_defend_moscow
 		set_variable = { RUS_edu_run_duration_defend_moscow = RUS_edu_duration_defend_moscow }
 		set_variable = { RUS_edu_days_defend_moscow = RUS_edu_run_duration_defend_moscow }
+		add_to_variable = { RUS_edu_repeat_cost_defend_moscow = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_moscow }
 			set_country_flag = RUS_edu_repeated_defend_moscow
@@ -13621,6 +13902,7 @@ RUS_education_begin_march_west = {
 		set_country_flag = RUS_edu_running_march_west
 		set_variable = { RUS_edu_run_duration_march_west = RUS_edu_duration_march_west }
 		set_variable = { RUS_edu_days_march_west = RUS_edu_run_duration_march_west }
+		add_to_variable = { RUS_edu_repeat_cost_march_west = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_march_west }
 			set_country_flag = RUS_edu_repeated_march_west
@@ -13747,6 +14029,7 @@ RUS_education_begin_defend_october = {
 		set_country_flag = RUS_edu_running_defend_october
 		set_variable = { RUS_edu_run_duration_defend_october = RUS_edu_duration_defend_october }
 		set_variable = { RUS_edu_days_defend_october = RUS_edu_run_duration_defend_october }
+		add_to_variable = { RUS_edu_repeat_cost_defend_october = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_october }
 			set_country_flag = RUS_edu_repeated_defend_october
@@ -13873,6 +14156,7 @@ RUS_education_begin_dnieper_water = {
 		set_country_flag = RUS_edu_running_dnieper_water
 		set_variable = { RUS_edu_run_duration_dnieper_water = RUS_edu_duration_dnieper_water }
 		set_variable = { RUS_edu_days_dnieper_water = RUS_edu_run_duration_dnieper_water }
+		add_to_variable = { RUS_edu_repeat_cost_dnieper_water = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_dnieper_water }
 			set_country_flag = RUS_edu_repeated_dnieper_water
@@ -14013,6 +14297,7 @@ RUS_education_begin_await_victory = {
 		set_country_flag = RUS_edu_running_await_victory
 		set_variable = { RUS_edu_run_duration_await_victory = RUS_edu_duration_await_victory }
 		set_variable = { RUS_edu_days_await_victory = RUS_edu_run_duration_await_victory }
+		add_to_variable = { RUS_edu_repeat_cost_await_victory = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_await_victory }
 			set_country_flag = RUS_edu_repeated_await_victory
@@ -14139,6 +14424,7 @@ RUS_education_begin_advanced_theory = {
 		set_country_flag = RUS_edu_running_advanced_theory
 		set_variable = { RUS_edu_run_duration_advanced_theory = RUS_edu_duration_advanced_theory }
 		set_variable = { RUS_edu_days_advanced_theory = RUS_edu_run_duration_advanced_theory }
+		add_to_variable = { RUS_edu_repeat_cost_advanced_theory = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_advanced_theory }
 			set_country_flag = RUS_edu_repeated_advanced_theory
@@ -14279,6 +14565,7 @@ RUS_education_begin_cultural_enemies = {
 		set_country_flag = RUS_edu_running_cultural_enemies
 		set_variable = { RUS_edu_run_duration_cultural_enemies = RUS_edu_duration_cultural_enemies }
 		set_variable = { RUS_edu_days_cultural_enemies = RUS_edu_run_duration_cultural_enemies }
+		add_to_variable = { RUS_edu_repeat_cost_cultural_enemies = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_cultural_enemies }
 			set_country_flag = RUS_edu_repeated_cultural_enemies
@@ -14423,6 +14710,7 @@ RUS_education_begin_mothers_literacy = {
 		set_country_flag = RUS_edu_running_mothers_literacy
 		set_variable = { RUS_edu_run_duration_mothers_literacy = RUS_edu_duration_mothers_literacy }
 		set_variable = { RUS_edu_days_mothers_literacy = RUS_edu_run_duration_mothers_literacy }
+		add_to_variable = { RUS_edu_repeat_cost_mothers_literacy = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mothers_literacy }
 			set_country_flag = RUS_edu_repeated_mothers_literacy
@@ -14545,6 +14833,7 @@ RUS_education_begin_children_workers = {
 		set_country_flag = RUS_edu_running_children_workers
 		set_variable = { RUS_edu_run_duration_children_workers = RUS_edu_duration_children_workers }
 		set_variable = { RUS_edu_days_children_workers = RUS_edu_run_duration_children_workers }
+		add_to_variable = { RUS_edu_repeat_cost_children_workers = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_children_workers }
 			set_country_flag = RUS_edu_repeated_children_workers
@@ -14674,6 +14963,7 @@ RUS_education_begin_ten_days = {
 		set_country_flag = RUS_edu_running_ten_days
 		set_variable = { RUS_edu_run_duration_ten_days = RUS_edu_duration_ten_days }
 		set_variable = { RUS_edu_days_ten_days = RUS_edu_run_duration_ten_days }
+		add_to_variable = { RUS_edu_repeat_cost_ten_days = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ten_days }
 			set_country_flag = RUS_edu_repeated_ten_days
@@ -14817,6 +15107,7 @@ RUS_education_begin_book_fair = {
 		set_country_flag = RUS_edu_running_book_fair
 		set_variable = { RUS_edu_run_duration_book_fair = RUS_edu_duration_book_fair }
 		set_variable = { RUS_edu_days_book_fair = RUS_edu_run_duration_book_fair }
+		add_to_variable = { RUS_edu_repeat_cost_book_fair = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_book_fair }
 			set_country_flag = RUS_edu_repeated_book_fair
@@ -14961,6 +15252,7 @@ RUS_education_begin_grain_delivery = {
 		set_country_flag = RUS_edu_running_grain_delivery
 		set_variable = { RUS_edu_run_duration_grain_delivery = RUS_edu_duration_grain_delivery }
 		set_variable = { RUS_edu_days_grain_delivery = RUS_edu_run_duration_grain_delivery }
+		add_to_variable = { RUS_edu_repeat_cost_grain_delivery = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_grain_delivery }
 			set_country_flag = RUS_edu_repeated_grain_delivery
@@ -15099,6 +15391,7 @@ RUS_education_begin_end_kitchen_slavery = {
 		set_country_flag = RUS_edu_running_end_kitchen_slavery
 		set_variable = { RUS_edu_run_duration_end_kitchen_slavery = RUS_edu_duration_end_kitchen_slavery }
 		set_variable = { RUS_edu_days_end_kitchen_slavery = RUS_edu_run_duration_end_kitchen_slavery }
+		add_to_variable = { RUS_edu_repeat_cost_end_kitchen_slavery = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_end_kitchen_slavery }
 			set_country_flag = RUS_edu_repeated_end_kitchen_slavery
@@ -15243,6 +15536,7 @@ RUS_education_begin_soviet_elections = {
 		set_country_flag = RUS_edu_running_soviet_elections
 		set_variable = { RUS_edu_run_duration_soviet_elections = RUS_edu_duration_soviet_elections }
 		set_variable = { RUS_edu_days_soviet_elections = RUS_edu_run_duration_soviet_elections }
+		add_to_variable = { RUS_edu_repeat_cost_soviet_elections = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_soviet_elections }
 			set_country_flag = RUS_edu_repeated_soviet_elections
@@ -15374,6 +15668,7 @@ RUS_education_begin_protect_children = {
 		set_country_flag = RUS_edu_running_protect_children
 		set_variable = { RUS_edu_run_duration_protect_children = RUS_edu_duration_protect_children }
 		set_variable = { RUS_edu_days_protect_children = RUS_edu_run_duration_protect_children }
+		add_to_variable = { RUS_edu_repeat_cost_protect_children = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_protect_children }
 			set_country_flag = RUS_edu_repeated_protect_children
@@ -15501,6 +15796,7 @@ RUS_education_begin_lenin_banner = {
 		set_country_flag = RUS_edu_running_lenin_banner
 		set_variable = { RUS_edu_run_duration_lenin_banner = RUS_edu_duration_lenin_banner }
 		set_variable = { RUS_edu_days_lenin_banner = RUS_edu_run_duration_lenin_banner }
+		add_to_variable = { RUS_edu_repeat_cost_lenin_banner = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_banner }
 			set_country_flag = RUS_edu_repeated_lenin_banner
@@ -15631,6 +15927,7 @@ RUS_education_begin_labour_productivity = {
 		set_country_flag = RUS_edu_running_labour_productivity
 		set_variable = { RUS_edu_run_duration_labour_productivity = RUS_edu_duration_labour_productivity }
 		set_variable = { RUS_edu_days_labour_productivity = RUS_edu_run_duration_labour_productivity }
+		add_to_variable = { RUS_edu_repeat_cost_labour_productivity = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_labour_productivity }
 			set_country_flag = RUS_edu_repeated_labour_productivity
@@ -15770,6 +16067,7 @@ RUS_education_begin_socialist_industry = {
 		set_country_flag = RUS_edu_running_socialist_industry
 		set_variable = { RUS_edu_run_duration_socialist_industry = RUS_edu_duration_socialist_industry }
 		set_variable = { RUS_edu_days_socialist_industry = RUS_edu_run_duration_socialist_industry }
+		add_to_variable = { RUS_edu_repeat_cost_socialist_industry = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_socialist_industry }
 			set_country_flag = RUS_edu_repeated_socialist_industry
@@ -15913,6 +16211,7 @@ RUS_education_begin_lenin_electrification = {
 		set_country_flag = RUS_edu_running_lenin_electrification
 		set_variable = { RUS_edu_run_duration_lenin_electrification = RUS_edu_duration_lenin_electrification }
 		set_variable = { RUS_edu_days_lenin_electrification = RUS_edu_run_duration_lenin_electrification }
+		add_to_variable = { RUS_edu_repeat_cost_lenin_electrification = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_electrification }
 			set_country_flag = RUS_edu_repeated_lenin_electrification
@@ -16056,6 +16355,7 @@ RUS_education_begin_tractors_nurseries = {
 		set_country_flag = RUS_edu_running_tractors_nurseries
 		set_variable = { RUS_edu_run_duration_tractors_nurseries = RUS_edu_duration_tractors_nurseries }
 		set_variable = { RUS_edu_days_tractors_nurseries = RUS_edu_run_duration_tractors_nurseries }
+		add_to_variable = { RUS_edu_repeat_cost_tractors_nurseries = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_tractors_nurseries }
 			set_country_flag = RUS_edu_repeated_tractors_nurseries
@@ -16204,6 +16504,7 @@ RUS_education_begin_agricultural_statistics = {
 		set_country_flag = RUS_edu_running_agricultural_statistics
 		set_variable = { RUS_edu_run_duration_agricultural_statistics = RUS_edu_duration_agricultural_statistics }
 		set_variable = { RUS_edu_days_agricultural_statistics = RUS_edu_run_duration_agricultural_statistics }
+		add_to_variable = { RUS_edu_repeat_cost_agricultural_statistics = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agricultural_statistics }
 			set_country_flag = RUS_edu_repeated_agricultural_statistics
@@ -16338,6 +16639,7 @@ RUS_education_begin_complete_collectivisation = {
 		set_country_flag = RUS_edu_running_complete_collectivisation
 		set_variable = { RUS_edu_run_duration_complete_collectivisation = RUS_edu_duration_complete_collectivisation }
 		set_variable = { RUS_edu_days_complete_collectivisation = RUS_edu_run_duration_complete_collectivisation }
+		add_to_variable = { RUS_edu_repeat_cost_complete_collectivisation = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_complete_collectivisation }
 			set_country_flag = RUS_edu_repeated_complete_collectivisation
@@ -16478,6 +16780,7 @@ RUS_education_begin_harvest_battle = {
 		set_country_flag = RUS_edu_running_harvest_battle
 		set_variable = { RUS_edu_run_duration_harvest_battle = RUS_edu_duration_harvest_battle }
 		set_variable = { RUS_edu_days_harvest_battle = RUS_edu_run_duration_harvest_battle }
+		add_to_variable = { RUS_edu_repeat_cost_harvest_battle = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_harvest_battle }
 			set_country_flag = RUS_edu_repeated_harvest_battle
@@ -16625,6 +16928,7 @@ RUS_education_begin_vigilance = {
 		set_country_flag = RUS_edu_running_vigilance
 		set_variable = { RUS_edu_run_duration_vigilance = RUS_edu_duration_vigilance }
 		set_variable = { RUS_edu_days_vigilance = RUS_edu_run_duration_vigilance }
+		add_to_variable = { RUS_edu_repeat_cost_vigilance = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_vigilance }
 			set_country_flag = RUS_edu_repeated_vigilance
@@ -16755,6 +17059,7 @@ RUS_education_begin_production_vices = {
 		set_country_flag = RUS_edu_running_production_vices
 		set_variable = { RUS_edu_run_duration_production_vices = RUS_edu_duration_production_vices }
 		set_variable = { RUS_edu_days_production_vices = RUS_edu_run_duration_production_vices }
+		add_to_variable = { RUS_edu_repeat_cost_production_vices = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_production_vices }
 			set_country_flag = RUS_edu_repeated_production_vices
@@ -16890,6 +17195,7 @@ RUS_education_begin_public_property = {
 		set_country_flag = RUS_edu_running_public_property
 		set_variable = { RUS_edu_run_duration_public_property = RUS_edu_duration_public_property }
 		set_variable = { RUS_edu_days_public_property = RUS_edu_run_duration_public_property }
+		add_to_variable = { RUS_edu_repeat_cost_public_property = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_public_property }
 			set_country_flag = RUS_edu_repeated_public_property
@@ -17021,6 +17327,7 @@ RUS_education_begin_false_shock_workers = {
 		set_country_flag = RUS_edu_running_false_shock_workers
 		set_variable = { RUS_edu_run_duration_false_shock_workers = RUS_edu_duration_false_shock_workers }
 		set_variable = { RUS_edu_days_false_shock_workers = RUS_edu_run_duration_false_shock_workers }
+		add_to_variable = { RUS_edu_repeat_cost_false_shock_workers = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_false_shock_workers }
 			set_country_flag = RUS_edu_repeated_false_shock_workers
@@ -17156,6 +17463,7 @@ RUS_education_begin_motherland_calls = {
 		set_country_flag = RUS_edu_running_motherland_calls
 		set_variable = { RUS_edu_run_duration_motherland_calls = RUS_edu_duration_motherland_calls }
 		set_variable = { RUS_edu_days_motherland_calls = RUS_edu_run_duration_motherland_calls }
+		add_to_variable = { RUS_edu_repeat_cost_motherland_calls = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_motherland_calls }
 			set_country_flag = RUS_edu_repeated_motherland_calls
@@ -17282,6 +17590,7 @@ RUS_education_begin_volunteer_enlistment = {
 		set_country_flag = RUS_edu_running_volunteer_enlistment
 		set_variable = { RUS_edu_run_duration_volunteer_enlistment = RUS_edu_duration_volunteer_enlistment }
 		set_variable = { RUS_edu_days_volunteer_enlistment = RUS_edu_run_duration_volunteer_enlistment }
+		add_to_variable = { RUS_edu_repeat_cost_volunteer_enlistment = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_volunteer_enlistment }
 			set_country_flag = RUS_edu_repeated_volunteer_enlistment
@@ -17408,6 +17717,7 @@ RUS_education_begin_red_banner_oath = {
 		set_country_flag = RUS_edu_running_red_banner_oath
 		set_variable = { RUS_edu_run_duration_red_banner_oath = RUS_edu_duration_red_banner_oath }
 		set_variable = { RUS_edu_days_red_banner_oath = RUS_edu_run_duration_red_banner_oath }
+		add_to_variable = { RUS_edu_repeat_cost_red_banner_oath = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_red_banner_oath }
 			set_country_flag = RUS_edu_repeated_red_banner_oath
@@ -17534,6 +17844,7 @@ RUS_education_begin_women_frontline = {
 		set_country_flag = RUS_edu_running_women_frontline
 		set_variable = { RUS_edu_run_duration_women_frontline = RUS_edu_duration_women_frontline }
 		set_variable = { RUS_edu_days_women_frontline = RUS_edu_run_duration_women_frontline }
+		add_to_variable = { RUS_edu_repeat_cost_women_frontline = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_women_frontline }
 			set_country_flag = RUS_edu_repeated_women_frontline
@@ -17673,6 +17984,7 @@ RUS_education_begin_people_and_army = {
 		set_country_flag = RUS_edu_running_people_and_army
 		set_variable = { RUS_edu_run_duration_people_and_army = RUS_edu_duration_people_and_army }
 		set_variable = { RUS_edu_days_people_and_army = RUS_edu_run_duration_people_and_army }
+		add_to_variable = { RUS_edu_repeat_cost_people_and_army = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_people_and_army }
 			set_country_flag = RUS_edu_repeated_people_and_army
@@ -17799,6 +18111,7 @@ RUS_education_begin_honour_freedom = {
 		set_country_flag = RUS_edu_running_honour_freedom
 		set_variable = { RUS_edu_run_duration_honour_freedom = RUS_edu_duration_honour_freedom }
 		set_variable = { RUS_edu_days_honour_freedom = RUS_edu_run_duration_honour_freedom }
+		add_to_variable = { RUS_edu_repeat_cost_honour_freedom = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_honour_freedom }
 			set_country_flag = RUS_edu_repeated_honour_freedom
@@ -17925,6 +18238,7 @@ RUS_education_begin_ukrainian_liberators = {
 		set_country_flag = RUS_edu_running_ukrainian_liberators
 		set_variable = { RUS_edu_run_duration_ukrainian_liberators = RUS_edu_duration_ukrainian_liberators }
 		set_variable = { RUS_edu_days_ukrainian_liberators = RUS_edu_run_duration_ukrainian_liberators }
+		add_to_variable = { RUS_edu_repeat_cost_ukrainian_liberators = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ukrainian_liberators }
 			set_country_flag = RUS_edu_repeated_ukrainian_liberators
@@ -18072,6 +18386,7 @@ RUS_education_begin_beloved_motherland = {
 		set_country_flag = RUS_edu_running_beloved_motherland
 		set_variable = { RUS_edu_run_duration_beloved_motherland = RUS_edu_duration_beloved_motherland }
 		set_variable = { RUS_edu_days_beloved_motherland = RUS_edu_run_duration_beloved_motherland }
+		add_to_variable = { RUS_edu_repeat_cost_beloved_motherland = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_beloved_motherland }
 			set_country_flag = RUS_edu_repeated_beloved_motherland
@@ -18216,6 +18531,7 @@ RUS_education_begin_long_live_peace = {
 		set_country_flag = RUS_edu_running_long_live_peace
 		set_variable = { RUS_edu_run_duration_long_live_peace = RUS_edu_duration_long_live_peace }
 		set_variable = { RUS_edu_days_long_live_peace = RUS_edu_run_duration_long_live_peace }
+		add_to_variable = { RUS_edu_repeat_cost_long_live_peace = 5 }
 		if = {
 			limit = { has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_long_live_peace }
 			set_country_flag = RUS_edu_repeated_long_live_peace
@@ -18351,6 +18667,7 @@ RUS_education_begin_listen = {
 		set_country_flag = RUS_edu_running_listen
 		set_variable = { RUS_edu_run_duration_listen = RUS_edu_duration_listen }
 		set_variable = { RUS_edu_days_listen = RUS_edu_run_duration_listen }
+		add_to_variable = { RUS_edu_repeat_cost_listen = 5 }
 		set_country_flag = RUS_edu_control_busy
 		RUS_education_refresh = yes
 	}
@@ -18385,6 +18702,7 @@ RUS_education_begin_restore_order = {
 		set_country_flag = RUS_edu_running_restore_order
 		set_variable = { RUS_edu_run_duration_restore_order = RUS_edu_duration_restore_order }
 		set_variable = { RUS_edu_days_restore_order = RUS_edu_run_duration_restore_order }
+		add_to_variable = { RUS_edu_repeat_cost_restore_order = 5 }
 		set_country_flag = RUS_edu_control_busy
 		RUS_education_refresh = yes
 	}

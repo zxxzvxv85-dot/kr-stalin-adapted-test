@@ -49,6 +49,7 @@ def duration(a): return 'RUS_edu_duration_'+a['id']
 def run_duration(a): return 'RUS_edu_run_duration_'+a['id']
 
 def repeated(a): return 'RUS_edu_repeated_'+a['id']
+def repeat_cost(a): return 'RUS_edu_repeat_cost_'+a['id']
 
 def era_modifier(a): return 'RUS_edu_era_'+a['id']
 
@@ -129,6 +130,7 @@ def effects():
           setv('RUS_education_overheat_days',0),setv('RUS_edu_category',4),setv('RUS_edu_board_page',1),
           setv('RUS_edu_mass_phase',0),setv('RUS_edu_mass_days',0)]
     for m in POOL_CAPS: init.append(setv(pv(m),0))
+    for a in ACTIVITIES+CONTROLS: init.append(setv(repeat_cost(a),0))
     # Explicit public interfaces: additive education/enthusiasm and reserved political pressure.
     for v in ['RUS_edu_external_basic_gain','RUS_edu_external_higher_gain','RUS_edu_external_heat_change','RUS_edu_external_pressure']:
         init.append(setv(v,0))
@@ -169,7 +171,8 @@ def effects():
             req+=f' check_variable = {{ RUS_edu_active_count < RUS_edu_slots }} '+kind_available(a)
             req+=' '+' '.join(access_requirements(a))
         else: req+=' NOT = { has_country_flag = RUS_edu_control_busy }'
-        begin=['set_country_flag = '+active(a),setv(run_duration(a),duration(a)),setv(remain(a),run_duration(a))]
+        begin=['set_country_flag = '+active(a),setv(run_duration(a),duration(a)),setv(remain(a),run_duration(a)),
+               add(repeat_cost(a),5)]
         if regular:
             begin += cond(repeat_condition(a),['set_country_flag = '+repeated(a),
                 f'add_dynamic_modifier = {{ modifier = RUS_edu_repeat_{a["id"]} days = {run_duration(a)} }}'])
@@ -331,6 +334,7 @@ def refresh_lines():
         # positive half-day ties round up in the engine and test fixture.
         lines += [add(duration(a),.001),f'round_variable = {duration(a)}']
         v='RUS_edu_cost_'+a['id']; lines+=[setv(v,a['cost'])]
+        lines+=cond('has_variable = '+repeat_cost(a),[add(v,repeat_cost(a))])
         if a['kind']!='control':
             lines+=mul_if(v,'RUS_edu_central',.8)
             lines+=mul_if(v,'RUS_edu_amateur',.5)
@@ -656,7 +660,7 @@ def localisations():
         if a.get('timed_reward'):
             l[a['timed_reward']['idea']]=a['timed_reward']['name']
             l[a['timed_reward']['idea']+'_preview']='$'+a['timed_reward']['idea']+'$'
-        l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】'
+        l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】\\n再次开展时，基础政治点花费累加§R5§!。'
         if regular:
             gains=[]
             if a['basic']:gains.append(f'基础教育水平：§G+{a["basic"]:g}§!')

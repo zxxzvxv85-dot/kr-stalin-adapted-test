@@ -449,7 +449,7 @@ class EducationTests(unittest.TestCase):
         m.flags.discard('RUS_edu_cooldown_mentoring');self.assertTrue(m.start('mentoring'))
         m.end('mentoring');self.assertIn('RUS_edu_completed_mentoring',m.flags)
         m.flags.discard('RUS_edu_cooldown_mentoring');m.flags.add('RUS_edu_era');m.call('RUS_education_refresh')
-        self.assertAlmostEqual(m.vars['RUS_edu_cost_mentoring'],30*.8*1.5*.75)
+        self.assertAlmostEqual(m.vars['RUS_edu_cost_mentoring'],40*.8*1.5*.75)
         self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.8*.75)
         self.assertEqual(m.vars['RUS_edu_cost_listen'],20)
         m.vars[VARS['heat']]=55;self.assertTrue(m.start('mentoring'))
@@ -466,6 +466,42 @@ class EducationTests(unittest.TestCase):
         self.assertNotIn('RUS_edu_repeat_mentoring',m.dynamic)
         m=initialized();m.flags.update({'RUS_edu_amateur','RUS_edu_era'});m.call('RUS_education_refresh')
         self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],25*.5*.75)
+    def test_repeat_costs_increase_per_decision_on_successful_start_only(self):
+        for a in ACTIVITIES+CONTROLS:
+            with self.subTest(aid=a['id']):
+                m=unlock_all(initialized());aid=a['id'];key='RUS_edu_cost_'+aid
+                m.vars[VARS['basic']]=35
+                m.vars['RUS_edu_category']=a.get('category',4)
+                for attempt in range(3):
+                    m.vars[VARS['heat']]=80 if aid=='restore_order' else 32
+                    m.flags.discard('RUS_edu_cooldown_'+aid)
+                    m.call('RUS_education_refresh')
+                    self.assertEqual(m.vars[key],a['cost']+5*attempt)
+                    self.assertTrue(m.start(aid))
+                    self.assertEqual(m.vars[key],a['cost']+5*(attempt+1))
+                    self.assertFalse(m.start(aid),'An unavailable double click must not add another charge')
+                    m.call('RUS_education_refresh');m.call('RUS_education_initialize')
+                    self.assertEqual(m.vars[key],a['cost']+5*(attempt+1))
+                    m.end(aid,cancel=attempt!=1)
+                    self.assertEqual(m.vars[key],a['cost']+5*(attempt+1))
+                other='schools' if aid!='schools' else 'literacy'
+                original=next(x['cost'] for x in ACTIVITIES if x['id']==other)
+                self.assertEqual(m.vars['RUS_edu_cost_'+other],original)
+                self.assertEqual(m.vars['RUS_education_completed_activities'],0 if a['kind']=='control' else 1)
+
+    def test_repeat_cost_addition_uses_existing_discounts_and_completion_multiplier(self):
+        a=next(x for x in ACTIVITIES if x['id']=='literacy')
+        for central,amateur,era,kalinin in product((False,True),repeat=4):
+            m=initialized();m.vars['RUS_edu_repeat_cost_literacy']=15
+            for enabled,flag in ((central,'RUS_edu_central'),(amateur,'RUS_edu_amateur'),(era,'RUS_edu_era')):
+                if enabled:m.flags.add(flag)
+            if kalinin:m.ideas.add('RUS_mikhail_kalinin_advisor')
+            m.flags.add('RUS_edu_completed_literacy');m.call('RUS_education_refresh')
+            expected=(a['cost']+15)*(.8*1.5 if central else 1)*(.5 if amateur else 1)*(.75 if era else 1)*(.85 if kalinin else 1)
+            self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],expected)
+            m.vars.pop('RUS_edu_repeat_cost_literacy');m.call('RUS_education_refresh')
+            self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],expected*a['cost']/(a['cost']+15))
+
     def test_mass_mood_has_180_then_360_days_and_no_permanent_heat_change(self):
         m=initialized();m.flags.add('RUS_edu_era');m.vars[VARS['heat']]=90;m.call('RUS_education_start_mass_campaign')
         self.assertIn('RUS_education_mass_hesitation',m.ideas)
@@ -816,7 +852,7 @@ class EducationTests(unittest.TestCase):
                 m.flags.add('RUS_edu_cooldown_'+aid);m.call('RUS_education_refresh')
                 self.assertTrue(m.start(aid),'Old cooldown flags cannot block these controls')
                 self.assertFalse(m.start(other));self.assertFalse(m.start(aid))
-                self.assertEqual(m.vars['RUS_edu_cost_'+aid],20)
+                self.assertEqual(m.vars['RUS_edu_cost_'+aid],25) # Next attempt, after this start paid the initial 20.
                 self.assertEqual(m.vars['RUS_edu_run_duration_'+aid],30)
                 m.end(aid,cancel);m.vars[VARS['heat']]=heat;m.call('RUS_education_refresh')
                 self.assertTrue(m.start(aid))
