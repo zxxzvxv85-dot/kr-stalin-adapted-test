@@ -1,0 +1,2911 @@
+LIT_economic_projects_decisions = {
+	LIT_a_minor_port = {
+		icon = GFX_decision_hol_draw_up_staff_plans
+		allowed = { always = no }	# Activated by event lithuania_events.19
+		available = {
+			controls_state = 189
+		}
+
+		highlight_states = {
+			highlight_state_targets = { state = 189 }
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_a_minor_port"
+			189 = {
+				add_building_construction = {
+					type = naval_base
+					province = 6314
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_invest_in_marijampole = {
+		icon = GFX_decision_give_cash
+		allowed = { always = no }	# Activated by focus LIT_northern_land_fund
+		available = {
+			controls_state = 655
+		}
+
+		highlight_states = {
+			highlight_state_targets = { state = 655 }
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_invest_in_marijampole"
+			655 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_samogitia_highway = {
+		icon = GFX_decision_train
+		allowed = { always = no }	# Activated by focus LIT_northern_land_fund
+		available = {
+			controls_state = 11
+			controls_state = 189
+			controls_state = 655
+		}
+
+		highlight_states = {
+			highlight_state_targets = {
+				state = 11
+				state = 189
+				state = 655
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_samogitia_highway"
+			11 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			189 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			655 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_improve_siauliai_infrastructure = {
+		icon = GFX_decision_road
+		allowed = { always = no }	# Activated by focus LIT_northern_land_fund
+		available = {
+			controls_state = 189
+		}
+
+		highlight_states = {
+			highlight_state_targets = { state = 189 }
+		}
+
+		cost = 25
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_improve_siauliai_infrastructure"
+			189 = { increase_state_category_by_one_level = yes }
+		}
+		fixed_random_seed = no
+	}
+	LIT_southern_highway = {
+		icon = GFX_decision_road
+		allowed = { always = no }	# Activated by focus LIT_steel_industry_cooperatives
+		available = {
+			controls_state = 94
+			controls_state = 96
+			controls_state = 97
+		}
+
+		highlight_states = {
+			highlight_state_targets = {
+				state = 94
+				state = 96
+				state = 97
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_southern_highway"
+			94 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			96 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			97 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	LIT_bialystok_labour_initiative = {
+		icon = GFX_decision_factories
+		allowed = { always = no }	# Activated by focus LIT_steel_industry_cooperatives
+		available = {
+			controls_state = 97
+		}
+
+		highlight_states = {
+			highlight_state_targets = { state = 97 }
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_bialystok_labour_initiative"
+			add_resource = {
+				type = steel
+				amount = 5
+				state = 97
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_invest_in_vawkavysk = {
+		icon = GFX_decision_give_cash
+		allowed = { always = no }	# Activated by focus LIT_steel_industry_cooperatives
+		available = {
+			controls_state = 94
+		}
+
+		highlight_states = {
+			highlight_state_targets = { state = 94 }
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_invest_in_vawkavysk"
+			94 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+}
+
+LIT_architect_king_decisions = {
+	LIT_monument_to_emilia_plater = {
+		icon = GFX_decision_eng_trade_unions_support
+
+		allowed = { always = no }	# Activated by focus LIT_kings_speech
+
+		available = {
+			LIT_has_black_monday = no
+			NOT = { has_country_flag = LIT_ongoing_project }
+			controls_state = FROM
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 1 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_monument_to_emilia_plater"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_monument_to_emilia_plater"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_monument_to_emilia_plater"
+			country_event = lithuania_events.55
+			clr_country_flag = LIT_ongoing_project
+			set_temp_variable = { LIT_legitimacy_change = 0.05 }
+			LIT_change_legitimacy = yes
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_monument_to_emilia_plater target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_knygesiai_memorial = {
+		icon = GFX_decision_eng_puppet_usa
+
+		allowed = { always = no }	# Activated by focus LIT_kings_speech
+
+		available = {
+			LIT_has_black_monday = no
+			NOT = { has_country_flag = LIT_ongoing_project }
+			controls_state = FROM
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 1 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_knygesiai_memorial"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_knygesiai_memorial"
+			country_event = lithuania_events.58
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_knygesiai_memorial"
+			country_event = lithuania_events.60
+			set_temp_variable = { LIT_legitimacy_change = 0.05 }
+			LIT_change_legitimacy = yes
+			clr_country_flag = LIT_ongoing_project
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_knygesiai_memorial target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_church_of_saint_joseph_the_betrothed = {
+		icon = GFX_decision_peace_dove
+
+		allowed = { always = no }	# Activated by focus LIT_kings_speech
+
+		available = {
+			LIT_has_black_monday = no
+			NOT = { has_country_flag = LIT_ongoing_project }
+			controls_state = FROM
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_church_of_saint_joseph_the_betrothed"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_church_of_saint_joseph_the_betrothed"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_church_of_saint_joseph_the_betrothed"
+			country_event = lithuania_events.61
+			set_temp_variable = { LIT_legitimacy_change = 0.05 }
+			LIT_change_legitimacy = yes
+			clr_country_flag = LIT_ongoing_project
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_church_of_saint_joseph_the_betrothed target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_year_of_1918 = {
+		icon = GFX_decision_generic_speech
+
+		allowed = { always = no }	# Activated by focus LIT_kings_speech
+
+		available = {
+			LIT_has_black_monday = no
+			NOT = { has_country_flag = LIT_ongoing_project }
+			controls_state = FROM
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_year_of_1918"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_year_of_1918"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_year_of_1918"
+			country_event = lithuania_events.65
+			set_temp_variable = { LIT_legitimacy_change = 0.05 }
+			LIT_change_legitimacy = yes
+			clr_country_flag = LIT_ongoing_project
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_year_of_1918 target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_kings_model_town = {
+		icon = GFX_decision_generic_factory
+
+		allowed = { always = no }	# Activated by focus LIT_kings_speech
+
+		available = {
+			LIT_has_black_monday = no
+			NOT = { has_country_flag = LIT_ongoing_project }
+			controls_state = FROM
+		}
+
+		visible = {
+			owns_state = FROM
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_kings_model_town"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_kings_model_town"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_kings_model_town"
+			country_event = lithuania_events.70
+			set_temp_variable = { LIT_legitimacy_change = 0.05 }
+			LIT_change_legitimacy = yes
+			clr_country_flag = LIT_ongoing_project
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_kings_model_town target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_memorial_to_wladyslaw_syrokomla = {
+		icon = GFX_decision_eng_propaganda_campaigns
+
+		allowed = { always = no }	# Activated by focus LIT_kings_speech
+
+		available = {
+			LIT_has_black_monday = no
+			NOT = { has_country_flag = LIT_ongoing_project }
+			controls_state = FROM
+		}
+
+		visible = {
+			owns_state = FROM
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_memorial_to_wladyslaw_syrokomla"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_memorial_to_wladyslaw_syrokomla"
+			country_event = lithuania_events.74
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_memorial_to_wladyslaw_syrokomla"
+			country_event = lithuania_events.75
+			set_temp_variable = { LIT_legitimacy_change = 0.05 }
+			LIT_change_legitimacy = yes
+			clr_country_flag = LIT_ongoing_project
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_memorial_to_wladyslaw_syrokomla target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_palace_of_the_grand_dukes = {
+		icon = GFX_decision_hol_draw_up_staff_plans
+
+		allowed = { always = no }	# Activated by focus LIT_kings_speech
+
+		available = {
+			NOT = {
+				check_variable = {
+					tooltip = LIT_legitimacy_check_tooltip
+					LIT_legitimacy < 0.7
+				}
+			}
+			controls_state = FROM
+			LIT_has_black_monday = no
+			NOT = { has_country_flag = LIT_ongoing_project }
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 25
+		days_remove = 30
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_palace_of_the_grand_dukes"
+			add_political_power = 25
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_palace_of_the_grand_dukes"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_palace_of_the_grand_dukes"
+			clr_country_flag = LIT_ongoing_project
+			effect_tooltip = { remove_country_leader_trait = LIT_unpopular_monarch }
+			activate_targeted_decision = { decision = LIT_plumbing_and_electrification target = FROM }
+			activate_targeted_decision = { decision = LIT_embassy_quarters target = FROM }
+			activate_targeted_decision = { decision = LIT_living_quarters target = FROM }
+			activate_targeted_decision = { decision = LIT_vilnius_cathedral target = FROM }
+			hidden_effect = {
+				LIT_karl_gero_von_urach = {
+					clr_character_flag = LIT_unpopular_monarch
+					remove_trait = { trait = LIT_unpopular_monarch ideology = social_democrat_subtype }
+					remove_trait = { trait = LIT_unpopular_monarch ideology = social_liberal_subtype }
+					remove_trait = { trait = LIT_unpopular_monarch ideology = market_liberal_subtype }
+					remove_trait = { trait = LIT_unpopular_monarch ideology = social_conservative_subtype }
+					remove_trait = { trait = LIT_unpopular_monarch ideology = authoritarian_democrat_subtype }
+					remove_trait = { trait = LIT_unpopular_monarch ideology = paternal_autocrat_subtype }
+				}
+				activate_targeted_decision = { decision = LIT_inaugurate_the_palace target = FROM }
+				remove_targeted_decision = { decision = LIT_palace_of_the_grand_dukes target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_plumbing_and_electrification = {
+		icon = GFX_decision_cement_mixer
+
+		allowed = { always = no }	# Activated by decision LIT_palace_of_the_grand_dukes
+
+		available = {
+			LIT_has_black_monday = no
+			controls_state = FROM
+			NOT = { has_country_flag = LIT_ongoing_project }
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_plumbing_and_electrification"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_plumbing_and_electrification"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_plumbing_and_electrification"
+			clr_country_flag = LIT_ongoing_project
+			set_country_flag = LIT_plumbing_and_electrification_completed
+			country_event = lithuania_events.76
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_plumbing_and_electrification target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_living_quarters = {
+		icon = GFX_decision_cement_mixer
+
+		allowed = { always = no }	# Activated by decision LIT_palace_of_the_grand_dukes
+
+		available = {
+			LIT_has_black_monday = no
+			controls_state = FROM
+			NOT = { has_country_flag = LIT_ongoing_project }
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_living_quarters"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_living_quarters"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_living_quarters"
+			clr_country_flag = LIT_ongoing_project
+			set_country_flag = LIT_living_quarters_completed
+			country_event = lithuania_events.78
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_living_quarters target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_embassy_quarters = {
+		icon = GFX_decision_cement_mixer
+
+		allowed = { always = no }	# Activated by decision LIT_palace_of_the_grand_dukes
+
+		available = {
+			LIT_has_black_monday = no
+			controls_state = FROM
+			NOT = { has_country_flag = LIT_ongoing_project }
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_embassy_quarters"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_embassy_quarters"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_embassy_quarters"
+			clr_country_flag = LIT_ongoing_project
+			set_country_flag = LIT_embassy_quarters_completed
+			country_event = lithuania_events.77
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_embassy_quarters target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	LIT_vilnius_cathedral = {
+		icon = GFX_decision_cement_mixer
+
+		allowed = { always = no }	# Activated by decision LIT_palace_of_the_grand_dukes
+
+		available = {
+			LIT_has_black_monday = no
+			controls_state = FROM
+			NOT = { has_country_flag = LIT_ongoing_project }
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 50
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_vilnius_cathedral"
+			add_political_power = 50
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision complete LIT_vilnius_cathedral"
+			set_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_vilnius_cathedral"
+			clr_country_flag = LIT_ongoing_project
+			set_country_flag = LIT_cathedral_completed
+			country_event = lithuania_events.79
+			hidden_effect = {
+				remove_targeted_decision = { decision = LIT_vilnius_cathedral target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_inaugurate_the_palace = {
+		icon = GFX_decision_eng_install_government
+
+		allowed = { always = no }	# Activated by decision LIT_palace_of_the_grand_dukes
+
+		available = {
+			LIT_has_black_monday = no
+			custom_override_tooltip = {
+				tooltip = { localization_key = has_completed_decision DECISION = LIT_plumbing_and_electrification }
+				has_country_flag = LIT_plumbing_and_electrification_completed
+			}
+			custom_override_tooltip = {
+				tooltip = { localization_key = has_completed_decision DECISION = LIT_embassy_quarters }
+				has_country_flag = LIT_embassy_quarters_completed
+			}
+			custom_override_tooltip = {
+				tooltip = { localization_key = has_completed_decision DECISION = LIT_living_quarters }
+				has_country_flag = LIT_living_quarters_completed
+			}
+			custom_override_tooltip = {
+				tooltip = { localization_key = has_completed_decision DECISION = LIT_vilnius_cathedral }
+				has_country_flag = LIT_cathedral_completed
+			}
+			controls_state = FROM
+			NOT = { has_country_flag = LIT_ongoing_project }
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = FROM }
+				LIT_has_vytautas = no
+			}
+		}
+
+		cost = 75
+		days_remove = 90
+		fire_only_once = no
+		state_target = yes
+
+		ai_will_do = { factor = 10 }
+
+		cancel_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision cancel LIT_inaugurate_the_palace"
+			add_political_power = 75
+			clr_country_flag = LIT_ongoing_project
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_inaugurate_the_palace"
+			country_event = lithuania_events.80
+			clr_country_flag = LIT_ongoing_project
+			effect_tooltip = { add_country_leader_trait = LIT_the_architect_king }
+			hidden_effect = {
+				LIT_karl_gero_von_urach = {
+					set_character_flag = LIT_the_architect_king
+					add_trait = { trait = LIT_the_architect_king ideology = social_democrat_subtype }
+					add_trait = { trait = LIT_the_architect_king ideology = social_liberal_subtype }
+					add_trait = { trait = LIT_the_architect_king ideology = market_liberal_subtype }
+					add_trait = { trait = LIT_the_architect_king ideology = social_conservative_subtype }
+					add_trait = { trait = LIT_the_architect_king ideology = authoritarian_democrat_subtype }
+					add_trait = { trait = LIT_the_architect_king ideology = paternal_autocrat_subtype }
+				}
+				remove_targeted_decision = { decision = LIT_inaugurate_the_palace target = FROM }
+			}
+		}
+		fixed_random_seed = no
+	}
+}
+
+LIT_LAF_insurgency_decisions = {
+	LIT_LAF_guerilla_activity = {
+		icon = generic_civil_support
+		priority = 10
+
+		allowed = { always = no } #manually activated
+
+		available = {
+			if = {
+				limit = { LIT_king_assassinated = yes }
+				OR = {
+					has_country_flag = LIT_Plech_laf_gone
+					has_country_flag = LIT_Naruto_laf_gone
+				}
+			}
+			else = {
+				custom_override_tooltip = {
+					tooltip = { localization_key = has_completed_decision DECISION = LIT_secure_maceinas_cooperation }
+					has_country_flag = LIT_maceina_captured
+				}
+				custom_override_tooltip = {
+					tooltip = { localization_key = has_completed_decision DECISION = LIT_capture_alantas }
+					has_country_flag = LIT_alantas_captured
+				}
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_capitulated = yes
+				has_government = national_populist
+			}
+		}
+
+		cost = 40
+		is_good = no
+		fixed_random_seed = no
+		selectable_mission = yes
+		days_mission_timeout = LIT_LAF_guerilla_activity_timeout?75
+
+		ai_will_do = {
+			base = 10
+			modifier = {
+				add = 1000
+				LIT_king_assassinated = yes
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = LIT_path option = LIT_PATH_VOLDEMARAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_ALANTAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_MACEINA_NATPOP }
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_LAF_guerilla_activity"
+			add_stability = 0.15
+			if = {
+				limit = { LIT_king_assassinated = no }
+				country_event = lithuania_events.265
+				hidden_effect = {
+					remove_targeted_decision = { target = THIS decision = LIT_secure_maceinas_cooperation }
+					remove_targeted_decision = { target = THIS decision = LIT_capture_alantas }
+					remove_targeted_decision = { target = THIS decision = LIT_counterinsurgency_raids }
+					remove_targeted_decision = { target = THIS decision = LIT_sweep_the_countryside }
+					remove_targeted_decision = { target = THIS decision = LIT_erode_nationalist_support }
+					remove_targeted_decision = { target = THIS decision = LIT_demoralisation_campaign }
+					remove_targeted_decision = { target = THIS decision = LIT_enact_federal_police_act }
+					remove_targeted_decision = { target = THIS decision = LIT_Plech_indiscriminate_arrests }
+					remove_targeted_decision = { target = THIS decision = LIT_Plech_intensify_military_presence }
+					remove_targeted_decision = { target = THIS decision = LIT_Naruto_rural_outreach }
+					remove_targeted_decision = { target = THIS decision = LIT_Naruto_economic_assistance }
+					remove_targeted_decision = { target = THIS decision = LIT_Naruto_arm_polish }
+				}
+			}
+		}
+
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout LIT_LAF_guerilla_activity"
+			hidden_effect = { activate_mission = LIT_LAF_guerilla_activity }
+			random_list = {
+				5 = {
+					modifier = {
+						set_temp_variable = {
+							LIT_major_attack_factor = {
+								value = LIT_LAF_threat
+								multiply = 5
+								clamp = { min = 1 max = 100 }
+							}
+						}
+						factor = LIT_major_attack_factor #10% at 100% threat
+					}
+					country_event = lithuania_events.257 #major attack
+				}
+				5 = {
+					modifier = {
+						set_temp_variable = {
+							LIT_minor_attack_factor = {
+								value = LIT_LAF_threat
+								multiply = 5
+								clamp = { min = 1 max = 100 }
+							}
+						}
+						factor = LIT_minor_attack_factor #15% at 100% threat
+					}
+					country_event = lithuania_events.256 #minor attack
+				}
+				10 = {
+					modifier = {
+						set_temp_variable = {
+							LIT_military_sabotage_factor = {
+								value = LIT_LAF_threat
+								multiply = 4
+								clamp = { min = 1 max = 100 }
+							}
+						}
+						factor = LIT_military_sabotage_factor #20% at 100% threat
+					}
+					country_event = lithuania_events.252 #LAF - Attack - MIL
+				}
+				10 = {
+					modifier = {
+						set_temp_variable = {
+							LIT_civilian_sabotage_factor = {
+								value = LIT_LAF_threat
+								multiply = 2
+								clamp = { min = 1 max = 100 }
+							}
+						}
+						factor = LIT_civilian_sabotage_factor #20% at 100% threat
+					}
+					country_event = lithuania_events.251 #LAF - Attack - CIV
+				}
+				10 = {
+					modifier = {
+						set_temp_variable = {
+							LIT_infrastructure_sabotage_factor = {
+								value = LIT_LAF_threat
+								multiply = 2
+								clamp = { min = 1 max = 100 }
+							}
+						}
+						factor = LIT_infrastructure_sabotage_factor #20% at 100% threat
+					}
+					country_event = lithuania_events.255 #LAF - Attack - INF
+				}
+				40 = {
+					modifier = {
+						set_temp_variable = {
+							LIT_no_attack_factor = {
+								value = 1
+								subtract = LIT_LAF_threat
+							}
+						}
+						factor = LIT_no_attack_factor #0% at 100% threat
+					}
+					country_event = lithuania_events.253 #Quiet
+				}
+				20 = {
+					modifier = {
+						set_temp_variable = {
+							LIT_attack_fail_factor = {
+								value = 1
+								subtract = { value = LIT_LAF_threat multiply = 0.25 }
+							}
+						}
+						factor = LIT_attack_fail_factor #15% at 100% threat
+					}
+					country_event = lithuania_events.254 #LAF repulsed
+				}
+			}
+		}
+	}
+	LIT_the_fraying_front = {
+		icon = GFX_decision_oppression
+
+		allowed = { always = no } #manually activated
+
+		available = {
+			LIT_LAF_threat_above_5_percent = yes
+			LIT_king_assassinated = no
+		}
+
+		is_good = yes
+		days_mission_timeout = 120
+
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout LIT_the_fraying_front"
+			set_country_flag = LIT_can_capture_laf_leaders #needed so that the mission doesn't re-fire
+			country_event = lithuania_events.261
+		}
+		fixed_random_seed = no
+	}
+	LIT_secure_maceinas_cooperation = {
+		icon = GFX_decision_generic_police_action
+		allowed = { always = no }	# Activated by event lithuania_events.262
+		visible = {
+			LIT_king_assassinated = no
+		}
+
+		cost = 40
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = LIT_path option = LIT_PATH_VOLDEMARAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_ALANTAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_MACEINA_NATPOP }
+				}
+			}
+		}
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_secure_maceinas_cooperation"
+			add_political_power = 40
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_secure_maceinas_cooperation"
+			set_country_flag = LIT_maceina_captured
+			country_event = lithuania_events.263
+		}
+		fixed_random_seed = no
+	}
+	LIT_capture_alantas = {
+		icon = GFX_decision_generic_assassination
+		allowed = { always = no }	# Activated by event lithuania_events.262
+		visible = {
+			LIT_king_assassinated = no
+		}
+
+		cost = 40
+		days_remove = 90
+		fire_only_once = yes
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = LIT_path option = LIT_PATH_VOLDEMARAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_ALANTAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_MACEINA_NATPOP }
+				}
+			}
+		}
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_capture_alantas"
+			add_political_power = 40
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_capture_alantas"
+			set_country_flag = LIT_alantas_captured
+			country_event = lithuania_events.264
+		}
+		fixed_random_seed = no
+	}
+	LIT_counterinsurgency_raids = {
+		icon = GFX_decision_generic_assassination
+		allowed = { always = no }	# Activated by event lithuania_events.250/271
+		custom_cost_text = CP_20
+		custom_cost_trigger = {
+			NOT = { command_power < 20 }
+		}
+
+		days_remove = 60
+		days_re_enable = 30
+		fixed_random_seed = no
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				NOT = { has_country_flag = LIT_enact_federal_police_act_completed }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { LIT_LAF_threat > 0.25 } #save for the other decisions
+			}
+		}
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_counterinsurgency_raids"
+			add_command_power = 20
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_counterinsurgency_raids"
+			hidden_effect = { add_command_power = -20 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_counterinsurgency_raids"
+			random_list = {
+				50 = { country_event = lithuania_events.267 } #Successful Raid
+				10 = { country_event = lithuania_events.268 } #Civilians harmed
+				15 = { country_event = lithuania_events.269 } #LAF strongpoint destroyed
+				25 = { country_event = lithuania_events.270 } #All quiet on the Lithuanian front
+			}
+		}
+	}
+	LIT_sweep_the_countryside = {
+		icon = GFX_decision_generic_arrest
+		allowed = { always = no }	# Activated by event lithuania_events.250/271
+		available = {
+			LIT_LAF_threat_above_10_percent = yes
+		}
+
+		custom_cost_text = CP_40
+		custom_cost_trigger = {
+			NOT = { command_power < 40 }
+		}
+
+		days_remove = 120
+		days_re_enable = 30
+
+		modifier = {
+			stability_factor = -0.05
+		}
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				NOT = { has_country_flag = LIT_enact_federal_police_act_completed }
+			}
+			modifier = {
+				set_temp_variable = { LIT_LAF_threat_temp = { value = LIT_LAF_threat multiply = 100 } }
+				factor = LIT_LAF_threat_temp
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = LIT_path option = LIT_PATH_VOLDEMARAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_ALANTAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_MACEINA_NATPOP }
+				}
+			}
+		}
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_sweep_the_countryside"
+			add_command_power = 40
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_sweep_the_countryside"
+			hidden_effect = { add_command_power = -40 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_sweep_the_countryside"
+			set_temp_variable = { LIT_threat_change = -0.1 }
+			LIT_change_LAF_threat = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_erode_nationalist_support = {
+		icon = GFX_decision_generic_civil_support
+		allowed = { always = no }	# Activated by event lithuania_events.250/271
+		available = {
+			LIT_LAF_threat_above_10_percent = yes
+		}
+
+		custom_cost_text = CP_40
+		custom_cost_trigger = {
+			NOT = { command_power < 40 }
+		}
+
+		days_remove = 120
+		days_re_enable = 30
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				NOT = { has_country_flag = LIT_enact_federal_police_act_completed }
+			}
+			modifier = {
+				set_temp_variable = { LIT_LAF_threat_temp = { value = LIT_LAF_threat multiply = 100 } }
+				factor = LIT_LAF_threat_temp
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = LIT_path option = LIT_PATH_VOLDEMARAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_ALANTAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_MACEINA_NATPOP }
+				}
+			}
+		}
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_erode_nationalist_support"
+			add_command_power = 40
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_erode_nationalist_support"
+			hidden_effect = { add_command_power = -40 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_erode_nationalist_support"
+			set_temp_variable = { LIT_threat_change = -0.1 }
+			LIT_change_LAF_threat = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_demoralisation_campaign = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		allowed = { always = no }	# Activated by event lithuania_events.250/271
+		available = {
+			LIT_LAF_threat_above_20_percent = yes
+		}
+
+		custom_cost_text = CP_80
+		custom_cost_trigger = {
+			NOT = { command_power < 80 }
+		}
+
+		days_remove = 60
+		days_re_enable = 30
+		fixed_random_seed = no
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				NOT = { has_country_flag = LIT_enact_federal_police_act_completed }
+			}
+			modifier = {
+				set_temp_variable = { LIT_LAF_threat_temp = { value = LIT_LAF_threat multiply = 100 } }
+				factor = LIT_LAF_threat_temp
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = LIT_path option = LIT_PATH_VOLDEMARAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_ALANTAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_MACEINA_NATPOP }
+				}
+			}
+		}
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_demoralisation_campaign"
+			add_command_power = 80
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_demoralisation_campaign"
+			hidden_effect = { add_command_power = -80 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_demoralisation_campaign"
+			set_temp_variable = { LIT_threat_change = -0.2 }
+			LIT_change_LAF_threat = yes
+		}
+	}
+	LIT_enact_federal_police_act = {
+		icon = GFX_decision_generic_police_action
+		allowed = { always = no }	# Activated by event lithuania_events.250/271
+		visible = {
+			LIT_king_assassinated = no
+		}
+
+		custom_cost_text = CP_80
+		custom_cost_trigger = {
+			NOT = { command_power < 80 }
+		}
+
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			army_org_factor = -0.1
+			political_power_gain = -0.1
+		}
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				check_variable = { LIT_LAF_threat < 0.15 }
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = LIT_path option = LIT_PATH_VOLDEMARAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_ALANTAS_NATPOP }
+					has_game_rule = { rule = LIT_path option = LIT_PATH_MACEINA_NATPOP }
+				}
+			}
+		}
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_enact_federal_police_act"
+			add_command_power = 80
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_enact_federal_police_act"
+			hidden_effect = { add_command_power = -80 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_enact_federal_police_act"
+			add_political_power = 100
+			set_country_flag = LIT_enact_federal_police_act_completed
+			custom_effect_tooltip = LIT_LAF_guerillas_less_frequent
+			set_variable = { LIT_LAF_guerilla_activity_timeout = 60 }
+			set_temp_variable = { LIT_threat_change = -0.1 }
+			LIT_change_LAF_threat = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_Plech_indiscriminate_arrests = {
+		icon = GFX_decision_generic_prepare_civil_war
+		allowed = { always = no }	# Activated by focus LIT_war_on_laf
+		custom_cost_text = CP_20
+		custom_cost_trigger = {
+			NOT = { command_power < 20 }
+		}
+
+		days_remove = 30
+		days_re_enable = 5
+		fire_only_once = no
+
+		ai_will_do = { base = 2000 }
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_Plech_indiscriminate_arrests"
+			add_command_power = 20
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_Plech_indiscriminate_arrests"
+			hidden_effect = { add_command_power = -20 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_Plech_indiscriminate_arrests"
+			add_stability = -0.05
+			set_temp_variable = { LIT_threat_change = -0.15 }
+			LIT_change_LAF_threat = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_Plech_intensify_military_presence = {
+		icon = GFX_decision_generic_prepare_civil_war
+		allowed = { always = no }	# Activated by focus LIT_secure_rural_areas
+		custom_cost_text = 200_guns
+		custom_cost_trigger = {
+			NOT = { has_equipment = { infantry_equipment < 200 } }
+		}
+
+		days_remove = 35
+		fire_only_once = no
+		days_re_enable = 5
+
+		ai_will_do = { base = 2000 }
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_Plech_intensify_military_presence"
+			add_command_power = 25
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_Plech_intensify_military_presence"
+			hidden_effect = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -200
+				}
+			}
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_Plech_intensify_military_presence"
+			add_political_power = -25
+			set_temp_variable = { LIT_threat_change = -0.20 }
+			LIT_change_LAF_threat = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_Naruto_rural_outreach = {
+		icon = GFX_decision_peace_dove
+		allowed = { always = no }	# Activated by focus LIT_gain_farmer_support
+		cost = 50
+		days_remove = 30
+		fire_only_once = yes
+
+		ai_will_do = { base = 2000 }
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_Naruto_rural_outreach"
+			add_political_power = 50
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_Naruto_rural_outreach"
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_Naruto_rural_outreach"
+			add_stability = 0.03
+			set_temp_variable = { LIT_threat_change = -0.15 }
+			LIT_change_LAF_threat = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_Naruto_economic_assistance = {
+		icon = GFX_decision_give_cash
+		allowed = { always = no }	# Activated by focus LIT_reach_out_to_the_bund
+		cost = 50
+		days_remove = 40
+		days_re_enable = 5
+		fire_only_once = no
+
+		ai_will_do = { base = 2000 }
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_Naruto_economic_assistance"
+			add_political_power = 50
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_Naruto_economic_assistance"
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_Naruto_economic_assistance"
+			set_temp_variable = { LIT_threat_change = -0.15 }
+			LIT_change_LAF_threat = yes
+		}
+		modifier = {
+			consumer_goods_factor = 0.2
+		}
+		fixed_random_seed = no
+	}
+	LIT_Naruto_arm_polish = {
+		icon = GFX_decision_generic_prepare_civil_war
+		allowed = { always = no }	# Activated by focus LIT_seek_southern_support
+		custom_cost_text = 200_guns
+		custom_cost_trigger = {
+			NOT = { has_equipment = { infantry_equipment < 200 } }
+		}
+		days_remove = 30
+		fire_only_once = yes
+
+		ai_will_do = { base = 2000 }
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_Naruto_arm_polish"
+			custom_effect_tooltip = 200_guns
+			hidden_effect = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -200
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_Naruto_arm_polish"
+			hidden_effect = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -200
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_Naruto_arm_polish"
+			add_stability = -0.05
+			set_temp_variable = { LIT_threat_change = -0.25 }
+			LIT_change_LAF_threat = yes
+		}
+		fixed_random_seed = no
+	}
+}
+
+LIT_tears_among_the_left_decisions = {
+	LIT_start_the_revolution = {
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = { always = no }	# Activated by modifier LIT_long_road_to_pluralism_modifier
+		available = {
+		hidden_trigger = { NOT = { RUS_ostwall_native_red_routes_blocked = yes } }
+			if = {
+				limit = {
+					is_ai = no
+					NOT = { has_game_rule = { rule = LIT_path option = LIT_PATH_RADSOC } }
+				}
+				check_variable = { LIT_radicalism > 0.60 tooltip = LIT_radicalism_above_60_percent }
+			}
+			second_weltkrieg_has_begun = yes
+			has_capitulated = no
+			if = {
+				limit = { RUS = { has_socialist_government = yes } }
+				OR = {
+					has_war_with = INT
+					has_war_with = RUS
+				}
+				OR = {
+					GER = { surrender_progress > 0.4 }
+					NOT = { country_exists = GER }
+					any_owned_state = {
+						any_neighbor_state = {
+							OR = {
+								controller = { is_ally_with = INT }
+								controller = { is_ally_with = RUS }
+							}
+						}
+					}
+				}
+			}
+			else = {
+				has_war_with = INT
+				OR = {
+					GER = { surrender_progress > 0.4 }
+					NOT = { country_exists = GER }
+					any_owned_state = {
+						any_neighbor_state = {
+							controller = { is_ally_with = INT }
+						}
+					}
+				}
+			}
+		}
+
+		visible = {
+			has_government = social_democrat
+			is_in_coalition_with_radical_socialist = yes
+			OR = {
+				is_subject = no
+				is_subject_of = GER
+			}
+			LIT_is_litbel = no
+			if = {
+				limit = {
+					is_ai = yes
+					NOT = { has_game_rule = { rule = LIT_path option = LIT_PATH_RADSOC } }
+					NOT = { country_exists = GER }
+				}
+				is_in_faction = no
+				faction_leader = { has_capitulated = no }
+			}
+		}
+
+		cost = 0
+		days_remove = 30
+		fire_only_once = yes
+
+		ai_will_do = { factor = 100 }
+		cancel_if_not_visible = yes
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_start_the_revolution"
+			add_ai_strategy = {
+				type = spare_unit_factor
+				value = -100
+			}
+			every_subject_country = {
+				add_to_array = { ROOT.LIT_subjects = THIS }
+				add_ai_strategy = {
+					type = spare_unit_factor
+					value = -100
+				}
+			}
+			every_allied_country = {
+				limit = { NOT = { is_subject_of = ROOT } }
+				set_country_flag = LIT_will_revolt_@ROOT
+				ROOT = {
+					add_ai_strategy = {
+						type = dont_defend_ally_borders
+						id = PREV
+						value = 1000
+					}
+				}
+				for_each_scope_loop = {
+					array = ROOT.subjects
+					PREV = { set_country_flag = LIT_will_revolt_@PREV }
+					add_ai_strategy = {
+						type = dont_defend_ally_borders
+						id = PREV
+						value = 1000
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_start_the_revolution"
+			country_event = lithuania_events.210
+			hidden_effect = {
+				add_ai_strategy = {
+					type = spare_unit_factor
+					value = 100
+				}
+				every_other_country = {
+					limit = { has_country_flag = LIT_will_revolt_@ROOT }
+					ROOT = {
+						clr_country_flag = LIT_will_revolt_@PREV
+						add_ai_strategy = {
+							type = dont_defend_ally_borders
+							id = PREV
+							value = -1000
+						}
+					}
+				}
+				for_each_scope_loop = {
+					array = ROOT.LIT_subjects
+					add_ai_strategy = {
+						type = spare_unit_factor
+						value = -100
+					}
+					every_other_country = {
+						limit = { has_country_flag = LIT_will_revolt_@PREV }
+						PREV = {
+							set_country_flag = LIT_will_revolt_@PREV
+							add_ai_strategy = {
+								type = dont_defend_ally_borders
+								id = PREV
+								value = -1000
+							}
+						}
+					}
+				}
+				clear_array = LIT_subjects
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_internationale_propaganda = {
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = { always = no }	# Activated by modifier LIT_long_road_to_pluralism_modifier
+		visible = {
+			has_government = social_democrat
+			check_variable = { LIT_radicalism < 1 }
+			is_in_coalition_with_radical_socialist = yes
+		}
+
+		cost = 50
+		days_remove = 120
+		cancel_if_not_visible = yes
+
+		ai_will_do = { factor = 0 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_internationale_propaganda"
+			set_temp_variable = { LIT_radicalism_change = 0.1 }
+			LIT_change_radicalism = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_commit_to_the_reichspakt = {
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = { always = no }	# Activated by modifier LIT_long_road_to_pluralism_modifier
+		visible = {
+			has_government = social_democrat
+			check_variable = { LIT_radicalism > 0 }
+			is_in_coalition_with_market_liberal = yes
+		}
+
+		cost = 50
+		days_remove = 120
+		cancel_if_not_visible = yes
+
+		ai_will_do = { factor = 0 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_commit_to_the_reichspakt"
+			set_temp_variable = { LIT_radicalism_change = -0.1 }
+			LIT_change_radicalism = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_encourage_agricultural_cooperatives = {
+		icon = generic_construction
+		allowed = { always = no }	# Activated by modifier LIT_long_road_to_pluralism_modifier
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 1 }
+
+		modifier = {
+			production_factory_max_efficiency_factor = 0.05
+			consumer_goods_factor = -0.15
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_encourage_agricultural_cooperatives"
+			set_temp_variable = { LIT_radicalism_change = 0.1 }
+			LIT_change_radicalism = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_combat_nationalist_sentiment = {
+		icon = generic_prepare_civil_war
+		allowed = { always = no }	# Activated by modifier LIT_long_road_to_pluralism_modifier
+		available = {
+			has_war = no
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 1 }
+
+		modifier = {
+			stability_weekly = 0.005
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_combat_nationalist_sentiment"
+			set_temp_variable = { LIT_radicalism_change = 0.1 }
+			LIT_change_radicalism = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_rightwing_complaints = {
+		icon = generic_civil_support
+
+		allowed = { always = no } #manually activated
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+
+		cancel_trigger = {
+			NOT = { has_government = social_democrat }
+		}
+
+		is_good = no
+		days_mission_timeout = 21
+
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout LIT_rightwing_complaints"
+			add_stability = -0.01
+			hidden_effect = { activate_mission = LIT_rightwing_complaints }
+		}
+		fixed_random_seed = no
+	}
+	LIT_make_peace_with_santara = { # Appease Santara
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = { always = no }	# Activated by event lithuania_events.216
+
+		cost = 25
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				has_game_rule = { rule = LIT_path option = LIT_PATH_RADSOC }
+				NOT = { check_variable = { LIT_radicalism > 0.94 } }
+			}
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_make_peace_with_santara"
+			add_stability = -0.05
+			remove_mission = LIT_rightwing_complaints
+			set_temp_variable = { LIT_radicalism_change = -0.25 }
+			LIT_change_radicalism = yes
+			hidden_effect = {
+				remove_targeted_decision = { target = THIS decision = LIT_make_peace_with_santara }
+				remove_targeted_decision = { target = THIS decision = LIT_break_up_santara }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_break_up_santara = { # Destroy Santara
+		icon = generic_prepare_civil_war
+		allowed = { always = no }	# Activated by event lithuania_events.216
+
+		cost = 25
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				has_stability < 0.2
+			}
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_break_up_santara"
+			add_stability = -0.15
+			remove_mission = LIT_rightwing_complaints
+			add_popularity = {
+				ideology = market_liberal
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = radical_socialist
+				popularity = 0.04
+			}
+			effect_tooltip = { remove_decision = LIT_commit_to_the_reichspakt }
+			hidden_effect = {
+				remove_targeted_decision = { target = THIS decision = LIT_break_up_santara }
+				remove_targeted_decision = { target = THIS decision = LIT_make_peace_with_santara }
+				remove_targeted_decision = { target = THIS decision = LIT_commit_to_the_reichspakt }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_leftwing_complaints = {
+		icon = generic_civil_support
+
+		allowed = { always = no }
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+
+		cancel_trigger = {
+			NOT = { has_government = social_democrat }
+		}
+
+		is_good = no
+		days_mission_timeout = 21
+
+		timeout_effect = {
+			log = "[GetLogRoot]: Decision timeout LIT_leftwing_complaints"
+			add_stability = -0.01
+			hidden_effect = { activate_mission = LIT_leftwing_complaints }
+		}
+		fixed_random_seed = no
+	}
+	LIT_appease_the_radicals = { # Appease the radicals
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = { always = no }	# Activated by event lithuania_events.217
+
+		cost = 25
+		fire_only_once = yes
+
+		ai_will_do = { factor = 20 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_appease_the_radicals"
+			add_stability = -0.05
+			remove_mission = LIT_leftwing_complaints
+			set_temp_variable = { LIT_radicalism_change = 0.25 }
+			LIT_change_radicalism = yes
+			hidden_effect = {
+				remove_targeted_decision = { target = THIS decision = LIT_crack_down_on_syndicalism }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_crack_down_on_syndicalism = {
+		icon = generic_prepare_civil_war
+		allowed = { always = no }	# Activated by event lithuania_events.217
+
+		cost = 25
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				has_stability < 0.2
+			}
+			modifier = {
+				factor = 0
+				has_game_rule = { rule = LIT_path option = LIT_PATH_RADSOC }
+			}
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_crack_down_on_syndicalism"
+			add_stability = -0.15
+			remove_mission = LIT_leftwing_complaints
+			add_popularity = {
+				ideology = radical_socialist
+				popularity = -0.1
+			}
+			set_temp_variable = { coalition_partner_var = token:radical_socialist }
+			remove_from_coalition = yes
+			effect_tooltip = {
+				remove_decision = LIT_start_the_revolution
+				remove_decision = LIT_internationale_propaganda
+			}
+			hidden_effect = {
+				remove_targeted_decision = { target = THIS decision = LIT_appease_the_radicals }
+				remove_targeted_decision = { target = THIS decision = LIT_start_the_revolution }
+				remove_targeted_decision = { target = THIS decision = LIT_internationale_propaganda }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_define_the_party_programme = {
+		icon = generic_decision
+		allowed = { always = no }	# Activated by modifier LIT_long_road_to_pluralism_modifier
+		cost = 50
+		fire_only_once = yes
+
+		ai_will_do = { factor = 100 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_define_the_party_programme"
+			country_event = lithuania_events.221
+		}
+		fixed_random_seed = no
+	}
+	LIT_subordinate_the_army = {
+		icon = generic_prepare_civil_war
+		allowed = { always = no }	# Activated by focus LIT_review_the_military_budget
+
+		cost = 50
+		fire_only_once = yes
+
+		ai_will_do = { factor = 100 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_subordinate_the_army"
+			country_event = lithuania_events.222
+		}
+		fixed_random_seed = no
+	}
+	LIT_appoint_vincas_vitkauskas = {
+		icon = GFX_decision_generic_army_support
+		allowed = { always = no }	# Activated by focus LIT_review_the_military_budget
+		visible = {
+			has_character = LIT_vincas_vitkauskas
+		}
+
+		cost = 50
+		fire_only_once = yes
+
+		ai_will_do = { factor = 100 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_appoint_vincas_vitkauskas"
+			add_command_power = 15
+			LIT_vincas_vitkauskas = {
+				promote_leader = yes
+				set_character_flag = LIT_vitkauskas_high_command_unlocked
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = LIT_vincas_vitkauskas_high_command
+		}
+		fixed_random_seed = no
+	}
+}
+
+LIT_optimal_system_decisions = {
+	LIT_encourage_free_debate = {
+		icon = GFX_decision_hol_radio_oranje
+		allowed = { always = no }	# Activated by focus LIT_political_democracy
+
+		cost = 25
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_encourage_free_debate"
+			set_temp_variable = { LIT_federalisation_change = 0.05 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_promote_political_corporations = {
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = { always = no }	# Activated by focus LIT_political_democracy
+
+		cost = 25
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_promote_political_corporations"
+			set_temp_variable = { LIT_federalisation_change = 0.05 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_liberalise_the_press = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { always = no }	# Activated by focus LIT_political_democracy
+
+		cost = 25
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_liberalise_the_press"
+			set_temp_variable = { LIT_federalisation_change = 0.05 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_pass_labour_safety_laws = {
+		icon = GFX_decision_generic_civil_support
+		allowed = { always = no }	# Activated by focus LIT_economic_democracy
+
+		cost = 25
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			industrial_capacity_factory = -0.10
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_pass_labour_safety_laws"
+			set_temp_variable = { LIT_federalisation_change = 0.05 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_establish_cooperatives = {
+		icon = GFX_decision_hol_attract_foreign_investors
+		allowed = { always = no }	# Activated by focus LIT_economic_democracy
+
+		cost = 25
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			consumer_goods_factor = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_establish_cooperatives"
+			set_temp_variable = { LIT_federalisation_change = 0.05 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_wealth_redistribution_taxes = {
+		icon = GFX_decision_gre_investment_decisions
+		allowed = { always = no }	# Activated by focus LIT_economic_democracy
+
+		cost = 25
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			stability_factor = -0.10
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_wealth_redistribution_taxes"
+			set_temp_variable = { LIT_federalisation_change = 0.05 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_compromise_with_the_bund = { # Salk and the Bundas
+		icon = GFX_decision_gre_paying_ifc_debt
+		allowed = { always = no }	# Activated by focus LIT_economic_democracy
+
+		cost = 25
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 100 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_compromise_with_the_bund"
+			set_temp_variable = { LIT_federalisation_change = 0.05 }
+			LIT_change_federalisation = yes
+			country_event = lithuania_events.104
+		}
+		fixed_random_seed = no
+	}
+	LIT_form_northern_polish_corporate_federations = {
+		icon = GFX_decision_factories
+		allowed = { always = no }	# Activated by focus LIT_optimal_system
+		cost = 75
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_form_northern_polish_corporate_federations"
+			set_temp_variable = { LIT_federalisation_change = 0.15 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_form_southern_polish_corporate_federations = {
+		icon = GFX_decision_factories
+		allowed = { always = no }	# Activated by focus LIT_optimal_system
+		cost = 75
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_form_southern_polish_corporate_federations"
+			set_temp_variable = { LIT_federalisation_change = 0.15 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_form_belarusian_corporate_federations = {
+		icon = GFX_decision_factories
+		allowed = { always = no }	# Activated by focus LIT_optimal_system
+		cost = 75
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_form_belarusian_corporate_federations"
+			set_temp_variable = { LIT_federalisation_change = 0.15 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_form_litvak_corporate_federations = {
+		icon = GFX_decision_factories
+		allowed = { always = no }	# Activated by focus LIT_optimal_system
+		cost = 75
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_form_litvak_corporate_federations"
+			set_temp_variable = { LIT_federalisation_change = 0.15 }
+			LIT_change_federalisation = yes
+		}
+		fixed_random_seed = no
+	}
+}
+
+LIT_centralisation_decisions = {
+	LIT_promote_a_strong_government = {
+		icon = GFX_decision_generic_civil_support
+		allowed = { always = no }	# Activated by focus LIT_towards_an_unitary_state
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		ai_will_do = { factor = 1 }
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_promote_a_strong_government"
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.05
+			}
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_solidify_control_in_the_north = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { always = no }	# Activated by focus LIT_reward_loyalty
+		highlight_states = {
+			highlight_state_targets = { state = 189 }
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_solidify_control_in_the_north"
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_solidify_control_of_sudovia = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { always = no }	# Activated by focus LIT_reward_loyalty
+		highlight_states = {
+			highlight_state_targets = { state = 655 }
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_solidify_control_of_sudovia"
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_secure_kaunas = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { always = no }	# Activated by focus LIT_reward_loyalty
+		highlight_states = {
+			highlight_state_targets = { state = 11 }
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_secure_kaunas"
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_secure_vilnius = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { always = no }	# Activated by focus LIT_reward_loyalty
+		highlight_states = {
+			highlight_state_targets = { state = 96 }
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_secure_vilnius"
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_secure_gardinas = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { always = no }	# Activated by focus LIT_reward_loyalty
+		highlight_states = {
+			highlight_state_targets = { state = 96 }
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_secure_gardinas"
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+			hidden_effect = {
+				country_event = { id = lithuania_events.165 days = 45 }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_abolish_valkaviskas_autonomy = {
+		icon = GFX_decision_generic_break_treaty
+		allowed = { always = no }	# Activated by focus LIT_curtail_the_bund
+		visible = {
+			94 = { is_owned_and_controlled_by = ROOT }
+		}
+
+		highlight_states = {
+			highlight_state_targets = { state = 94 }
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_abolish_valkaviskas_autonomy"
+			add_stability = -0.05
+			hidden_effect = {
+				country_event = { id = lithuania_events.169 days = 60 }
+			}
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_abolish_valkaviskas_autonomy"
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+		}
+		fixed_random_seed = no
+	}
+	LIT_abolish_bialystok_autonomy = {
+		icon = GFX_decision_generic_break_treaty
+		allowed = { always = no }	# Activated by focus LIT_curtail_the_bund
+		visible = {
+			94 = { is_owned_and_controlled_by = ROOT }
+		}
+
+		highlight_states = {
+			highlight_state_targets = { state = 94 }
+		}
+
+		cost = 50
+		days_remove = 120
+		fire_only_once = yes
+
+		modifier = {
+			political_power_cost = 0.1
+		}
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_abolish_bialystok_autonomy"
+			add_stability = -0.05
+			hidden_effect = {
+				country_event = { id = lithuania_events.180 days = 20 }
+			}
+		}
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_abolish_bialystok_autonomy"
+			set_temp_variable = { LIT_centralisation_change = 0.1 }
+			LIT_change_centralisation = yes
+		}
+		fixed_random_seed = no
+	}
+}
+
+LIT_LitBel_category = {
+	LIT_LitBel_lastouski_speech = {
+		icon = hol_radio_oranje
+
+		allowed = { always = no }	# Activated by focus on_capitulation BLR
+
+		available = {
+			has_capitulated = no
+		}
+
+		cost = 50
+		days_remove = 7
+		fire_only_once = yes
+		cancel_if_not_visible = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_LitBel_lastouski_speech"
+			country_event = belarus_political_events.36
+			activate_targeted_decision = { target = THIS decision = LIT_LitBel_bund }
+			activate_targeted_decision = { target = THIS decision = LIT_LitBel_negotiations }
+		}
+		fixed_random_seed = no
+	}
+	LIT_LitBel_bund = {
+		icon = GFX_decision_generic_agreement
+
+		allowed = { always = no }	# Activated by decision LIT_LitBel_lastouski_speech
+
+		available = {
+			has_capitulated = no
+		}
+
+		cost = 50
+		days_remove = 30
+		fire_only_once = yes
+		cancel_if_not_visible = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_LitBel_bund"
+			set_country_flag = BLR_bunds_met
+			if = {
+				limit = { has_country_flag = BLR_LitBel_negotiations_done }
+				activate_targeted_decision = { target = THIS decision = LIT_LitBel_formation }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_LitBel_negotiations = {
+		icon = GFX_decision_generic_agreement
+
+		allowed = { always = no }	# Activated by decision LIT_LitBel_lastouski_speech
+
+		available = {
+			has_capitulated = no
+		}
+
+		cost = 50
+		days_remove = 30
+		fire_only_once = yes
+		cancel_if_not_visible = yes
+
+		ai_will_do = { factor = 10 }
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_LitBel_negotiations"
+			set_country_flag = BLR_LitBel_negotiations_done
+			if = {
+				limit = { has_country_flag = BLR_bunds_met }
+				activate_targeted_decision = { target = THIS decision = LIT_LitBel_formation }
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_LitBel_formation = {
+		icon = GFX_decision_generic_flags
+
+		allowed = { always = no }	# Activated by either LIT_LitBel_negotiations or LIT_LitBel_bund
+
+		available = {
+			has_capitulated = no
+		}
+
+		cost = 50
+		fire_only_once = yes
+		cancel_if_not_visible = yes
+
+		ai_will_do = { factor = 1 }
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_LitBel_formation"
+			BLR = { country_event = belarus_political_events.32 }
+			clr_country_flag = BLR_bunds_met
+			clr_country_flag = BLR_LitBel_negotiations_done
+		}
+		fixed_random_seed = no
+	}
+}
+
+LIT_Naru_Swiss = { #Swiss
+	LIT_swiss_1 = { #
+		icon = generic_agreement
+		allowed = { always = no }	# Activated by event lithuania_events.339
+
+		cost = 45
+		fire_only_once = yes
+		days_remove = 45
+
+		ai_will_do = { factor = 10 }
+		modifier = {
+			political_power_gain = -0.1
+		}
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_swiss_1"
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_swiss_1"
+			country_event = lithuania_events.342
+		}
+		fixed_random_seed = no
+	}
+	LIT_swiss_2 = { # Bundas
+		icon = generic_political_discourse
+		allowed = { always = no }	# Activated by event lithuania_events.342
+		available = {
+			has_completed_focus = LIT_christian_education_reforms
+		}
+		cost = 0
+		fire_only_once = yes
+		days_remove = 30
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_swiss_2"
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_swiss_2"
+			country_event = lithuania_events.341
+		}
+		fixed_random_seed = no
+	}
+	LIT_swiss_5 = { # Removing an Old Thorn
+		icon = eng_trade_unions_demand
+		allowed = { always = no }	# Activated by event lithuania_events.335
+
+		custom_cost_text = CP_20
+		custom_cost_trigger = {
+			NOT = { command_power < 20 }
+		}
+		fire_only_once = yes
+		days_remove = 30
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_swiss_5"
+			hidden_effect = { add_command_power = -20 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_swiss_5"
+			country_event = lithuania_events.343
+		}
+		fixed_random_seed = no
+	}
+	LIT_swiss_6 = { # Litvin
+		icon = eng_trade_unions_support
+		allowed = { always = no }	# Activated by event lithuania_events.344
+
+		cost = 25
+		fire_only_once = yes
+		days_remove = 60
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_swiss_6"
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_swiss_6"
+			country_event = lithuania_flavour_events.7
+			custom_effect_tooltip = LIT_SWISS_CON_MINOR
+			hidden_effect = {
+				add_to_variable = {
+					lit_var_swiss_conf_sam = {
+						value = 10
+						clamp = { min = 0 max = { value = 75 subtract = lit_var_swiss_conf_sam } }
+					}
+				}
+				add_to_variable = {
+					lit_var_swiss_conf_val = {
+						value = 10
+						clamp = { min = 0 max = { value = 100 subtract = lit_var_swiss_conf_val } }
+					}
+				}
+				add_to_variable = {
+					lit_var_swiss_conf_bia = {
+						value = 10
+						clamp = { min = 0 max = { value = 100 subtract = lit_var_swiss_conf_bia } }
+					}
+				}
+				add_to_variable = {
+					lit_var_swiss_conf_suw = {
+						value = 10
+						clamp = { min = 0 max = { value = 100 subtract = lit_var_swiss_conf_suw } }
+					}
+				}
+				LIT_recalculate_average_swiss_canton = yes
+			}
+		}
+		fixed_random_seed = no
+	}
+	LIT_swiss_7 = { # Infiltrate
+		icon = decision_recruit_operative
+		allowed = { always = no }	# Activated by event lithuania_events.343
+		custom_cost_text = CP_20
+		custom_cost_trigger = {
+			NOT = { command_power < 20 }
+		}
+		fire_only_once = yes
+		days_remove = 60
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_swiss_7"
+			hidden_effect = { add_command_power = -20 }
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_swiss_7"
+			country_event = lithuania_events.344
+		}
+		fixed_random_seed = no
+	}
+	LIT_swiss_8 = { # Arrest Action
+		icon = generic_assassination
+		allowed = { always = no }	# Activated by event lithuania_events.343
+		available = {
+			has_country_flag = LIT_SWISS_BIA_COMPLETED
+		}
+		cost = 25
+		fire_only_once = yes
+		days_remove = 7
+
+		ai_will_do = { factor = 10 }
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_swiss_8"
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_swiss_8"
+			country_event = lithuania_events.345
+		}
+		fixed_random_seed = no
+	}
+}
+
+foreign_politics = {
+	LIT_Last_Stand = {
+		icon = GFX_decision_generic_agreement
+		allowed = { always = no } 		# Activated by LAT_EST_Last_Stand decision
+
+		visible = {
+			has_war_with = GER
+			LAT = {
+				has_war_with = GER
+				is_faction_leader = yes
+			}
+			is_in_faction = no
+			is_subject = no
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 100
+				RUS = {
+					OR = {
+						RUS_is_expansionist = yes
+						has_socialist_government = yes
+					}
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetLogRoot]: Decision complete LIT_Last_Stand"
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				LAT = { add_to_faction = LIT }
+			}
+			hidden_effect = {
+				LAT = { country_event = { id = latvia_foreign_policy_events.30 days = 1 } }
+			}
+		}
+		fixed_random_seed = no
+	}
+}
+
+political_actions = {
+	LIT_form_litbel = {
+		name = BLR_form_litbel
+		icon = generic_nationalism
+
+		allowed = { always = no } #activated in history file
+
+		visible = {
+			owns_state = 206 #Minsk
+			NOT = { country_exists = FROM }
+		}
+
+		cost = 100
+		fire_only_once = yes
+		target_non_existing = yes
+
+		ai_will_do = { factor = 100 }
+
+		remove_effect = {
+			log = "[GetLogRoot][GetLogFrom]: Decision remove LIT_form_litbel"
+			every_state = {
+				limit = { is_core_of = FROM }
+				add_claim_by = ROOT
+			}
+			if = {
+				limit = { has_cosmetic_tag = LIT_monarchy }
+				set_cosmetic_tag = LIT_LITBEL_monarchy
+			}
+			else = {
+				set_cosmetic_tag = LIT_LITBEL
+			}
+			hidden_effect = {
+				news_event = world_news_events.463
+				if = {
+					limit = {
+						has_war_with = RUS
+						RSA = {
+							is_ally_of_ROOT = yes
+							has_completed_focus = RSA_fight_for_russia
+						}
+						242 = { NOT = { has_state_flag = RSA_claimed_state } }
+					}
+					RSA = {
+						activate_targeted_decision = { decision = RSA_counter_claims target = LIT }
+						remove_targeted_decision = { decision = RSA_counter_claims target = BLR }
+					}
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+
+	LIT_establish_BLR_autonomy = {
+		icon = eng_trade_unions_support
+
+		allowed = { tag = LIT }
+
+		visible = {
+			owns_state = 206 #Minsk
+			owns_state = 207 #Braslav
+			owns_state = 204 #Novogrudok
+			owns_state = 95 #Pinsk
+			owns_state = 194 #Mozyr
+			owns_state = 1087 #Mohilev
+			LIT_is_litbel = yes
+		}
+
+		cost = 100
+		fire_only_once = yes
+		cancel_if_not_visible = yes
+
+		ai_will_do = { factor = 100 }
+
+		cancel_effect = {
+			log = "[GetLogRoot]: Decision cancel LIT_establish_BLR_autonomy"
+		}
+
+		remove_effect = {
+			log = "[GetLogRoot]: Decision remove LIT_establish_BLR_autonomy"
+			custom_effect_tooltip = LIT_belarusian_autonomy_tt
+			206 = { #Minsk
+				hidden_effect = {
+					add_dynamic_modifier = { modifier = LIT_belarusian_autonomy }
+				}
+				if = {
+					limit = {
+						compliance < 40
+					}
+					set_compliance = 40
+				}
+			}
+			207 = { #Braslav
+				hidden_effect = {
+					add_dynamic_modifier = { modifier = LIT_belarusian_autonomy }
+				}
+				if = {
+					limit = {
+						compliance < 40
+					}
+					set_compliance = 40
+				}
+			}
+			204 = { #Novogrudok
+				hidden_effect = {
+					add_dynamic_modifier = { modifier = LIT_belarusian_autonomy }
+				}
+				if = {
+					limit = {
+						compliance < 40
+					}
+					set_compliance = 40
+				}
+			}
+			95 = { #Pinsk
+				hidden_effect = {
+					add_dynamic_modifier = { modifier = LIT_belarusian_autonomy }
+				}
+				if = {
+					limit = {
+						compliance < 40
+					}
+					set_compliance = 40
+				}
+			}
+			194 = { #Mozyr
+				hidden_effect = {
+					add_dynamic_modifier = { modifier = LIT_belarusian_autonomy }
+				}
+				if = {
+					limit = {
+						compliance < 40
+					}
+					set_compliance = 40
+				}
+			}
+			1087 = { #Mohilev
+				hidden_effect = {
+					add_dynamic_modifier = { modifier = LIT_belarusian_autonomy }
+				}
+				if = {
+					limit = {
+						compliance < 40
+					}
+					set_compliance = 40
+				}
+			}
+		}
+		fixed_random_seed = no
+	}
+}

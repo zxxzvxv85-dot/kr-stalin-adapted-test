@@ -1,5 +1,18 @@
 [
   {
+    "id": "ostwall_route_lock_generation",
+    "path": "tools/generate_ostwall_route_locks.py",
+    "groups": ["foreign", "generated"],
+    "args": ["--check"],
+    "requires": ["kr"]
+  },
+  {
+    "id": "ostwall_route_lock_rules",
+    "path": "tools/test_ostwall_route_locks.py",
+    "groups": ["foreign"],
+    "requires": ["kr"]
+  },
+  {
     "id": "military_decision_integration_generation",
     "path": "tools/generate_military_decision_integration.py",
     "groups": ["military", "generated"],

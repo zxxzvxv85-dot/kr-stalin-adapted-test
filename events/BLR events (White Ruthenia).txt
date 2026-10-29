@@ -1,0 +1,2744 @@
+###########################
+# White Ruthenia Events
+###########################
+# By Ido and Vidyaország
+###########################
+
+add_namespace = belarus_political_events
+add_namespace = belarus_economy_events
+add_namespace = belarus_misc_events
+add_namespace = belarus_land_reform_events
+
+country_event = { # Necessity of Reform
+	id = belarus_political_events.2
+	title = belarus_political_events.2.t
+	desc = belarus_political_events.2.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.2 option belarus_political_events.2.a"
+		name = belarus_political_events.2.a
+		activate_mission = BLR_Land_Reform_Plan
+		hidden_effect = {
+			country_event = { id = belarus_land_reform_events.2 days = 75 }
+			country_event = { id = belarus_land_reform_events.3 days = 115 }
+			country_event = { id = belarus_land_reform_events.4 days = 200 }
+			add_dynamic_modifier = { modifier = BLR_land_reform_modifier }
+			BLR_recalculate_land_reform = yes
+		}
+	}
+}
+
+country_event = { # Land Reform
+	id = belarus_political_events.3
+	title = belarus_political_events.3.t
+	desc = belarus_political_events.3.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.3 option belarus_political_events.3.a"
+		name = belarus_political_events.3.a
+	}
+}
+
+country_event = { # The Assembly Meets
+	id = belarus_political_events.4
+	title = belarus_political_events.4.t
+	desc = belarus_political_events.4.d
+	picture = GFX_report_event_BLR_national_theatre
+
+	is_triggered_only = yes
+
+	option = { #The Reformists Hold On
+		log = "[GetLogInfo]: event belarus_political_events.4 option belarus_political_events.4.a"
+		name = belarus_political_events.4.a
+		ai_chance = {
+			base = 60
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = BLR_path option = BLR_PATH_AUTDEM }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_PATAUT }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_NATPOP }
+				}
+			}
+		}
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.05
+		}
+		custom_effect_tooltip = BLR_Lets_Start_Plan_Sierada
+	}
+	option = { #The Radicals have a point ~~aka just give me the coup bro~~
+		log = "[GetLogInfo]: event belarus_political_events.4 option belarus_political_events.4.b"
+		name = belarus_political_events.4.b
+		ai_chance = {
+			base = 40
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = BLR_path option = BLR_PATH_SOCDEM }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_SOCCON }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_SOCDEM_GER }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_RADSOC }
+				}
+			}
+		}
+		add_popularity = {
+			ideology = radical_socialist
+			popularity = 0.05
+		}
+		custom_effect_tooltip = BLR_Oh_No
+		hidden_effect = {
+			country_event = { id = belarus_political_events.7 days = 3 }
+		}
+	}
+}
+
+country_event = { # Illiteracy
+	id = belarus_political_events.5
+	title = belarus_political_events.5.t
+	desc = belarus_political_events.5.d
+	picture = GFX_report_event_generic_strike
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.5 option belarus_political_events.5.a"
+		name = belarus_political_events.5.a
+	}
+}
+
+country_event = { # Crisis
+	id = belarus_political_events.6
+	title = belarus_political_events.6.t
+	desc = belarus_political_events.6.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.6 option belarus_political_events.6.a"
+		name = belarus_political_events.6.a
+		if = {
+			limit = {
+				NOT = {
+					AND = {
+						is_ai = yes
+						OR = {
+							has_game_rule = { rule = BLR_path option = BLR_PATH_SOCDEM }
+							has_game_rule = { rule = BLR_path option = BLR_PATH_SOCCON }
+							has_game_rule = { rule = BLR_path option = BLR_PATH_SOCDEM_GER }
+							has_game_rule = { rule = BLR_path option = BLR_PATH_RADSOC }
+						}
+					}
+				}
+			}
+			activate_mission = BLR_Land_Reform_Plan_Danger
+		}
+	}
+}
+
+country_event = { # PatAut Coup
+	id = belarus_political_events.7
+	title = belarus_political_events.7.t
+	desc = belarus_political_events.7.d
+	picture = GFX_report_event_BLR_soldiers_flag
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.7 option belarus_political_events.7.a"
+		name = belarus_political_events.7.a
+		add_popularity = {
+			ideology = social_democrat
+			popularity = -0.20
+		}
+		add_popularity = {
+			ideology = radical_socialist
+			popularity = -0.20
+		}
+		add_stability = -0.15
+		add_war_support = -0.15
+		clr_global_flag = RUS_will_puppet_belarus
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		hidden_effect = {
+			clr_country_flag = LandReformPlanBSDP
+			BLR_teardown_land_reform_decisions = yes
+			country_event = { id = belarus_political_events.8 days = 7 }
+			country_event = { id = belarus_political_events.10 days = 3 }
+			country_event = { id = belarus_political_events.28 days = 5 }
+			95 = { set_demilitarized_zone = yes }
+			207 = { set_demilitarized_zone = yes }
+			1087 = { set_demilitarized_zone = yes }
+			204 = { set_demilitarized_zone = yes }
+			194 = { set_demilitarized_zone = yes }
+			add_ideas = BLR_Power_Struggle
+			activate_targeted_decision = { target = THIS decision = BLR_Mogilev_Assault }
+			activate_targeted_decision = { target = THIS decision = BLR_Braslaw_Assault }
+			activate_targeted_decision = { target = THIS decision = BLR_Pinsk_Assault }
+			activate_targeted_decision = { target = THIS decision = BLR_Bobruisk_Assault }
+			activate_targeted_decision = { target = THIS decision = BLR_Mozyr_Assault }
+			activate_targeted_decision = { target = THIS decision = BLR_Final_Blow }
+			mark_focus_tree_layout_dirty = yes
+			end_coalition = yes
+			BLR_clear_bsdp_ideas = yes
+			remove_dynamic_modifier = { modifier = BLR_land_reform_modifier }
+			complete_national_focus = BLR_Aftermath_Of_The_Coup
+		}
+	}
+}
+
+country_event = { # Astrouski asks the Sojm for support
+	id = belarus_political_events.8
+	title = belarus_political_events.8.t
+	desc = belarus_political_events.8.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+
+	option = { #they agree
+		log = "[GetLogInfo]: event belarus_political_events.8 option belarus_political_events.8.a"
+		name = belarus_political_events.8.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				has_game_rule = { rule = BLR_path option = BLR_PATH_NATPOP }
+			}
+		}
+		country_event = { id = belarus_political_events.23 days = 3 }
+	}
+	option = { #they don't
+		log = "[GetLogInfo]: event belarus_political_events.8 option belarus_political_events.8.b"
+		name = belarus_political_events.8.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = BLR_path option = BLR_PATH_AUTDEM }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_PATAUT }
+				}
+			}
+		}
+		country_event = { id = belarus_political_events.21 days = 3 }
+	}
+}
+
+country_event = { # BSDP Land Reform plan
+	id = belarus_political_events.9
+	title = belarus_political_events.9.t
+	desc = belarus_political_events.9.d
+	picture = GFX_report_event_BLR_sojm
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.9 option belarus_political_events.9.a"
+		name = belarus_political_events.9.a
+		add_political_power = 100
+		set_country_flag = LandReformPlanBSDP
+		custom_effect_tooltip = BLR_Mod_major_increase
+		add_to_variable = { BLR_Land_Reform_Success = 10 }
+		subtract_from_variable = { BLR_Land_Reform_Popularity = 10 }
+		BLR_recalculate_land_reform = yes
+		hidden_effect = {
+			country_event = { id = belarus_land_reform_events.5 days = 28 }
+			country_event = { id = belarus_land_reform_events.6 days = 20 }
+			country_event = { id = belarus_land_reform_events.7 days = 220 }
+			BLR_setup_land_reform_decisions = yes
+		}
+	}
+}
+
+country_event = { # Battle of Borisov
+	id = belarus_political_events.10
+	title = belarus_political_events.10.t
+	desc = belarus_political_events.10.d
+	picture = GFX_report_event_BLR_astrouski_coup
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.10 option belarus_political_events.10.a"
+		name = belarus_political_events.10.a
+		add_political_power = 50
+	}
+}
+
+country_event = { # Battle of Mogilev
+	id = belarus_political_events.11
+	title = belarus_political_events.11.t
+	desc = belarus_political_events.11.d
+	picture = GFX_report_event_BLR_astrouski_coup
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.11 option belarus_political_events.11.a"
+		name = belarus_political_events.11.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Battle of Braslaw
+	id = belarus_political_events.12
+	title = belarus_political_events.12.t
+	desc = belarus_political_events.12.d
+	picture = GFX_report_event_BLR_armoured_car
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.12 option belarus_political_events.12.a"
+		name = belarus_political_events.12.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Battle of Pinsk
+	id = belarus_political_events.13
+	title = belarus_political_events.13.t
+	desc = belarus_political_events.13.d
+	picture = GFX_report_event_BLR_officers
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.13 option belarus_political_events.13.a"
+		name = belarus_political_events.13.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Battle of Bobruisk
+	id = belarus_political_events.14
+	title = belarus_political_events.14.t
+	desc = belarus_political_events.14.d
+	picture = GFX_report_event_BLR_soldiers_review
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.14 option belarus_political_events.14.a"
+		name = belarus_political_events.14.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Battle of Mozyr
+	id = belarus_political_events.15
+	title = belarus_political_events.15.t
+	desc = belarus_political_events.15.d
+	picture = GFX_report_event_BLR_armoured_car
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.15 option belarus_political_events.15.a"
+		name = belarus_political_events.15.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Splitting the Bund part 1
+	id = belarus_political_events.16
+	title = belarus_political_events.16.t
+	desc = belarus_political_events.16.d
+	picture = GFX_report_event_generic_diplomacy3
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.16 option belarus_political_events.16.a"
+		name = belarus_political_events.16.a
+		add_political_power = 50
+		swap_ideas = {
+			remove_idea = BLR_Jewish_Bund_idea
+			add_idea = BLR_Jewish_Bund_Split_in_Progress
+		}
+		hidden_effect = {
+			country_event = { id = belarus_political_events.17 days = 120 }
+		}
+	}
+}
+
+country_event = { # Splitting the Bund part 2
+	id = belarus_political_events.17
+	title = belarus_political_events.17.t
+	desc = belarus_political_events.17.d
+	picture = GFX_report_event_generic_diplomacy4
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.17 option belarus_political_events.17.a"
+		name = belarus_political_events.17.a
+		add_political_power = 100
+		swap_ideas = {
+			remove_idea = BLR_Jewish_Bund_Split_in_Progress
+			add_idea = BLR_Jewish_Bund_Split_Complete
+		}
+	}
+}
+
+country_event = { # Negotiating with the Bund part 1
+	id = belarus_political_events.18
+	title = belarus_political_events.18.t
+	desc = belarus_political_events.18.d
+	picture = GFX_report_event_generic_diplomacy4
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.18 option belarus_political_events.18.a"
+		name = belarus_political_events.18.a
+		hidden_effect = {
+			country_event = { id = belarus_political_events.19 days = 60 }
+		}
+	}
+}
+
+country_event = { # Negotiating with the Bund part 2
+	id = belarus_political_events.19
+	title = belarus_political_events.19.t
+	desc = belarus_political_events.19.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.19 option belarus_political_events.19.a"
+		name = belarus_political_events.19.a
+		add_political_power = -50
+		hidden_effect = {
+			country_event = { id = belarus_political_events.20 days = 120 }
+		}
+	}
+}
+
+country_event = { # Negotiating with the Bund part 3
+	id = belarus_political_events.20
+	title = belarus_political_events.20.t
+	desc = belarus_political_events.20.d
+	picture = GFX_report_event_generic_diplomacy3
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.20 option belarus_political_events.20.a"
+		name = belarus_political_events.20.a
+		swap_ideas = {
+			remove_idea = BLR_Jewish_Bund_idea
+			add_idea = BLR_Jewish_Bund_Negotiations
+		}
+	}
+}
+
+country_event = { # unrest in Minsk
+	id = belarus_political_events.21
+	title = belarus_political_events.21.t
+	desc = belarus_political_events.21.d
+	picture = GFX_report_event_gathering_protest
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.21 option belarus_political_events.21.a"
+		name = belarus_political_events.21.a
+		add_political_power = -100
+		country_event = { id = belarus_political_events.22 days = 3 }
+	}
+}
+
+country_event = { # natpop coup
+	id = belarus_political_events.22
+	title = belarus_political_events.22.t
+	desc = belarus_political_events.22.d
+	picture = GFX_report_event_BLR_soldiers_review
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.22 option belarus_political_events.22.a"
+		name = belarus_political_events.22.a
+		clr_country_flag = BLR_generalgouvernement_guaranteed
+		clr_global_flag = RUS_will_puppet_belarus
+		complete_national_focus = BLR_The_Countercoup
+		set_politics = {
+			ruling_party = national_populist
+		}
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.10
+		}
+		add_stability = -0.15
+		hidden_effect = {
+			news_event = { id = belarus_political_events.65 days = 1 }
+		}
+	}
+}
+
+country_event = { # Astrouski forms anti-syndie government
+	id = belarus_political_events.23
+	title = belarus_political_events.23.t
+	desc = belarus_political_events.23.d
+	picture = GFX_report_event_BLR_astrouski_coup
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.23 option belarus_political_events.23.a"
+		name = belarus_political_events.23.a
+		clr_global_flag = RUS_will_puppet_belarus
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.20
+		}
+		set_politics = {
+			ruling_party = authoritarian_democrat
+		}
+		set_party_name = {
+			ideology = authoritarian_democrat
+			long_name = BLR_authoritarian_democrat2_party_long
+			name = BLR_authoritarian_democrat2_party
+		}
+		set_temp_variable = { coalition_partner_var = token:social_conservative }
+		add_to_coalition = yes
+		set_temp_variable = { coalition_partner_var = token:paternal_autocrat }
+		add_to_coalition = yes
+		add_political_power = 100
+		complete_national_focus = BLR_The_New_Populist_Government
+		hidden_effect = {
+			news_event = { id = belarus_political_events.64 days = 1 }
+		}
+	}
+}
+
+country_event = { # Intro to Belarusian Jews, Bundism, etc
+	id = belarus_political_events.24
+	title = belarus_political_events.24.t
+	desc = belarus_political_events.24.d
+	picture = GFX_report_event_BLR_sojm
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.24 option belarus_political_events.24.a"
+		name = belarus_political_events.24.a
+		add_political_power = 25
+	}
+}
+
+country_event = { # Elections of 1939, only BSDP is electable
+	id = belarus_political_events.25
+	title = belarus_political_events.25.t
+	desc = belarus_political_events.25.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	trigger = {
+		date < 1940.1.1
+		has_elected_government = yes
+	}
+
+	option = { # BSDP wins... again!
+		log = "[GetLogInfo]: event belarus_political_events.25 option belarus_political_events.25.a"
+		name = belarus_political_events.25.a
+		if = {
+			limit = { NOT = { has_government = social_democrat } }
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.2
+			}
+		}
+		else = {
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.1
+			}
+		}
+		set_politics = {
+			ruling_party = social_democrat
+			election_frequency = 48
+			elections_allowed = yes
+		}
+		set_temp_variable = { coalition_partner_var = token:radical_socialist }
+		add_to_coalition = yes
+		set_temp_variable = { coalition_partner_var = token:social_liberal }
+		add_to_coalition = yes
+	}
+}
+
+country_event = { # post-1939 elections, soccons are also electable alongside the BSDP
+	id = belarus_political_events.26
+	title = belarus_political_events.26.t
+	desc = belarus_political_events.26.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	trigger = {
+		date > 1940.1.1
+		has_elected_government = yes
+	}
+
+	option = { # BSDP wins yet again!
+		log = "[GetLogInfo]: event belarus_political_events.26 option belarus_political_events.26.a"
+		name = belarus_political_events.26.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				has_game_rule = { rule = BLR_path option = BLR_PATH_SOCCON }
+			}
+		}
+		if = {
+			limit = { NOT = { has_government = social_democrat } }
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.2
+			}
+		}
+		else = {
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.1
+			}
+		}
+		set_politics = {
+			ruling_party = social_democrat
+			election_frequency = 48
+			elections_allowed = yes
+		}
+		set_temp_variable = { coalition_partner_var = token:radical_socialist }
+		add_to_coalition = yes
+		set_temp_variable = { coalition_partner_var = token:social_liberal }
+		add_to_coalition = yes
+	}
+	option = { # NDA coalition wins!
+		log = "[GetLogInfo]: event belarus_political_events.26 option belarus_political_events.26.b"
+		name = belarus_political_events.26.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = BLR_path option = BLR_PATH_SOCDEM }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_SOCDEM_GER }
+				}
+			}
+		}
+		clr_global_flag = RUS_will_puppet_belarus
+		if = {
+			limit = { NOT = { has_government = social_conservative } }
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.2
+			}
+		}
+		else = {
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.1
+			}
+		}
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.1
+		}
+		set_politics = {
+			ruling_party = social_conservative
+			election_frequency = 48
+			elections_allowed = yes
+		}
+		set_temp_variable = { coalition_partner_var = token:market_liberal }
+		add_to_coalition = yes
+	}
+}
+
+country_event = { # polls closed
+	id = belarus_political_events.27
+	title = belarus_political_events.27.t
+	desc = belarus_political_events.27.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # dawwww
+		log = "[GetLogInfo]: event belarus_political_events.27 option belarus_political_events.27.a"
+		name = belarus_political_events.27.a
+	}
+}
+
+country_event = { # Jezavitau defects; warning from Germany
+	id = belarus_political_events.28
+	title = belarus_political_events.28.t
+	desc = belarus_political_events.28.d
+	picture = GFX_report_event_BLR_officers
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # oof
+		log = "[GetLogInfo]: event belarus_political_events.28 option belarus_political_events.28.a"
+		name = belarus_political_events.28.a
+		add_political_power = -15
+		activate_mission = BLR_german_intervention
+		retire_character = BLR_kanstancin_jezavitau
+		show_unit_leaders_tooltip = BLR_werner_kempf
+		custom_effect_tooltip = available_chief_of_army
+		show_ideas_tooltip = BLR_werner_kempf_army_chief
+		hidden_effect = {
+			BLR_werner_kempf = { set_nationality = ROOT }
+			country_event = { id = belarus_political_events.58 days = 1 }
+		}
+	}
+}
+
+country_event = { # semi-direct rule from Berlin
+	id = belarus_political_events.29
+	title = belarus_political_events.29.t
+	desc = belarus_political_events.29.d
+	picture = GFX_report_event_BLR_soldiers_review
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # and all you get is a German HoS lmao
+		log = "[GetLogInfo]: event belarus_political_events.29 option belarus_political_events.29.a"
+		name = belarus_political_events.29.a
+		add_political_power = -50
+		add_stability = -0.10
+		clr_global_flag = RUS_will_puppet_belarus
+		add_country_leader_role = {
+			character = BLR_werner_kempf
+			country_leader = {
+				desc = BLR_werner_kempf_leader_desc
+				ideology = paternal_autocrat_subtype
+			}
+			promote_leader = yes
+		}
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+			name = BLR_paternal_autocrat2_party
+			long_name = BLR_paternal_autocrat2_party_long
+		}
+		set_temp_variable = { coalition_partner_var = token:authoritarian_democrat }
+		add_to_coalition = yes
+		set_cosmetic_tag = BLR_gengov
+		hidden_effect = {
+			remove_ideas = {
+				BLR_Power_Struggle
+				BLR_Power_Struggle2
+				BLR_Power_Struggle3
+				BLR_Power_Struggle4
+				BLR_Power_Struggle5
+				BLR_Power_Struggle6
+			}
+			remove_targeted_decision = { target = THIS decision = BLR_Mogilev_Assault }
+			remove_targeted_decision = { target = THIS decision = BLR_Braslaw_Assault }
+			remove_targeted_decision = { target = THIS decision = BLR_Pinsk_Assault }
+			remove_targeted_decision = { target = THIS decision = BLR_Bobruisk_Assault }
+			remove_targeted_decision = { target = THIS decision = BLR_Mozyr_Assault }
+			remove_targeted_decision = { target = THIS decision = BLR_Final_Blow }
+			every_owned_state = {
+				limit = { is_demilitarized_zone = yes }
+				set_demilitarized_zone = no
+			}
+			clr_country_flag = BLR_generalgouvernement_guaranteed
+		}
+	}
+}
+
+country_event = { # Government flees to Hrodna
+	id = belarus_political_events.30
+	title = belarus_political_events.30.t
+	desc = belarus_political_events.30.d
+	picture = GFX_report_event_BLR_officers
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	trigger = {
+		LIT = { is_in_faction_with = GER }
+	}
+
+	option = { # oof
+		log = "[GetLogInfo]: event belarus_political_events.30 option belarus_political_events.30.a"
+		name = belarus_political_events.30.a
+		effect_tooltip = {
+			if = {
+				limit = { has_idea = BLR_weak_national_identity }
+				become_exiled_in = { target = LIT legitimacy = 0.20 }
+			}
+			else = {
+				become_exiled_in = { target = LIT legitimacy = 0.50 }
+			}
+		}
+	}
+}
+
+country_event = { # Government flees to Hrodna
+	id = belarus_political_events.31
+	title = belarus_political_events.31.t
+	desc = belarus_political_events.31.d
+	picture = GFX_report_event_BLR_officers
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	trigger = {
+		LIT = { is_in_faction_with = GER }
+	}
+
+	option = { # welcome
+		log = "[GetLogInfo]: event belarus_political_events.31 option belarus_political_events.31.a"
+		name = belarus_political_events.31.a
+		effect_tooltip = {
+			BLR = {
+				if = {
+					limit = { has_idea = BLR_weak_national_identity }
+					become_exiled_in = { target = LIT legitimacy = 0.20 }
+				}
+				else = {
+					become_exiled_in = { target = LIT legitimacy = 0.50 }
+				}
+			}
+		}
+	}
+}
+
+country_event = { # LIT asks for LitBel
+	id = belarus_political_events.32
+	title = belarus_political_events.32.t
+	desc = belarus_political_events.32.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = { # woke
+		log = "[GetLogInfo]: event belarus_political_events.32 option belarus_political_events.32.a"
+		name = belarus_political_events.32.a
+		ai_chance = { base = 50 }
+		GER = { country_event = { id = belarus_political_events.33 days = 3 } }
+	}
+	option = { # that's dumb please leave
+		log = "[GetLogInfo]: event belarus_political_events.32 option belarus_political_events.32.b"
+		name = belarus_political_events.32.b
+		ai_chance = { base = 0 }
+		FROM = { country_event = belarus_political_events.34 }
+	}
+}
+
+country_event = { # LIT asks for LitBel (GER's opinion)
+	id = belarus_political_events.33
+	title = belarus_political_events.33.t
+	desc = belarus_political_events.33.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = { # woke
+		log = "[GetLogInfo]: event belarus_political_events.33 option belarus_political_events.33.a"
+		name = belarus_political_events.33.a
+		ai_chance = { base = 50 }
+		LIT = { country_event = { id = belarus_political_events.35 days = 3 } }
+	}
+	option = { # that's dumb please leave
+		log = "[GetLogInfo]: event belarus_political_events.33 option belarus_political_events.33.b"
+		name = belarus_political_events.33.b
+		ai_chance = { base = 0 }
+		LIT = { country_event = belarus_political_events.34 }
+	}
+}
+
+country_event = { # FROM refuses LitBel
+	id = belarus_political_events.34
+	title = belarus_political_events.34.t
+	desc = belarus_political_events.34.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = { # oof
+		log = "[GetLogInfo]: event belarus_political_events.34 option belarus_political_events.34.a"
+		name = belarus_political_events.34.a
+		add_political_power = -15
+	}
+}
+
+country_event = { # LitBel forms
+	id = belarus_political_events.35
+	title = belarus_political_events.35.t
+	desc = belarus_political_events.35.d
+	picture = GFX_report_event_generic_diplomacy3
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # WOKE
+		log = "[GetLogInfo]: event belarus_political_events.35 option belarus_political_events.35.a"
+		name = belarus_political_events.35.a
+		BLR = { every_core_state = { add_claim_by = ROOT } }
+		annex_country = {
+			target = BLR
+			transfer_troops = yes
+		}
+		if = {
+			limit = { has_cosmetic_tag = LIT_monarchy }
+			set_cosmetic_tag = LIT_LITBEL_monarchy
+		}
+		else = {
+			set_cosmetic_tag = LIT_LITBEL
+		}
+		clr_country_flag = BLR_exiled_in_LIT
+		hidden_effect = {
+			if = {
+				limit = { 243 = { is_claimed_by = BLR } } #way the decision works, all are claimed or none
+				243 = { add_claim_by = ROOT } #Krichev
+				755 = { add_claim_by = ROOT } #Vitebsk
+				242 = { add_claim_by = ROOT } #Smolensk
+			}
+			remove_targeted_decision = { decision = LIT_form_litbel target = BLR }
+			if = {
+				limit = {
+					has_war_with = RUS
+					RSA = {
+						is_ally_of_ROOT = yes
+						has_completed_focus = RSA_fight_for_russia
+					}
+					242 = { NOT = { has_state_flag = RSA_claimed_state } }
+				}
+				RSA = {
+					activate_targeted_decision = { decision = RSA_counter_claims target = LIT }
+					remove_targeted_decision = { decision = RSA_counter_claims target = BLR }
+				}
+			}
+			news_event = world_news_events.463
+		}
+	}
+}
+
+country_event = { # Lastouski's speech for LitBel
+	id = belarus_political_events.36
+	title = belarus_political_events.36.t
+	desc = belarus_political_events.36.d
+	picture = GFX_report_event_LIT_conference
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # what a lad
+		log = "[GetLogInfo]: event belarus_political_events.36 option belarus_political_events.36.a"
+		name = belarus_political_events.36.a
+		add_political_power = 15
+	}
+}
+
+country_event = { # Separate peace for BLR-RUS?
+	id = belarus_political_events.37
+	title = belarus_political_events.37.t
+	desc = belarus_political_events.37.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # Fine
+		log = "[GetLogInfo]: event belarus_political_events.37 option belarus_political_events.37.a"
+		name = belarus_political_events.37.a
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 40
+				surrender_progress > 0.20
+				NOT = {
+					controls_state = 242
+					controls_state = 243
+					controls_state = 755
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					controls_state = 242
+					controls_state = 243
+					controls_state = 755
+				}
+			}
+		}
+		BLR = {
+			set_country_flag = BLR_peace_all_claims
+			country_event = belarus_political_events.40
+		}
+	}
+	option = { # Only if we keep Smolensk
+		log = "[GetLogInfo]: event belarus_political_events.37 option belarus_political_events.37.b"
+		name = belarus_political_events.37.b
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 40
+				surrender_progress > 0.20
+				controls_state = 242
+			}
+			modifier = {
+				factor = 0
+				controls_state = 242
+				controls_state = 243
+				controls_state = 755
+			}
+		}
+		BLR = {
+			set_country_flag = BLR_peace_split_offered
+			country_event = belarus_political_events.38
+		}
+	}
+	option = { # Only with no territorial changes
+		log = "[GetLogInfo]: event belarus_political_events.37 option belarus_political_events.37.c"
+		name = belarus_political_events.37.c
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 40
+				surrender_progress < 0.20
+				controls_state = 242
+				controls_state = 243
+				controls_state = 755
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					NOT = { controls_state = 242 }
+					NOT = { controls_state = 243 }
+					NOT = { controls_state = 755 }
+				}
+			}
+		}
+		BLR = {
+			set_country_flag = BLR_peace_statusquo_demanded
+			country_event = belarus_political_events.38
+		}
+	}
+	option = { # no
+		log = "[GetLogInfo]: event belarus_political_events.37 option belarus_political_events.37.e"
+		name = belarus_political_events.37.e
+		ai_chance = {
+			base = 70
+			modifier = {
+				add = -40
+				surrender_progress > 0.20
+			}
+		}
+		BLR = { country_event = belarus_political_events.39 }
+	}
+}
+
+country_event = { # RUS counter-offer
+	id = belarus_political_events.38
+	title = belarus_political_events.38.t
+	desc = {
+		text = belarus_political_events.38.d_split
+		trigger = {
+			has_country_flag = BLR_peace_split_offered
+		}
+	}
+	desc = {
+		text = belarus_political_events.38.d_statusquo
+		trigger = {
+			has_country_flag = BLR_peace_statusquo_demanded
+		}
+	}
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # Fine
+		log = "[GetLogInfo]: event belarus_political_events.38 option belarus_political_events.38.a"
+		name = belarus_political_events.38.a
+		ai_chance = { base = 50 }
+		country_event = { id = belarus_political_events.40 days = 3 }
+	}
+	option = { # no
+		log = "[GetLogInfo]: event belarus_political_events.38 option belarus_political_events.38.b"
+		name = belarus_political_events.38.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				NOT = {
+					controls_state = 242
+					controls_state = 243
+					controls_state = 755
+				}
+			}
+		}
+		country_event = { id = belarus_political_events.39 days = 2 }
+		RUS = { country_event = { id = belarus_political_events.39 days = 2 } }
+	}
+}
+
+country_event = { # RUS-BLR negotiations break down
+	id = belarus_political_events.39
+	title = belarus_political_events.39.t
+	desc = belarus_political_events.39.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+
+	option = { # oof
+		log = "[GetLogInfo]: event belarus_political_events.39 option belarus_political_events.39.a"
+		name = belarus_political_events.39.a
+	}
+}
+
+country_event = { # RUS-BLR negotiations success
+	id = belarus_political_events.40
+	title = belarus_political_events.40.t
+	desc = belarus_political_events.40.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+
+	option = { # time to ask TI
+		log = "[GetLogInfo]: event belarus_political_events.40 option belarus_political_events.40.a"
+		name = belarus_political_events.40.a
+		add_political_power = 15
+		INT = {
+			country_event = belarus_political_events.41
+		}
+	}
+}
+
+country_event = { # BLR breaks its chains and offers to join TI
+	id = belarus_political_events.41
+	title = belarus_political_events.41.t
+	desc = belarus_political_events.41.d
+	picture = GFX_report_event_BLR_national_theatre
+
+	is_triggered_only = yes
+
+	option = { # welcome, comrades!
+		log = "[GetLogInfo]: event belarus_political_events.41 option belarus_political_events.41.a"
+		name = belarus_political_events.41.a
+		ai_chance = { base = 100 }
+		BLR = { country_event = belarus_political_events.42 }
+		if = {
+			limit = {
+				RUS = {
+					has_war_with = BLR
+				}
+			}
+			RUS = { country_event = belarus_political_events.45 }
+		}
+	}
+	option = { # ew crypto-plutocrats go away
+		log = "[GetLogInfo]: event belarus_political_events.41 option belarus_political_events.41.b"
+		name = belarus_political_events.41.b
+		ai_chance = { base = 0 }
+		BLR = { country_event = belarus_political_events.43 }
+		if = {
+			limit = {
+				RUS = {
+					has_war_with = BLR
+				}
+			}
+			RUS = { country_event = belarus_political_events.44 }
+		}
+	}
+}
+
+country_event = { # Peace and join TI
+	id = belarus_political_events.42
+	title = belarus_political_events.42.t
+	desc = belarus_political_events.42.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+
+	option = { # No longer just RadSoc in the sheets
+		log = "[GetLogInfo]: event belarus_political_events.42 option belarus_political_events.42.a"
+		name = belarus_political_events.42.a
+		set_politics = {
+			ruling_party = radical_socialist
+			elections_allowed = no
+		}
+		clear_all_relations = yes
+		hidden_effect = {
+			country_event = belarus_political_events.46
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.3
+			}
+			add_popularity = {
+				ideology = radical_socialist
+				popularity = 0.3
+			}
+			set_temp_variable = { coalition_partner_var = token:social_democrat }
+			add_to_coalition = yes
+		}
+		if = {
+			limit = {
+				RUS = {
+					has_socialist_government = yes
+					is_faction_leader = yes
+				}
+			}
+			RUS = { add_to_faction = ROOT }
+		}
+		else = {
+			INT = { add_to_faction = ROOT }
+		}
+		if = {
+			limit = {
+				has_country_flag = BLR_peace_all_claims
+			}
+			transfer_state = 242
+			transfer_state = 243
+			transfer_state = 755
+			clr_country_flag = BLR_peace_all_claims
+		}
+		else_if = {
+			limit = {
+				has_country_flag = BLR_peace_split_offered
+			}
+			transfer_state = 243
+			transfer_state = 755
+			clr_country_flag = BLR_peace_split_offered
+		}
+		else_if = {
+			limit = {
+				has_country_flag = BLR_peace_statusquo_demanded
+			}
+			clr_country_flag = BLR_peace_statusquo_demanded
+		}
+	}
+
+	trigger = { hidden_trigger = { NOT = { RUS_ostwall_native_red_routes_blocked = yes } } }
+}
+
+country_event = { # BLR denied by INT
+	id = belarus_political_events.43
+	title = belarus_political_events.43.t
+	desc = belarus_political_events.43.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+
+	option = { # oof
+		log = "[GetLogInfo]: event belarus_political_events.43 option belarus_political_events.43.a"
+		name = belarus_political_events.43.a
+		add_political_power = -15
+	}
+}
+
+country_event = { # BLR denied by INT (RUS notification)
+	id = belarus_political_events.44
+	title = belarus_political_events.44.t
+	desc = belarus_political_events.44.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = { # sucks for them lol
+		log = "[GetLogInfo]: event belarus_political_events.44 option belarus_political_events.44.a"
+		name = belarus_political_events.44.a
+	}
+}
+
+country_event = { # RUS notified of peace with BLR
+	id = belarus_political_events.45
+	title = belarus_political_events.45.t
+	desc = belarus_political_events.45.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = { # at least we don't have to march through the marshlands
+		log = "[GetLogInfo]: event belarus_political_events.45 option belarus_political_events.45.a"
+		name = belarus_political_events.45.a
+		effect_tooltip = {
+			BLR = {
+				if = {
+					limit = { has_country_flag = BLR_peace_all_claims }
+					transfer_state = 242
+					transfer_state = 243
+					transfer_state = 755
+				}
+				else_if = {
+					limit = { has_country_flag = BLR_peace_split_offered }
+					transfer_state = 243
+					transfer_state = 755
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Protests against sudden radsocs
+	id = belarus_political_events.46
+	title = belarus_political_events.46.t
+	desc = belarus_political_events.46.d
+	picture = GFX_report_event_gathering_protest
+
+	is_triggered_only = yes
+
+	option = { # oof
+		log = "[GetLogInfo]: event belarus_political_events.46 option belarus_political_events.46.a"
+		name = belarus_political_events.46.a
+		add_stability = -0.20
+		add_war_support = -0.15
+	}
+}
+
+country_event = { # BLR asks to not be a puppet anymore
+	id = belarus_political_events.47
+	title = belarus_political_events.47.t
+	desc = belarus_political_events.47.d
+	picture = GFX_report_event_BLR_national_theatre
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = { # Sure
+		log = "[GetLogInfo]: event belarus_political_events.47 option belarus_political_events.47.a"
+		name = belarus_political_events.47.a
+		ai_chance = { base = 100 }
+		end_puppet = BLR
+		BLR = { country_event = belarus_political_events.48 }
+	}
+	option = { # Pffft no
+		log = "[GetLogInfo]: event belarus_political_events.47 option belarus_political_events.47.b"
+		name = belarus_political_events.47.b
+		ai_chance = { base = 0 }
+		add_political_power = -25
+		BLR = { country_event = belarus_political_events.49 }
+	}
+}
+
+country_event = { # BLR no longer a puppet
+	id = belarus_political_events.48
+	title = belarus_political_events.48.t
+	desc = belarus_political_events.48.d
+	picture = GFX_report_event_BLR_national_theatre
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = { # Hurray!
+		log = "[GetLogInfo]: event belarus_political_events.48 option belarus_political_events.48.a"
+		name = belarus_political_events.48.a
+		add_political_power = 50
+		effect_tooltip = {
+			GER = { end_puppet = BLR }
+		}
+	}
+}
+
+country_event = { # Release request refused
+	id = belarus_political_events.49
+	title = belarus_political_events.49.t
+	desc = belarus_political_events.49.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = { # GER pls...
+		log = "[GetLogInfo]: event belarus_political_events.49 option belarus_political_events.49.a"
+		name = belarus_political_events.49.a
+		add_political_power = -25
+		add_stability = -0.10
+		add_war_support = -0.15
+	}
+}
+
+country_event = { #An Offer from Moscow
+	id = belarus_political_events.50
+	title = belarus_political_events.50.t
+	desc = belarus_political_events.50.d
+	picture = GFX_report_event_RUS_kremlin2
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.50 option belarus_political_events.50.a"
+		name = belarus_political_events.50.a #An interesting proposal
+		ai_chance = {
+			base = 80
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = { rule = BLR_path option = BLR_PATH_SOCCON }
+					has_game_rule = { rule = BLR_path option = BLR_PATH_SOCDEM_GER }
+				}
+			}
+			modifier = {
+				add = opinion@RUS
+			}
+		}
+		custom_effect_tooltip = BLR_effects_when_war_begins
+		effect_tooltip = {
+			if = {
+				limit = { RUS = { owns_state = 243 } }
+				transfer_state = 243
+			}
+			if = {
+				limit = { RUS = { owns_state = 755 } }
+				transfer_state = 755
+			}
+			RUS = {
+				set_autonomy = {
+					target = ROOT
+					autonomy_state = autonomous_puppet
+					end_wars = no
+				}
+			}
+			add_to_war = {
+				targeted_alliance = RUS
+				enemy = GER
+			}
+		}
+		FROM = { country_event = { id = belarus_political_events.51 days = 1 } }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.50 option belarus_political_events.50.b"
+		name = belarus_political_events.50.b #Russia should not be trusted
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				has_game_rule = { rule = BLR_path option = BLR_PATH_RADSOC }
+			}
+		}
+		FROM = { country_event = { id = belarus_political_events.52 days = 1 } }
+	}
+}
+
+country_event = { #Belarus Accepts
+	id = belarus_political_events.51
+	title = belarus_political_events.51.t
+	desc = belarus_political_events.51.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.51 option belarus_political_events.51.a"
+		name = belarus_political_events.51.a #Germany will never see this coming!
+		set_global_flag = RUS_will_puppet_belarus
+		custom_effect_tooltip = BLR_effects_when_war_begins
+		effect_tooltip = {
+			if = {
+				limit = { owns_state = 243 }
+				FROM = { transfer_state = 243 }
+			}
+			if = {
+				limit = { owns_state = 755 }
+				FROM = { transfer_state = 755 }
+			}
+			set_autonomy = {
+				target = FROM
+				autonomy_state = autonomous_puppet
+				end_wars = no
+			}
+			FROM = {
+				add_to_war = {
+					targeted_alliance = ROOT
+					enemy = GER
+				}
+			}
+		}
+	}
+}
+
+country_event = { #Belarus Refuses
+	id = belarus_political_events.52
+	title = belarus_political_events.52.t
+	desc = belarus_political_events.52.d
+	picture = GFX_report_event_BLR_officers
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.52 option belarus_political_events.52.a"
+		name = belarus_political_events.52.a #It was expected
+	}
+}
+
+country_event = { #Time to Choose
+	id = belarus_political_events.53
+	title = belarus_political_events.53.t
+	desc = belarus_political_events.53.d
+	picture = GFX_report_event_BLR_soldiers_review
+
+	trigger = {
+		has_global_flag = RUS_will_puppet_belarus
+		has_government = social_democrat
+		OR = {
+			is_subject = no
+			is_subject_of = GER
+		}
+		RUS = {
+			has_war_with = GER
+			has_socialist_government = yes
+			is_faction_leader = yes
+		}
+	}
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.53 option belarus_political_events.53.a"
+		name = belarus_political_events.53.a #Side with Russia
+		clr_global_flag = RUS_will_puppet_belarus
+		add_stability = -0.2
+		add_war_support = -0.15
+		custom_effect_tooltip = tooltip_white_line
+		if = {
+			limit = { is_in_faction = yes }
+			hidden_effect = {
+				every_owned_state = {
+					teleport_armies = {
+						limit = {
+							is_ally_with = ROOT
+							NOT = { tag = ROOT }
+						}
+						to_state_array = owned_controlled_states
+					}
+				}
+			}
+			faction_leader = { country_event = belarus_political_events.54 }
+		}
+		clear_all_relations = yes
+		custom_effect_tooltip = tooltip_white_line
+		get_current_government_type = yes
+		clear_variable = original_government_type
+		clear_array = original_coalitions
+		effect_tooltip = {
+			if = {
+				limit = { RUS = { owns_state = 243 } }
+				transfer_state = 243
+			}
+			if = {
+				limit = { RUS = { owns_state = 755 } }
+				transfer_state = 755
+			}
+		}
+		RUS = {
+			set_autonomy = {
+				target = ROOT
+				autonomy_state = autonomous_puppet
+				end_wars = no
+			}
+			if = {
+				limit = { has_wargoal_against = ROOT }
+				remove_wargoal = {
+					type = all
+					target = ROOT
+				}
+			}
+			country_event = belarus_political_events.55
+		}
+		add_to_war = {
+			targeted_alliance = RUS
+			enemy = GER
+		}
+		restore_previous_government_type = yes #restores popularities
+		set_politics = {
+			ruling_party = radical_socialist
+			elections_allowed = no
+		}
+		set_temp_variable = { coalition_partner_var = token:social_democrat }
+		add_to_coalition = yes
+		hidden_effect = {
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.3
+			}
+			add_popularity = {
+				ideology = radical_socialist
+				popularity = 0.3
+			}
+			news_event = { id = belarus_political_events.57 days = 1 }
+			country_event = belarus_political_events.63 #Fires the civil war
+			BLR_teardown_buying_germany_equipment_decisions = yes
+			set_cosmetic_tag = BLR_RUS
+		}
+
+	trigger = { hidden_trigger = { NOT = { RUS_ostwall_native_red_routes_blocked = yes } } }
+}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.53 option belarus_political_events.53.b"
+		name = belarus_political_events.53.b #Side with Germany
+		ai_chance = { base = 100 modifier = { factor = 0 NOT = { RUS_ostwall_native_red_routes_blocked = yes } } }
+		clr_global_flag = RUS_will_puppet_belarus
+		RUS = { country_event = belarus_political_events.56 }
+	}
+}
+
+country_event = { #Belarus Betrays Us!
+	id = belarus_political_events.54
+	title = belarus_political_events.54.t
+	desc = belarus_political_events.54.d
+	picture = GFX_report_event_BLR_partisans
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.54 option belarus_political_events.54.a"
+		name = belarus_political_events.54.a #Traitors!
+		add_war_support = 0.1
+	}
+}
+
+country_event = { #Formation of the Belarusian Autonomy
+	id = belarus_political_events.55
+	title = belarus_political_events.55.t
+	desc = belarus_political_events.55.d
+	picture = GFX_report_event_BLR_poster
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.55 option belarus_political_events.55.a"
+		name = belarus_political_events.55.a #Excellent
+		set_temp_variable = { target = FROM }
+		if = {
+			limit = { owns_state = 243 }
+			remove_state_core = 243
+			remove_state_claim = 243
+			243 = { transfer_state_during_war = yes }
+		}
+		if = {
+			limit = { owns_state = 755 }
+			remove_state_core = 755
+			remove_state_claim = 755
+			755 = { transfer_state_during_war = yes }
+		}
+		effect_tooltip = {
+			set_autonomy = {
+				target = FROM
+				autonomy_state = autonomous_puppet
+				end_wars = no
+			}
+		}
+	}
+}
+
+country_event = { #Belarus Breaks the Deal
+	id = belarus_political_events.56
+	title = belarus_political_events.56.t
+	desc = belarus_political_events.56.d
+	picture = GFX_report_event_BLR_soldiers_review
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.56 option belarus_political_events.56.a"
+		name = belarus_political_events.56.a #Not unexpected
+	}
+}
+
+# Betrayal in the Reichspakt
+news_event = {
+	id = belarus_political_events.57
+	immediate = { log = "[GetLogInfo]: event belarus_political_events.57" }
+	title = belarus_political_events.57.t
+	desc = belarus_political_events.57.d
+	picture = GFX_news_event_bulgarian_partisans
+
+	major = yes
+	fire_for_sender = no
+	is_triggered_only = yes
+
+	trigger = { wants_world_news = yes }
+
+	show_major = {
+		OR = {
+			regional_europe_news = yes
+			has_socialist_government = yes
+		}
+		NOT = { tag = GER }
+		NOT = { tag = RUS }
+	}
+
+	option = {
+		name = belarus_political_events.57.a #Wonderful news!
+		trigger = {
+			OR = {
+				is_in_faction_with = INT
+				is_in_faction_with = RUS
+				has_war_with = GER
+			}
+		}
+	}
+
+	option = {
+		name = belarus_political_events.57.b #This is a catastrophe!
+		trigger = {
+			is_in_faction_with = GER
+		}
+	}
+
+	option = {
+		name = belarus_political_events.57.c #Germany's empire crumbles...
+		trigger = {
+			NOT = {
+				is_in_faction_with = GER
+				is_in_faction_with = INT
+				is_in_faction_with = RUS
+				has_war_with = GER
+			}
+		}
+	}
+}
+
+country_event = { #Will the AutDems fail their civil war and get turned into Generalgouvernement Minsk?
+	id = belarus_political_events.58
+	title = belarus_political_events.58.t
+	desc = belarus_political_events.58.d
+	picture = GFX_report_event_BLR_soldiers_review
+
+	is_triggered_only = yes
+	hidden = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.58 option belarus_political_events.58.a"
+		name = belarus_political_events.58.a #They win the civil war
+		ai_chance = { base = 75 }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.58 option belarus_political_events.58.b"
+		name = belarus_political_events.58.b #They fail the civil war
+		ai_chance = {
+			base = 25
+			modifier = {
+				factor = 0
+				has_game_rule = { rule = BLR_path option = BLR_PATH_AUTDEM }
+			}
+		}
+		set_country_flag = BLR_generalgouvernement_guaranteed
+	}
+}
+
+country_event = { #NDA asks GenGovt for return to civilian rule
+	id = belarus_political_events.59
+	title = belarus_political_events.59.t
+	desc = belarus_political_events.59.d
+	picture = GFX_report_event_BLR_sojm
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		has_government = paternal_autocrat
+		INT = { is_faction_leader = no }
+		RUS = { is_faction_leader = no }
+	}
+	option = { #Request to Berlin
+		log = "[GetLogInfo]: event belarus_political_events.59 option belarus_political_events.59.a"
+		name = belarus_political_events.59.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				has_game_rule = { rule = BLR_path option = BLR_PATH_PATAUT }
+			}
+		}
+		GER = { country_event = belarus_political_events.60 }
+	}
+	option = { #Crackdown on NDA
+		log = "[GetLogInfo]: event belarus_political_events.59 option belarus_political_events.59.b"
+		name = belarus_political_events.59.b
+		ai_chance = { base = 50 }
+		add_stability = -0.05
+	}
+}
+
+country_event = { #Germany receives request
+	id = belarus_political_events.60
+	title = belarus_political_events.60.t
+	desc = belarus_political_events.60.d
+	picture = GFX_report_event_BLR_sojm
+
+	is_triggered_only = yes
+
+	option = { #Germany agrees
+		log = "[GetLogInfo]: event belarus_political_events.60 option belarus_political_events.60.a"
+		name = belarus_political_events.60.a
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_dictatorship_government = yes
+				BLR = { is_ai = yes }
+			}
+		}
+		BLR = { country_event = belarus_political_events.61 }
+	}
+	option = { #Germany denies
+		log = "[GetLogInfo]: event belarus_political_events.60 option belarus_political_events.60.b"
+		name = belarus_political_events.60.b
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_democratic_government = yes
+					BLR = { is_ai = no }
+				}
+			}
+		}
+		BLR = { country_event = belarus_political_events.62 }
+	}
+}
+
+country_event = { #Belarus receives message, govt turns SocCon
+	id = belarus_political_events.61
+	title = belarus_political_events.61.t
+	desc = belarus_political_events.61.d
+	picture = GFX_report_event_BLR_sojm_meeting
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.61 option belarus_political_events.61.a"
+		name = belarus_political_events.61.a
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.15
+		}
+		if = {
+			limit = { has_cosmetic_tag = BLR_gengov }
+			set_cosmetic_tag = BLR_GER
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = social_conservative
+					last_election = "[CURRENT_DATE]"
+					election_frequency = 48
+					elections_allowed = yes
+				}
+			}
+			CURRENT_DATE = "[?global.date.GetDateStringNoHour]"
+		}
+		set_country_flag = BLR_PatAut_democratisation
+	}
+}
+
+country_event = { #Belarus receives message, Germany said no
+	id = belarus_political_events.62
+	title = belarus_political_events.62.t
+	desc = belarus_political_events.62.d
+	picture = GFX_report_event_BLR_soldiers_review
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.62 option belarus_political_events.62.a"
+		name = belarus_political_events.62.a
+		add_stability = -0.05
+	}
+}
+
+country_event = { #Belarusian Civil War!
+	id = belarus_political_events.63
+	title = belarus_political_events.63.t
+	desc = belarus_political_events.63.d
+	picture = GFX_report_event_BLR_astrouski_coup
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			BLR_spawn_civil_war = yes
+		}
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_political_events.63 option belarus_political_events.63.a"
+		name = belarus_political_events.63.a
+	}
+}
+
+# BLR AutDem
+news_event = {
+	id = belarus_political_events.64
+	immediate = { log = "[GetLogInfo]: event belarus_political_events.64" }
+	title = belarus_political_events.64.t
+	desc = belarus_political_events.64.d
+	picture = GFX_news_event_BLR_astrouski_coup
+
+	is_triggered_only = yes
+	fire_for_sender = no
+	major = yes
+
+	trigger = { wants_world_news = yes }
+
+	show_major = { regional_europe_news = yes }
+
+	option = { # They should prove more loyal.
+		name = belarus_political_events.64.a
+		trigger = {
+			original_tag = GER
+		}
+	}
+
+	option = { # More proof that reformism is doomed to fail.
+		name = belarus_political_events.64.b
+		trigger = {
+			has_socialist_government = yes
+			NOT = { original_tag = GER }
+		}
+	}
+
+	option = { # They are now safe from revolution.
+		name = belarus_political_events.64.c
+		trigger = {
+			has_authoritarian_government = yes
+			NOT = { original_tag = GER }
+		}
+	}
+
+	option = { # Another democracy falls to radicalism.
+		name = belarus_political_events.64.e
+		trigger = {
+			has_elected_government = yes
+			NOT = { original_tag = GER }
+		}
+	}
+}
+
+# BLR NatPop
+news_event = {
+	id = belarus_political_events.65
+	immediate = { log = "[GetLogInfo]: event belarus_political_events.65" }
+	title = belarus_political_events.65.t
+	desc = belarus_political_events.65.d
+	picture = GFX_news_event_BLR_lastouski_coup
+
+	major = yes
+	fire_for_sender = no
+	is_triggered_only = yes
+
+	trigger = { wants_world_news = yes }
+
+	show_major = { regional_europe_news = yes }
+
+	option = { # Perfect allies against the Russian threat.
+		name = belarus_political_events.65.a
+		trigger = {
+			tag = GER
+		}
+	}
+
+	option = { # True Slavs? hah!
+		name = belarus_political_events.65.b
+		trigger = {
+			tag = RUS
+			RUS = { has_socialist_government = no }
+		}
+	}
+
+	option = { # More proof that reformism is doomed to fail.
+		name = belarus_political_events.65.c
+		trigger = {
+			has_socialist_government = yes
+		}
+	}
+
+	option = { # They are now safe from revolution.
+		name = belarus_political_events.65.e
+		trigger = {
+			has_authoritarian_government = yes
+			NOT = {
+				tag = GER
+				tag = RUS
+			}
+		}
+	}
+
+	option = { # Another democracy falls to radicalism.
+		name = belarus_political_events.65.f
+		trigger = {
+			has_elected_government = yes
+			NOT = {
+				tag = GER
+				tag = RUS
+			}
+		}
+	}
+}
+
+###Economic Events###
+
+country_event = { # Black Monday
+	id = belarus_economy_events.1
+	title = belarus_economy_events.1.t
+	desc = belarus_economy_events.1.d
+	picture = GFX_report_event_generic_strike
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = { add_ideas = BLR_black_monday }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_economy_events.1 option belarus_economy_events.1.a"
+		name = belarus_economy_events.1.a
+		add_stability = -0.05
+		effect_tooltip = { add_ideas = BLR_black_monday }
+	}
+}
+
+country_event = { # BLR asks for Germany to bail them out
+	id = belarus_economy_events.2
+	title = belarus_economy_events.2.t
+	desc = belarus_economy_events.2.d
+	picture = GFX_report_event_generic_strike
+
+	is_triggered_only = yes
+
+	option = { #sure, it's barely a hit to my bank account
+		log = "[GetLogInfo]: event belarus_economy_events.2 option belarus_economy_events.2.a"
+		name = belarus_economy_events.2.a
+		ai_chance = { base = 80 }
+		add_political_power = -25
+		BLR = {
+			country_event = belarus_economy_events.3
+		}
+	}
+	option = { #there's an old debt meme that would fit here
+		log = "[GetLogInfo]: event belarus_economy_events.2 option belarus_economy_events.2.b"
+		name = belarus_economy_events.2.b
+		ai_chance = { base = 20 }
+		add_opinion_modifier = {
+			target = BLR
+			modifier = small_decrease
+		}
+		BLR = {
+			country_event = belarus_economy_events.4
+		}
+	}
+}
+
+country_event = { # GER bails us out
+	id = belarus_economy_events.3
+	title = belarus_economy_events.3.t
+	desc = belarus_economy_events.3.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+
+	option = { #yey
+		log = "[GetLogInfo]: event belarus_economy_events.3 option belarus_economy_events.3.a"
+		name = belarus_economy_events.3.a
+		remove_ideas = BLR_black_monday4
+	}
+}
+
+country_event = { # GER thought 25 pp was too much lol
+	id = belarus_economy_events.4
+	title = belarus_economy_events.4.t
+	desc = belarus_economy_events.4.d
+	picture = GFX_report_event_generic_strike
+
+	is_triggered_only = yes
+
+	option = { #seriously?
+		log = "[GetLogInfo]: event belarus_economy_events.4 option belarus_economy_events.4.a"
+		name = belarus_economy_events.4.a
+		add_opinion_modifier = {
+			target = GER
+			modifier = small_decrease
+		}
+		remove_ideas = BLR_black_monday4
+		add_timed_idea = {
+			idea = BLR_black_monday4
+			days = 365
+		}
+	}
+}
+
+###Land Reform###
+
+country_event = { # Land Reform Success
+	id = belarus_land_reform_events.1
+	title = belarus_land_reform_events.1.t
+	desc = belarus_land_reform_events.1.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.1 option belarus_land_reform_events.1.a"
+		name = belarus_land_reform_events.1.a
+		add_stability = 0.15
+		if = {
+			limit = {
+				check_variable = { BLR_Land_Reform_Popularity > 75 }
+				check_variable = { BLR_Land_Reform_Success > 75 }
+			}
+			add_ideas = BLR_successful_land_reform_plan_excellent
+			95 = { increase_state_category_by_one_level = yes }
+			194 = { increase_state_category_by_one_level = yes }
+			204 = { increase_state_category_by_one_level = yes }
+			206 = { increase_state_category_by_one_level = yes }
+			207 = { increase_state_category_by_one_level = yes }
+			1087 = { increase_state_category_by_one_level = yes }
+		}
+		else_if = {
+			limit = {
+				check_variable = { BLR_Land_Reform_Popularity > 50 }
+				check_variable = { BLR_Land_Reform_Success > 50 }
+			}
+			add_ideas = BLR_successful_land_reform_plan_good
+			204 = { increase_state_category_by_one_level = yes }
+			207 = { increase_state_category_by_one_level = yes }
+			1087 = { increase_state_category_by_one_level = yes }
+		}
+		else = {
+			add_ideas = BLR_successful_land_reform_plan_decent
+			207 = { increase_state_category_by_one_level = yes }
+		}
+		set_country_flag = BLR_LandReform_Success
+		clr_country_flag = LandReformPlanBSDP
+		BLR_teardown_land_reform_decisions = yes
+		remove_dynamic_modifier = { modifier = BLR_land_reform_modifier }
+		clear_variable = BLR_Land_Reform_Success
+		clear_variable = BLR_Land_Reform_Popularity
+	}
+}
+
+country_event = { # Land Reform event
+	id = belarus_land_reform_events.2
+	title = belarus_land_reform_events.2.t
+	desc = belarus_land_reform_events.2.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+		NOT = { has_country_flag = BLR_LandReform_Success }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.2 option belarus_land_reform_events.2.a"
+		name = belarus_land_reform_events.2.a
+		add_to_variable = { BLR_Land_Reform_Success = 5 }
+		subtract_from_variable = { BLR_Land_Reform_Popularity = 5 }
+		custom_effect_tooltip = BLR_Mod_minor_increase
+		custom_effect_tooltip = BLR_Rad_minor_decrease
+	}
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.2 option belarus_land_reform_events.2.b"
+		name = belarus_land_reform_events.2.b
+		subtract_from_variable = { BLR_Land_Reform_Success = 5 }
+		add_to_variable = { BLR_Land_Reform_Popularity = 5 }
+		custom_effect_tooltip = BLR_Mod_minor_decrease
+		custom_effect_tooltip = BLR_Rad_minor_increase
+	}
+	after = {
+		BLR_recalculate_land_reform = yes
+	}
+}
+
+country_event = { # Land Reform event 2
+	id = belarus_land_reform_events.3
+	title = belarus_land_reform_events.3.t
+	desc = belarus_land_reform_events.3.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+		NOT = { has_country_flag = BLR_LandReform_Success }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.3 option belarus_land_reform_events.3.a"
+		name = belarus_land_reform_events.3.a
+		add_to_variable = { BLR_Land_Reform_Success = 5 }
+		subtract_from_variable = { BLR_Land_Reform_Popularity = 5 }
+		custom_effect_tooltip = BLR_Mod_minor_increase
+		custom_effect_tooltip = BLR_Rad_minor_decrease
+	}
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.3 option belarus_land_reform_events.3.b"
+		name = belarus_land_reform_events.3.b
+		subtract_from_variable = { BLR_Land_Reform_Success = 5 }
+		add_to_variable = { BLR_Land_Reform_Popularity = 5 }
+		custom_effect_tooltip = BLR_Mod_minor_decrease
+		custom_effect_tooltip = BLR_Rad_minor_increase
+	}
+	after = {
+		BLR_recalculate_land_reform = yes
+	}
+}
+
+country_event = { # Land Reform event 3
+	id = belarus_land_reform_events.4
+	title = belarus_land_reform_events.4.t
+	desc = belarus_land_reform_events.4.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+		NOT = { has_country_flag = BLR_LandReform_Success }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.4 option belarus_land_reform_events.4.a"
+		name = belarus_land_reform_events.4.a
+		add_to_variable = { BLR_Land_Reform_Success = 10 }
+		custom_effect_tooltip = BLR_Mod_major_increase
+	}
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.4 option belarus_land_reform_events.4.b"
+		name = belarus_land_reform_events.4.b
+		add_to_variable = { BLR_Land_Reform_Popularity = 10 }
+		custom_effect_tooltip = BLR_Rad_major_increase
+	}
+	after = {
+		BLR_recalculate_land_reform = yes
+	}
+}
+
+country_event = { # random land reform event 1
+	id = belarus_land_reform_events.5
+	title = belarus_land_reform_events.5.t
+	desc = belarus_land_reform_events.5.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+		NOT = { has_country_flag = BLR_LandReform_Success }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.5 option belarus_land_reform_events.5.a"
+		name = belarus_land_reform_events.5.a
+		subtract_from_variable = { LR_Land_Reform_Success = 8 }
+		custom_effect_tooltip = BLR_Mod_major_decrease
+		BLR_recalculate_land_reform = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = LandReformPlanBSDP
+				}
+				country_event = { id = belarus_land_reform_events.5 days = 85 random_days = 5 }
+			}
+		}
+	}
+}
+
+country_event = { # random land reform event 2
+	id = belarus_land_reform_events.6
+	title = belarus_land_reform_events.6.t
+	desc = belarus_land_reform_events.6.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+		NOT = { has_country_flag = BLR_LandReform_Success }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.6 option belarus_land_reform_events.6.a"
+		name = belarus_land_reform_events.6.a
+		subtract_from_variable = { BLR_Land_Reform_Popularity = 10 }
+		custom_effect_tooltip = BLR_Rad_major_decrease
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = LandReformPlanBSDP
+				}
+				country_event = { id = belarus_land_reform_events.6 days = 75 random_days = 10 }
+			}
+		}
+	}
+}
+
+country_event = { # random land reform event 3
+	id = belarus_land_reform_events.7
+	title = belarus_land_reform_events.7.t
+	desc = belarus_land_reform_events.7.d
+	picture = GFX_report_event_BLR_tractor
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+		NOT = { has_country_flag = BLR_LandReform_Success }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_land_reform_events.7 option belarus_land_reform_events.7.a"
+		name = belarus_land_reform_events.7.a
+		subtract_from_variable = { BLR_Land_Reform_Popularity = 15 }
+		custom_effect_tooltip = BLR_Rad_extreme_decrease
+	}
+}
+
+###Miscellaneous Events###
+
+country_event = { #End of Rural School-building project
+	id = belarus_misc_events.3
+	title = belarus_misc_events.3.t
+	desc = belarus_misc_events.3.d
+	picture = GFX_report_event_journalists_speech
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.3 option belarus_misc_events.3.a"
+		name = belarus_misc_events.3.a
+		remove_ideas = BLR_mass_illiteracy
+	}
+}
+
+country_event = { #GER notified of temporary free factory from BLR
+	id = belarus_misc_events.4
+	title = belarus_misc_events.4.t
+	desc = belarus_misc_events.4.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.4 option belarus_misc_events.4.a"
+		name = belarus_misc_events.4.a
+		add_political_power = 15
+		custom_effect_tooltip = BLR_temp_free_civ
+	}
+}
+
+country_event = { #BLR gets old small arms from GER
+	id = belarus_misc_events.5
+	title = belarus_misc_events.5.t
+	desc = belarus_misc_events.5.d
+	picture = GFX_report_event_generic_rifles
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.5 option belarus_misc_events.5.a"
+		name = belarus_misc_events.5.a
+		add_equipment_to_stockpile = {
+			type = infantry_equipment_0
+			amount = 2500
+			producer = GER
+		}
+	}
+}
+
+country_event = { #BLR gets old artillery from GER
+	id = belarus_misc_events.6
+	title = belarus_misc_events.6.t
+	desc = belarus_misc_events.6.d
+	picture = GFX_report_event_british_artillery
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.6 option belarus_misc_events.6.a"
+		name = belarus_misc_events.6.a
+		add_equipment_to_stockpile = {
+			type = artillery_equipment_1
+			amount = 250
+			producer = GER
+		}
+	}
+}
+
+country_event = { #BLR gets old planes from GER
+	id = belarus_misc_events.7
+	title = belarus_misc_events.7.t
+	desc = belarus_misc_events.7.d
+	picture = GFX_report_event_fighters
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.7 option belarus_misc_events.7.a"
+		name = belarus_misc_events.7.a
+		if = {
+			limit = { has_dlc_bba = yes }
+			add_equipment_to_stockpile = {
+				type = small_plane_airframe_0
+				amount = 100
+				producer = GER
+			}
+		}
+		else = {
+			add_equipment_to_stockpile = {
+				type = fighter_equipment_0
+				amount = 100
+				producer = GER
+			}
+		}
+	}
+}
+
+country_event = { #BLR gets support equipment from GER
+	id = belarus_misc_events.8
+	title = belarus_misc_events.8.t
+	desc = belarus_misc_events.8.d
+	picture = GFX_report_event_BEL_Radio
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.8 option belarus_misc_events.8.a"
+		name = belarus_misc_events.8.a
+		add_equipment_to_stockpile = {
+			type = support_equipment_1
+			amount = 150
+			producer = GER
+		}
+	}
+}
+
+country_event = { #BLR gets motorized equipment from GER
+	id = belarus_misc_events.9
+	title = belarus_misc_events.9.t
+	desc = belarus_misc_events.9.d
+	picture = GFX_report_event_generic_truck
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.9 option belarus_misc_events.9.a"
+		name = belarus_misc_events.9.a
+		add_equipment_to_stockpile = {
+			type = motorized_equipment_1
+			amount = 200
+			producer = GER
+		}
+	}
+}
+
+country_event = { # berl
+	id = belarus_misc_events.10
+	title = belarus_misc_events.10.t
+	desc = belarus_misc_events.10.d
+	picture = GFX_report_event_USA_soldiers_watching
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_authoritarian_government = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.10 option belarus_misc_events.10.a"
+		name = belarus_misc_events.10.a
+	}
+}
+
+country_event = { # Central House of Officers
+	id = belarus_misc_events.11
+	title = belarus_misc_events.11.t
+	desc = belarus_misc_events.11.d
+	picture = GFX_report_event_BLR_officers_house
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.11 option belarus_misc_events.11.a"
+		name = belarus_misc_events.11.a
+		add_war_support = 0.10
+	}
+}
+
+country_event = { # Bielarusi ardenanosnaj
+	id = belarus_misc_events.12
+	title = belarus_misc_events.12.t
+	desc = belarus_misc_events.12.d
+	picture = GFX_report_event_BLR_kupalas_mug
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.12 option belarus_misc_events.12.a"
+		name = belarus_misc_events.12.a
+		add_political_power = 15
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Main building of the National Academy of Sciences
+	id = belarus_misc_events.13
+	title = belarus_misc_events.13.t
+	desc = belarus_misc_events.13.d
+	picture = GFX_report_event_BLR_academy
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.13 option belarus_misc_events.13.a"
+		name = belarus_misc_events.13.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Belarusian State Opera
+	id = belarus_misc_events.14
+	title = belarus_misc_events.14.t
+	desc = belarus_misc_events.14.d
+	picture = GFX_report_event_BLR_state_opera
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.14 option belarus_misc_events.14.a"
+		name = belarus_misc_events.14.a
+		add_political_power = 15
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Bielaruskim partyzanam
+	id = belarus_misc_events.15
+	title = belarus_misc_events.15.t
+	desc = belarus_misc_events.15.d
+	picture = GFX_report_event_BLR_partisans
+
+	trigger = {
+		has_war_with = RUS
+	}
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.15 option belarus_misc_events.15.a"
+		name = belarus_misc_events.15.a
+		add_war_support = 0.10
+	}
+}
+
+country_event = { # State Philharmonic
+	id = belarus_misc_events.16
+	title = belarus_misc_events.16.t
+	desc = belarus_misc_events.16.d
+	picture = GFX_report_event_BLR_national_theatre
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.16 option belarus_misc_events.16.a"
+		name = belarus_misc_events.16.a
+		add_political_power = 15
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Death of Liavon Dubiejkauski
+	id = belarus_misc_events.17
+	title = belarus_misc_events.17.t
+	desc = belarus_misc_events.17.d
+	picture = GFX_report_event_BLR_funeral
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.17 option belarus_misc_events.17.a"
+		name = belarus_misc_events.17.a
+		add_political_power = -5
+	}
+}
+
+country_event = { # Death of Vasil Zacharka
+	id = belarus_misc_events.18
+	title = belarus_misc_events.18.t
+	desc = belarus_misc_events.18.d
+	picture = GFX_report_event_BLR_funeral
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.18 option belarus_misc_events.18.a"
+		name = belarus_misc_events.18.a
+		add_political_power = -5
+	}
+}
+
+country_event = { # Visit of Princes Waldemar (legacy King Uladzimir) and Sigismund (legacy King Zygmunt)
+	id = belarus_misc_events.19
+	title = belarus_misc_events.19.t
+	desc = belarus_misc_events.19.d
+	picture = GFX_report_event_BLR_princelings
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { #paying our respects to Old KR and an apology for years of mischaracterization of two of the few competent and likeable dead Prussian princelings
+		log = "[GetLogInfo]: event belarus_misc_events.19 option belarus_misc_events.19.a"
+		name = belarus_misc_events.19.a
+		add_political_power = 15
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Administration rebuilding interrupted
+	id = belarus_misc_events.20
+	title = belarus_misc_events.20.t
+	desc = belarus_misc_events.20.d
+	picture = GFX_report_event_BLR_officers
+
+	is_triggered_only = yes
+
+	option = { # Piss off Russia
+		log = "[GetLogInfo]: event belarus_misc_events.20 option belarus_misc_events.20.a"
+		name = belarus_misc_events.20.a
+		add_political_power = -5
+	}
+}
+
+country_event = { # Military administration pushed out
+	id = belarus_misc_events.21
+	title = belarus_misc_events.21.t
+	desc = belarus_misc_events.21.d
+	picture = GFX_report_event_BLR_officers
+
+	is_triggered_only = yes
+
+	option = { # Piss off Russia
+		log = "[GetLogInfo]: event belarus_misc_events.21 option belarus_misc_events.21.a"
+		name = belarus_misc_events.21.a
+		add_political_power = -5
+	}
+}
+
+country_event = { # Integration interrupted
+	id = belarus_misc_events.22
+	title = belarus_misc_events.22.t
+	desc = belarus_misc_events.22.d
+	picture = GFX_report_event_BLR_armoured_car
+
+	is_triggered_only = yes
+
+	option = { # Piss off Russia
+		log = "[GetLogInfo]: event belarus_misc_events.22 option belarus_misc_events.22.a"
+		name = belarus_misc_events.22.a
+		add_political_power = -5
+	}
+}
+
+country_event = { # Accident Above Svecha
+	id = belarus_misc_events.23
+	title = belarus_misc_events.23.t
+	desc = belarus_misc_events.23.d
+	picture = GFX_report_event_BLR_incident
+
+	is_triggered_only = yes
+	trigger = {
+		threat < 0.8
+		GER = { has_war = no }
+		BLR = { is_in_faction_with = GER }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event belarus_misc_events.23 option belarus_misc_events.23.a"
+		name = belarus_misc_events.23.a
+		if = {
+			limit = { tag = RUS }
+			add_named_threat = {
+				threat = 6
+				name = belarus_misc_events.23.t
+			}
+			hidden_effect = {
+				GER = { country_event = belarus_misc_events.23 }
+				BLR = { country_event = belarus_misc_events.23 }
+			}
+		}
+		else = {
+			effect_tooltip = {
+				add_named_threat = {
+					threat = 6
+					name = belarus_misc_events.23.t
+				}
+			}
+		}
+	}
+}
