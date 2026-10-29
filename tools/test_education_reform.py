@@ -163,6 +163,7 @@ class EducationTests(unittest.TestCase):
                 for a in ACTIVITIES:
                     m=EducationModel();m.vars=FixedPoint(digits);m.temp=FixedPoint(digits)
                     m.call('RUS_education_initialize');unlock_all(m)
+                    m.vars[VARS['basic']]=35  # Campaign fixture meets the existing higher-education gate.
                     if central:m.flags.update({'RUS_edu_central','RUS_edu_completed_'+a['id']})
                     if amateur:m.flags.add('RUS_edu_amateur')
                     m.vars[VARS['heat']]=50;m.vars['RUS_edu_category']=a['category'];m.call('RUS_education_refresh')
@@ -754,7 +755,7 @@ class EducationTests(unittest.TestCase):
             self.assertEqual(m.vars['RUS_edu_active_count'],3)
     def test_exact_initial_and_optimal_maxima(self):
         m=initialized()
-        self.assertEqual([m.vars[VARS[k]] for k in ('basic','higher','heat')],[46,7,32])
+        self.assertEqual([m.vars[VARS[k]] for k in ('basic','higher','heat')],[32,7,32])
         # Lower curve endpoints remain independent of the new starting levels.
         m.vars.update({VARS['basic']:20,VARS['higher']:5,VARS['heat']:55});m.call('RUS_education_refresh')
         for mod,(lo,hi,w) in BODY.items():self.assertAlmostEqual(m.vars[bv(mod)],lo)
@@ -829,6 +830,7 @@ class EducationTests(unittest.TestCase):
             self.assertIn(extra_preview(a),text)
             for era,repeat in product((False,True),repeat=2):
                 m=unlock_all(initialized());m.vars[VARS['heat']]=80 if a['id']=='restore_order' else 32
+                m.vars[VARS['basic']]=35  # Test supplemental effects after the unchanged education gate.
                 m.vars['RUS_edu_category']=a.get('category',4)
                 if era:m.flags.add('RUS_edu_era')
                 repeating=repeat and a['kind']!='control'
@@ -891,7 +893,7 @@ class EducationTests(unittest.TestCase):
     def test_daily_decay_no_education_decay(self):
         m=initialized();m.advance(30)
         self.assertAlmostEqual(m.vars[VARS['heat']],29)
-        self.assertEqual(m.vars[VARS['basic']],46);self.assertEqual(m.vars[VARS['higher']],7)
+        self.assertEqual(m.vars[VARS['basic']],32);self.assertEqual(m.vars[VARS['higher']],7)
     def test_entry_only_and_idempotence(self):
         m=EducationModel();m.call('RUS_education_reform_start');self.assertNotIn('RUS_education_system_active',m.flags)
         m.done.add('RUS_future_domestic_205');m.call('RUS_education_reform_start');m.advance(5)
@@ -916,7 +918,7 @@ class EducationTests(unittest.TestCase):
                 self.assertEqual(m.vars['RUS_education_completed_activities'],1)
                 self.assertFalse(any(x.startswith('RUS_edu_result_') for x in m.dynamic))
     def test_cancellation_and_final_daily_pulse(self):
-        m=initialized();m.start('literacy');m.advance(45);self.assertGreater(m.vars[VARS['basic']],46)
+        m=initialized();m.start('literacy');m.advance(45);self.assertGreater(m.vars[VARS['basic']],32)
         m.end('literacy',True);self.assertEqual(m.vars['RUS_education_completed_activities'],0);self.assertEqual(m.vars[pv('research_speed_factor')],0)
         m=initialized();m.start('literacy');m.advance(89);before=m.vars[VARS['basic']];m.end('literacy')
         self.assertGreater(m.vars[VARS['basic']],before);self.assertEqual(m.vars['RUS_education_completed_activities'],1)
