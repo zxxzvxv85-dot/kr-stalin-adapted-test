@@ -22,8 +22,8 @@ TR={n.k:n.v for n in parse((ROOT/'common/scripted_triggers/RUS_industrial_planni
 GUI=next(n for n in parse((ROOT/'common/scripted_guis/RUS_industrial_planning.txt').read_text(encoding='utf-8'))[0].v if n.k=='RUS_industrial_planning_gui')
 
 
-def fixture(unlocked=True,seed=47):
-    return dict(tag='RUS',ai=False,vars={'RUS_first_five_year_plan_score':37,'political_power':200},
+def fixture(unlocked=True,seed=47,debug=True):
+    return dict(tag='RUS',ai=False,debug=debug,vars={'RUS_first_five_year_plan_score':37,'political_power':200},
                 flags={'RUS_ip_ui_unlocked'} if unlocked else set(),commands=0,rng=seed,draws=0)
 
 
@@ -39,6 +39,7 @@ def check(nodes,s):
     def one(n):
         k,v=n.k,n.v
         if k in TR:return check(TR[k],s)==(v=='yes')
+        if k=='is_debug':return s['debug']==(v=='yes')
         if k in ('AND','hidden_trigger'):return check(v,s)
         if k=='OR':return any(one(c) for c in v)
         if k=='NOT':return not check(v,s)

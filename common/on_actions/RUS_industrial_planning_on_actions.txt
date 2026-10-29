@@ -2,14 +2,19 @@
 on_actions = {
 	on_daily = {
 		effect = {
-			RUS_ip_daily = yes
+			if = {
+				limit = {
+					is_debug = yes
+				}
+				RUS_ip_daily = yes
+			}
 		}
 	}
 	on_startup = {
 		effect = {
 			every_country = {
 				limit = {
-					original_tag = RUS
+					RUS_ip_available = yes
 					has_country_flag = RUS_ip_factory_initialized
 				}
 				RUS_ip_refresh = yes

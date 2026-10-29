@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import re
 import io
+import copy
 from pathlib import Path
 from PIL import Image
 from hoi4_politics_blocks import parse
@@ -10,7 +11,7 @@ from industrial_planning_factory_ui import render_outputs, LANGS, BOARD_X, BOARD
 from industrial_planning_factory import CELLS, REGIONS, HUBS, WIDTH, HEIGHT
 from industrial_planning_catalog import PLANTS, FREIGHT_KIND, region_plants, extra_stocks
 from industrial_planning_factory_assets import ASSET_DIR, COLOUR_SPRITES, render_assets
-from test_factory_planning import ROOT, P, GUI, FX, TR, opened, check, call, put
+from test_factory_planning import ROOT, P, GUI, FX, TR, opened, check, call, put, fixture
 
 GAME=Path(os.environ.get('HOI4_GAME_ROOT',ROOT.parents[3]/'common/Hearts of Iron IV'))
 KR=Path(os.environ.get('HOI4_KR_ROOT',ROOT.parent/'1521695605'))
@@ -29,6 +30,27 @@ def field(node,key,default=''):
 
 def main():
     outputs=render_outputs();assert outputs==render_outputs();count=1
+    category=parse(outputs['common/decisions/categories/RUS_industrial_planning_categories.txt'])[0]
+    decision=parse(outputs['common/decisions/RUS_industrial_planning_decisions.txt'])[0].v[0]
+    for debug in (False,True):
+        state=fixture(unlocked=False,debug=debug)
+        assert check(category.one('visible').v,state)==debug
+        assert check(decision.one('visible').v,state)==debug
+        assert check(decision.one('available').v,state)==debug
+        if not debug:
+            before=copy.deepcopy(state);call(state,'enable_gui')
+            assert state['flags']==before['flags'] and state['vars']==before['vars']
+    # A previously active debug sandbox must also become inert in normal play.
+    state=fixture(debug=False)
+    state['flags'].update({P+'factory_initialized',P+'open',P+'active'})
+    put(state,'days_left',42);put(state,'budget',17)
+    before=copy.deepcopy(state)
+    assert not check(TR[P+'available'],state)
+    call(state,'daily');call(state,'open_effect');call(state,'enable_gui')
+    assert state['flags']==before['flags'] and state['vars']==before['vars']
+    state['debug']=True
+    assert check(TR[P+'available'],state)
+    count+=1
     for path,content in outputs.items():
         raw=(ROOT/path).read_bytes()
         assert raw.replace(b'\r\n',b'\n')==content.encode('utf-8-sig' if path.endswith('.yml') else 'utf-8'),path

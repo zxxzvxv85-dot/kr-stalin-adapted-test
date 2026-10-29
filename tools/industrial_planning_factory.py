@@ -72,7 +72,7 @@ def geology(region):
 def render_economy():
     from industrial_planning_factory_freight import initialise, render_freight, DISPLAY
     freight_triggers,freight_effects=render_freight()
-    triggers=[fx('available','original_tag = RUS\nis_ai = no\nhas_country_flag = RUS_ip_ui_unlocked\n'),
+    triggers=[fx('available','is_debug = yes\noriginal_tag = RUS\nis_ai = no\nhas_country_flag = RUS_ip_ui_unlocked\n'),
         fx('editing','RUS_ip_available = yes\nhas_country_flag = RUS_ip_factory_initialized\nhas_country_flag = RUS_ip_open\nNOT = { has_country_flag = RUS_ip_finished }\n')]
     triggers.extend(freight_triggers)
     effects=list(freight_effects)
@@ -105,7 +105,7 @@ def render_economy():
             setv('region',rid)+setv('selected',P+f'r{rid}_selected')+'clr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n')))
     effects.append(fx('initialize',init+'RUS_ip_refresh = yes\n'))
     effects.append(fx('open_effect',iff('RUS_ip_available = yes\n',iff('NOT = { has_country_flag = RUS_ip_factory_initialized }\n','RUS_ip_initialize = yes\n')+'set_country_flag = RUS_ip_open\nclr_country_flag = RUS_ip_help_open\nclr_country_flag = RUS_ip_restart_armed\nRUS_ip_refresh = yes\n')))
-    effects.append(fx('enable_gui',iff('original_tag = RUS\nis_ai = no\n','set_country_flag = RUS_ip_ui_unlocked\nRUS_ip_open_effect = yes\n')))
+    effects.append(fx('enable_gui',iff('is_debug = yes\noriginal_tag = RUS\nis_ai = no\n','set_country_flag = RUS_ip_ui_unlocked\nRUS_ip_open_effect = yes\n')))
     effects.append(fx('close_effect','clr_country_flag = RUS_ip_open\nclr_country_flag = RUS_ip_help_open\nclr_country_flag = RUS_ip_restart_armed\n'))
     effects.append(fx('toggle',iff('RUS_ip_available = yes\n',iff('has_country_flag = RUS_ip_open\n','RUS_ip_close_effect = yes\n')+block('else','RUS_ip_open_effect = yes\n'))))
     effects.append(fx('toggle_help',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\n',iff('has_country_flag = RUS_ip_help_open\n','clr_country_flag = RUS_ip_help_open\n')+block('else','set_country_flag = RUS_ip_help_open\n')+'clr_country_flag = RUS_ip_restart_armed\n'+add('dirty',1))))
@@ -224,5 +224,5 @@ def render_economy():
     effects.append(fx('daily',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_factory_initialized\nhas_country_flag = RUS_ip_active\n'+cv('days_left','>',0),day)))
     effects.append(fx('arm_restart',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\n','set_country_flag = RUS_ip_restart_armed\n'+add('dirty',1))))
     effects.append(fx('confirm_restart',iff('RUS_ip_available = yes\nhas_country_flag = RUS_ip_open\nhas_country_flag = RUS_ip_restart_armed\n','RUS_ip_initialize = yes\n')))
-    actions=block('on_actions',block('on_daily',block('effect','RUS_ip_daily = yes\n'))+block('on_startup',block('effect',block('every_country',block('limit','original_tag = RUS\nhas_country_flag = RUS_ip_factory_initialized\n')+'RUS_ip_refresh = yes\n'))))
+    actions=block('on_actions',block('on_daily',block('effect',iff('is_debug = yes\n','RUS_ip_daily = yes\n')))+block('on_startup',block('effect',block('every_country',block('limit','RUS_ip_available = yes\nhas_country_flag = RUS_ip_factory_initialized\n')+'RUS_ip_refresh = yes\n'))))
     return triggers,effects,actions
