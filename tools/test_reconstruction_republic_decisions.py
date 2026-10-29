@@ -46,6 +46,11 @@ class Tests(unittest.TestCase):
         self.assertEqual(DECISION_NODE.value('cost'),'RUS_diplomacy_pp_cost_20?20')
         self.assertEqual(DECISION_NODE.value('fire_only_once'),'yes')
         self.assertNotIn('RUS_diplomacy_can_pay',DECISION_NODE.one('complete_effect').raw())
+        refund=next(n for n in load(ROOT/FX) if n.k=='RUS_reconstruction_republic_refund')
+        self.assertEqual(DECISION_NODE.one('complete_effect').one('else').value('RUS_reconstruction_republic_refund'),'yes')
+        self.assertEqual(refund.one('if').one('limit').value('has_variable'),'RUS_diplomacy_pp_cost_20')
+        self.assertEqual(refund.one('if').value('add_political_power'),'var:RUS_diplomacy_pp_cost_20')
+        self.assertEqual(refund.one('else').value('add_political_power'),'20')
         for cost in (20,16):
             r=actor();r['cost']=cost;t=target('KAZ')
             r['pp']=cost-.01;self.assertFalse(check(DECISION_NODE.one('available'),r,r,t))

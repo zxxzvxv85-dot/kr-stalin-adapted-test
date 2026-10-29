@@ -53,3 +53,11 @@ hidden_effect = {
     }
 }
 }
+
+RUS_reconstruction_republic_refund = {
+    if = {
+        limit = { has_variable = RUS_diplomacy_pp_cost_20 }
+        add_political_power = var:RUS_diplomacy_pp_cost_20
+    }
+    else = { add_political_power = 20 }
+}
