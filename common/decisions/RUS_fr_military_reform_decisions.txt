@@ -288,11 +288,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_50_negative }
 		remove_effect = {
-			if = {
-				limit = { has_country_flag = RUS_fr_armaments_summary_complete }
-				add_ideas = RUS_fr_hidden_katyusha_rocket_artillery
-			}
-			else = { add_ideas = RUS_fr_katyusha_rocket_artillery_idea }
+			RUS_fr_integrate_katyusha_rocket_artillery_idea = yes
 			set_country_flag = RUS_fr_katyusha_project_completed
 		}
 		ai_will_do = { factor = 10 }
@@ -443,7 +439,7 @@ RUS_fr_military_reform_decisions = {
 		icon = GFX_decision_generic_military
 		visible = {
 			has_completed_focus = RUS_fr_cadres_decide_everything
-			NOT = { has_idea = RUS_fr_political_commissar_organisation_idea }
+			NOT = { has_country_flag = RUS_fr_integrated_political_commissar_organisation_idea }
 		}
 		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		custom_cost_text = RUS_fr_xp_50
@@ -454,11 +450,7 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_50_negative
 		}
 		remove_effect = {
-			if = {
-				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-				RUS_fr_merge_political_commissar_organisation = yes
-			}
-			else = { add_ideas = RUS_fr_political_commissar_organisation_idea }
+			RUS_fr_integrate_political_commissar_organisation_idea = yes
 			set_country_flag = RUS_fr_commissar_organisation_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -468,7 +460,7 @@ RUS_fr_military_reform_decisions = {
 		icon = GFX_decision_generic_military
 		visible = {
 			has_completed_focus = RUS_fr_equipment_is_the_armys_skeleton
-			NOT = { has_idea = RUS_fr_scientific_general_staff_idea }
+			NOT = { has_country_flag = RUS_fr_integrated_scientific_general_staff_idea }
 		}
 		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_60 } }
 		custom_cost_text = RUS_fr_xp_60
@@ -479,15 +471,8 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_60_negative
 		}
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_equipment_standardisation_correction
-			}
-			if = {
-				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-				RUS_fr_merge_scientific_general_staff = yes
-			}
-			else = { add_ideas = RUS_fr_scientific_general_staff_idea }
+			RUS_fr_integrate_equipment_standardisation_correction = yes
+			RUS_fr_integrate_scientific_general_staff_idea = yes
 			set_country_flag = RUS_fr_scientific_staff_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -497,7 +482,7 @@ RUS_fr_military_reform_decisions = {
 		icon = GFX_decision_generic_military
 		visible = {
 			has_completed_focus = RUS_fr_train_before_expansion
-			NOT = { has_idea = RUS_fr_deep_battle_concept_idea }
+			NOT = { has_country_flag = RUS_fr_integrated_deep_battle_concept_idea }
 		}
 		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_65 } }
 		custom_cost_text = RUS_fr_xp_65
@@ -508,15 +493,8 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_65_negative
 		}
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_armoured_coordination_correction
-			}
-			if = {
-				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-				RUS_fr_merge_deep_battle_concept = yes
-			}
-			else = { add_ideas = RUS_fr_deep_battle_concept_idea }
+			RUS_fr_integrate_armoured_coordination_correction = yes
+			RUS_fr_integrate_deep_battle_concept_idea = yes
 			set_country_flag = RUS_fr_deep_battle_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -526,7 +504,7 @@ RUS_fr_military_reform_decisions = {
 		icon = GFX_decision_generic_military
 		visible = {
 			has_completed_focus = RUS_fr_unified_military_leadership
-			NOT = { has_idea = RUS_fr_one_man_command_idea }
+			NOT = { has_country_flag = RUS_fr_integrated_one_man_command_idea }
 		}
 		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_45 } }
 		custom_cost_text = RUS_fr_xp_45
@@ -537,11 +515,7 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_45_negative
 		}
 		remove_effect = {
-			if = {
-				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-				RUS_fr_merge_one_man_command = yes
-			}
-			else = { add_ideas = RUS_fr_one_man_command_idea }
+			RUS_fr_integrate_one_man_command_idea = yes
 			set_country_flag = RUS_fr_one_man_command_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -551,7 +525,7 @@ RUS_fr_military_reform_decisions = {
 		icon = GFX_decision_generic_military
 		visible = {
 			has_completed_focus = RUS_fr_revolutionary_collectivism
-			NOT = { has_idea = RUS_fr_revolutionary_collectivism_idea }
+			NOT = { has_country_flag = RUS_fr_integrated_revolutionary_collectivism_idea }
 		}
 		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_40 } }
 		custom_cost_text = RUS_fr_xp_40
@@ -562,11 +536,7 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_40_negative
 		}
 		remove_effect = {
-			if = {
-				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-				RUS_fr_merge_revolutionary_collectivism = yes
-			}
-			else = { add_ideas = RUS_fr_revolutionary_collectivism_idea }
+			RUS_fr_integrate_revolutionary_collectivism_idea = yes
 			set_country_flag = RUS_fr_collectivism_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -576,7 +546,7 @@ RUS_fr_military_reform_decisions = {
 		icon = GFX_decision_generic_military
 		visible = {
 			has_completed_focus = RUS_fr_military_vanguardism
-			NOT = { has_idea = RUS_fr_military_vanguardism_idea }
+			NOT = { has_country_flag = RUS_fr_integrated_military_vanguardism_idea }
 		}
 		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_55 } }
 		custom_cost_text = RUS_fr_xp_55
@@ -587,11 +557,7 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_55_negative
 		}
 		remove_effect = {
-			if = {
-				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-				RUS_fr_merge_military_vanguardism = yes
-			}
-			else = { add_ideas = RUS_fr_military_vanguardism_idea }
+			RUS_fr_integrate_military_vanguardism_idea = yes
 			set_country_flag = RUS_fr_vanguardism_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -601,7 +567,7 @@ RUS_fr_military_reform_decisions = {
 		icon = GFX_decision_generic_military
 		visible = {
 			has_completed_focus = RUS_fr_revolutionary_heroism
-			NOT = { has_idea = RUS_fr_revolutionary_heroism_idea }
+			NOT = { has_country_flag = RUS_fr_integrated_revolutionary_heroism_idea }
 		}
 		available = { NOT = { has_army_experience < var:RUS_fr_xp_cost_50 } }
 		custom_cost_text = RUS_fr_xp_50
@@ -612,11 +578,7 @@ RUS_fr_military_reform_decisions = {
 			army_experience = var:RUS_fr_xp_cost_50_negative
 		}
 		remove_effect = {
-			if = {
-				limit = { has_country_flag = RUS_fr_unified_army_reform_active }
-				RUS_fr_merge_revolutionary_heroism = yes
-			}
-			else = { add_ideas = RUS_fr_revolutionary_heroism_idea }
+			RUS_fr_integrate_revolutionary_heroism_idea = yes
 			set_country_flag = RUS_fr_heroism_decision_complete
 		}
 		ai_will_do = { factor = 10 }
@@ -684,10 +646,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_60_negative }
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_red_academy_correction
-			}
+			RUS_fr_integrate_red_academy_correction = yes
 			hidden_effect = {
 				RUS_fr_restore_academy_officers = yes
 				RUS_generate_semyon_budyonny = yes
@@ -708,10 +667,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_60_negative }
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_field_regulations_correction
-			}
+			RUS_fr_integrate_field_regulations_correction = yes
 			add_doctrine_cost_reduction = { name = RUS_fr_frunze_field_regulations cost_reduction = 0.35 uses = 2 category = land_doctrine }
 			
 			# RUS_EASY_MODE_TECH_START
@@ -736,10 +692,7 @@ RUS_fr_military_reform_decisions = {
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_50_negative }
 		remove_effect = {
 			RUS_fr_apply_standardised_army_structure_reform = yes
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_climate_training_correction
-			}
+			RUS_fr_integrate_climate_training_correction = yes
 		}
 		ai_will_do = { factor = 10 }
 	}
@@ -754,10 +707,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_55_negative }
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_core_operations_correction
-			}
+			RUS_fr_integrate_core_operations_correction = yes
 			RUS_fr_show_white_networks_legacy_rewards = yes
 			hidden_effect = { RUS_fr_apply_white_networks_legacy_rewards = yes }
 			set_country_flag = RUS_fr_district_reorganisation_decision_complete
@@ -804,10 +754,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 90
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_45_negative }
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_mobilisation_base_correction
-			}
+			RUS_fr_integrate_mobilisation_base_correction = yes
 			add_manpower = 50000
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_manpower = 50000 } # RUS_EASY_MODE_REWARD
 			add_command_power = 20
@@ -829,10 +776,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 120
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_60_negative }
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_armoured_production_correction
-			}
+			RUS_fr_integrate_armoured_production_correction = yes
 			
 			# RUS_EASY_MODE_TECH_START
 			if = {
@@ -867,10 +811,7 @@ RUS_fr_military_reform_decisions = {
 		days_remove = 90
 		complete_effect = { army_experience = var:RUS_fr_xp_cost_45_negative }
 		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_special_forces_correction
-			}
+			RUS_fr_integrate_special_forces_correction = yes
 			
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_fr_guards_model_units bonus = 1 uses = 1 category = infantry_weapons } }
@@ -896,10 +837,7 @@ RUS_fr_military_reform_decisions = {
 			set_country_flag = RUS_fr_officer_training_reformed
 			set_country_flag = RUS_fr_red_commanders_upgrade_bonus
 			set_country_flag = RUS_fr_merit_competition_decision_complete
-			if = {
-				limit = { NOT = { has_country_flag = RUS_fr_unified_army_reform_active } }
-				add_ideas = RUS_fr_command_merit_system_idea
-			}
+			RUS_fr_integrate_command_merit_system_idea = yes
 			every_army_leader = { limit = { has_trait = RUS_fr_fragmented_officer_training } remove_unit_leader_trait = RUS_fr_fragmented_officer_training }
 		}
 		ai_will_do = { factor = 10 }

@@ -2,8 +2,7 @@
 RUS_easy_mode_refresh_ideas = {
 	set_variable = { RUS_easy_mode_active_idea_count = 0 }
 	set_variable = { RUS_easy_mode_idea_MONTHLY_POPULATION = 0 }
-	set_variable = { RUS_easy_mode_idea_acclimatization_cold_climate_gain_factor = 0 }
-	set_variable = { RUS_easy_mode_idea_acclimatization_hot_climate_gain_factor = 0 }
+
 	set_variable = { RUS_easy_mode_idea_ace_effectiveness_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_additional_brigade_column_size = 0 }
 	set_variable = { RUS_easy_mode_idea_ai_focus_aggressive_factor = 0 }
@@ -24,14 +23,12 @@ RUS_easy_mode_refresh_ideas = {
 	set_variable = { RUS_easy_mode_idea_army_core_attack_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_army_core_defence_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_army_defence_against_major_factor = 0 }
-	set_variable = { RUS_easy_mode_idea_army_defence_factor = 0 }
-	set_variable = { RUS_easy_mode_idea_army_experience_from_volunteers = 0 }
+
 	set_variable = { RUS_easy_mode_idea_army_infantry_attack_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_army_infantry_defence_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_army_intel_to_others = 0 }
 	set_variable = { RUS_easy_mode_idea_army_morale_factor = 0 }
-	set_variable = { RUS_easy_mode_idea_army_non_core_attack_factor = 0 }
-	set_variable = { RUS_easy_mode_idea_army_non_core_defence_factor = 0 }
+
 	set_variable = { RUS_easy_mode_idea_army_org_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_army_org_regain = 0 }
 	set_variable = { RUS_easy_mode_idea_army_speed_factor = 0 }
@@ -55,7 +52,7 @@ RUS_easy_mode_refresh_ideas = {
 	set_variable = { RUS_easy_mode_idea_economy_cost_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_equipment_conversion_speed = 0 }
 	set_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0 }
-	set_variable = { RUS_easy_mode_idea_experience_gain_army_unit_factor = 0 }
+
 	set_variable = { RUS_easy_mode_idea_experience_gain_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_experience_loss_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_factory_energy_consumption = 0 }
@@ -67,7 +64,7 @@ RUS_easy_mode_refresh_ideas = {
 	set_variable = { RUS_easy_mode_idea_industrial_concern_cost_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_initiative_factor = 0 }
 	set_variable = { RUS_easy_mode_idea_land_doctrine_cost_factor = 0 }
-	set_variable = { RUS_easy_mode_idea_land_mastery_gain_factor = 0 }
+
 	set_variable = { RUS_easy_mode_idea_land_night_attack = 0 }
 	set_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0 }
 	set_variable = { RUS_easy_mode_idea_local_resources_factor = 0 }
@@ -536,12 +533,7 @@ RUS_easy_mode_refresh_ideas = {
 		add_to_variable = { RUS_easy_mode_idea_land_night_attack = 0.05 }
 		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.15 }
 	}
-	if = {
-		limit = { has_idea = RUS_fr_armoured_coordination_correction }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_armor_attack_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_army_armor_defence_factor = 0.10 }
-	}
+
 	if = {
 		limit = { has_idea = RUS_fr_armoured_firepower_coordination_idea }
 		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
@@ -555,28 +547,7 @@ RUS_easy_mode_refresh_ideas = {
 		add_to_variable = { RUS_easy_mode_idea_command_power_gain_mult = 0.10 }
 		add_to_variable = { RUS_easy_mode_idea_political_power_factor = 0.10 }
 	}
-	if = {
-		limit = { has_idea = RUS_fr_climate_training_correction }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_acclimatization_cold_climate_gain_factor = 0.20 }
-		add_to_variable = { RUS_easy_mode_idea_acclimatization_hot_climate_gain_factor = 0.20 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_core_operations_correction }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_core_attack_factor = 0.15 }
-		add_to_variable = { RUS_easy_mode_idea_army_core_defence_factor = 0.15 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_deep_battle_concept_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_attack_factor = 0.015 }
-		add_to_variable = { RUS_easy_mode_idea_army_speed_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.005 }
-		add_to_variable = { RUS_easy_mode_idea_supply_consumption_factor = -0.02 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.03 }
-	}
+
 	if = {
 		limit = { has_idea = RUS_fr_deep_battle_exercise_idea }
 		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
@@ -589,11 +560,7 @@ RUS_easy_mode_refresh_ideas = {
 		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
 		add_to_variable = { RUS_easy_mode_idea_special_forces_attack_factor = 0.10 }
 	}
-	if = {
-		limit = { has_idea = RUS_fr_discipline_review_system_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_experience_loss_factor = -0.20 }
-	}
+
 	if = {
 		limit = { has_idea = RUS_fr_divisional_artillery_priority_idea }
 		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
@@ -624,14 +591,7 @@ RUS_easy_mode_refresh_ideas = {
 		add_to_variable = { RUS_easy_mode_idea_political_power_gain = 0.50 }
 		add_to_variable = { RUS_easy_mode_idea_war_support_factor = 0.10 }
 	}
-	if = {
-		limit = { has_idea = RUS_fr_field_regulations_correction }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_infantry_attack_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_army_infantry_defence_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_land_doctrine_cost_factor = -0.40 }
-		add_to_variable = { RUS_easy_mode_idea_land_mastery_gain_factor = 0.50 }
-	}
+
 	if = {
 		limit = { has_idea = RUS_fr_general_staff_wargames_idea }
 		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
@@ -670,12 +630,7 @@ RUS_easy_mode_refresh_ideas = {
 		add_to_variable = { RUS_easy_mode_idea_mechanized_attack_factor = 0.05 }
 		add_to_variable = { RUS_easy_mode_idea_mechanized_defence_factor = 0.05 }
 	}
-	if = {
-		limit = { has_idea = RUS_fr_military_democracy_trial_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_non_core_attack_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_army_non_core_defence_factor = 0.05 }
-	}
+
 	if = {
 		limit = { has_idea = RUS_fr_military_district_readiness_idea }
 		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
@@ -684,180 +639,7 @@ RUS_easy_mode_refresh_ideas = {
 		add_to_variable = { RUS_easy_mode_idea_command_power_gain_mult = 0.10 }
 		add_to_variable = { RUS_easy_mode_idea_coordination_bonus = 0.10 }
 	}
-	if = {
-		limit = { has_idea = RUS_fr_military_vanguardism_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_attack_factor = 0.015 }
-		add_to_variable = { RUS_easy_mode_idea_army_speed_factor = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_planning_speed = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_supply_consumption_factor = -0.01 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.03 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_one_man_command_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_morale_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_army_org_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_command_power_gain_mult = 0.04 }
-		add_to_variable = { RUS_easy_mode_idea_mobilization_speed = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_training_time_army_factor = -0.01 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_political_commissar_organisation_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_org_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.15 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_unit_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_political_power_factor = 0.06 }
-		add_to_variable = { RUS_easy_mode_idea_training_time_army_factor = -0.02 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_political_work_system_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_party_popularity_stability_factor = 0.10 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_red_academy_correction }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_factor = 0.15 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_0 }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_attack_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_army_defence_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_army_morale_factor = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_army_org_factor = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_attrition = -0.03 }
-		add_to_variable = { RUS_easy_mode_idea_breakthrough_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.20 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.01 }
-		add_to_variable = { RUS_easy_mode_idea_max_planning = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_mobilization_speed = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_planning_speed = 0.04 }
-		add_to_variable = { RUS_easy_mode_idea_supply_consumption_factor = -0.02 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.04 }
-		add_to_variable = { RUS_easy_mode_idea_training_time_army_factor = -0.03 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_0_comrades_abroad }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_attack_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_army_defence_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_army_experience_from_volunteers = 0.50 }
-		add_to_variable = { RUS_easy_mode_idea_army_morale_factor = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_army_org_factor = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_attrition = -0.03 }
-		add_to_variable = { RUS_easy_mode_idea_breakthrough_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.20 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.01 }
-		add_to_variable = { RUS_easy_mode_idea_max_planning = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_mobilization_speed = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_planning_speed = 0.04 }
-		add_to_variable = { RUS_easy_mode_idea_send_volunteer_size = 5 }
-		add_to_variable = { RUS_easy_mode_idea_supply_consumption_factor = -0.02 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.04 }
-		add_to_variable = { RUS_easy_mode_idea_training_time_army_factor = -0.03 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_1 }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.15 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.0075 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.03 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_1_comrades_abroad }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_experience_from_volunteers = 0.50 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.15 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.0075 }
-		add_to_variable = { RUS_easy_mode_idea_send_volunteer_size = 5 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.03 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_2 }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.005 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.02 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_2_comrades_abroad }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_experience_from_volunteers = 0.50 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.005 }
-		add_to_variable = { RUS_easy_mode_idea_send_volunteer_size = 5 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.02 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_3 }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.0025 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.01 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_3_comrades_abroad }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_experience_from_volunteers = 0.50 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.0025 }
-		add_to_variable = { RUS_easy_mode_idea_send_volunteer_size = 5 }
-		add_to_variable = { RUS_easy_mode_idea_terrain_penalty_reduction = 0.01 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_reform_disorganisation_4_comrades_abroad }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_experience_from_volunteers = 0.50 }
-		add_to_variable = { RUS_easy_mode_idea_send_volunteer_size = 5 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_revolutionary_collectivism_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_defence_factor = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_army_org_factor = 0.01 }
-		add_to_variable = { RUS_easy_mode_idea_attrition = -0.03 }
-		add_to_variable = { RUS_easy_mode_idea_conscription = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_land_reinforce_rate = 0.01 }
-		add_to_variable = { RUS_easy_mode_idea_mobilization_speed = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_training_time_army_factor = -0.02 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_revolutionary_heroism_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_morale_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_attrition = -0.02 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_unit_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_factor = 0.05 }
-		add_to_variable = { RUS_easy_mode_idea_war_support_factor = 0.05 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_scientific_general_staff_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_command_power_gain_mult = 0.04 }
-		add_to_variable = { RUS_easy_mode_idea_experience_gain_army_factor = 0.10 }
-		add_to_variable = { RUS_easy_mode_idea_max_planning = 0.03 }
-		add_to_variable = { RUS_easy_mode_idea_planning_speed = 0.04 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_soldiers_committees_system_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_strength_factor = 0.05 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_special_forces_correction }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_special_forces_attack_factor = 0.15 }
-		add_to_variable = { RUS_easy_mode_idea_special_forces_defence_factor = 0.15 }
-	}
-	if = {
-		limit = { has_idea = RUS_fr_standardised_army_structure_idea }
-		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }
-		add_to_variable = { RUS_easy_mode_idea_army_morale_factor = 0.02 }
-		add_to_variable = { RUS_easy_mode_idea_army_org_factor = 0.05 }
-	}
+
 	if = {
 		limit = { has_idea = RUS_fr_support_fire_joint_trials_idea }
 		add_to_variable = { RUS_easy_mode_active_idea_count = 1 }

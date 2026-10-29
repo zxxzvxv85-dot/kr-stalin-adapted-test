@@ -1,0 +1,143 @@
+defined_text = {
+	name = RUSFrCurrentReformTitle
+	text = {
+		trigger = { has_dynamic_modifier = { modifier = RUS_fr_unified_army_reform_final } }
+		localization_key = RUS_fr_unified_army_reform_final
+	}
+	text = {
+		trigger = { has_country_flag = RUS_fr_unified_army_reform_active }
+		localization_key = RUS_fr_unified_army_reform
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 1 } }
+		localization_key = RUS_fr_reform_disorganisation_4
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 2 } }
+		localization_key = RUS_fr_reform_disorganisation_3
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 3 } }
+		localization_key = RUS_fr_reform_disorganisation_2
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 4 } }
+		localization_key = RUS_fr_reform_disorganisation_1
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 5 } }
+		localization_key = RUS_fr_reform_disorganisation_0
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 6 } }
+		localization_key = RUS_fr_reform_disorganisation_4_comrades_abroad
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 7 } }
+		localization_key = RUS_fr_reform_disorganisation_3_comrades_abroad
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 8 } }
+		localization_key = RUS_fr_reform_disorganisation_2_comrades_abroad
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 9 } }
+		localization_key = RUS_fr_reform_disorganisation_1_comrades_abroad
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 10 } }
+		localization_key = RUS_fr_reform_disorganisation_0_comrades_abroad
+	}
+	text = {
+		localization_key = RUS_fr_unified_army_reform
+	}
+}
+defined_text = {
+	name = RUSFrCurrentReformDescription
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 1 } }
+		localization_key = RUS_fr_reform_disorganisation_4_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 2 } }
+		localization_key = RUS_fr_reform_disorganisation_3_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 3 } }
+		localization_key = RUS_fr_reform_disorganisation_2_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 4 } }
+		localization_key = RUS_fr_reform_disorganisation_1_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 5 } }
+		localization_key = RUS_fr_reform_disorganisation_0_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 6 } }
+		localization_key = RUS_fr_reform_disorganisation_4_comrades_abroad_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 7 } }
+		localization_key = RUS_fr_reform_disorganisation_3_comrades_abroad_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 8 } }
+		localization_key = RUS_fr_reform_disorganisation_2_comrades_abroad_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 9 } }
+		localization_key = RUS_fr_reform_disorganisation_1_comrades_abroad_desc
+	}
+	text = {
+		trigger = { check_variable = { RUS_fr_current_reform_stage = 10 } }
+		localization_key = RUS_fr_reform_disorganisation_0_comrades_abroad_desc
+	}
+	text = {
+		localization_key = RUS_fr_current_empty
+	}
+}
+defined_text = {
+	name = RUSFrCurrentEquipmentEffects
+	text = {
+		trigger = { has_idea = RUS_fr_equipment_standardisation_correction has_idea = RUS_fr_armoured_production_correction }
+		localization_key = RUS_fr_current_empty
+	}
+	text = {
+		trigger = { has_idea = RUS_fr_equipment_standardisation_correction NOT = { has_idea = RUS_fr_armoured_production_correction } }
+		localization_key = RUS_fr_current_equipment_infantry_tt
+	}
+	text = {
+		trigger = { NOT = { has_idea = RUS_fr_equipment_standardisation_correction } has_idea = RUS_fr_armoured_production_correction }
+		localization_key = RUS_fr_current_equipment_armour_tt
+	}
+	text = {
+		trigger = { NOT = { has_idea = RUS_fr_equipment_standardisation_correction } NOT = { has_idea = RUS_fr_armoured_production_correction } }
+		localization_key = RUS_fr_current_equipment_base_tt
+	}
+}
+defined_text = {
+	name = RUSFrCurrentOfficerEffects
+	text = {
+		trigger = { has_country_flag = RUS_fr_officer_training_penalty }
+		localization_key = RUS_fr_officer_attack_growth_penalty_tt
+	}
+	text = {
+		trigger = { has_country_flag = RUS_fr_officer_training_reformed }
+		localization_key = RUS_fr_officer_attack_growth_bonus_tt
+	}
+	text = {
+		localization_key = RUS_fr_current_empty
+	}
+}
+defined_text = {
+	name = RUSFrCurrentKatyushaEffects
+	text = {
+		trigger = { has_idea = RUS_fr_hidden_katyusha_rocket_artillery }
+		localization_key = RUS_fr_current_katyusha_tt
+	}
+	text = {
+		localization_key = RUS_fr_current_empty
+	}
+}
