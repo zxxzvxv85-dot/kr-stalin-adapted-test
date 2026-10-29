@@ -39,13 +39,19 @@ const number = (v, c) => Number.isNaN(Number(v)) ? c.temp[v] ?? c.vars[v] ?? 0 :
 function check(nodes, c, world) {
   return nodes.every(({key, value:v}) => {
     if (key === 'hidden_trigger' || key === 'AND') return check(v,c,world);
+    if (key === 'OR') return v.some(n=>check([n],c,world));
     if (key === 'is_ai') return !!c.ai === (v === 'yes');
     if (key === 'NOT') return !check(v, c, world);
     if (key === 'custom_trigger_tooltip') return check(v.filter(n => n.key !== 'tooltip'), c, world);
     if (key === 'has_country_flag') return c.flags.includes(v);
     if (key === 'tag') return c.id === v;
     if (key === 'exists') return c.exists === (v === 'yes');
+    if (key === 'has_opinion') return c.opinion>Number(v.find(n=>n.key==='value').value);
     if (key === 'has_socialist_government') return c.socialist === (v === 'yes');
+    if (key === 'RUS_future_foreign_balkan_socialist_target') return tags.includes(c.id) && c.exists && c.socialist;
+    if (key === 'RUS_diplomacy_can_pay_20') return c.pp >= 20;
+    if (key === 'is_in_faction') return !!c.faction === (v === 'yes');
+    if (key === 'is_faction_leader') return (c.faction?.leader === c.id) === (v === 'yes');
     if (key === 'has_completed_focus') return c.focuses.includes(v);
     if (key === 'has_dynamic_modifier') return c.modifiers.includes(get(v, 'modifier'));
     if (key === 'check_variable') return v.every(n => n.op === '>' ? number(n.key,c) > number(n.value,c) : number(n.key,c) === number(n.value,c));
@@ -60,6 +66,12 @@ function run(nodes, c, world) {
     else if (key === 'custom_effect_tooltip') continue;
     else if (key === 'RUS_gendarme_refresh_waiting_bonus') continue; // Separately executed by test_gendarme_waiting.py.
     else if (key === 'add_political_power') c.pp += Number(v);
+    else if (key === 'add_to_faction') {
+      assert.equal(c.faction?.leader,c.id,'Only the existing faction leader can invite another country');
+      const target=world[v];assert.ok(target,'The native effect must resolve its country argument');
+      target.faction=c.faction;
+      c.faction.members.add(target.id);
+    }
     else if (key === 'add_dynamic_modifier') c.modifiers.push(get(v, 'modifier'));
     else if (key === 'diplomatic_relation') { assert.equal(get(v,'relation'), 'non_aggression_pact'); c.pacts.push(get(v,'country')); }
     else if (effects.has(key)) run(effects.get(key), c, world);
@@ -150,8 +162,36 @@ const inviteRequirements = get(get(invite, 'available'), 'custom_trigger_tooltip
 assert.equal(get(inviteRequirements, 'is_faction_leader'), 'yes');
 assert.equal(get(get(inviteRequirements, 'FROM'), 'is_in_faction'), 'no');
 const inviteEffect = get(get(invite, 'complete_effect'), 'if');
-const inviteTargetEffect = get(inviteEffect, 'FROM');
-assert.equal(get(inviteTargetEffect, 'add_to_faction'), 'ROOT');
+assert.equal(get(inviteEffect, 'add_to_faction'), 'FROM');
+let inviteCases=0;
+for (const tag of tags) for (const leader of [false,true]) for (const state of ['eligible','same faction','other faction','not socialist','missing']) {
+  const c=country('RUS'),target=country(tag),world={RUS:c,[tag]:target,ROOT:c,FROM:target};
+  c.focuses.push('RUS_future_foreign_019');c.pp=50;
+  c.faction={id:'third_international_eastern_front',leader:leader?'RUS':'INT',members:new Set(['RUS'])};
+  if(state==='same faction')target.faction=c.faction;
+  if(state==='other faction')target.faction={id:'another faction',leader:tag,members:new Set([tag])};
+  if(state==='not socialist')target.socialist=false;
+  if(state==='missing')target.exists=false;
+  const expected=leader&&state==='eligible';
+  assert.equal(check(get(invite,'available'),c,world),expected);
+  const originalRootFaction=c.faction,originalTargetFaction=target.faction;
+  run(get(invite,'complete_effect'),c,world);
+  assert.equal(c.faction,originalRootFaction,'The inviter keeps its existing eastern-front faction');
+  assert.equal(target.faction,expected?originalRootFaction:originalTargetFaction);
+  run(get(invite,'complete_effect'),c,world);
+  assert.equal(c.faction.members.size,expected?2:1,'Invalid or repeated completion cannot add another member');
+  inviteCases++;
+}
+assert.equal(inviteCases,50);
+// The same reversed scope also affected the Nordic invitation. The engine has
+// already charged cost before complete_effect, so do not require another 20 PP.
+const nordic=decisions.get('RUS_future_foreign_nordic_invite');
+for(const tag of ['ICE','NOR','SWE','FIN','DEN']) {
+  const c=country('RUS'),target=country(tag),world={RUS:c,[tag]:target,ROOT:c,FROM:target};
+  c.pp=0;c.faction={leader:'RUS',members:new Set(['RUS'])};target.opinion=150;
+  run(get(nordic,'complete_effect'),c,world);
+  assert.equal(target.faction,c.faction,'An eligible invitation still executes after spending the last 20 PP');
+}
 const agriLine = get(focus('019'), 'completion_reward').find(n => n.key === 'if'
   && (get(n.value, 'limit') || []).some(x => x.key === 'has_country_flag' && x.value === 'RUS_nat_enabled'));
 assert.ok(agriLine, 'the Balkan order line must be conditional on RUS_nat_enabled');
