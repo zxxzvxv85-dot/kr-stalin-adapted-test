@@ -28,11 +28,13 @@ RENDER_HEIGHT = MAP_HEIGHT * RENDER_SCALE
 MAP_X = 15
 MAP_Y = 16
 WINDOW_WIDTH = 740
-WINDOW_HEIGHT = 526
+WINDOW_HEIGHT = 346
 TITLE_HEIGHT = 44
 MAP_WINDOW_Y = 200
 PORTRAIT_X = 525
-PORTRAIT_Y = 740
+DECISION_HEIGHT = 410
+DECISION_Y = MAP_WINDOW_Y + WINDOW_HEIGHT
+PORTRAIT_Y = DECISION_Y + 14
 PORTRAIT_WIDTH = 180
 PORTRAIT_HEIGHT = 202
 
@@ -709,7 +711,11 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> str:
         '\t\tname = "RUS_europe_intervention_window"',
         f"\t\tposition = {{ x = 0 y = {MAP_WINDOW_Y} }}",
         f"\t\tsize = {{ width = {WINDOW_WIDTH} height = {WINDOW_HEIGHT} }}",
-        "\t\tclipping = no",
+        "\t\tclipping = yes",
+        '\t\tverticalScrollbar = "right_vertical_slider"',
+        "\t\tvertical_scroll_step = 40",
+        "\t\tscroll_wheel_factor = 40",
+        "\t\tsmooth_scrolling = yes",
         "\t\tmoveable = no",
         "",
         '\t\tbackground = { name = "Background" quadTextureSprite = "GFX_tiled_window2_1b_border" }',
@@ -1176,6 +1182,20 @@ def build_localisation() -> dict[str, str]:
     return outputs
 
 
+def build_powerbalance_decision_view() -> str:
+    """Extend the native list while preserving the existing 956px window."""
+    from hoi4_politics_blocks import parse
+    path=ROOT/'interface/powerbalanceview.gui'
+    text=path.read_text(encoding='utf-8-sig')
+    root=next(n for tree in parse(text) for n in tree.children('containerWindowType') if n.value('name').strip('"')=='powerbalanceview')
+    decisions=next(n for n in root.children('containerWindowType') if n.value('name').strip('"')=='decision_container')
+    edits=[(decisions.one('position'),f'position = {{ x = 0 y = {DECISION_Y} }}'),
+           (decisions.one('size'),f'size = {{ width = {WINDOW_WIDTH} height = {DECISION_HEIGHT} }}')]
+    assert DECISION_Y+DECISION_HEIGHT==int(root.one('size').value('height'))
+    for node,value in sorted(edits,key=lambda x:x[0].a,reverse=True):text=text[:node.a]+value+text[node.b:]
+    return text
+
+
 def render_outputs(selector_boxes=None) -> dict[str, str]:
     """Render text from maintained hotspot geometry without reading game-map images."""
     if selector_boxes is None:
@@ -1186,6 +1206,7 @@ def render_outputs(selector_boxes=None) -> dict[str, str]:
     return {
         "interface/RUS_europe_intervention.gfx": build_gfx(selector_boxes),
         "interface/RUS_europe_intervention.gui": build_gui(selector_boxes),
+        "interface/powerbalanceview.gui": build_powerbalance_decision_view(),
         "common/scripted_guis/RUS_europe_intervention.txt": build_scripted_gui(),
         **build_scripted_effect_and_trigger(),
         **build_localisation(),
