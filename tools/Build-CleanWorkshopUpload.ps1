@@ -2,6 +2,10 @@
 param(
     [string]$SourceRoot = "",
     [string]$DestinationRoot = "",
+    # Optional verified previous snapshot for a scope-correct selective rebuild.
+    [string]$BaselineUploadRoot = "",
+    # Scoped, reviewed file variants, generated below the source tmp directory.
+    [string]$SourceOverrideRoot = "",
     # An explicit runtime-file allowlist updates an existing upload snapshot.
     # Omitted files keep the upload version, including development-only GUIs.
     [string[]]$UpdatePaths = @()
@@ -36,6 +40,30 @@ if (-not $sourceParent.Equals($destinationParent, [System.StringComparison]::Ord
 }
 if (-not $destinationName.EndsWith("_upload", [System.StringComparison]::OrdinalIgnoreCase)) {
     throw "For safety, the upload directory name must end with _upload."
+}
+$baselineUpload = $destination
+$overrideRoot = $null
+if (-not [string]::IsNullOrWhiteSpace($SourceOverrideRoot)) {
+    if ($UpdatePaths.Count -eq 0) { throw "Source overrides require UpdatePaths." }
+    $overrideRoot = [System.IO.Path]::GetFullPath($SourceOverrideRoot).TrimEnd([System.IO.Path]::DirectorySeparatorChar)
+    $temporaryRoot = Join-Path $source 'tmp'
+    if (-not $overrideRoot.StartsWith($temporaryRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase) -or
+        -not (Test-Path -LiteralPath $overrideRoot -PathType Container)) {
+        throw "Source overrides must be a generated directory below the source tmp directory."
+    }
+    foreach ($item in @((Get-Item -LiteralPath $temporaryRoot), (Get-Item -LiteralPath $overrideRoot)) + @(Get-ChildItem -LiteralPath $overrideRoot -Recurse -Force)) {
+        if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+            throw "Refusing a redirected source override: $($item.FullName)"
+        }
+    }
+}
+if (-not [string]::IsNullOrWhiteSpace($BaselineUploadRoot)) {
+    if ($UpdatePaths.Count -eq 0) { throw "An explicit baseline requires UpdatePaths." }
+    $baselineUpload = [System.IO.Path]::GetFullPath($BaselineUploadRoot).TrimEnd([System.IO.Path]::DirectorySeparatorChar)
+    if (-not [System.IO.Path]::GetDirectoryName($baselineUpload).Equals($destinationParent, [System.StringComparison]::OrdinalIgnoreCase) -or
+        -not (Split-Path -Leaf $baselineUpload).StartsWith("$destinationName.previous.", [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "The baseline must be a previous snapshot of this exact upload directory."
+    }
 }
 
 function Assert-GameStopped {
@@ -99,11 +127,11 @@ foreach ($relativePath in $publishFiles) {
 $selective = $UpdatePaths.Count -gt 0
 $updatedFiles = @()
 if ($selective) {
-    if (-not (Test-Path -LiteralPath (Join-Path $destination 'descriptor.mod') -PathType Leaf)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $baselineUpload 'descriptor.mod') -PathType Leaf)) {
         throw "A selective update requires an existing upload snapshot with descriptor.mod."
     }
-    if ((Get-Item -LiteralPath $destination).Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-        throw "Refusing to read a redirected upload directory: $destination"
+    if ((Get-Item -LiteralPath $baselineUpload).Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+        throw "Refusing to read a redirected upload baseline: $baselineUpload"
     }
     $updatedFiles = @($UpdatePaths | ForEach-Object {
         $relative = $_.Replace('\', '/')
@@ -114,19 +142,25 @@ if ($selective) {
         $relative
     } | Sort-Object -Unique)
     $fileSources.Clear()
-    foreach ($item in (Get-ChildItem -LiteralPath $destination -Recurse -Force)) {
+    foreach ($item in (Get-ChildItem -LiteralPath $baselineUpload -Recurse -Force)) {
         if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
             throw "Refusing a redirected item in the upload snapshot: $($item.FullName)"
         }
         if ($item.PSIsContainer) { continue }
-        $relative = $item.FullName.Substring($destination.Length + 1).Replace('\', '/')
+        $relative = $item.FullName.Substring($baselineUpload.Length + 1).Replace('\', '/')
         if ($excludePatterns | Where-Object { $relative -match $_ }) {
             throw "Selective updates require a clean upload snapshot; unexpected development file: $relative"
         }
-        $fileSources[$relative] = $destination
+        $fileSources[$relative] = $baselineUpload
     }
     foreach ($relativePath in $updatedFiles) {
-        $fileSources[$relativePath] = $source
+        if ($null -ne $overrideRoot) {
+            if (-not (Test-Path -LiteralPath (Join-Path $overrideRoot $relativePath) -PathType Leaf)) {
+                throw "The scoped source override is missing: $relativePath"
+            }
+            $fileSources[$relativePath] = $overrideRoot
+        }
+        else { $fileSources[$relativePath] = $source }
     }
     $publishFiles = @($fileSources.Keys | Sort-Object)
 }
@@ -201,6 +235,7 @@ $backups = @(
 if ($backups.Count -gt $backupKeep) {
     foreach ($old in $backups[$backupKeep..($backups.Count - 1)]) {
         $resolved = [System.IO.Path]::GetFullPath($old.FullName)
+        if ($resolved.Equals($baselineUpload, [System.StringComparison]::OrdinalIgnoreCase)) { continue }
         if (-not $resolved.StartsWith($destinationParent + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
             Write-Warning "Skip pruning outside the upload parent: $resolved"
             continue
@@ -219,6 +254,8 @@ $totalBytes = (Get-ChildItem -LiteralPath $destination -Recurse -File | Measure-
 [pscustomobject]@{
     Source = $source
     Destination = $destination
+    BaselineUploadRoot = $(if ($selective) { $baselineUpload } else { $null })
+    SourceOverrideRoot = $overrideRoot
     CopiedFiles = $copied
     BuildMode = $(if ($selective) { 'SelectedFiles' } else { 'FullSource' })
     UpdatedSourceFiles = $(if ($selective) { $updatedFiles.Count } else { $copied })
