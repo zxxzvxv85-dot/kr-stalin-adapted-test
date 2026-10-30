@@ -1,0 +1,131 @@
+add_namespace = RUS_international_reports
+
+country_event = {
+	id = RUS_international_reports.1
+	title = RUS_international_reports.1.t
+	desc = RUS_international_reports.1.d
+	picture = GFX_report_event_SRI_palace
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_int_report_actor = yes }
+	immediate = {
+		set_country_flag = RUS_int_report_italy_seen
+		if = { limit = { NOT = { has_country_flag = RUS_int_report_visit_queued } } set_country_flag = RUS_int_report_visit_queued country_event = { id = RUS_international_reports.2 days = 7 } }
+	}
+	option = {
+		name = RUS_international_reports.1.a
+	}
+}
+
+country_event = {
+	id = RUS_international_reports.2
+	title = RUS_international_reports.2.t
+	desc = RUS_international_reports.2.d
+	picture = GFX_report_event_generic_diplomacy4
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_int_report_actor = yes }
+	immediate = {
+		set_country_flag = RUS_int_report_visit_seen
+	}
+	option = {
+		name = RUS_international_reports.2.a
+	}
+}
+
+country_event = {
+	id = RUS_international_reports.3
+	title = RUS_international_reports.3.t
+	desc = RUS_international_reports.3.d
+	picture = GFX_report_event_SPA_civwar
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_int_report_actor = yes }
+	immediate = {
+		set_country_flag = RUS_int_report_spain_seen
+	}
+	option = {
+		name = RUS_international_reports.3.a
+	}
+}
+
+country_event = {
+	id = RUS_international_reports.4
+	title = RUS_international_reports.4.t
+	desc = RUS_international_reports.4.d
+	picture = GFX_report_event_generic_rally
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_int_report_actor = yes }
+	immediate = {
+		set_country_flag = RUS_int_report_america_seen
+	}
+	option = {
+		name = RUS_international_reports.4.a
+	}
+	option = {
+		name = RUS_international_reports.4.b
+		hidden_effect = {
+			if = {
+				limit = { RUS_int_report_actor = yes NOT = { has_country_flag = RUS_int_report_speech_5_queued } }
+				set_country_flag = RUS_int_report_speech_5_queued
+				country_event = { id = RUS_international_reports.5 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = RUS_international_reports.5
+	title = RUS_international_reports.5.t
+	desc = RUS_international_reports.5.d
+	picture = GFX_report_event_generic_rally
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_int_report_actor = yes }
+	immediate = {
+		set_country_flag = RUS_int_report_speech_page_1_seen
+	}
+	option = {
+		name = RUS_international_reports.5.a
+		hidden_effect = {
+			if = {
+				limit = { RUS_int_report_actor = yes NOT = { has_country_flag = RUS_int_report_speech_6_queued } }
+				set_country_flag = RUS_int_report_speech_6_queued
+				country_event = { id = RUS_international_reports.6 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = RUS_international_reports.6
+	title = RUS_international_reports.6.t
+	desc = RUS_international_reports.6.d
+	picture = GFX_report_event_generic_rally
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_int_report_actor = yes }
+	immediate = {
+		set_country_flag = RUS_int_report_speech_page_2_seen
+	}
+	option = {
+		name = RUS_international_reports.6.a
+	}
+}
+
+country_event = {
+	id = RUS_international_reports.8
+	title = RUS_international_reports.8.t
+	desc = RUS_international_reports.8.d
+	picture = GFX_report_event_generic_rally
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = { RUS_int_report_actor = yes }
+	immediate = {
+		set_country_flag = RUS_int_report_south_seen
+	}
+	option = {
+		name = RUS_international_reports.8.a
+	}
+}

@@ -1,0 +1,19 @@
+RUS_int_report_actor = {
+	tag = RUS OR = { has_socialist_government = yes has_government = communist }
+}
+RUS_int_report_italy_victory = {
+	has_country_flag = RUS_int_report_italy_intervened
+	SRI = { exists = yes OR = { has_socialist_government = yes has_government = communist } has_country_flag = SRI_italy_unified_flag }
+}
+RUS_int_report_spain_victory = {
+	has_country_flag = RUS_int_report_spain_intervened
+	SWF = { exists = yes OR = { has_socialist_government = yes has_government = communist } has_country_flag = SPA_aftermath_of_the_civil_war owns_state = 41 }
+}
+RUS_int_report_south_victory = {
+	has_country_flag = RUS_int_report_south_intervened
+	FOP = { exists = yes OR = { has_socialist_government = yes has_government = communist } owns_state = 278 NOT = { country_exists = ARG } }
+}
+RUS_int_report_america_started = {
+	has_global_flag = USA_civil_war_begun_flag
+	NOT = { has_global_flag = USA_civil_war_over_flag }
+}

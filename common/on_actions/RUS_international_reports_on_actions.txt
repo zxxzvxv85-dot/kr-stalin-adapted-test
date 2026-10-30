@@ -1,0 +1,28 @@
+on_actions = {
+	on_send_volunteers = {
+		effect = {
+			if = {
+				limit = { ROOT = { RUS_int_report_actor = yes } FROM = { has_war = yes OR = { has_socialist_government = yes has_government = communist } } }
+				ROOT = {
+				if = {
+					limit = { FROM = { tag = SRI NOT = { has_country_flag = SRI_italy_unified_flag } } }
+					set_country_flag = RUS_int_report_italy_intervened
+				}
+				if = {
+					limit = { FROM = { tag = SWF NOT = { has_country_flag = SPA_aftermath_of_the_civil_war } } }
+					set_country_flag = RUS_int_report_spain_intervened
+				}
+				if = {
+					limit = { FROM = { OR = { tag = FOP tag = CHL } } country_exists = ARG }
+					set_country_flag = RUS_int_report_south_intervened
+				}
+				}
+			}
+		}
+	}
+	on_daily_RUS = {
+		effect = {
+			RUS_int_report_check = yes
+		}
+	}
+}

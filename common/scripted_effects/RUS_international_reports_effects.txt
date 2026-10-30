@@ -1,0 +1,22 @@
+RUS_int_report_check = {
+	if = {
+		limit = { RUS_int_report_actor = yes RUS_int_report_italy_victory = yes NOT = { has_country_flag = RUS_int_report_italy_queued } }
+		set_country_flag = RUS_int_report_italy_queued
+		country_event = { id = RUS_international_reports.1 }
+	}
+	if = {
+		limit = { RUS_int_report_actor = yes RUS_int_report_spain_victory = yes NOT = { has_country_flag = RUS_int_report_spain_queued } }
+		set_country_flag = RUS_int_report_spain_queued
+		country_event = { id = RUS_international_reports.3 }
+	}
+	if = {
+		limit = { RUS_int_report_actor = yes RUS_int_report_america_started = yes NOT = { has_country_flag = RUS_int_report_america_queued } }
+		set_country_flag = RUS_int_report_america_queued
+		country_event = { id = RUS_international_reports.4 }
+	}
+	if = {
+		limit = { RUS_int_report_actor = yes RUS_int_report_south_victory = yes NOT = { has_country_flag = RUS_int_report_south_queued } }
+		set_country_flag = RUS_int_report_south_queued
+		country_event = { id = RUS_international_reports.8 }
+	}
+}
