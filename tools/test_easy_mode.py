@@ -64,6 +64,7 @@ for tree, suffix in ((normal_armour, ""), (easy_armour, "_easy_bonus")):
 foci = {n.value("id"): n for tree in load(ROOT / "common/national_focus/RUS focus (Russia).txt") for n in tree.children("focus")}
 durability = foci["RUS_fr_hull_structural_durability_trials"]
 assert durability.one("completion_reward").one("set_technology").value("RUS_fr_tank_destroyer_breakthrough_bonus") == "1"
+assert sum(n.k == "custom_effect_tooltip" and n.v == "tech_effect|RUS_fr_tank_destroyer_breakthrough_bonus" for n in durability.one("completion_reward").v) == 1
 assert not any(n.k == "add_ideas" and n.v == "RUS_fr_tank_destroyer_structural_idea" for n in durability.one("completion_reward").v)
 assert not any(n.k == "custom_effect_tooltip" and n.v == "RUS_fr_tank_destroyer_breakthrough_bonus_tt" for n in durability.one("completion_reward").v)
 assert durability.one("mutually_exclusive").value("focus") == "RUS_fr_self_propelled_direct_fire_system"

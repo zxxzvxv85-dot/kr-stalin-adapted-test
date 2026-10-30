@@ -2,6 +2,12 @@
 
 最后更新：2026-10-30
 
+## 2026-10-30 — 修复合并科技奖励不展开效果
+
+- 用户实测结构耐久国策只显示获得科技名称，没有四项修正。上一轮误认为set_technology会自动展开科技效果，并删掉原补充提示；实际科技定义和授予逻辑仍完整。按KR FIN_anti_armour_weapons、SRI_raggruppamenti_esploranti和IRE_mass_adopt_radio_technology的原生写法，在原set_technology后补唯一custom_effect_tooltip = tech_effect|RUS_fr_tank_destroyer_breakthrough_bonus，直接读取科技效果，不另写数值文案、不再授予第二项科技或精神。
+- 普通模式仍为所有坦克歼击车杀伤/装甲杀伤/速度各+5%、突破+25%，简易模式原实际加成不变。增加原生展开提示唯一性断言，easy-mode回归、31军备国策/四物资边界及6整顿定时器回归通过；AST核对全主国策树除这一条只读提示外完全不变。结构456脚本/306本地化0错误，Git空白检查通过。RHoi主树909项已有诊断，修改所在行无诊断，无括号/未闭合阻断；repair仅dry-run147建议未应用。
+- 仅测试版开发目录，本轮未同步上传或推送GitHub，不启动游戏；此前未完成的原生提示游戏内验收仍需用户重启查看。本轮本地提交保存修复。
+
 ## 2026-10-30 — 坦克歼击车结构与突击标准合并
 
 - 用户要求将截图中的五型自行反坦克炮重复条目统一为“所有坦克歼击车”，随后要求合并结构/突击两项隐藏奖励。将原结构精神的对人员/对装甲杀伤各5%、速度5%并入原隐藏科技RUS_fr_tank_destroyer_breakthrough_bonus，与原突破25%共同放入原生category_tank_destroyers；名称改为“坦克歼击车结构与突击标准”，由set_technology原生显示一个分类/四条修正。三语名称与叙事同步，移除旧手写突破提示，数值交由引擎显示。
