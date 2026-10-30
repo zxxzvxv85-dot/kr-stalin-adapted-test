@@ -57,18 +57,19 @@ def render_vdv_base_bonus() -> list[str]:
     return [*lines, "\t\t}", "\t}", ""]
 
 
-def render_stat(node, depth: int = 0, vdv: bool = False) -> list[str]:
+def render_stat(node, depth: int = 0, vdv: bool = False, td_standard: bool = False) -> list[str]:
     indent = "\t" * depth
     if isinstance(node.v, list):
-        children = [line for child in node.v for line in render_stat(child, depth + 1, vdv or node.k == VDV_UNIT)]
+        children = [line for child in node.v for line in render_stat(child, depth + 1, vdv or node.k == VDV_UNIT, td_standard)]
         return [f"{indent}{node.k} = {{", *children, f"{indent}}}"] if children else []
-    if node.k not in BENEFICIAL_POSITIVE | BENEFICIAL_NEGATIVE:
+    positive = BENEFICIAL_POSITIVE | ({"maximum_speed"} if td_standard else set())
+    if node.k not in positive | BENEFICIAL_NEGATIVE:
         return []
     try:
         number = float(node.v)
     except (TypeError, ValueError):
         return []
-    if (number > 0 and node.k in BENEFICIAL_POSITIVE) or (number < 0 and node.k in BENEFICIAL_NEGATIVE):
+    if (number > 0 and node.k in positive) or (number < 0 and node.k in BENEFICIAL_NEGATIVE):
         value = number_text(Decimal(node.v) * VDV_EXTRA_COPIES) if vdv and node.k in BENEFICIAL_POSITIVE else node.v
         return [f"{indent}{node.k} = {value}"]
     return []
@@ -93,7 +94,7 @@ def render() -> tuple[str, str]:
             for technology in root.v:
                 if technology.k.startswith(EXCLUDED_TECH_PREFIXES):
                     continue
-                stats = [line for child in technology.v for line in render_stat(child, 2)]
+                stats = [line for child in technology.v for line in render_stat(child, 2, td_standard=technology.k == "RUS_fr_tank_destroyer_breakthrough_bonus")]
                 if not stats:
                     continue
                 bonus = f"{technology.k}_easy_bonus"

@@ -32,6 +32,9 @@ REMOVAL_FLAGS = {
 
 # Hostile political agitation is a penalty, not a benefit for an easy-mode Japan.
 EXCLUDED_IDEAS = {"RUS_japanese_antiwar_movement"}
+# These existing optional modules have no additional easy-mode idea copy.
+# Preserve that baseline when refreshing another module's modifiers.
+EXCLUDED_IDEA_PREFIXES = ("RUS_LR_", "RUS_odb_")
 
 NEGATIVE_IS_BENEFICIAL = {
     "air_fuel_consumption_factor",
@@ -85,7 +88,7 @@ def bonuses() -> dict[str, dict[str, list[str]]]:
                 for idea in category.v:
                     if not isinstance(idea.v, list):
                         continue
-                    if idea.k in EXCLUDED_IDEAS:
+                    if idea.k in EXCLUDED_IDEAS or idea.k.startswith(EXCLUDED_IDEA_PREFIXES):
                         continue
                     if upstream_ideas.get(idea.k) == idea.norm():
                         continue

@@ -1280,11 +1280,7 @@ RUS_fr_consolidate_armaments_construction_results = {
 			add_to_variable = { RUS_fr_unified_equipment_conversion_speed = 0.20 }
 			remove_ideas = RUS_fr_universal_hull_armour_priority_idea
 		}
-		if = {
-			limit = { has_idea = RUS_fr_tank_destroyer_structural_idea }
-			add_to_variable = { RUS_fr_unified_tank_destroyer_speed_factor = 0.05 }
-			remove_ideas = RUS_fr_tank_destroyer_structural_idea
-		}
+
 		if = {
 			limit = { has_idea = RUS_fr_armoured_firepower_coordination_idea }
 			add_to_variable = { RUS_fr_unified_armor_attack_factor = 0.05 }
@@ -1305,15 +1301,9 @@ RUS_fr_consolidate_armaments_construction_results = {
 			add_to_variable = { RUS_fr_unified_infantry_defence_factor = -0.05 }
 			add_ideas = RUS_fr_hidden_armour_basic_result
 			remove_ideas = RUS_fr_land_warfare_mainstay_idea
+
+
 			if = {
-				limit = { has_country_flag = RUS_fr_tank_destroyer_structural_results has_country_flag = RUS_fr_specialise_armour }
-				add_ideas = RUS_fr_unified_armaments_equipment_standard_priority_td_idea
-			}
-			else_if = {
-				limit = { has_country_flag = RUS_fr_tank_destroyer_structural_results }
-				add_ideas = RUS_fr_unified_armaments_equipment_standard_td_idea
-			}
-			else_if = {
 				limit = { has_country_flag = RUS_fr_specialise_armour }
 				add_ideas = RUS_fr_unified_armaments_equipment_standard_priority_idea
 			}

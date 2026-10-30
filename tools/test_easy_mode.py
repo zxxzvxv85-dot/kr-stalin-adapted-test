@@ -54,13 +54,18 @@ for tree, suffix in ((normal_armour, ""), (easy_armour, "_easy_bonus")):
         assert float(coordination.one(unit).value("hard_attack")) == 0.10
     td = tree.one("RUS_fr_tank_destroyer_breakthrough_bonus" + suffix)
     assert float(td.one("category_tank_destroyers").value("breakthrough")) == 0.25
+    for stat in ("soft_attack", "hard_attack", "maximum_speed"):
+        assert float(td.one("category_tank_destroyers").value(stat)) == 0.05
+    assert {n.k for n in td.v} == {"allow", "category_tank_destroyers"}
     assert td.one("allow").value("always") == "no"
 
 # The durability reward is direct, so both armour priorities receive it, and
-# its technology survives the later removal/consolidation of the old spirit.
+# the single category technology survives final military consolidation.
 foci = {n.value("id"): n for tree in load(ROOT / "common/national_focus/RUS focus (Russia).txt") for n in tree.children("focus")}
 durability = foci["RUS_fr_hull_structural_durability_trials"]
 assert durability.one("completion_reward").one("set_technology").value("RUS_fr_tank_destroyer_breakthrough_bonus") == "1"
+assert not any(n.k == "add_ideas" and n.v == "RUS_fr_tank_destroyer_structural_idea" for n in durability.one("completion_reward").v)
+assert not any(n.k == "custom_effect_tooltip" and n.v == "RUS_fr_tank_destroyer_breakthrough_bonus_tt" for n in durability.one("completion_reward").v)
 assert durability.one("mutually_exclusive").value("focus") == "RUS_fr_self_propelled_direct_fire_system"
 assert foci["RUS_fr_self_propelled_direct_fire_system"].one("mutually_exclusive").value("focus") == "RUS_fr_hull_structural_durability_trials"
 agriculture = (ROOT / "common/scripted_effects/RUS_national_agriculture_effects.txt").read_text(encoding="utf-8")
