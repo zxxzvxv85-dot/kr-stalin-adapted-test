@@ -1,0 +1,28 @@
+{
+  "source": "E:\\CloudMusic\\电台节目\\BF109中队长 - 神圣的战争 变奏版本 来自解放 炮火弧线.mp3",
+  "source_sha256": "ba698c587961510496656f31582d1c1bb43517febaa43312e83298a5fbc34b80",
+  "output": "music/RUS_final_struggle_sacred_war.ogg",
+  "sha256": "ccfe24b8532717ef0a954a317e3406c4c6366255da037d14ffd15c785ab37ee1",
+  "duration_seconds": 156.94473922902495,
+  "channels": 2,
+  "sample_rate": 44100,
+  "codec": "Vorbis",
+  "ffmpeg": "7.1 (imageio-ffmpeg 0.7.0)",
+  "conversion": [
+    "-map",
+    "0:a:0",
+    "-vn",
+    "-map_metadata",
+    "-1",
+    "-c:a",
+    "libvorbis",
+    "-q:a",
+    "6",
+    "-ar",
+    "44100",
+    "-ac",
+    "2"
+  ],
+  "full_decode_check": true,
+  "note": "Readiness >=75 branch .6 only; insufficient branch .5 retains original Autumn Dream. Event-only, volume 0.85."
+}
