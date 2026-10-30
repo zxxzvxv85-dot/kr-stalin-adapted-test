@@ -1151,10 +1151,25 @@ RUS_tesla_minesweeper_category = {
 }
 
 RUS_first_five_year_plan_industrial_projects = {
+    # RUS_RECOVERY_OVERVIEW_BEGIN
+    RUS_rc_overview = {
+        icon = GFX_decision_generic_construction
+        allowed = { original_tag = RUS }
+        visible = { RUS_rc_provisional_phase = yes }
+        cost = 0
+        ai_will_do = { base = 0 }
+        complete_effect = { hidden_effect = { set_variable = { RUS_rc_filter = 0 } } }
+    }
+    # RUS_RECOVERY_OVERVIEW_END
+
 	RUS_stalin_ffyp_expand_coal_prospecting = {
 		icon = GFX_decision_generic_industry
 		allowed = { original_tag = RUS }
 		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_stalin_ffyp_expand_coal_prospecting = yes
+		# RUS_RECOVERY_FILTER_END
+
 			has_completed_focus = RUS_kamenev_national_economic_line
 			NOT = { has_country_flag = RUS_stalin_ffyp_expand_coal_prospecting_started }
 		}
@@ -1235,6 +1250,10 @@ RUS_first_five_year_plan_industrial_projects = {
 		icon = GFX_decision_generic_industry
 		allowed = { original_tag = RUS }
 		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_stalin_ffyp_accelerate_urban_development = yes
+		# RUS_RECOVERY_FILTER_END
+
 			has_completed_focus = RUS_kamenev_arsenal_of_revolution
 			NOT = { has_country_flag = RUS_stalin_ffyp_accelerate_urban_development_started }
 		}
@@ -1418,6 +1437,10 @@ RUS_first_five_year_plan_industrial_projects = {
 		icon = GFX_decision_generic_electricity
 		allowed = { original_tag = RUS }
 		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_kamenev_all_russian_electrification = yes
+		# RUS_RECOVERY_FILTER_END
+
 			has_completed_focus = RUS_kamenev_national_economic_line
 		}
 		available = {
@@ -1513,7 +1536,11 @@ RUS_first_five_year_plan_industrial_projects = {
 	RUS_kamenev_all_russian_electrification_automatic = {
 		icon = GFX_decision_generic_electricity
 		allowed = { original_tag = RUS }
-		visible = { has_completed_focus = RUS_kamenev_national_economic_line }
+		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_kamenev_all_russian_electrification_automatic = yes
+		# RUS_RECOVERY_FILTER_END
+ has_completed_focus = RUS_kamenev_national_economic_line }
 		cost = 0
 		days_re_enable = 1
 		ai_will_do = { base = 0 }
@@ -1579,6 +1606,10 @@ RUS_first_five_year_plan_industrial_projects = {
 		icon = GFX_decision_hol_draw_up_staff_plans
 		allowed = { original_tag = RUS }
 		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_renovate_and_expand_moscow = yes
+		# RUS_RECOVERY_FILTER_END
+
 			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
 			219 = {
 				NOT = { has_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
@@ -1607,6 +1638,10 @@ RUS_first_five_year_plan_industrial_projects = {
 		icon = GFX_decision_hol_draw_up_staff_plans
 		allowed = { original_tag = RUS }
 		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_renovate_and_expand_tsaritsyn = yes
+		# RUS_RECOVERY_FILTER_END
+
 			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
 			217 = {
 				NOT = { has_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
@@ -1635,6 +1670,10 @@ RUS_first_five_year_plan_industrial_projects = {
 		icon = GFX_decision_hol_draw_up_staff_plans
 		allowed = { original_tag = RUS }
 		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_renovate_and_expand_saint_petersburg = yes
+		# RUS_RECOVERY_FILTER_END
+
 			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
 			195 = {
 				NOT = { has_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
@@ -1660,6 +1699,10 @@ RUS_first_five_year_plan_industrial_projects = {
 	}
 
 RUS_magnitogorsk = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_magnitogorsk = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_mountain_fortification
 		allowed = { always = no }
 		available = {
@@ -1716,6 +1759,10 @@ RUS_magnitogorsk = {
 		fixed_random_seed = no
 	}
 RUS_second_baku = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_second_baku = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_oil
 		allowed = { always = no }
 		available = {
@@ -1774,6 +1821,10 @@ RUS_second_baku = {
 		fixed_random_seed = no
 	}
 RUS_modernisation_of_AMO = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_modernisation_of_AMO = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = generic_tank
 		allowed = { always = no }
 		available = {
@@ -1844,6 +1895,10 @@ RUS_modernisation_of_AMO = {
 		fixed_random_seed = no
 	}
 RUS_izhevsk_mechanical_plant = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_izhevsk_mechanical_plant = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_merge_plant_tank
 		allowed = { always = no }
 		available = {
@@ -1912,6 +1967,10 @@ RUS_izhevsk_mechanical_plant = {
 		fixed_random_seed = no
 	}
 RUS_tula_arms_factory = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_tula_arms_factory = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_factories
 		allowed = { always = no }
 		available = {
@@ -1973,6 +2032,10 @@ RUS_tula_arms_factory = {
 		fixed_random_seed = no
 	}
 RUS_create_tankograd = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_create_tankograd = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = generic_merge_plant_tank
 		allowed = { always = no }
 		available = {
@@ -2048,6 +2111,10 @@ RUS_create_tankograd = {
 		fixed_random_seed = no
 	}
 RUS_convert_civilian_aviation_industry = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_convert_civilian_aviation_industry = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_merge_plant_aircraft
 		allowed = { always = no }
 		available = {
@@ -2134,6 +2201,10 @@ RUS_convert_civilian_aviation_industry = {
 		fixed_random_seed = no
 	}
 RUS_tsaritsyn_tractor_plant = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_tsaritsyn_tractor_plant = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_motorized
 		allowed = { always = no }
 		available = {
@@ -2197,6 +2268,10 @@ RUS_tsaritsyn_tractor_plant = {
 		fixed_random_seed = no
 	}
 RUS_chelyabinsk_tractor_plant = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_chelyabinsk_tractor_plant = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_motorized
 		allowed = { always = no }
 		available = {
@@ -2259,6 +2334,10 @@ RUS_chelyabinsk_tractor_plant = {
 		fixed_random_seed = no
 	}
 RUS_kursk_tractor_plant = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_kursk_tractor_plant = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_trucks
 		allowed = { always = no }
 		available = {
@@ -2299,6 +2378,10 @@ RUS_kursk_tractor_plant = {
 		fixed_random_seed = no
 	}
 RUS_rostselmash = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_rostselmash = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = generic_factory
 		allowed = { always = no }
 		available = {
@@ -2347,6 +2430,10 @@ RUS_rostselmash = {
 		fixed_random_seed = no
 	}
 RUS_stavropol_hydroelectric_dam = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_stavropol_hydroelectric_dam = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = hol_drain_water_lines
 		allowed = { always = no }
 		available = {
@@ -2418,6 +2505,10 @@ RUS_stavropol_hydroelectric_dam = {
 		fixed_random_seed = no
 	}
 RUS_rybinsk_hydroelectric_dam = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_rybinsk_hydroelectric_dam = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = hol_drain_water_lines
 		allowed = { always = no }
 		available = {
@@ -2489,6 +2580,10 @@ RUS_rybinsk_hydroelectric_dam = {
 		fixed_random_seed = no
 	}
 RUS_zhiguli_hydroelectric_dam = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_zhiguli_hydroelectric_dam = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = hol_drain_water_lines
 		allowed = { always = no }
 		available = {
@@ -2560,6 +2655,10 @@ RUS_zhiguli_hydroelectric_dam = {
 		fixed_random_seed = no
 	}
 RUS_krasnoyarsk_hydroelectric_dam = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_krasnoyarsk_hydroelectric_dam = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = hol_drain_water_lines
 		allowed = { always = no }
 		available = {
@@ -2631,6 +2730,10 @@ RUS_krasnoyarsk_hydroelectric_dam = {
 		fixed_random_seed = no
 	}
 RUS_lipetsk_metallurgical_plant = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_lipetsk_metallurgical_plant = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = steel
 		allowed = { always = no }
 		available = {
@@ -2680,6 +2783,10 @@ RUS_lipetsk_metallurgical_plant = {
 		fixed_random_seed = no
 	}
 RUS_uralmash = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_uralmash = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_merge_plant_tank
 		allowed = { always = no }
 		available = {
@@ -2734,6 +2841,10 @@ RUS_uralmash = {
 		fixed_random_seed = no
 	}
 RUS_motovilikha_plants = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_motovilikha_plants = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = generic_motorized
 		allowed = { always = no }
 		available = {
@@ -2774,7 +2885,11 @@ RUS_motovilikha_plants = {
 		}
 		fixed_random_seed = no
 	}
-RUS_admiralty_dockyards = { #Unlocked by RUS_yekaterinas_legacy
+RUS_admiralty_dockyards = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_admiralty_dockyards = yes }
+		# RUS_RECOVERY_FILTER_END
+ #Unlocked by RUS_yekaterinas_legacy
 		icon = generic_naval
 		allowed = { always = no }
 		available = {
@@ -2831,7 +2946,11 @@ RUS_kamensky_uralsky = { #Kachkanar
 			has_tech = excavation3
 			FROM = { is_fully_controlled_by = ROOT }
 		}
-		visible = { 653 = { is_owned_and_controlled_by = ROOT } } #Yekaterinburg
+		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_kamensky_uralsky = yes
+		# RUS_RECOVERY_FILTER_END
+ 653 = { is_owned_and_controlled_by = ROOT } } #Yekaterinburg
 		cost = RUS_ic_cost_low
 
 		state_target = yes
@@ -2885,7 +3004,11 @@ RUS_grozny_oil = {
 			has_tech = excavation1
 			FROM = { is_owned_and_controlled_by_ROOT_or_subject = yes }
 		}
-		visible = { 961 = { is_owned_and_controlled_by_ROOT_or_subject = yes } } #Chechnya
+		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_grozny_oil = yes
+		# RUS_RECOVERY_FILTER_END
+ 961 = { is_owned_and_controlled_by_ROOT_or_subject = yes } } #Chechnya
 		cost = RUS_ic_cost_med
 
 		state_target = yes
@@ -2951,7 +3074,11 @@ RUS_arctic_mines = {
 			has_tech = excavation3
 			FROM = { is_fully_controlled_by = ROOT }
 		}
-		visible = { 213 = { is_owned_and_controlled_by = ROOT } } #Murmansk
+		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_arctic_mines = yes
+		# RUS_RECOVERY_FILTER_END
+ 213 = { is_owned_and_controlled_by = ROOT } } #Murmansk
 		cost = RUS_ic_cost_low
 
 		state_target = yes
@@ -3012,7 +3139,11 @@ RUS_tyrnyauz_tungsten = {
 			has_tech = excavation3
 			FROM = { is_owned_and_controlled_by_ROOT_or_subject = yes }
 		}
-		visible = { 233 = { is_owned_and_controlled_by_ROOT_or_subject = yes } } #Terek
+		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_tyrnyauz_tungsten = yes
+		# RUS_RECOVERY_FILTER_END
+ 233 = { is_owned_and_controlled_by_ROOT_or_subject = yes } } #Terek
 		cost = RUS_ic_cost_low
 
 		state_target = yes
@@ -3059,7 +3190,11 @@ RUS_romanshkino_oil = {
 			has_tech = excavation2
 			FROM = { is_fully_controlled_by = ROOT }
 		}
-		visible = { 249 = { is_owned_and_controlled_by = ROOT } } #Kazan
+		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_romanshkino_oil = yes
+		# RUS_RECOVERY_FILTER_END
+ 249 = { is_owned_and_controlled_by = ROOT } } #Kazan
 		cost = RUS_ic_cost_med
 
 		state_target = yes
@@ -3118,6 +3253,10 @@ RUS_romanshkino_oil = {
 		fixed_random_seed = no
 	}
 RUS_northern_route = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_northern_route = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = train
 		allowed = { always = no }
 		available = {
@@ -3169,6 +3308,10 @@ RUS_northern_route = {
 		fixed_random_seed = no
 	}
 RUS_upgrade_the_railroad_chelyabinsk = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_upgrade_the_railroad_chelyabinsk = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_railroad
 		allowed = { always = no }
 		available = {
@@ -3211,6 +3354,10 @@ RUS_upgrade_the_railroad_chelyabinsk = {
 		fixed_random_seed = no
 	}
 RUS_upgrade_the_railroad_krasnoyarsk = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_upgrade_the_railroad_krasnoyarsk = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_railroad
 		allowed = { always = no }
 		available = {
@@ -3253,6 +3400,10 @@ RUS_upgrade_the_railroad_krasnoyarsk = {
 		fixed_random_seed = no
 	}
 RUS_upgrade_the_railroad_vladivostok = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_upgrade_the_railroad_vladivostok = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_railroad
 		allowed = { always = no }
 		available = {
@@ -3325,6 +3476,10 @@ RUS_upgrade_the_railroad_vladivostok = {
 		fixed_random_seed = no
 	}
 RUS_kuznetsk_basin = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_kuznetsk_basin = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = coal
 		allowed = { always = no }
 		available = {
@@ -3376,6 +3531,10 @@ RUS_kuznetsk_basin = {
 		fixed_random_seed = no
 	}
 RUS_bodaybo_gold_mines = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_bodaybo_gold_mines = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = gre_investment_decisions
 		allowed = { always = no }
 		available = {
@@ -3417,6 +3576,10 @@ RUS_bodaybo_gold_mines = {
 		fixed_random_seed = no
 	}
 RUS_far_eastern_fishing_industry = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_far_eastern_fishing_industry = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_cod
 		allowed = { always = no }
 		available = {
@@ -3474,6 +3637,10 @@ RUS_far_eastern_fishing_industry = {
 		fixed_random_seed = no
 	}
 RUS_krasnoyarskpromstroy = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_krasnoyarskpromstroy = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = generic_factory
 		allowed = { always = no }
 		available = {
@@ -3516,6 +3683,10 @@ RUS_krasnoyarskpromstroy = {
 		fixed_random_seed = no
 	}
 RUS_dalnremmash = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_dalnremmash = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_factories
 		allowed = { always = no }
 		available = {
@@ -3557,6 +3728,10 @@ RUS_dalnremmash = {
 		fixed_random_seed = no
 	}
 RUS_rudny_altay = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_rudny_altay = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = steel
 		allowed = { always = no }
 		available = {
@@ -3612,6 +3787,10 @@ RUS_rudny_altay = {
 		fixed_random_seed = no
 	}
 RUS_tekeli_metallurgical_combine = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_tekeli_metallurgical_combine = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = tungsten
 		allowed = { always = no }
 		available = {
@@ -3672,6 +3851,10 @@ RUS_tekeli_metallurgical_combine = {
 		fixed_random_seed = no
 	}
 RUS_emba_oil_area = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_emba_oil_area = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = oil
 		allowed = { always = no }
 		available = {
@@ -3757,6 +3940,10 @@ RUS_emba_oil_area = {
 		fixed_random_seed = no
 	}
 RUS_verny_cotton_industry = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_verny_cotton_industry = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_cotton
 		allowed = { always = no }
 		available = {
@@ -3796,6 +3983,10 @@ RUS_verny_cotton_industry = {
 		fixed_random_seed = no
 	}
 	RUS_siberian_timber_industries = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_siberian_timber_industries = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_generic_forestry
 		allowed = { always = no }
 		available = {
@@ -3850,6 +4041,10 @@ RUS_verny_cotton_industry = {
 	}
 
 	RUS_improve_roads_in_central_russia = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_improve_roads_in_central_russia = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_cement_mixer
 		allowed = { always = no }
 		available = {
@@ -3917,6 +4112,10 @@ RUS_verny_cotton_industry = {
 	}
 
 	RUS_improve_roads_in_northern_russia = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_improve_roads_in_northern_russia = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_cement_mixer
 		allowed = { always = no }
 		available = {
@@ -3969,6 +4168,10 @@ RUS_verny_cotton_industry = {
 	}
 
 	RUS_improve_roads_in_the_volga_basin = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		visible = { RUS_rc_show_RUS_improve_roads_in_the_volga_basin = yes }
+		# RUS_RECOVERY_FILTER_END
+
 		icon = GFX_decision_cement_mixer
 		allowed = { always = no }
 		available = {
@@ -4027,6 +4230,10 @@ RUS_verny_cotton_industry = {
 		icon = GFX_decision_railroad
 		allowed = { always = no }
 		visible = {
+		# RUS_RECOVERY_FILTER_BEGIN
+		RUS_rc_show_RUS_central_asia_railroads = yes
+		# RUS_RECOVERY_FILTER_END
+
 			402 = { #Turgay
 				is_owned_and_controlled_by_ROOT_or_subject = yes
 			}

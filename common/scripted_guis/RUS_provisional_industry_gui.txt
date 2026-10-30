@@ -1,0 +1,21 @@
+scripted_gui = {
+RUS_rc_dashboard = {
+context_type = decision_category
+window_name = "RUS_rc_window"
+visible = { RUS_rc_provisional_phase = yes }
+effects = {
+relief_click = {
+hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 1 } } }
+}
+factory_click = {
+hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 2 } } }
+}
+rail_click = {
+hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 3 } } }
+}
+road_click = {
+hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 4 } } }
+}
+}
+}
+}
