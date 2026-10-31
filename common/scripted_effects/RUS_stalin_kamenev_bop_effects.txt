@@ -37,6 +37,21 @@ RUS_stalin_ensure_stalin_sic_role = {
 
 
 		}
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_iosif_stalin = {
+RUS_ui_nf_init_RUS_iosif_stalin_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_RUS_stalin_general_secretary_sic
+clr_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_stalin_bop
+clr_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_stalin
+set_character_flag = RUS_ui_nf_second_in_command_RUS_stalin_general_secretary_sic
+set_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_stalin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_iosif_stalin = { RUS_ui_nf_order_RUS_iosif_stalin_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
 	}
 }
 
@@ -302,7 +317,29 @@ RUS_stalin_sverdlov_refresh_sic_trait = {
 		}
 		RUS_yakov_sverdlov = {
 			remove_trait = { trait = KR_red_eminence slot = second_in_command }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_red_eminence
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
 			add_trait = { trait = RUS_red_eminence_sverdlov_sic slot = second_in_command }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_RUS_red_eminence_sverdlov_sic
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
 		}
 	}
 }

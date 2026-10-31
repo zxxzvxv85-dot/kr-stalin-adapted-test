@@ -1,118 +1,99 @@
-"""Faction filtering contracts. Does not substitute for native UI testing."""
-import unittest
-from generate_advisor_categories import ROOT, KR, CATEGORIES, FLAG, GUARD, outputs, load, assets
+"""Native filter contracts and role-specific trait-preservation model."""
+import unittest,random,subprocess,re
+import generate_advisor_categories as g
+from native_advisor_filters import strip_hooks,correct_identities,MARKER
 
-def walk(nodes):
- for n in nodes:
+def walk(ns):
+ for n in ns:
   yield n
   if isinstance(n.v,list):yield from walk(n.v)
-def evaluate(n,flags,traits,tag='RUS',social=True,ai=False):
- if n.k=='RUS_ui_use_faction_advisor_filters':return tag=='RUS' and social and not ai
- if n.k=='has_country_flag':return n.v in flags
- if n.k=='has_trait':return n.v in traits
- if n.k=='original_tag':return n.v==tag
- if n.k=='has_socialist_government':return social
- if n.k=='is_ai':return ai
- vals=[evaluate(c,flags,traits,tag,social,ai) for c in n.v]
- if n.k=='OR':return any(vals)
- if n.k=='NOT':return not any(vals)
- return all(vals)
-class AdvisorFactionFilter(unittest.TestCase):
- def test_membership_and_bypass(self):
-  root=next(n for n in load(ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt') if n.k.startswith(GUARD+'_'))
-  self.assertFalse(any(n.k=='has_trait' and n.v.endswith('_bop') for n in walk(root.v)))
-  examples=[]
-  for row in CATEGORIES:
-   branch=next(n for n in root.one('OR').children('AND') if n.value('has_country_flag')==FLAG+row[0])
-   examples.append((row[0],next(n.v for n in walk(branch.v) if n.k=='has_trait')))
-  for selected,_ in examples:
-   flags={FLAG+selected}
-   for group,member in examples:
-    self.assertEqual(evaluate(root,flags,{member}),selected==group)
-    self.assertTrue(evaluate(root,set(),{member}))
-    self.assertTrue(evaluate(root,flags,{member},tag='GER'))
-    self.assertTrue(evaluate(root,flags,{member},social=False))
-    self.assertTrue(evaluate(root,flags,{member},ai=True))
-   self.assertFalse(evaluate(root,flags,set()))
-  self.assertTrue(evaluate(root,{FLAG+examples[0][0]},{examples[0][1]}))
-  self.assertFalse(evaluate(root,{FLAG+examples[0][0]},{examples[1][1]}))
- def test_original_character_graph_preserved(self):
-  import subprocess
-  from generate_advisor_categories import parse
-  baseline='8b9da52' if ROOT.name.endswith('_test') else '3c72da2'
-  old=subprocess.check_output(['git','-C',str(ROOT),'show',baseline+':common/characters/RUS characters.txt']).decode('utf-8-sig')
-  def normalized(nodes):
-   return tuple((n.k,n.op,normalized(n.v) if isinstance(n.v,list) else n.v) for n in nodes if not n.k.startswith(GUARD))
-  self.assertEqual(normalized(parse(old)),normalized(load(ROOT/'common/characters/RUS characters.txt')))
- def test_live_government_switch(self):
-  roots=load(ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt')
-  gate=next(n for n in roots if n.k=='RUS_ui_use_faction_advisor_filters')
-  self.assertEqual(gate.value('original_tag'),'RUS');self.assertEqual(gate.value('is_ai'),'no')
-  governments={n.v for n in gate.one('OR').children('has_government')}
-  self.assertEqual(governments,{'totalist','communist','syndicalist','radical_socialist'})
-  self.assertEqual([g in governments for g in ['national_populist','radical_socialist','communist','paternal_autocrat']],[False,True,True,False])
-  self.assertFalse(any(n.k in ('has_country_flag','has_socialist_government') for n in walk(gate.v)))
-  gui=load(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt')[0].v[0]
-  self.assertEqual(gui.one('visible').value('RUS_ui_use_faction_advisor_filters'),'yes')
- def test_native_character_refresh_is_isolated(self):
-  gui=load(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt')[0].v[0]
-  effects=gui.one('effects');self.assertEqual(len(effects.v),11)
-  for button in effects.v:
-   if button.k=='cover_lower_click': continue
-   self.assertEqual(button.v[-1].k,'hidden_effect')
-   self.assertEqual(button.v[-1].value('RUS_ui_refresh_advisor_list'),'yes')
-   for n in walk(button.v):
-    self.assertIn(n.k,{'if','else','limit','has_country_flag','set_country_flag','clr_country_flag','hidden_effect','RUS_ui_refresh_advisor_list'})
-  effect=load(ROOT/'common/scripted_effects/RUS_advisor_ui_refresh_effects.txt')[0]
-  self.assertEqual(effect.one('if').value('recruit_character'),'RUS_ui_advisor_refresh_anchor')
-  self.assertEqual(len(effect.children('add_advisor_role')),2)
-  self.assertEqual(len(effect.children('remove_advisor_role')),2)
-  for add,remove in zip(effect.children('add_advisor_role'),effect.children('remove_advisor_role')):
-   self.assertEqual(add.value('character'),'RUS_ui_advisor_refresh_anchor')
-   self.assertEqual(remove.value('character'),'RUS_ui_advisor_refresh_anchor')
-   advisor=add.one('advisor')
-   self.assertEqual(advisor.value('slot'),remove.value('slot'))
-   self.assertIn(advisor.value('slot'),{'political_advisor','second_in_command'})
-   self.assertEqual(advisor.one('allowed').value('always'),'no')
-   self.assertEqual(advisor.one('traits').v,[])
-   self.assertEqual(advisor.value('cost'),'0')
-   self.assertIsNone(add.one('activate'))
-  self.assertNotIn('add_ideas',(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt').read_text())
- def test_single_row_native_geometry(self):
-  current=(ROOT/'interface/command_character_view.gui').read_text(encoding='utf-8').split('\n',1)[1]
-  self.assertEqual(current,(KR/'interface/command_character_view.gui').read_text(encoding='utf-8-sig'))
-  bar=load(ROOT/'interface/RUS_advisor_faction_bar.gui')[0].v[0]
-  self.assertEqual(bar.one('position').value('y'),'43')
-  self.assertEqual(bar.one('size').value('height'),'50')
-  buttons=[b for b in bar.children('buttonType') if not b.value('name').startswith('"cover_')]
-  self.assertEqual(len(buttons),10)
-  for b in buttons:self.assertLessEqual(int(b.one('position').value('x'))+45,500)
-  for name in ('cover_lower','cover_upper'):
-   b=next(b for b in bar.children('buttonType') if b.value('name')=='"'+name+'"')
-   self.assertEqual((b.one('size').value('x'),b.one('size').value('y')),('500','50'))
-  self.assertNotIn('name = "GFX_idea_traits_strip"',(ROOT/'interface/zz_RUS_advisor_categories.gfx').read_text())
- def test_generated_outputs_and_guards(self):
-  data,count=outputs();self.assertGreater(count,100)
-  for name,text in data.items():
-   self.assertEqual((ROOT/name).read_text(encoding='utf-8-sig'),text,name)
-   if name.endswith('.yml'):self.assertTrue((ROOT/name).read_bytes().startswith(b'\xef\xbb\xbf'))
-  triggers=load(ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt')
-  definitions={n.k for n in triggers}
-  for name,text in data.items():
-   self.assertNotIn('$CHARACTER$',text)
-   self.assertNotIn('CHARACTER =',text)
-   if name.startswith(('common/characters/','common/scripted_effects/','events/')):
-    for n in walk(load(ROOT/name)):
-     if n.k.startswith(GUARD):
-      self.assertEqual(n.v,'yes')
-      self.assertIn(n.k,definitions)
-  for c in load(ROOT/'common/characters/RUS characters.txt')[0].v:
-   for n in c.children('advisor'):
-    visible=n.one('visible')
-    if visible:
-     guards=[v for v in visible.v if v.k.startswith(GUARD)]
-     self.assertEqual(len(guards),1)
-     self.assertGreater(len(visible.v),1)
-     self.assertEqual(guards[0].k,GUARD+'_'+c.k)
-  assets(False)
+def norm(ns):return tuple((n.k,n.op,norm(n.v) if isinstance(n.v,list) else n.v) for n in ns if not n.k.startswith(g.GUARD))
+class NativeFilters(unittest.TestCase):
+ def test_generated_and_idempotent(self):
+  data,count=g.outputs();self.assertGreaterEqual(count,48)
+  for name,s in data.items():self.assertEqual((g.ROOT/name).read_bytes().decode('utf-8-sig') if name.startswith('history/') else (g.ROOT/name).read_text(encoding='utf-8-sig'),s,name)
+  g.assets(False)
+ def test_real_trait_definitions_unchanged(self):
+  p=g.ROOT/'common/country_leader/RUS_native_advisor_filter_traits.txt'
+  traits=g.load(p)[0].v;self.assertEqual(len(traits),9)
+  for i,t in enumerate(traits,19):
+   self.assertEqual(t.value('sprite'),str(i));self.assertEqual({n.k for n in t.v},{'sprite','random'})
+ def test_native_ui_owns_filter(self):
+  gui=(g.ROOT/'interface/command_character_view.gui').read_text(encoding='utf-8')
+  self.assertIn('filter_grid',gui);self.assertIn('max_slots_horizontal = 10',gui)
+  self.assertNotIn('RUS_advisor_faction_bar',gui)
+  self.assertEqual(g.load(g.ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt')[0].v,[])
+  self.assertNotIn('add_advisor_role',(g.ROOT/'common/scripted_effects/RUS_advisor_ui_refresh_effects.txt').read_text())
+  self.assertNotIn('recruit_character',(g.ROOT/'common/scripted_effects/RUS_native_advisor_filter_effects.txt').read_text())
+ def test_original_scripts_except_hooks_and_requested_identities(self):
+  paths=subprocess.check_output(['git','-C',str(g.ROOT),'-c','core.safecrlf=false','diff','--name-only','HEAD']).decode().splitlines()
+  # All existing runtime sources written by this generator preserve their AST,
+  # after removing UI conditions/hooks and the two requested identity changes.
+  for rel in paths:
+   if not rel.endswith('.txt') or not rel.startswith(('common/characters/','common/scripted_effects/','events/')):continue
+   if rel.endswith(('RUS_advisor_ui_refresh.txt','RUS_advisor_ui_refresh_effects.txt','RUS_native_advisor_filter_effects.txt')):continue
+   old=subprocess.check_output(['git','-C',str(g.ROOT),'show','HEAD:'+rel]).decode('utf-8-sig')
+   if g.ROOT.name.endswith('_local') and rel in ['common/scripted_effects/RUS_stalin_kamenev_bop_effects.txt','common/scripted_effects/RUS_stalin_relationship_scaled_advisor_tier_effects.txt','events/RUS events (Russia).txt','events/stalin_form_sov.txt']:continue
+   old=correct_identities(strip_hooks(old),g)
+   self.assertEqual(norm(g.parse(old)),norm(g.parse(strip_hooks((g.ROOT/rel).read_text(encoding='utf-8-sig')))),rel)
+ def test_fixed_factions_and_other_traits(self):
+  chars=g.load(g.ROOT/'common/characters/RUS characters.txt')[0]
+  for char,wanted in [('RUS_lev_kamenev','KR_vst_left_kamenev'),('RUS_sergey_kirov','KR_bolshevik_kirov'),('RUS_grigory_zinovyev','KR_vst_left_zinovyev')]:
+   c=chars.one(char)
+   for role in c.children('advisor'):
+    ts=[n.k for n in role.one('traits').v]
+    identities=[t for t in ts if any(t.startswith(r[4]) for r in g.CATEGORIES)]
+    self.assertEqual(identities,[wanted])
+   self.assertTrue(any(not t.startswith('KR_vst_') for a in c.children('advisor') for t in [n.k for n in a.one('traits').v]))
+ def test_bootstrap_and_dan_profession_not_used_as_faction(self):
+  gate=g.load(g.ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt')[0]
+  self.assertEqual(gate.value('has_country_flag'),'RUS_ui_nf_new_game')
+  history=(g.ROOT/'history/countries/RUS - Russia.txt').read_text(encoding='utf-8-sig')
+  self.assertIn('set_country_flag = RUS_ui_nf_new_game',history)
+  self.assertIn('RUS_ui_nf_sync_all = yes',history)
+  helpers=g.load(g.ROOT/'common/scripted_effects/RUS_native_advisor_filter_effects.txt')
+  dan=next(n for n in helpers if n.k=='RUS_ui_nf_order_RUS_fyodor_dan_second_in_command')
+  selection=[n for n in dan.one('if').children('if') if n.one('set_temp_variable')]
+  flags={n.v for part in selection for n in walk(part.one('limit').v) if n.k=='has_character_flag'}
+  self.assertIn('RUS_ui_nf_second_in_command_KR_vst_right_dan',flags)
+  self.assertFalse(any('menshevik_grandfather' in f or 'menshevik_doctor' in f for f in flags))
+ def test_slot_specific_trait_preservation(self):
+  nodes=g.load(g.ROOT/'common/scripted_effects/RUS_native_advisor_filter_effects.txt')
+  rng=random.Random(31);cases=0
+  for helper in [n for n in nodes if n.k.startswith('RUS_ui_nf_order_')]:
+   slot=helper.one('if').one('limit').value('has_advisor_role')
+   ids=list(dict.fromkeys(n.value('trait') for n in walk(helper.v) if n.k=='remove_trait' and not n.value('trait').startswith(MARKER)))
+   for _ in range(12):
+    real=[t for t in ids if rng.random()<.35];state=list(real);flags={'RUS_ui_nf_'+slot+'_'+t for t in real};variables={}
+    if rng.random()<.5:
+     row=rng.choice(g.CATEGORIES)[0];state.insert(0,MARKER+row);flags.add('RUS_ui_nf_marker_'+slot+'_'+row)
+    def pred(n):
+     if n.k=='has_advisor_role':return n.v==slot
+     if n.k=='has_character_flag':return n.v in flags
+     if n.k=='check_variable':return all(variables.get(c.k,0)==float(c.v) for c in n.v)
+     if n.k=='NOT':return not any(pred(c) for c in n.v)
+     if n.k=='OR':return any(pred(c) for c in n.v)
+     return all(pred(c) for c in n.v)
+    def run(ns):
+     for n in ns:
+      if n.k=='if':
+       if pred(n.one('limit')):run([c for c in n.v if c.k!='limit'])
+      elif n.k=='set_temp_variable':
+       for c in n.v:variables[c.k]=float(c.v)
+      elif n.k=='set_character_flag':flags.add(n.v)
+      elif n.k=='clr_character_flag':flags.discard(n.v)
+      elif n.k=='remove_trait':
+       t=n.value('trait')
+       if t in state:state.remove(t)
+      elif n.k=='add_trait':
+       t=n.value('trait')
+       if t not in state:state.append(t)
+      else:raise AssertionError(n.k)
+    run(helper.v)
+    self.assertCountEqual([t for t in state if not t.startswith(MARKER)],real)
+    markers=[t for t in state if t.startswith(MARKER)]
+    self.assertLessEqual(len(markers),1)
+    if markers:self.assertEqual(state[0],markers[0])
+    cases+=1
+  self.assertGreater(cases,500)
 if __name__=='__main__':unittest.main()

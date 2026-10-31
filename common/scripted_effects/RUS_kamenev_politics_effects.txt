@@ -4,16 +4,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_yakov_sverdlov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_yakov_sverdlov_political_advisor } }
    remove_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = KR_red_eminence }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_red_eminence
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = KR_bolshevik_sverdlov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_bolshevik_sverdlov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = RUS_relationship_display_sverdlov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_sverdlov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_yakov_sverdlov_political_advisor
    clr_country_flag = RUS_route_traits_RUS_yakov_sverdlov_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_yakov_sverdlov_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_yakov_sverdlov_political_advisor }
     remove_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = KR_bolshevik_sverdlov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_bolshevik_sverdlov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = RUS_relationship_display_sverdlov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_sverdlov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_yakov_sverdlov slot = political_advisor trait = KR_red_eminence }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_red_eminence
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_yakov_sverdlov_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_yakov_sverdlov_political_advisor
@@ -21,13 +87,35 @@ RUS_sync_political_advisor_route = {
  }
  if = { limit = { has_character = RUS_lev_kamenev }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_lev_kamenev_political_advisor } }
-   add_trait = { character = RUS_lev_kamenev slot = political_advisor trait = KR_bolshevik_kamenev }
+   add_trait = { character = RUS_lev_kamenev slot = political_advisor trait = KR_vst_left_kamenev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_lev_kamenev = {
+RUS_ui_nf_init_RUS_lev_kamenev_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_vst_left_kamenev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_lev_kamenev = { RUS_ui_nf_order_RUS_lev_kamenev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_lev_kamenev_political_advisor
    clr_country_flag = RUS_route_traits_RUS_lev_kamenev_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_lev_kamenev_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_lev_kamenev_political_advisor }
     remove_trait = { character = RUS_lev_kamenev slot = political_advisor trait = KR_bolshevik_kamenev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_lev_kamenev = {
+RUS_ui_nf_init_RUS_lev_kamenev_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_bolshevik_kamenev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_lev_kamenev = { RUS_ui_nf_order_RUS_lev_kamenev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_lev_kamenev_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_lev_kamenev_political_advisor
@@ -35,13 +123,35 @@ RUS_sync_political_advisor_route = {
  }
  if = { limit = { has_character = RUS_lev_kamenev }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_lev_kamenev_second_in_command } }
-   add_trait = { character = RUS_lev_kamenev slot = second_in_command trait = KR_bolshevik_kamenev_bop }
+   add_trait = { character = RUS_lev_kamenev slot = second_in_command trait = KR_vst_left_kamenev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_lev_kamenev = {
+RUS_ui_nf_init_RUS_lev_kamenev_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_KR_vst_left_kamenev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_lev_kamenev = { RUS_ui_nf_order_RUS_lev_kamenev_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_lev_kamenev_second_in_command
    clr_country_flag = RUS_route_traits_RUS_lev_kamenev_second_in_command_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_lev_kamenev_second_in_command_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_lev_kamenev_second_in_command }
     remove_trait = { character = RUS_lev_kamenev slot = second_in_command trait = KR_bolshevik_kamenev_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_lev_kamenev = {
+RUS_ui_nf_init_RUS_lev_kamenev_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_kamenev_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_lev_kamenev = { RUS_ui_nf_order_RUS_lev_kamenev_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_lev_kamenev_second_in_command_kr
    clr_country_flag = RUS_route_traits_RUS_lev_kamenev_second_in_command
@@ -49,13 +159,35 @@ RUS_sync_political_advisor_route = {
  }
  if = { limit = { has_character = RUS_grigory_zinovyev }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command } }
-   add_trait = { character = RUS_grigory_zinovyev slot = second_in_command trait = KR_bolshevik_zinovyev }
+   add_trait = { character = RUS_grigory_zinovyev slot = second_in_command trait = KR_vst_left_zinovyev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_grigory_zinovyev = {
+RUS_ui_nf_init_RUS_grigory_zinovyev_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_KR_vst_left_zinovyev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_grigory_zinovyev = { RUS_ui_nf_order_RUS_grigory_zinovyev_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command
    clr_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command }
     remove_trait = { character = RUS_grigory_zinovyev slot = second_in_command trait = KR_bolshevik_zinovyev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_grigory_zinovyev = {
+RUS_ui_nf_init_RUS_grigory_zinovyev_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_zinovyev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_grigory_zinovyev = { RUS_ui_nf_order_RUS_grigory_zinovyev_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command_kr
    clr_country_flag = RUS_route_traits_RUS_grigory_zinovyev_second_in_command
@@ -64,16 +196,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_ilya_mayorov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor } }
    remove_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_agricultural_economist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_ilya_mayorov = {
+RUS_ui_nf_init_RUS_ilya_mayorov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_agricultural_economist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ilya_mayorov = { RUS_ui_nf_order_RUS_ilya_mayorov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_spiridonist_mayorov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_ilya_mayorov = {
+RUS_ui_nf_init_RUS_ilya_mayorov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_mayorov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ilya_mayorov = { RUS_ui_nf_order_RUS_ilya_mayorov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = RUS_relationship_display_mayorov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_ilya_mayorov = {
+RUS_ui_nf_init_RUS_ilya_mayorov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_mayorov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ilya_mayorov = { RUS_ui_nf_order_RUS_ilya_mayorov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor
    clr_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor }
     remove_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_spiridonist_mayorov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_ilya_mayorov = {
+RUS_ui_nf_init_RUS_ilya_mayorov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_mayorov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ilya_mayorov = { RUS_ui_nf_order_RUS_ilya_mayorov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = RUS_relationship_display_mayorov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_ilya_mayorov = {
+RUS_ui_nf_init_RUS_ilya_mayorov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_mayorov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ilya_mayorov = { RUS_ui_nf_order_RUS_ilya_mayorov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_ilya_mayorov slot = political_advisor trait = KR_agricultural_economist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_ilya_mayorov = {
+RUS_ui_nf_init_RUS_ilya_mayorov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_agricultural_economist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ilya_mayorov = { RUS_ui_nf_order_RUS_ilya_mayorov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_ilya_mayorov_political_advisor
@@ -82,16 +280,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_nikolay_zdobnov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_nikolay_zdobnov_political_advisor } }
    remove_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = KR_political_specialist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_nikolay_zdobnov = {
+RUS_ui_nf_init_RUS_nikolay_zdobnov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_political_specialist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_nikolay_zdobnov = { RUS_ui_nf_order_RUS_nikolay_zdobnov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = KR_spiridonist_zdobnov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_nikolay_zdobnov = {
+RUS_ui_nf_init_RUS_nikolay_zdobnov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_zdobnov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_nikolay_zdobnov = { RUS_ui_nf_order_RUS_nikolay_zdobnov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = RUS_relationship_display_zdobnov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_nikolay_zdobnov = {
+RUS_ui_nf_init_RUS_nikolay_zdobnov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_zdobnov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_nikolay_zdobnov = { RUS_ui_nf_order_RUS_nikolay_zdobnov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_nikolay_zdobnov_political_advisor
    clr_country_flag = RUS_route_traits_RUS_nikolay_zdobnov_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_nikolay_zdobnov_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_nikolay_zdobnov_political_advisor }
     remove_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = KR_spiridonist_zdobnov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_nikolay_zdobnov = {
+RUS_ui_nf_init_RUS_nikolay_zdobnov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_zdobnov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_nikolay_zdobnov = { RUS_ui_nf_order_RUS_nikolay_zdobnov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = RUS_relationship_display_zdobnov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_nikolay_zdobnov = {
+RUS_ui_nf_init_RUS_nikolay_zdobnov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_zdobnov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_nikolay_zdobnov = { RUS_ui_nf_order_RUS_nikolay_zdobnov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_nikolay_zdobnov slot = political_advisor trait = KR_political_specialist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_nikolay_zdobnov = {
+RUS_ui_nf_init_RUS_nikolay_zdobnov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_political_specialist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_nikolay_zdobnov = { RUS_ui_nf_order_RUS_nikolay_zdobnov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_nikolay_zdobnov_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_nikolay_zdobnov_political_advisor
@@ -100,12 +364,34 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_boris_kamkov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_boris_kamkov_second_in_command } }
    add_trait = { character = RUS_boris_kamkov slot = second_in_command trait = KR_spiridonist_kamkov_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_KR_spiridonist_kamkov_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_boris_kamkov_second_in_command
    clr_country_flag = RUS_route_traits_RUS_boris_kamkov_second_in_command_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_boris_kamkov_second_in_command_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_boris_kamkov_second_in_command }
     remove_trait = { character = RUS_boris_kamkov slot = second_in_command trait = KR_spiridonist_kamkov_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_spiridonist_kamkov_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_boris_kamkov_second_in_command_kr
    clr_country_flag = RUS_route_traits_RUS_boris_kamkov_second_in_command
@@ -114,16 +400,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_boris_kamkov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_boris_kamkov_political_advisor } }
    remove_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_socialist_idealist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_socialist_idealist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_spiridonist_kamkov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_kamkov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_boris_kamkov slot = political_advisor trait = RUS_relationship_display_kamkov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kamkov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_boris_kamkov_political_advisor
    clr_country_flag = RUS_route_traits_RUS_boris_kamkov_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_boris_kamkov_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_boris_kamkov_political_advisor }
     remove_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_spiridonist_kamkov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_kamkov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_boris_kamkov slot = political_advisor trait = RUS_relationship_display_kamkov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kamkov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_boris_kamkov slot = political_advisor trait = KR_socialist_idealist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_boris_kamkov = {
+RUS_ui_nf_init_RUS_boris_kamkov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_socialist_idealist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_boris_kamkov = { RUS_ui_nf_order_RUS_boris_kamkov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_boris_kamkov_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_boris_kamkov_political_advisor
@@ -131,13 +483,35 @@ RUS_sync_political_advisor_route = {
  }
  if = { limit = { has_character = RUS_sergey_kirov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_sergey_kirov_second_in_command } }
-   add_trait = { character = RUS_sergey_kirov slot = second_in_command trait = KR_bolshevik_kirov_bop }
+   add_trait = { character = RUS_sergey_kirov slot = second_in_command trait = KR_bolshevik_kirov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_sergey_kirov = {
+RUS_ui_nf_init_RUS_sergey_kirov_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_kirov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_kirov = { RUS_ui_nf_order_RUS_sergey_kirov_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_sergey_kirov_second_in_command
    clr_country_flag = RUS_route_traits_RUS_sergey_kirov_second_in_command_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_sergey_kirov_second_in_command_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_sergey_kirov_second_in_command }
     remove_trait = { character = RUS_sergey_kirov slot = second_in_command trait = KR_bolshevik_kirov_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_sergey_kirov = {
+RUS_ui_nf_init_RUS_sergey_kirov_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_kirov_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_kirov = { RUS_ui_nf_order_RUS_sergey_kirov_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_sergey_kirov_second_in_command_kr
    clr_country_flag = RUS_route_traits_RUS_sergey_kirov_second_in_command
@@ -146,16 +520,72 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_sergey_kirov }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_sergey_kirov_political_advisor } }
    remove_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_prince_of_petrograd }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_sergey_kirov = {
+RUS_ui_nf_init_RUS_sergey_kirov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_prince_of_petrograd
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_kirov = { RUS_ui_nf_order_RUS_sergey_kirov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_bolshevik_kirov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_sergey_kirov = {
+RUS_ui_nf_init_RUS_sergey_kirov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_bolshevik_kirov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_kirov = { RUS_ui_nf_order_RUS_sergey_kirov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_sergey_kirov slot = political_advisor trait = RUS_relationship_display_kirov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_sergey_kirov = {
+RUS_ui_nf_init_RUS_sergey_kirov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kirov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_kirov = { RUS_ui_nf_order_RUS_sergey_kirov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_sergey_kirov_political_advisor
    clr_country_flag = RUS_route_traits_RUS_sergey_kirov_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_sergey_kirov_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_sergey_kirov_political_advisor }
-    remove_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_bolshevik_kirov }
+    # Fixed adviser faction identity is retained.
+
     remove_trait = { character = RUS_sergey_kirov slot = political_advisor trait = RUS_relationship_display_kirov }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_sergey_kirov = {
+RUS_ui_nf_init_RUS_sergey_kirov_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kirov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_kirov = { RUS_ui_nf_order_RUS_sergey_kirov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_sergey_kirov slot = political_advisor trait = KR_prince_of_petrograd }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_sergey_kirov = {
+RUS_ui_nf_init_RUS_sergey_kirov_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_prince_of_petrograd
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_kirov = { RUS_ui_nf_order_RUS_sergey_kirov_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_sergey_kirov_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_sergey_kirov_political_advisor
@@ -164,16 +594,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_vladimir_karelin }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_vladimir_karelin_political_advisor } }
    remove_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = KR_leading_diplomat }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_leading_diplomat
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = KR_spiridonist_karelin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_karelin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = RUS_relationship_display_karelin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_karelin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_vladimir_karelin_political_advisor
    clr_country_flag = RUS_route_traits_RUS_vladimir_karelin_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_vladimir_karelin_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_vladimir_karelin_political_advisor }
     remove_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = KR_spiridonist_karelin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_karelin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = RUS_relationship_display_karelin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_karelin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_vladimir_karelin slot = political_advisor trait = KR_leading_diplomat }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_leading_diplomat
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_vladimir_karelin_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_vladimir_karelin_political_advisor
@@ -182,12 +678,34 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_vladimir_karelin }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_vladimir_karelin_second_in_command } }
    add_trait = { character = RUS_vladimir_karelin slot = second_in_command trait = KR_spiridonist_karelin_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_KR_spiridonist_karelin_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_vladimir_karelin_second_in_command
    clr_country_flag = RUS_route_traits_RUS_vladimir_karelin_second_in_command_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_vladimir_karelin_second_in_command_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_vladimir_karelin_second_in_command }
     remove_trait = { character = RUS_vladimir_karelin slot = second_in_command trait = KR_spiridonist_karelin_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_vladimir_karelin = {
+RUS_ui_nf_init_RUS_vladimir_karelin_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_spiridonist_karelin_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_karelin = { RUS_ui_nf_order_RUS_vladimir_karelin_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_vladimir_karelin_second_in_command_kr
    clr_country_flag = RUS_route_traits_RUS_vladimir_karelin_second_in_command
@@ -196,16 +714,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_aleksandr_elyashevich }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_aleksandr_elyashevich_political_advisor } }
    remove_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = KR_industrialiser }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_aleksandr_elyashevich = {
+RUS_ui_nf_init_RUS_aleksandr_elyashevich_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_industrialiser
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_elyashevich = { RUS_ui_nf_order_RUS_aleksandr_elyashevich_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = KR_spiridonist_elyashevich }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_aleksandr_elyashevich = {
+RUS_ui_nf_init_RUS_aleksandr_elyashevich_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_elyashevich
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_elyashevich = { RUS_ui_nf_order_RUS_aleksandr_elyashevich_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = RUS_relationship_display_elyashevich }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_aleksandr_elyashevich = {
+RUS_ui_nf_init_RUS_aleksandr_elyashevich_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_elyashevich
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_elyashevich = { RUS_ui_nf_order_RUS_aleksandr_elyashevich_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_aleksandr_elyashevich_political_advisor
    clr_country_flag = RUS_route_traits_RUS_aleksandr_elyashevich_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_aleksandr_elyashevich_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_aleksandr_elyashevich_political_advisor }
     remove_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = KR_spiridonist_elyashevich }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_aleksandr_elyashevich = {
+RUS_ui_nf_init_RUS_aleksandr_elyashevich_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_spiridonist_elyashevich
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_elyashevich = { RUS_ui_nf_order_RUS_aleksandr_elyashevich_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = RUS_relationship_display_elyashevich }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_aleksandr_elyashevich = {
+RUS_ui_nf_init_RUS_aleksandr_elyashevich_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_elyashevich
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_elyashevich = { RUS_ui_nf_order_RUS_aleksandr_elyashevich_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_aleksandr_elyashevich slot = political_advisor trait = KR_industrialiser }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_aleksandr_elyashevich = {
+RUS_ui_nf_init_RUS_aleksandr_elyashevich_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_industrialiser
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_elyashevich = { RUS_ui_nf_order_RUS_aleksandr_elyashevich_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_aleksandr_elyashevich_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_aleksandr_elyashevich_political_advisor
@@ -214,12 +798,34 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_isaak_steinberg }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_isaak_steinberg_second_in_command } }
    add_trait = { character = RUS_isaak_steinberg slot = second_in_command trait = KR_sr_steinberg_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_KR_sr_steinberg_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_isaak_steinberg_second_in_command
    clr_country_flag = RUS_route_traits_RUS_isaak_steinberg_second_in_command_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_isaak_steinberg_second_in_command_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_isaak_steinberg_second_in_command }
     remove_trait = { character = RUS_isaak_steinberg slot = second_in_command trait = KR_sr_steinberg_bop }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_sr_steinberg_bop
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_isaak_steinberg_second_in_command_kr
    clr_country_flag = RUS_route_traits_RUS_isaak_steinberg_second_in_command
@@ -228,16 +834,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_isaak_steinberg }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_isaak_steinberg_political_advisor } }
    remove_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_cooperatives_proponent_steinberg }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_cooperatives_proponent_steinberg
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_sr_steinberg }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_sr_steinberg
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = RUS_relationship_display_steinberg }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_steinberg
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_isaak_steinberg_political_advisor
    clr_country_flag = RUS_route_traits_RUS_isaak_steinberg_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_isaak_steinberg_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_isaak_steinberg_political_advisor }
     remove_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_sr_steinberg }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_sr_steinberg
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = RUS_relationship_display_steinberg }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_steinberg
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_isaak_steinberg slot = political_advisor trait = KR_cooperatives_proponent_steinberg }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_isaak_steinberg = {
+RUS_ui_nf_init_RUS_isaak_steinberg_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_cooperatives_proponent_steinberg
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_isaak_steinberg = { RUS_ui_nf_order_RUS_isaak_steinberg_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_isaak_steinberg_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_isaak_steinberg_political_advisor
@@ -246,16 +918,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_yevgeny_sattel }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_yevgeny_sattel_political_advisor } }
    remove_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = KR_internationalist_propagandist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yevgeny_sattel = {
+RUS_ui_nf_init_RUS_yevgeny_sattel_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_internationalist_propagandist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yevgeny_sattel = { RUS_ui_nf_order_RUS_yevgeny_sattel_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = KR_sr_sattel }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yevgeny_sattel = {
+RUS_ui_nf_init_RUS_yevgeny_sattel_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_sr_sattel
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yevgeny_sattel = { RUS_ui_nf_order_RUS_yevgeny_sattel_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = RUS_relationship_display_sattel }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yevgeny_sattel = {
+RUS_ui_nf_init_RUS_yevgeny_sattel_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_sattel
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yevgeny_sattel = { RUS_ui_nf_order_RUS_yevgeny_sattel_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_yevgeny_sattel_political_advisor
    clr_country_flag = RUS_route_traits_RUS_yevgeny_sattel_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_yevgeny_sattel_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_yevgeny_sattel_political_advisor }
     remove_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = KR_sr_sattel }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yevgeny_sattel = {
+RUS_ui_nf_init_RUS_yevgeny_sattel_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_sr_sattel
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yevgeny_sattel = { RUS_ui_nf_order_RUS_yevgeny_sattel_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = RUS_relationship_display_sattel }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yevgeny_sattel = {
+RUS_ui_nf_init_RUS_yevgeny_sattel_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_sattel
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yevgeny_sattel = { RUS_ui_nf_order_RUS_yevgeny_sattel_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_yevgeny_sattel slot = political_advisor trait = KR_internationalist_propagandist }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yevgeny_sattel = {
+RUS_ui_nf_init_RUS_yevgeny_sattel_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_internationalist_propagandist
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yevgeny_sattel = { RUS_ui_nf_order_RUS_yevgeny_sattel_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_yevgeny_sattel_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_yevgeny_sattel_political_advisor
@@ -264,16 +1002,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_andrey_kolegayev }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_andrey_kolegayev_political_advisor } }
    remove_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = KR_peasant_populist_3 }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_peasant_populist_3
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = KR_maximalist_kolegayev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_maximalist_kolegayev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = RUS_relationship_display_kolegayev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kolegayev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_andrey_kolegayev_political_advisor
    clr_country_flag = RUS_route_traits_RUS_andrey_kolegayev_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_andrey_kolegayev_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_andrey_kolegayev_political_advisor }
     remove_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = KR_maximalist_kolegayev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_maximalist_kolegayev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = RUS_relationship_display_kolegayev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kolegayev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_andrey_kolegayev slot = political_advisor trait = KR_peasant_populist_3 }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_peasant_populist_3
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_andrey_kolegayev_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_andrey_kolegayev_political_advisor
@@ -282,12 +1086,34 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_andrey_kolegayev }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_andrey_kolegayev_second_in_command } }
    add_trait = { character = RUS_andrey_kolegayev slot = second_in_command trait = KR_maximalist_kolegayev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_second_in_command = yes
+set_character_flag = RUS_ui_nf_second_in_command_KR_maximalist_kolegayev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_andrey_kolegayev_second_in_command
    clr_country_flag = RUS_route_traits_RUS_andrey_kolegayev_second_in_command_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_andrey_kolegayev_second_in_command_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_andrey_kolegayev_second_in_command }
     remove_trait = { character = RUS_andrey_kolegayev slot = second_in_command trait = KR_maximalist_kolegayev }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_andrey_kolegayev = {
+RUS_ui_nf_init_RUS_andrey_kolegayev_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_maximalist_kolegayev
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_andrey_kolegayev_second_in_command_kr
    clr_country_flag = RUS_route_traits_RUS_andrey_kolegayev_second_in_command
@@ -296,16 +1122,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_irina_kakhovskaya }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_irina_kakhovskaya_political_advisor } }
    remove_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = KR_princess_of_terror }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_irina_kakhovskaya = {
+RUS_ui_nf_init_RUS_irina_kakhovskaya_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_princess_of_terror
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_irina_kakhovskaya = { RUS_ui_nf_order_RUS_irina_kakhovskaya_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = KR_maximalist_kakhovskaya }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_irina_kakhovskaya = {
+RUS_ui_nf_init_RUS_irina_kakhovskaya_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_maximalist_kakhovskaya
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_irina_kakhovskaya = { RUS_ui_nf_order_RUS_irina_kakhovskaya_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = RUS_relationship_display_kakhovskaya }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_irina_kakhovskaya = {
+RUS_ui_nf_init_RUS_irina_kakhovskaya_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kakhovskaya
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_irina_kakhovskaya = { RUS_ui_nf_order_RUS_irina_kakhovskaya_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_irina_kakhovskaya_political_advisor
    clr_country_flag = RUS_route_traits_RUS_irina_kakhovskaya_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_irina_kakhovskaya_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_irina_kakhovskaya_political_advisor }
     remove_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = KR_maximalist_kakhovskaya }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_irina_kakhovskaya = {
+RUS_ui_nf_init_RUS_irina_kakhovskaya_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_maximalist_kakhovskaya
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_irina_kakhovskaya = { RUS_ui_nf_order_RUS_irina_kakhovskaya_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = RUS_relationship_display_kakhovskaya }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_irina_kakhovskaya = {
+RUS_ui_nf_init_RUS_irina_kakhovskaya_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_kakhovskaya
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_irina_kakhovskaya = { RUS_ui_nf_order_RUS_irina_kakhovskaya_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_irina_kakhovskaya slot = political_advisor trait = KR_princess_of_terror }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_irina_kakhovskaya = {
+RUS_ui_nf_init_RUS_irina_kakhovskaya_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_princess_of_terror
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_irina_kakhovskaya = { RUS_ui_nf_order_RUS_irina_kakhovskaya_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_irina_kakhovskaya_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_irina_kakhovskaya_political_advisor
@@ -314,16 +1206,82 @@ RUS_sync_political_advisor_route = {
  if = { limit = { has_character = RUS_yakov_blyumkin }
   if = { limit = { RUS_uses_kamenev_politics = yes NOT = { has_country_flag = RUS_route_traits_RUS_yakov_blyumkin_political_advisor } }
    remove_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = KR_legendary_rogue }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_blyumkin = {
+RUS_ui_nf_init_RUS_yakov_blyumkin_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_legendary_rogue
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_blyumkin = { RUS_ui_nf_order_RUS_yakov_blyumkin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = KR_sr_blyumkin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_blyumkin = {
+RUS_ui_nf_init_RUS_yakov_blyumkin_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_sr_blyumkin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_blyumkin = { RUS_ui_nf_order_RUS_yakov_blyumkin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    add_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = RUS_relationship_display_blyumkin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_blyumkin = {
+RUS_ui_nf_init_RUS_yakov_blyumkin_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_blyumkin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_blyumkin = { RUS_ui_nf_order_RUS_yakov_blyumkin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    set_country_flag = RUS_route_traits_RUS_yakov_blyumkin_political_advisor
    clr_country_flag = RUS_route_traits_RUS_yakov_blyumkin_political_advisor_kr
   }
   else_if = { limit = { RUS_uses_kamenev_politics = no NOT = { has_country_flag = RUS_route_traits_RUS_yakov_blyumkin_political_advisor_kr } }
    if = { limit = { has_country_flag = RUS_route_traits_RUS_yakov_blyumkin_political_advisor }
     remove_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = KR_sr_blyumkin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_blyumkin = {
+RUS_ui_nf_init_RUS_yakov_blyumkin_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_KR_sr_blyumkin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_blyumkin = { RUS_ui_nf_order_RUS_yakov_blyumkin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     remove_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = RUS_relationship_display_blyumkin }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_blyumkin = {
+RUS_ui_nf_init_RUS_yakov_blyumkin_political_advisor = yes
+clr_character_flag = RUS_ui_nf_political_advisor_RUS_relationship_display_blyumkin
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_blyumkin = { RUS_ui_nf_order_RUS_yakov_blyumkin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
     add_trait = { character = RUS_yakov_blyumkin slot = political_advisor trait = KR_legendary_rogue }
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_blyumkin = {
+RUS_ui_nf_init_RUS_yakov_blyumkin_political_advisor = yes
+set_character_flag = RUS_ui_nf_political_advisor_KR_legendary_rogue
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_blyumkin = { RUS_ui_nf_order_RUS_yakov_blyumkin_political_advisor = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
    }
    set_country_flag = RUS_route_traits_RUS_yakov_blyumkin_political_advisor_kr
    clr_country_flag = RUS_route_traits_RUS_yakov_blyumkin_political_advisor
@@ -337,4 +1295,8 @@ RUS_sync_political_advisor_route = {
   set_country_flag = RUS_kr_advisor_cleanup_done
  }
  if = { limit = { RUS_uses_kamenev_politics = yes } clr_country_flag = RUS_kr_advisor_cleanup_done }
+
+# RUS_NATIVE_FILTER_BEGIN
+RUS_ui_nf_sync_all = yes
+# RUS_NATIVE_FILTER_END
 }

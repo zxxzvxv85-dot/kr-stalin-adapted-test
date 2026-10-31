@@ -203,6 +203,21 @@ country_event = {
 
 
 		}
+# RUS_NATIVE_FILTER_BEGIN
+ROOT = {
+RUS_yakov_sverdlov = {
+RUS_ui_nf_init_RUS_yakov_sverdlov_second_in_command = yes
+clr_character_flag = RUS_ui_nf_second_in_command_KR_red_eminence
+clr_character_flag = RUS_ui_nf_second_in_command_RUS_red_eminence_sverdlov_sic
+clr_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_sverdlov
+set_character_flag = RUS_ui_nf_second_in_command_RUS_red_eminence_sverdlov_sic
+set_character_flag = RUS_ui_nf_second_in_command_KR_bolshevik_sverdlov
+}
+if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_yakov_sverdlov = { RUS_ui_nf_order_RUS_yakov_sverdlov_second_in_command = yes } }
+}
+# RUS_NATIVE_FILTER_END
+
+
 		custom_effect_tooltip = tooltip_white_line
 		set_politics = {
 			ruling_party = communist
