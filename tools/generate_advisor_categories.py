@@ -134,7 +134,8 @@ def outputs():
             '  window_name = "RUS_advisor_faction_bar"','  parent_window_name = "command_character_view_window"',
             '  ai_enabled = { always = no }','  visible = { RUS_ui_use_faction_advisor_filters = yes }','  effects = {']
     clear=' '.join('clr_country_flag = '+FLAG+row[0] for row in CATEGORIES)
-    script += ['   cover_lower_click = { }','   all_click = { '+clear+' }']
+    refresh='hidden_effect = { add_ideas = RUS_ui_advisor_refresh_signal remove_ideas = RUS_ui_advisor_refresh_signal }'
+    script += ['   cover_lower_click = { }','   all_click = { '+clear+' '+refresh+' }']
     selected=['   cover_upper_click_enabled = { always = no }','   selected_all_visible = { NOT = { OR = { '+flags+' } } }']
     entries=[('all',None)]+[(r[0],i) for i,r in enumerate(CATEGORIES,19)]
     for index,(key,frame) in enumerate(entries):
@@ -143,11 +144,14 @@ def outputs():
                '  iconType = { name = "selected_'+key+'" position = { x = '+str(x+21)+' y = 24 } spriteType = "GFX_RUS_native_advisor_category_filter_button" frame = 2 centerposition = yes alwaystransparent = yes }']
         if frame is not None:
             ui += ['  iconType = { name = "icon_'+key+'" position = { x = '+str(x+20)+' y = 22 } spriteType = "GFX_RUS_advisor_faction_strip" frame = '+str(frame)+' centerposition = yes alwaystransparent = yes }']
-            script += ['   '+key+'_click = { if = { limit = { has_country_flag = '+FLAG+key+' } '+clear+' } else = { '+clear+' set_country_flag = '+FLAG+key+' } }']
+            script += ['   '+key+'_click = { if = { limit = { has_country_flag = '+FLAG+key+' } '+clear+' } else = { '+clear+' set_country_flag = '+FLAG+key+' } '+refresh+' }']
             selected += ['   selected_'+key+'_visible = { has_country_flag = '+FLAG+key+' }']
     ui += [' }','}'];script += ['  }','  triggers = {']+selected+['  }',' }','}']
     result['interface/RUS_advisor_faction_bar.gui']='\n'.join(ui)+'\n'
     result['common/scripted_guis/RUS_advisor_faction_bar.txt']='\n'.join(script)+'\n'
+    # Empty hidden idea emits the native ideas-changed notification; it is removed
+    # in the same click. No modifiers, callbacks, cost or persistent game reward.
+    result['common/ideas/RUS_advisor_ui_refresh.txt']='ideas = { hidden_ideas = { RUS_ui_advisor_refresh_signal = { } } }\n'
     result['interface/zz_RUS_advisor_categories.gfx']='spriteTypes = {\n SpriteType = { name = "GFX_RUS_advisor_faction_strip" texturefile = "'+ATLAS+'" noOfFrames = 27 }\n}\n'
     for language,col,all_text,short in [('simp_chinese',1,'显示全部顾问','全部'),('english',2,'Show all advisors','All'),('russian',3,'Все советники','Все')]:
         lines=[f'l_{language}:',f' RUS_advisor_filter_all: "{all_text}"',f' RUS_advisor_filter_all_short: "{short}"']

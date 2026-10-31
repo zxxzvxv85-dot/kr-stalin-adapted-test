@@ -54,15 +54,22 @@ class AdvisorFactionFilter(unittest.TestCase):
   self.assertFalse(any(n.k in ('has_country_flag','has_socialist_government') for n in walk(gate.v)))
   gui=load(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt')[0].v[0]
   self.assertEqual(gui.one('visible').value('RUS_ui_use_faction_advisor_filters'),'yes')
- def test_clicks_only_write_ui_flags(self):
+ def test_clicks_write_ui_flags_and_refresh_without_gameplay_rewards(self):
   gui=load(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt')[0].v[0]
   self.assertEqual(gui.value('parent_window_name'),'"command_character_view_window"')
   effects=gui.one('effects');self.assertEqual(len(effects.v),11)
   for button in effects.v:
    for n in walk(button.v):
-    self.assertIn(n.k,{'if','else','limit','has_country_flag','set_country_flag','clr_country_flag'})
+    self.assertIn(n.k,{'if','else','limit','has_country_flag','set_country_flag','clr_country_flag','hidden_effect','add_ideas','remove_ideas'})
     if n.k.endswith('country_flag'):self.assertTrue(n.v.startswith(FLAG))
-  self.assertEqual(len(effects.one('all_click').v),9)
+  self.assertEqual(len(effects.one('all_click').v),10)
+  for button in effects.v:
+   if button.k=='cover_lower_click': continue
+   signal=button.v[-1]
+   self.assertEqual(signal.k,'hidden_effect')
+   self.assertEqual([(n.k,n.v) for n in signal.v],[('add_ideas','RUS_ui_advisor_refresh_signal'),('remove_ideas','RUS_ui_advisor_refresh_signal')])
+  idea=load(ROOT/'common/ideas/RUS_advisor_ui_refresh.txt')[0].one('hidden_ideas').one('RUS_ui_advisor_refresh_signal')
+  self.assertEqual(idea.v,[])
  def test_single_row_native_geometry(self):
   current=(ROOT/'interface/command_character_view.gui').read_text(encoding='utf-8').split('\n',1)[1]
   self.assertEqual(current,(KR/'interface/command_character_view.gui').read_text(encoding='utf-8-sig'))
