@@ -2755,6 +2755,8 @@ country_event = { #Choosing New Chairman-Minister
 				traits = { RUS_vozhd }
 				can_be_fired = no
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_boris_savinkov } }
 		}
 		custom_effect_tooltip = RUS_disable_factionalism_tt
 		set_country_flag = RUS_factionalism_disabled
@@ -3421,6 +3423,8 @@ country_event = { #New Supreme Commander-in-Chief
 				cost = 50
 				can_be_fired = no
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_anton_turkul } }
 		}
 		RUS_yevgeny_miller = { promote_leader = yes }
 	}
@@ -3462,6 +3466,8 @@ country_event = { #New Supreme Commander-in-Chief
 				cost = 100
 				can_be_fired = no
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_vladimir_manstein } }
 		}
 		add_power_balance_value = {
 			id = RUS_power_balance
@@ -3484,6 +3490,8 @@ country_event = { #New Supreme Commander-in-Chief
 				cost = 100
 				can_be_fired = no
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_pyotr_glazenap } }
 		}
 	}
 
@@ -4948,9 +4956,13 @@ country_event = { #The Palace Coup
 							traits = { KR_army_chief_reform_2 }
 							cost = 100
 							can_be_fired = no
-						}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_aleksandr_kutepov } }
+		}
 						activate = yes
-					}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_aleksandr_kutepov } }
+		}
 				}
 			}
 		}
@@ -15473,6 +15485,8 @@ country_event = { #Future elections for empire
 				desc = RUS_dmitry_romanov_advisor_desc
 				traits = { KR_banker_prince }
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_dmitry_romanov } }
 		}
 		if = {
 			limit = { is_in_coalition_with_market_liberal = no }
@@ -15900,6 +15914,8 @@ country_event = { #Boldyrev wishes to return #
 				traits = { KR_air_chief_ground_support_1 }
 				cost = 75
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_vasily_boldyrev } }
 		}
 		add_popularity = { ideology = social_liberal popularity = 0.02 }
 		set_temp_variable = { RUS_anger_change = 1 }
@@ -16493,8 +16509,12 @@ country_event = { #Denikin retires
 							traits = { KR_army_chief_manoeuvre_3 }
 							cost = 200
 							can_be_fired = no
-						}
-					}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_sergey_markov } }
+		}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_sergey_markov } }
+		}
 				}
 			}
 			else = {
@@ -22488,6 +22508,8 @@ country_event = { #Coup in the Kremlin (Monarchy)
 				desc = RUS_pyotr_wrangel_leader_desc
 				traits = { KR_old_general_sic }
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_pyotr_wrangel } }
 		}
 		set_politics = {
 			ruling_party = paternal_autocrat
@@ -22830,7 +22852,9 @@ country_event = { #Coronation of Wrangel
 					can_be_fired = no
 				}
 				activate = yes
-			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_mikhail_drozdovsky } }
+		}
 		}
 		else = {
 			activate_advisor = RUS_mikhail_drozdovsky_army_chief
@@ -25464,6 +25488,8 @@ country_event = { #New Premier is chosen
 				traits = { KR_economic_reformer_sic KR_vst_centre_shlyapnikov }
 				can_be_fired = no
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_aleksandr_shlyapnikov } }
 		}
 	}
 	option = {
@@ -25511,6 +25537,8 @@ country_event = { #New Premier is chosen
 				traits = { KR_silent_workhorse_sic KR_vst_left_syrtsov }
 				can_be_fired = no
 			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_sergey_syrtsov } }
 		}
 		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_VST_right_relation = yes
@@ -25546,7 +25574,9 @@ country_event = { #Comrade Dan's Departure
 					traits = { KR_dream_of_democracy KR_vst_right_abramovich }
 					can_be_fired = no
 				}
-			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_rafail_abramovich } }
+		}
 			custom_effect_tooltip = RUS_dan_retire_tt
 		}
 		else_if = {
@@ -25561,7 +25591,9 @@ country_event = { #Comrade Dan's Departure
 					traits = { KR_socialist_industrializer_sic KR_vst_centre_shatov }
 					can_be_fired = no
 				}
-			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_vladimir_shatov } }
+		}
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_VST_centre_relation = yes
 		}
@@ -34136,7 +34168,9 @@ country_event = { #Elections
 					traits = { KR_determined_democrat }
 					can_be_fired = no
 				}
-			}
+
+			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_gergard_zeller } }
+		}
 			activate_advisor = RUS_aleksandr_verkhovsky_army_chief
 			complete_national_focus = RUS_socdems
 		}

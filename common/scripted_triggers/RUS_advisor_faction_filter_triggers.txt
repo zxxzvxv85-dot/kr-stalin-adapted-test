@@ -1,0 +1,16 @@
+# UI selection only. Original advisor conditions remain in their own visible blocks.
+RUS_ui_use_faction_advisor_filters = { original_tag = RUS is_ai = no OR = { has_government = totalist has_government = communist has_government = syndicalist has_government = radical_socialist } }
+RUS_ui_advisor_matches_faction = {
+ OR = { NOT = { RUS_ui_use_faction_advisor_filters = yes }
+  NOT = { OR = { has_country_flag = RUS_ui_advisor_faction_bolshevik has_country_flag = RUS_ui_advisor_faction_sr has_country_flag = RUS_ui_advisor_faction_sr_populist has_country_flag = RUS_ui_advisor_faction_sr_maximalist has_country_flag = RUS_ui_advisor_faction_vst_left has_country_flag = RUS_ui_advisor_faction_vst_centre has_country_flag = RUS_ui_advisor_faction_vst_right has_country_flag = RUS_ui_advisor_faction_menshevik has_country_flag = RUS_ui_advisor_faction_sds } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_bolshevik $CHARACTER$ = { OR = { has_trait = KR_bolshevik_bukharin has_trait = KR_bolshevik_frunze has_trait = KR_bolshevik_kaganovich has_trait = KR_bolshevik_kalinin has_trait = KR_bolshevik_kamenev has_trait = KR_bolshevik_kirov has_trait = KR_bolshevik_stalin has_trait = KR_bolshevik_supreme_soviet has_trait = KR_bolshevik_sverdlov has_trait = KR_bolshevik_yezhov has_trait = KR_bolshevik_zhdanov has_trait = KR_bolshevik_zinovyev } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_sr $CHARACTER$ = { OR = { has_trait = KR_sr_blyumkin has_trait = KR_sr_sattel has_trait = KR_sr_steinberg } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_sr_populist $CHARACTER$ = { OR = { has_trait = KR_spiridonist_elyashevich has_trait = KR_spiridonist_kamkov has_trait = KR_spiridonist_karelin has_trait = KR_spiridonist_mayorov has_trait = KR_spiridonist_zdobnov } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_sr_maximalist $CHARACTER$ = { OR = { has_trait = KR_maximalist_gronsky has_trait = KR_maximalist_kakhovskaya has_trait = KR_maximalist_kolegayev has_trait = KR_maximalist_ustinov } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_vst_left $CHARACTER$ = { OR = { has_trait = KR_vst_left_frunze has_trait = KR_vst_left_gronsky has_trait = KR_vst_left_kaganovich has_trait = KR_vst_left_kamenev has_trait = KR_vst_left_medvedev has_trait = KR_vst_left_syrtsov has_trait = KR_vst_left_zinovyev } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_vst_centre $CHARACTER$ = { OR = { has_trait = KR_vst_centre_kollontay has_trait = KR_vst_centre_levitsky has_trait = KR_vst_centre_maksimov has_trait = KR_vst_centre_shatov has_trait = KR_vst_centre_shlyapnikov has_trait = KR_vst_centre_strumilin has_trait = KR_vst_centre_sulimov has_trait = KR_vst_centre_tomsky } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_vst_right $CHARACTER$ = { OR = { has_trait = KR_vst_right_abramovich has_trait = KR_vst_right_dan has_trait = KR_vst_right_finn_yenotayevsky has_trait = KR_vst_right_kirov } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_menshevik $CHARACTER$ = { OR = { has_trait = KR_menshevik_doctor_sic has_trait = KR_menshevik_grandfather_sic } } }
+  AND = { has_country_flag = RUS_ui_advisor_faction_sds $CHARACTER$ = { OR = { has_trait = KR_sds_zeller } } }
+ }
+}
