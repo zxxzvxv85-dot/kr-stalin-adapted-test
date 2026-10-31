@@ -1,4 +1,4 @@
-"""Native Russian adviser faction categories using the first trait sprite.
+"""Restore native KR adviser profession filters and original card badges.
 Default/check is read-only; --write updates outputs; --write --assets repacks existing art.
 """
 from pathlib import Path
@@ -95,7 +95,7 @@ def main():
         elif not p.exists() or (p.read_bytes().decode('utf-8-sig') if name.startswith('history/') else p.read_text(encoding='utf-8-sig'))!=text:stale.append(name)
     assets(args.assets)
     assert not stale,'Stale generated files: '+', '.join(stale)
-    print(f'PASS: {count} native advisor role ledgers; engine category buttons; '+('written' if args.write else 'read-only'))
+    print(f'PASS: native profession filters; no synthetic role ledgers; '+('written' if args.write else 'read-only'))
 
 
 if __name__=='__main__':main()

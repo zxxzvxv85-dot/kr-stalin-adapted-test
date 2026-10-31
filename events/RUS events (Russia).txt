@@ -25491,19 +25491,6 @@ country_event = { #New Premier is chosen
 
 
 		}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_aleksandr_shlyapnikov = {
-RUS_ui_nf_init_RUS_aleksandr_shlyapnikov_second_in_command = yes
-clr_character_flag = RUS_ui_nf_second_in_command_KR_economic_reformer_sic
-clr_character_flag = RUS_ui_nf_second_in_command_KR_vst_centre_shlyapnikov
-set_character_flag = RUS_ui_nf_second_in_command_KR_economic_reformer_sic
-set_character_flag = RUS_ui_nf_second_in_command_KR_vst_centre_shlyapnikov
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_shlyapnikov = { RUS_ui_nf_order_RUS_aleksandr_shlyapnikov_second_in_command = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 	}
 	option = {
@@ -25554,19 +25541,6 @@ if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_aleksandr_shlyap
 
 
 		}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_sergey_syrtsov = {
-RUS_ui_nf_init_RUS_sergey_syrtsov_second_in_command = yes
-clr_character_flag = RUS_ui_nf_second_in_command_KR_silent_workhorse_sic
-clr_character_flag = RUS_ui_nf_second_in_command_KR_vst_left_syrtsov
-set_character_flag = RUS_ui_nf_second_in_command_KR_silent_workhorse_sic
-set_character_flag = RUS_ui_nf_second_in_command_KR_vst_left_syrtsov
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_sergey_syrtsov = { RUS_ui_nf_order_RUS_sergey_syrtsov_second_in_command = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 		set_temp_variable = { RUS_relation_change = 1 }
 		RUS_VST_right_relation = yes
@@ -25605,19 +25579,6 @@ country_event = { #Comrade Dan's Departure
 
 
 		}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_rafail_abramovich = {
-RUS_ui_nf_init_RUS_rafail_abramovich_second_in_command = yes
-clr_character_flag = RUS_ui_nf_second_in_command_KR_dream_of_democracy
-clr_character_flag = RUS_ui_nf_second_in_command_KR_vst_right_abramovich
-set_character_flag = RUS_ui_nf_second_in_command_KR_dream_of_democracy
-set_character_flag = RUS_ui_nf_second_in_command_KR_vst_right_abramovich
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_rafail_abramovich = { RUS_ui_nf_order_RUS_rafail_abramovich_second_in_command = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 			custom_effect_tooltip = RUS_dan_retire_tt
 		}
@@ -25636,19 +25597,6 @@ if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_rafail_abramovic
 
 
 		}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_vladimir_shatov = {
-RUS_ui_nf_init_RUS_vladimir_shatov_second_in_command = yes
-clr_character_flag = RUS_ui_nf_second_in_command_KR_socialist_industrializer_sic
-clr_character_flag = RUS_ui_nf_second_in_command_KR_vst_centre_shatov
-set_character_flag = RUS_ui_nf_second_in_command_KR_socialist_industrializer_sic
-set_character_flag = RUS_ui_nf_second_in_command_KR_vst_centre_shatov
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_vladimir_shatov = { RUS_ui_nf_order_RUS_vladimir_shatov_second_in_command = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 			set_temp_variable = { RUS_relation_change = 1 }
 			RUS_VST_centre_relation = yes
@@ -25772,64 +25720,24 @@ country_event = { #Direction of the Revolutionary Struggle
 				slot = political_advisor
 				trait = KR_maximalist_kolegayev
 			}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_andrey_kolegayev = {
-RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
-clr_character_flag = RUS_ui_nf_political_advisor_KR_maximalist_kolegayev
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 			remove_trait = {
 				character = RUS_andrey_kolegayev
 				slot = political_advisor
 				trait = KR_peasant_populist_3
 			}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_andrey_kolegayev = {
-RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
-clr_character_flag = RUS_ui_nf_political_advisor_KR_peasant_populist_3
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 			add_trait = {
 				character = RUS_andrey_kolegayev
 				slot = political_advisor
 				trait = KR_peasant_populist
 			}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_andrey_kolegayev = {
-RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
-set_character_flag = RUS_ui_nf_political_advisor_KR_peasant_populist
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 			add_trait = {
 				character = RUS_andrey_kolegayev
 				slot = political_advisor
 				trait = KR_maximalist_kolegayev
 			}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_andrey_kolegayev = {
-RUS_ui_nf_init_RUS_andrey_kolegayev_political_advisor = yes
-set_character_flag = RUS_ui_nf_political_advisor_KR_maximalist_kolegayev
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_andrey_kolegayev = { RUS_ui_nf_order_RUS_andrey_kolegayev_political_advisor = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 		}
 		set_country_flag = RUS_maximalist_side
@@ -26919,46 +26827,16 @@ country_event = { #End of the VST
 					slot = political_advisor
 					trait = KR_vst_left_gronsky
 				}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_ivan_gronsky = {
-RUS_ui_nf_init_RUS_ivan_gronsky_political_advisor = yes
-clr_character_flag = RUS_ui_nf_political_advisor_KR_vst_left_gronsky
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ivan_gronsky = { RUS_ui_nf_order_RUS_ivan_gronsky_political_advisor = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 				add_trait = {
 					slot = political_advisor
 					trait = KR_maximalist_gronsky
 				}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_ivan_gronsky = {
-RUS_ui_nf_init_RUS_ivan_gronsky_political_advisor = yes
-set_character_flag = RUS_ui_nf_political_advisor_KR_maximalist_gronsky
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ivan_gronsky = { RUS_ui_nf_order_RUS_ivan_gronsky_political_advisor = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 				add_trait = {
 					slot = political_advisor
 					trait = RUS_last_narodniks_gronsky
 				}
-# RUS_NATIVE_FILTER_BEGIN
-ROOT = {
-RUS_ivan_gronsky = {
-RUS_ui_nf_init_RUS_ivan_gronsky_political_advisor = yes
-set_character_flag = RUS_ui_nf_political_advisor_RUS_last_narodniks_gronsky
-}
-if = { limit = { RUS_ui_use_faction_advisor_filters = yes } RUS_ivan_gronsky = { RUS_ui_nf_order_RUS_ivan_gronsky_political_advisor = yes } }
-}
-# RUS_NATIVE_FILTER_END
-
 
 			}
 		}
