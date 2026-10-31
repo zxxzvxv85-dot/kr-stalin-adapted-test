@@ -28,7 +28,8 @@ def main():
             assert original.mode == 'RGBA' and original.width > 0 and original.height > 0
             assert list(original.size) == item['source_size']
             assert original.getextrema()[3] == (0, 255)
-            fitted = ImageOps.contain(original, tuple(manifest['size']), Image.Resampling.LANCZOS)
+            content = original.crop(original.getchannel('A').getbbox()) if item.get('trim_alpha') else original
+            fitted = ImageOps.contain(content, tuple(manifest['size']), Image.Resampling.LANCZOS)
             if fitted.size == tuple(manifest['size']):
                 image = fitted
             else:

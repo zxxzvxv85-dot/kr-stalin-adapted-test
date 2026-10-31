@@ -5,7 +5,7 @@
 ## 当前实现
 
 - 主窗口恢复当前KR原版单排：header高50、顾问列表y98，保留所有原卡片及原生筛选模板补全。
-- `RUS_advisor_faction_bar` 用 `parent_window_name = command_character_view_window` 挂接。按当前执政意识形态动态判断（totalist/communist/syndicalist/radical_socialist），不依赖开局初始化或KR缓存旗标；萨文科夫时期用原版，转社会主义后自动换派系栏，离开社会主义路线自动恢复。仅人类社会主义俄罗斯显示，在原分类行(x0,y43,500×50)放一排“全部＋9派系”。复用此前九张完整图案，不生成新图。
+- `RUS_advisor_faction_bar` 用 `parent_window_name = command_character_view_window` 挂接。按当前执政意识形态动态判断（totalist/communist/syndicalist/radical_socialist），不依赖开局初始化或KR缓存旗标；萨文科夫时期用原版，转社会主义后自动换派系栏，离开社会主义路线自动恢复。仅人类社会主义俄罗斯显示，在原分类行(x0,y43,500×50)放一排“全部＋9派系”。复用已有派系图案；孟什维克使用2026-10-31用户指定徽章，内置image_gen去底后缩放。
 - 参照KR `intelligence_agency_blocker.gui` 和对应scripted GUI的双按钮拦截，原位遮盖并阻挡下方职业按钮点击；其他国家及非社会主义俄罗斯继续显示原生分类。不是把原版职业图标换个名字冒充派系。
 - 点击只清除/设置 `RUS_ui_advisor_faction_*` 界面旗标。选中项高亮，再点一次清除筛选，“全部”同样清除；没有政治点、特质增删、每日钩子、任命操作。
 - 俄罗斯顾问角色（含动态add_advisor_role）的既有visible中追加一个AND条件，通过对应人物当前has_trait读取实际顾问派系（排除可能属于领袖角色的_bop附加特质）。不改变原visible内部内容、available、cost、on_add、on_remove和AI权重。AI/外国/非社会主义路线旁路；没有派系归属的人物可在“全部”看到。筛选不突破原有可见/任命条件。
@@ -20,3 +20,7 @@
 必须完全重启游戏后实测：原职业图标被替换、没有空白第二排、点击图标列表即筛选、“全部”恢复且未满足原要求者不会被解锁、已任命顾问效果不变、其他国家的原生按钮保留。不能将脚本模型检查称为已完成游戏内验收。
 
 只修改两版开发源；不构建上传目录，不改旧教育及开局内容。正式版原有未提交内容保留。
+
+## 人物解析修复（2026-10-31）
+
+scripted trigger不能使用scripted effect式参数块：禁止CHARACTER和$CHARACTER$。每个人物生成显式作用域的独立触发器，所有调用均为name = yes。只向原本存在的visible追加条件，无visible的角色保留原生激活行为，因此不对这类角色强加派系过滤。回归检查须保留与筛选前人物树对比，单纯CWT绿色不能证明游戏可加载。

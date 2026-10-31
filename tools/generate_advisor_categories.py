@@ -53,34 +53,32 @@ GUARD = 'RUS_ui_advisor_matches_faction'
 
 
 def guard_text(text):
+    # No effect-style parameters in scripted triggers. Restore absent visibility.
     changes = []; seen = 0
     def visit(nodes, character=None):
         nonlocal seen
         for n in nodes:
-            if not isinstance(n.v,list):continue
-            owner = n.k if n.k.startswith('RUS_') and any(x.k in ('portraits','advisor') for x in n.v) else character
-            # add_advisor_role can use explicit character or character scope.
-            if n.k.startswith('RUS_') and n.k not in ('RUS_ui_advisor_matches_faction',):
-                if any(x.k in ('add_advisor_role',) for x in n.v):owner=n.k
+            if not isinstance(n.v,list): continue
+            owner = n.k if n.k.startswith('RUS_') and any(x.k in ('portraits','advisor','add_advisor_role') for x in n.v) else character
             if n.k in ('advisor','add_advisor_role'):
                 who = n.value('character',owner)
                 if who and who.startswith('RUS_'):
                     visible=n.one('visible')
-                    if visible and visible.one(GUARD):
-                        assert visible.one(GUARD).value('CHARACTER') == who
-                    elif visible:
-                        changes.append((visible.ib, '\n\t\t\t\t'+GUARD+' = { CHARACTER = '+who+' }\n\t\t\t'))
-                    else:
-                        changes.append((n.ib,'\n\t\t\tvisible = { '+GUARD+' = { CHARACTER = '+who+' } }\n\t\t'))
-                    seen += 1
+                    if visible:
+                        old=visible.one(GUARD)
+                        key=GUARD+'_'+who
+                        if old and len(visible.v)==1:
+                            changes.append((visible.a,visible.b,''))
+                        else:
+                            if old:
+                                changes.append((old.a,old.b,key+' = yes'))
+                            elif not visible.one(key):
+                                changes.append((visible.ib,visible.ib,'\n\t\t\t\t'+key+' = yes\n\t\t\t'))
+                            seen += 1
             visit(n.v,owner)
     visit(parse(text))
-    for pos, insertion in sorted(changes,reverse=True):text=text[:pos]+insertion+text[pos:]
-    lines=text.splitlines()
-    for i,line in enumerate(lines):
-        if GUARD in line:
-            for j in range(max(0,i-1),min(len(lines),i+2)):lines[j]=lines[j].rstrip()
-    return '\n'.join(lines)+'\n',seen
+    for a,b,insertion in sorted(changes,reverse=True): text=text[:a]+insertion+text[b:]
+    return '\n'.join(line.rstrip() for line in text.splitlines())+'\n',seen
 
 
 def guard_roles():
@@ -92,7 +90,7 @@ def guard_roles():
     for path in sorted(files):
         text,seen=guard_text(path.read_text(encoding='utf-8-sig'))
         count+=seen
-        if seen:outputs[path.relative_to(ROOT).as_posix()]=text
+        if seen or GUARD in path.read_text(encoding='utf-8-sig'):outputs[path.relative_to(ROOT).as_posix()]=text
     return outputs,count
 
 def outputs():
@@ -109,16 +107,19 @@ def outputs():
                         # only the adviser identity should determine this list.
                         if n.k.startswith(row[4]) and not n.k.endswith('_bop'):identity[row[0]].add(n.k)
     flags=' '.join('has_country_flag = '+FLAG+r[0] for r in CATEGORIES)
-    triggers=['# UI selection only. Original advisor conditions remain in their own visible blocks.',
-              'RUS_ui_use_faction_advisor_filters = { original_tag = RUS is_ai = no OR = { has_government = totalist has_government = communist has_government = syndicalist has_government = radical_socialist } }',
-              GUARD+' = {',
-              ' OR = { NOT = { RUS_ui_use_faction_advisor_filters = yes }',
-              '  NOT = { OR = { '+flags+' } }']
-    for row in CATEGORIES:
-        assert identity[row[0]],row[0]
-        members=' '.join('has_trait = '+key for key in sorted(identity[row[0]]))
-        triggers += ['  AND = { has_country_flag = '+FLAG+row[0]+' $CHARACTER$ = { OR = { '+members+' } } }']
-    triggers += [' }','}']
+    triggers=['# Scalar scripted triggers only; no parameter substitution.',
+              '# Preserve native activation for roles without an original visible block.',
+              'RUS_ui_use_faction_advisor_filters = { original_tag = RUS is_ai = no OR = { has_government = totalist has_government = communist has_government = syndicalist has_government = radical_socialist } }']
+    characters=sorted(set(re.findall(GUARD+r'_(RUS_\w+)\s*=\s*yes', '\n'.join(result.values()))))
+    for who in characters:
+        triggers += [GUARD+'_'+who+' = {',
+                     ' OR = { NOT = { RUS_ui_use_faction_advisor_filters = yes }',
+                     '  NOT = { OR = { '+flags+' } }']
+        for row in CATEGORIES:
+            assert identity[row[0]],row[0]
+            members=' '.join('has_trait = '+key for key in sorted(identity[row[0]]))
+            triggers += ['  AND = { has_country_flag = '+FLAG+row[0]+' '+who+' = { OR = { '+members+' } } }']
+        triggers += [' }','}']
     result['common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt']='\n'.join(triggers)+'\n'
     # Preserve native row for other countries. The Russian scripted row covers
     # it in place, following KR's double-button intelligence agency blocker.

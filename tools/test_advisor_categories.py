@@ -19,7 +19,7 @@ def evaluate(n,flags,traits,tag='RUS',social=True,ai=False):
  return all(vals)
 class AdvisorFactionFilter(unittest.TestCase):
  def test_membership_and_bypass(self):
-  root=next(n for n in load(ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt') if n.k==GUARD)
+  root=next(n for n in load(ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt') if n.k.startswith(GUARD+'_'))
   self.assertFalse(any(n.k=='has_trait' and n.v.endswith('_bop') for n in walk(root.v)))
   examples=[]
   for row in CATEGORIES:
@@ -36,6 +36,14 @@ class AdvisorFactionFilter(unittest.TestCase):
    self.assertFalse(evaluate(root,flags,set()))
   self.assertTrue(evaluate(root,{FLAG+examples[0][0]},{examples[0][1]}))
   self.assertFalse(evaluate(root,{FLAG+examples[0][0]},{examples[1][1]}))
+ def test_original_character_graph_preserved(self):
+  import subprocess
+  from generate_advisor_categories import parse
+  baseline='8b9da52' if ROOT.name.endswith('_test') else '3c72da2'
+  old=subprocess.check_output(['git','-C',str(ROOT),'show',baseline+':common/characters/RUS characters.txt']).decode('utf-8-sig')
+  def normalized(nodes):
+   return tuple((n.k,n.op,normalized(n.v) if isinstance(n.v,list) else n.v) for n in nodes if not n.k.startswith(GUARD))
+  self.assertEqual(normalized(parse(old)),normalized(load(ROOT/'common/characters/RUS characters.txt')))
  def test_live_government_switch(self):
   roots=load(ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt')
   gate=next(n for n in roots if n.k=='RUS_ui_use_faction_advisor_filters')
@@ -69,13 +77,27 @@ class AdvisorFactionFilter(unittest.TestCase):
    self.assertEqual((b.one('size').value('x'),b.one('size').value('y')),('500','50'))
   self.assertNotIn('name = "GFX_idea_traits_strip"',(ROOT/'interface/zz_RUS_advisor_categories.gfx').read_text())
  def test_generated_outputs_and_guards(self):
-  data,count=outputs();self.assertGreater(count,200)
+  data,count=outputs();self.assertGreater(count,100)
   for name,text in data.items():
    self.assertEqual((ROOT/name).read_text(encoding='utf-8-sig'),text,name)
    if name.endswith('.yml'):self.assertTrue((ROOT/name).read_bytes().startswith(b'\xef\xbb\xbf'))
-  for n in (a for c in load(ROOT/'common/characters/RUS characters.txt')[0].v if c.k.startswith('RUS_') for a in c.children('advisor')):
-   if n.k=='advisor':
-    self.assertEqual(len(n.one('visible').children(GUARD)),1)
-    self.assertIsNone(n.one('available').one(GUARD) if n.one('available') else None)
+  triggers=load(ROOT/'common/scripted_triggers/RUS_advisor_faction_filter_triggers.txt')
+  definitions={n.k for n in triggers}
+  for name,text in data.items():
+   self.assertNotIn('$CHARACTER$',text)
+   self.assertNotIn('CHARACTER =',text)
+   if name.startswith(('common/characters/','common/scripted_effects/','events/')):
+    for n in walk(load(ROOT/name)):
+     if n.k.startswith(GUARD):
+      self.assertEqual(n.v,'yes')
+      self.assertIn(n.k,definitions)
+  for c in load(ROOT/'common/characters/RUS characters.txt')[0].v:
+   for n in c.children('advisor'):
+    visible=n.one('visible')
+    if visible:
+     guards=[v for v in visible.v if v.k.startswith(GUARD)]
+     self.assertEqual(len(guards),1)
+     self.assertGreater(len(visible.v),1)
+     self.assertEqual(guards[0].k,GUARD+'_'+c.k)
   assets(False)
 if __name__=='__main__':unittest.main()

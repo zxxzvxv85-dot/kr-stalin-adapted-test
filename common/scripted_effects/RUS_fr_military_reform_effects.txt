@@ -132,10 +132,10 @@ RUS_fr_show_white_networks_legacy_rewards = {
 					traits = { KR_air_chief_reform_2 }
 					cost = 100
 
-			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_pavel_rychagov } }
+
 		}
 
-			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_pavel_rychagov } }
+
 		}
 		}
 	}
@@ -164,7 +164,7 @@ RUS_fr_show_frunze_regulations_legacy_rewards = {
 			remove_idea = RUS_frunze_doctrine_2
 			add_idea = RUS_frunze_doctrine_3
 		}
-		
+
 		# RUS_EASY_MODE_TECH_START
 		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 			name = RUS_basis_of_victory
@@ -179,7 +179,7 @@ RUS_fr_show_frunze_regulations_legacy_rewards = {
 			category = cat_mechanized_equipment
 		} }
 		# RUS_EASY_MODE_TECH_END
-		
+
 		enable_tech_semi_motorised_cav = yes
 	}
 }
@@ -233,9 +233,9 @@ RUS_fr_apply_army_reorganisation_legacy_rewards = {
 					}
 				} # RUS_EASY_MODE_REWARD
 			 }
-			
-			
-			
+
+
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
@@ -250,9 +250,9 @@ RUS_fr_apply_army_reorganisation_legacy_rewards = {
 				category = air_equipment
 			} }
 			# RUS_EASY_MODE_TECH_END
-			
-			
-			
+
+
+
 		}
 		hidden_effect = {
 			if = {
@@ -337,9 +337,9 @@ RUS_fr_apply_army_reorganisation_legacy_rewards = {
 					}
 				} # RUS_EASY_MODE_REWARD
 			 }
-			
-			
-			
+
+
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 				name = RUS_fr_national_military_reform_program
@@ -354,9 +354,9 @@ RUS_fr_apply_army_reorganisation_legacy_rewards = {
 				category = air_equipment
 			} }
 			# RUS_EASY_MODE_TECH_END
-			
-			
-			
+
+
+
 			set_country_flag = RUS_fr_technological_reorganisation_rewards_applied
 		}
 	}
@@ -408,7 +408,7 @@ RUS_fr_show_okmo_unlock = {
 
 RUS_fr_show_small_arms_legacy_rewards = {
 	effect_tooltip = {
-		
+
 		# RUS_EASY_MODE_TECH_START
 		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 			name = RUS_update_equipment
@@ -423,8 +423,8 @@ RUS_fr_show_small_arms_legacy_rewards = {
 			category = infantry_weapons
 		} }
 		# RUS_EASY_MODE_TECH_END
-		
-		
+
+
 		# RUS_EASY_MODE_TECH_START
 		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 			name = RUS_update_equipment
@@ -439,7 +439,7 @@ RUS_fr_show_small_arms_legacy_rewards = {
 			category = support_tech
 		} }
 		# RUS_EASY_MODE_TECH_END
-		
+
 		swap_ideas = {
 			remove_idea = RUS_military_production_idea_1
 			add_idea = RUS_military_production_idea_2
@@ -461,7 +461,7 @@ RUS_fr_show_mechanisation_legacy_rewards = {
 			add_building_construction = { type = arms_factory level = 2 }
 			if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 		}
-		
+
 		# RUS_EASY_MODE_TECH_START
 		if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 			name = RUS_nizhegorodsky_avtomobilny_focus
@@ -478,7 +478,7 @@ RUS_fr_show_mechanisation_legacy_rewards = {
 			category = motorized_equipment
 		} }
 		# RUS_EASY_MODE_TECH_END
-		
+
 		if = {
 			limit = { has_dlc_aat = yes }
 			mio:RUS_naz_organisation = { unlock_mio_trait_tooltip = { trait = naz_upgrade_4_2 } }
@@ -513,8 +513,8 @@ RUS_fr_show_armour_design_legacy_rewards = {
 RUS_fr_show_land_warfare_legacy_rewards = {
 	effect_tooltip = {
 		572 = { add_building_construction = { type = air_facility level = 1 province = 9292 instant_build = yes } }
-		
-		
+
+
 		show_ideas_tooltip = ird
 	}
 }
@@ -552,10 +552,10 @@ RUS_fr_apply_white_networks_legacy_rewards = {
 						traits = { KR_air_chief_reform_2 }
 						cost = 100
 
-			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_pavel_rychagov } }
+
 		}
 
-			visible = { RUS_ui_advisor_matches_faction = { CHARACTER = RUS_pavel_rychagov } }
+
 		}
 			}
 			hidden_effect = {
@@ -603,18 +603,18 @@ RUS_fr_apply_small_arms_legacy_rewards = {
 		limit = { NOT = { has_country_flag = RUS_fr_small_arms_legacy_rewards_applied } }
 		if = {
 			limit = { NOT = { has_completed_focus = RUS_update_equipment } }
-			
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_update_equipment bonus = 2 uses = 1 category = infantry_weapons } }
 			else = { add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = infantry_weapons } }
 			# RUS_EASY_MODE_TECH_END
-			
-			
+
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = { name = RUS_update_equipment bonus = 2 uses = 1 category = support_tech } }
 			else = { add_tech_bonus = { name = RUS_update_equipment bonus = 1 uses = 1 category = support_tech } }
 			# RUS_EASY_MODE_TECH_END
-			
+
 			if = {
 				limit = { has_idea = RUS_military_production_idea_1 }
 				swap_ideas = { remove_idea = RUS_military_production_idea_1 add_idea = RUS_military_production_idea_2 }
@@ -656,7 +656,7 @@ RUS_fr_apply_mechanisation_legacy_rewards = {
 				add_building_construction = { type = arms_factory level = 2 }
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
-			
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 				name = RUS_nizhegorodsky_avtomobilny_focus
@@ -673,7 +673,7 @@ RUS_fr_apply_mechanisation_legacy_rewards = {
 				category = motorized_equipment
 			} }
 			# RUS_EASY_MODE_TECH_END
-			
+
 			if = {
 				limit = { has_dlc_aat = no has_idea = naz }
 				swap_ideas = { remove_idea = naz add_idea = naz_improved }
@@ -727,8 +727,8 @@ RUS_fr_apply_expand_ird_legacy_rewards = {
 					construct_building_in_random_province = { air_facility = 1 }
 				}
 			}
-			
-			
+
+
 		}
 		set_country_flag = RUS_fr_expand_ird_legacy_rewards_applied
 	}
