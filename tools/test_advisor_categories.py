@@ -54,22 +54,30 @@ class AdvisorFactionFilter(unittest.TestCase):
   self.assertFalse(any(n.k in ('has_country_flag','has_socialist_government') for n in walk(gate.v)))
   gui=load(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt')[0].v[0]
   self.assertEqual(gui.one('visible').value('RUS_ui_use_faction_advisor_filters'),'yes')
- def test_clicks_write_ui_flags_and_refresh_without_gameplay_rewards(self):
+ def test_native_character_refresh_is_isolated(self):
   gui=load(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt')[0].v[0]
-  self.assertEqual(gui.value('parent_window_name'),'"command_character_view_window"')
   effects=gui.one('effects');self.assertEqual(len(effects.v),11)
   for button in effects.v:
-   for n in walk(button.v):
-    self.assertIn(n.k,{'if','else','limit','has_country_flag','set_country_flag','clr_country_flag','hidden_effect','add_ideas','remove_ideas'})
-    if n.k.endswith('country_flag'):self.assertTrue(n.v.startswith(FLAG))
-  self.assertEqual(len(effects.one('all_click').v),10)
-  for button in effects.v:
    if button.k=='cover_lower_click': continue
-   signal=button.v[-1]
-   self.assertEqual(signal.k,'hidden_effect')
-   self.assertEqual([(n.k,n.v) for n in signal.v],[('add_ideas','RUS_ui_advisor_refresh_signal'),('remove_ideas','RUS_ui_advisor_refresh_signal')])
-  idea=load(ROOT/'common/ideas/RUS_advisor_ui_refresh.txt')[0].one('hidden_ideas').one('RUS_ui_advisor_refresh_signal')
-  self.assertEqual(idea.v,[])
+   self.assertEqual(button.v[-1].k,'hidden_effect')
+   self.assertEqual(button.v[-1].value('RUS_ui_refresh_advisor_list'),'yes')
+   for n in walk(button.v):
+    self.assertIn(n.k,{'if','else','limit','has_country_flag','set_country_flag','clr_country_flag','hidden_effect','RUS_ui_refresh_advisor_list'})
+  effect=load(ROOT/'common/scripted_effects/RUS_advisor_ui_refresh_effects.txt')[0]
+  self.assertEqual(effect.one('if').value('recruit_character'),'RUS_ui_advisor_refresh_anchor')
+  self.assertEqual(len(effect.children('add_advisor_role')),2)
+  self.assertEqual(len(effect.children('remove_advisor_role')),2)
+  for add,remove in zip(effect.children('add_advisor_role'),effect.children('remove_advisor_role')):
+   self.assertEqual(add.value('character'),'RUS_ui_advisor_refresh_anchor')
+   self.assertEqual(remove.value('character'),'RUS_ui_advisor_refresh_anchor')
+   advisor=add.one('advisor')
+   self.assertEqual(advisor.value('slot'),remove.value('slot'))
+   self.assertIn(advisor.value('slot'),{'political_advisor','second_in_command'})
+   self.assertEqual(advisor.one('allowed').value('always'),'no')
+   self.assertEqual(advisor.one('traits').v,[])
+   self.assertEqual(advisor.value('cost'),'0')
+   self.assertIsNone(add.one('activate'))
+  self.assertNotIn('add_ideas',(ROOT/'common/scripted_guis/RUS_advisor_faction_bar.txt').read_text())
  def test_single_row_native_geometry(self):
   current=(ROOT/'interface/command_character_view.gui').read_text(encoding='utf-8').split('\n',1)[1]
   self.assertEqual(current,(KR/'interface/command_character_view.gui').read_text(encoding='utf-8-sig'))

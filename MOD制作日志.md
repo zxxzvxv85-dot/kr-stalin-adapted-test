@@ -2,6 +2,14 @@
 
 最后更新：2026-10-31
 
+## 2026-10-31 — 撤回无效精神通知，改接顾问角色变更接口
+
+- 用户实测确认上一版空隐藏民族精神添加/移除不能刷新已打开的原生顾问名单。撤掉全部add_ideas/remove_ideas刷新调用，将旧ideas文件清空为停用注释，不宣称此前方案有效。
+- 十个分类按钮在旗标切换后统一调用RUS_ui_refresh_advisor_list：首次附加无任何领袖/军官/顾问角色的专用占位人物，随后分别添加并立即移除其political_advisor和second_in_command角色，通过人物角色管理接口尝试促使名单失效重建。临时角色allowed永为no、无traits、无activate、无回调，结束后占位对象无任何角色。现有真实人物和任命效果不动。参考安装游戏effects_documentation.md的recruit_character/add_advisor_role/remove_advisor_role及KR的00_character_scripted_effects.txt角色移除用法。
+- 本次修的是人物列表通知路径，尚未获得游戏内即时刷新成功的证据，不能把模型测试称为解决。用户负责重启实测；无每日轮询、不推进时间、不自动重开窗口。新增人物定义需完整重启加载。
+- 生成器排除专用占位对象，并将显式add_advisor_role的character向内层advisor传递，避免把effect名称误识别为人物。两版专项6项与生成幂等通过，真实人物树保持；新增角色只能作用于占位对象、两种slot匹配移除、不可选用且不激活。测试结构471脚本/312本地化0错误。RHoi人物定义绿色，effects中allowed字段与游戏自带文档示例一致，CWT仍报2条旧schema诊断；scripted GUI对新helper有未建索引提示，无括号阻断。
+- 用户确认游戏已退出后，选择性同步两版上传目录本轮7份运行文件，保留其余内容。新增三语空名避免内部占位名称显示为代码；旧教育、开局内容、人物解锁条件不变。仅本地提交、构建本地上传目录，不推送GitHub或发布Steam。
+
 ## 2026-10-31 — 顾问派系分类及刷新修复同步两版上传目录
 
 - 按用户要求，通过测试版已审计Build-CleanWorkshopUpload.ps1的UpdatePaths/SourceOverrideRoot选择性构建两版上传目录；正式旧构建器不支持选择性范围，因此本次使用同一脚本、显式指定正式source/destination，未全量覆盖任何上传版。构建时确认钢四已退出。

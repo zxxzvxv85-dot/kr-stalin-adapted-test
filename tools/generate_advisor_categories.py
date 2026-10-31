@@ -60,9 +60,10 @@ def guard_text(text):
         for n in nodes:
             if not isinstance(n.v,list): continue
             owner = n.k if n.k.startswith('RUS_') and any(x.k in ('portraits','advisor','add_advisor_role') for x in n.v) else character
+            if n.k == 'add_advisor_role': owner = n.value('character',owner)
             if n.k in ('advisor','add_advisor_role'):
                 who = n.value('character',owner)
-                if who and who.startswith('RUS_'):
+                if who and who.startswith('RUS_') and who != 'RUS_ui_advisor_refresh_anchor':
                     visible=n.one('visible')
                     if visible:
                         old=visible.one(GUARD)
@@ -70,8 +71,10 @@ def guard_text(text):
                         if old and len(visible.v)==1:
                             changes.append((visible.a,visible.b,''))
                         else:
-                            if old:
-                                changes.append((old.a,old.b,key+' = yes'))
+                            existing=[x for x in visible.v if x.k.startswith(GUARD)]
+                            if existing:
+                                if existing[0].k != key or existing[0].v != 'yes': changes.append((existing[0].a,existing[0].b,key+' = yes'))
+                                for extra in existing[1:]: changes.append((extra.a,extra.b,''))
                             elif not visible.one(key):
                                 changes.append((visible.ib,visible.ib,'\n\t\t\t\t'+key+' = yes\n\t\t\t'))
                             seen += 1
@@ -134,7 +137,7 @@ def outputs():
             '  window_name = "RUS_advisor_faction_bar"','  parent_window_name = "command_character_view_window"',
             '  ai_enabled = { always = no }','  visible = { RUS_ui_use_faction_advisor_filters = yes }','  effects = {']
     clear=' '.join('clr_country_flag = '+FLAG+row[0] for row in CATEGORIES)
-    refresh='hidden_effect = { add_ideas = RUS_ui_advisor_refresh_signal remove_ideas = RUS_ui_advisor_refresh_signal }'
+    refresh='hidden_effect = { RUS_ui_refresh_advisor_list = yes }'
     script += ['   cover_lower_click = { }','   all_click = { '+clear+' '+refresh+' }']
     selected=['   cover_upper_click_enabled = { always = no }','   selected_all_visible = { NOT = { OR = { '+flags+' } } }']
     entries=[('all',None)]+[(r[0],i) for i,r in enumerate(CATEGORIES,19)]
@@ -149,12 +152,21 @@ def outputs():
     ui += [' }','}'];script += ['  }','  triggers = {']+selected+['  }',' }','}']
     result['interface/RUS_advisor_faction_bar.gui']='\n'.join(ui)+'\n'
     result['common/scripted_guis/RUS_advisor_faction_bar.txt']='\n'.join(script)+'\n'
-    # Empty hidden idea emits the native ideas-changed notification; it is removed
-    # in the same click. No modifiers, callbacks, cost or persistent game reward.
-    result['common/ideas/RUS_advisor_ui_refresh.txt']='ideas = { hidden_ideas = { RUS_ui_advisor_refresh_signal = { } } }\n'
+    # Replaces the ineffective ideas-change pulse. Never touch a real adviser.
+    result['common/ideas/RUS_advisor_ui_refresh.txt']='# Deprecated: no ideas are used to refresh the character list.\n'
+    result['common/characters/RUS_advisor_ui_refresh.txt']='characters = { RUS_ui_advisor_refresh_anchor = { name = RUS_ui_advisor_refresh_anchor } }\n'
+    refresh_lines=['# Native character-role list notification; placeholder is never visible/hired.',
+                   'RUS_ui_refresh_advisor_list = {',
+                   ' if = { limit = { NOT = { has_character = RUS_ui_advisor_refresh_anchor } } recruit_character = RUS_ui_advisor_refresh_anchor }']
+    for slot in ('political_advisor','second_in_command'):
+        refresh_lines += [' add_advisor_role = { character = RUS_ui_advisor_refresh_anchor advisor = { slot = '+slot+' idea_token = RUS_ui_advisor_refresh_'+slot+' allowed = { always = no } traits = { } cost = 0 } }',
+                          ' remove_advisor_role = { character = RUS_ui_advisor_refresh_anchor slot = '+slot+' }']
+    refresh_lines += ['}']
+    result['common/scripted_effects/RUS_advisor_ui_refresh_effects.txt']='\n'.join(refresh_lines)+'\n'
     result['interface/zz_RUS_advisor_categories.gfx']='spriteTypes = {\n SpriteType = { name = "GFX_RUS_advisor_faction_strip" texturefile = "'+ATLAS+'" noOfFrames = 27 }\n}\n'
     for language,col,all_text,short in [('simp_chinese',1,'显示全部顾问','全部'),('english',2,'Show all advisors','All'),('russian',3,'Все советники','Все')]:
         lines=[f'l_{language}:',f' RUS_advisor_filter_all: "{all_text}"',f' RUS_advisor_filter_all_short: "{short}"']
+        lines += [f' RUS_ui_advisor_refresh_anchor: \"\"']
         lines += [f' RUS_advisor_filter_{row[0]}: "{row[col]}"' for row in CATEGORIES]
         result[f'localisation/replace/RUS_advisor_faction_filter_l_{language}.yml']='\n'.join(lines)+'\n'
     return result,count

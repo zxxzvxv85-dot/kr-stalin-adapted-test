@@ -1,0 +1,8 @@
+# Native character-role list notification; placeholder is never visible/hired.
+RUS_ui_refresh_advisor_list = {
+ if = { limit = { NOT = { has_character = RUS_ui_advisor_refresh_anchor } } recruit_character = RUS_ui_advisor_refresh_anchor }
+ add_advisor_role = { character = RUS_ui_advisor_refresh_anchor advisor = { slot = political_advisor idea_token = RUS_ui_advisor_refresh_political_advisor allowed = { always = no } traits = { } cost = 0 } }
+ remove_advisor_role = { character = RUS_ui_advisor_refresh_anchor slot = political_advisor }
+ add_advisor_role = { character = RUS_ui_advisor_refresh_anchor advisor = { slot = second_in_command idea_token = RUS_ui_advisor_refresh_second_in_command allowed = { always = no } traits = { } cost = 0 } }
+ remove_advisor_role = { character = RUS_ui_advisor_refresh_anchor slot = second_in_command }
+}
