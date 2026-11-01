@@ -121,6 +121,8 @@ RUS_rc_provisional_phase = {
       'interface/RUS_provisional_industry.gfx':'\n'.join(gfx)+'\n'}
     for lang in ['simp_chinese','english','russian']:
         output[f'localisation/{lang}/RUS_provisional_industry_l_{lang}.yml']='l_'+lang+':\n'+''.join(f' {k}:0 "{v}"\n' for k,v in loc.items())
-    return output
+    from provisional_industry_dashboard import augment
+    import sys
+    return augment(output, groups, sys.modules[__name__])
 
 if __name__=='__main__': cli(render,root=ROOT)

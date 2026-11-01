@@ -43,6 +43,11 @@ class Tests(unittest.TestCase):
   gui=load(ROOT/'common/scripted_guis/RUS_provisional_industry_gui.txt')[0].one('RUS_rc_dashboard')
   for e in gui.one('effects').v:
    body=e.one('hidden_effect').one('if')
+   if e.k == 'view_toggle_click':
+    self.assertEqual([x.k for x in body.v],['limit','if','else'])
+    self.assertEqual(body.one('if').value('clr_country_flag'),'RUS_rc_blueprint_view')
+    self.assertEqual(body.one('else').value('set_country_flag'),'RUS_rc_blueprint_view')
+    continue
    self.assertEqual([x.k for x in body.v],['limit','set_variable'])
    self.assertEqual(body.one('set_variable').v[0].k,'RUS_rc_filter')
 
@@ -64,5 +69,58 @@ class Tests(unittest.TestCase):
  def test_generation_is_idempotent(self):
   s=(ROOT/DECISIONS).read_text(encoding='utf8');self.assertEqual(decision_patch(s)[0],s)
   self.assertEqual(render(),render())
+
+ def test_gameplay_is_unchanged_except_ui_completion_flag(self):
+  import subprocess,re
+  before=subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+DECISIONS]).decode('utf-8-sig')
+  after=(ROOT/DECISIONS).read_text(encoding='utf-8-sig')
+  def strip(s):return re.sub(r'(?ms)^[ \t]*# RUS_RECOVERY_LEDGER_BEGIN\n.*?^[ \t]*# RUS_RECOVERY_LEDGER_END[ \t]*\n','',s)
+  self.assertEqual([n.norm() for n in parse(strip(before))],[n.norm() for n in parse(strip(after))])
+  for rel,text in render().items():self.assertEqual((ROOT/rel).read_text(encoding='utf-8-sig'),text,rel)
+
+ def test_engine_timer_statistics_and_crisis_boundaries(self):
+  sg=load(ROOT/'common/scripted_guis/RUS_provisional_industry_gui.txt')[0].one('RUS_rc_dashboard')
+  calc=sg.one('triggers').one('_')
+  cat=next(n for n in load(ROOT/DECISIONS) if n.k==CATEGORY)
+  ids=[n.k for n in cat.v if n.one('days_remove') and n.one('remove_effect')]
+  self.assertEqual(len(ids),46)
+  for crisis in range(7):
+   for pattern in range(4):
+    timers={k:(-1 if pattern==0 else 0 if pattern==1 else (i+1)*2 if pattern==2 else 5 if i%3==0 else 0) for i,k in enumerate(ids)}
+    flags={'RUS_rc_finished_'+k for i,k in enumerate(ids) if i%4==0};v={}
+    def value(k):
+     try:return float(k)
+     except ValueError:return timers.get(k.split('@',1)[1],0) if k.startswith('days_decision_timeout@') else v.get(k,0)
+    def pred(n):
+     if n.k=='OR':return any(pred(c) for c in n.v)
+     if n.k=='NOT':return not any(pred(c) for c in n.v)
+     if n.k=='has_idea':return n.v=='RUS_black_monday_'+str(crisis)
+     if n.k=='has_country_flag':return n.v in flags
+     if n.k=='check_variable':
+      c=n.v[0];a,b=value(c.k),value(c.v);return a>b if c.op=='>' else a<b if c.op=='<' else a==b
+     return all(pred(c) for c in n.v)
+    def run(ns):
+     for n in ns:
+      if n.k=='if':
+       if pred(n.one('limit')):run([x for x in n.v if x.k!='limit'])
+      elif n.k in ('set_temp_variable','add_to_temp_variable'):
+       c=n.v[0];v[c.k]=(v.get(c.k,0) if n.k=='add_to_temp_variable' else 0)+value(c.v)
+      else:raise AssertionError(n.k)
+    run(calc.v);positive=[x for x in timers.values() if x>0]
+    self.assertEqual(v['RUS_rc_active'],len(positive));self.assertEqual(v['RUS_rc_done'],len(flags))
+    self.assertEqual(v['RUS_rc_next_days'],min(positive,default=0))
+    self.assertEqual(v['RUS_rc_recovery_frame'],7-crisis)
+    self.assertEqual(v['RUS_rc_scene_frame'],2 if positive else 1 if crisis>=5 else 2 if crisis>=3 else 3)
+
+ def test_dynamic_sprite_frames_match_click_overlays(self):
+  import numpy as np
+  scene=Image.open(ROOT/ART/'dynamic/scene.png').convert('RGBA')
+  self.assertEqual(scene.size,(492*3,394))
+  for name,_,x,y,w,h in ZONES:
+   sprite=Image.open(ROOT/ART/'dynamic'/(name+'.png')).convert('RGBA')
+   self.assertEqual(sprite.size,(w*3,h))
+   for frame in range(3):
+    actual=np.array(sprite.crop((frame*w,0,(frame+1)*w,h)));expected=np.array(scene.crop((frame*492+x,y,frame*492+x+w,y+h)))
+    mask=actual[:,:,3]>0;self.assertTrue(np.array_equal(actual[:,:,:3][mask],expected[:,:,:3][mask]))
 
 if __name__=='__main__':unittest.main()

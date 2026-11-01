@@ -1,12 +1,53 @@
 guiTypes = {
-containerWindowType = { name = "RUS_rc_window" position = { x = 0 y = 0 } size = { width = 504 height = 426 }
-iconType = { name = "plate" position = { x = 6 y = 0 } spriteType = "GFX_RUS_rc_plate" alwaystransparent = yes }
-buttonType = { name = "relief" position = { x = 30 y = 181 } quadTextureSprite = "GFX_RUS_rc_relief" clicksound = click_default pdx_tooltip = RUS_rc_relief_tt }
-buttonType = { name = "factory" position = { x = 183 y = 67 } quadTextureSprite = "GFX_RUS_rc_factory" clicksound = click_default pdx_tooltip = RUS_rc_factory_tt }
-buttonType = { name = "rail" position = { x = 82 y = 275 } quadTextureSprite = "GFX_RUS_rc_rail" clicksound = click_default pdx_tooltip = RUS_rc_rail_tt }
-buttonType = { name = "road" position = { x = 323 y = 234 } quadTextureSprite = "GFX_RUS_rc_road" clicksound = click_default pdx_tooltip = RUS_rc_road_tt }
-instantTextBoxType = { name = "title" position = { x = 28 y = 27 } font = "hoi_18mbs" text = "RUS_rc_title" maxWidth = 450 maxHeight = 22 format = left alwaystransparent = yes }
+containerWindowType = { name = "RUS_rc_window" position = { x = 0 y = 0 } size = { width = 504 height = 574 }
+iconType = { name = "plate" position = { x = 6 y = 0 } spriteType = "GFX_RUS_rc_dynamic_plate" alwaystransparent = yes }
+iconType = { name = "blueprint_plate" position = { x = 6 y = 0 } spriteType = "GFX_RUS_rc_blueprint_plate" alwaystransparent = yes }
+instantTextBoxType = { name = "title" position = { x = 28 y = 24 } font = "hoi_18mbs" text = "RUS_rc_title" maxWidth = 450 maxHeight = 22 format = left alwaystransparent = yes }
 instantTextBoxType = { name = "status" position = { x = 30 y = 354 } font = "hoi_16mbs" text = "RUS_rc_status" maxWidth = 445 maxHeight = 18 format = left alwaystransparent = yes }
-instantTextBoxType = { name = "selection" position = { x = 24 y = 400 } font = "hoi_16mbs" text = "RUS_rc_selection" maxWidth = 455 maxHeight = 20 format = left alwaystransparent = yes }
+iconType = { name = "recovery" position = { x = 30 y = 381 } spriteType = "GFX_RUS_rc_recovery" alwaystransparent = yes }
+buttonType = { name = "relief" position = { x = 30 y = 181 } quadTextureSprite = "GFX_RUS_rc_dynamic_relief" clicksound = click_default pdx_tooltip = RUS_rc_relief_tt }
+iconType = { name = "selected_relief" position = { x = 30 y = 181 } spriteType = "GFX_RUS_rc_selected_relief" alwaystransparent = yes }
+buttonType = { name = "factory" position = { x = 183 y = 67 } quadTextureSprite = "GFX_RUS_rc_dynamic_factory" clicksound = click_default pdx_tooltip = RUS_rc_factory_tt }
+iconType = { name = "selected_factory" position = { x = 183 y = 67 } spriteType = "GFX_RUS_rc_selected_factory" alwaystransparent = yes }
+buttonType = { name = "rail" position = { x = 82 y = 275 } quadTextureSprite = "GFX_RUS_rc_dynamic_rail" clicksound = click_default pdx_tooltip = RUS_rc_rail_tt }
+iconType = { name = "selected_rail" position = { x = 82 y = 275 } spriteType = "GFX_RUS_rc_selected_rail" alwaystransparent = yes }
+buttonType = { name = "road" position = { x = 323 y = 234 } quadTextureSprite = "GFX_RUS_rc_dynamic_road" clicksound = click_default pdx_tooltip = RUS_rc_road_tt }
+iconType = { name = "selected_road" position = { x = 323 y = 234 } spriteType = "GFX_RUS_rc_selected_road" alwaystransparent = yes }
+buttonType = { name = "bp_relief" position = { x = 48 y = 165 } quadTextureSprite = "GFX_RUS_rc_bp_relief" clicksound = click_default pdx_tooltip = RUS_rc_relief_tt }
+instantTextBoxType = { name = "bp_label_relief" position = { x = 48 y = 237 } font = "hoi_16mbs" text = "RUS_rc_relief" maxWidth = 100 maxHeight = 18 format = center alwaystransparent = yes }
+buttonType = { name = "bp_factory" position = { x = 196 y = 128 } quadTextureSprite = "GFX_RUS_rc_bp_factory" clicksound = click_default pdx_tooltip = RUS_rc_factory_tt }
+instantTextBoxType = { name = "bp_label_factory" position = { x = 196 y = 210 } font = "hoi_16mbs" text = "RUS_rc_factory" maxWidth = 110 maxHeight = 18 format = center alwaystransparent = yes }
+buttonType = { name = "bp_rail" position = { x = 111 y = 260 } quadTextureSprite = "GFX_RUS_rc_bp_rail" clicksound = click_default pdx_tooltip = RUS_rc_rail_tt }
+instantTextBoxType = { name = "bp_label_rail" position = { x = 111 y = 322 } font = "hoi_16mbs" text = "RUS_rc_rail" maxWidth = 110 maxHeight = 18 format = center alwaystransparent = yes }
+buttonType = { name = "bp_road" position = { x = 352 y = 249 } quadTextureSprite = "GFX_RUS_rc_bp_road" clicksound = click_default pdx_tooltip = RUS_rc_road_tt }
+instantTextBoxType = { name = "bp_label_road" position = { x = 352 y = 321 } font = "hoi_16mbs" text = "RUS_rc_road" maxWidth = 110 maxHeight = 18 format = center alwaystransparent = yes }
+iconType = { name = "dust" position = { x = 355 y = 294 } spriteType = "GFX_RUS_rc_dust" alwaystransparent = yes }
+iconType = { name = "ledger_texture" position = { x = 6 y = 404 } spriteType = "GFX_RUS_rc_ledger_texture" alwaystransparent = yes }
+iconType = { name = "ledger_frame" position = { x = 6 y = 404 } spriteType = "GFX_RUS_rc_ledger_frame" alwaystransparent = yes }
+buttonType = { name = "view_toggle" position = { x = 350 y = 409 } quadTextureSprite = "GFX_RUS_rc_view_toggle" buttonText = "RUS_rc_view_toggle" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = RUS_rc_view_toggle_tt }
+instantTextBoxType = { name = "selection" position = { x = 22 y = 413 } font = "hoi_18mbs" text = "RUS_rc_selection" maxWidth = 320 maxHeight = 20 format = left alwaystransparent = yes }
+buttonType = { name = "reset" position = { x = 448 y = 409 } quadTextureSprite = "GFX_RUS_rc_reset" buttonText = "RUS_rc_reset" buttonFont = "hoi_16mbs" clicksound = click_default pdx_tooltip = RUS_rc_reset_tt }
+buttonType = { name = "order_relief" position = { x = 20 y = 443 } quadTextureSprite = "GFX_RUS_rc_order" clicksound = click_default pdx_tooltip = RUS_rc_relief_tt }
+iconType = { name = "order_icon_relief" position = { x = 28 y = 449 } spriteType = "GFX_RUS_rc_order_relief" alwaystransparent = yes }
+instantTextBoxType = { name = "order_title_relief" position = { x = 63 y = 447 } font = "hoi_16mbs" text = "RUS_rc_relief" maxWidth = 169 maxHeight = 18 format = left alwaystransparent = yes }
+instantTextBoxType = { name = "order_stats_relief" position = { x = 63 y = 466 } font = "hoi_14" text = "RUS_rc_order_stats_relief" maxWidth = 175 maxHeight = 17 format = left alwaystransparent = yes }
+iconType = { name = "working_relief" position = { x = 224 y = 447 } spriteType = "GFX_RUS_rc_working" alwaystransparent = yes }
+buttonType = { name = "order_factory" position = { x = 262 y = 443 } quadTextureSprite = "GFX_RUS_rc_order" clicksound = click_default pdx_tooltip = RUS_rc_factory_tt }
+iconType = { name = "order_icon_factory" position = { x = 270 y = 449 } spriteType = "GFX_RUS_rc_order_factory" alwaystransparent = yes }
+instantTextBoxType = { name = "order_title_factory" position = { x = 305 y = 447 } font = "hoi_16mbs" text = "RUS_rc_factory" maxWidth = 169 maxHeight = 18 format = left alwaystransparent = yes }
+instantTextBoxType = { name = "order_stats_factory" position = { x = 305 y = 466 } font = "hoi_14" text = "RUS_rc_order_stats_factory" maxWidth = 175 maxHeight = 17 format = left alwaystransparent = yes }
+iconType = { name = "working_factory" position = { x = 466 y = 447 } spriteType = "GFX_RUS_rc_working" alwaystransparent = yes }
+buttonType = { name = "order_rail" position = { x = 20 y = 495 } quadTextureSprite = "GFX_RUS_rc_order" clicksound = click_default pdx_tooltip = RUS_rc_rail_tt }
+iconType = { name = "order_icon_rail" position = { x = 28 y = 501 } spriteType = "GFX_RUS_rc_order_rail" alwaystransparent = yes }
+instantTextBoxType = { name = "order_title_rail" position = { x = 63 y = 499 } font = "hoi_16mbs" text = "RUS_rc_rail" maxWidth = 169 maxHeight = 18 format = left alwaystransparent = yes }
+instantTextBoxType = { name = "order_stats_rail" position = { x = 63 y = 518 } font = "hoi_14" text = "RUS_rc_order_stats_rail" maxWidth = 175 maxHeight = 17 format = left alwaystransparent = yes }
+iconType = { name = "working_rail" position = { x = 224 y = 499 } spriteType = "GFX_RUS_rc_working" alwaystransparent = yes }
+buttonType = { name = "order_road" position = { x = 262 y = 495 } quadTextureSprite = "GFX_RUS_rc_order" clicksound = click_default pdx_tooltip = RUS_rc_road_tt }
+iconType = { name = "order_icon_road" position = { x = 270 y = 501 } spriteType = "GFX_RUS_rc_order_road" alwaystransparent = yes }
+instantTextBoxType = { name = "order_title_road" position = { x = 305 y = 499 } font = "hoi_16mbs" text = "RUS_rc_road" maxWidth = 169 maxHeight = 18 format = left alwaystransparent = yes }
+instantTextBoxType = { name = "order_stats_road" position = { x = 305 y = 518 } font = "hoi_14" text = "RUS_rc_order_stats_road" maxWidth = 175 maxHeight = 17 format = left alwaystransparent = yes }
+iconType = { name = "working_road" position = { x = 466 y = 499 } spriteType = "GFX_RUS_rc_working" alwaystransparent = yes }
+iconType = { name = "project_clock" position = { x = 438 y = 66 } spriteType = "GFX_RUS_rc_clock" alwaystransparent = yes }
+instantTextBoxType = { name = "summary" position = { x = 30 y = 57 } font = "hoi_16mbs" text = "RUS_rc_summary" maxWidth = 402 maxHeight = 40 format = left alwaystransparent = yes }
 }
 }

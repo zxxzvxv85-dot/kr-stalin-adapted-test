@@ -1,34 +1,27 @@
-# 临时政府工业GUI
+# 临时政府工业 GUI（2026-11-01动态版）
 
-本模块是既有工业决议的可视化入口，只开发第一阶段。上传目录不包含本轮改动；旧debug沙盘继续保留。
+只开发测试版第一阶段；正式版与两版上传目录不包含本轮改动。旧debug工业沙盘保留原状态。
 
-## 入口与范围
+## 入口与交互
 
-人类俄罗斯进入社会主义/共产主义政府且斯大林尚未执政时，在决议“工业项目”分类显示。新增“显示全部工业工程”是无费用UI复位，确保当前分类无已解锁项目时仍可切回。点场景设施只写RUS_rc_filter，不支付费用或授予奖励。实际工程依旧使用原生决议列表、原解锁条件及费用；“为发展奠基”“国民经济普查”等禁选预览国策没有被开放。
+人类俄罗斯进入社会主义/共产主义政府、斯大林尚未执政时，在原“工业项目”决议分类显示。504×574窗口包括原492×394厂区、危机缓解刻度与四张工程台账卡。点击文件/厂房/机车/吊机及台账卡只筛选原生决议，关闭筛选查看全部；不会支付费用、开始工程或授予奖励。“施工图”按钮切换为使用霜泽小素材组成的四部门工程板，仍可分别点击。两个视图共用真实统计。
 
-- 文件：黑色星期一恢复项目（从实际调用RUS_decrease_black_monday分类）。
-- 厂房：非道路/铁路的工业、能源和资源项目。
-- 蒸汽机车：北方路线、三段铁路扩建及中亚铁路。
-- 吊车：中央、北方及伏尔加道路。
-- 计时任务不参加筛选。阶段之外所有筛选旁路，不改变AI或其他政府的可见规则。
+厂区3帧：黑色星期一5/6级为停工，3/4级为恢复施工，1/2级及危机已解除为复产；有任一统计内项目在建时优先显示施工画面。危机条按实际六级精神显示7个刻度。它们是委员会辖区的概览，不代表图中每座设施已经按地块逐一建成。没有假设新产业链、生产量或损坏系统。
 
-第二阶段由RUS_rc_stalin_phase识别RUS_stalin_ml_promoted旗标或斯大林现任领袖；本阶段GUI关闭，原生决议继续使用。第二阶段画面与新机制尚未开发。根窗口隐藏后实际决议类别高度仍需游戏验收。
+46项已有定时工程的剩余天数由引擎days_decision_timeout@ID读取；每帧用scripted GUI triggers/_临时变量重算各组与总在建数、最近竣工天数，无新增每日on_action。竣工数是项目种类数；原remove_effect末尾仅追加hidden_effect中的RUS_rc_finished_ID标记，重复电气化不重复累计种类。未改费用、原耗时、奖励、解锁、AI、取消或目标地块。原脚本自然结算仍由原生决议处理，不把预览国策开放。
 
-## 来源与生成
+在建组显示旋转齿轮，道路施工时厂区显示轻微烟尘循环。frameAnimatedSpriteType参考KR interface/core.gfx，变量选帧参考KR奥斯曼scripted GUI，动态image参考KR塞尔维亚GUI；计时字段以安装游戏documentation/dynamic_variables_documentation.md为准。用户负责重启新开局实测；临时变量在真实界面刷新、点击alpha命中、动画和分类高度尚不可由离线预览证明。
 
-文本来源`generate_provisional_industry_gui.py`，默认检查，`--write`写入。共享决议/分类文件只维护标记UI块；未来其他生成器改写共享文件后应再执行本生成器。所有原奖励/条件由原模块维护，不在此复制。
+## 素材与生成
 
-美术来源是本地新美工素材库中的Factories5、火车、Crane、Documents_and_Papers、Railroad与原版斯柯达框；原素材组合后使用内置image_gen生成衔接，再单独修正机车。完整提示词及文件来源在`design/provisional_industry_20261030/provenance.json`。先前用户否定的纯生成风格和散排方案不用于游戏。
+四张霜泽图标合集拆为45页、2797个连接图块逐页查看（含重复及少量相邻聚合），编号和完整预览保存在工作区output/provisional_industry_dynamic_20261101/catalog。12项选用素材的原图、坐标及SHA在tools/design/provisional_industry_20261101/library_sources.json；煤堆单独裁掉下方鱼图案。工程板使用厂房、吊机、煤、砖料、木箱、工具和蓝图，台账使用金钱、厂房、蓝图和工具，计时钟、齿轮、烟尘与边框也来自该馆；金属底纹来自纹理（五）。未修改3473772709订阅目录。
 
-源图1401×1123，底图492×394，窗口504×426。`prepare_provisional_industry_assets.py --write`只进行游戏打包：等比例近似缩至底图、按多边形生成四张原像素透明贴图；默认只验保存的SHA，不生成图像。`transparencecheck=yes`沿原生GFX写法，`buttonstate.lua`提供悬浮反馈。后续换图必须重查四个区域和MASKS，不能只覆盖底图。原尺寸排版预览是本地绘制，不是游戏截图。
+两张厂区状态图通过内置image_gen编辑既有20261030混合素材场景；准确提示词、工具、尺寸、SHA见同目录provenance.json。复产沿用原场景，停工/施工保留主体位置。prepare_dynamic_industry_assets.py只进行素材打包、透明点击图、原素材组合与12帧动画打包；--check默认只读，不调用图生成。原静态资产保留，动态资产位于gfx/interface/RUS_provisional_industry/dynamic。
 
-## 检查
+文本入口仍为generate_provisional_industry_gui.py，动态扩展在provisional_industry_dashboard.py。其他生成器改写同一决议文件后需重新运行；标记块幂等维护，默认只读。新开局为基线，不为旧存档推测补发竣工记录。
 
-```powershell
-python tools/generate_provisional_industry_gui.py --check
-python tools/prepare_provisional_industry_assets.py
-python tools/test_provisional_industry_gui.py
-python tools/check_runtime_structure.py
-```
+## 验证与预览
 
-运行时需重启验证：临时政府出现面板；四处设施正确响应；筛选无项目仍能复位；工程原费用/时长及效果；斯大林上台后筛选失效、面板关闭且原决议仍显示。静态检查不能验证引擎里的点击命中和动态排版。
+运行test_provisional_industry_gui.py（7项，含原玩法AST保持、46项计时的28种边界组合、三帧点击像素一致与生成幂等）、check_runtime_structure.py、generate_provisional_industry_gui.py --check、prepare_dynamic_industry_assets.py --check。
+
+output/provisional_industry_dynamic_20261101/工业复兴委员会_交互预览.html可离线切换两视图/三状态并点击设施；6张PNG和GIF来自实际GUI坐标与资源的离线渲染。数字为演示值，预览不是游戏截图或运行时验收。
