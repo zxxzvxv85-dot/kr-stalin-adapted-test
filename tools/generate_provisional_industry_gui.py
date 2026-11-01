@@ -50,7 +50,7 @@ def decision_patch(text):
         visible = { RUS_rc_provisional_phase = yes }
         cost = 0
         ai_will_do = { base = 0 }
-        complete_effect = { hidden_effect = { set_variable = { RUS_rc_filter = 0 } } }
+        complete_effect = { hidden_effect = { set_variable = { RUS_rc_filter = 0 } RUS_rc_refresh = yes } }
     }
     # RUS_RECOVERY_OVERVIEW_END
 '''

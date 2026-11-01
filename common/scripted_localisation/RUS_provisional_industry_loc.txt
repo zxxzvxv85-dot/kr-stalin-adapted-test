@@ -36,4 +36,4 @@ trigger = { has_idea = RUS_black_monday_1 } localization_key = RUS_rc_crisis_1
 }
 text = { localization_key = RUS_rc_clear }
 }
-defined_text = { name = RUSRecoveryNextCompletion text = { trigger = { check_variable = { RUS_rc_active > 0 } } localization_key = RUS_rc_next_work } text = { localization_key = RUS_rc_no_work } }
+defined_text = { name = RUSRecoveryNextCompletion text = { trigger = { check_variable = { RUS_rc_active > 0 } check_variable = { RUS_rc_next_days > 0 } } localization_key = RUS_rc_next_work } text = { trigger = { check_variable = { RUS_rc_active > 0 } } localization_key = RUS_rc_starting } text = { localization_key = RUS_rc_no_work } }

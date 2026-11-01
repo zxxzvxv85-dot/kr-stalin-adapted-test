@@ -43,12 +43,7 @@ class Tests(unittest.TestCase):
   gui=load(ROOT/'common/scripted_guis/RUS_provisional_industry_gui.txt')[0].one('RUS_rc_dashboard')
   for e in gui.one('effects').v:
    body=e.one('hidden_effect').one('if')
-   if e.k == 'view_toggle_click':
-    self.assertEqual([x.k for x in body.v],['limit','if','else'])
-    self.assertEqual(body.one('if').value('clr_country_flag'),'RUS_rc_blueprint_view')
-    self.assertEqual(body.one('else').value('set_country_flag'),'RUS_rc_blueprint_view')
-    continue
-   self.assertEqual([x.k for x in body.v],['limit','set_variable'])
+   self.assertEqual([x.k for x in body.v],['limit','set_variable','RUS_rc_refresh'])
    self.assertEqual(body.one('set_variable').v[0].k,'RUS_rc_filter')
 
  def test_assets_hits_and_language_bindings(self):
@@ -74,20 +69,25 @@ class Tests(unittest.TestCase):
   import subprocess,re
   before=subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+DECISIONS]).decode('utf-8-sig')
   after=(ROOT/DECISIONS).read_text(encoding='utf-8-sig')
-  def strip(s):return re.sub(r'(?ms)^[ \t]*# RUS_RECOVERY_LEDGER_BEGIN\n.*?^[ \t]*# RUS_RECOVERY_LEDGER_END[ \t]*\n','',s)
+  def strip(s):return re.sub(r'(?ms)^[ \t]*# RUS_RECOVERY_LEDGER_BEGIN\n.*?^[ \t]*# RUS_RECOVERY_LEDGER_END[ \t]*\n','',s).replace('RUS_rc_refresh = yes','')
   self.assertEqual([n.norm() for n in parse(strip(before))],[n.norm() for n in parse(strip(after))])
   for rel,text in render().items():self.assertEqual((ROOT/rel).read_text(encoding='utf-8-sig'),text,rel)
 
  def test_engine_timer_statistics_and_crisis_boundaries(self):
   sg=load(ROOT/'common/scripted_guis/RUS_provisional_industry_gui.txt')[0].one('RUS_rc_dashboard')
-  calc=sg.one('triggers').one('_')
+  self.assertIsNone(sg.one('triggers').one('_'))
+  self.assertNotIn('RUS_rc_blueprint_view',sg.raw())
+  calc=load(ROOT/'common/scripted_effects/RUS_provisional_industry_effects.txt')[0].one('if')
+  calc.v=[n for n in calc.v if n.k!='limit']
   cat=next(n for n in load(ROOT/DECISIONS) if n.k==CATEGORY)
   ids=[n.k for n in cat.v if n.one('days_remove') and n.one('remove_effect')]
   self.assertEqual(len(ids),46)
   for crisis in range(7):
-   for pattern in range(4):
-    timers={k:(-1 if pattern==0 else 0 if pattern==1 else (i+1)*2 if pattern==2 else 5 if i%3==0 else 0) for i,k in enumerate(ids)}
+   for pattern in range(7):
+    timers={k:(-1 if pattern==0 else 0 if pattern==1 else (i+1)*2 if pattern in (2,4,6) else 5 if pattern==3 and i%3==0 else 0) for i,k in enumerate(ids)}
     flags={'RUS_rc_finished_'+k for i,k in enumerate(ids) if i%4==0};v={}
+    if pattern in (4,6):flags|={'RUS_rc_settled_'+k for i,k in enumerate(ids) if i%2==0}
+    if pattern in (5,6):flags|={'RUS_rc_running_'+k for i,k in enumerate(ids) if i%3==0}
     def value(k):
      try:return float(k)
      except ValueError:return timers.get(k.split('@',1)[1],0) if k.startswith('days_decision_timeout@') else v.get(k,0)
@@ -103,14 +103,16 @@ class Tests(unittest.TestCase):
      for n in ns:
       if n.k=='if':
        if pred(n.one('limit')):run([x for x in n.v if x.k!='limit'])
-      elif n.k in ('set_temp_variable','add_to_temp_variable'):
-       c=n.v[0];v[c.k]=(v.get(c.k,0) if n.k=='add_to_temp_variable' else 0)+value(c.v)
+      elif n.k in ('set_variable','add_to_variable'):
+       c=n.v[0];v[c.k]=(v.get(c.k,0) if n.k=='add_to_variable' else 0)+value(c.v)
       else:raise AssertionError(n.k)
-    run(calc.v);positive=[x for x in timers.values() if x>0]
-    self.assertEqual(v['RUS_rc_active'],len(positive));self.assertEqual(v['RUS_rc_done'],len(flags))
+    run(calc.v);active_ids=[k for k in ids if 'RUS_rc_settled_'+k not in flags and (timers[k]>0 or 'RUS_rc_running_'+k in flags)];positive=[timers[k] for k in active_ids if timers[k]>0]
+    self.assertEqual(v['RUS_rc_active'],len(active_ids));self.assertEqual(v['RUS_rc_done'],sum('RUS_rc_finished_'+k in flags for k in ids))
     self.assertEqual(v['RUS_rc_next_days'],min(positive,default=0))
     self.assertEqual(v['RUS_rc_recovery_frame'],7-crisis)
-    self.assertEqual(v['RUS_rc_scene_frame'],2 if positive else 1 if crisis>=5 else 2 if crisis>=3 else 3)
+    self.assertEqual(v['RUS_rc_scene_frame'],1 if crisis>=5 else 2 if crisis>=3 else 3)
+    for key,*_ in ZONES:
+     self.assertEqual(v['RUS_rc_frame_'+key],2 if v['RUS_rc_active_'+key]>0 else 3 if v['RUS_rc_done_'+key]>0 else v['RUS_rc_scene_frame'])
 
  def test_dynamic_sprite_frames_match_click_overlays(self):
   import numpy as np

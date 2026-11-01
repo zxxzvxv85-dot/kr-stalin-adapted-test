@@ -1,185 +1,7 @@
 scripted_gui = { RUS_rc_dashboard = { context_type = decision_category window_name = "RUS_rc_window" visible = { RUS_rc_provisional_phase = yes }
-triggers = { _ = {
-set_temp_variable = { RUS_rc_active = 0 }
-set_temp_variable = { RUS_rc_done = 0 }
-set_temp_variable = { RUS_rc_next_days = 0 }
-set_temp_variable = { RUS_rc_scene_frame = 1 }
-set_temp_variable = { RUS_rc_active_relief = 0 }
-set_temp_variable = { RUS_rc_done_relief = 0 }
-set_temp_variable = { RUS_rc_active_factory = 0 }
-set_temp_variable = { RUS_rc_done_factory = 0 }
-set_temp_variable = { RUS_rc_active_rail = 0 }
-set_temp_variable = { RUS_rc_done_rail = 0 }
-set_temp_variable = { RUS_rc_active_road = 0 }
-set_temp_variable = { RUS_rc_done_road = 0 }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_kamenev_all_russian_electrification }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_kamenev_all_russian_electrification } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_renovate_and_expand_moscow }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_renovate_and_expand_tsaritsyn }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_renovate_and_expand_saint_petersburg }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_magnitogorsk }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_magnitogorsk } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_second_baku }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_second_baku } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_modernisation_of_AMO }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_izhevsk_mechanical_plant }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_tula_arms_factory }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_tula_arms_factory } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_create_tankograd }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_create_tankograd } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_convert_civilian_aviation_industry }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_tsaritsyn_tractor_plant }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_chelyabinsk_tractor_plant }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_kursk_tractor_plant }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_rostselmash }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_rostselmash } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_stavropol_hydroelectric_dam }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_rybinsk_hydroelectric_dam }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_zhiguli_hydroelectric_dam }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_krasnoyarsk_hydroelectric_dam }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_lipetsk_metallurgical_plant }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_uralmash }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_uralmash } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_motovilikha_plants }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_motovilikha_plants } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_admiralty_dockyards }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_admiralty_dockyards } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_kamensky_uralsky }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_kamensky_uralsky } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_grozny_oil }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_grozny_oil } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_arctic_mines }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_arctic_mines } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_tyrnyauz_tungsten }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_romanshkino_oil }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_romanshkino_oil } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_northern_route }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_rail = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_northern_route } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_rail = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_upgrade_the_railroad_chelyabinsk }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_rail = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_rail = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_upgrade_the_railroad_krasnoyarsk }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_rail = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_rail = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_upgrade_the_railroad_vladivostok }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_rail = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_rail = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_kuznetsk_basin }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_kuznetsk_basin } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_bodaybo_gold_mines }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_far_eastern_fishing_industry }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_krasnoyarskpromstroy }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_dalnremmash }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_dalnremmash } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_rudny_altay }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_rudny_altay } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_tekeli_metallurgical_combine }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_emba_oil_area }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_emba_oil_area } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_verny_cotton_industry }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_verny_cotton_industry } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_siberian_timber_industries }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_factory = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_siberian_timber_industries } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_factory = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_improve_roads_in_central_russia }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_road = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_road = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_improve_roads_in_northern_russia }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_road = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_road = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_improve_roads_in_the_volga_basin }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_road = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_road = 1 } }
-set_temp_variable = { RUS_rc_left = days_decision_timeout@RUS_central_asia_railroads }
-if = { limit = { check_variable = { RUS_rc_left > 0 } } add_to_temp_variable = { RUS_rc_active = 1 } add_to_temp_variable = { RUS_rc_active_relief = 1 } add_to_temp_variable = { RUS_rc_active_rail = 1 } if = { limit = { OR = { check_variable = { RUS_rc_next_days = 0 } check_variable = { RUS_rc_left < RUS_rc_next_days } } } set_temp_variable = { RUS_rc_next_days = RUS_rc_left } } }
-if = { limit = { has_country_flag = RUS_rc_finished_RUS_central_asia_railroads } add_to_temp_variable = { RUS_rc_done = 1 } add_to_temp_variable = { RUS_rc_done_relief = 1 } add_to_temp_variable = { RUS_rc_done_rail = 1 } }
-set_temp_variable = { RUS_rc_recovery_frame = 7 }
-if = { limit = { has_idea = RUS_black_monday_1 } set_temp_variable = { RUS_rc_recovery_frame = 6 } }
-if = { limit = { has_idea = RUS_black_monday_2 } set_temp_variable = { RUS_rc_recovery_frame = 5 } }
-if = { limit = { has_idea = RUS_black_monday_3 } set_temp_variable = { RUS_rc_recovery_frame = 4 } }
-if = { limit = { has_idea = RUS_black_monday_4 } set_temp_variable = { RUS_rc_recovery_frame = 3 } }
-if = { limit = { has_idea = RUS_black_monday_5 } set_temp_variable = { RUS_rc_recovery_frame = 2 } }
-if = { limit = { has_idea = RUS_black_monday_6 } set_temp_variable = { RUS_rc_recovery_frame = 1 } }
-if = { limit = { NOT = { OR = { has_idea = RUS_black_monday_6 has_idea = RUS_black_monday_5 } } } set_temp_variable = { RUS_rc_scene_frame = 2 } }
-if = { limit = { NOT = { OR = { has_idea = RUS_black_monday_6 has_idea = RUS_black_monday_5 has_idea = RUS_black_monday_4 has_idea = RUS_black_monday_3 } } } set_temp_variable = { RUS_rc_scene_frame = 3 } }
-if = { limit = { check_variable = { RUS_rc_active > 0 } } set_temp_variable = { RUS_rc_scene_frame = 2 } }
-}
-selected_relief_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } check_variable = { RUS_rc_filter = 1 } }
-relief_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } }
-selected_factory_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } check_variable = { RUS_rc_filter = 2 } }
-factory_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } }
-selected_rail_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } check_variable = { RUS_rc_filter = 3 } }
-rail_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } }
-selected_road_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } check_variable = { RUS_rc_filter = 4 } }
-road_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } }
-plate_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } }
-blueprint_plate_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_relief_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_label_relief_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_factory_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_label_factory_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_rail_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_label_rail_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_road_visible = { has_country_flag = RUS_rc_blueprint_view }
-bp_label_road_visible = { has_country_flag = RUS_rc_blueprint_view }
-dust_visible = { NOT = { has_country_flag = RUS_rc_blueprint_view } check_variable = { RUS_rc_active_road > 0 } }
+triggers = {
+dust_visible = { check_variable = { RUS_rc_active_road > 0 } }
+rail_steam_visible = { check_variable = { RUS_rc_active_rail > 0 } }
 working_relief_visible = { check_variable = { RUS_rc_active_relief > 0 } }
 working_factory_visible = { check_variable = { RUS_rc_active_factory > 0 } }
 working_rail_visible = { check_variable = { RUS_rc_active_rail > 0 } }
@@ -189,30 +11,19 @@ project_clock_visible = { check_variable = { RUS_rc_active > 0 } }
 properties = {
 plate = { frame = RUS_rc_scene_frame }
 recovery = { frame = RUS_rc_recovery_frame }
-relief = { frame = RUS_rc_scene_frame }
-factory = { frame = RUS_rc_scene_frame }
-rail = { frame = RUS_rc_scene_frame }
-road = { frame = RUS_rc_scene_frame }
-blueprint_plate = { frame = RUS_rc_scene_frame }
-bp_relief = { frame = RUS_rc_scene_frame }
-bp_factory = { frame = RUS_rc_scene_frame }
-bp_rail = { frame = RUS_rc_scene_frame }
-bp_road = { frame = RUS_rc_scene_frame }
+relief = { frame = RUS_rc_frame_relief }
+factory = { frame = RUS_rc_frame_factory }
+rail = { frame = RUS_rc_frame_rail }
+road = { frame = RUS_rc_frame_road }
 }
 effects = {
-relief_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 1 } } } }
-factory_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 2 } } } }
-rail_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 3 } } } }
-road_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 4 } } } }
-bp_relief_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 1 } } } }
-bp_factory_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 2 } } } }
-bp_rail_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 3 } } } }
-bp_road_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 4 } } } }
-view_toggle_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } if = { limit = { has_country_flag = RUS_rc_blueprint_view } clr_country_flag = RUS_rc_blueprint_view } else = { set_country_flag = RUS_rc_blueprint_view } } } }
-reset_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 0 } } } }
-order_relief_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 1 } } } }
-order_factory_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 2 } } } }
-order_rail_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 3 } } } }
-order_road_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 4 } } } }
+relief_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 1 } RUS_rc_refresh = yes } } }
+factory_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 2 } RUS_rc_refresh = yes } } }
+rail_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 3 } RUS_rc_refresh = yes } } }
+road_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 4 } RUS_rc_refresh = yes } } }
+order_relief_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 1 } RUS_rc_refresh = yes } } }
+order_factory_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 2 } RUS_rc_refresh = yes } } }
+order_rail_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 3 } RUS_rc_refresh = yes } } }
+order_road_click = { hidden_effect = { if = { limit = { RUS_rc_provisional_phase = yes } set_variable = { RUS_rc_filter = 4 } RUS_rc_refresh = yes } } }
 }
 } }
