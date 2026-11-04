@@ -59,6 +59,30 @@ def extra_preview(a): return 'RUS_edu_extra_'+a['id']+'_preview'
 
 def extra_value(a,m): return 'RUS_edu_extra_'+a['id']+'_'+m
 
+def gain_preview(a,kind): return 'RUS_edu_preview_'+kind+'_'+a['id']
+
+def gain_preview_lines(a):
+    # A full-duration projection at today's rates, using the same operation
+    # order as a daily pulse. Running campaigns keep their paid duration and
+    # repetition status; completing the first run must not preview a repeat.
+    days='RUS_edu_preview_days'
+    lines=[setv(days,duration(a))]+cond('has_country_flag = '+active(a),[setv(days,run_duration(a))])
+    for kind in ('basic','higher'):
+        if not a[kind]:continue
+        v=gain_preview(a,kind)
+        lines += [setv(v,a[kind]),op('divide',v,days),mul(v,'RUS_edu_quality'),mul(v,'RUS_edu_'+kind+'_multiplier')]
+        lines += cond(preview_repeat_condition(a),[mul(v,1.5)])
+        lines += [setv('RUS_edu_preview_cap',EDUCATION_GAIN_CAPS[kind]),op('divide','RUS_edu_preview_cap',days)]
+        lines += clamp(v,0,'RUS_edu_preview_cap')+[mul(v,days)]
+    if a['heat']:
+        v=gain_preview(a,'heat')
+        lines += [setv(v,a['heat']),op('divide',v,30)]
+        if a['heat']>0:
+            lines += mul_if(v,'RUS_edu_central',1.25)
+            if a['kind']=='culture':lines+=mul_if(v,'RUS_edu_amateur',.75)
+        lines += cond(preview_repeat_condition(a),[mul(v,1.5)])+[mul(v,30)]
+    return lines
+
 def preview_repeat_condition(a):
     return f'OR = {{ has_country_flag = {repeated(a)} AND = {{ NOT = {{ has_country_flag = {active(a)} }} {repeat_condition(a)} }} }}'
 
@@ -333,6 +357,7 @@ def refresh_lines():
         # Engine timers use whole days. A representable 0.001 epsilon makes
         # positive half-day ties round up in the engine and test fixture.
         lines += [add(duration(a),.001),f'round_variable = {duration(a)}']
+        if a['kind']!='control':lines += gain_preview_lines(a)
         v='RUS_edu_cost_'+a['id']; lines+=[setv(v,a['cost'])]
         lines+=cond('has_variable = '+repeat_cost(a),[add(v,repeat_cost(a))])
         if a['kind']!='control':
@@ -663,10 +688,10 @@ def localisations():
         l[key+'_desc']='【'+KINDS.get(a['kind'],'热情调节')+'】\\n再次开展时，基础政治点花费累加§R'+('5' if regular else '1')+'§!。'
         if regular:
             gains=[]
-            if a['basic']:gains.append(f'基础教育水平：§G+{a["basic"]:g}§!')
-            if a['higher']:gains.append(f'高等教育水平：§G+{a["higher"]:g}§!')
+            if a['basic']:gains.append(f'基础教育水平：§G+[?{gain_preview(a,"basic")}|2]§!')
+            if a['higher']:gains.append(f'高等教育水平：§G+[?{gain_preview(a,"higher")}|2]§!')
             progress='教育提升：\\n'+'\\n'.join(gains) if gains else ''
-            if a['heat']: progress+=f'\\n民众热情：每30天 §Y{a["heat"]:+g}§!'
+            if a['heat']: progress+=f'\\n民众热情：每30天 §Y{"+" if a["heat"]>0 else ""}[?{gain_preview(a,"heat")}|2]§!'
             finish='完成宣传次数：§G+1§!。'
         else:
             progress='不占宣传栏位；不计入宣传次数。'

@@ -711,6 +711,24 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_literacy = 0.001 }
 	round_variable = RUS_edu_duration_literacy
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_literacy }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_literacy }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_literacy }
+	}
+	set_variable = { RUS_edu_preview_basic_literacy = 4 }
+	divide_variable = { RUS_edu_preview_basic_literacy = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_literacy = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_literacy = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_literacy AND = { NOT = { has_country_flag = RUS_edu_running_literacy } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_literacy } } }
+		multiply_variable = { RUS_edu_preview_basic_literacy = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_literacy < 0 } } set_variable = { RUS_edu_preview_basic_literacy = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_literacy > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_literacy = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_literacy = RUS_edu_preview_days }
 	set_variable = { RUS_edu_cost_literacy = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_literacy }
@@ -779,6 +797,31 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_schools = 0.001 }
 	round_variable = RUS_edu_duration_schools
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_schools }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_schools }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_schools }
+	}
+	set_variable = { RUS_edu_preview_basic_schools = 4 }
+	divide_variable = { RUS_edu_preview_basic_schools = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_schools = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_schools = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_schools AND = { NOT = { has_country_flag = RUS_edu_running_schools } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_schools } } }
+		multiply_variable = { RUS_edu_preview_basic_schools = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_schools < 0 } } set_variable = { RUS_edu_preview_basic_schools = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_schools > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_schools = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_schools = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_schools = -0.5 }
+	divide_variable = { RUS_edu_preview_heat_schools = 30 }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_schools AND = { NOT = { has_country_flag = RUS_edu_running_schools } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_schools } } }
+		multiply_variable = { RUS_edu_preview_heat_schools = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_schools = 30 }
 	set_variable = { RUS_edu_cost_schools = 40 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_schools }
@@ -861,6 +904,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_night_school = 0.001 }
 	round_variable = RUS_edu_duration_night_school
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_night_school }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_night_school }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_night_school }
+	}
+	set_variable = { RUS_edu_preview_basic_night_school = 4 }
+	divide_variable = { RUS_edu_preview_basic_night_school = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_night_school = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_night_school = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_night_school AND = { NOT = { has_country_flag = RUS_edu_running_night_school } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_night_school } } }
+		multiply_variable = { RUS_edu_preview_basic_night_school = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_night_school < 0 } } set_variable = { RUS_edu_preview_basic_night_school = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_night_school > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_night_school = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_night_school = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_night_school = 1 }
+	divide_variable = { RUS_edu_preview_higher_night_school = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_night_school = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_night_school = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_night_school AND = { NOT = { has_country_flag = RUS_edu_running_night_school } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_night_school } } }
+		multiply_variable = { RUS_edu_preview_higher_night_school = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_night_school < 0 } } set_variable = { RUS_edu_preview_higher_night_school = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_night_school > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_night_school = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_night_school = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_night_school = 0.5 }
+	divide_variable = { RUS_edu_preview_heat_night_school = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_night_school = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_night_school AND = { NOT = { has_country_flag = RUS_edu_running_night_school } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_night_school } } }
+		multiply_variable = { RUS_edu_preview_heat_night_school = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_night_school = 30 }
 	set_variable = { RUS_edu_cost_night_school = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_night_school }
@@ -943,6 +1028,37 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_teachers = 0.001 }
 	round_variable = RUS_edu_duration_teachers
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_teachers }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_teachers }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_teachers }
+	}
+	set_variable = { RUS_edu_preview_basic_teachers = 4 }
+	divide_variable = { RUS_edu_preview_basic_teachers = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_teachers = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_teachers = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_teachers AND = { NOT = { has_country_flag = RUS_edu_running_teachers } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_teachers } } }
+		multiply_variable = { RUS_edu_preview_basic_teachers = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_teachers < 0 } } set_variable = { RUS_edu_preview_basic_teachers = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_teachers > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_teachers = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_teachers = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_teachers = 2 }
+	divide_variable = { RUS_edu_preview_higher_teachers = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_teachers = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_teachers = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_teachers AND = { NOT = { has_country_flag = RUS_edu_running_teachers } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_teachers } } }
+		multiply_variable = { RUS_edu_preview_higher_teachers = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_teachers < 0 } } set_variable = { RUS_edu_preview_higher_teachers = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_teachers > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_teachers = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_teachers = RUS_edu_preview_days }
 	set_variable = { RUS_edu_cost_teachers = 40 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_teachers }
@@ -1025,6 +1141,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_university = 0.001 }
 	round_variable = RUS_edu_duration_university
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_university }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_university }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_university }
+	}
+	set_variable = { RUS_edu_preview_basic_university = 1 }
+	divide_variable = { RUS_edu_preview_basic_university = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_university = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_university = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_university AND = { NOT = { has_country_flag = RUS_edu_running_university } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_university } } }
+		multiply_variable = { RUS_edu_preview_basic_university = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_university < 0 } } set_variable = { RUS_edu_preview_basic_university = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_university > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_university = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_university = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_university = 2 }
+	divide_variable = { RUS_edu_preview_higher_university = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_university = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_university = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_university AND = { NOT = { has_country_flag = RUS_edu_running_university } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_university } } }
+		multiply_variable = { RUS_edu_preview_higher_university = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_university < 0 } } set_variable = { RUS_edu_preview_higher_university = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_university > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_university = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_university = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_university = 0.5 }
+	divide_variable = { RUS_edu_preview_heat_university = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_university = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_university AND = { NOT = { has_country_flag = RUS_edu_running_university } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_university } } }
+		multiply_variable = { RUS_edu_preview_heat_university = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_university = 30 }
 	set_variable = { RUS_edu_cost_university = 45 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_university }
@@ -1093,6 +1251,24 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_science = 0.001 }
 	round_variable = RUS_edu_duration_science
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_science }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_science }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_science }
+	}
+	set_variable = { RUS_edu_preview_higher_science = 2 }
+	divide_variable = { RUS_edu_preview_higher_science = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_science = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_science = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_science AND = { NOT = { has_country_flag = RUS_edu_running_science } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_science } } }
+		multiply_variable = { RUS_edu_preview_higher_science = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_science < 0 } } set_variable = { RUS_edu_preview_higher_science = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_science > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_science = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_science = RUS_edu_preview_days }
 	set_variable = { RUS_edu_cost_science = 55 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_science }
@@ -1175,6 +1351,37 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_pedagogy = 0.001 }
 	round_variable = RUS_edu_duration_pedagogy
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_pedagogy }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_pedagogy }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_pedagogy }
+	}
+	set_variable = { RUS_edu_preview_basic_pedagogy = 3 }
+	divide_variable = { RUS_edu_preview_basic_pedagogy = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_pedagogy = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_pedagogy = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_pedagogy AND = { NOT = { has_country_flag = RUS_edu_running_pedagogy } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_pedagogy } } }
+		multiply_variable = { RUS_edu_preview_basic_pedagogy = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_pedagogy < 0 } } set_variable = { RUS_edu_preview_basic_pedagogy = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_pedagogy > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_pedagogy = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_pedagogy = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_pedagogy = 2 }
+	divide_variable = { RUS_edu_preview_higher_pedagogy = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_pedagogy = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_pedagogy = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_pedagogy AND = { NOT = { has_country_flag = RUS_edu_running_pedagogy } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_pedagogy } } }
+		multiply_variable = { RUS_edu_preview_higher_pedagogy = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_pedagogy < 0 } } set_variable = { RUS_edu_preview_higher_pedagogy = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_pedagogy > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_pedagogy = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_pedagogy = RUS_edu_preview_days }
 	set_variable = { RUS_edu_cost_pedagogy = 45 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_pedagogy }
@@ -1257,6 +1464,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_technical = 0.001 }
 	round_variable = RUS_edu_duration_technical
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_technical }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_technical }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_technical }
+	}
+	set_variable = { RUS_edu_preview_basic_technical = 1 }
+	divide_variable = { RUS_edu_preview_basic_technical = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_technical = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_technical = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_technical AND = { NOT = { has_country_flag = RUS_edu_running_technical } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_technical } } }
+		multiply_variable = { RUS_edu_preview_basic_technical = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_technical < 0 } } set_variable = { RUS_edu_preview_basic_technical = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_technical > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_technical = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_technical = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_technical = 2 }
+	divide_variable = { RUS_edu_preview_higher_technical = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_technical = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_technical = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_technical AND = { NOT = { has_country_flag = RUS_edu_running_technical } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_technical } } }
+		multiply_variable = { RUS_edu_preview_higher_technical = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_technical < 0 } } set_variable = { RUS_edu_preview_higher_technical = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_technical > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_technical = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_technical = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_technical = 1 }
+	divide_variable = { RUS_edu_preview_heat_technical = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_technical = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_technical AND = { NOT = { has_country_flag = RUS_edu_running_technical } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_technical } } }
+		multiply_variable = { RUS_edu_preview_heat_technical = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_technical = 30 }
 	set_variable = { RUS_edu_cost_technical = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_technical }
@@ -1339,6 +1588,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_agriculture = 0.001 }
 	round_variable = RUS_edu_duration_agriculture
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_agriculture }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_agriculture }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_agriculture }
+	}
+	set_variable = { RUS_edu_preview_basic_agriculture = 2 }
+	divide_variable = { RUS_edu_preview_basic_agriculture = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_agriculture = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_agriculture = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_agriculture AND = { NOT = { has_country_flag = RUS_edu_running_agriculture } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agriculture } } }
+		multiply_variable = { RUS_edu_preview_basic_agriculture = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_agriculture < 0 } } set_variable = { RUS_edu_preview_basic_agriculture = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_agriculture > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_agriculture = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_agriculture = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_agriculture = 1 }
+	divide_variable = { RUS_edu_preview_higher_agriculture = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_agriculture = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_agriculture = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_agriculture AND = { NOT = { has_country_flag = RUS_edu_running_agriculture } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agriculture } } }
+		multiply_variable = { RUS_edu_preview_higher_agriculture = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_agriculture < 0 } } set_variable = { RUS_edu_preview_higher_agriculture = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_agriculture > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_agriculture = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_agriculture = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_agriculture = 1 }
+	divide_variable = { RUS_edu_preview_heat_agriculture = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_agriculture = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_agriculture AND = { NOT = { has_country_flag = RUS_edu_running_agriculture } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agriculture } } }
+		multiply_variable = { RUS_edu_preview_heat_agriculture = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_agriculture = 30 }
 	set_variable = { RUS_edu_cost_agriculture = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_agriculture }
@@ -1407,6 +1698,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_reading = 0.001 }
 	round_variable = RUS_edu_duration_reading
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_reading }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_reading }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_reading }
+	}
+	set_variable = { RUS_edu_preview_basic_reading = 0.5 }
+	divide_variable = { RUS_edu_preview_basic_reading = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_reading = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_reading = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_reading AND = { NOT = { has_country_flag = RUS_edu_running_reading } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_reading } } }
+		multiply_variable = { RUS_edu_preview_basic_reading = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_reading < 0 } } set_variable = { RUS_edu_preview_basic_reading = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_reading > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_reading = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_reading = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_reading = 0.5 }
+	divide_variable = { RUS_edu_preview_higher_reading = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_reading = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_reading = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_reading AND = { NOT = { has_country_flag = RUS_edu_running_reading } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_reading } } }
+		multiply_variable = { RUS_edu_preview_higher_reading = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_reading < 0 } } set_variable = { RUS_edu_preview_higher_reading = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_reading > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_reading = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_reading = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_reading = 2 }
+	divide_variable = { RUS_edu_preview_heat_reading = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_reading = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_reading = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_reading AND = { NOT = { has_country_flag = RUS_edu_running_reading } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_reading } } }
+		multiply_variable = { RUS_edu_preview_heat_reading = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_reading = 30 }
 	set_variable = { RUS_edu_cost_reading = 20 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_reading }
@@ -1489,6 +1826,39 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_outreach = 0.001 }
 	round_variable = RUS_edu_duration_outreach
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_outreach }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_outreach }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_outreach }
+	}
+	set_variable = { RUS_edu_preview_basic_outreach = 0.5 }
+	divide_variable = { RUS_edu_preview_basic_outreach = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_outreach = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_outreach = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_outreach AND = { NOT = { has_country_flag = RUS_edu_running_outreach } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_outreach } } }
+		multiply_variable = { RUS_edu_preview_basic_outreach = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_outreach < 0 } } set_variable = { RUS_edu_preview_basic_outreach = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_outreach > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_outreach = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_outreach = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_outreach = 3 }
+	divide_variable = { RUS_edu_preview_heat_outreach = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_outreach = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_outreach = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_outreach AND = { NOT = { has_country_flag = RUS_edu_running_outreach } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_outreach } } }
+		multiply_variable = { RUS_edu_preview_heat_outreach = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_outreach = 30 }
 	set_variable = { RUS_edu_cost_outreach = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_outreach }
@@ -1571,6 +1941,26 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_construction = 0.001 }
 	round_variable = RUS_edu_duration_construction
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_construction }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_construction }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_construction }
+	}
+	set_variable = { RUS_edu_preview_heat_construction = 4 }
+	divide_variable = { RUS_edu_preview_heat_construction = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_construction = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_construction = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_construction AND = { NOT = { has_country_flag = RUS_edu_running_construction } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_construction } } }
+		multiply_variable = { RUS_edu_preview_heat_construction = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_construction = 30 }
 	set_variable = { RUS_edu_cost_construction = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_construction }
@@ -1667,6 +2057,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_mentoring = 0.001 }
 	round_variable = RUS_edu_duration_mentoring
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_mentoring }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_mentoring }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_mentoring }
+	}
+	set_variable = { RUS_edu_preview_basic_mentoring = 1 }
+	divide_variable = { RUS_edu_preview_basic_mentoring = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_mentoring = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_mentoring = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_mentoring AND = { NOT = { has_country_flag = RUS_edu_running_mentoring } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mentoring } } }
+		multiply_variable = { RUS_edu_preview_basic_mentoring = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_mentoring < 0 } } set_variable = { RUS_edu_preview_basic_mentoring = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_mentoring > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_mentoring = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_mentoring = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_mentoring = 2 }
+	divide_variable = { RUS_edu_preview_higher_mentoring = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_mentoring = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_mentoring = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_mentoring AND = { NOT = { has_country_flag = RUS_edu_running_mentoring } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mentoring } } }
+		multiply_variable = { RUS_edu_preview_higher_mentoring = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_mentoring < 0 } } set_variable = { RUS_edu_preview_higher_mentoring = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_mentoring > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_mentoring = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_mentoring = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_mentoring = 1 }
+	divide_variable = { RUS_edu_preview_heat_mentoring = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_mentoring = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_mentoring AND = { NOT = { has_country_flag = RUS_edu_running_mentoring } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mentoring } } }
+		multiply_variable = { RUS_edu_preview_heat_mentoring = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_mentoring = 30 }
 	set_variable = { RUS_edu_cost_mentoring = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_mentoring }
@@ -1767,6 +2199,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_library = 0.001 }
 	round_variable = RUS_edu_duration_library
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_library }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_library }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_library }
+	}
+	set_variable = { RUS_edu_preview_basic_library = 2 }
+	divide_variable = { RUS_edu_preview_basic_library = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_library = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_library = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_library AND = { NOT = { has_country_flag = RUS_edu_running_library } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_library } } }
+		multiply_variable = { RUS_edu_preview_basic_library = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_library < 0 } } set_variable = { RUS_edu_preview_basic_library = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_library > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_library = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_library = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_library = 1 }
+	divide_variable = { RUS_edu_preview_higher_library = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_library = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_library = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_library AND = { NOT = { has_country_flag = RUS_edu_running_library } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_library } } }
+		multiply_variable = { RUS_edu_preview_higher_library = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_library < 0 } } set_variable = { RUS_edu_preview_higher_library = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_library > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_library = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_library = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_library = 1 }
+	divide_variable = { RUS_edu_preview_heat_library = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_library = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_library = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_library AND = { NOT = { has_country_flag = RUS_edu_running_library } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_library } } }
+		multiply_variable = { RUS_edu_preview_heat_library = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_library = 30 }
 	set_variable = { RUS_edu_cost_library = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_library }
@@ -1853,6 +2331,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_defend_leningrad = 0.001 }
 	round_variable = RUS_edu_duration_defend_leningrad
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_defend_leningrad }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_defend_leningrad }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_defend_leningrad }
+	}
+	set_variable = { RUS_edu_preview_basic_defend_leningrad = 1 }
+	divide_variable = { RUS_edu_preview_basic_defend_leningrad = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_defend_leningrad = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_defend_leningrad = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_defend_leningrad AND = { NOT = { has_country_flag = RUS_edu_running_defend_leningrad } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_leningrad } } }
+		multiply_variable = { RUS_edu_preview_basic_defend_leningrad = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_defend_leningrad < 0 } } set_variable = { RUS_edu_preview_basic_defend_leningrad = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_defend_leningrad > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_defend_leningrad = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_defend_leningrad = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_defend_leningrad = 4 }
+	divide_variable = { RUS_edu_preview_heat_defend_leningrad = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_defend_leningrad = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_defend_leningrad AND = { NOT = { has_country_flag = RUS_edu_running_defend_leningrad } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_leningrad } } }
+		multiply_variable = { RUS_edu_preview_heat_defend_leningrad = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_defend_leningrad = 30 }
 	set_variable = { RUS_edu_cost_defend_leningrad = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_defend_leningrad }
@@ -1949,6 +2456,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_defend_moscow = 0.001 }
 	round_variable = RUS_edu_duration_defend_moscow
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_defend_moscow }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_defend_moscow }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_defend_moscow }
+	}
+	set_variable = { RUS_edu_preview_basic_defend_moscow = 1 }
+	divide_variable = { RUS_edu_preview_basic_defend_moscow = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_defend_moscow = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_defend_moscow = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_defend_moscow AND = { NOT = { has_country_flag = RUS_edu_running_defend_moscow } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_moscow } } }
+		multiply_variable = { RUS_edu_preview_basic_defend_moscow = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_defend_moscow < 0 } } set_variable = { RUS_edu_preview_basic_defend_moscow = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_defend_moscow > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_defend_moscow = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_defend_moscow = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_defend_moscow = 4 }
+	divide_variable = { RUS_edu_preview_heat_defend_moscow = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_defend_moscow = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_defend_moscow AND = { NOT = { has_country_flag = RUS_edu_running_defend_moscow } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_moscow } } }
+		multiply_variable = { RUS_edu_preview_heat_defend_moscow = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_defend_moscow = 30 }
 	set_variable = { RUS_edu_cost_defend_moscow = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_defend_moscow }
@@ -2045,6 +2581,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_march_west = 0.001 }
 	round_variable = RUS_edu_duration_march_west
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_march_west }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_march_west }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_march_west }
+	}
+	set_variable = { RUS_edu_preview_higher_march_west = 1 }
+	divide_variable = { RUS_edu_preview_higher_march_west = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_march_west = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_march_west = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_march_west AND = { NOT = { has_country_flag = RUS_edu_running_march_west } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_march_west } } }
+		multiply_variable = { RUS_edu_preview_higher_march_west = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_march_west < 0 } } set_variable = { RUS_edu_preview_higher_march_west = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_march_west > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_march_west = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_march_west = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_march_west = 5 }
+	divide_variable = { RUS_edu_preview_heat_march_west = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_march_west = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_march_west AND = { NOT = { has_country_flag = RUS_edu_running_march_west } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_march_west } } }
+		multiply_variable = { RUS_edu_preview_heat_march_west = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_march_west = 30 }
 	set_variable = { RUS_edu_cost_march_west = 40 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_march_west }
@@ -2141,6 +2706,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_defend_october = 0.001 }
 	round_variable = RUS_edu_duration_defend_october
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_defend_october }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_defend_october }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_defend_october }
+	}
+	set_variable = { RUS_edu_preview_basic_defend_october = 1 }
+	divide_variable = { RUS_edu_preview_basic_defend_october = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_defend_october = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_defend_october = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_defend_october AND = { NOT = { has_country_flag = RUS_edu_running_defend_october } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_october } } }
+		multiply_variable = { RUS_edu_preview_basic_defend_october = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_defend_october < 0 } } set_variable = { RUS_edu_preview_basic_defend_october = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_defend_october > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_defend_october = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_defend_october = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_defend_october = 4 }
+	divide_variable = { RUS_edu_preview_heat_defend_october = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_defend_october = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_defend_october AND = { NOT = { has_country_flag = RUS_edu_running_defend_october } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_defend_october } } }
+		multiply_variable = { RUS_edu_preview_heat_defend_october = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_defend_october = 30 }
 	set_variable = { RUS_edu_cost_defend_october = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_defend_october }
@@ -2223,6 +2817,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_dnieper_water = 0.001 }
 	round_variable = RUS_edu_duration_dnieper_water
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_dnieper_water }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_dnieper_water }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_dnieper_water }
+	}
+	set_variable = { RUS_edu_preview_basic_dnieper_water = 1 }
+	divide_variable = { RUS_edu_preview_basic_dnieper_water = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_dnieper_water = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_dnieper_water = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_dnieper_water AND = { NOT = { has_country_flag = RUS_edu_running_dnieper_water } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_dnieper_water } } }
+		multiply_variable = { RUS_edu_preview_basic_dnieper_water = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_dnieper_water < 0 } } set_variable = { RUS_edu_preview_basic_dnieper_water = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_dnieper_water > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_dnieper_water = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_dnieper_water = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_dnieper_water = 1 }
+	divide_variable = { RUS_edu_preview_higher_dnieper_water = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_dnieper_water = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_dnieper_water = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_dnieper_water AND = { NOT = { has_country_flag = RUS_edu_running_dnieper_water } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_dnieper_water } } }
+		multiply_variable = { RUS_edu_preview_higher_dnieper_water = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_dnieper_water < 0 } } set_variable = { RUS_edu_preview_higher_dnieper_water = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_dnieper_water > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_dnieper_water = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_dnieper_water = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_dnieper_water = 3 }
+	divide_variable = { RUS_edu_preview_heat_dnieper_water = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_dnieper_water = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_dnieper_water AND = { NOT = { has_country_flag = RUS_edu_running_dnieper_water } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_dnieper_water } } }
+		multiply_variable = { RUS_edu_preview_heat_dnieper_water = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_dnieper_water = 30 }
 	set_variable = { RUS_edu_cost_dnieper_water = 40 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_dnieper_water }
@@ -2305,6 +2941,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_await_victory = 0.001 }
 	round_variable = RUS_edu_duration_await_victory
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_await_victory }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_await_victory }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_await_victory }
+	}
+	set_variable = { RUS_edu_preview_basic_await_victory = 1 }
+	divide_variable = { RUS_edu_preview_basic_await_victory = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_await_victory = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_await_victory = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_await_victory AND = { NOT = { has_country_flag = RUS_edu_running_await_victory } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_await_victory } } }
+		multiply_variable = { RUS_edu_preview_basic_await_victory = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_await_victory < 0 } } set_variable = { RUS_edu_preview_basic_await_victory = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_await_victory > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_await_victory = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_await_victory = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_await_victory = 2 }
+	divide_variable = { RUS_edu_preview_heat_await_victory = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_await_victory = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_await_victory AND = { NOT = { has_country_flag = RUS_edu_running_await_victory } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_await_victory } } }
+		multiply_variable = { RUS_edu_preview_heat_await_victory = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_await_victory = 30 }
 	set_variable = { RUS_edu_cost_await_victory = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_await_victory }
@@ -2387,6 +3052,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_advanced_theory = 0.001 }
 	round_variable = RUS_edu_duration_advanced_theory
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_advanced_theory }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_advanced_theory }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_advanced_theory }
+	}
+	set_variable = { RUS_edu_preview_basic_advanced_theory = 1 }
+	divide_variable = { RUS_edu_preview_basic_advanced_theory = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_advanced_theory = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_advanced_theory = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_advanced_theory AND = { NOT = { has_country_flag = RUS_edu_running_advanced_theory } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_advanced_theory } } }
+		multiply_variable = { RUS_edu_preview_basic_advanced_theory = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_advanced_theory < 0 } } set_variable = { RUS_edu_preview_basic_advanced_theory = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_advanced_theory > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_advanced_theory = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_advanced_theory = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_advanced_theory = 2 }
+	divide_variable = { RUS_edu_preview_higher_advanced_theory = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_advanced_theory = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_advanced_theory = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_advanced_theory AND = { NOT = { has_country_flag = RUS_edu_running_advanced_theory } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_advanced_theory } } }
+		multiply_variable = { RUS_edu_preview_higher_advanced_theory = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_advanced_theory < 0 } } set_variable = { RUS_edu_preview_higher_advanced_theory = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_advanced_theory > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_advanced_theory = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_advanced_theory = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_advanced_theory = 1 }
+	divide_variable = { RUS_edu_preview_heat_advanced_theory = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_advanced_theory = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_advanced_theory AND = { NOT = { has_country_flag = RUS_edu_running_advanced_theory } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_advanced_theory } } }
+		multiply_variable = { RUS_edu_preview_heat_advanced_theory = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_advanced_theory = 30 }
 	set_variable = { RUS_edu_cost_advanced_theory = 45 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_advanced_theory }
@@ -2473,6 +3180,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_cultural_enemies = 0.001 }
 	round_variable = RUS_edu_duration_cultural_enemies
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_cultural_enemies }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_cultural_enemies }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_cultural_enemies }
+	}
+	set_variable = { RUS_edu_preview_basic_cultural_enemies = 1 }
+	divide_variable = { RUS_edu_preview_basic_cultural_enemies = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_cultural_enemies = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_cultural_enemies = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_cultural_enemies AND = { NOT = { has_country_flag = RUS_edu_running_cultural_enemies } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_cultural_enemies } } }
+		multiply_variable = { RUS_edu_preview_basic_cultural_enemies = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_cultural_enemies < 0 } } set_variable = { RUS_edu_preview_basic_cultural_enemies = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_cultural_enemies > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_cultural_enemies = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_cultural_enemies = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_cultural_enemies = 1 }
+	divide_variable = { RUS_edu_preview_higher_cultural_enemies = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_cultural_enemies = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_cultural_enemies = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_cultural_enemies AND = { NOT = { has_country_flag = RUS_edu_running_cultural_enemies } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_cultural_enemies } } }
+		multiply_variable = { RUS_edu_preview_higher_cultural_enemies = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_cultural_enemies < 0 } } set_variable = { RUS_edu_preview_higher_cultural_enemies = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_cultural_enemies > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_cultural_enemies = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_cultural_enemies = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_cultural_enemies = 3 }
+	divide_variable = { RUS_edu_preview_heat_cultural_enemies = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_cultural_enemies = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_cultural_enemies = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_cultural_enemies AND = { NOT = { has_country_flag = RUS_edu_running_cultural_enemies } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_cultural_enemies } } }
+		multiply_variable = { RUS_edu_preview_heat_cultural_enemies = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_cultural_enemies = 30 }
 	set_variable = { RUS_edu_cost_cultural_enemies = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_cultural_enemies }
@@ -2559,6 +3312,31 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_mothers_literacy = 0.001 }
 	round_variable = RUS_edu_duration_mothers_literacy
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_mothers_literacy }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_mothers_literacy }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_mothers_literacy }
+	}
+	set_variable = { RUS_edu_preview_basic_mothers_literacy = 4 }
+	divide_variable = { RUS_edu_preview_basic_mothers_literacy = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_mothers_literacy = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_mothers_literacy = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_mothers_literacy AND = { NOT = { has_country_flag = RUS_edu_running_mothers_literacy } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mothers_literacy } } }
+		multiply_variable = { RUS_edu_preview_basic_mothers_literacy = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_mothers_literacy < 0 } } set_variable = { RUS_edu_preview_basic_mothers_literacy = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_mothers_literacy > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_mothers_literacy = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_mothers_literacy = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_mothers_literacy = -0.5 }
+	divide_variable = { RUS_edu_preview_heat_mothers_literacy = 30 }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_mothers_literacy AND = { NOT = { has_country_flag = RUS_edu_running_mothers_literacy } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_mothers_literacy } } }
+		multiply_variable = { RUS_edu_preview_heat_mothers_literacy = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_mothers_literacy = 30 }
 	set_variable = { RUS_edu_cost_mothers_literacy = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_mothers_literacy }
@@ -2641,6 +3419,37 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_children_workers = 0.001 }
 	round_variable = RUS_edu_duration_children_workers
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_children_workers }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_children_workers }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_children_workers }
+	}
+	set_variable = { RUS_edu_preview_basic_children_workers = 4 }
+	divide_variable = { RUS_edu_preview_basic_children_workers = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_children_workers = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_children_workers = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_children_workers AND = { NOT = { has_country_flag = RUS_edu_running_children_workers } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_children_workers } } }
+		multiply_variable = { RUS_edu_preview_basic_children_workers = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_children_workers < 0 } } set_variable = { RUS_edu_preview_basic_children_workers = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_children_workers > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_children_workers = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_children_workers = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_children_workers = 1 }
+	divide_variable = { RUS_edu_preview_higher_children_workers = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_children_workers = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_children_workers = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_children_workers AND = { NOT = { has_country_flag = RUS_edu_running_children_workers } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_children_workers } } }
+		multiply_variable = { RUS_edu_preview_higher_children_workers = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_children_workers < 0 } } set_variable = { RUS_edu_preview_higher_children_workers = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_children_workers > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_children_workers = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_children_workers = RUS_edu_preview_days }
 	set_variable = { RUS_edu_cost_children_workers = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_children_workers }
@@ -2727,6 +3536,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_ten_days = 0.001 }
 	round_variable = RUS_edu_duration_ten_days
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_ten_days }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_ten_days }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_ten_days }
+	}
+	set_variable = { RUS_edu_preview_basic_ten_days = 1 }
+	divide_variable = { RUS_edu_preview_basic_ten_days = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_ten_days = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_ten_days = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_ten_days AND = { NOT = { has_country_flag = RUS_edu_running_ten_days } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ten_days } } }
+		multiply_variable = { RUS_edu_preview_basic_ten_days = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_ten_days < 0 } } set_variable = { RUS_edu_preview_basic_ten_days = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_ten_days > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_ten_days = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_ten_days = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_ten_days = 1 }
+	divide_variable = { RUS_edu_preview_higher_ten_days = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_ten_days = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_ten_days = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_ten_days AND = { NOT = { has_country_flag = RUS_edu_running_ten_days } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ten_days } } }
+		multiply_variable = { RUS_edu_preview_higher_ten_days = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_ten_days < 0 } } set_variable = { RUS_edu_preview_higher_ten_days = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_ten_days > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_ten_days = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_ten_days = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_ten_days = 2 }
+	divide_variable = { RUS_edu_preview_heat_ten_days = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_ten_days = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_ten_days = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_ten_days AND = { NOT = { has_country_flag = RUS_edu_running_ten_days } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ten_days } } }
+		multiply_variable = { RUS_edu_preview_heat_ten_days = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_ten_days = 30 }
 	set_variable = { RUS_edu_cost_ten_days = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_ten_days }
@@ -2809,6 +3664,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_book_fair = 0.001 }
 	round_variable = RUS_edu_duration_book_fair
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_book_fair }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_book_fair }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_book_fair }
+	}
+	set_variable = { RUS_edu_preview_basic_book_fair = 2 }
+	divide_variable = { RUS_edu_preview_basic_book_fair = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_book_fair = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_book_fair = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_book_fair AND = { NOT = { has_country_flag = RUS_edu_running_book_fair } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_book_fair } } }
+		multiply_variable = { RUS_edu_preview_basic_book_fair = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_book_fair < 0 } } set_variable = { RUS_edu_preview_basic_book_fair = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_book_fair > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_book_fair = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_book_fair = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_book_fair = 1 }
+	divide_variable = { RUS_edu_preview_higher_book_fair = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_book_fair = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_book_fair = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_book_fair AND = { NOT = { has_country_flag = RUS_edu_running_book_fair } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_book_fair } } }
+		multiply_variable = { RUS_edu_preview_higher_book_fair = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_book_fair < 0 } } set_variable = { RUS_edu_preview_higher_book_fair = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_book_fair > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_book_fair = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_book_fair = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_book_fair = 1 }
+	divide_variable = { RUS_edu_preview_heat_book_fair = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_book_fair = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_book_fair = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_book_fair AND = { NOT = { has_country_flag = RUS_edu_running_book_fair } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_book_fair } } }
+		multiply_variable = { RUS_edu_preview_heat_book_fair = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_book_fair = 30 }
 	set_variable = { RUS_edu_cost_book_fair = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_book_fair }
@@ -2909,6 +3810,39 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_grain_delivery = 0.001 }
 	round_variable = RUS_edu_duration_grain_delivery
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_grain_delivery }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_grain_delivery }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_grain_delivery }
+	}
+	set_variable = { RUS_edu_preview_basic_grain_delivery = 1 }
+	divide_variable = { RUS_edu_preview_basic_grain_delivery = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_grain_delivery = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_grain_delivery = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_grain_delivery AND = { NOT = { has_country_flag = RUS_edu_running_grain_delivery } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_grain_delivery } } }
+		multiply_variable = { RUS_edu_preview_basic_grain_delivery = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_grain_delivery < 0 } } set_variable = { RUS_edu_preview_basic_grain_delivery = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_grain_delivery > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_grain_delivery = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_grain_delivery = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_grain_delivery = 2 }
+	divide_variable = { RUS_edu_preview_heat_grain_delivery = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_grain_delivery = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_grain_delivery = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_grain_delivery AND = { NOT = { has_country_flag = RUS_edu_running_grain_delivery } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_grain_delivery } } }
+		multiply_variable = { RUS_edu_preview_heat_grain_delivery = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_grain_delivery = 30 }
 	set_variable = { RUS_edu_cost_grain_delivery = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_grain_delivery }
@@ -2995,6 +3929,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_end_kitchen_slavery = 0.001 }
 	round_variable = RUS_edu_duration_end_kitchen_slavery
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_end_kitchen_slavery }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_end_kitchen_slavery }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_end_kitchen_slavery }
+	}
+	set_variable = { RUS_edu_preview_basic_end_kitchen_slavery = 2 }
+	divide_variable = { RUS_edu_preview_basic_end_kitchen_slavery = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_end_kitchen_slavery = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_end_kitchen_slavery = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_end_kitchen_slavery AND = { NOT = { has_country_flag = RUS_edu_running_end_kitchen_slavery } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_end_kitchen_slavery } } }
+		multiply_variable = { RUS_edu_preview_basic_end_kitchen_slavery = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_end_kitchen_slavery < 0 } } set_variable = { RUS_edu_preview_basic_end_kitchen_slavery = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_end_kitchen_slavery > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_end_kitchen_slavery = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_end_kitchen_slavery = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_end_kitchen_slavery = 1 }
+	divide_variable = { RUS_edu_preview_higher_end_kitchen_slavery = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_end_kitchen_slavery = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_end_kitchen_slavery = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_end_kitchen_slavery AND = { NOT = { has_country_flag = RUS_edu_running_end_kitchen_slavery } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_end_kitchen_slavery } } }
+		multiply_variable = { RUS_edu_preview_higher_end_kitchen_slavery = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_end_kitchen_slavery < 0 } } set_variable = { RUS_edu_preview_higher_end_kitchen_slavery = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_end_kitchen_slavery > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_end_kitchen_slavery = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_end_kitchen_slavery = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_end_kitchen_slavery = 1 }
+	divide_variable = { RUS_edu_preview_heat_end_kitchen_slavery = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_end_kitchen_slavery = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_end_kitchen_slavery = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_end_kitchen_slavery AND = { NOT = { has_country_flag = RUS_edu_running_end_kitchen_slavery } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_end_kitchen_slavery } } }
+		multiply_variable = { RUS_edu_preview_heat_end_kitchen_slavery = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_end_kitchen_slavery = 30 }
 	set_variable = { RUS_edu_cost_end_kitchen_slavery = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_end_kitchen_slavery }
@@ -3081,6 +4061,39 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_soviet_elections = 0.001 }
 	round_variable = RUS_edu_duration_soviet_elections
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_soviet_elections }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_soviet_elections }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_soviet_elections }
+	}
+	set_variable = { RUS_edu_preview_basic_soviet_elections = 1 }
+	divide_variable = { RUS_edu_preview_basic_soviet_elections = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_soviet_elections = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_soviet_elections = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_soviet_elections AND = { NOT = { has_country_flag = RUS_edu_running_soviet_elections } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_soviet_elections } } }
+		multiply_variable = { RUS_edu_preview_basic_soviet_elections = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_soviet_elections < 0 } } set_variable = { RUS_edu_preview_basic_soviet_elections = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_soviet_elections > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_soviet_elections = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_soviet_elections = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_soviet_elections = 2 }
+	divide_variable = { RUS_edu_preview_heat_soviet_elections = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_soviet_elections = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_soviet_elections = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_soviet_elections AND = { NOT = { has_country_flag = RUS_edu_running_soviet_elections } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_soviet_elections } } }
+		multiply_variable = { RUS_edu_preview_heat_soviet_elections = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_soviet_elections = 30 }
 	set_variable = { RUS_edu_cost_soviet_elections = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_soviet_elections }
@@ -3167,6 +4180,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_protect_children = 0.001 }
 	round_variable = RUS_edu_duration_protect_children
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_protect_children }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_protect_children }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_protect_children }
+	}
+	set_variable = { RUS_edu_preview_basic_protect_children = 3 }
+	divide_variable = { RUS_edu_preview_basic_protect_children = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_protect_children = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_protect_children = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_protect_children AND = { NOT = { has_country_flag = RUS_edu_running_protect_children } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_protect_children } } }
+		multiply_variable = { RUS_edu_preview_basic_protect_children = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_protect_children < 0 } } set_variable = { RUS_edu_preview_basic_protect_children = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_protect_children > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_protect_children = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_protect_children = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_protect_children = 1 }
+	divide_variable = { RUS_edu_preview_heat_protect_children = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_protect_children = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_protect_children AND = { NOT = { has_country_flag = RUS_edu_running_protect_children } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_protect_children } } }
+		multiply_variable = { RUS_edu_preview_heat_protect_children = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_protect_children = 30 }
 	set_variable = { RUS_edu_cost_protect_children = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_protect_children }
@@ -3253,6 +4295,39 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_lenin_banner = 0.001 }
 	round_variable = RUS_edu_duration_lenin_banner
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_lenin_banner }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_lenin_banner }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_lenin_banner }
+	}
+	set_variable = { RUS_edu_preview_basic_lenin_banner = 1 }
+	divide_variable = { RUS_edu_preview_basic_lenin_banner = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_lenin_banner = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_lenin_banner = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_lenin_banner AND = { NOT = { has_country_flag = RUS_edu_running_lenin_banner } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_banner } } }
+		multiply_variable = { RUS_edu_preview_basic_lenin_banner = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_lenin_banner < 0 } } set_variable = { RUS_edu_preview_basic_lenin_banner = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_lenin_banner > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_lenin_banner = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_lenin_banner = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_lenin_banner = 3 }
+	divide_variable = { RUS_edu_preview_heat_lenin_banner = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_lenin_banner = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_lenin_banner = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_lenin_banner AND = { NOT = { has_country_flag = RUS_edu_running_lenin_banner } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_banner } } }
+		multiply_variable = { RUS_edu_preview_heat_lenin_banner = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_lenin_banner = 30 }
 	set_variable = { RUS_edu_cost_lenin_banner = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_lenin_banner }
@@ -3335,6 +4410,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_labour_productivity = 0.001 }
 	round_variable = RUS_edu_duration_labour_productivity
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_labour_productivity }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_labour_productivity }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_labour_productivity }
+	}
+	set_variable = { RUS_edu_preview_basic_labour_productivity = 1 }
+	divide_variable = { RUS_edu_preview_basic_labour_productivity = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_labour_productivity = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_labour_productivity = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_labour_productivity AND = { NOT = { has_country_flag = RUS_edu_running_labour_productivity } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_labour_productivity } } }
+		multiply_variable = { RUS_edu_preview_basic_labour_productivity = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_labour_productivity < 0 } } set_variable = { RUS_edu_preview_basic_labour_productivity = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_labour_productivity > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_labour_productivity = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_labour_productivity = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_labour_productivity = 2 }
+	divide_variable = { RUS_edu_preview_higher_labour_productivity = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_labour_productivity = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_labour_productivity = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_labour_productivity AND = { NOT = { has_country_flag = RUS_edu_running_labour_productivity } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_labour_productivity } } }
+		multiply_variable = { RUS_edu_preview_higher_labour_productivity = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_labour_productivity < 0 } } set_variable = { RUS_edu_preview_higher_labour_productivity = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_labour_productivity > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_labour_productivity = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_labour_productivity = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_labour_productivity = 2 }
+	divide_variable = { RUS_edu_preview_heat_labour_productivity = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_labour_productivity = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_labour_productivity AND = { NOT = { has_country_flag = RUS_edu_running_labour_productivity } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_labour_productivity } } }
+		multiply_variable = { RUS_edu_preview_heat_labour_productivity = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_labour_productivity = 30 }
 	set_variable = { RUS_edu_cost_labour_productivity = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_labour_productivity }
@@ -3417,6 +4534,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_socialist_industry = 0.001 }
 	round_variable = RUS_edu_duration_socialist_industry
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_socialist_industry }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_socialist_industry }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_socialist_industry }
+	}
+	set_variable = { RUS_edu_preview_basic_socialist_industry = 1 }
+	divide_variable = { RUS_edu_preview_basic_socialist_industry = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_socialist_industry = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_socialist_industry = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_socialist_industry AND = { NOT = { has_country_flag = RUS_edu_running_socialist_industry } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_socialist_industry } } }
+		multiply_variable = { RUS_edu_preview_basic_socialist_industry = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_socialist_industry < 0 } } set_variable = { RUS_edu_preview_basic_socialist_industry = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_socialist_industry > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_socialist_industry = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_socialist_industry = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_socialist_industry = 2 }
+	divide_variable = { RUS_edu_preview_higher_socialist_industry = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_socialist_industry = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_socialist_industry = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_socialist_industry AND = { NOT = { has_country_flag = RUS_edu_running_socialist_industry } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_socialist_industry } } }
+		multiply_variable = { RUS_edu_preview_higher_socialist_industry = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_socialist_industry < 0 } } set_variable = { RUS_edu_preview_higher_socialist_industry = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_socialist_industry > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_socialist_industry = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_socialist_industry = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_socialist_industry = 2 }
+	divide_variable = { RUS_edu_preview_heat_socialist_industry = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_socialist_industry = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_socialist_industry AND = { NOT = { has_country_flag = RUS_edu_running_socialist_industry } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_socialist_industry } } }
+		multiply_variable = { RUS_edu_preview_heat_socialist_industry = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_socialist_industry = 30 }
 	set_variable = { RUS_edu_cost_socialist_industry = 45 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_socialist_industry }
@@ -3499,6 +4658,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_lenin_electrification = 0.001 }
 	round_variable = RUS_edu_duration_lenin_electrification
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_lenin_electrification }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_lenin_electrification }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_lenin_electrification }
+	}
+	set_variable = { RUS_edu_preview_basic_lenin_electrification = 1 }
+	divide_variable = { RUS_edu_preview_basic_lenin_electrification = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_lenin_electrification = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_lenin_electrification = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_lenin_electrification AND = { NOT = { has_country_flag = RUS_edu_running_lenin_electrification } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_electrification } } }
+		multiply_variable = { RUS_edu_preview_basic_lenin_electrification = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_lenin_electrification < 0 } } set_variable = { RUS_edu_preview_basic_lenin_electrification = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_lenin_electrification > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_lenin_electrification = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_lenin_electrification = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_lenin_electrification = 2 }
+	divide_variable = { RUS_edu_preview_higher_lenin_electrification = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_lenin_electrification = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_lenin_electrification = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_lenin_electrification AND = { NOT = { has_country_flag = RUS_edu_running_lenin_electrification } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_electrification } } }
+		multiply_variable = { RUS_edu_preview_higher_lenin_electrification = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_lenin_electrification < 0 } } set_variable = { RUS_edu_preview_higher_lenin_electrification = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_lenin_electrification > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_lenin_electrification = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_lenin_electrification = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_lenin_electrification = 1 }
+	divide_variable = { RUS_edu_preview_heat_lenin_electrification = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_lenin_electrification = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_lenin_electrification AND = { NOT = { has_country_flag = RUS_edu_running_lenin_electrification } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_lenin_electrification } } }
+		multiply_variable = { RUS_edu_preview_heat_lenin_electrification = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_lenin_electrification = 30 }
 	set_variable = { RUS_edu_cost_lenin_electrification = 45 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_lenin_electrification }
@@ -3595,6 +4796,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_tractors_nurseries = 0.001 }
 	round_variable = RUS_edu_duration_tractors_nurseries
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_tractors_nurseries }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_tractors_nurseries }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_tractors_nurseries }
+	}
+	set_variable = { RUS_edu_preview_basic_tractors_nurseries = 2 }
+	divide_variable = { RUS_edu_preview_basic_tractors_nurseries = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_tractors_nurseries = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_tractors_nurseries = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_tractors_nurseries AND = { NOT = { has_country_flag = RUS_edu_running_tractors_nurseries } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_tractors_nurseries } } }
+		multiply_variable = { RUS_edu_preview_basic_tractors_nurseries = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_tractors_nurseries < 0 } } set_variable = { RUS_edu_preview_basic_tractors_nurseries = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_tractors_nurseries > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_tractors_nurseries = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_tractors_nurseries = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_tractors_nurseries = 1 }
+	divide_variable = { RUS_edu_preview_higher_tractors_nurseries = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_tractors_nurseries = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_tractors_nurseries = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_tractors_nurseries AND = { NOT = { has_country_flag = RUS_edu_running_tractors_nurseries } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_tractors_nurseries } } }
+		multiply_variable = { RUS_edu_preview_higher_tractors_nurseries = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_tractors_nurseries < 0 } } set_variable = { RUS_edu_preview_higher_tractors_nurseries = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_tractors_nurseries > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_tractors_nurseries = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_tractors_nurseries = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_tractors_nurseries = 1 }
+	divide_variable = { RUS_edu_preview_heat_tractors_nurseries = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_tractors_nurseries = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_tractors_nurseries AND = { NOT = { has_country_flag = RUS_edu_running_tractors_nurseries } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_tractors_nurseries } } }
+		multiply_variable = { RUS_edu_preview_heat_tractors_nurseries = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_tractors_nurseries = 30 }
 	set_variable = { RUS_edu_cost_tractors_nurseries = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_tractors_nurseries }
@@ -3695,6 +4938,37 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_agricultural_statistics = 0.001 }
 	round_variable = RUS_edu_duration_agricultural_statistics
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_agricultural_statistics }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_agricultural_statistics }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_agricultural_statistics }
+	}
+	set_variable = { RUS_edu_preview_basic_agricultural_statistics = 1 }
+	divide_variable = { RUS_edu_preview_basic_agricultural_statistics = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_agricultural_statistics = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_agricultural_statistics = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_agricultural_statistics AND = { NOT = { has_country_flag = RUS_edu_running_agricultural_statistics } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agricultural_statistics } } }
+		multiply_variable = { RUS_edu_preview_basic_agricultural_statistics = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_agricultural_statistics < 0 } } set_variable = { RUS_edu_preview_basic_agricultural_statistics = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_agricultural_statistics > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_agricultural_statistics = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_agricultural_statistics = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_agricultural_statistics = 2 }
+	divide_variable = { RUS_edu_preview_higher_agricultural_statistics = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_agricultural_statistics = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_agricultural_statistics = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_agricultural_statistics AND = { NOT = { has_country_flag = RUS_edu_running_agricultural_statistics } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_agricultural_statistics } } }
+		multiply_variable = { RUS_edu_preview_higher_agricultural_statistics = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_agricultural_statistics < 0 } } set_variable = { RUS_edu_preview_higher_agricultural_statistics = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_agricultural_statistics > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_agricultural_statistics = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_agricultural_statistics = RUS_edu_preview_days }
 	set_variable = { RUS_edu_cost_agricultural_statistics = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_agricultural_statistics }
@@ -3781,6 +5055,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_complete_collectivisation = 0.001 }
 	round_variable = RUS_edu_duration_complete_collectivisation
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_complete_collectivisation }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_complete_collectivisation }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_complete_collectivisation }
+	}
+	set_variable = { RUS_edu_preview_basic_complete_collectivisation = 2 }
+	divide_variable = { RUS_edu_preview_basic_complete_collectivisation = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_complete_collectivisation = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_complete_collectivisation = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_complete_collectivisation AND = { NOT = { has_country_flag = RUS_edu_running_complete_collectivisation } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_complete_collectivisation } } }
+		multiply_variable = { RUS_edu_preview_basic_complete_collectivisation = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_complete_collectivisation < 0 } } set_variable = { RUS_edu_preview_basic_complete_collectivisation = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_complete_collectivisation > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_complete_collectivisation = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_complete_collectivisation = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_complete_collectivisation = 1 }
+	divide_variable = { RUS_edu_preview_higher_complete_collectivisation = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_complete_collectivisation = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_complete_collectivisation = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_complete_collectivisation AND = { NOT = { has_country_flag = RUS_edu_running_complete_collectivisation } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_complete_collectivisation } } }
+		multiply_variable = { RUS_edu_preview_higher_complete_collectivisation = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_complete_collectivisation < 0 } } set_variable = { RUS_edu_preview_higher_complete_collectivisation = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_complete_collectivisation > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_complete_collectivisation = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_complete_collectivisation = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_complete_collectivisation = 3 }
+	divide_variable = { RUS_edu_preview_heat_complete_collectivisation = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_complete_collectivisation = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_complete_collectivisation AND = { NOT = { has_country_flag = RUS_edu_running_complete_collectivisation } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_complete_collectivisation } } }
+		multiply_variable = { RUS_edu_preview_heat_complete_collectivisation = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_complete_collectivisation = 30 }
 	set_variable = { RUS_edu_cost_complete_collectivisation = 40 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_complete_collectivisation }
@@ -3867,6 +5183,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_harvest_battle = 0.001 }
 	round_variable = RUS_edu_duration_harvest_battle
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_harvest_battle }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_harvest_battle }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_harvest_battle }
+	}
+	set_variable = { RUS_edu_preview_basic_harvest_battle = 2 }
+	divide_variable = { RUS_edu_preview_basic_harvest_battle = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_harvest_battle = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_harvest_battle = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_harvest_battle AND = { NOT = { has_country_flag = RUS_edu_running_harvest_battle } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_harvest_battle } } }
+		multiply_variable = { RUS_edu_preview_basic_harvest_battle = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_harvest_battle < 0 } } set_variable = { RUS_edu_preview_basic_harvest_battle = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_harvest_battle > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_harvest_battle = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_harvest_battle = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_harvest_battle = 1 }
+	divide_variable = { RUS_edu_preview_higher_harvest_battle = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_harvest_battle = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_harvest_battle = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_harvest_battle AND = { NOT = { has_country_flag = RUS_edu_running_harvest_battle } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_harvest_battle } } }
+		multiply_variable = { RUS_edu_preview_higher_harvest_battle = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_harvest_battle < 0 } } set_variable = { RUS_edu_preview_higher_harvest_battle = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_harvest_battle > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_harvest_battle = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_harvest_battle = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_harvest_battle = 2 }
+	divide_variable = { RUS_edu_preview_heat_harvest_battle = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_harvest_battle = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_harvest_battle AND = { NOT = { has_country_flag = RUS_edu_running_harvest_battle } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_harvest_battle } } }
+		multiply_variable = { RUS_edu_preview_heat_harvest_battle = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_harvest_battle = 30 }
 	set_variable = { RUS_edu_cost_harvest_battle = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_harvest_battle }
@@ -3953,6 +5311,39 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_vigilance = 0.001 }
 	round_variable = RUS_edu_duration_vigilance
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_vigilance }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_vigilance }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_vigilance }
+	}
+	set_variable = { RUS_edu_preview_basic_vigilance = 1 }
+	divide_variable = { RUS_edu_preview_basic_vigilance = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_vigilance = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_vigilance = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_vigilance AND = { NOT = { has_country_flag = RUS_edu_running_vigilance } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_vigilance } } }
+		multiply_variable = { RUS_edu_preview_basic_vigilance = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_vigilance < 0 } } set_variable = { RUS_edu_preview_basic_vigilance = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_vigilance > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_vigilance = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_vigilance = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_vigilance = 1 }
+	divide_variable = { RUS_edu_preview_heat_vigilance = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_vigilance = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_vigilance = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_vigilance AND = { NOT = { has_country_flag = RUS_edu_running_vigilance } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_vigilance } } }
+		multiply_variable = { RUS_edu_preview_heat_vigilance = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_vigilance = 30 }
 	set_variable = { RUS_edu_cost_vigilance = 25 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_vigilance }
@@ -4049,6 +5440,44 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_production_vices = 0.001 }
 	round_variable = RUS_edu_duration_production_vices
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_production_vices }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_production_vices }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_production_vices }
+	}
+	set_variable = { RUS_edu_preview_basic_production_vices = 1 }
+	divide_variable = { RUS_edu_preview_basic_production_vices = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_production_vices = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_production_vices = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_production_vices AND = { NOT = { has_country_flag = RUS_edu_running_production_vices } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_production_vices } } }
+		multiply_variable = { RUS_edu_preview_basic_production_vices = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_production_vices < 0 } } set_variable = { RUS_edu_preview_basic_production_vices = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_production_vices > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_production_vices = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_production_vices = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_production_vices = 1 }
+	divide_variable = { RUS_edu_preview_higher_production_vices = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_production_vices = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_production_vices = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_production_vices AND = { NOT = { has_country_flag = RUS_edu_running_production_vices } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_production_vices } } }
+		multiply_variable = { RUS_edu_preview_higher_production_vices = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_production_vices < 0 } } set_variable = { RUS_edu_preview_higher_production_vices = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_production_vices > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_production_vices = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_production_vices = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_production_vices = -1 }
+	divide_variable = { RUS_edu_preview_heat_production_vices = 30 }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_production_vices AND = { NOT = { has_country_flag = RUS_edu_running_production_vices } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_production_vices } } }
+		multiply_variable = { RUS_edu_preview_heat_production_vices = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_production_vices = 30 }
 	set_variable = { RUS_edu_cost_production_vices = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_production_vices }
@@ -4131,6 +5560,39 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_public_property = 0.001 }
 	round_variable = RUS_edu_duration_public_property
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_public_property }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_public_property }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_public_property }
+	}
+	set_variable = { RUS_edu_preview_basic_public_property = 1 }
+	divide_variable = { RUS_edu_preview_basic_public_property = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_public_property = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_public_property = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_public_property AND = { NOT = { has_country_flag = RUS_edu_running_public_property } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_public_property } } }
+		multiply_variable = { RUS_edu_preview_basic_public_property = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_public_property < 0 } } set_variable = { RUS_edu_preview_basic_public_property = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_public_property > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_public_property = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_public_property = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_public_property = 1 }
+	divide_variable = { RUS_edu_preview_heat_public_property = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_public_property = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_public_property = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_public_property AND = { NOT = { has_country_flag = RUS_edu_running_public_property } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_public_property } } }
+		multiply_variable = { RUS_edu_preview_heat_public_property = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_public_property = 30 }
 	set_variable = { RUS_edu_cost_public_property = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_public_property }
@@ -4217,6 +5679,44 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_false_shock_workers = 0.001 }
 	round_variable = RUS_edu_duration_false_shock_workers
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_false_shock_workers }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_false_shock_workers }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_false_shock_workers }
+	}
+	set_variable = { RUS_edu_preview_basic_false_shock_workers = 1 }
+	divide_variable = { RUS_edu_preview_basic_false_shock_workers = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_false_shock_workers = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_false_shock_workers = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_false_shock_workers AND = { NOT = { has_country_flag = RUS_edu_running_false_shock_workers } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_false_shock_workers } } }
+		multiply_variable = { RUS_edu_preview_basic_false_shock_workers = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_false_shock_workers < 0 } } set_variable = { RUS_edu_preview_basic_false_shock_workers = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_false_shock_workers > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_false_shock_workers = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_false_shock_workers = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_false_shock_workers = 1 }
+	divide_variable = { RUS_edu_preview_higher_false_shock_workers = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_false_shock_workers = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_false_shock_workers = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_false_shock_workers AND = { NOT = { has_country_flag = RUS_edu_running_false_shock_workers } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_false_shock_workers } } }
+		multiply_variable = { RUS_edu_preview_higher_false_shock_workers = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_false_shock_workers < 0 } } set_variable = { RUS_edu_preview_higher_false_shock_workers = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_false_shock_workers > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_false_shock_workers = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_false_shock_workers = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_false_shock_workers = -1 }
+	divide_variable = { RUS_edu_preview_heat_false_shock_workers = 30 }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_false_shock_workers AND = { NOT = { has_country_flag = RUS_edu_running_false_shock_workers } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_false_shock_workers } } }
+		multiply_variable = { RUS_edu_preview_heat_false_shock_workers = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_false_shock_workers = 30 }
 	set_variable = { RUS_edu_cost_false_shock_workers = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_false_shock_workers }
@@ -4313,6 +5813,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_motherland_calls = 0.001 }
 	round_variable = RUS_edu_duration_motherland_calls
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_motherland_calls }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_motherland_calls }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_motherland_calls }
+	}
+	set_variable = { RUS_edu_preview_basic_motherland_calls = 1 }
+	divide_variable = { RUS_edu_preview_basic_motherland_calls = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_motherland_calls = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_motherland_calls = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_motherland_calls AND = { NOT = { has_country_flag = RUS_edu_running_motherland_calls } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_motherland_calls } } }
+		multiply_variable = { RUS_edu_preview_basic_motherland_calls = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_motherland_calls < 0 } } set_variable = { RUS_edu_preview_basic_motherland_calls = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_motherland_calls > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_motherland_calls = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_motherland_calls = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_motherland_calls = 3 }
+	divide_variable = { RUS_edu_preview_heat_motherland_calls = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_motherland_calls = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_motherland_calls AND = { NOT = { has_country_flag = RUS_edu_running_motherland_calls } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_motherland_calls } } }
+		multiply_variable = { RUS_edu_preview_heat_motherland_calls = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_motherland_calls = 30 }
 	set_variable = { RUS_edu_cost_motherland_calls = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_motherland_calls }
@@ -4409,6 +5938,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_volunteer_enlistment = 0.001 }
 	round_variable = RUS_edu_duration_volunteer_enlistment
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_volunteer_enlistment }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_volunteer_enlistment }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_volunteer_enlistment }
+	}
+	set_variable = { RUS_edu_preview_basic_volunteer_enlistment = 1 }
+	divide_variable = { RUS_edu_preview_basic_volunteer_enlistment = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_volunteer_enlistment = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_volunteer_enlistment = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_volunteer_enlistment AND = { NOT = { has_country_flag = RUS_edu_running_volunteer_enlistment } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_volunteer_enlistment } } }
+		multiply_variable = { RUS_edu_preview_basic_volunteer_enlistment = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_volunteer_enlistment < 0 } } set_variable = { RUS_edu_preview_basic_volunteer_enlistment = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_volunteer_enlistment > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_volunteer_enlistment = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_volunteer_enlistment = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_volunteer_enlistment = 2 }
+	divide_variable = { RUS_edu_preview_heat_volunteer_enlistment = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_volunteer_enlistment = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_volunteer_enlistment AND = { NOT = { has_country_flag = RUS_edu_running_volunteer_enlistment } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_volunteer_enlistment } } }
+		multiply_variable = { RUS_edu_preview_heat_volunteer_enlistment = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_volunteer_enlistment = 30 }
 	set_variable = { RUS_edu_cost_volunteer_enlistment = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_volunteer_enlistment }
@@ -4491,6 +6049,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_red_banner_oath = 0.001 }
 	round_variable = RUS_edu_duration_red_banner_oath
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_red_banner_oath }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_red_banner_oath }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_red_banner_oath }
+	}
+	set_variable = { RUS_edu_preview_basic_red_banner_oath = 1 }
+	divide_variable = { RUS_edu_preview_basic_red_banner_oath = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_red_banner_oath = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_red_banner_oath = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_red_banner_oath AND = { NOT = { has_country_flag = RUS_edu_running_red_banner_oath } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_red_banner_oath } } }
+		multiply_variable = { RUS_edu_preview_basic_red_banner_oath = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_red_banner_oath < 0 } } set_variable = { RUS_edu_preview_basic_red_banner_oath = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_red_banner_oath > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_red_banner_oath = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_red_banner_oath = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_red_banner_oath = 2 }
+	divide_variable = { RUS_edu_preview_heat_red_banner_oath = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_red_banner_oath = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_red_banner_oath AND = { NOT = { has_country_flag = RUS_edu_running_red_banner_oath } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_red_banner_oath } } }
+		multiply_variable = { RUS_edu_preview_heat_red_banner_oath = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_red_banner_oath = 30 }
 	set_variable = { RUS_edu_cost_red_banner_oath = 30 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_red_banner_oath }
@@ -4601,6 +6188,48 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_women_frontline = 0.001 }
 	round_variable = RUS_edu_duration_women_frontline
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_women_frontline }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_women_frontline }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_women_frontline }
+	}
+	set_variable = { RUS_edu_preview_basic_women_frontline = 1 }
+	divide_variable = { RUS_edu_preview_basic_women_frontline = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_women_frontline = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_women_frontline = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_women_frontline AND = { NOT = { has_country_flag = RUS_edu_running_women_frontline } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_women_frontline } } }
+		multiply_variable = { RUS_edu_preview_basic_women_frontline = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_women_frontline < 0 } } set_variable = { RUS_edu_preview_basic_women_frontline = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_women_frontline > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_women_frontline = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_women_frontline = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_women_frontline = 1 }
+	divide_variable = { RUS_edu_preview_higher_women_frontline = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_women_frontline = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_women_frontline = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_women_frontline AND = { NOT = { has_country_flag = RUS_edu_running_women_frontline } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_women_frontline } } }
+		multiply_variable = { RUS_edu_preview_higher_women_frontline = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_women_frontline < 0 } } set_variable = { RUS_edu_preview_higher_women_frontline = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_women_frontline > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_women_frontline = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_women_frontline = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_women_frontline = 2 }
+	divide_variable = { RUS_edu_preview_heat_women_frontline = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_women_frontline = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_women_frontline AND = { NOT = { has_country_flag = RUS_edu_running_women_frontline } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_women_frontline } } }
+		multiply_variable = { RUS_edu_preview_heat_women_frontline = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_women_frontline = 30 }
 	set_variable = { RUS_edu_cost_women_frontline = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_women_frontline }
@@ -4697,6 +6326,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_people_and_army = 0.001 }
 	round_variable = RUS_edu_duration_people_and_army
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_people_and_army }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_people_and_army }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_people_and_army }
+	}
+	set_variable = { RUS_edu_preview_basic_people_and_army = 1 }
+	divide_variable = { RUS_edu_preview_basic_people_and_army = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_people_and_army = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_people_and_army = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_people_and_army AND = { NOT = { has_country_flag = RUS_edu_running_people_and_army } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_people_and_army } } }
+		multiply_variable = { RUS_edu_preview_basic_people_and_army = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_people_and_army < 0 } } set_variable = { RUS_edu_preview_basic_people_and_army = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_people_and_army > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_people_and_army = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_people_and_army = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_people_and_army = 3 }
+	divide_variable = { RUS_edu_preview_heat_people_and_army = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_people_and_army = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_people_and_army AND = { NOT = { has_country_flag = RUS_edu_running_people_and_army } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_people_and_army } } }
+		multiply_variable = { RUS_edu_preview_heat_people_and_army = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_people_and_army = 30 }
 	set_variable = { RUS_edu_cost_people_and_army = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_people_and_army }
@@ -4807,6 +6465,35 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_honour_freedom = 0.001 }
 	round_variable = RUS_edu_duration_honour_freedom
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_honour_freedom }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_honour_freedom }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_honour_freedom }
+	}
+	set_variable = { RUS_edu_preview_basic_honour_freedom = 1 }
+	divide_variable = { RUS_edu_preview_basic_honour_freedom = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_honour_freedom = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_honour_freedom = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_honour_freedom AND = { NOT = { has_country_flag = RUS_edu_running_honour_freedom } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_honour_freedom } } }
+		multiply_variable = { RUS_edu_preview_basic_honour_freedom = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_honour_freedom < 0 } } set_variable = { RUS_edu_preview_basic_honour_freedom = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_honour_freedom > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_honour_freedom = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_honour_freedom = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_honour_freedom = 3 }
+	divide_variable = { RUS_edu_preview_heat_honour_freedom = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_honour_freedom = 1.25 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_honour_freedom AND = { NOT = { has_country_flag = RUS_edu_running_honour_freedom } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_honour_freedom } } }
+		multiply_variable = { RUS_edu_preview_heat_honour_freedom = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_honour_freedom = 30 }
 	set_variable = { RUS_edu_cost_honour_freedom = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_honour_freedom }
@@ -4917,6 +6604,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_ukrainian_liberators = 0.001 }
 	round_variable = RUS_edu_duration_ukrainian_liberators
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_ukrainian_liberators }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_ukrainian_liberators }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_ukrainian_liberators }
+	}
+	set_variable = { RUS_edu_preview_basic_ukrainian_liberators = 1 }
+	divide_variable = { RUS_edu_preview_basic_ukrainian_liberators = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_ukrainian_liberators = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_ukrainian_liberators = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_ukrainian_liberators AND = { NOT = { has_country_flag = RUS_edu_running_ukrainian_liberators } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ukrainian_liberators } } }
+		multiply_variable = { RUS_edu_preview_basic_ukrainian_liberators = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_ukrainian_liberators < 0 } } set_variable = { RUS_edu_preview_basic_ukrainian_liberators = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_ukrainian_liberators > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_ukrainian_liberators = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_ukrainian_liberators = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_ukrainian_liberators = 1 }
+	divide_variable = { RUS_edu_preview_higher_ukrainian_liberators = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_ukrainian_liberators = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_ukrainian_liberators = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_ukrainian_liberators AND = { NOT = { has_country_flag = RUS_edu_running_ukrainian_liberators } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ukrainian_liberators } } }
+		multiply_variable = { RUS_edu_preview_higher_ukrainian_liberators = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_ukrainian_liberators < 0 } } set_variable = { RUS_edu_preview_higher_ukrainian_liberators = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_ukrainian_liberators > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_ukrainian_liberators = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_ukrainian_liberators = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_ukrainian_liberators = 1 }
+	divide_variable = { RUS_edu_preview_heat_ukrainian_liberators = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_ukrainian_liberators = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_ukrainian_liberators = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_ukrainian_liberators AND = { NOT = { has_country_flag = RUS_edu_running_ukrainian_liberators } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_ukrainian_liberators } } }
+		multiply_variable = { RUS_edu_preview_heat_ukrainian_liberators = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_ukrainian_liberators = 30 }
 	set_variable = { RUS_edu_cost_ukrainian_liberators = 40 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_ukrainian_liberators }
@@ -4999,6 +6732,52 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_beloved_motherland = 0.001 }
 	round_variable = RUS_edu_duration_beloved_motherland
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_beloved_motherland }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_beloved_motherland }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_beloved_motherland }
+	}
+	set_variable = { RUS_edu_preview_basic_beloved_motherland = 1 }
+	divide_variable = { RUS_edu_preview_basic_beloved_motherland = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_beloved_motherland = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_beloved_motherland = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_beloved_motherland AND = { NOT = { has_country_flag = RUS_edu_running_beloved_motherland } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_beloved_motherland } } }
+		multiply_variable = { RUS_edu_preview_basic_beloved_motherland = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_beloved_motherland < 0 } } set_variable = { RUS_edu_preview_basic_beloved_motherland = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_beloved_motherland > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_beloved_motherland = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_beloved_motherland = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_beloved_motherland = 1 }
+	divide_variable = { RUS_edu_preview_higher_beloved_motherland = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_beloved_motherland = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_beloved_motherland = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_beloved_motherland AND = { NOT = { has_country_flag = RUS_edu_running_beloved_motherland } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_beloved_motherland } } }
+		multiply_variable = { RUS_edu_preview_higher_beloved_motherland = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_beloved_motherland < 0 } } set_variable = { RUS_edu_preview_higher_beloved_motherland = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_beloved_motherland > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_beloved_motherland = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_beloved_motherland = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_beloved_motherland = 1 }
+	divide_variable = { RUS_edu_preview_heat_beloved_motherland = 30 }
+	if = {
+		limit = { has_country_flag = RUS_edu_central }
+		multiply_variable = { RUS_edu_preview_heat_beloved_motherland = 1.25 }
+	}
+	if = {
+		limit = { has_country_flag = RUS_edu_amateur }
+		multiply_variable = { RUS_edu_preview_heat_beloved_motherland = 0.75 }
+	}
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_beloved_motherland AND = { NOT = { has_country_flag = RUS_edu_running_beloved_motherland } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_beloved_motherland } } }
+		multiply_variable = { RUS_edu_preview_heat_beloved_motherland = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_beloved_motherland = 30 }
 	set_variable = { RUS_edu_cost_beloved_motherland = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_beloved_motherland }
@@ -5099,6 +6878,44 @@ RUS_education_refresh = {
 	}
 	add_to_variable = { RUS_edu_duration_long_live_peace = 0.001 }
 	round_variable = RUS_edu_duration_long_live_peace
+	set_variable = { RUS_edu_preview_days = RUS_edu_duration_long_live_peace }
+	if = {
+		limit = { has_country_flag = RUS_edu_running_long_live_peace }
+		set_variable = { RUS_edu_preview_days = RUS_edu_run_duration_long_live_peace }
+	}
+	set_variable = { RUS_edu_preview_basic_long_live_peace = 1 }
+	divide_variable = { RUS_edu_preview_basic_long_live_peace = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_basic_long_live_peace = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_basic_long_live_peace = RUS_edu_basic_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_long_live_peace AND = { NOT = { has_country_flag = RUS_edu_running_long_live_peace } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_long_live_peace } } }
+		multiply_variable = { RUS_edu_preview_basic_long_live_peace = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 4 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_long_live_peace < 0 } } set_variable = { RUS_edu_preview_basic_long_live_peace = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_basic_long_live_peace > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_basic_long_live_peace = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_basic_long_live_peace = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_higher_long_live_peace = 2 }
+	divide_variable = { RUS_edu_preview_higher_long_live_peace = RUS_edu_preview_days }
+	multiply_variable = { RUS_edu_preview_higher_long_live_peace = RUS_edu_quality }
+	multiply_variable = { RUS_edu_preview_higher_long_live_peace = RUS_edu_higher_multiplier }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_long_live_peace AND = { NOT = { has_country_flag = RUS_edu_running_long_live_peace } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_long_live_peace } } }
+		multiply_variable = { RUS_edu_preview_higher_long_live_peace = 1.5 }
+	}
+	set_variable = { RUS_edu_preview_cap = 2 }
+	divide_variable = { RUS_edu_preview_cap = RUS_edu_preview_days }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_long_live_peace < 0 } } set_variable = { RUS_edu_preview_higher_long_live_peace = 0 } }
+	if = { limit = { check_variable = { RUS_edu_preview_higher_long_live_peace > RUS_edu_preview_cap } } set_variable = { RUS_edu_preview_higher_long_live_peace = RUS_edu_preview_cap } }
+	multiply_variable = { RUS_edu_preview_higher_long_live_peace = RUS_edu_preview_days }
+	set_variable = { RUS_edu_preview_heat_long_live_peace = -1 }
+	divide_variable = { RUS_edu_preview_heat_long_live_peace = 30 }
+	if = {
+		limit = { OR = { has_country_flag = RUS_edu_repeated_long_live_peace AND = { NOT = { has_country_flag = RUS_edu_running_long_live_peace } has_country_flag = RUS_edu_central has_country_flag = RUS_edu_completed_long_live_peace } } }
+		multiply_variable = { RUS_edu_preview_heat_long_live_peace = 1.5 }
+	}
+	multiply_variable = { RUS_edu_preview_heat_long_live_peace = 30 }
 	set_variable = { RUS_edu_cost_long_live_peace = 35 }
 	if = {
 		limit = { has_variable = RUS_edu_repeat_cost_long_live_peace }

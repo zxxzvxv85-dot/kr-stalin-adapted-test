@@ -9,7 +9,7 @@ from itertools import product
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import load,parse
 from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS,EDUCATION_GAIN_CAPS,LOWER_IS_BETTER
-from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,repeated,duration,run_duration,render_outputs,DESIGN,ART,extra_preview,extra_value,localisations
+from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,repeated,duration,run_duration,render_outputs,DESIGN,ART,extra_preview,extra_value,localisations,gain_preview
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'))
 DECISIONS={n.k:n for root in load(ROOT/DEC) for n in root.v}
@@ -127,6 +127,38 @@ def unlock_all(m):
     return m
 
 class EducationTests(unittest.TestCase):
+    def test_live_gain_previews_match_daily_pulses_and_do_not_award_progress(self):
+        # Cover every poster plus the central window's steep edges, accelerated
+        # durations, repeat locking and educational caps. Preview uses the live
+        # running duration even if Kalinin is dismissed after the start.
+        for a in ACTIVITIES:
+            for heat,repeat in ((49,False),(55,True),(61,True)):
+                m=unlock_all(initialized());m.vars[VARS['heat']]=heat
+                m.flags.update({'RUS_edu_central','RUS_edu_practice','RUS_edu_theory','RUS_edu_future','RUS_edu_amateur'})
+                m.ideas.add('RUS_mikhail_kalinin_advisor')
+                if repeat:m.flags.add('RUS_edu_completed_'+a['id'])
+                m.call('RUS_education_refresh')
+                before={kind:m.vars[VARS[kind]] for kind in VARS}
+                preview={kind:m.vars[gain_preview(a,kind)] for kind in VARS if a.get(kind)}
+                m.call('RUS_education_refresh')
+                self.assertEqual(before,{kind:m.vars[VARS[kind]] for kind in VARS})
+                m.flags.add(active(a));m.vars[run_duration(a)]=m.vars[duration(a)]
+                m.vars[remain(a)]=m.vars[run_duration(a)]
+                if repeat:m.flags.add(repeated(a))
+                # Even if completed is set mid-run, a first run is not repeated.
+                m.flags.add('RUS_edu_completed_'+a['id']);m.call('RUS_education_refresh')
+                for kind,value in preview.items():self.assertAlmostEqual(m.vars[gain_preview(a,kind)],value)
+                m.ideas.discard('RUS_mikhail_kalinin_advisor');m.call('RUS_education_refresh')
+                preview={kind:m.vars[gain_preview(a,kind)] for kind in VARS if a.get(kind)}
+                m.call('RUS_education_tick_'+a['id'])
+                for kind,value in preview.items():
+                    period=30 if kind=='heat' else m.vars[run_duration(a)]
+                    self.assertAlmostEqual((m.vars[VARS[kind]]-before[kind])*period,value,places=7)
+        locale=localisations()[Path('localisation/simp_chinese/RUS_education_dashboard_l_simp_chinese.yml')].decode('utf-8-sig')
+        for a in ACTIVITIES:
+            for kind in VARS:
+                if a.get(kind):self.assertIn('[?'+gain_preview(a,kind)+'|2]',locale)
+
     def test_poster_attachments_are_hidden_and_education_body_stays_visible(self):
         definitions={n.k:n for n in load(ROOT/DM)}
         self.assertIsNotNone(definitions['RUS_education_social_capacity'].one('icon'))
@@ -149,7 +181,8 @@ class EducationTests(unittest.TestCase):
                 key=a['timed_reward']['idea'];self.assertIn(key,IDEAS)
                 self.assertIn(key+'_preview',visible)
                 self.assertEqual([n.norm() for n in IDEAS[key].v],[n.norm() for n in IDEAS[key+'_preview'].v])
-        self.assertNotIn('_preview',(ROOT/FX).read_text(encoding='utf-8-sig'),'Readonly tooltip copies must never execute')
+        attached=re.findall(r'\bmodifier\s*=\s*(\w+)',(ROOT/FX).read_text(encoding='utf-8-sig'))
+        self.assertFalse([key for key in attached if key.endswith('_preview')],'Readonly modifier copies must never execute')
     def test_daily_and_completion_heat_stay_bounded_with_fixed_point_storage(self):
         from decimal import Decimal,ROUND_DOWN
         # The ordinary fixture uses Python floats. Exercise coarse fixed-point
