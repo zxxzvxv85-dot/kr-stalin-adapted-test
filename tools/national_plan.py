@@ -133,6 +133,7 @@ def patch_node(node,p):
     # only. Managed copies have their own IDs so original activated decisions
     # and their provisional availability are not changed.
     field('allowed',['original_tag = RUS'])
+    fields['on_map_mode']='on_map_mode = decision_view_only'
     fields['days_remove']='days_remove = '+var(p,'initial_days')+'?'+str(p['fallback'])
     extra=''
     if p.get('original_id')=='RUS_create_tankograd':extra='has_country_flag = unlock_chtz'
@@ -215,6 +216,7 @@ def refresh():
         out += [div(P+'rail_region_'+str(region),P+'rail_weight_'+str(region)),iff(ck(P+'filter','=',region),[sv(P+'rail_display',P+'rail_region_'+str(region))])]
     for city in ('moscow','leningrad','tsaritsyn'):
         out += [add(P+'trains',P+city+'_dispatch')]
+    out += ['RUS_np_refresh_rural = yes']
     return out
 
 def native_base(p):
@@ -287,7 +289,7 @@ def project_effects(p):
 
 def management():
     out=[]
-    common=['allowed = { original_tag = RUS }','visible = { RUS_np_context = yes }','cost = 0','ai_will_do = { base = 0 }']
+    common=['allowed = { original_tag = RUS }','visible = { RUS_np_context = yes }','on_map_mode = decision_view_only','cost = 0','ai_will_do = { base = 0 }']
     out.append(b('RUS_np_open_account',[x for x in common if not x.startswith('visible =')]+['visible = { RUS_np_context = yes NOT = { has_country_flag = RUS_np_initialized } }','complete_effect = { hidden_effect = { RUS_np_initialize = yes } }']))
     for i in range(7):
         out.append(b(P+'filter_'+str(i),common+[f'complete_effect = {{ hidden_effect = {{ set_variable = {{ RUS_np_filter = {i} }} RUS_np_refresh = yes }} }}']))
@@ -331,6 +333,11 @@ def augment(out):
     for a,z,s in sorted(edits,reverse=True):text=text[:a]+s+text[z:]
     out[DEC]=text
     triggers=[b('RUS_np_context',['original_tag = RUS','is_ai = no','has_socialist_government = yes','RUS_rc_stalin_phase = yes'])]
+    triggers += [b('RUS_np_rural_candidate',[
+        'is_core_of = ROOT','is_owned_and_controlled_by = ROOT',
+        'NOT = { state = 219 state = 195 state = 217 }',
+        'OR = { has_state_category = one has_state_category = two has_state_category = three has_state_category = four }',
+        'infrastructure < 3','industrial_complex < 3','arms_factory < 3'])]
     for p in PROJECTS:
         condition=['RUS_np_context = yes','has_country_flag = RUS_np_initialized','NOT = { '+running(p)+' }',unfinished(p),owned(p),
             'custom_trigger_tooltip = { tooltip = RUS_np_budget_tt NOT = { '+ck(P+'available','<',p['budget'])+' } }',
@@ -339,6 +346,23 @@ def augment(out):
         triggers.append(b('RUS_np_ready_'+p['key'],condition))
     out['common/scripted_triggers/RUS_national_plan_triggers.txt']='\n'.join(line.rstrip() for line in ''.join(triggers).split('\n'))
     effects=[b('RUS_np_refresh',refresh())]
+    # One state pass at initialization, on score changes, or every 30 days for
+    # newly acquired rural cores. No all-state scan from GUI visibility checks.
+    rural=[sv(P+'rural_score',0),iff('has_variable = RUS_first_five_year_plan_score',[sv(P+'rural_score','RUS_first_five_year_plan_score')]),
+        *clamp(P+'rural_score',0,150),sv(P+'rural_build_speed',P+'rural_score'),div(P+'rural_build_speed',150),mul(P+'rural_build_speed',.25),sub(P+'rural_build_speed',.2),
+        sv(P+'rural_scan_age','global.num_days'),sub(P+'rural_scan_age',P+'rural_scan_day')]
+    rural_state=['set_state_flag = RUS_np_rural_area',sv(P+'rural_build_speed','PREV.RUS_np_rural_build_speed'),
+        iff(ck(P+'rural_build_speed','<',0),[
+            iff('has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }',['remove_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }']),
+            iff('NOT = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure } }',['add_dynamic_modifier = { modifier = RUS_np_rural_infrastructure }'])]),
+        b('else',[
+            iff('has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure }',['remove_dynamic_modifier = { modifier = RUS_np_rural_infrastructure }']),
+            iff('NOT = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved } }',['add_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }'])]).strip(),
+        'force_update_dynamic_modifier = yes']
+    rural += [iff('OR = { NOT = { has_variable = RUS_np_rural_cached_score } NOT = { '+ck(P+'rural_score','=',P+'rural_cached_score')+' } '+ck(P+'rural_scan_age','>',29)+' }',[
+        sv(P+'rural_cached_score',P+'rural_score'),sv(P+'rural_scan_day','global.num_days'),
+        b('every_owned_state',['limit = { OR = { has_state_flag = RUS_np_rural_area RUS_np_rural_candidate = yes } }',*rural_state]).strip()])]
+    effects.append(b('RUS_np_refresh_rural',[iff('RUS_np_context = yes has_country_flag = RUS_np_initialized',rural)]))
     defaults=[iff('NOT = { has_variable = '+v+' }',[sv(v,x)]) for v,x in [('RUS_ic_cost_low',20),('RUS_ic_cost_med',40),('RUS_ic_cost_high',60),('RUS_ic_time_60',60),('RUS_ic_time_120',120)]]
     init=['set_country_flag = RUS_np_initialized',*defaults,sv(P+'available',0),sv(P+'frozen',0),sv(P+'spent',0),sv(P+'filter',0),sv(P+'year','year'),sv(P+'farm_credit',0),sv(P+'day','global.num_days'),sub(P+'day',1),'RUS_np_refresh = yes',
         sv(P+'fraction','global.num_days'),op('modulo',P+'fraction',365),mul(P+'fraction',-1),add(P+'fraction',365),div(P+'fraction',365),sv(P+'initial_grant',P+'grant'),mul(P+'initial_grant',P+'fraction'),add(P+'available',P+'initial_grant')]
@@ -375,6 +399,10 @@ def augment(out):
     out[FX]='# Generated national plan. Legacy score/spirit functions are not modified.\n'+''.join(effects)
     out[FX]='\n'.join(line.rstrip() for line in out[FX].split('\n'))
     dm=[b('RUS_np_transport_network',['enable = { RUS_np_context = yes }','production_speed_buildings_factor = RUS_np_transport_bonus','industrial_capacity_factory = RUS_np_transport_bonus'])]
+    for key in ('RUS_np_rural_infrastructure','RUS_np_rural_infrastructure_improved'):
+        dm.append(b(key,['icon = GFX_modifiers_generic_construction',
+            'enable = { is_core_of = RUS owner = { RUS_np_context = yes } controller = { original_tag = RUS } }',
+            'state_production_speed_buildings_factor = RUS_np_rural_build_speed']))
     for i,mods in [(0,{'state_production_speed_buildings_factor':-.05,'local_building_slots_factor':-.05}),(1,{'state_production_speed_buildings_factor':-.025}),(3,{'state_production_speed_buildings_factor':.05,'local_building_slots_factor':.05})]:
         dm.append(b(P+'region_'+str(i),['enable = { owner = { original_tag = RUS } controller = { original_tag = RUS } }',*[f'{m} = {v}' for m,v in mods.items()]]))
     for p in PROJECTS:
@@ -398,13 +426,17 @@ def augment(out):
 
 def localisations():
     l={'RUS_np_open_account':'建立国家建设账本','RUS_np_open_account_desc':'统筹国家建设资源，批准工业与交通工程。',
-       'RUS_np_budget_tt':'建设资源充足','RUS_np_slot_tt':'存在空闲工程名额','RUS_np_trains_tt':'普通列车库存满足征用要求','RUS_np_stage_tt':'一五计划达到第一阶段',
-       'RUS_np_bonus_summary':'追加目标在期限内达成后记录资格，随工程正常竣工结算。','RUS_np_upgrade_rail_tt':'消耗建设资源：§R40§!',
+       'RUS_np_budget_tt':'§C建设资源§!充足','RUS_np_slot_tt':'存在空闲工程名额','RUS_np_trains_tt':'普通列车库存满足征用要求','RUS_np_stage_tt':'一五计划达到第一阶段',
+       'RUS_np_bonus_summary':'追加目标在期限内达成后记录资格，随工程正常竣工结算。','RUS_np_upgrade_rail_tt':'消耗§C建设资源§!：§R40§!',
        'RUS_np_transport_network':'工业区运输网络','RUS_np_region_0':'工业区配套不足Ⅱ','RUS_np_region_1':'工业区配套不足Ⅰ','RUS_np_region_3':'工业区配套完善Ⅰ',
-       'RUS_np_header':'建设资源：§Y[?RUS_np_available|2]§!　冻结：§Y[?RUS_np_frozen|2]§!　已消耗：§Y[?RUS_np_spent|2]§!\\n每日收入：§G+[?RUS_np_income|2]§!　工程名额：[?RUS_np_active|0]/[?RUS_np_slots|0]　征用列车：[?RUS_np_trains|0]\\n计划干线平均等级：§Y[?RUS_np_rail_display|2]§!',
+       'RUS_np_header':'§C建设资源：[?RUS_np_available|2]§!　冻结：§Y[?RUS_np_frozen|2]§!　§g已消耗：[?RUS_np_spent|2]§!\\n每日收入：§G+[?RUS_np_income|2]§!　工程名额：[?RUS_np_active|0]/[?RUS_np_slots|0]　征用列车：[?RUS_np_trains|0]\\n计划干线平均等级：§Y[?RUS_np_rail_display|2]§!',
        'RUS_np_header_old':'这些决议将§G促进§!我们的§C经济复苏§!。',
        'RUS_np_unlocked':'§G已达成§!','RUS_np_pending':'§Y未达成§!','RUS_np_claimed':'§g已领取§!'}
     l['RUS_np_terminate_tt']='终止工程，结算已用建设资源并返还余款及施工列车。政治点不返还，不获得竣工奖励。'
+    l['RUS_np_rural_infrastructure']='落后的基础设施'
+    l['RUS_np_rural_infrastructure_desc']='乡间交通、供能与施工配套仍显不足，工业建设受到制约。'
+    l['RUS_np_rural_infrastructure_improved']='改善的基础设施'
+    l['RUS_np_rural_infrastructure_improved_desc']='工业化带来的交通与配套改善，正在惠及广大乡村。'
     l['RUS_np_education_award_tt']='£RUS_edu_basic_texticon£ §C基础教育水平§!：§G+1.00§!\\n£RUS_edu_higher_texticon£ §Y高等教育水平§!：§G+0.50§!'
     l['RUS_np_land_award_tt']='土地改革分数：§G+5§!'
     l['RUS_np_farm_credit_tt']='农业建设获得§G100§!单位农机。'
@@ -422,7 +454,7 @@ def localisations():
         l[P+city+'_recall_desc']='返还本工业区投入运输的列车，解除对应运输加成。'
     for p in PROJECTS:
         l[var(p,'cost')]='工程建设投入'
-        l[var(p,'cost_tt')]=f'冻结建设资源：§Y{p["budget"]}§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n正常竣工返还未使用的20%建设资源'+('及全部施工列车。' if p['trains'] else '。')
+        l[var(p,'cost_tt')]=f'冻结§C建设资源§!：§Y{p["budget"]}§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n正常竣工返还未使用的20%§C建设资源§!'+('及全部施工列车。' if p['trains'] else '。')
         l[p['id']]=('$'+p['original_id']+'$') if p['legacy'] else p['name']
         l[var(p,'terminate')]='终止工程：$'+p['id']+'$'
         l[var(p,'terminate')+'_desc']='$RUS_np_terminate_tt$'

@@ -3,6 +3,16 @@ RUS_np_transport_network = {
 	production_speed_buildings_factor = RUS_np_transport_bonus
 	industrial_capacity_factory = RUS_np_transport_bonus
 }
+RUS_np_rural_infrastructure = {
+	icon = GFX_modifiers_generic_construction
+	enable = { is_core_of = RUS owner = { RUS_np_context = yes } controller = { original_tag = RUS } }
+	state_production_speed_buildings_factor = RUS_np_rural_build_speed
+}
+RUS_np_rural_infrastructure_improved = {
+	icon = GFX_modifiers_generic_construction
+	enable = { is_core_of = RUS owner = { RUS_np_context = yes } controller = { original_tag = RUS } }
+	state_production_speed_buildings_factor = RUS_np_rural_build_speed
+}
 RUS_np_region_0 = {
 	enable = { owner = { original_tag = RUS } controller = { original_tag = RUS } }
 	state_production_speed_buildings_factor = -0.05

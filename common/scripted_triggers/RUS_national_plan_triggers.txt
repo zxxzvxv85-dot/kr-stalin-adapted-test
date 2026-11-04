@@ -4,6 +4,15 @@ RUS_np_context = {
 	has_socialist_government = yes
 	RUS_rc_stalin_phase = yes
 }
+RUS_np_rural_candidate = {
+	is_core_of = ROOT
+	is_owned_and_controlled_by = ROOT
+	NOT = { state = 219 state = 195 state = 217 }
+	OR = { has_state_category = one has_state_category = two has_state_category = three has_state_category = four }
+	infrastructure < 3
+	industrial_complex < 3
+	arms_factory < 3
+}
 RUS_np_ready_kamenev_all_russian_electrification = {
 	RUS_np_context = yes
 	has_country_flag = RUS_np_initialized

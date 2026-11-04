@@ -1539,6 +1539,63 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_trains = RUS_np_moscow_dispatch }
 	add_to_variable = { RUS_np_trains = RUS_np_leningrad_dispatch }
 	add_to_variable = { RUS_np_trains = RUS_np_tsaritsyn_dispatch }
+	RUS_np_refresh_rural = yes
+}
+RUS_np_refresh_rural = {
+	if = {
+	limit = { RUS_np_context = yes has_country_flag = RUS_np_initialized }
+	set_variable = { RUS_np_rural_score = 0 }
+	if = {
+	limit = { has_variable = RUS_first_five_year_plan_score }
+	set_variable = { RUS_np_rural_score = RUS_first_five_year_plan_score }
+}
+	if = {
+	limit = { check_variable = { RUS_np_rural_score < 0 } }
+	set_variable = { RUS_np_rural_score = 0 }
+}
+	if = {
+	limit = { check_variable = { RUS_np_rural_score > 150 } }
+	set_variable = { RUS_np_rural_score = 150 }
+}
+	set_variable = { RUS_np_rural_build_speed = RUS_np_rural_score }
+	divide_variable = { RUS_np_rural_build_speed = 150 }
+	multiply_variable = { RUS_np_rural_build_speed = 0.25 }
+	subtract_from_variable = { RUS_np_rural_build_speed = 0.2 }
+	set_variable = { RUS_np_rural_scan_age = global.num_days }
+	subtract_from_variable = { RUS_np_rural_scan_age = RUS_np_rural_scan_day }
+	if = {
+	limit = { OR = { NOT = { has_variable = RUS_np_rural_cached_score } NOT = { check_variable = { RUS_np_rural_score = RUS_np_rural_cached_score } } check_variable = { RUS_np_rural_scan_age > 29 } } }
+	set_variable = { RUS_np_rural_cached_score = RUS_np_rural_score }
+	set_variable = { RUS_np_rural_scan_day = global.num_days }
+	every_owned_state = {
+	limit = { OR = { has_state_flag = RUS_np_rural_area RUS_np_rural_candidate = yes } }
+	set_state_flag = RUS_np_rural_area
+	set_variable = { RUS_np_rural_build_speed = PREV.RUS_np_rural_build_speed }
+	if = {
+	limit = { check_variable = { RUS_np_rural_build_speed < 0 } }
+	if = {
+	limit = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved } }
+	remove_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }
+}
+	if = {
+	limit = { NOT = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure } } }
+	add_dynamic_modifier = { modifier = RUS_np_rural_infrastructure }
+}
+}
+	else = {
+	if = {
+	limit = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure } }
+	remove_dynamic_modifier = { modifier = RUS_np_rural_infrastructure }
+}
+	if = {
+	limit = { NOT = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved } } }
+	add_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }
+}
+}
+	force_update_dynamic_modifier = yes
+}
+}
+}
 }
 RUS_np_initialize = {
 	if = {

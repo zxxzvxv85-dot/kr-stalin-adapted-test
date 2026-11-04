@@ -25,7 +25,7 @@ class Model(ScriptModel):
         self.flags.update({'RUS_education_system_active','RUS_nat_enabled','RUS_agri_management_unlocked'})
         self.states={s:{'owned':True,'infrastructure':1,'industrial_complex':1,'state_population':100000,'resource@steel':0} for p in PROJECTS for s in p['states']}
         self.states.update({s:{'owned':True,'infrastructure':1,'industrial_complex':1} for c in CORRIDORS for s in c['states'] if s not in self.states})
-        self.dynamic=set();self.state_mods={s:set() for s in self.states};self.timers={};self.rail=True;self.legacy_rewards={}
+        self.dynamic=set();self.state_mods={s:set() for s in self.states};self.state_flags={s:set() for s in self.states};self.timers={};self.rail=True;self.legacy_rewards={}
         # Legacy reward execution is structurally checked in full below. Here
         # replace that exact contiguous subtree with a counter, leaving all new
         # guards, settlement, goals, refunds and generated rewards executable.
@@ -38,6 +38,7 @@ class Model(ScriptModel):
                     if [x.norm() for x in n.v[i:i+len(signature)]]==signature:
                         n.v[i:i+len(signature)]=parse('model_legacy_reward = '+p['key']);break
     def number(self,v):
+        if isinstance(v,str) and v.startswith('PREV.'):return self.country.get(v.split('.',1)[1],0)
         if isinstance(v,str) and v.startswith('days_decision_timeout@'):return self.timers.get(v.split('@')[1],0)
         if v in ('global.num_days','year'):return self.country[v]
         return super().number(v)
@@ -52,7 +53,12 @@ class Model(ScriptModel):
             elif n.k.isdigit():
                 oldscope,oldvars=self.scope,self.vars;self.scope=int(n.k);self.vars=self.states[self.scope]
                 ok=self.check(n.v);self.scope,self.vars=oldscope,oldvars
-            elif n.k in ('is_owned_and_controlled_by_ROOT_or_subject','is_owned_and_controlled_by'):ok=self.states[self.scope]['owned']
+            elif n.k in ('is_owned_and_controlled_by_ROOT_or_subject','is_owned_and_controlled_by'):ok=self.states[self.scope]['owned'] and self.states[self.scope].get('controlled',True)
+            elif n.k=='is_core_of':ok=self.states[self.scope].get('core',True)
+            elif n.k=='state':ok=self.scope==int(n.v)
+            elif n.k=='has_state_category':ok=self.vars.get('category')==n.v
+            elif n.k=='has_state_flag':ok=n.v in self.state_flags.get(self.scope,set())
+            elif n.k=='has_dynamic_modifier':ok=n.value('modifier') in (self.state_mods[self.scope] if self.scope is not None else self.dynamic)
             elif n.k=='has_railway_connection':ok=self.rail
             elif n.k in ('infrastructure','industrial_complex','arms_factory','energy_infrastructure','industrial_infrastructure'):
                 ok=self.compare(self.vars.get(n.k,0),self.number(n.v),n.op)
@@ -63,11 +69,18 @@ class Model(ScriptModel):
         pending=[]
         native={'add_equipment_to_stockpile','add_dynamic_modifier','remove_dynamic_modifier','add_days_remove','remove_decision','remove_targeted_decision',
             'effect_tooltip','custom_effect_tooltip','force_update_dynamic_modifier','add_extra_state_shared_building_slots','add_building_construction',
-            'add_manpower','add_resource','build_railway','model_legacy_reward','RUS_education_refresh','RUS_agri_credit_score','RUS_nat_refresh'}
+            'add_manpower','add_resource','build_railway','model_legacy_reward','RUS_education_refresh','RUS_agri_credit_score','RUS_nat_refresh','every_owned_state','set_state_flag'}
         for n in nodes:
             if n.k not in native and not n.k.isdigit():pending.append(n);continue
             if pending:super().run(pending);pending=[]
-            if n.k.isdigit():
+            if n.k=='every_owned_state':
+                for sid,data in self.states.items():
+                    if not data['owned']:continue
+                    oldscope,oldvars=self.scope,self.vars;self.scope=sid;self.vars=data
+                    if self.check(n.one('limit')):self.run([x for x in n.v if x.k!='limit'])
+                    self.scope,self.vars=oldscope,oldvars
+            elif n.k=='set_state_flag':self.state_flags.setdefault(self.scope,set()).add(n.v)
+            elif n.k.isdigit():
                 oldscope,oldvars=self.scope,self.vars;self.scope=int(n.k);self.vars=self.states[self.scope]
                 self.run(n.v);self.scope,self.vars=oldscope,oldvars
             elif n.k=='add_equipment_to_stockpile':self.stock+=self.number(n.value('amount'))
@@ -115,6 +128,9 @@ class PlanTests(unittest.TestCase):
             n=NODES[p['id']]
             self.assertFalse(targeted & {x.k for x in n.v},p['id'])
             self.assertNotEqual(n.value('cancel_if_not_visible'),'yes',p['id'])
+            self.assertEqual(n.value('on_map_mode'),'decision_view_only')
+        for key,n in NODES.items():
+            if key.startswith(P):self.assertEqual(n.value('on_map_mode'),'decision_view_only',key)
         # Original native target semantics outside the managed layer stay intact.
         for p in PROJECTS:
             if p['legacy']:
@@ -140,6 +156,40 @@ class PlanTests(unittest.TestCase):
                 self.assertEqual([int(n.k) for n in h.one('highlight_provinces').v],c['path'],key)
                 self.assertEqual(h.value('highlight_only_provinces'),'yes')
                 self.assertIsNone(h.one('highlight_state_targets'))
+
+    def test_rural_modifier_is_continuous_bounded_and_does_not_stack(self):
+        m=Model();s=next(s for s in m.states if s not in (219,195,217))
+        m.states[s].update(category='two',core=True,infrastructure=1,industrial_complex=0,arms_factory=0)
+        m.initialize();self.assertIn('RUS_np_rural_area',m.state_flags[s])
+        last=-1
+        for score in (-50,0,47.39,75,119.9,120,149.9,150,200):
+            m.vars['RUS_first_five_year_plan_score']=score;m.call('RUS_np_refresh')
+            expected=-.2+min(150,max(0,score))/150*.25
+            self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],expected)
+            self.assertGreaterEqual(expected,last);last=expected
+            mods=m.state_mods[s]&{'RUS_np_rural_infrastructure','RUS_np_rural_infrastructure_improved'}
+            self.assertEqual(len(mods),1)
+        # Building up a registered rural state cannot erase the modifier.
+        m.states[s]['infrastructure']=5;m.states[s]['industrial_complex']=10
+        m.vars['RUS_first_five_year_plan_score']=50;m.call('RUS_np_refresh')
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],-.2+50/150*.25)
+        # Same score/date does not scan the state list again.
+        m.states[s][P+'rural_build_speed']=99;m.call('RUS_np_refresh_rural')
+        self.assertEqual(m.states[s][P+'rural_build_speed'],99)
+        m.vars['global.num_days']+=30;m.call('RUS_np_refresh_rural')
+        self.assertNotEqual(m.states[s][P+'rural_build_speed'],99)
+
+    def test_rural_eligibility_excludes_cities_industry_noncores_and_enemy_land(self):
+        m=Model();s=next(s for s in m.states if s not in (219,195,217))
+        cases=[({},True),({'category':'six'},False),({'core':False},False),({'controlled':False},False),
+               ({'industrial_complex':3},False),({'arms_factory':3},False),({'infrastructure':3},False)]
+        for change,expected in cases:
+            m.states[s].update(owned=True,controlled=True,core=True,category='two',infrastructure=1,industrial_complex=0,arms_factory=0)
+            m.states[s].update(change);m.scope=s;m.vars=m.states[s]
+            self.assertEqual(m.check(TR['RUS_np_rural_candidate']),expected,change)
+        for sid in (219,195,217):
+            m.scope=sid;m.vars=m.states[sid];m.vars.update(owned=True,core=True,category='two',infrastructure=1,industrial_complex=0,arms_factory=0)
+            self.assertFalse(m.check(TR['RUS_np_rural_candidate']))
     def test_catalogue_and_preserved_spirit_score(self):
         self.assertEqual(len(PROJECTS),62);self.assertEqual(sum(p['legacy'] for p in PROJECTS),46)
         for path,digest in DATA['preserved'].items():self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),digest)
