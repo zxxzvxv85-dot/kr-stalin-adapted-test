@@ -1,6 +1,7 @@
 """Exercise the generated filter and phase guards, without claiming engine QA."""
 import unittest
 from itertools import product
+from national_plan import restore
 from PIL import Image
 from hoi4_politics_blocks import load, parse
 from generate_provisional_industry_gui import ROOT, CATEGORY, DECISIONS, ZONES, ART, decision_patch, render
@@ -24,7 +25,7 @@ def check(nodes,state):
 
 class Tests(unittest.TestCase):
  def test_phase_and_filter_boundaries(self):
-  _,groups=decision_patch((ROOT/DECISIONS).read_text(encoding='utf8'))
+  _,groups=decision_patch(restore((ROOT/DECISIONS).read_text(encoding='utf8')))
   for rus,ai,red,communist,promoted,stalin in product([False,True],repeat=6):
    stage=rus and not ai and (red or communist) and not (promoted or stalin)
    for selected in [None,0,1,2,3,4]:
@@ -34,7 +35,7 @@ class Tests(unittest.TestCase):
      self.assertEqual(check(TR['RUS_rc_show_'+key],s),not stage or selected in [None,0] or selected in values)
 
  def test_filter_is_read_only_and_overview_survives_empty_selection(self):
-  cat=next(n for n in load(ROOT/DECISIONS) if n.k==CATEGORY)
+  cat=next(n for n in parse(restore((ROOT/DECISIONS).read_text(encoding='utf-8-sig'))) if n.k==CATEGORY)
   overview=cat.one('RUS_rc_overview')
   self.assertEqual(overview.value('cost'),'0')
   self.assertNotIn('RUS_rc_filter',overview.one('visible').raw())
@@ -62,13 +63,13 @@ class Tests(unittest.TestCase):
    for name,*_ in ZONES:self.assertIn(('RUS_rc_'+name+'_tt:').encode(),data)
 
  def test_generation_is_idempotent(self):
-  s=(ROOT/DECISIONS).read_text(encoding='utf8');self.assertEqual(decision_patch(s)[0],s)
+  s=restore((ROOT/DECISIONS).read_text(encoding='utf8'));self.assertEqual(decision_patch(s)[0],s)
   self.assertEqual(render(),render())
 
  def test_gameplay_is_unchanged_except_ui_completion_flag(self):
   import subprocess,re
   before=subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+DECISIONS]).decode('utf-8-sig')
-  after=(ROOT/DECISIONS).read_text(encoding='utf-8-sig')
+  after=restore((ROOT/DECISIONS).read_text(encoding='utf-8-sig'))
   def strip(s):return re.sub(r'(?ms)^[ \t]*# RUS_RECOVERY_LEDGER_BEGIN\n.*?^[ \t]*# RUS_RECOVERY_LEDGER_END[ \t]*\n','',s).replace('RUS_rc_refresh = yes','')
   self.assertEqual([n.norm() for n in parse(strip(before))],[n.norm() for n in parse(strip(after))])
   for rel,text in render().items():self.assertEqual((ROOT/rel).read_text(encoding='utf-8-sig'),text,rel)
@@ -79,7 +80,7 @@ class Tests(unittest.TestCase):
   self.assertNotIn('RUS_rc_blueprint_view',sg.raw())
   calc=load(ROOT/'common/scripted_effects/RUS_provisional_industry_effects.txt')[0].one('if')
   calc.v=[n for n in calc.v if n.k!='limit']
-  cat=next(n for n in load(ROOT/DECISIONS) if n.k==CATEGORY)
+  cat=next(n for n in parse(restore((ROOT/DECISIONS).read_text(encoding='utf-8-sig'))) if n.k==CATEGORY)
   ids=[n.k for n in cat.v if n.one('days_remove') and n.one('remove_effect')]
   self.assertEqual(len(ids),46)
   for crisis in range(7):
