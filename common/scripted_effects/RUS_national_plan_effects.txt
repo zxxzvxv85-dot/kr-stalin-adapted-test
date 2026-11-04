@@ -1544,17 +1544,6 @@ RUS_np_refresh = {
 RUS_np_award_mio_amo = {
 	if = {
 	limit = { has_dlc_aat = yes }
-	if = {
-	limit = { has_country_flag = RUS_adb_merged_amo }
-	effect_tooltip = {
-	mio:RUS_adb_organisation = { add_mio_size = 1 }
-}
-}
-	else = {
-	effect_tooltip = {
-	mio:RUS_amo_organisation = { add_mio_size = 1 }
-}
-}
 	hidden_effect = { add_to_variable = { RUS_np_mio_amo_credit = 1 } RUS_np_claim_mio_amo = yes }
 }
 }
@@ -1562,12 +1551,12 @@ RUS_np_claim_mio_amo = {
 	if = {
 	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_amo_credit > 0 } }
 	if = {
-	limit = { has_country_flag = RUS_adb_merged_amo has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
+	limit = { has_completed_focus = RUS_future_foreign_030 has_country_flag = RUS_adb_merged_amo has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
 	mio:RUS_adb_organisation = { add_mio_size = 1 }
 	subtract_from_variable = { RUS_np_mio_amo_credit = 1 }
 }
 	else_if = {
-	limit = { NOT = { has_country_flag = RUS_adb_merged_amo } has_military_industrial_organization = RUS_amo_organisation mio:RUS_amo_organisation = { is_mio_available = yes } }
+	limit = { NOT = { AND = { has_completed_focus = RUS_future_foreign_030 has_country_flag = RUS_adb_merged_amo has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } } } has_military_industrial_organization = RUS_amo_organisation mio:RUS_amo_organisation = { is_mio_available = yes } }
 	mio:RUS_amo_organisation = { add_mio_size = 1 }
 	subtract_from_variable = { RUS_np_mio_amo_credit = 1 }
 }
@@ -1576,17 +1565,6 @@ RUS_np_claim_mio_amo = {
 RUS_np_award_mio_toz = {
 	if = {
 	limit = { has_dlc_aat = yes }
-	if = {
-	limit = { has_country_flag = RUS_odb_merged_toz }
-	effect_tooltip = {
-	mio:RUS_odb_organisation = { add_mio_size = 1 }
-}
-}
-	else = {
-	effect_tooltip = {
-	mio:RUS_toz_organisation = { add_mio_size = 1 }
-}
-}
 	hidden_effect = { add_to_variable = { RUS_np_mio_toz_credit = 1 } RUS_np_claim_mio_toz = yes }
 }
 }
@@ -1594,12 +1572,12 @@ RUS_np_claim_mio_toz = {
 	if = {
 	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_toz_credit > 0 } }
 	if = {
-	limit = { has_country_flag = RUS_odb_merged_toz has_military_industrial_organization = RUS_odb_organisation mio:RUS_odb_organisation = { is_mio_available = yes } }
+	limit = { has_completed_focus = RUS_future_foreign_030 has_country_flag = RUS_odb_merged_toz has_military_industrial_organization = RUS_odb_organisation mio:RUS_odb_organisation = { is_mio_available = yes } }
 	mio:RUS_odb_organisation = { add_mio_size = 1 }
 	subtract_from_variable = { RUS_np_mio_toz_credit = 1 }
 }
 	else_if = {
-	limit = { NOT = { has_country_flag = RUS_odb_merged_toz } has_military_industrial_organization = RUS_toz_organisation mio:RUS_toz_organisation = { is_mio_available = yes } }
+	limit = { NOT = { AND = { has_completed_focus = RUS_future_foreign_030 has_country_flag = RUS_odb_merged_toz has_military_industrial_organization = RUS_odb_organisation mio:RUS_odb_organisation = { is_mio_available = yes } } } has_military_industrial_organization = RUS_toz_organisation mio:RUS_toz_organisation = { is_mio_available = yes } }
 	mio:RUS_toz_organisation = { add_mio_size = 1 }
 	subtract_from_variable = { RUS_np_mio_toz_credit = 1 }
 }
@@ -1608,17 +1586,6 @@ RUS_np_claim_mio_toz = {
 RUS_np_award_mio_uztm = {
 	if = {
 	limit = { has_dlc_aat = yes }
-	if = {
-	limit = { has_country_flag = RUS_adb_merged_uztm }
-	effect_tooltip = {
-	mio:RUS_adb_organisation = { add_mio_size = 1 }
-}
-}
-	else = {
-	effect_tooltip = {
-	mio:RUS_uztm_organisation = { add_mio_size = 1 }
-}
-}
 	hidden_effect = { add_to_variable = { RUS_np_mio_uztm_credit = 1 } RUS_np_claim_mio_uztm = yes }
 }
 }
@@ -1626,12 +1593,12 @@ RUS_np_claim_mio_uztm = {
 	if = {
 	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_uztm_credit > 0 } }
 	if = {
-	limit = { has_country_flag = RUS_adb_merged_uztm has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
+	limit = { has_completed_focus = RUS_future_foreign_030 has_country_flag = RUS_adb_merged_uztm has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
 	mio:RUS_adb_organisation = { add_mio_size = 1 }
 	subtract_from_variable = { RUS_np_mio_uztm_credit = 1 }
 }
 	else_if = {
-	limit = { NOT = { has_country_flag = RUS_adb_merged_uztm } has_military_industrial_organization = RUS_uztm_organisation mio:RUS_uztm_organisation = { is_mio_available = yes } }
+	limit = { NOT = { AND = { has_completed_focus = RUS_future_foreign_030 has_country_flag = RUS_adb_merged_uztm has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } } } has_military_industrial_organization = RUS_uztm_organisation mio:RUS_uztm_organisation = { is_mio_available = yes } }
 	mio:RUS_uztm_organisation = { add_mio_size = 1 }
 	subtract_from_variable = { RUS_np_mio_uztm_credit = 1 }
 }
@@ -1640,9 +1607,6 @@ RUS_np_claim_mio_uztm = {
 RUS_np_award_mio_av = {
 	if = {
 	limit = { has_dlc_aat = yes }
-	effect_tooltip = {
-	mio:RUS_av_organisation = { add_mio_size = 1 }
-}
 	hidden_effect = { add_to_variable = { RUS_np_mio_av_credit = 1 } RUS_np_claim_mio_av = yes }
 }
 }

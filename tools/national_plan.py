@@ -122,8 +122,20 @@ def goals(p):
 def mio_cases(key):
     primary,merged,successor,_=MIO_TARGETS[key]
     def eligible(token):return f'has_military_industrial_organization = {token} mio:{token} = {{ is_mio_available = yes }}'
-    if merged:return [('has_country_flag = '+merged+' '+eligible(successor),successor),('NOT = { has_country_flag = '+merged+' } '+eligible(primary),primary)]
+    if merged:
+        redirect='has_completed_focus = RUS_future_foreign_030 has_country_flag = '+merged+' '+eligible(successor)
+        return [(redirect,successor),('NOT = { AND = { '+redirect+' } } '+eligible(primary),primary)]
     return [(eligible(primary),primary)]
+
+def mio_preview(key):
+    if key=='consortium':return [iff('has_dlc_aat = yes',['custom_effect_tooltip = RUS_np_mio_consortium_award_tt'])]
+    primary,merged,_,_=MIO_TARGETS[key]
+    if merged:
+        condition,successor=mio_cases(key)[0]
+        body=[iff('hidden_trigger = { '+condition+' }',[f'effect_tooltip = {{ mio:{successor} = {{ add_mio_size = 1 }} }}']),
+              b('else',[f'effect_tooltip = {{ mio:{primary} = {{ add_mio_size = 1 }} }}']).strip()]
+    else:body=[f'effect_tooltip = {{ mio:{primary} = {{ add_mio_size = 1 }} }}']
+    return [iff('has_dlc_aat = yes',body)]
 
 def consortium_ready():
     # Exact roster/eligibility used by native KR russia_events.440.
@@ -133,9 +145,9 @@ def mio_effects():
     out=[]
     for key,(_,merged,successor,_) in MIO_TARGETS.items():
         primary=MIO_TARGETS[key][0];credit=P+'mio_'+key+'_credit'
-        preview=([iff('has_country_flag = '+merged,[b('effect_tooltip',[f'mio:{successor} = {{ add_mio_size = 1 }}']).strip()]),
-                  b('else',[b('effect_tooltip',[f'mio:{primary} = {{ add_mio_size = 1 }}']).strip()]).strip()] if merged else [b('effect_tooltip',[f'mio:{primary} = {{ add_mio_size = 1 }}']).strip()])
-        out.append(b(P+'award_mio_'+key,[iff('has_dlc_aat = yes',preview+[
+        # Preview dispatch lives outside effect_tooltip in the decision. A
+        # forced tooltip around the whole conditional can expose both branches.
+        out.append(b(P+'award_mio_'+key,[iff('has_dlc_aat = yes',[
             'hidden_effect = { '+add(credit,1)+' '+P+'claim_mio_'+key+' = yes }'])]))
         cases=[]
         for i,(condition,token) in enumerate(mio_cases(key)):
@@ -214,8 +226,11 @@ def patch_node(node,p):
 def goal_tooltips(p):
     rows=[]
     for i,(condition,_,reward) in enumerate(goals(p),1):
-        rows += ['custom_effect_tooltip = '+var(p,'goal_'+str(i)+'_tt'),
-            b('effect_tooltip',reward).strip()]
+        rows += ['custom_effect_tooltip = '+var(p,'goal_'+str(i)+'_tt')]
+        ordinary=[line for line in reward if not line.startswith('RUS_np_award_mio_')]
+        if ordinary:rows += [b('effect_tooltip',ordinary).strip()]
+        for line in reward:
+            if line.startswith('RUS_np_award_mio_'):rows += mio_preview(line.split(' =')[0].removeprefix('RUS_np_award_mio_'))
     return rows
 
 def rail_highlight(c):
@@ -337,9 +352,7 @@ def management():
     for key in MIO_TARGETS:
         credit=P+'mio_'+key+'_credit'
         eligibility='OR = { '+' '.join('AND = { '+condition+' }' for condition,_ in mio_cases(key))+' }'
-        preview=[]
-        for i,(condition,token) in enumerate(mio_cases(key)):
-            preview.append(b('if' if i==0 else 'else_if',['limit = { '+condition+' }',f'effect_tooltip = {{ mio:{token} = {{ add_mio_size = 1 }} }}']).strip())
+        preview=mio_preview(key)
         out.append(b(P+'redeem_mio_'+key,[x for x in common if not x.startswith('visible =')]+[
             'visible = { RUS_np_context = yes has_dlc_aat = yes '+ck(credit,'>',0)+' }',
             'available = { '+eligibility+' }',b('complete_effect',preview+['hidden_effect = { '+P+'claim_mio_'+key+' = yes }']).strip()]))

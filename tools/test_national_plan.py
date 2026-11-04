@@ -4,7 +4,7 @@ from pathlib import Path
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import parse,load
 from national_plan_catalog import ROOT,DATA,PROJECTS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS
-from national_plan import FX,DM,DEC,CAT,P,var,native_base,goals,restore
+from national_plan import FX,DM,DEC,CAT,P,var,native_base,goals,restore,mio_preview
 from generate_provisional_industry_gui import render
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf8'))
@@ -18,7 +18,7 @@ def walk(nodes):
 
 class Model(ScriptModel):
     def __init__(self):
-        super().__init__(copy.deepcopy(EFFECTS));self.context=True;self.stock=10000;self.scope=None;self.mio_scope=None;self.aat=True;self.events=[];self.offsite={}
+        super().__init__(copy.deepcopy(EFFECTS));self.context=True;self.stock=10000;self.scope=None;self.mio_scope=None;self.aat=True;self.events=[];self.offsite={};self.focuses=set();self.preview_mios=[]
         self.mios={token:{'size':0,'available':True,'assigned':False} for token in set(CONSORTIUM_MIOS)|{row[i] for row in MIO_TARGETS.values() for i in (0,2) if row[i]}}
         self.country=self.vars;self.country.update({'global.num_days':100,'year':1936,'num_of_available_civilian_factories':50,
             'RUS_basic_education_level':50,'RUS_higher_education_level':50,'RUS_education_enthusiasm':50,
@@ -51,6 +51,7 @@ class Model(ScriptModel):
         for n in nodes:
             if n.k in TR:ok=self.check(TR[n.k])==(n.v=='yes')
             elif n.k=='has_dlc_aat':ok=self.aat==(n.v=='yes')
+            elif n.k=='has_completed_focus':ok=n.v in self.focuses
             elif n.k=='has_military_industrial_organization':ok=n.v in self.mios
             elif n.k.startswith('mio:'):
                 before=self.mio_scope;self.mio_scope=n.k.split(':')[1]
@@ -87,6 +88,7 @@ class Model(ScriptModel):
             if n.k.startswith('mio:'):
                 before=self.mio_scope;self.mio_scope=n.k.split(':')[1];self.run(n.v);self.mio_scope=before
             elif n.k=='add_mio_size':self.mios[self.mio_scope]['size']+=int(n.v)
+            elif n.k=='effect_tooltip':self.preview_mios.extend(x.k.split(':',1)[1] for x in walk(n.v) if x.k.startswith('mio:'))
             elif n.k=='country_event':self.events.append(n.v if isinstance(n.v,str) else n.value('id'))
             elif n.k=='add_offsite_building':
                 assert self.scope is None,'offsite factories belong to the country'
@@ -362,7 +364,7 @@ class PlanTests(unittest.TestCase):
             # An unavailable MIO retains one credit instead of losing rewards.
             m=Model().initialize();m.mios[primary]['available']=False
             m.call(P+'award_mio_'+key);self.assertEqual(m.vars[P+'mio_'+key+'_credit'],1)
-            if merged:m.flags.add(merged);target=successor
+            if merged:m.flags.add(merged);m.focuses.add('RUS_future_foreign_030');target=successor
             else:m.mios[primary]['available']=True;target=primary
             m.run(NODES[P+'redeem_mio_'+key].one('complete_effect').v)
             self.assertEqual(m.mios[target]['size'],1);self.assertEqual(m.vars[P+'mio_'+key+'_credit'],0)
@@ -370,6 +372,34 @@ class PlanTests(unittest.TestCase):
         m=Model();m.aat=False;m.call(P+'award_mio_amo')
         self.assertEqual(m.mios[MIO_TARGETS['amo'][0]]['size'],0)
         self.assertEqual(m.vars.get(P+'mio_amo_credit',0),0)
+
+    def test_postwar_bureaus_never_preview_or_receive_rewards_before_unlock(self):
+        for key,(primary,merged,successor,_) in MIO_TARGETS.items():
+            if not merged:continue
+            preview=parse('\n'.join(mio_preview(key)));m=Model()
+            m.run(preview);self.assertEqual(m.preview_mios,[primary])
+            # A merge flag or an instantiated future MIO alone is insufficient.
+            m.flags.add(merged);m.preview_mios=[];m.run(preview)
+            self.assertEqual(m.preview_mios,[primary])
+            m.mios[primary]['available']=False;m.call(P+'award_mio_'+key)
+            self.assertEqual(m.mios[successor]['size'],0);self.assertEqual(m.vars[P+'mio_'+key+'_credit'],1)
+            m.call(P+'claim_mio_'+key);self.assertEqual(m.mios[successor]['size'],0)
+            m.focuses.add('RUS_future_foreign_030');m.mios[successor]['available']=False
+            m.preview_mios=[];m.run(preview);self.assertEqual(m.preview_mios,[primary])
+            m.call(P+'claim_mio_'+key);self.assertEqual(m.mios[successor]['size'],0)
+            m.mios[successor]['available']=True;m.preview_mios=[];m.run(preview)
+            self.assertEqual(m.preview_mios,[successor])
+            m.call(P+'claim_mio_'+key);m.call(P+'claim_mio_'+key)
+            self.assertEqual(m.mios[successor]['size'],1);self.assertEqual(m.vars[P+'mio_'+key+'_credit'],0)
+        for project,(key,_) in MIO_REWARDS.items():
+            if key=='consortium':continue
+            p=next(p for p in PROJECTS if p['key']==project)
+            for n in walk(NODES[p['id']].v):
+                if n.k=='effect_tooltip':
+                    self.assertFalse(any(x.k.startswith('RUS_np_award_mio_') for x in walk(n.v)),'MIO preview dispatch must not be forced inside effect_tooltip')
+        for file in ('RUS_armour_design_bureau.txt','RUS_ordnance_design_bureau.txt'):
+            n=load(ROOT/'common/military_industrial_organization/organizations'/file)[0]
+            for field in ('visible','available'):self.assertIn('has_completed_focus = RUS_future_foreign_030',n.one(field).raw())
 
     def test_consortium_choice_waits_for_active_mio_and_opens_native_event_once(self):
         p=next(p for p in PROJECTS if p['key']=='volkhov');m=Model().initialize();m.start(p)
