@@ -10732,6 +10732,10 @@ RUS_tesla_minesweeper_check_victory = {
 }
 
 RUS_tesla_minesweeper_finish_victory = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_minesweeper_active }
+		clr_country_flag = RUS_tesla_minesweeper_lost
+
 	clr_country_flag = RUS_tesla_minesweeper_active
 	set_country_flag = RUS_tesla_minesweeper_won
 	set_country_flag = RUS_tesla_minesweeper_cooldown
@@ -10773,9 +10777,19 @@ RUS_tesla_minesweeper_finish_victory = {
 		set_country_flag = RUS_tesla_minesweeper_no_reward
 	}
 	RUS_tesla_minesweeper_refresh_gui = yes
+
+	}
 }
 
 RUS_tesla_minesweeper_finish_defeat = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_minesweeper_active }
+		if = {
+			limit = { has_idea = RUS_egg_larruping_advisor }
+			RUS_tesla_minesweeper_finish_victory = yes
+		}
+		else = {
+
 	clr_country_flag = RUS_tesla_minesweeper_active
 	set_country_flag = RUS_tesla_minesweeper_lost
 	set_country_flag = RUS_tesla_minesweeper_cooldown
@@ -10783,6 +10797,9 @@ RUS_tesla_minesweeper_finish_defeat = {
 	set_variable = { RUS_tesla_minesweeper_reward_grids = 0 }
 	country_event = { id = RUS_tesla_minesweeper.1 days = 60 }
 	RUS_tesla_minesweeper_refresh_gui = yes
+
+		}
+	}
 }
 
 RUS_tesla_minesweeper_reveal_00 = {

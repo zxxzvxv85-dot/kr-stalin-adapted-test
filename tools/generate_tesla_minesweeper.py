@@ -517,6 +517,21 @@ country_event = {{
 }}'''
 
 
+def guard_settlements(text: str) -> str:
+    """One result per round; larruping redirects loss into the same win path."""
+    from hoi4_politics_blocks import parse
+    nodes={n.k:n for n in parse(text)}
+    win=nodes[PREFIX+'_finish_victory'];loss=nodes[PREFIX+'_finish_defeat']
+    guarded_win=(win.k+' = {\n\tif = {\n\t\tlimit = { has_country_flag = '+PREFIX+'_active }\n'
+        '\t\tclr_country_flag = '+PREFIX+'_lost\n'+win.inner()+'\n\t}\n}')
+    guarded_loss=(loss.k+' = {\n\tif = {\n\t\tlimit = { has_country_flag = '+PREFIX+'_active }\n'
+        '\t\tif = {\n\t\t\tlimit = { has_idea = RUS_egg_larruping_advisor }\n'
+        '\t\t\t'+PREFIX+'_finish_victory = yes\n\t\t}\n\t\telse = {\n'+loss.inner()+'\n\t\t}\n\t}\n}')
+    for a,b,value in sorted([(win.a,win.b,guarded_win),(loss.a,loss.b,guarded_loss)],reverse=True):
+        text=text[:a]+value+text[b:]
+    return '\n'.join(line.rstrip() for line in text.split('\n'))
+
+
 def build_effects(layouts: list[tuple[int, ...]]) -> str:
     lines = [
         "RUS_tesla_minesweeper_refresh_gui = {",
@@ -732,7 +747,7 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
             "}",
             "",
         ])
-    return "\n".join(lines)
+    return guard_settlements("\n".join(lines))
 
 
 LOCALISATIONS = {

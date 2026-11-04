@@ -59,7 +59,8 @@ def advisor_roles():
 def data():
     old = traits(kr_root(ROOT) / "common/country_leader")
     current = traits(ROOT / "common/country_leader")
-    changed = {key: trait for key, trait in current.items() if not key.startswith("RUS_relationship_scaled_") and (key not in old or trait.norm() != old[key].norm())}
+    # Opt-in Easter egg advisers keep their explicitly configured cheat values.
+    changed = {key: trait for key, trait in current.items() if not key.startswith(("RUS_relationship_scaled_", "RUS_egg_")) and (key not in old or trait.norm() != old[key].norm())}
     bonuses = []
     for (character, slot), entries in advisor_roles().items():
         for token, name in set(entries):

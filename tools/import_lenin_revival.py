@@ -171,11 +171,13 @@ def render_outputs():
     # The package used obsolete research-time and vanilla ideology modifiers.
     texts[p]=texts[p].replace('communism_drift =','communist_drift =').replace('research_time_factor = -','research_speed_factor = ')
     p='common/decisions/00_RUS_lenin_revival_decisions.txt'
+    texts[p]=texts[p].replace('RUS_lenin_revival_category = {','RUS_easter_eggs_category = {')
+    texts[p]=texts[p].replace('visible = {','visible = { NOT = { has_country_flag = RUS_LR_choice_resolved }')
     texts[p]=texts[p].replace('NOT = { has_country_flag = RUS_LR_choice_made }','NOT = { has_country_flag = RUS_LR_choice_made } NOT = { has_country_flag = RUS_LR_sr_rebel }')
     texts[p]=replace(texts[p],'available = { NOT = { has_country_flag = RUS_LR_choice_made } NOT = { has_country_flag = RUS_LR_sr_rebel } }',
         'available = { hidden_trigger = { NOT = { has_country_flag = RUS_LR_choice_made } NOT = { has_country_flag = RUS_LR_sr_rebel } } }')
     p='common/decisions/categories/00_RUS_lenin_revival_categories.txt'
-    texts[p]=replace(texts[p],'original_tag = RUS','original_tag = RUS\n\t\tNOT = { has_country_flag = RUS_LR_choice_resolved }\n\t\tNOT = { has_country_flag = RUS_LR_sr_rebel }')
+    texts[p]='# Entry moved to RUS_easter_eggs_category; visibility guards remain on the decision.\n'
     texts['common/scripted_effects/RUS_lenin_revival_effects.txt']=integration_effects()
     texts['common/scripted_triggers/RUS_lenin_revival_triggers.txt']='''RUS_LR_is_active = {
 	original_tag = RUS

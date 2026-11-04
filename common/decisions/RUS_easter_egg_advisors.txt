@@ -1,0 +1,26 @@
+RUS_easter_eggs_category = {
+	RUS_egg_su_beichen_recruit = {
+	icon = generic_political_discourse
+	allowed = { original_tag = RUS }
+	visible = { is_ai = no NOT = { has_country_flag = RUS_egg_su_beichen_unlocked } }
+	available = { hidden_trigger = { NOT = { has_country_flag = RUS_egg_su_beichen_unlocked } } }
+	on_map_mode = decision_view_only
+	cost = 0
+	fire_only_once = yes
+	complete_effect = { custom_effect_tooltip = available_political_advisor show_ideas_tooltip = RUS_egg_su_beichen_advisor hidden_effect = { RUS_egg_su_beichen_unlock = yes } }
+	ai_will_do = { factor = 0 }
+}
+
+	RUS_egg_larruping_recruit = {
+	icon = generic_political_discourse
+	allowed = { original_tag = RUS }
+	visible = { is_ai = no NOT = { has_country_flag = RUS_egg_larruping_unlocked } }
+	available = { hidden_trigger = { NOT = { has_country_flag = RUS_egg_larruping_unlocked } } }
+	on_map_mode = decision_view_only
+	cost = 0
+	fire_only_once = yes
+	complete_effect = { custom_effect_tooltip = available_political_advisor show_ideas_tooltip = RUS_egg_larruping_advisor hidden_effect = { RUS_egg_larruping_unlock = yes } }
+	ai_will_do = { factor = 0 }
+}
+
+}

@@ -36,11 +36,13 @@ assert easy_modifier_value("stability_factor", stage["stability_factor"]) == -0.
 assert easy_modifier_value("civilian_intel_to_others", -7.5) == -15
 
 decision = (ROOT / "common/decisions/RUS_easy_mode_decisions.txt").read_text(encoding="utf-8")
-category = (ROOT / "common/decisions/categories/RUS_easy_mode_categories.txt").read_text(encoding="utf-8")
+category = (ROOT / "common/decisions/categories/RUS_easter_egg_categories.txt").read_text(encoding="utf-8")
 assert "fire_only_once = yes" in decision and "cost = 0" in decision
 assert "is_ai = no" in decision and "RUS_easy_mode_refresh = yes" in decision
 assert "RUS_stalin_refresh_easy_advisor_trait_tiers = yes" in decision
-assert "allowed = { is_ai = no original_tag = RUS }" in category
+assert "allowed = { is_ai = no original_tag = RUS }" in decision
+assert load(ROOT / "common/decisions/RUS_easy_mode_decisions.txt")[0].k == "RUS_easter_eggs_category"
+assert "allowed = { original_tag = RUS }" in category and "visible = { is_ai = no }" in category
 technology = (ROOT / "common/technologies/RUS_easy_mode_bonus_technologies.txt").read_text(encoding="utf-8")
 assert "RUS_fr_armour_priority_self_propelled_bonus_easy_bonus" in technology
 assert "supply_consumption = -0.30" in technology

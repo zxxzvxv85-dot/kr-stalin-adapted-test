@@ -1,0 +1,29 @@
+# 彩蛋顾问（测试开发版，2026-11-04）
+
+玩家俄罗斯开局可在决议栏“彩蛋”分类点击“邀请苏北辰”和“邀请larruping”。解锁和政治顾问任命均为0政治点；决议只解锁、不自动任命，不替换已任命的顾问。角色未通过对应决议解锁前不显示，AI不点。
+
+列宁复活线路入口和启用简易模式也归入本分类，保留原决议ID、费用、一次性状态及效果。原分类的身份/路线限制保留在共享分类或各自决议中；不启用任何选项时不改变开局。所有入口消失后，空分类自动隐藏。列宁复活入口仍由import_lenin_revival.py生成；简易模式入口为原手写脚本，不新增效果副本。
+
+| 顾问 | 特质 | 效果 |
+|---|---|---|
+| 苏北辰 | 制作组最锋利的剑 | 陆军攻击+20%、战场宽度-20%、补给消耗-20%、陆军组织度+20% |
+| larruping | 扫雷先驱 | 任命期间，扫雷的失败结算改走成功结算 |
+
+苏北辰使用用户最终替换的军装人物图`4cdc0f60e2525ec01392198bf1530e0e.jpg`，不保留第一次白帽头像。larruping使用用户提供的钉子立方体图片。两个运行时头像均为65×67 RGBA，复用`art_templates/KR_advisor_frame_bukharin_260x268.png`及`Build-KRAdvisorPortrait.py`原流程（裁剪、灰度、透视、透明相框、缩小）；没有调用图生成或重绘角色。
+
+原图、裁剪参数、SHA和显式重建入口在`art_sources/easter_egg_advisors_20261104/`；运行时PNG为`gfx/interface/advisors/RUS/RUS_su_beichen.png`和`RUS_larruping.png`。预览为`art_previews/RUS_easter_egg_advisors.png`，是游戏原生尺寸的4倍最近邻放大，不代表另一个高清游戏贴图。
+
+## 生成和结算
+
+- `generate_easter_egg_advisors.py`维护9份人物、特质、决议、分类、解锁效果、GFX与三语本地化；默认只读，`--write`更新。图片只在`art_sources/easter_egg_advisors_20261104/build_portraits.py --write`显式重建，正常文本检查不重新绘图。
+- 角色为独立`RUS_egg_*` ID，只有political_advisor角色，不添加领袖/将领，不覆盖既有人物或头像。解锁效果由国家身份、AI及一次性旗标保护，recruit_character只执行一次。
+- 特质使用原生`army_attack_factor`、`combat_width_factor`、`supply_consumption_factor`、`army_org_factor`。参考KR political/theorist traits、现有RUS顾问和原生modifier文档。解锁提示沿用KR `available_political_advisor`及`show_ideas_tooltip`，不手写数值效果。
+- 独立彩蛋顾问保持用户指定数值，不由简易模式顾问扫描器再加副本；既有普通顾问的简易加成保持原样。
+- larruping通过`has_idea = RUS_egg_larruping_advisor`判断实际任命，单纯解锁不生效，解雇后恢复正常。`generate_tesla_minesweeper.py`先生成原结算体，再加active守卫；失败入口在任命时调用原胜利入口，胜利/失败重复回调均不重复领奖。原连胜奖励、随机合格州电网建设、简易模式奖励和60日维护不改。
+- 检索现有扫雷逻辑只有踩雷失败入口，没有超时失败；关窗保留在建牌局，不视为结算。不自动解锁原特斯拉扫雷入口，不追溯补发旧局奖励。
+
+## 验证和实测
+
+`python tools/test_easter_egg_advisors.py`执行实际解锁/结算脚本，覆盖解锁防重、特质数值与图像绑定、正常成功/失败转换、未任命、解雇、踩雷点击、关窗、无可领奖地区、60日维护及重复领奖。扫雷原奖励体与其他规则AST对照本次修改前已审核提交`fcb5531`，基准固定以便提交后仍能检查。
+
+还须检查两个生成器`--check`、`check_runtime_structure.py`、RHoi单文件及repair dry_run。静态/模型检查不替代实机：完全重启并用新局查看彩蛋分类、顾问列表/头像、任命/解雇后特质和踩雷结算，并按最新error.log核验。
