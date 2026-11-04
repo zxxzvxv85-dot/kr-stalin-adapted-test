@@ -30,7 +30,7 @@ NEW_ROWS=[
  ('kashira','卡希拉电站扩建',219,1,'energy',180,140,40,'energy','https://www.mosenergo-museum.ru/History_of_Mosenergo/Historical_Review/21420/'),
  ('moscow_grid','莫斯科高压环网',219,1,'energy',120,80,25,'grid','https://www.mosenergo-museum.ru/Museum/News/21903/'),
  ('metro','莫斯科地铁第一期',219,1,'city',270,180,50,'metro','https://www.mosmetro.ru/about/history'),
- ('moscow_volga','莫斯科—伏尔加运河',247,1,'road',540,220,75,'canal','https://www.mosvodokanal.ru/about/history/'),
+ ('moscow_volga','莫斯科—伏尔加运河扩建',247,1,'road',540,220,75,'canal','https://www.mosvodokanal.ru/about/history/'),
  ('svir','下斯维里水电站',216,2,'energy',365,220,60,'energy','https://www.so-ups.ru/memorial-day/history-event/news/9803/'),
  ('volkhov','沃尔霍夫铝厂',264,2,'industry',210,160,45,'aluminium','https://www.rusal.ru/about/facts/'),
  ('uvz','乌拉尔车辆厂',653,4,'industry',240,180,50,'wagons','https://www.rostec.ru/media/news/uralvagonzavod-pervyy-i-edinstvennyy/'),
@@ -57,7 +57,9 @@ for p in PROJECTS:
     if p.get('reward')=='rural':p['trains']=0
     if p['key']=='bearing':p['civ']=1;p['trains']=0
     if p['key']=='metro':p['civ']=3;p['consumer']=.01
-    if p['key']=='moscow_volga':p['civ']=3;p['trains']=20
+    if p['key']=='moscow_volga':
+        p['civ']=3;p['trains']=20
+        p['intro']='在日出计划既有工程的基础上，扩建运河的船闸、港埠与供水设施。'
     if p['key']=='bobrik':p['civ']=0;p['consumer']=.02
 
 # Fixed registered corridors. Weights are province segments, not arbitrary

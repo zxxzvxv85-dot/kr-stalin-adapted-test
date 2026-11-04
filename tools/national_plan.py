@@ -545,7 +545,7 @@ def localisations():
         l[p['id']]=('$'+p['original_id']+'$') if p['legacy'] else p['name']
         l[var(p,'terminate')]='终止工程：$'+p['id']+'$'
         l[var(p,'terminate')+'_desc']='$RUS_np_terminate_tt$'
-        parts=['$'+var(p,'cost_tt')+'$','追加目标：']
+        parts=([p['intro'],''] if p.get('intro') else [])+['$'+var(p,'cost_tt')+'$','追加目标：']
         for i,(_,name,_) in enumerate(goals(p),1):
             helper='RUSNPGoal_'+p['key']+'_'+str(i)
             parts.append(f'{name}：[{helper}]')
