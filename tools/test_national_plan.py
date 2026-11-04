@@ -3,7 +3,7 @@ import copy,hashlib,json,math,re,unittest
 from pathlib import Path
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import parse,load
-from national_plan_catalog import ROOT,DATA,PROJECTS,CORRIDORS
+from national_plan_catalog import ROOT,DATA,PROJECTS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS
 from national_plan import FX,DM,DEC,CAT,P,var,native_base,goals,restore
 from generate_provisional_industry_gui import render
 
@@ -18,7 +18,8 @@ def walk(nodes):
 
 class Model(ScriptModel):
     def __init__(self):
-        super().__init__(copy.deepcopy(EFFECTS));self.context=True;self.stock=10000;self.scope=None
+        super().__init__(copy.deepcopy(EFFECTS));self.context=True;self.stock=10000;self.scope=None;self.mio_scope=None;self.aat=True;self.events=[];self.offsite={}
+        self.mios={token:{'size':0,'available':True,'assigned':False} for token in set(CONSORTIUM_MIOS)|{row[i] for row in MIO_TARGETS.values() for i in (0,2) if row[i]}}
         self.country=self.vars;self.country.update({'global.num_days':100,'year':1936,'num_of_available_civilian_factories':50,
             'RUS_basic_education_level':50,'RUS_higher_education_level':50,'RUS_education_enthusiasm':50,
             'RUS_nat_machine_stock':1000,'RUS_nat_target':1000,'RUS_nat_installed':0,'RUS_first_five_year_plan_stage':3})
@@ -38,7 +39,10 @@ class Model(ScriptModel):
                     if [x.norm() for x in n.v[i:i+len(signature)]]==signature:
                         n.v[i:i+len(signature)]=parse('model_legacy_reward = '+p['key']);break
     def number(self,v):
-        if isinstance(v,str) and v.startswith('PREV.'):return self.country.get(v.split('.',1)[1],0)
+        if isinstance(v,str) and v.startswith(('PREV.','ROOT.')):return self.country.get(v.split('.',1)[1],0)
+        if isinstance(v,str) and re.match(r'^\d+\.building_level@',v):
+            state,kind=v.split('.building_level@');return self.states[int(state)].get(kind,0)
+        if isinstance(v,str) and v.startswith('building_level@'):return self.vars.get(v.split('@')[1],0)
         if isinstance(v,str) and v.startswith('days_decision_timeout@'):return self.timers.get(v.split('@')[1],0)
         if v in ('global.num_days','year'):return self.country[v]
         return super().number(v)
@@ -46,6 +50,13 @@ class Model(ScriptModel):
         if hasattr(nodes,'v'):nodes=nodes.v
         for n in nodes:
             if n.k in TR:ok=self.check(TR[n.k])==(n.v=='yes')
+            elif n.k=='has_dlc_aat':ok=self.aat==(n.v=='yes')
+            elif n.k=='has_military_industrial_organization':ok=n.v in self.mios
+            elif n.k.startswith('mio:'):
+                before=self.mio_scope;self.mio_scope=n.k.split(':')[1]
+                ok=self.mio_scope in self.mios and self.check(n.v);self.mio_scope=before
+            elif n.k in ('is_mio_available','is_mio_assigned_to_task'):
+                ok=self.mios[self.mio_scope]['available' if n.k=='is_mio_available' else 'assigned']==(n.v=='yes')
             elif n.k in ('RUS_rc_stalin_phase','has_socialist_government'):ok=self.context==(n.v=='yes')
             elif n.k=='custom_trigger_tooltip':ok=self.check([x for x in n.v if x.k!='tooltip'])
             elif n.k=='has_equipment':ok=all(self.compare(self.stock,self.number(x.v),x.op) for x in n.v)
@@ -69,17 +80,25 @@ class Model(ScriptModel):
         pending=[]
         native={'add_equipment_to_stockpile','add_dynamic_modifier','remove_dynamic_modifier','add_days_remove','remove_decision','remove_targeted_decision',
             'effect_tooltip','custom_effect_tooltip','force_update_dynamic_modifier','add_extra_state_shared_building_slots','add_building_construction',
-            'add_manpower','add_resource','build_railway','model_legacy_reward','RUS_education_refresh','RUS_agri_credit_score','RUS_nat_refresh','every_owned_state','set_state_flag'}
+            'add_manpower','add_resource','build_railway','model_legacy_reward','RUS_education_refresh','RUS_agri_credit_score','RUS_nat_refresh','every_owned_state','set_state_flag','clr_state_flag','add_mio_size','country_event','add_offsite_building'}
         for n in nodes:
-            if n.k not in native and not n.k.isdigit():pending.append(n);continue
+            if n.k not in native and not n.k.isdigit() and not n.k.startswith('mio:'):pending.append(n);continue
             if pending:super().run(pending);pending=[]
-            if n.k=='every_owned_state':
+            if n.k.startswith('mio:'):
+                before=self.mio_scope;self.mio_scope=n.k.split(':')[1];self.run(n.v);self.mio_scope=before
+            elif n.k=='add_mio_size':self.mios[self.mio_scope]['size']+=int(n.v)
+            elif n.k=='country_event':self.events.append(n.v if isinstance(n.v,str) else n.value('id'))
+            elif n.k=='add_offsite_building':
+                assert self.scope is None,'offsite factories belong to the country'
+                kind=n.value('type');self.offsite[kind]=self.offsite.get(kind,0)+int(n.value('level'))
+            elif n.k=='every_owned_state':
                 for sid,data in self.states.items():
                     if not data['owned']:continue
                     oldscope,oldvars=self.scope,self.vars;self.scope=sid;self.vars=data
                     if self.check(n.one('limit')):self.run([x for x in n.v if x.k!='limit'])
                     self.scope,self.vars=oldscope,oldvars
             elif n.k=='set_state_flag':self.state_flags.setdefault(self.scope,set()).add(n.v)
+            elif n.k=='clr_state_flag':self.state_flags.setdefault(self.scope,set()).discard(n.v)
             elif n.k.isdigit():
                 oldscope,oldvars=self.scope,self.vars;self.scope=int(n.k);self.vars=self.states[self.scope]
                 self.run(n.v);self.scope,self.vars=oldscope,oldvars
@@ -166,18 +185,50 @@ class PlanTests(unittest.TestCase):
             m.vars['RUS_first_five_year_plan_score']=score;m.call('RUS_np_refresh')
             expected=-.2+min(150,max(0,score))/150*.25
             self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],expected)
+            self.assertAlmostEqual(m.states[s][P+'rural_slots'],-.15+min(150,max(0,score))/150*.175)
             self.assertGreaterEqual(expected,last);last=expected
             mods=m.state_mods[s]&{'RUS_np_rural_infrastructure','RUS_np_rural_infrastructure_improved'}
             self.assertEqual(len(mods),1)
         # Building up a registered rural state cannot erase the modifier.
         m.states[s]['infrastructure']=5;m.states[s]['industrial_complex']=10
         m.vars['RUS_first_five_year_plan_score']=50;m.call('RUS_np_refresh')
-        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],-.2+50/150*.25)
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],-.2+50/150*.25+.1)
         # Same score/date does not scan the state list again.
         m.states[s][P+'rural_build_speed']=99;m.call('RUS_np_refresh_rural')
         self.assertEqual(m.states[s][P+'rural_build_speed'],99)
         m.vars['global.num_days']+=30;m.call('RUS_np_refresh_rural')
         self.assertNotEqual(m.states[s][P+'rural_build_speed'],99)
+
+    def test_rural_penalty_exists_on_startup_without_opening_plan_account(self):
+        m=Model();m.context=False;s=next(s for s in m.states if s not in (219,195,217))
+        m.states[s].update(category='two',infrastructure=1,industrial_complex=0,arms_factory=0)
+        m.call('RUS_np_initialize_rural')
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],-.2)
+        self.assertAlmostEqual(m.states[s][P+'rural_slots'],-.15)
+        self.assertIn('RUS_np_rural_infrastructure',m.state_mods[s])
+        self.assertNotIn(P+'initialized',m.flags);self.assertNotIn(P+'available',m.vars)
+        m.vars['RUS_first_five_year_plan_score']=150;m.call('RUS_np_refresh_rural')
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],.05)
+        self.assertAlmostEqual(m.states[s][P+'rural_slots'],.025)
+        self.assertNotIn(P+'initialized',m.flags)
+        hooks=load(ROOT/'common/on_actions/RUS_national_plan_on_actions.txt')[0]
+        self.assertIn('RUS_np_initialize_rural',hooks.one('on_startup').raw())
+
+    def test_level_five_infrastructure_adds_ten_points_and_never_stacks(self):
+        m=Model();m.context=False;s=next(s for s in m.states if s not in (219,195,217))
+        m.states[s].update(category='two',infrastructure=1,industrial_complex=0,arms_factory=0)
+        m.call('RUS_np_initialize_rural')
+        m.states[s]['infrastructure']=5;m.vars['global.num_days']+=1;m.call('RUS_np_rural_daily')
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],-.1)
+        self.assertAlmostEqual(m.states[s][P+'rural_slots'],-.15)
+        for _ in range(3):m.call('RUS_np_rural_daily')
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],-.1)
+        m.states[s]['infrastructure']=4;m.vars['global.num_days']+=1;m.call('RUS_np_rural_daily')
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],-.2)
+        m.states[s]['infrastructure']=5;m.vars['global.num_days']+=1;m.call('RUS_np_rural_daily')
+        m.vars['RUS_first_five_year_plan_score']=150;m.call('RUS_np_refresh_rural')
+        self.assertAlmostEqual(m.states[s][P+'rural_build_speed'],.15)
+        self.assertAlmostEqual(m.states[s][P+'rural_slots'],.025)
 
     def test_rural_eligibility_excludes_cities_industry_noncores_and_enemy_land(self):
         m=Model();s=next(s for s in m.states if s not in (219,195,217))
@@ -292,6 +343,64 @@ class PlanTests(unittest.TestCase):
         edu=[p['key'] for p in PROJECTS if any('RUS_np_award_education = yes' in x[2] for x in goals(p))]
         land=[p['key'] for p in PROJECTS if any('RUS_np_award_land_score = yes' in x[2] for x in goals(p))]
         self.assertEqual(edu,['bearing','uvz']);self.assertEqual(set(land),{'rostselmash','tsaritsyn_rural'})
+
+    def test_mio_size_rewards_once_deferred_and_transferred_to_merged_bureau(self):
+        definitions={n.k for path in (ROOT/'common/military_industrial_organization/organizations').glob('RUS*.txt') for n in load(path)}
+        for row in MIO_TARGETS.values():
+            self.assertIn(row[0],definitions)
+            if row[2]:self.assertIn(row[2],definitions)
+        self.assertTrue(set(CONSORTIUM_MIOS)<=definitions)
+        for project,(key,index) in MIO_REWARDS.items():
+            if key=='consortium':continue
+            p=next(p for p in PROJECTS if p['key']==project)
+            primary,merged,successor,_=MIO_TARGETS[key]
+            m=Model().initialize();m.states[p['states'][0]]['infrastructure']=3;m.start(p)
+            m.vars[var(p,'left')]=0;m.call(var(p,'finish'))
+            self.assertEqual(m.mios[primary]['size'],1)
+            m.call(var(p,'finish'));m.call(P+'claim_mio_'+key)
+            self.assertEqual(m.mios[primary]['size'],1)
+            # An unavailable MIO retains one credit instead of losing rewards.
+            m=Model().initialize();m.mios[primary]['available']=False
+            m.call(P+'award_mio_'+key);self.assertEqual(m.vars[P+'mio_'+key+'_credit'],1)
+            if merged:m.flags.add(merged);target=successor
+            else:m.mios[primary]['available']=True;target=primary
+            m.run(NODES[P+'redeem_mio_'+key].one('complete_effect').v)
+            self.assertEqual(m.mios[target]['size'],1);self.assertEqual(m.vars[P+'mio_'+key+'_credit'],0)
+            m.call(P+'claim_mio_'+key);self.assertEqual(m.mios[target]['size'],1)
+        m=Model();m.aat=False;m.call(P+'award_mio_amo')
+        self.assertEqual(m.mios[MIO_TARGETS['amo'][0]]['size'],0)
+        self.assertEqual(m.vars.get(P+'mio_amo_credit',0),0)
+
+    def test_consortium_choice_waits_for_active_mio_and_opens_native_event_once(self):
+        p=next(p for p in PROJECTS if p['key']=='volkhov');m=Model().initialize();m.start(p)
+        m.vars[P+'rail_region_'+str(p['region'])]=2;m.call(var(p,'goals'))
+        m.vars[var(p,'left')]=0;m.call(var(p,'finish'))
+        self.assertEqual(m.vars[P+'mio_consortium_credit'],1);self.assertFalse(m.events)
+        n=NODES[P+'redeem_mio_consortium'];self.assertFalse(m.check(n.one('available')))
+        m.mios[CONSORTIUM_MIOS[0]]['assigned']=True;self.assertTrue(m.check(n.one('available')))
+        m.run(n.one('complete_effect').v);m.run(n.one('complete_effect').v)
+        self.assertEqual(m.events,['russia_events.440']);self.assertEqual(m.vars[P+'mio_consortium_credit'],0)
+        event=next(n for n in load(ROOT/'events/RUS events (Russia).txt') if n.value('id')=='russia_events.440')
+        self.assertEqual(len(event.children('option')),6)
+        for option in event.children('option'):
+            self.assertIn('is_mio_assigned_to_task = yes',option.raw())
+            self.assertIn('add_mio_funds_gain_factor = 0.25',option.raw())
+
+    def test_factory_goals_count_net_new_completed_buildings_and_offsite_only_once(self):
+        for key,(index,kind,_,amount,offsite) in FACTORY_GOALS.items():
+            p=next(p for p in PROJECTS if p['key']==key);s=p['states'][0]
+            m=Model().initialize();m.states[s][kind]=5;m.start(p)
+            self.assertEqual(m.vars[var(p,'factory_target')],5+amount)
+            self.assertNotIn(var(p,'goal_'+str(index+1)),m.flags)
+            m.vars[var(p,'left')]=0;m.call(var(p,'finish'))
+            self.assertNotIn(var(p,'goal_'+str(index+1)),m.flags,'base factory rewards cannot satisfy their own goal')
+            self.assertFalse(m.offsite)
+            m=Model().initialize();m.states[s][kind]=5;m.start(p);m.states[s][kind]+=amount;m.call(var(p,'goals'))
+            self.assertIn(var(p,'goal_'+str(index+1)),m.flags)
+            m.states[s][kind]=5;m.vars[var(p,'left')]=0;m.call(var(p,'finish'));m.call(var(p,'finish'))
+            self.assertEqual(m.offsite,{offsite:1} if offsite else {})
+            m=Model().initialize();m.start(p);m.states[s][kind]=m.states[s].get(kind,0)+amount;m.call(var(p,'goals'));m.call(var(p,'cancel'));m.call(var(p,'finish'))
+            self.assertFalse(m.offsite)
     def test_registered_rail_average_has_fixed_weight_and_connection_guard(self):
         m=Model().initialize();den=sum(c['weight'] for c in CORRIDORS)
         c=CORRIDORS[0];m.vars[P+'rail_'+c['key']]=2;m.call('RUS_np_refresh')

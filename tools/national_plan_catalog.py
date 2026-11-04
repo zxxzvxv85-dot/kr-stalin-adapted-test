@@ -9,6 +9,21 @@ ROOT=Path(__file__).resolve().parents[1]
 SPEC=ROOT/'tools/design/national_plan_20261104/catalog.json'
 DATA=json.loads(SPEC.read_text(encoding='utf8'))
 REGIONS={1:'莫斯科与中央工业区',2:'列宁格勒与西北工业区',3:'察里津与伏尔加工业区',4:'乌拉尔工业区',5:'西伯利亚与远东',6:'高加索与中亚'}
+# Mod-owned reward metadata. Existing native rewards remain unmodified.
+MIO_TARGETS={
+ 'amo':('RUS_amo_organisation','RUS_adb_merged_amo','RUS_adb_organisation','汽车工业'),
+ 'toz':('RUS_toz_organisation','RUS_odb_merged_toz','RUS_odb_organisation','图拉兵工'),
+ 'uztm':('RUS_uztm_organisation','RUS_adb_merged_uztm','RUS_adb_organisation','乌拉尔重型机械'),
+ 'av':('RUS_av_organisation',None,None,'海军部船坞'),
+}
+MIO_REWARDS={'modernisation_of_AMO':('amo',0),'tula_arms_factory':('toz',0),
+             'uralmash':('uztm',0),'admiralty_dockyards':('av',0),'volkhov':('consortium',1)}
+CONSORTIUM_MIOS=tuple('RUS_'+key+'_organisation' for key in ('osoavia','duks','tsagi','gamayun','skorost','sokol'))
+FACTORY_GOALS={
+ 'gaz':(0,'industrial_complex','民用工厂',1,'industrial_complex'),
+ 'uvz':(1,'arms_factory','军用工厂',1,'arms_factory'),
+ 'krasnoyarskpromstroy':(0,'industrial_complex','民用工厂',1,None),
+}
 NEW_ROWS=[
  ('gaz','下诺夫哥罗德汽车厂',252,1,'industry',180,140,40,'factory','https://museum.gaz.ru/eng/gaz-history/'),
  ('bearing','莫斯科第一轴承厂',219,1,'industry',150,100,35,'factory','https://mr.moscow/na-sovetskih-podshipnikah/'),

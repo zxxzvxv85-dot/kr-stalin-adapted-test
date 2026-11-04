@@ -5,7 +5,7 @@ add_days_remove/remove_decision/get_supply_vehicles; state-scoped add_manpower.
 """
 import json,re
 from hoi4_politics_blocks import parse
-from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS
+from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS
 
 CAT='RUS_first_five_year_plan_industrial_projects'
 DEC='common/decisions/RUS decisions (Russia).txt'
@@ -108,7 +108,45 @@ def goals(p):
         second=(f'{s} = {{ NOT = {{ industrial_complex < 3 }} }}','本地区民用工厂达到3座',[scope(s,['add_manpower = 5000','add_extra_state_shared_building_slots = 1'])])
     else:
         second=(f'check_variable = {{ RUS_np_rail_region_{p["region"]} > 1.499 }}','本工业区计划干线平均等级达到1.50',[safe_build(s,'industrial_infrastructure')])
-    return [first,second]
+    rows=[first,second]
+    if p['key'] in FACTORY_GOALS:
+        index,kind,label,amount,offsite=FACTORY_GOALS[p['key']]
+        _,_,reward=rows[index]
+        condition=f'{s} = {{ NOT = {{ check_variable = {{ building_level@{kind} < ROOT.{var(p,"factory_target")} }} }} }}'
+        rows[index]=(condition,f'施工期间在本地区额外建成{amount}座{label}',reward+([f'add_offsite_building = {{ type = {offsite} level = 1 }}'] if offsite else []))
+    if p['key'] in MIO_REWARDS:
+        key,index=MIO_REWARDS[p['key']];condition,name,reward=rows[index]
+        rows[index]=(condition,name,reward+['RUS_np_award_mio_'+key+' = yes'])
+    return rows
+
+def mio_cases(key):
+    primary,merged,successor,_=MIO_TARGETS[key]
+    def eligible(token):return f'has_military_industrial_organization = {token} mio:{token} = {{ is_mio_available = yes }}'
+    if merged:return [('has_country_flag = '+merged+' '+eligible(successor),successor),('NOT = { has_country_flag = '+merged+' } '+eligible(primary),primary)]
+    return [(eligible(primary),primary)]
+
+def consortium_ready():
+    # Exact roster/eligibility used by native KR russia_events.440.
+    return 'OR = { '+' '.join(f'mio:{token} = {{ is_mio_assigned_to_task = yes }}' for token in CONSORTIUM_MIOS)+' }'
+
+def mio_effects():
+    out=[]
+    for key,(_,merged,successor,_) in MIO_TARGETS.items():
+        primary=MIO_TARGETS[key][0];credit=P+'mio_'+key+'_credit'
+        preview=([iff('has_country_flag = '+merged,[b('effect_tooltip',[f'mio:{successor} = {{ add_mio_size = 1 }}']).strip()]),
+                  b('else',[b('effect_tooltip',[f'mio:{primary} = {{ add_mio_size = 1 }}']).strip()]).strip()] if merged else [b('effect_tooltip',[f'mio:{primary} = {{ add_mio_size = 1 }}']).strip()])
+        out.append(b(P+'award_mio_'+key,[iff('has_dlc_aat = yes',preview+[
+            'hidden_effect = { '+add(credit,1)+' '+P+'claim_mio_'+key+' = yes }'])]))
+        cases=[]
+        for i,(condition,token) in enumerate(mio_cases(key)):
+            cases.append(b('if' if i==0 else 'else_if',['limit = { '+condition+' }',f'mio:{token} = {{ add_mio_size = 1 }}',sub(credit,1)]).strip())
+        out.append(b(P+'claim_mio_'+key,[iff('has_dlc_aat = yes '+ck(credit,'>',0),cases)]))
+    out.append(b(P+'award_mio_consortium',[iff('has_dlc_aat = yes',[
+        'custom_effect_tooltip = RUS_np_mio_consortium_award_tt',
+        'hidden_effect = { '+add(P+'mio_consortium_credit',1)+' }'])]))
+    out.append(b(P+'claim_mio_consortium',[iff('has_dlc_aat = yes '+ck(P+'mio_consortium_credit','>',0)+' '+consortium_ready(),[
+        sub(P+'mio_consortium_credit',1),'country_event = russia_events.440'])]))
+    return ''.join(out)
 
 def new_node(p):
     s=p['states'][0]
@@ -233,6 +271,9 @@ def project_effects(p):
         'set_country_flag = '+var(p,'managed'),'set_country_flag = '+var(p,'running'),
         sv(var(p,'left'),var(p,'total')),sv(var(p,'paid'),p['budget']),sv(var(p,'trains'),p['trains']),sv(var(p,'last_day'),'global.num_days'),
         sub(P+'available',p['budget']),add(P+'frozen',p['budget']),equip(-p['trains'])]
+    if k in FACTORY_GOALS:
+        _,kind,_,amount,_=FACTORY_GOALS[k]
+        start += [sv(var(p,'factory_target'),f'{s}.building_level@{kind}'),add(var(p,'factory_target'),amount)]
     if p['civ'] or p['consumer']:start += [f'add_dynamic_modifier = {{ modifier = {var(p,"cost")} }}']
     start += ['clr_country_flag = '+var(p,'goal_'+str(i)) for i in (1,2)]
     start += [call(p,'goals'),'RUS_np_refresh = yes',call(p,'timer')]
@@ -293,6 +334,19 @@ def management():
     out.append(b('RUS_np_open_account',[x for x in common if not x.startswith('visible =')]+['visible = { RUS_np_context = yes NOT = { has_country_flag = RUS_np_initialized } }','complete_effect = { hidden_effect = { RUS_np_initialize = yes } }']))
     for i in range(7):
         out.append(b(P+'filter_'+str(i),common+[f'complete_effect = {{ hidden_effect = {{ set_variable = {{ RUS_np_filter = {i} }} RUS_np_refresh = yes }} }}']))
+    for key in MIO_TARGETS:
+        credit=P+'mio_'+key+'_credit'
+        eligibility='OR = { '+' '.join('AND = { '+condition+' }' for condition,_ in mio_cases(key))+' }'
+        preview=[]
+        for i,(condition,token) in enumerate(mio_cases(key)):
+            preview.append(b('if' if i==0 else 'else_if',['limit = { '+condition+' }',f'effect_tooltip = {{ mio:{token} = {{ add_mio_size = 1 }} }}']).strip())
+        out.append(b(P+'redeem_mio_'+key,[x for x in common if not x.startswith('visible =')]+[
+            'visible = { RUS_np_context = yes has_dlc_aat = yes '+ck(credit,'>',0)+' }',
+            'available = { '+eligibility+' }',b('complete_effect',preview+['hidden_effect = { '+P+'claim_mio_'+key+' = yes }']).strip()]))
+    out.append(b(P+'redeem_mio_consortium',[x for x in common if not x.startswith('visible =')]+[
+        'visible = { RUS_np_context = yes has_dlc_aat = yes '+ck(P+'mio_consortium_credit','>',0)+' }',
+        'available = { '+consortium_ready()+' }',
+        'complete_effect = { custom_effect_tooltip = RUS_aat_consortium_tt hidden_effect = { RUS_np_claim_mio_consortium = yes } }']))
     for p in PROJECTS:
         out.append(b(var(p,'terminate'),[x for x in common if not x.startswith('visible =')]+[
             'visible = { RUS_np_context = yes '+running(p)+' OR = { '+ck(P+'filter','=',0)+' '+ck(P+'filter','=',p['region'])+' } }',
@@ -346,13 +400,18 @@ def augment(out):
         triggers.append(b('RUS_np_ready_'+p['key'],condition))
     out['common/scripted_triggers/RUS_national_plan_triggers.txt']='\n'.join(line.rstrip() for line in ''.join(triggers).split('\n'))
     effects=[b('RUS_np_refresh',refresh())]
+    effects.append(mio_effects())
     # One state pass at initialization, on score changes, or every 30 days for
     # newly acquired rural cores. No all-state scan from GUI visibility checks.
     rural=[sv(P+'rural_score',0),iff('has_variable = RUS_first_five_year_plan_score',[sv(P+'rural_score','RUS_first_five_year_plan_score')]),
         *clamp(P+'rural_score',0,150),sv(P+'rural_build_speed',P+'rural_score'),div(P+'rural_build_speed',150),mul(P+'rural_build_speed',.25),sub(P+'rural_build_speed',.2),
+        sv(P+'rural_slots',P+'rural_score'),div(P+'rural_slots',150),mul(P+'rural_slots',.175),sub(P+'rural_slots',.15),
         sv(P+'rural_scan_age','global.num_days'),sub(P+'rural_scan_age',P+'rural_scan_day')]
     rural_state=['set_state_flag = RUS_np_rural_area',sv(P+'rural_build_speed','PREV.RUS_np_rural_build_speed'),
-        iff(ck(P+'rural_build_speed','<',0),[
+        sv(P+'rural_slots','PREV.RUS_np_rural_slots'),
+        iff('NOT = { infrastructure < 5 }',[add(P+'rural_build_speed',.1),'set_state_flag = RUS_np_rural_infra_five']),
+        b('else',['clr_state_flag = RUS_np_rural_infra_five']).strip(),
+        iff('OR = { '+ck(P+'rural_build_speed','<',0)+' '+ck(P+'rural_slots','<',0)+' }',[
             iff('has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }',['remove_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }']),
             iff('NOT = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure } }',['add_dynamic_modifier = { modifier = RUS_np_rural_infrastructure }'])]),
         b('else',[
@@ -361,10 +420,18 @@ def augment(out):
         'force_update_dynamic_modifier = yes']
     rural += [iff('OR = { NOT = { has_variable = RUS_np_rural_cached_score } NOT = { '+ck(P+'rural_score','=',P+'rural_cached_score')+' } '+ck(P+'rural_scan_age','>',29)+' }',[
         sv(P+'rural_cached_score',P+'rural_score'),sv(P+'rural_scan_day','global.num_days'),
-        b('every_owned_state',['limit = { OR = { has_state_flag = RUS_np_rural_area RUS_np_rural_candidate = yes } }',*rural_state]).strip()])]
-    effects.append(b('RUS_np_refresh_rural',[iff('RUS_np_context = yes has_country_flag = RUS_np_initialized',rural)]))
+        b('every_owned_state',['limit = { OR = { has_state_flag = RUS_np_rural_area RUS_np_rural_candidate = yes } }','RUS_np_refresh_rural_state = yes']).strip()])]
+    effects.append(b('RUS_np_refresh_rural_state',rural_state))
+    effects.append(b('RUS_np_refresh_rural',[iff('original_tag = RUS has_country_flag = RUS_np_rural_enabled',rural)]))
+    effects.append(b('RUS_np_initialize_rural',[iff('original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_np_rural_enabled }',[
+        'set_country_flag = RUS_np_rural_enabled','RUS_np_refresh_rural = yes'])]))
+    effects.append(b('RUS_np_rural_daily',['RUS_np_initialize_rural = yes','RUS_np_refresh_rural = yes',
+        iff('has_country_flag = RUS_np_rural_enabled '+ck(P+'rural_infra_day','<','global.num_days'),[
+            sv(P+'rural_infra_day','global.num_days'),b('every_owned_state',[
+                'limit = { has_state_flag = RUS_np_rural_area OR = { AND = { NOT = { infrastructure < 5 } NOT = { has_state_flag = RUS_np_rural_infra_five } } AND = { infrastructure < 5 has_state_flag = RUS_np_rural_infra_five } } }',
+                'RUS_np_refresh_rural_state = yes']).strip()])]))
     defaults=[iff('NOT = { has_variable = '+v+' }',[sv(v,x)]) for v,x in [('RUS_ic_cost_low',20),('RUS_ic_cost_med',40),('RUS_ic_cost_high',60),('RUS_ic_time_60',60),('RUS_ic_time_120',120)]]
-    init=['set_country_flag = RUS_np_initialized',*defaults,sv(P+'available',0),sv(P+'frozen',0),sv(P+'spent',0),sv(P+'filter',0),sv(P+'year','year'),sv(P+'farm_credit',0),sv(P+'day','global.num_days'),sub(P+'day',1),'RUS_np_refresh = yes',
+    init=['RUS_np_initialize_rural = yes','set_country_flag = RUS_np_initialized',*defaults,sv(P+'available',0),sv(P+'frozen',0),sv(P+'spent',0),sv(P+'filter',0),sv(P+'year','year'),sv(P+'farm_credit',0),sv(P+'day','global.num_days'),sub(P+'day',1),'RUS_np_refresh = yes',
         sv(P+'fraction','global.num_days'),op('modulo',P+'fraction',365),mul(P+'fraction',-1),add(P+'fraction',365),div(P+'fraction',365),sv(P+'initial_grant',P+'grant'),mul(P+'initial_grant',P+'fraction'),add(P+'available',P+'initial_grant')]
     # The deficit is explicitly local. Three bounded improvements clear it and
     # establish the positive tier; initialization cannot reapply it later.
@@ -401,8 +468,8 @@ def augment(out):
     dm=[b('RUS_np_transport_network',['enable = { RUS_np_context = yes }','production_speed_buildings_factor = RUS_np_transport_bonus','industrial_capacity_factory = RUS_np_transport_bonus'])]
     for key in ('RUS_np_rural_infrastructure','RUS_np_rural_infrastructure_improved'):
         dm.append(b(key,['icon = GFX_modifiers_generic_construction',
-            'enable = { is_core_of = RUS owner = { RUS_np_context = yes } controller = { original_tag = RUS } }',
-            'state_production_speed_buildings_factor = RUS_np_rural_build_speed']))
+            'enable = { is_core_of = RUS owner = { original_tag = RUS has_country_flag = RUS_np_rural_enabled } controller = { original_tag = RUS } }',
+            'state_production_speed_buildings_factor = RUS_np_rural_build_speed','local_building_slots_factor = RUS_np_rural_slots']))
     for i,mods in [(0,{'state_production_speed_buildings_factor':-.05,'local_building_slots_factor':-.05}),(1,{'state_production_speed_buildings_factor':-.025}),(3,{'state_production_speed_buildings_factor':.05,'local_building_slots_factor':.05})]:
         dm.append(b(P+'region_'+str(i),['enable = { owner = { original_tag = RUS } controller = { original_tag = RUS } }',*[f'{m} = {v}' for m,v in mods.items()]]))
     for p in PROJECTS:
@@ -412,14 +479,15 @@ def augment(out):
         if p['consumer']:fields.append(f'consumer_goods_factor = {p["consumer"]}')
         dm.append(b(var(p,'cost'),fields))
     out[DM]=''.join(dm)
-    out['common/on_actions/RUS_national_plan_on_actions.txt']='on_actions = { on_daily_RUS = { effect = { RUS_np_daily = yes } } }\n'
+    out['common/on_actions/RUS_national_plan_on_actions.txt']='on_actions = {\n on_startup = { effect = { RUS = { RUS_np_initialize_rural = yes } } }\n on_daily_RUS = { effect = { RUS_np_rural_daily = yes RUS_np_daily = yes } }\n}\n'
     out['common/synchronized_dynamic_tokens/RUS_national_plan_tokens.txt']='\n'.join(p['id'] for p in PROJECTS)+'\n'
     out.update(localisations())
     # Human-reviewable 62-row ledger generated from the same runtime catalogue.
-    columns=['ID','原工程ID','地区分类','目标地区','基准工期','建设资源','征用普通列车','额外占用民工','额外消费品系数','追加目标1','追加目标2','一五计分','历史来源']
+    columns=['ID','原工程ID','地区分类','目标地区','基准工期','建设资源','征用普通列车','额外占用民工','额外消费品系数','追加目标1','追加目标2','一五计分','历史来源','军工机构追加奖励']
     rows=['\t'.join(columns)]
     for p in PROJECTS:
         values=[p['id'],p.get('original_id','新增'),REGIONS[p['region']],','.join(map(str,p['states'])),p['base_days'],p['budget'],p['trains'],p['civ'],p['consumer'],goals(p)[0][1],goals(p)[1][1],'原奖励原值' if p['legacy'] else '0',p.get('source','原版工程')]
+        award=MIO_REWARDS.get(p['key']);values.append(('航空军工协作：选择在用机构，经费获取+25%' if award[0]=='consortium' else MIO_TARGETS[award[0]][3]+'：规模+1') if award else '无')
         rows.append('\t'.join(map(str,values)))
     out['tools/design/national_plan_20261104/projects.tsv']='\n'.join(rows)+'\n'
     return out
@@ -437,6 +505,12 @@ def localisations():
     l['RUS_np_rural_infrastructure_desc']='乡间交通、供能与施工配套仍显不足，工业建设受到制约。'
     l['RUS_np_rural_infrastructure_improved']='改善的基础设施'
     l['RUS_np_rural_infrastructure_improved_desc']='工业化带来的交通与配套改善，正在惠及广大乡村。'
+    l['RUS_np_mio_consortium_award_tt']='获得一次航空军工协作成果。可选择一个正在承担研究或生产任务的航空军工机构，经费获取增加§G25%§!。'
+    l['RUS_np_redeem_mio_consortium']='分配航空工业协作成果'
+    l['RUS_np_redeem_mio_consortium_desc']='$RUS_aat_consortium_tt$'
+    for key,(_,_,_,name) in MIO_TARGETS.items():
+        l[P+'redeem_mio_'+key]='兑现'+name+'扩建成果'
+        l[P+'redeem_mio_'+key+'_desc']='对应军工机构可用后兑现扩建成果。已整合的企业由其设计总局承接。'
     l['RUS_np_education_award_tt']='£RUS_edu_basic_texticon£ §C基础教育水平§!：§G+1.00§!\\n£RUS_edu_higher_texticon£ §Y高等教育水平§!：§G+0.50§!'
     l['RUS_np_land_award_tt']='土地改革分数：§G+5§!'
     l['RUS_np_farm_credit_tt']='农业建设获得§G100§!单位农机。'

@@ -1541,38 +1541,149 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_trains = RUS_np_tsaritsyn_dispatch }
 	RUS_np_refresh_rural = yes
 }
-RUS_np_refresh_rural = {
+RUS_np_award_mio_amo = {
 	if = {
-	limit = { RUS_np_context = yes has_country_flag = RUS_np_initialized }
-	set_variable = { RUS_np_rural_score = 0 }
+	limit = { has_dlc_aat = yes }
 	if = {
-	limit = { has_variable = RUS_first_five_year_plan_score }
-	set_variable = { RUS_np_rural_score = RUS_first_five_year_plan_score }
+	limit = { has_country_flag = RUS_adb_merged_amo }
+	effect_tooltip = {
+	mio:RUS_adb_organisation = { add_mio_size = 1 }
 }
-	if = {
-	limit = { check_variable = { RUS_np_rural_score < 0 } }
-	set_variable = { RUS_np_rural_score = 0 }
 }
-	if = {
-	limit = { check_variable = { RUS_np_rural_score > 150 } }
-	set_variable = { RUS_np_rural_score = 150 }
+	else = {
+	effect_tooltip = {
+	mio:RUS_amo_organisation = { add_mio_size = 1 }
 }
-	set_variable = { RUS_np_rural_build_speed = RUS_np_rural_score }
-	divide_variable = { RUS_np_rural_build_speed = 150 }
-	multiply_variable = { RUS_np_rural_build_speed = 0.25 }
-	subtract_from_variable = { RUS_np_rural_build_speed = 0.2 }
-	set_variable = { RUS_np_rural_scan_age = global.num_days }
-	subtract_from_variable = { RUS_np_rural_scan_age = RUS_np_rural_scan_day }
+}
+	hidden_effect = { add_to_variable = { RUS_np_mio_amo_credit = 1 } RUS_np_claim_mio_amo = yes }
+}
+}
+RUS_np_claim_mio_amo = {
 	if = {
-	limit = { OR = { NOT = { has_variable = RUS_np_rural_cached_score } NOT = { check_variable = { RUS_np_rural_score = RUS_np_rural_cached_score } } check_variable = { RUS_np_rural_scan_age > 29 } } }
-	set_variable = { RUS_np_rural_cached_score = RUS_np_rural_score }
-	set_variable = { RUS_np_rural_scan_day = global.num_days }
-	every_owned_state = {
-	limit = { OR = { has_state_flag = RUS_np_rural_area RUS_np_rural_candidate = yes } }
+	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_amo_credit > 0 } }
+	if = {
+	limit = { has_country_flag = RUS_adb_merged_amo has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
+	mio:RUS_adb_organisation = { add_mio_size = 1 }
+	subtract_from_variable = { RUS_np_mio_amo_credit = 1 }
+}
+	else_if = {
+	limit = { NOT = { has_country_flag = RUS_adb_merged_amo } has_military_industrial_organization = RUS_amo_organisation mio:RUS_amo_organisation = { is_mio_available = yes } }
+	mio:RUS_amo_organisation = { add_mio_size = 1 }
+	subtract_from_variable = { RUS_np_mio_amo_credit = 1 }
+}
+}
+}
+RUS_np_award_mio_toz = {
+	if = {
+	limit = { has_dlc_aat = yes }
+	if = {
+	limit = { has_country_flag = RUS_odb_merged_toz }
+	effect_tooltip = {
+	mio:RUS_odb_organisation = { add_mio_size = 1 }
+}
+}
+	else = {
+	effect_tooltip = {
+	mio:RUS_toz_organisation = { add_mio_size = 1 }
+}
+}
+	hidden_effect = { add_to_variable = { RUS_np_mio_toz_credit = 1 } RUS_np_claim_mio_toz = yes }
+}
+}
+RUS_np_claim_mio_toz = {
+	if = {
+	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_toz_credit > 0 } }
+	if = {
+	limit = { has_country_flag = RUS_odb_merged_toz has_military_industrial_organization = RUS_odb_organisation mio:RUS_odb_organisation = { is_mio_available = yes } }
+	mio:RUS_odb_organisation = { add_mio_size = 1 }
+	subtract_from_variable = { RUS_np_mio_toz_credit = 1 }
+}
+	else_if = {
+	limit = { NOT = { has_country_flag = RUS_odb_merged_toz } has_military_industrial_organization = RUS_toz_organisation mio:RUS_toz_organisation = { is_mio_available = yes } }
+	mio:RUS_toz_organisation = { add_mio_size = 1 }
+	subtract_from_variable = { RUS_np_mio_toz_credit = 1 }
+}
+}
+}
+RUS_np_award_mio_uztm = {
+	if = {
+	limit = { has_dlc_aat = yes }
+	if = {
+	limit = { has_country_flag = RUS_adb_merged_uztm }
+	effect_tooltip = {
+	mio:RUS_adb_organisation = { add_mio_size = 1 }
+}
+}
+	else = {
+	effect_tooltip = {
+	mio:RUS_uztm_organisation = { add_mio_size = 1 }
+}
+}
+	hidden_effect = { add_to_variable = { RUS_np_mio_uztm_credit = 1 } RUS_np_claim_mio_uztm = yes }
+}
+}
+RUS_np_claim_mio_uztm = {
+	if = {
+	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_uztm_credit > 0 } }
+	if = {
+	limit = { has_country_flag = RUS_adb_merged_uztm has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
+	mio:RUS_adb_organisation = { add_mio_size = 1 }
+	subtract_from_variable = { RUS_np_mio_uztm_credit = 1 }
+}
+	else_if = {
+	limit = { NOT = { has_country_flag = RUS_adb_merged_uztm } has_military_industrial_organization = RUS_uztm_organisation mio:RUS_uztm_organisation = { is_mio_available = yes } }
+	mio:RUS_uztm_organisation = { add_mio_size = 1 }
+	subtract_from_variable = { RUS_np_mio_uztm_credit = 1 }
+}
+}
+}
+RUS_np_award_mio_av = {
+	if = {
+	limit = { has_dlc_aat = yes }
+	effect_tooltip = {
+	mio:RUS_av_organisation = { add_mio_size = 1 }
+}
+	hidden_effect = { add_to_variable = { RUS_np_mio_av_credit = 1 } RUS_np_claim_mio_av = yes }
+}
+}
+RUS_np_claim_mio_av = {
+	if = {
+	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_av_credit > 0 } }
+	if = {
+	limit = { has_military_industrial_organization = RUS_av_organisation mio:RUS_av_organisation = { is_mio_available = yes } }
+	mio:RUS_av_organisation = { add_mio_size = 1 }
+	subtract_from_variable = { RUS_np_mio_av_credit = 1 }
+}
+}
+}
+RUS_np_award_mio_consortium = {
+	if = {
+	limit = { has_dlc_aat = yes }
+	custom_effect_tooltip = RUS_np_mio_consortium_award_tt
+	hidden_effect = { add_to_variable = { RUS_np_mio_consortium_credit = 1 } }
+}
+}
+RUS_np_claim_mio_consortium = {
+	if = {
+	limit = { has_dlc_aat = yes check_variable = { RUS_np_mio_consortium_credit > 0 } OR = { mio:RUS_osoavia_organisation = { is_mio_assigned_to_task = yes } mio:RUS_duks_organisation = { is_mio_assigned_to_task = yes } mio:RUS_tsagi_organisation = { is_mio_assigned_to_task = yes } mio:RUS_gamayun_organisation = { is_mio_assigned_to_task = yes } mio:RUS_skorost_organisation = { is_mio_assigned_to_task = yes } mio:RUS_sokol_organisation = { is_mio_assigned_to_task = yes } } }
+	subtract_from_variable = { RUS_np_mio_consortium_credit = 1 }
+	country_event = russia_events.440
+}
+}
+RUS_np_refresh_rural_state = {
 	set_state_flag = RUS_np_rural_area
 	set_variable = { RUS_np_rural_build_speed = PREV.RUS_np_rural_build_speed }
+	set_variable = { RUS_np_rural_slots = PREV.RUS_np_rural_slots }
 	if = {
-	limit = { check_variable = { RUS_np_rural_build_speed < 0 } }
+	limit = { NOT = { infrastructure < 5 } }
+	add_to_variable = { RUS_np_rural_build_speed = 0.1 }
+	set_state_flag = RUS_np_rural_infra_five
+}
+	else = {
+	clr_state_flag = RUS_np_rural_infra_five
+}
+	if = {
+	limit = { OR = { check_variable = { RUS_np_rural_build_speed < 0 } check_variable = { RUS_np_rural_slots < 0 } } }
 	if = {
 	limit = { has_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved } }
 	remove_dynamic_modifier = { modifier = RUS_np_rural_infrastructure_improved }
@@ -1594,12 +1705,66 @@ RUS_np_refresh_rural = {
 }
 	force_update_dynamic_modifier = yes
 }
+RUS_np_refresh_rural = {
+	if = {
+	limit = { original_tag = RUS has_country_flag = RUS_np_rural_enabled }
+	set_variable = { RUS_np_rural_score = 0 }
+	if = {
+	limit = { has_variable = RUS_first_five_year_plan_score }
+	set_variable = { RUS_np_rural_score = RUS_first_five_year_plan_score }
+}
+	if = {
+	limit = { check_variable = { RUS_np_rural_score < 0 } }
+	set_variable = { RUS_np_rural_score = 0 }
+}
+	if = {
+	limit = { check_variable = { RUS_np_rural_score > 150 } }
+	set_variable = { RUS_np_rural_score = 150 }
+}
+	set_variable = { RUS_np_rural_build_speed = RUS_np_rural_score }
+	divide_variable = { RUS_np_rural_build_speed = 150 }
+	multiply_variable = { RUS_np_rural_build_speed = 0.25 }
+	subtract_from_variable = { RUS_np_rural_build_speed = 0.2 }
+	set_variable = { RUS_np_rural_slots = RUS_np_rural_score }
+	divide_variable = { RUS_np_rural_slots = 150 }
+	multiply_variable = { RUS_np_rural_slots = 0.175 }
+	subtract_from_variable = { RUS_np_rural_slots = 0.15 }
+	set_variable = { RUS_np_rural_scan_age = global.num_days }
+	subtract_from_variable = { RUS_np_rural_scan_age = RUS_np_rural_scan_day }
+	if = {
+	limit = { OR = { NOT = { has_variable = RUS_np_rural_cached_score } NOT = { check_variable = { RUS_np_rural_score = RUS_np_rural_cached_score } } check_variable = { RUS_np_rural_scan_age > 29 } } }
+	set_variable = { RUS_np_rural_cached_score = RUS_np_rural_score }
+	set_variable = { RUS_np_rural_scan_day = global.num_days }
+	every_owned_state = {
+	limit = { OR = { has_state_flag = RUS_np_rural_area RUS_np_rural_candidate = yes } }
+	RUS_np_refresh_rural_state = yes
+}
+}
+}
+}
+RUS_np_initialize_rural = {
+	if = {
+	limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_np_rural_enabled } }
+	set_country_flag = RUS_np_rural_enabled
+	RUS_np_refresh_rural = yes
+}
+}
+RUS_np_rural_daily = {
+	RUS_np_initialize_rural = yes
+	RUS_np_refresh_rural = yes
+	if = {
+	limit = { has_country_flag = RUS_np_rural_enabled check_variable = { RUS_np_rural_infra_day < global.num_days } }
+	set_variable = { RUS_np_rural_infra_day = global.num_days }
+	every_owned_state = {
+	limit = { has_state_flag = RUS_np_rural_area OR = { AND = { NOT = { infrastructure < 5 } NOT = { has_state_flag = RUS_np_rural_infra_five } } AND = { infrastructure < 5 has_state_flag = RUS_np_rural_infra_five } } }
+	RUS_np_refresh_rural_state = yes
 }
 }
 }
 RUS_np_initialize = {
 	if = {
 	limit = { RUS_np_context = yes NOT = { has_country_flag = RUS_np_initialized } }
+	RUS_np_initialize_rural = yes
 	set_country_flag = RUS_np_initialized
 	if = {
 	limit = { NOT = { has_variable = RUS_ic_cost_low } }
@@ -5730,6 +5895,7 @@ RUS_np_modernisation_of_AMO_finish = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_amo = yes
 }
 	if = {
 	limit = { has_country_flag = RUS_np_modernisation_of_AMO_goal_2 }
@@ -6477,6 +6643,7 @@ RUS_np_tula_arms_factory_finish = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_toz = yes
 }
 	if = {
 	limit = { has_country_flag = RUS_np_tula_arms_factory_goal_2 }
@@ -10898,6 +11065,7 @@ RUS_np_uralmash_finish = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_uztm = yes
 }
 	if = {
 	limit = { has_country_flag = RUS_np_uralmash_goal_2 }
@@ -11604,6 +11772,7 @@ RUS_np_admiralty_dockyards_finish = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_av = yes
 }
 	if = {
 	limit = { has_country_flag = RUS_np_admiralty_dockyards_goal_2 }
@@ -15816,6 +15985,8 @@ RUS_np_krasnoyarskpromstroy_begin = {
 	subtract_from_variable = { RUS_np_available = 80 }
 	add_to_variable = { RUS_np_frozen = 80 }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
+	set_variable = { RUS_np_krasnoyarskpromstroy_factory_target = 568.building_level@industrial_complex }
+	add_to_variable = { RUS_np_krasnoyarskpromstroy_factory_target = 1 }
 	add_dynamic_modifier = { modifier = RUS_np_krasnoyarskpromstroy_cost }
 	clr_country_flag = RUS_np_krasnoyarskpromstroy_goal_1
 	clr_country_flag = RUS_np_krasnoyarskpromstroy_goal_2
@@ -15828,7 +15999,7 @@ RUS_np_krasnoyarskpromstroy_goals = {
 	if = {
 	limit = { has_country_flag = RUS_np_krasnoyarskpromstroy_running NOT = { has_country_flag = RUS_np_krasnoyarskpromstroy_completed } }
 	if = {
-	limit = { NOT = { has_country_flag = RUS_np_krasnoyarskpromstroy_goal_1 } 568 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 568 = { NOT = { infrastructure < 3 } } }
+	limit = { NOT = { has_country_flag = RUS_np_krasnoyarskpromstroy_goal_1 } 568 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 568 = { NOT = { check_variable = { building_level@industrial_complex < ROOT.RUS_np_krasnoyarskpromstroy_factory_target } } } }
 	set_country_flag = RUS_np_krasnoyarskpromstroy_goal_1
 }
 	if = {
@@ -19693,6 +19864,8 @@ RUS_np_gaz_begin = {
 	subtract_from_variable = { RUS_np_available = 140 }
 	add_to_variable = { RUS_np_frozen = 140 }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
+	set_variable = { RUS_np_gaz_factory_target = 252.building_level@industrial_complex }
+	add_to_variable = { RUS_np_gaz_factory_target = 1 }
 	add_dynamic_modifier = { modifier = RUS_np_gaz_cost }
 	clr_country_flag = RUS_np_gaz_goal_1
 	clr_country_flag = RUS_np_gaz_goal_2
@@ -19705,7 +19878,7 @@ RUS_np_gaz_goals = {
 	if = {
 	limit = { has_country_flag = RUS_np_gaz_running NOT = { has_country_flag = RUS_np_gaz_completed } }
 	if = {
-	limit = { NOT = { has_country_flag = RUS_np_gaz_goal_1 } 252 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 252 = { NOT = { infrastructure < 3 } } }
+	limit = { NOT = { has_country_flag = RUS_np_gaz_goal_1 } 252 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 252 = { NOT = { check_variable = { building_level@industrial_complex < ROOT.RUS_np_gaz_factory_target } } } }
 	set_country_flag = RUS_np_gaz_goal_1
 }
 	if = {
@@ -19985,6 +20158,7 @@ RUS_np_gaz_finish = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	add_offsite_building = { type = industrial_complex level = 1 }
 }
 	if = {
 	limit = { has_country_flag = RUS_np_gaz_goal_2 }
@@ -22392,6 +22566,7 @@ RUS_np_volkhov_finish = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+	RUS_np_award_mio_consortium = yes
 }
 }
 	set_country_flag = RUS_np_volkhov_completed
@@ -22427,6 +22602,8 @@ RUS_np_uvz_begin = {
 	subtract_from_variable = { RUS_np_available = 180 }
 	add_to_variable = { RUS_np_frozen = 180 }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
+	set_variable = { RUS_np_uvz_factory_target = 653.building_level@arms_factory }
+	add_to_variable = { RUS_np_uvz_factory_target = 1 }
 	add_dynamic_modifier = { modifier = RUS_np_uvz_cost }
 	clr_country_flag = RUS_np_uvz_goal_1
 	clr_country_flag = RUS_np_uvz_goal_2
@@ -22443,7 +22620,7 @@ RUS_np_uvz_goals = {
 	set_country_flag = RUS_np_uvz_goal_1
 }
 	if = {
-	limit = { NOT = { has_country_flag = RUS_np_uvz_goal_2 } 653 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_4 > 1.499 } }
+	limit = { NOT = { has_country_flag = RUS_np_uvz_goal_2 } 653 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 653 = { NOT = { check_variable = { building_level@arms_factory < ROOT.RUS_np_uvz_factory_target } } } }
 	set_country_flag = RUS_np_uvz_goal_2
 }
 }
@@ -22711,6 +22888,7 @@ RUS_np_uvz_finish = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+	add_offsite_building = { type = arms_factory level = 1 }
 }
 }
 	set_country_flag = RUS_np_uvz_completed

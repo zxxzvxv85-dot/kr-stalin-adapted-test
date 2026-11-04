@@ -4860,6 +4860,87 @@ RUS_np_filter_6 = {
 	ai_will_do = { base = 0 }
 	complete_effect = { hidden_effect = { set_variable = { RUS_np_filter = 6 } RUS_np_refresh = yes } }
 }
+RUS_np_redeem_mio_amo = {
+	allowed = { original_tag = RUS }
+	on_map_mode = decision_view_only
+	cost = 0
+	ai_will_do = { base = 0 }
+	visible = { RUS_np_context = yes has_dlc_aat = yes check_variable = { RUS_np_mio_amo_credit > 0 } }
+	available = { OR = { AND = { has_country_flag = RUS_adb_merged_amo has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } } AND = { NOT = { has_country_flag = RUS_adb_merged_amo } has_military_industrial_organization = RUS_amo_organisation mio:RUS_amo_organisation = { is_mio_available = yes } } } }
+	complete_effect = {
+	if = {
+	limit = { has_country_flag = RUS_adb_merged_amo has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
+	effect_tooltip = { mio:RUS_adb_organisation = { add_mio_size = 1 } }
+}
+	else_if = {
+	limit = { NOT = { has_country_flag = RUS_adb_merged_amo } has_military_industrial_organization = RUS_amo_organisation mio:RUS_amo_organisation = { is_mio_available = yes } }
+	effect_tooltip = { mio:RUS_amo_organisation = { add_mio_size = 1 } }
+}
+	hidden_effect = { RUS_np_claim_mio_amo = yes }
+}
+}
+RUS_np_redeem_mio_toz = {
+	allowed = { original_tag = RUS }
+	on_map_mode = decision_view_only
+	cost = 0
+	ai_will_do = { base = 0 }
+	visible = { RUS_np_context = yes has_dlc_aat = yes check_variable = { RUS_np_mio_toz_credit > 0 } }
+	available = { OR = { AND = { has_country_flag = RUS_odb_merged_toz has_military_industrial_organization = RUS_odb_organisation mio:RUS_odb_organisation = { is_mio_available = yes } } AND = { NOT = { has_country_flag = RUS_odb_merged_toz } has_military_industrial_organization = RUS_toz_organisation mio:RUS_toz_organisation = { is_mio_available = yes } } } }
+	complete_effect = {
+	if = {
+	limit = { has_country_flag = RUS_odb_merged_toz has_military_industrial_organization = RUS_odb_organisation mio:RUS_odb_organisation = { is_mio_available = yes } }
+	effect_tooltip = { mio:RUS_odb_organisation = { add_mio_size = 1 } }
+}
+	else_if = {
+	limit = { NOT = { has_country_flag = RUS_odb_merged_toz } has_military_industrial_organization = RUS_toz_organisation mio:RUS_toz_organisation = { is_mio_available = yes } }
+	effect_tooltip = { mio:RUS_toz_organisation = { add_mio_size = 1 } }
+}
+	hidden_effect = { RUS_np_claim_mio_toz = yes }
+}
+}
+RUS_np_redeem_mio_uztm = {
+	allowed = { original_tag = RUS }
+	on_map_mode = decision_view_only
+	cost = 0
+	ai_will_do = { base = 0 }
+	visible = { RUS_np_context = yes has_dlc_aat = yes check_variable = { RUS_np_mio_uztm_credit > 0 } }
+	available = { OR = { AND = { has_country_flag = RUS_adb_merged_uztm has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } } AND = { NOT = { has_country_flag = RUS_adb_merged_uztm } has_military_industrial_organization = RUS_uztm_organisation mio:RUS_uztm_organisation = { is_mio_available = yes } } } }
+	complete_effect = {
+	if = {
+	limit = { has_country_flag = RUS_adb_merged_uztm has_military_industrial_organization = RUS_adb_organisation mio:RUS_adb_organisation = { is_mio_available = yes } }
+	effect_tooltip = { mio:RUS_adb_organisation = { add_mio_size = 1 } }
+}
+	else_if = {
+	limit = { NOT = { has_country_flag = RUS_adb_merged_uztm } has_military_industrial_organization = RUS_uztm_organisation mio:RUS_uztm_organisation = { is_mio_available = yes } }
+	effect_tooltip = { mio:RUS_uztm_organisation = { add_mio_size = 1 } }
+}
+	hidden_effect = { RUS_np_claim_mio_uztm = yes }
+}
+}
+RUS_np_redeem_mio_av = {
+	allowed = { original_tag = RUS }
+	on_map_mode = decision_view_only
+	cost = 0
+	ai_will_do = { base = 0 }
+	visible = { RUS_np_context = yes has_dlc_aat = yes check_variable = { RUS_np_mio_av_credit > 0 } }
+	available = { OR = { AND = { has_military_industrial_organization = RUS_av_organisation mio:RUS_av_organisation = { is_mio_available = yes } } } }
+	complete_effect = {
+	if = {
+	limit = { has_military_industrial_organization = RUS_av_organisation mio:RUS_av_organisation = { is_mio_available = yes } }
+	effect_tooltip = { mio:RUS_av_organisation = { add_mio_size = 1 } }
+}
+	hidden_effect = { RUS_np_claim_mio_av = yes }
+}
+}
+RUS_np_redeem_mio_consortium = {
+	allowed = { original_tag = RUS }
+	on_map_mode = decision_view_only
+	cost = 0
+	ai_will_do = { base = 0 }
+	visible = { RUS_np_context = yes has_dlc_aat = yes check_variable = { RUS_np_mio_consortium_credit > 0 } }
+	available = { OR = { mio:RUS_osoavia_organisation = { is_mio_assigned_to_task = yes } mio:RUS_duks_organisation = { is_mio_assigned_to_task = yes } mio:RUS_tsagi_organisation = { is_mio_assigned_to_task = yes } mio:RUS_gamayun_organisation = { is_mio_assigned_to_task = yes } mio:RUS_skorost_organisation = { is_mio_assigned_to_task = yes } mio:RUS_sokol_organisation = { is_mio_assigned_to_task = yes } } }
+	complete_effect = { custom_effect_tooltip = RUS_aat_consortium_tt hidden_effect = { RUS_np_claim_mio_consortium = yes } }
+}
 RUS_np_kamenev_all_russian_electrification_terminate = {
 	allowed = { original_tag = RUS }
 	on_map_mode = decision_view_only
@@ -6541,6 +6622,7 @@ RUS_np_project_modernisation_of_AMO = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_amo = yes
 }
 	custom_effect_tooltip = RUS_np_modernisation_of_AMO_goal_2_tt
 	effect_tooltip = {
@@ -6630,6 +6712,7 @@ RUS_np_project_modernisation_of_AMO = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_amo = yes
 }
 	custom_effect_tooltip = RUS_np_modernisation_of_AMO_goal_2_tt
 	effect_tooltip = {
@@ -6903,6 +6986,7 @@ RUS_np_project_tula_arms_factory = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_toz = yes
 }
 	custom_effect_tooltip = RUS_np_tula_arms_factory_goal_2_tt
 	effect_tooltip = {
@@ -6983,6 +7067,7 @@ RUS_np_project_tula_arms_factory = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_toz = yes
 }
 	custom_effect_tooltip = RUS_np_tula_arms_factory_goal_2_tt
 	effect_tooltip = {
@@ -8954,6 +9039,7 @@ RUS_np_project_uralmash = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_uztm = yes
 }
 	custom_effect_tooltip = RUS_np_uralmash_goal_2_tt
 	effect_tooltip = {
@@ -9026,6 +9112,7 @@ RUS_np_project_uralmash = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_uztm = yes
 }
 	custom_effect_tooltip = RUS_np_uralmash_goal_2_tt
 	effect_tooltip = {
@@ -9274,6 +9361,7 @@ RUS_np_project_admiralty_dockyards = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_av = yes
 }
 	custom_effect_tooltip = RUS_np_admiralty_dockyards_goal_2_tt
 	effect_tooltip = {
@@ -9341,6 +9429,7 @@ RUS_np_project_admiralty_dockyards = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	RUS_np_award_mio_av = yes
 }
 	custom_effect_tooltip = RUS_np_admiralty_dockyards_goal_2_tt
 	effect_tooltip = {
@@ -12825,6 +12914,7 @@ RUS_np_gaz = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	add_offsite_building = { type = industrial_complex level = 1 }
 }
 	custom_effect_tooltip = RUS_np_gaz_goal_2_tt
 	effect_tooltip = {
@@ -12880,6 +12970,7 @@ RUS_np_gaz = {
 	hidden_effect = { set_variable = { RUS_np_development = 1 } }
 }
 }
+	add_offsite_building = { type = industrial_complex level = 1 }
 }
 	custom_effect_tooltip = RUS_np_gaz_goal_2_tt
 	effect_tooltip = {
@@ -13719,6 +13810,7 @@ RUS_np_volkhov = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+	RUS_np_award_mio_consortium = yes
 }
 	hidden_effect = { RUS_np_volkhov_begin = yes }
 }
@@ -13777,6 +13869,7 @@ RUS_np_volkhov = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+	RUS_np_award_mio_consortium = yes
 }
 	hidden_effect = { RUS_np_volkhov_finish = yes }
 }
@@ -13828,6 +13921,7 @@ RUS_np_uvz = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+	add_offsite_building = { type = arms_factory level = 1 }
 }
 	hidden_effect = { RUS_np_uvz_begin = yes }
 }
@@ -13863,6 +13957,7 @@ RUS_np_uvz = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+	add_offsite_building = { type = arms_factory level = 1 }
 }
 	hidden_effect = { RUS_np_uvz_finish = yes }
 }
