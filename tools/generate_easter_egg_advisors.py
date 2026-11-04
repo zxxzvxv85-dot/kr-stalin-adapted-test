@@ -58,6 +58,9 @@ def render_outputs():
             'texturefile = "gfx/interface/advisors/RUS/RUS_'+key+'.png"']))
         loc[ident]=data['name'];loc[idea]=data['name'];loc[trait]=data['trait']
         loc[idea+'_desc']=data.get('desc','来自制作组的彩蛋顾问。')
+        if data.get('desc'):
+            # Match KR's RUS_alisa_berkova_advisor_desc biography styling.
+            loc[idea+'_desc']='§Y背景：§!§L'+data['desc'].removeprefix('背景：')+'§!'
         loc[ident+'_recruit']='邀请'+data['name']
         loc[ident+'_recruit_desc']='解锁彩蛋顾问'+data['name']+'。解锁后可在政治顾问栏任命。'
     outputs={
