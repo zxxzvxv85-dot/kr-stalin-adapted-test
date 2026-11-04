@@ -69,6 +69,7 @@ class Tests(unittest.TestCase):
  def test_gameplay_is_unchanged_except_ui_completion_flag(self):
   import subprocess,re
   before=subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+DECISIONS]).decode('utf-8-sig')
+  before=restore(before)
   after=restore((ROOT/DECISIONS).read_text(encoding='utf-8-sig'))
   def strip(s):return re.sub(r'(?ms)^[ \t]*# RUS_RECOVERY_LEDGER_BEGIN\n.*?^[ \t]*# RUS_RECOVERY_LEDGER_END[ \t]*\n','',s).replace('RUS_rc_refresh = yes','')
   self.assertEqual([n.norm() for n in parse(strip(before))],[n.norm() for n in parse(strip(after))])

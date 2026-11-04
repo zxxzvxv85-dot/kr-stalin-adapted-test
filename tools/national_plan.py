@@ -140,6 +140,8 @@ def patch_node(node,p):
     field('available',['hidden_trigger = { RUS_np_context = yes } RUS_np_ready_'+p['key']+' = yes num_of_civilian_factories_available_for_projects > '+str(p['civ']-1)+' '+extra])
     once=unfinished(p)
     field('visible',['RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = '+str(p['region'])+' } } '+once])
+    for c in CORRIDORS:
+        if c['project']==p.get('original_id',p['id']):field('highlight_states',rail_highlight(c))
     start=n.one('complete_effect')
     field('complete_effect',([start.inner()] if start else [])+[
         iff('RUS_np_context = yes',[
@@ -160,8 +162,13 @@ def patch_node(node,p):
     for key,value in fields.items():
         e=n.one(key)
         edits.append((e.a,e.b,value) if e else (n.ib,n.ib,'\n'+value+'\n'))
+    # Even state_target=no declares a targeted decision. With no targets or
+    # target_trigger the engine enumerates every country, flooding the map.
+    # These are plain decisions with fixed reward scopes, so omit targeting.
+    for key in ('state_target','state_trigger','target_root_trigger','target_trigger','targets','target_array','cancel_if_not_visible'):
+        e=n.one(key)
+        if e:edits.append((e.a,e.b,''))
     for a,z,value in sorted(edits,reverse=True):text=text[:a]+value+text[z:]
-    text=re.sub(r'\bstate_target\s*=\s*yes','state_target = no',text)
     text=text.replace(n.k+' =',p['id']+' =',1)
     return text
 
@@ -171,6 +178,11 @@ def goal_tooltips(p):
         rows += ['custom_effect_tooltip = '+var(p,'goal_'+str(i)+'_tt'),
             b('effect_tooltip',reward).strip()]
     return rows
+
+def rail_highlight(c):
+    # Native/KR Netherlands flooding decisions use explicit province lists.
+    # Read the exact same path used by railway construction and registration.
+    return ['highlight_provinces = { '+' '.join(map(str,c['path']))+' }','highlight_only_provinces = yes']
 
 def refresh():
     out=[sv(P+'civ','num_of_available_civilian_factories'),*clamp(P+'civ',0,10000),sv(P+'education',0)]
@@ -229,9 +241,20 @@ def project_effects(p):
     out.append(b(var(p,'goals'),[iff(running(p)+' NOT = { '+flag(p,'completed')+' }',goal_lines)]))
     # One guard day keeps an engine expiry from racing a slow final pulse.
     # No progress is discarded: terminal processing tops up at most one pulse.
+    # add_days_remove.days accepts a literal integer, not a variable token.
+    # Decompose the signed integer delta into native constant-day adjustments.
+    positive=[];negative=[]
+    for power in range(13,-1,-1):
+        step=2**power
+        positive.append(iff('NOT = { '+ck(P+'adjust','<',step)+' }',[
+            f'add_days_remove = {{ decision = {p["id"]} days = {step} }}',sub(P+'adjust',step)]))
+        negative.append(iff('NOT = { '+ck(P+'adjust','>',-step)+' }',[
+            f'add_days_remove = {{ decision = {p["id"]} days = {-step} }}',add(P+'adjust',step)]))
+    out.append(b(var(p,'apply_timer_delta'),[f'round_variable = {P}adjust',
+        iff(ck(P+'adjust','>',0),positive),b('else',negative).strip()]))
     timerlines=[sv(var(p,'display'),var(p,'left')),div(var(p,'display'),P+'speed'),*ceil(var(p,'display')),
         *clamp(var(p,'display'),1,7300),sv(P+'adjust',var(p,'display')),add(P+'adjust',1),sub(P+'adjust',timer),
-        f'add_days_remove = {{ decision = {p["id"]} days = RUS_np_adjust }}']
+        call(p,'apply_timer_delta')]
     out.append(b(var(p,'timer'),[iff(running(p),timerlines)]))
     pulse=[sv(var(p,'last_day'),'global.num_days'),call(p,'goals'),sub(var(p,'left'),P+'speed'),*clamp(var(p,'left'),0,var(p,'total'))]
     out.append(b(var(p,'tick'),[iff(running(p)+' '+ck(var(p,'last_day'),'<','global.num_days'),pulse)]))
@@ -288,6 +311,7 @@ def management():
         path=' path = { '+' '.join(map(str,c['path']))+' } '
         out.append(b(P+'upgrade_'+c['key'],[x for x in common if not x.startswith('visible =')]+['visible = { RUS_np_context = yes has_variable = '+v+' '+ck(v,'<',3)+' }',
             'available = { has_variable = '+v+' '+ck(v,'<',3)+' '+' '.join(own(s) for s in c['states'])+' '+ck(P+'available','>',39)+' }','days_re_enable = 30',
+            b('highlight_states',rail_highlight(c)).strip(),
             b('complete_effect',['custom_effect_tooltip = RUS_np_upgrade_rail_tt',
                 b('effect_tooltip',['build_railway = { level = 3 '+path+' }']).strip(),
                 'hidden_effect = { '+sub(P+'available',40)+' '+add(P+'spent',40)+' '+sv(v,3)+' build_railway = { level = 3 '+path+' } RUS_np_refresh = yes }']).strip()]))
@@ -327,7 +351,7 @@ def augment(out):
     for p in PROJECTS:
         daily += [iff(running(p),[
             iff('NOT = { '+owned(p)+' }',[remove_active(p),call(p,'cancel')]),
-            b('else',[call(p,'tick'),iff(ck(var(p,'left'),'<',.001),[sv(P+'adjust','days_decision_timeout@'+p['id']),mul(P+'adjust',-1),f'add_days_remove = {{ decision = {p["id"]} days = RUS_np_adjust }}']),b('else',[call(p,'timer')]).strip()]).strip()])]
+            b('else',[call(p,'tick'),iff(ck(var(p,'left'),'<',.001),[sv(P+'adjust','days_decision_timeout@'+p['id']),mul(P+'adjust',-1),call(p,'apply_timer_delta')]),b('else',[call(p,'timer')]).strip()]).strip()])]
     daily += ['RUS_np_refresh_transport = yes','RUS_np_refresh = yes']
     effects.append(b('RUS_np_daily',[iff('RUS_np_context = yes',['RUS_np_initialize = yes',iff(ck(P+'day','<','global.num_days'),daily)]),b('else',[iff('has_country_flag = RUS_np_initialized',[
         iff(running(p),[remove_active(p),call(p,'cancel')]) for p in PROJECTS]+[
@@ -361,6 +385,7 @@ def augment(out):
         dm.append(b(var(p,'cost'),fields))
     out[DM]=''.join(dm)
     out['common/on_actions/RUS_national_plan_on_actions.txt']='on_actions = { on_daily_RUS = { effect = { RUS_np_daily = yes } } }\n'
+    out['common/synchronized_dynamic_tokens/RUS_national_plan_tokens.txt']='\n'.join(p['id'] for p in PROJECTS)+'\n'
     out.update(localisations())
     # Human-reviewable 62-row ledger generated from the same runtime catalogue.
     columns=['ID','原工程ID','地区分类','目标地区','基准工期','建设资源','征用普通列车','额外占用民工','额外消费品系数','追加目标1','追加目标2','一五计分','历史来源']

@@ -74,7 +74,10 @@ class Model(ScriptModel):
             elif n.k in ('add_dynamic_modifier','remove_dynamic_modifier'):
                 target=self.dynamic if self.scope is None else self.state_mods[self.scope]
                 target.add(n.value('modifier')) if n.k.startswith('add_') else target.discard(n.value('modifier'))
-            elif n.k=='add_days_remove':self.timers[n.value('decision')]=self.timers.get(n.value('decision'),0)+self.number(n.value('days'))
+            elif n.k=='add_days_remove':
+                # The real effect parses integer literals, not variable names.
+                assert re.fullmatch(r'-?\d+',n.value('days')),n.raw()
+                self.timers[n.value('decision')]=self.timers.get(n.value('decision'),0)+int(n.value('days'))
             elif n.k=='remove_decision':self.timers.pop(n.v,None)
             elif n.k=='remove_targeted_decision':self.timers.pop(n.value('decision'),None)
             elif n.k=='model_legacy_reward':self.legacy_rewards[n.v]=self.legacy_rewards.get(n.v,0)+1
@@ -106,6 +109,37 @@ class Model(ScriptModel):
                 self.call(var(p,'finish'))
 
 class PlanTests(unittest.TestCase):
+    def test_managed_projects_cannot_expand_to_world_targets(self):
+        targeted={'state_target','state_trigger','targets','target_array','target_trigger','target_root_trigger'}
+        for p in PROJECTS:
+            n=NODES[p['id']]
+            self.assertFalse(targeted & {x.k for x in n.v},p['id'])
+            self.assertNotEqual(n.value('cancel_if_not_visible'),'yes',p['id'])
+        # Original native target semantics outside the managed layer stay intact.
+        for p in PROJECTS:
+            if p['legacy']:
+                self.assertEqual(NODES[p['original_id']].value('state_target'),parse(p['original'])[0].value('state_target'))
+
+    def test_timer_effects_use_native_integer_literals_and_synced_tokens(self):
+        for n in walk(list(EFFECTS.values())):
+            if n.k=='add_days_remove':self.assertRegex(n.value('days'),r'^-?\d+$')
+        tokens=(ROOT/'common/synchronized_dynamic_tokens/RUS_national_plan_tokens.txt').read_text().split()
+        self.assertEqual(set(tokens),{p['id'] for p in PROJECTS})
+        m=Model();p=PROJECTS[0]
+        for delta in (-7301,-4096,-1025,-1,0,1,1025,4096,7301):
+            m.timers[p['id']]=7500;m.vars[P+'adjust']=delta
+            m.call(var(p,'apply_timer_delta'))
+            self.assertEqual(m.timers[p['id']],7500+delta)
+            self.assertEqual(m.vars[P+'adjust'],0)
+
+    def test_rail_highlights_match_exact_construction_provinces(self):
+        for c in CORRIDORS:
+            p=next(p for p in PROJECTS if c['project']==p.get('original_id',p['id']))
+            for key in (p['id'],P+'upgrade_'+c['key']):
+                h=NODES[key].one('highlight_states')
+                self.assertEqual([int(n.k) for n in h.one('highlight_provinces').v],c['path'],key)
+                self.assertEqual(h.value('highlight_only_provinces'),'yes')
+                self.assertIsNone(h.one('highlight_state_targets'))
     def test_catalogue_and_preserved_spirit_score(self):
         self.assertEqual(len(PROJECTS),62);self.assertEqual(sum(p['legacy'] for p in PROJECTS),46)
         for path,digest in DATA['preserved'].items():self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),digest)
