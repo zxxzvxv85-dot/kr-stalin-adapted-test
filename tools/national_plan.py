@@ -5,7 +5,7 @@ add_days_remove/remove_decision/get_supply_vehicles; state-scoped add_manpower.
 """
 import json,re
 from hoi4_politics_blocks import parse
-from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS
+from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
 
 CAT='RUS_first_five_year_plan_industrial_projects'
 DEC='common/decisions/RUS decisions (Russia).txt'
@@ -117,6 +117,17 @@ def goals(p):
     if p['key'] in MIO_REWARDS:
         key,index=MIO_REWARDS[p['key']];condition,name,reward=rows[index]
         rows[index]=(condition,name,reward+['RUS_np_award_mio_'+key+' = yes'])
+    if p['key'] in EXTRA_EDUCATION_PROJECTS:
+        rows.append((f'{s} = {{ NOT = {{ infrastructure < 3 }} }} has_country_flag = RUS_education_system_active',
+                     '基础设施达到3级，教育改革已启动',['RUS_np_award_education = yes']))
+    if p['key'] in EXTRA_RESOURCE_PROJECTS:
+        rows.append((f'{s} = {{ NOT = {{ infrastructure < 3 }} }} check_variable = {{ RUS_np_rail_region_{p["region"]} > 1.499 }}',
+                     '基础设施达到3级，计划干线平均等级达到1.50',['RUS_np_award_resources = yes']))
+    if p['key'] in EXTRA_STRATEGIC_PROJECTS:
+        resource,amount,label=EXTRA_STRATEGIC_PROJECTS[p['key']]
+        rows.append((f'{s} = {{ NOT = {{ infrastructure < 3 }} check_variable = {{ resource@{resource} > 7 }} }}',
+                     f'基础设施达到3级，本地区{label}产出至少8',
+                     [scope(s,[f'add_resource = {{ type = {resource} amount = {amount} }}'])]))
     return rows
 
 def mio_cases(key):
@@ -474,6 +485,8 @@ def augment(out):
     effects.append(b('RUS_np_agri_delivery',[iff('has_country_flag = RUS_np_initialized '+ck(P+'agri_day','<','global.num_days'),[sv(P+'agri_day','global.num_days'),*agri])]))
     effects.append(b('RUS_np_award_education',['custom_effect_tooltip = RUS_np_education_award_tt',b('hidden_effect',[
         iff('has_country_flag = RUS_education_system_active',[add('RUS_basic_education_level',1),add('RUS_higher_education_level',.5),'RUS_education_refresh = yes'])]).strip()]))
+    effects.append(b('RUS_np_award_resources',['custom_effect_tooltip = RUS_np_resources_award_tt',
+        'hidden_effect = { '+add(P+'available',15)+' '+add(P+'bonus_resources',15)+' }']))
     effects.append(b('RUS_np_award_land_score',['custom_effect_tooltip = RUS_np_land_award_tt',b('hidden_effect',[
         sv('RUS_agri_score_award',5),'RUS_agri_credit_score = yes','RUS_nat_refresh = yes']).strip()]))
     out[FX]='# Generated national plan. Legacy score/spirit functions are not modified.\n'+''.join(effects)
@@ -525,6 +538,7 @@ def localisations():
         l[P+'redeem_mio_'+key]='兑现'+name+'扩建成果'
         l[P+'redeem_mio_'+key+'_desc']='对应军工机构可用后兑现扩建成果。已整合的企业由其设计总局承接。'
     l['RUS_np_education_award_tt']='£RUS_edu_basic_texticon£ §C基础教育水平§!：§G+1.00§!\\n£RUS_edu_higher_texticon£ §Y高等教育水平§!：§G+0.50§!'
+    l['RUS_np_resources_award_tt']='§C建设资源§!：§G+15.00§!'
     l['RUS_np_land_award_tt']='土地改革分数：§G+5§!'
     l['RUS_np_farm_credit_tt']='农业建设获得§G100§!单位农机。'
     l['RUS_np_fertilizer_reward_tt']='小麦、黑麦与甜菜产量：§G+3.00%§!'

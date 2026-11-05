@@ -341,10 +341,39 @@ class PlanTests(unittest.TestCase):
         # A goal first reached on the final callback is also credited.
         m=Model().initialize();m.start(p);m.states[219]['infrastructure']=3;m.vars[var(p,'left')]=0;m.call(var(p,'finish'))
         self.assertEqual(m.vars['RUS_basic_education_level'],51)
-    def test_only_two_education_and_two_land_score_rewards(self):
+    def test_five_education_and_two_land_score_rewards(self):
         edu=[p['key'] for p in PROJECTS if any('RUS_np_award_education = yes' in x[2] for x in goals(p))]
         land=[p['key'] for p in PROJECTS if any('RUS_np_award_land_score = yes' in x[2] for x in goals(p))]
-        self.assertEqual(edu,['bearing','uvz']);self.assertEqual(set(land),{'rostselmash','tsaritsyn_rural'})
+        self.assertEqual(set(edu),{'bearing','uvz','modernisation_of_AMO','uralmash','moscow_rural'});self.assertEqual(set(land),{'rostselmash','tsaritsyn_rural'})
+
+    def test_extra_construction_resource_goals_settle_once_only_on_completion(self):
+        for key in ('moscow_logistics','leningrad_logistics','tsaritsyn_logistics'):
+            p=next(p for p in PROJECTS if p['key']==key)
+            for cancel in (False,True):
+                m=Model().initialize();m.start(p);s=p['states'][0]
+                m.call(var(p,'goals'));self.assertNotIn(var(p,'goal_3'),m.flags)
+                m.states[s]['infrastructure']=3;m.vars[P+'rail_region_'+str(p['region'])]=2
+                m.call(var(p,'goals'));self.assertIn(var(p,'goal_3'),m.flags)
+                m.vars[var(p,'left')]=0
+                if cancel:m.call(var(p,'cancel'))
+                m.call(var(p,'finish'));m.call(var(p,'finish'))
+                self.assertEqual(m.vars.get(P+'bonus_resources',0),0 if cancel else 15)
+
+    def test_extra_strategic_resources_match_existing_deposit_and_settle_once(self):
+        from national_plan_catalog import EXTRA_STRATEGIC_PROJECTS
+        for key,(resource,amount,_) in EXTRA_STRATEGIC_PROJECTS.items():
+            p=next(p for p in PROJECTS if p['key']==key)
+            self.assertRegex(p['original'],r'type\s*=\s*'+resource+r'\b')
+            for cancel in (False,True):
+                m=Model().initialize();s=p['states'][0];field='resource@'+resource
+                m.states[s][field]=8;m.start(p)
+                m.call(var(p,'goals'));self.assertNotIn(var(p,'goal_3'),m.flags)
+                m.states[s]['infrastructure']=3;m.call(var(p,'goals'))
+                self.assertIn(var(p,'goal_3'),m.flags)
+                m.vars[var(p,'left')]=0
+                if cancel:m.call(var(p,'cancel'))
+                m.call(var(p,'finish'));m.call(var(p,'finish'))
+                self.assertEqual(m.states[s][field],8 if cancel else 8+4+amount)
 
     def test_mio_size_rewards_once_deferred_and_transferred_to_merged_bureau(self):
         definitions={n.k for path in (ROOT/'common/military_industrial_organization/organizations').glob('RUS*.txt') for n in load(path)}

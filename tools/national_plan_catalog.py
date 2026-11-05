@@ -24,6 +24,10 @@ FACTORY_GOALS={
  'uvz':(1,'arms_factory','军用工厂',1,'arms_factory'),
  'krasnoyarskpromstroy':(0,'industrial_complex','民用工厂',1,None),
 }
+EXTRA_EDUCATION_PROJECTS={'modernisation_of_AMO','uralmash','moscow_rural'}
+EXTRA_RESOURCE_PROJECTS={'moscow_logistics','leningrad_logistics','tsaritsyn_logistics'}
+EXTRA_STRATEGIC_PROJECTS={'grozny_oil':('oil',4,'石油'),'tyrnyauz_tungsten':('tungsten',2,'钨'),
+                          'kuznetsk_basin':('coal',4,'煤炭')}
 NEW_ROWS=[
  ('gaz','下诺夫哥罗德汽车厂',252,1,'industry',180,140,40,'factory','https://museum.gaz.ru/eng/gaz-history/'),
  ('bearing','莫斯科第一轴承厂',219,1,'industry',150,100,35,'factory','https://mr.moscow/na-sovetskih-podshipnikah/'),

@@ -5550,6 +5550,10 @@ RUS_np_modernisation_of_AMO_goals = {
 	limit = { NOT = { has_country_flag = RUS_np_modernisation_of_AMO_goal_2 } 566 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_5 > 1.499 } }
 	set_country_flag = RUS_np_modernisation_of_AMO_goal_2
 }
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_modernisation_of_AMO_goal_3 } 566 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 566 = { NOT = { infrastructure < 3 } } has_country_flag = RUS_education_system_active }
+	set_country_flag = RUS_np_modernisation_of_AMO_goal_3
+}
 }
 }
 RUS_np_modernisation_of_AMO_apply_timer_delta = {
@@ -5872,6 +5876,10 @@ RUS_np_modernisation_of_AMO_finish = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_modernisation_of_AMO_goal_3 }
+	RUS_np_award_education = yes
 }
 }
 	set_country_flag = RUS_np_modernisation_of_AMO_completed
@@ -10737,6 +10745,10 @@ RUS_np_uralmash_goals = {
 	limit = { NOT = { has_country_flag = RUS_np_uralmash_goal_2 } 653 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_4 > 1.499 } }
 	set_country_flag = RUS_np_uralmash_goal_2
 }
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_uralmash_goal_3 } 653 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 653 = { NOT = { infrastructure < 3 } } has_country_flag = RUS_education_system_active }
+	set_country_flag = RUS_np_uralmash_goal_3
+}
 }
 }
 RUS_np_uralmash_apply_timer_delta = {
@@ -11042,6 +11054,10 @@ RUS_np_uralmash_finish = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_uralmash_goal_3 }
+	RUS_np_award_education = yes
 }
 }
 	set_country_flag = RUS_np_uralmash_completed
@@ -12165,6 +12181,10 @@ RUS_np_grozny_oil_goals = {
 	limit = { NOT = { has_country_flag = RUS_np_grozny_oil_goal_2 } 961 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_3 > 1.499 } }
 	set_country_flag = RUS_np_grozny_oil_goal_2
 }
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_grozny_oil_goal_3 } 961 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 961 = { NOT = { infrastructure < 3 } check_variable = { resource@oil > 7 } } }
+	set_country_flag = RUS_np_grozny_oil_goal_3
+}
 }
 }
 RUS_np_grozny_oil_apply_timer_delta = {
@@ -12457,6 +12477,12 @@ RUS_np_grozny_oil_finish = {
 	else = {
 	add_extra_state_shared_building_slots = 1
 }
+}
+}
+	if = {
+	limit = { has_country_flag = RUS_np_grozny_oil_goal_3 }
+	961 = {
+	add_resource = { type = oil amount = 4 }
 }
 }
 }
@@ -12855,6 +12881,10 @@ RUS_np_tyrnyauz_tungsten_goals = {
 	limit = { NOT = { has_country_flag = RUS_np_tyrnyauz_tungsten_goal_2 } 233 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_3 > 1.499 } }
 	set_country_flag = RUS_np_tyrnyauz_tungsten_goal_2
 }
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_tyrnyauz_tungsten_goal_3 } 233 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 233 = { NOT = { infrastructure < 3 } check_variable = { resource@tungsten > 7 } } }
+	set_country_flag = RUS_np_tyrnyauz_tungsten_goal_3
+}
 }
 }
 RUS_np_tyrnyauz_tungsten_apply_timer_delta = {
@@ -13128,6 +13158,12 @@ RUS_np_tyrnyauz_tungsten_finish = {
 	else = {
 	add_extra_state_shared_building_slots = 1
 }
+}
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tyrnyauz_tungsten_goal_3 }
+	233 = {
+	add_resource = { type = tungsten amount = 2 }
 }
 }
 }
@@ -14952,6 +14988,10 @@ RUS_np_kuznetsk_basin_goals = {
 	limit = { NOT = { has_country_flag = RUS_np_kuznetsk_basin_goal_2 } 569 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_5 > 1.499 } }
 	set_country_flag = RUS_np_kuznetsk_basin_goal_2
 }
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_kuznetsk_basin_goal_3 } 569 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 569 = { NOT = { infrastructure < 3 } check_variable = { resource@coal > 7 } } }
+	set_country_flag = RUS_np_kuznetsk_basin_goal_3
+}
 }
 }
 RUS_np_kuznetsk_basin_apply_timer_delta = {
@@ -15231,6 +15271,12 @@ RUS_np_kuznetsk_basin_finish = {
 	else = {
 	add_extra_state_shared_building_slots = 1
 }
+}
+}
+	if = {
+	limit = { has_country_flag = RUS_np_kuznetsk_basin_goal_3 }
+	569 = {
+	add_resource = { type = coal amount = 4 }
 }
 }
 }
@@ -23240,6 +23286,10 @@ RUS_np_moscow_logistics_goals = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_logistics_goal_2 } 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_1 > 1.499 } }
 	set_country_flag = RUS_np_moscow_logistics_goal_2
 }
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_moscow_logistics_goal_3 } 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 219 = { NOT = { infrastructure < 3 } } check_variable = { RUS_np_rail_region_1 > 1.499 } }
+	set_country_flag = RUS_np_moscow_logistics_goal_3
+}
 }
 }
 RUS_np_moscow_logistics_apply_timer_delta = {
@@ -23549,6 +23599,10 @@ RUS_np_moscow_logistics_finish = {
 }
 }
 }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_logistics_goal_3 }
+	RUS_np_award_resources = yes
+}
 }
 	set_country_flag = RUS_np_moscow_logistics_completed
 	set_variable = { RUS_np_consumed = RUS_np_moscow_logistics_paid }
@@ -23601,6 +23655,10 @@ RUS_np_moscow_rural_goals = {
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_rural_goal_2 } 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } has_country_flag = RUS_nat_enabled check_variable = { RUS_nat_machine_stock > 99 } }
 	set_country_flag = RUS_np_moscow_rural_goal_2
+}
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_moscow_rural_goal_3 } 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 219 = { NOT = { infrastructure < 3 } } has_country_flag = RUS_education_system_active }
+	set_country_flag = RUS_np_moscow_rural_goal_3
 }
 }
 }
@@ -23895,6 +23953,10 @@ RUS_np_moscow_rural_finish = {
 	custom_effect_tooltip = RUS_np_farm_credit_tt
 	hidden_effect = { add_to_variable = { RUS_np_farm_credit = 100 } }
 }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_rural_goal_3 }
+	RUS_np_award_education = yes
+}
 }
 	set_country_flag = RUS_np_moscow_rural_completed
 	set_variable = { RUS_np_consumed = RUS_np_moscow_rural_paid }
@@ -23946,6 +24008,10 @@ RUS_np_leningrad_logistics_goals = {
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_leningrad_logistics_goal_2 } 195 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_2 > 1.499 } }
 	set_country_flag = RUS_np_leningrad_logistics_goal_2
+}
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_leningrad_logistics_goal_3 } 195 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 195 = { NOT = { infrastructure < 3 } } check_variable = { RUS_np_rail_region_2 > 1.499 } }
+	set_country_flag = RUS_np_leningrad_logistics_goal_3
 }
 }
 }
@@ -24255,6 +24321,10 @@ RUS_np_leningrad_logistics_finish = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_leningrad_logistics_goal_3 }
+	RUS_np_award_resources = yes
 }
 }
 	set_country_flag = RUS_np_leningrad_logistics_completed
@@ -24654,6 +24724,10 @@ RUS_np_tsaritsyn_logistics_goals = {
 	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_logistics_goal_2 } 217 = { is_owned_and_controlled_by_ROOT_or_subject = yes } check_variable = { RUS_np_rail_region_3 > 1.499 } }
 	set_country_flag = RUS_np_tsaritsyn_logistics_goal_2
 }
+	if = {
+	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_logistics_goal_3 } 217 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 217 = { NOT = { infrastructure < 3 } } check_variable = { RUS_np_rail_region_3 > 1.499 } }
+	set_country_flag = RUS_np_tsaritsyn_logistics_goal_3
+}
 }
 }
 RUS_np_tsaritsyn_logistics_apply_timer_delta = {
@@ -24962,6 +25036,10 @@ RUS_np_tsaritsyn_logistics_finish = {
 	add_extra_state_shared_building_slots = 1
 }
 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_logistics_goal_3 }
+	RUS_np_award_resources = yes
 }
 }
 	set_country_flag = RUS_np_tsaritsyn_logistics_completed
@@ -25374,6 +25452,10 @@ RUS_np_award_education = {
 	RUS_education_refresh = yes
 }
 }
+}
+RUS_np_award_resources = {
+	custom_effect_tooltip = RUS_np_resources_award_tt
+	hidden_effect = { add_to_variable = { RUS_np_available = 15 } add_to_variable = { RUS_np_bonus_resources = 15 } }
 }
 RUS_np_award_land_score = {
 	custom_effect_tooltip = RUS_np_land_award_tt
