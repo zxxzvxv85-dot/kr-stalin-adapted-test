@@ -16,7 +16,7 @@ ADVISORS={
  'su_beichen':dict(name='苏北辰',trait='制作组最锋利的剑',
      modifiers={'army_attack_factor':.20,'combat_width_factor':-.20,
                 'supply_consumption_factor':-.20,'army_org_factor':.20}),
- 'larruping':dict(name='larruping',trait='扫雷先驱',modifiers={},desc=(
+ 'larruping':dict(name='larruping',trait='赌徒',modifiers={},desc=(
      '背景：该如何形容larruping，这位制作组的组长？他向来被冠以许多称号：反动派，因为他mod里越来越弱的俄罗斯和苏联；享乐主义者、沉迷斗地主的赌徒和好色之徒，自以为肩负着某种伟大使命，还喜欢发唐得没边的奶蛙表情包。总而言之，他是个整活的人，对于所爱之物，他不离不弃地整活；对于所恨之事，他深恶痛绝地整活。'
      '\n\n'
      '事实上，关于larruping的种种神话很大程度上要归功于他的mod，或是那些受他启发的狂热玩家。larruping在遥远的东方长大成人，正是在那里，他迷恋上了做mod——他走上了做mod的道路，也走向了逻辑的极端：经过多年整活主义和bug的洗礼，最终一步步成立了多么多么的制作组。他摇身一变，从一名为爱发电的玩家变成了一位制作组的领导人。mod发布后，许多人随他加入了制作组——这是一个为KR布尔什维克拨乱反正的组织，他们将不惜一切代价，铸就一条KR共产主义的复兴之路。')),
@@ -31,6 +31,7 @@ def render_outputs():
       'RUS_easter_eggs_category':'彩蛋',
       'RUS_easter_eggs_category_desc':'特别来客与不同寻常的选择。',
       'RUS_egg_guaranteed_minesweeper_tt':'扫雷小游戏无论胜负，均按成功结算。',
+      'RUS_egg_guaranteed_doudizhu_tt':'每局斗地主必定获得§G四张2和大小王§!。',
       'RUS_egg_mia_trait_tt':'每月土改分数：§G+100§!（土改启用后）\n任命期间，每完成一次教育改革决议，“教育改革”永久追加科研速度：§G+5.00%§!。',
       'RUS_edu_mia_reward_preview':'教育改革',
     }
@@ -47,6 +48,7 @@ def render_outputs():
         traits.append(block(trait,['random = no','sprite = 1',
             *[str(k)+' = '+str(v) for k,v in data['modifiers'].items()],
             *(['custom_modifier_tooltip = RUS_egg_guaranteed_minesweeper_tt'] if key=='larruping' else []),
+            *(['custom_modifier_tooltip = RUS_egg_guaranteed_doudizhu_tt'] if key=='larruping' else []),
             *(['custom_modifier_tooltip = RUS_egg_mia_trait_tt'] if key=='mia' else []),
             'ai_will_do = { factor = 0 }']))
         effects.append(block(ident+'_unlock',[

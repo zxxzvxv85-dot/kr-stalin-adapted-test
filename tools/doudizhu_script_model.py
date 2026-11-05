@@ -17,6 +17,7 @@ class ScriptModel:
         self.vars = {}
         self.temp = {}
         self.flags = set()
+        self.ideas = set()
         self.rng = random.Random(seed)
         self.steps = 0
         self.calls = {}
@@ -52,6 +53,8 @@ class ScriptModel:
                 passed = self.compare(left, right, op)
             elif key == "has_country_flag":
                 passed = value in self.flags
+            elif key == "has_idea":
+                passed = value in self.ideas
             elif key == "has_variable":
                 passed = value in self.vars
             elif key in ("tag", "original_tag"):

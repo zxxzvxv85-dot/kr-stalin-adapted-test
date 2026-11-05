@@ -89,6 +89,9 @@ def catalogue(root: Path = ROOT) -> tuple[Person, ...]:
                         definitions[node.k] = (node, path)
     result = []
     for key, (node, source) in sorted(definitions.items()):
+        # Technical UI refresh marker has no portrait or playable character role.
+        if key == 'RUS_ui_advisor_refresh_anchor':
+            continue
         instances = tuple(node.children("instance") or [node])
         # A character instance is chosen at country setup; current RUS DLC
         # variants use the same portrait.  Fail if this stops being true.

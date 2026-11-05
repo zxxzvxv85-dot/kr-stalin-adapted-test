@@ -107,6 +107,36 @@ class LifecycleTests(unittest.TestCase):
             self.assertEqual(sum(get(model, f"owner_{i}") == 4 for i in range(1, 55)), 3)
             self.assertEqual(len({get(model, f"bottom_{s}") for s in range(1, 4)}), 3)
 
+    def test_larruping_reserves_four_twos_and_both_jokers_without_extra_cards(self):
+        import subprocess
+        baseline={}
+        exec(subprocess.check_output(['git','-C',str(ROOT),'show','d8dc50e:tools/doudizhu_game.py']).decode('utf8'),baseline)
+        old_effects=load_effects(baseline['effects'](),next(iter(rules.outputs().values())))
+        for seed in range(40):
+            m=self.model(seed);old=ScriptModel(old_effects,seed)
+            call(m,'deal');call(old,'deal')
+            self.assertEqual([get(m,f'owner_{c}') for c in range(1,55)],
+                             [get(old,f'owner_{c}') for c in range(1,55)],'normal RNG path changed')
+            m.flags.add('RUS_egg_larruping_unlocked');m.rng.seed(seed);call(m,'deal')
+            self.assertEqual([get(m,f'owner_{c}') for c in range(1,55)],
+                             [get(old,f'owner_{c}') for c in range(1,55)],'unlock alone activated cheat')
+            m.ideas.add('RUS_egg_larruping_advisor');call(m,'deal')
+            self.assertEqual([get(m,f'count_{seat}') for seat in (1,2,3)],[17,17,17])
+            self.assertTrue(all(get(m,f'owner_{c}')==1 for c in range(49,55)))
+            self.assertFalse(any(get(m,f'deck_{c}') for c in range(1,55)))
+            self.assertEqual(sum(get(m,f'owner_{c}')==4 for c in range(1,55)),3)
+            for landlord in (1,2,3):
+                call(m,'deal');setv(m,bid=3,bidder=landlord);call(m,'finish_auction')
+                self.assertEqual([get(m,f'count_{seat}') for seat in (1,2,3)],
+                                 [20 if seat==landlord else 17 for seat in (1,2,3)])
+                self.assertTrue(all(get(m,f'owner_{c}')==1 for c in range(49,55)))
+            before=dict(m.vars);m.ideas.clear();call(m,'open')
+            self.assertEqual([get(m,f'owner_{c}') for c in range(1,55)],
+                             [before[game.v(f'owner_{c}')] for c in range(1,55)],'opening window must not redeal')
+            m.rng.seed(seed);call(m,'deal')
+            self.assertEqual([get(m,f'owner_{c}') for c in range(1,55)],
+                             [get(old,f'owner_{c}') for c in range(1,55)],'dismissal must restore normal deal')
+
     def test_not_enough_people_and_active_new_game_guard(self):
         model = self.model()
         model.vars["fixture_candidates"] = 2

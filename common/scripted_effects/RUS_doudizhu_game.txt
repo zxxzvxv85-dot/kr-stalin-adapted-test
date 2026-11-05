@@ -4081,13 +4081,37 @@ RUS_ddz_deal = {
 	set_variable = { RUS_ddz_deck_53 = 1 }
 	set_variable = { RUS_ddz_deck_54 = 1 }
 	set_variable = { RUS_ddz_deal_slot = 0 }
+	set_variable = { RUS_ddz_larruping_deal = 0 }
+	if = {
+		limit = {
+			has_idea = RUS_egg_larruping_advisor
+		}
+		set_variable = { RUS_ddz_larruping_deal = 1 }
+		set_variable = { RUS_ddz_owner_49 = 1 }
+		set_variable = { RUS_ddz_deck_49 = 0 }
+		set_variable = { RUS_ddz_owner_50 = 1 }
+		set_variable = { RUS_ddz_deck_50 = 0 }
+		set_variable = { RUS_ddz_owner_51 = 1 }
+		set_variable = { RUS_ddz_deck_51 = 0 }
+		set_variable = { RUS_ddz_owner_52 = 1 }
+		set_variable = { RUS_ddz_deck_52 = 0 }
+		set_variable = { RUS_ddz_owner_53 = 1 }
+		set_variable = { RUS_ddz_deck_53 = 0 }
+		set_variable = { RUS_ddz_owner_54 = 1 }
+		set_variable = { RUS_ddz_deck_54 = 0 }
+	}
 	for_loop_effect = {
 		start = 0
 		end = 17
 		value = RUS_ddz_deal_loop
 		break = RUS_ddz_deal_break
 		set_variable = { RUS_ddz_deal_seat = 1 }
-		RUS_ddz_draw_card = yes
+		if = {
+			limit = {
+				OR = { check_variable = { RUS_ddz_larruping_deal = 0 } check_variable = { var = RUS_ddz_deal_loop value = 6 compare = greater_than_or_equals } }
+			}
+			RUS_ddz_draw_card = yes
+		}
 		set_variable = { RUS_ddz_deal_seat = 2 }
 		RUS_ddz_draw_card = yes
 		set_variable = { RUS_ddz_deal_seat = 3 }

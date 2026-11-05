@@ -96,7 +96,7 @@ def effects():
     effect("clear_table", setv("table_n", 0), *[setv(f"table_{i}", 0) for i in range(1, 21)])
     effect("open", "set_country_flag = RUS_ddz_open", call("refresh"))
 
-    # 54 finite draws, with each card's weight removed after drawing it once.
+    # Each physical card is assigned once; the hired Easter egg adviser reserves six.
     draw = []
     for c in range(1, 55):
         draw.append(block(v(f"deck_{c}"), [setv(f"deck_{c}", 0), setv(f"owner_{c}", v("deal_seat")),
@@ -104,8 +104,13 @@ def effects():
     effect("draw_card", block("random_list", draw))
     effect("deal", *[setv(f"owner_{c}", 0) for c in range(1, 55)],
            *[setv(f"deck_{c}", 1) for c in range(1, 55)], setv("deal_slot", 0),
+           setv("larruping_deal", 0),
+           iff("has_idea = RUS_egg_larruping_advisor",setv("larruping_deal", 1),
+               *[line for c in range(49,55) for line in (setv(f"owner_{c}",1),setv(f"deck_{c}",0))]),
            block("for_loop_effect", ["start = 0", "end = 17", "value = RUS_ddz_deal_loop", "break = RUS_ddz_deal_break",
-                 *[line for s in range(1, 4) for line in (setv("deal_seat", s), call("draw_card"))]]),
+                 setv("deal_seat",1),
+                 iff('OR = { '+eq('larruping_deal',0)+' '+eq('deal_loop',6,'>=')+' }',call("draw_card")),
+                 *[line for s in (2,3) for line in (setv("deal_seat", s), call("draw_card"))]]),
            setv("deal_seat", 4),
            *[line for i in range(1, 4) for line in (setv("deal_slot", i), call("draw_card"))],
            setv("deal_slot", 0), call("recount"))
