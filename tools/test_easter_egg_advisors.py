@@ -51,32 +51,35 @@ class Model(ScriptModel):
         if pending:super().run(pending)
 
 class Tests(unittest.TestCase):
-    def test_mia_research_on_actual_begin_only_and_hiring_enable(self):
-        from test_education_reform import initialized
+    def test_mia_completion_permanently_adds_to_education_spirit(self):
+        from test_education_reform import initialized,unlock_all
         from education_reform_content import ACTIVITIES,CONTROLS
-        from generate_education_reform import active
+        from generate_education_reform import active,bv
+        bonus='RUS_edu_mia_permanent_research'
         for a in ACTIVITIES+CONTROLS:
-            m=initialized()
-            m.vars['RUS_basic_education_level']=100
-            m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open','RUS_fr_basic_reform_completed'})
-            m.done.update({'RUS_future_foreign_062','RUS_future_foreign_005'});m.at_war=True
-            m.ideas.add('RUS_egg_mia_advisor')
-            m.call('RUS_education_begin_'+a['id'])
+            m=unlock_all(initialized());m.vars['RUS_basic_education_level']=100
+            m.ideas.add('RUS_egg_mia_advisor');m.call('RUS_education_begin_'+a['id'])
             self.assertIn(active(a),m.flags,a['id'])
-            self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.05)
-            m.call('RUS_education_begin_'+a['id'])
-            self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.05)
-            m.call('RUS_education_cancel_'+a['id'])
-            self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.05)
+            self.assertEqual(m.vars.get(bonus,0),0,'opening must not reward')
+            m.call('RUS_education_finish_'+a['id'])
+            self.assertAlmostEqual(m.vars[bonus],.05)
+            m.call('RUS_education_finish_'+a['id'])
+            self.assertAlmostEqual(m.vars[bonus],.05,'same completion cannot reward twice')
+            m.ideas.discard('RUS_egg_mia_advisor');m.call('RUS_education_refresh')
+            total=m.vars[bv('research_speed_factor')]
+            m.vars[bonus]=0;m.call('RUS_education_refresh')
+            self.assertAlmostEqual(total-m.vars[bv('research_speed_factor')],.05)
+            self.assertFalse(any('mia' in d for d in m.dynamic),'no separate Mia spirit')
+        m=initialized();m.ideas.add('RUS_egg_mia_advisor')
+        m.call('RUS_education_begin_literacy');m.call('RUS_education_cancel_literacy')
+        m.call('RUS_education_finish_literacy');self.assertEqual(m.vars.get(bonus,0),0)
         m=initialized();m.call('RUS_education_begin_literacy')
-        self.assertEqual(m.vars.get('RUS_egg_mia_research',0),0)
-        m.ideas.add('RUS_egg_mia_advisor');m.call('RUS_egg_mia_education_clicked');m.call('RUS_egg_mia_education_clicked')
-        self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.1)
-        m.ideas.clear();m.call('RUS_egg_mia_education_clicked')
-        self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.1)
-        dm=load(ROOT/'common/dynamic_modifiers/RUS_easter_egg_modifiers.txt')[0]
-        self.assertFalse(m.check(dm.one('enable')))
-        m.ideas.add('RUS_egg_mia_advisor');self.assertTrue(m.check(dm.one('enable')))
+        m.call('RUS_education_finish_literacy');self.assertEqual(m.vars.get(bonus,0),0)
+        m=initialized();m.ideas.add('RUS_egg_mia_advisor')
+        for a in ('literacy','schools'):
+            m.call('RUS_education_begin_'+a);m.call('RUS_education_finish_'+a)
+        self.assertAlmostEqual(m.vars[bonus],.1)
+        m.call('RUS_education_refresh');self.assertAlmostEqual(m.vars[bonus],.1)
 
     def test_mia_monthly_credits_existing_agriculture_account(self):
         ag=load_effects((ROOT/'common/scripted_effects/RUS_agri_development_effects.txt').read_text())

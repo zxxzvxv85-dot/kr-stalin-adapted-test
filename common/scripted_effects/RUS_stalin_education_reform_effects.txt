@@ -371,6 +371,7 @@ RUS_education_refresh = {
 	add_to_variable = { RUS_edu_body_political_power_cost = RUS_edu_permanent_political_power_cost }
 	add_to_variable = { RUS_edu_body_political_power_factor = RUS_edu_permanent_political_power_factor }
 	add_to_variable = { RUS_edu_body_research_speed_factor = RUS_edu_permanent_research_speed_factor }
+	add_to_variable = { RUS_edu_body_research_speed_factor = RUS_edu_mia_permanent_research }
 	if = {
 		limit = { has_dynamic_modifier = { modifier = RUS_education_permanent_results } }
 		remove_dynamic_modifier = { modifier = RUS_education_permanent_results }
@@ -13637,7 +13638,6 @@ RUS_education_begin_literacy = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 3 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -13711,6 +13711,7 @@ RUS_education_finish_literacy = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_literacy
 		add_to_variable = { RUS_edu_permanent_research_speed_factor = 0.002 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_literacy = yes
 	}
 }
@@ -13754,7 +13755,6 @@ RUS_education_begin_schools = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 4 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -13835,6 +13835,7 @@ RUS_education_finish_schools = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_schools
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_schools = yes
 	}
 }
@@ -13878,7 +13879,6 @@ RUS_education_begin_night_school = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 5 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -13976,6 +13976,7 @@ RUS_education_finish_night_school = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_night_school
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_night_school = yes
 	}
 }
@@ -14019,7 +14020,6 @@ RUS_education_begin_teachers = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 6 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -14106,6 +14106,7 @@ RUS_education_finish_teachers = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_teachers
 		add_to_variable = { RUS_edu_permanent_political_power_cost = -0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_teachers = yes
 	}
 }
@@ -14149,7 +14150,6 @@ RUS_education_begin_university = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 7 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -14247,6 +14247,7 @@ RUS_education_finish_university = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_university
 		add_to_variable = { RUS_edu_permanent_research_speed_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_university = yes
 	}
 }
@@ -14290,7 +14291,6 @@ RUS_education_begin_science = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 8 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -14364,6 +14364,7 @@ RUS_education_finish_science = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_science
 		add_to_variable = { RUS_edu_permanent_research_speed_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_science = yes
 	}
 }
@@ -14407,7 +14408,6 @@ RUS_education_begin_pedagogy = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 9 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -14494,6 +14494,7 @@ RUS_education_finish_pedagogy = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_pedagogy
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_pedagogy = yes
 	}
 }
@@ -14537,7 +14538,6 @@ RUS_education_begin_technical = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 10 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -14635,6 +14635,7 @@ RUS_education_finish_technical = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_technical
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.006 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_technical = yes
 	}
 }
@@ -14678,7 +14679,6 @@ RUS_education_begin_agriculture = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 11 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -14776,6 +14776,7 @@ RUS_education_finish_agriculture = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_agriculture
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_agriculture = yes
 	}
 }
@@ -14819,7 +14820,6 @@ RUS_education_begin_reading = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 12 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -14921,6 +14921,7 @@ RUS_education_finish_reading = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_reading
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_reading = yes
 	}
 }
@@ -14964,7 +14965,6 @@ RUS_education_begin_outreach = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 13 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15053,6 +15053,7 @@ RUS_education_finish_outreach = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_outreach
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_outreach = yes
 	}
 }
@@ -15096,7 +15097,6 @@ RUS_education_begin_construction = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 14 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15172,6 +15172,7 @@ RUS_education_finish_construction = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_construction
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_construction = yes
 	}
 }
@@ -15215,7 +15216,6 @@ RUS_education_begin_mentoring = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 15 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15314,6 +15314,7 @@ RUS_education_finish_mentoring = {
 		set_country_flag = RUS_edu_completed_mentoring
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.005 }
 		add_to_variable = { RUS_edu_permanent_political_power_cost = -0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_mentoring = yes
 	}
 }
@@ -15357,7 +15358,6 @@ RUS_education_begin_library = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 16 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15460,6 +15460,7 @@ RUS_education_finish_library = {
 		set_country_flag = RUS_edu_completed_library
 		add_to_variable = { RUS_edu_permanent_research_speed_factor = 0.002 }
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_library = yes
 	}
 }
@@ -15503,7 +15504,6 @@ RUS_education_begin_defend_leningrad = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 17 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15592,6 +15592,7 @@ RUS_education_finish_defend_leningrad = {
 			limit = { owns_state = 195 controls_state = 195 }
 			195 = { add_dynamic_modifier = { modifier = RUS_edu_state_city_defence days = 180 } }
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_defend_leningrad = yes
 	}
 }
@@ -15635,7 +15636,6 @@ RUS_education_begin_defend_moscow = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 18 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15724,6 +15724,7 @@ RUS_education_finish_defend_moscow = {
 			limit = { owns_state = 219 controls_state = 219 }
 			219 = { add_dynamic_modifier = { modifier = RUS_edu_state_city_defence days = 180 } }
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_defend_moscow = yes
 	}
 }
@@ -15767,7 +15768,6 @@ RUS_education_begin_march_west = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 19 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15852,6 +15852,7 @@ RUS_education_finish_march_west = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_march_west
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_march_west = yes
 	}
 }
@@ -15895,7 +15896,6 @@ RUS_education_begin_defend_october = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 20 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -15980,6 +15980,7 @@ RUS_education_finish_defend_october = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_defend_october
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_defend_october = yes
 	}
 }
@@ -16023,7 +16024,6 @@ RUS_education_begin_dnieper_water = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 21 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -16122,6 +16122,7 @@ RUS_education_finish_dnieper_water = {
 		set_country_flag = RUS_edu_completed_dnieper_water
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
 		add_timed_idea = { idea = RUS_edu_dnieper_offensive days = 30 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_dnieper_water = yes
 	}
 }
@@ -16165,7 +16166,6 @@ RUS_education_begin_await_victory = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 22 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -16250,6 +16250,7 @@ RUS_education_finish_await_victory = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_await_victory
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.008 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_await_victory = yes
 	}
 }
@@ -16293,7 +16294,6 @@ RUS_education_begin_advanced_theory = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 23 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -16392,6 +16392,7 @@ RUS_education_finish_advanced_theory = {
 		set_country_flag = RUS_edu_completed_advanced_theory
 		add_to_variable = { RUS_edu_permanent_research_speed_factor = 0.005 }
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_advanced_theory = yes
 	}
 }
@@ -16435,7 +16436,6 @@ RUS_education_begin_cultural_enemies = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 24 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -16538,6 +16538,7 @@ RUS_education_finish_cultural_enemies = {
 		set_country_flag = RUS_edu_completed_cultural_enemies
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.01 }
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.002 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_cultural_enemies = yes
 	}
 }
@@ -16581,7 +16582,6 @@ RUS_education_begin_mothers_literacy = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 25 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -16662,6 +16662,7 @@ RUS_education_finish_mothers_literacy = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_mothers_literacy
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_mothers_literacy = yes
 	}
 }
@@ -16705,7 +16706,6 @@ RUS_education_begin_children_workers = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 26 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -16793,6 +16793,7 @@ RUS_education_finish_children_workers = {
 		set_country_flag = RUS_edu_completed_children_workers
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.004 }
 		add_to_variable = { RUS_edu_permanent_political_power_cost = -0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_children_workers = yes
 	}
 }
@@ -16836,7 +16837,6 @@ RUS_education_begin_ten_days = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 27 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -16938,6 +16938,7 @@ RUS_education_finish_ten_days = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_ten_days
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_ten_days = yes
 	}
 }
@@ -16981,7 +16982,6 @@ RUS_education_begin_book_fair = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 28 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -17084,6 +17084,7 @@ RUS_education_finish_book_fair = {
 		set_country_flag = RUS_edu_completed_book_fair
 		add_to_variable = { RUS_edu_permanent_research_speed_factor = 0.002 }
 		add_to_variable = { RUS_edu_permanent_political_power_cost = -0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_book_fair = yes
 	}
 }
@@ -17127,7 +17128,6 @@ RUS_education_begin_grain_delivery = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 29 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -17224,6 +17224,7 @@ RUS_education_finish_grain_delivery = {
 			if = { limit = { check_variable = { RUS_nat_wheat_stock > 12 } } set_variable = { RUS_nat_wheat_stock = 12 } }
 			RUS_nat_refresh = yes
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_grain_delivery = yes
 	}
 }
@@ -17267,7 +17268,6 @@ RUS_education_begin_end_kitchen_slavery = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 30 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -17370,6 +17370,7 @@ RUS_education_finish_end_kitchen_slavery = {
 		set_country_flag = RUS_edu_completed_end_kitchen_slavery
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.005 }
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_end_kitchen_slavery = yes
 	}
 }
@@ -17413,7 +17414,6 @@ RUS_education_begin_soviet_elections = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 31 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -17503,6 +17503,7 @@ RUS_education_finish_soviet_elections = {
 		set_country_flag = RUS_edu_completed_soviet_elections
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.01 }
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.004 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_soviet_elections = yes
 	}
 }
@@ -17546,7 +17547,6 @@ RUS_education_begin_protect_children = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 32 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -17632,6 +17632,7 @@ RUS_education_finish_protect_children = {
 		set_country_flag = RUS_edu_completed_protect_children
 		add_to_variable = { RUS_edu_permanent_research_speed_factor = 0.002 }
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.002 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_protect_children = yes
 	}
 }
@@ -17675,7 +17676,6 @@ RUS_education_begin_lenin_banner = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 33 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -17764,6 +17764,7 @@ RUS_education_finish_lenin_banner = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_lenin_banner
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_lenin_banner = yes
 	}
 }
@@ -17807,7 +17808,6 @@ RUS_education_begin_labour_productivity = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 34 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -17905,6 +17905,7 @@ RUS_education_finish_labour_productivity = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_labour_productivity
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_labour_productivity = yes
 	}
 }
@@ -17948,7 +17949,6 @@ RUS_education_begin_socialist_industry = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 35 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -18050,6 +18050,7 @@ RUS_education_finish_socialist_industry = {
 			limit = { owns_state = 219 controls_state = 219 }
 			219 = { add_dynamic_modifier = { modifier = RUS_edu_state_industrial_training days = 365 } }
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_socialist_industry = yes
 	}
 }
@@ -18093,7 +18094,6 @@ RUS_education_begin_lenin_electrification = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 36 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -18195,6 +18195,7 @@ RUS_education_finish_lenin_electrification = {
 			limit = { owns_state = 195 controls_state = 195 }
 			195 = { add_dynamic_modifier = { modifier = RUS_edu_state_electrification days = 365 } }
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_lenin_electrification = yes
 	}
 }
@@ -18238,7 +18239,6 @@ RUS_education_begin_tractors_nurseries = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 37 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -18345,6 +18345,7 @@ RUS_education_finish_tractors_nurseries = {
 			}
 			RUS_nat_refresh = yes
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_tractors_nurseries = yes
 	}
 }
@@ -18388,7 +18389,6 @@ RUS_education_begin_agricultural_statistics = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 38 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -18481,6 +18481,7 @@ RUS_education_finish_agricultural_statistics = {
 			set_variable = { RUS_nat_technical_support = 1 }
 			RUS_nat_refresh = yes
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_agricultural_statistics = yes
 	}
 }
@@ -18524,7 +18525,6 @@ RUS_education_begin_complete_collectivisation = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 39 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -18623,6 +18623,7 @@ RUS_education_finish_complete_collectivisation = {
 		set_country_flag = RUS_edu_completed_complete_collectivisation
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.008 }
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_complete_collectivisation = yes
 	}
 }
@@ -18666,7 +18667,6 @@ RUS_education_begin_harvest_battle = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 40 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -18772,6 +18772,7 @@ RUS_education_finish_harvest_battle = {
 			if = { limit = { check_variable = { RUS_nat_rye_stock > 12 } } set_variable = { RUS_nat_rye_stock = 12 } }
 			RUS_nat_refresh = yes
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_harvest_battle = yes
 	}
 }
@@ -18815,7 +18816,6 @@ RUS_education_begin_vigilance = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 41 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -18904,6 +18904,7 @@ RUS_education_finish_vigilance = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_vigilance
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_vigilance = yes
 	}
 }
@@ -18947,7 +18948,6 @@ RUS_education_begin_production_vices = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 42 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19041,6 +19041,7 @@ RUS_education_finish_production_vices = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_production_vices
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_production_vices = yes
 	}
 }
@@ -19084,7 +19085,6 @@ RUS_education_begin_public_property = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 43 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19174,6 +19174,7 @@ RUS_education_finish_public_property = {
 		set_country_flag = RUS_edu_completed_public_property
 		add_to_variable = { RUS_edu_permanent_political_power_cost = -0.01 }
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_public_property = yes
 	}
 }
@@ -19217,7 +19218,6 @@ RUS_education_begin_false_shock_workers = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 44 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19311,6 +19311,7 @@ RUS_education_finish_false_shock_workers = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_false_shock_workers
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_false_shock_workers = yes
 	}
 }
@@ -19354,7 +19355,6 @@ RUS_education_begin_motherland_calls = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 45 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19439,6 +19439,7 @@ RUS_education_finish_motherland_calls = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_motherland_calls
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.002 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_motherland_calls = yes
 	}
 }
@@ -19482,7 +19483,6 @@ RUS_education_begin_volunteer_enlistment = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 46 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19567,6 +19567,7 @@ RUS_education_finish_volunteer_enlistment = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_volunteer_enlistment
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_volunteer_enlistment = yes
 	}
 }
@@ -19610,7 +19611,6 @@ RUS_education_begin_red_banner_oath = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 47 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19695,6 +19695,7 @@ RUS_education_finish_red_banner_oath = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_red_banner_oath
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_red_banner_oath = yes
 	}
 }
@@ -19738,7 +19739,6 @@ RUS_education_begin_women_frontline = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 48 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19836,6 +19836,7 @@ RUS_education_finish_women_frontline = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_women_frontline
 		add_to_variable = { RUS_edu_permanent_industrial_capacity_factory = 0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_women_frontline = yes
 	}
 }
@@ -19879,7 +19880,6 @@ RUS_education_begin_people_and_army = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 49 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -19964,6 +19964,7 @@ RUS_education_finish_people_and_army = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_people_and_army
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_people_and_army = yes
 	}
 }
@@ -20007,7 +20008,6 @@ RUS_education_begin_honour_freedom = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 50 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -20092,6 +20092,7 @@ RUS_education_finish_honour_freedom = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_honour_freedom
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_honour_freedom = yes
 	}
 }
@@ -20135,7 +20136,6 @@ RUS_education_begin_ukrainian_liberators = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 51 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -20241,6 +20241,7 @@ RUS_education_finish_ukrainian_liberators = {
 			limit = { owns_state = 202 controls_state = 202 }
 			202 = { add_dynamic_modifier = { modifier = RUS_edu_state_reconstruction days = 365 } }
 		}
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_ukrainian_liberators = yes
 	}
 }
@@ -20284,7 +20285,6 @@ RUS_education_begin_beloved_motherland = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 52 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -20387,6 +20387,7 @@ RUS_education_finish_beloved_motherland = {
 		set_country_flag = RUS_edu_completed_beloved_motherland
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.01 }
 		add_to_variable = { RUS_edu_permanent_political_power_factor = 0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_beloved_motherland = yes
 	}
 }
@@ -20430,7 +20431,6 @@ RUS_education_begin_long_live_peace = {
 			limit = { check_variable = { RUS_edu_slot_6 = 0 } }
 			set_variable = { RUS_edu_slot_6 = 53 }
 		}
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -20524,6 +20524,7 @@ RUS_education_finish_long_live_peace = {
 		add_to_variable = { RUS_education_completed_activities = 1 }
 		set_country_flag = RUS_edu_completed_long_live_peace
 		add_to_variable = { RUS_edu_permanent_stability_factor = 0.01 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_long_live_peace = yes
 	}
 }
@@ -20537,7 +20538,6 @@ RUS_education_begin_listen = {
 		set_variable = { RUS_edu_days_listen = RUS_edu_run_duration_listen }
 		add_to_variable = { RUS_edu_repeat_cost_listen = 1 }
 		set_country_flag = RUS_edu_control_busy
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -20560,6 +20560,7 @@ RUS_education_finish_listen = {
 		limit = { has_country_flag = RUS_edu_running_listen }
 		add_to_variable = { RUS_education_enthusiasm = 10 }
 		add_to_variable = { RUS_edu_permanent_political_power_cost = -0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_listen = yes
 	}
 }
@@ -20573,7 +20574,6 @@ RUS_education_begin_restore_order = {
 		set_variable = { RUS_edu_days_restore_order = RUS_edu_run_duration_restore_order }
 		add_to_variable = { RUS_edu_repeat_cost_restore_order = 1 }
 		set_country_flag = RUS_edu_control_busy
-		RUS_egg_mia_education_clicked = yes
 		RUS_education_refresh = yes
 	}
 }
@@ -20596,6 +20596,7 @@ RUS_education_finish_restore_order = {
 		limit = { has_country_flag = RUS_edu_running_restore_order }
 		add_to_variable = { RUS_education_enthusiasm = -12 }
 		add_to_variable = { RUS_edu_permanent_political_power_cost = -0.005 }
+		RUS_egg_mia_education_completed = yes
 		RUS_education_cancel_restore_order = yes
 	}
 }

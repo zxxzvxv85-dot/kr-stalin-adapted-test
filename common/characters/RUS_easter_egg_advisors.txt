@@ -7,11 +7,9 @@ characters = {
 	idea_token = RUS_egg_mia_advisor
 	desc = RUS_egg_mia_advisor_desc
 	visible = { has_country_flag = RUS_egg_mia_unlocked }
-	available = { has_country_flag = RUS_egg_mia_unlocked not_already_hired_except_as = political_advisor }
+	available = { hidden_trigger = { has_country_flag = RUS_egg_mia_unlocked } not_already_hired_except_as = political_advisor }
 	traits = { RUS_egg_mia_trait }
 	cost = 0
-	on_add = { add_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }
-	on_remove = { remove_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }
 	can_be_fired = yes
 	ai_will_do = { base = 0 }
 }
@@ -25,7 +23,7 @@ characters = {
 	idea_token = RUS_egg_su_beichen_advisor
 	desc = RUS_egg_su_beichen_advisor_desc
 	visible = { has_country_flag = RUS_egg_su_beichen_unlocked }
-	available = { has_country_flag = RUS_egg_su_beichen_unlocked not_already_hired_except_as = political_advisor }
+	available = { hidden_trigger = { has_country_flag = RUS_egg_su_beichen_unlocked } not_already_hired_except_as = political_advisor }
 	traits = { RUS_egg_su_beichen_trait }
 	cost = 0
 	can_be_fired = yes
@@ -41,7 +39,7 @@ characters = {
 	idea_token = RUS_egg_larruping_advisor
 	desc = RUS_egg_larruping_advisor_desc
 	visible = { has_country_flag = RUS_egg_larruping_unlocked }
-	available = { has_country_flag = RUS_egg_larruping_unlocked not_already_hired_except_as = political_advisor }
+	available = { hidden_trigger = { has_country_flag = RUS_egg_larruping_unlocked } not_already_hired_except_as = political_advisor }
 	traits = { RUS_egg_larruping_trait }
 	cost = 0
 	can_be_fired = yes

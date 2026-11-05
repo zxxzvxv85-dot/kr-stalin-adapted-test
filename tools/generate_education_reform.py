@@ -205,7 +205,7 @@ def effects():
                 begin += [('if' if i==1 else 'else_if')+' = {',f'\tlimit = {{ check_variable = {{ RUS_edu_slot_{i} = 0 }} }}',
                           '\t'+setv(f'RUS_edu_slot_{i}',code),'}']
         else: begin+=['set_country_flag = RUS_edu_control_busy']
-        begin+=['RUS_egg_mia_education_clicked = yes','RUS_education_refresh = yes']
+        begin+=['RUS_education_refresh = yes']
         out.append(block('RUS_education_begin_'+a['id'],cond(req,begin)))
         if regular:
             tick=[]
@@ -249,7 +249,7 @@ def effects():
         else: finish += [add(VARS['heat'],a['heat'])]
         for m,v in a['permanent_modifiers'].items():finish.append(add(pv(m),f'{v:.12g}'))
         finish+=state_reward_effects(a)+timed_reward_effects(a)+agriculture_reward_effects(a)
-        finish += ['RUS_education_cancel_'+a['id']+' = yes']
+        finish += ['RUS_egg_mia_education_completed = yes','RUS_education_cancel_'+a['id']+' = yes']
         out.append(block('RUS_education_finish_'+a['id'],cond('has_country_flag = '+active(a),finish)))
     # Existing culture events keep their public entry points, award bounded education gains,
     # and cannot start education or grant infinite old fixed bonuses before the entrance.
@@ -335,6 +335,8 @@ def refresh_lines():
     # Never add onto yesterday's combined values, or repeated refreshes would stack.
     lines += [setv(bv('political_power_cost'),0)]
     for m in POOL_CAPS:lines += [add(bv(m),pv(m))]
+    # Easter egg completion rewards are permanent and independent of the normal pool cap.
+    lines += [add(bv('research_speed_factor'),'RUS_edu_mia_permanent_research')]
     lines += cond('has_dynamic_modifier = { modifier = RUS_education_permanent_results }',
                   ['remove_dynamic_modifier = { modifier = RUS_education_permanent_results }'])
     lines+=cond('has_country_flag = RUS_edu_culture_open',[setv('RUS_edu_slots',3)])
@@ -456,6 +458,8 @@ def decisions():
         cancel_conditions='NOT = { has_country_flag = RUS_education_system_active } NOT = { has_socialist_government = yes }'
         if a.get('wartime'):cancel_conditions+=' has_war = no'
         finish_preview=[f'custom_effect_tooltip = RUS_edu_{a["id"]}_finish_tt']
+        finish_preview+=cond('hidden_trigger = { has_idea = RUS_egg_mia_advisor }',[
+            'effect_tooltip = { add_dynamic_modifier = { modifier = RUS_edu_mia_reward_preview } }'])
         if a['permanent_modifiers']:
             finish_preview.append(f'effect_tooltip = {{ add_dynamic_modifier = {{ modifier = RUS_edu_result_{a["id"]} }} }}')
         if a.get('state_reward'):finish_preview.append(block('effect_tooltip',state_reward_effects(a)).strip())

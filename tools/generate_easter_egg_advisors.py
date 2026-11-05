@@ -31,8 +31,8 @@ def render_outputs():
       'RUS_easter_eggs_category':'彩蛋',
       'RUS_easter_eggs_category_desc':'特别来客与不同寻常的选择。',
       'RUS_egg_guaranteed_minesweeper_tt':'扫雷小游戏无论胜负，均按成功结算。',
-      'RUS_egg_mia_trait_tt':'每月土改分数：§G+100§!（土改启用后）\n每次开展教育改革决议，累计科研速度：§G+5.00%§!\n科研加成仅在任命期间生效，卸任保留累计进度。',
-      'RUS_egg_mia_research_bonus':'最强菜花蛇',
+      'RUS_egg_mia_trait_tt':'每月土改分数：§G+100§!（土改启用后）\n任命期间，每完成一次教育改革决议，“教育改革”永久追加科研速度：§G+5.00%§!。',
+      'RUS_edu_mia_reward_preview':'教育改革',
     }
     for key,data in ADVISORS.items():
         ident=token(key);idea=ident+'_advisor';flag=ident+'_unlocked';trait=ident+'_trait'
@@ -42,12 +42,8 @@ def render_outputs():
             block('advisor',[
                 'slot = political_advisor','idea_token = '+idea,'desc = '+idea+'_desc',
                 'visible = { has_country_flag = '+flag+' }',
-                'available = { has_country_flag = '+flag+' not_already_hired_except_as = political_advisor }',
+                'available = { hidden_trigger = { has_country_flag = '+flag+' } not_already_hired_except_as = political_advisor }',
                 'traits = { '+trait+' }','cost = 0','can_be_fired = yes','ai_will_do = { base = 0 }']).strip()]))
-        if key=='mia':
-            characters[-1]=characters[-1].replace('can_be_fired = yes',
-                'on_add = { add_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }\n'
-                '\ton_remove = { remove_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }\n\tcan_be_fired = yes')
         traits.append(block(trait,['random = no','sprite = 1',
             *[str(k)+' = '+str(v) for k,v in data['modifiers'].items()],
             *(['custom_modifier_tooltip = RUS_egg_guaranteed_minesweeper_tt'] if key=='larruping' else []),
@@ -83,17 +79,17 @@ def render_outputs():
           'visible = { is_ai = no }','visible_when_empty = no']),
       'common/scripted_effects/RUS_easter_egg_advisor_effects.txt':''.join(effects),
       'interface/RUS_easter_egg_advisors.gfx':block('spriteTypes',sprites),
-      'common/dynamic_modifiers/RUS_easter_egg_modifiers.txt':block('RUS_egg_mia_research_bonus',[
-          'enable = { has_idea = RUS_egg_mia_advisor }','research_speed_factor = RUS_egg_mia_research']),
+      'common/dynamic_modifiers/RUS_easter_egg_modifiers.txt':
+          '# Tooltip only; actual reward is part of RUS_education_social_capacity.\n'+
+          block('RUS_edu_mia_reward_preview',['research_speed_factor = 0.05']),
       'common/on_actions/RUS_easter_egg_on_actions.txt':block('on_actions',[
           'on_monthly = { effect = { RUS_egg_mia_monthly = yes } }']),
     }
     outputs['common/scripted_effects/RUS_easter_egg_advisor_effects.txt']+='''
-RUS_egg_mia_education_clicked = {
+RUS_egg_mia_education_completed = {
     if = {
         limit = { has_idea = RUS_egg_mia_advisor is_ai = no original_tag = RUS }
-        add_to_variable = { RUS_egg_mia_research = 0.05 }
-        force_update_dynamic_modifier = yes
+        add_to_variable = { RUS_edu_mia_permanent_research = 0.05 }
     }
 }
 RUS_egg_mia_monthly = {
