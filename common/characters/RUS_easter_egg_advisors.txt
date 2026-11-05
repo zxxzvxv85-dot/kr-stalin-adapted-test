@@ -1,4 +1,22 @@
 characters = {
+	RUS_egg_mia = {
+	name = RUS_egg_mia
+	portraits = { civilian = { small = GFX_portrait_RUS_egg_mia_small } }
+	advisor = {
+	slot = political_advisor
+	idea_token = RUS_egg_mia_advisor
+	desc = RUS_egg_mia_advisor_desc
+	visible = { has_country_flag = RUS_egg_mia_unlocked }
+	available = { has_country_flag = RUS_egg_mia_unlocked not_already_hired_except_as = political_advisor }
+	traits = { RUS_egg_mia_trait }
+	cost = 0
+	on_add = { add_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }
+	on_remove = { remove_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }
+	can_be_fired = yes
+	ai_will_do = { base = 0 }
+}
+}
+
 	RUS_egg_su_beichen = {
 	name = RUS_egg_su_beichen
 	portraits = { civilian = { small = GFX_portrait_RUS_egg_su_beichen_small } }

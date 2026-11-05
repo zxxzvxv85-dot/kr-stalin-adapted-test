@@ -7,12 +7,13 @@ ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
 FRAME=ROOT/'tools/art_templates/KR_advisor_frame_bukharin_260x268.png'
 ROWS=[('su_beichen','su_beichen_source.jpg','35,0,410,455','苏北辰'),
-      ('larruping','larruping_source.png','35,20,560,580','larruping')]
+      ('larruping','larruping_source.png','35,20,560,580','larruping'),
+      ('mia','mia_source.jpg','215,0,1040,1080','米娅')]
 
 def main():
     if sys.argv[1:]!=['--write']:raise SystemExit('Explicit image rebuild requires --write')
     manifest={'method':'Existing Build-KRAdvisorPortrait.py; crop/grayscale/card perspective/transparent KR frame','frame_sha256':hashlib.sha256(FRAME.read_bytes()).hexdigest(),'portraits':[]}
-    canvas=Image.new('RGB',(600,344),(34,36,35));draw=ImageDraw.Draw(canvas)
+    canvas=Image.new('RGB',(300*len(ROWS),344),(34,36,35));draw=ImageDraw.Draw(canvas)
     font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',21)
     for i,(key,source,crop,name) in enumerate(ROWS):
         output=ROOT/f'gfx/interface/advisors/RUS/RUS_{key}.png'

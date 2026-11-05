@@ -26,14 +26,16 @@ class Model(ScriptModel):
             if not ok:return False
         return True
     def run(self,nodes):
-        handled={'recruit_character','country_event','while_loop_effect','random_owned_controlled_state',
+        handled={'clamp_variable','recruit_character','country_event','while_loop_effect','random_owned_controlled_state',
                  'add_extra_state_shared_building_slots','add_building_construction',
                  'RUS_tesla_minesweeper_refresh_gui','RUS_tesla_refresh_power_grid_bonuses'}
         pending=[]
         for n in nodes:
             if n.k not in handled:pending.append(n);continue
             if pending:super().run(pending);pending=[]
-            if n.k=='recruit_character':self.characters.add(n.v);self.recruits+=1
+            if n.k=='clamp_variable':
+                key=n.value('var');self.vars[key]=max(self.number(n.value('min')),min(self.number(n.value('max')),self.number(key)))
+            elif n.k=='recruit_character':self.characters.add(n.v);self.recruits+=1
             elif n.k=='country_event':self.events.append((n.value('id'),int(n.value('days'))))
             elif n.k=='while_loop_effect':
                 count=0
@@ -49,6 +51,55 @@ class Model(ScriptModel):
         if pending:super().run(pending)
 
 class Tests(unittest.TestCase):
+    def test_mia_research_on_actual_begin_only_and_hiring_enable(self):
+        from test_education_reform import initialized
+        from education_reform_content import ACTIVITIES,CONTROLS
+        from generate_education_reform import active
+        for a in ACTIVITIES+CONTROLS:
+            m=initialized()
+            m.vars['RUS_basic_education_level']=100
+            m.flags.update({'RUS_edu_culture_open','RUS_edu_technical_open','RUS_fr_basic_reform_completed'})
+            m.done.update({'RUS_future_foreign_062','RUS_future_foreign_005'});m.at_war=True
+            m.ideas.add('RUS_egg_mia_advisor')
+            m.call('RUS_education_begin_'+a['id'])
+            self.assertIn(active(a),m.flags,a['id'])
+            self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.05)
+            m.call('RUS_education_begin_'+a['id'])
+            self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.05)
+            m.call('RUS_education_cancel_'+a['id'])
+            self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.05)
+        m=initialized();m.call('RUS_education_begin_literacy')
+        self.assertEqual(m.vars.get('RUS_egg_mia_research',0),0)
+        m.ideas.add('RUS_egg_mia_advisor');m.call('RUS_egg_mia_education_clicked');m.call('RUS_egg_mia_education_clicked')
+        self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.1)
+        m.ideas.clear();m.call('RUS_egg_mia_education_clicked')
+        self.assertAlmostEqual(m.vars['RUS_egg_mia_research'],.1)
+        dm=load(ROOT/'common/dynamic_modifiers/RUS_easter_egg_modifiers.txt')[0]
+        self.assertFalse(m.check(dm.one('enable')))
+        m.ideas.add('RUS_egg_mia_advisor');self.assertTrue(m.check(dm.one('enable')))
+
+    def test_mia_monthly_credits_existing_agriculture_account(self):
+        ag=load_effects((ROOT/'common/scripted_effects/RUS_agri_development_effects.txt').read_text())
+        ag.update(load_effects('RUS_maximalist_land_reform_update_stage_idea = {}'))
+        class CreditModel(Model):
+            def call(self,name):
+                if name=='RUS_maximalist_land_reform_update_stage_idea':
+                    self.call('RUS_agri_refresh_score_account');return
+                super().call(name)
+        for hired,enabled,success,failure in [(False,True,False,False),(True,False,False,False),
+                (True,True,False,False),(True,True,True,False),(True,True,False,True)]:
+            m=CreditModel();m.effects.update(ag)
+            if hired:m.ideas.add('RUS_egg_mia_advisor')
+            if enabled:m.flags.update({'RUS_agri_management_unlocked','RUS_maximalist_land_reform_in_progress'})
+            if failure:m.flags.add('RUS_maximalist_land_reform_failure')
+            if success:m.flags.add('RUS_maximalist_land_reform_success')
+            m.vars['RUS_maximalist_land_reform_score']=100 if success else 10
+            m.call('RUS_egg_mia_monthly')
+            if hired and enabled and not failure:
+                if success:self.assertEqual(m.vars['RUS_agri_spendable_score'],100)
+                else:self.assertEqual(m.vars['RUS_maximalist_land_reform_score'],110)
+            else:self.assertEqual(m.vars['RUS_maximalist_land_reform_score'],10)
+
     def test_unlock_is_opt_in_and_idempotent(self):
         for key in ADVISORS:
             m=Model();self.assertNotIn(token(key),m.characters)

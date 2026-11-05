@@ -1,3 +1,9 @@
+RUS_egg_mia_unlock = {
+	if = { limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_egg_mia_unlocked } }
+	set_country_flag = RUS_egg_mia_unlocked
+	if = { limit = { NOT = { has_character = RUS_egg_mia } } recruit_character = RUS_egg_mia }
+	}
+}
 RUS_egg_su_beichen_unlock = {
 	if = { limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_egg_su_beichen_unlocked } }
 	set_country_flag = RUS_egg_su_beichen_unlocked
@@ -9,4 +15,19 @@ RUS_egg_larruping_unlock = {
 	set_country_flag = RUS_egg_larruping_unlocked
 	if = { limit = { NOT = { has_character = RUS_egg_larruping } } recruit_character = RUS_egg_larruping }
 	}
+}
+
+RUS_egg_mia_education_clicked = {
+    if = {
+        limit = { has_idea = RUS_egg_mia_advisor is_ai = no original_tag = RUS }
+        add_to_variable = { RUS_egg_mia_research = 0.05 }
+        force_update_dynamic_modifier = yes
+    }
+}
+RUS_egg_mia_monthly = {
+    if = {
+        limit = { has_idea = RUS_egg_mia_advisor is_ai = no original_tag = RUS }
+        set_variable = { RUS_agri_score_award = 100 }
+        RUS_agri_credit_score = yes
+    }
 }

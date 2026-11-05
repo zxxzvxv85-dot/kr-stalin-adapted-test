@@ -205,7 +205,7 @@ def effects():
                 begin += [('if' if i==1 else 'else_if')+' = {',f'\tlimit = {{ check_variable = {{ RUS_edu_slot_{i} = 0 }} }}',
                           '\t'+setv(f'RUS_edu_slot_{i}',code),'}']
         else: begin+=['set_country_flag = RUS_edu_control_busy']
-        begin+=['RUS_education_refresh = yes']
+        begin+=['RUS_egg_mia_education_clicked = yes','RUS_education_refresh = yes']
         out.append(block('RUS_education_begin_'+a['id'],cond(req,begin)))
         if regular:
             tick=[]

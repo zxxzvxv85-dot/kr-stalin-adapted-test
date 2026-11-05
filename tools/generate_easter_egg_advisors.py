@@ -9,6 +9,10 @@ from generation_io import cli
 
 ROOT=Path(__file__).resolve().parents[1]
 ADVISORS={
+ 'mia':dict(name='米娅',trait='最强菜花蛇',modifiers={},desc=(
+     '背景：米娅，一个简简单单的假名，浓缩了相当多的意义——友人称之为爱称，敌人则认为是撒旦般可憎的代名词。她向来被冠以许多称号，却都不能够充分的代表她。只有一件事情能够为多数人所肯定——她肯定任职着相当重要的位置，同larruping一般使用奶蛙作为代表图案，更是为这一事情提供了证据。'
+     '\n\n米娅在何时何地进行过活动，也许连她的友人也无法得知。大多数时候，递交给米娅的文件都会在第二天以批注完毕的形式交付回来，这无疑为她增添了些许神秘色彩。随着奶蛙图案和过夜出现的批注文件越来越多，米娅也逐渐浮现在人们的视野中，可她究竟是谁？性别为何？这些问题仍留在黑暗之中。'
+     '\n\n随着米娅的出现越来越突然，间隔也越来越久，不少人都认为她正在执行一个从所未有的任务，而更多的人只认为她已经死去，只留下米娅这个代称。不管怎么样，米娅都将在大众心里留下符号，不管是以什么样的色彩。')),
  'su_beichen':dict(name='苏北辰',trait='制作组最锋利的剑',
      modifiers={'army_attack_factor':.20,'combat_width_factor':-.20,
                 'supply_consumption_factor':-.20,'army_org_factor':.20}),
@@ -27,6 +31,8 @@ def render_outputs():
       'RUS_easter_eggs_category':'彩蛋',
       'RUS_easter_eggs_category_desc':'特别来客与不同寻常的选择。',
       'RUS_egg_guaranteed_minesweeper_tt':'扫雷小游戏无论胜负，均按成功结算。',
+      'RUS_egg_mia_trait_tt':'每月土改分数：§G+100§!（土改启用后）\n每次开展教育改革决议，累计科研速度：§G+5.00%§!\n科研加成仅在任命期间生效，卸任保留累计进度。',
+      'RUS_egg_mia_research_bonus':'最强菜花蛇',
     }
     for key,data in ADVISORS.items():
         ident=token(key);idea=ident+'_advisor';flag=ident+'_unlocked';trait=ident+'_trait'
@@ -38,9 +44,14 @@ def render_outputs():
                 'visible = { has_country_flag = '+flag+' }',
                 'available = { has_country_flag = '+flag+' not_already_hired_except_as = political_advisor }',
                 'traits = { '+trait+' }','cost = 0','can_be_fired = yes','ai_will_do = { base = 0 }']).strip()]))
+        if key=='mia':
+            characters[-1]=characters[-1].replace('can_be_fired = yes',
+                'on_add = { add_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }\n'
+                '\ton_remove = { remove_dynamic_modifier = { modifier = RUS_egg_mia_research_bonus } }\n\tcan_be_fired = yes')
         traits.append(block(trait,['random = no','sprite = 1',
             *[str(k)+' = '+str(v) for k,v in data['modifiers'].items()],
             *(['custom_modifier_tooltip = RUS_egg_guaranteed_minesweeper_tt'] if key=='larruping' else []),
+            *(['custom_modifier_tooltip = RUS_egg_mia_trait_tt'] if key=='mia' else []),
             'ai_will_do = { factor = 0 }']))
         effects.append(block(ident+'_unlock',[
             'if = { limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = '+flag+' } }',
@@ -72,7 +83,27 @@ def render_outputs():
           'visible = { is_ai = no }','visible_when_empty = no']),
       'common/scripted_effects/RUS_easter_egg_advisor_effects.txt':''.join(effects),
       'interface/RUS_easter_egg_advisors.gfx':block('spriteTypes',sprites),
+      'common/dynamic_modifiers/RUS_easter_egg_modifiers.txt':block('RUS_egg_mia_research_bonus',[
+          'enable = { has_idea = RUS_egg_mia_advisor }','research_speed_factor = RUS_egg_mia_research']),
+      'common/on_actions/RUS_easter_egg_on_actions.txt':block('on_actions',[
+          'on_monthly = { effect = { RUS_egg_mia_monthly = yes } }']),
     }
+    outputs['common/scripted_effects/RUS_easter_egg_advisor_effects.txt']+='''
+RUS_egg_mia_education_clicked = {
+    if = {
+        limit = { has_idea = RUS_egg_mia_advisor is_ai = no original_tag = RUS }
+        add_to_variable = { RUS_egg_mia_research = 0.05 }
+        force_update_dynamic_modifier = yes
+    }
+}
+RUS_egg_mia_monthly = {
+    if = {
+        limit = { has_idea = RUS_egg_mia_advisor is_ai = no original_tag = RUS }
+        set_variable = { RUS_agri_score_award = 100 }
+        RUS_agri_credit_score = yes
+    }
+}
+'''
     for language in ('simp_chinese','english','russian'):
         outputs[f'localisation/{language}/RUS_easter_egg_advisors_l_{language}.yml']='l_'+language+':\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in loc.items())
     return {rel:'\n'.join(line.rstrip() for line in text.split('\n')) for rel,text in outputs.items()}

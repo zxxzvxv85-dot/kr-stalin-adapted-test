@@ -11,7 +11,8 @@ from hoi4_politics_blocks import load,parse
 from education_reform_content import ACTIVITIES,CONTROLS,BODY,POOL_CAPS,education_focuses,HEAT_ECONOMIC_MODIFIERS,EDUCATION_GAIN_CAPS,LOWER_IS_BETTER
 from generate_education_reform import ROOT,FX,DEC,DM,GUI,SGUI,GFX,VARS,pv,bv,active,remain,repeated,duration,run_duration,render_outputs,DESIGN,ART,extra_preview,extra_value,localisations,gain_preview
 
-EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'))
+EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf-8-sig'),
+    (ROOT/'common/scripted_effects/RUS_easter_egg_advisor_effects.txt').read_text(encoding='utf-8-sig'))
 DECISIONS={n.k:n for root in load(ROOT/DEC) for n in root.v}
 IDEAS={n.k:n for root in load(ROOT/'common/ideas/RUS stalin education reform ideas.txt')
        for country in root.v if country.k in ('country','hidden_ideas') for n in country.v}
