@@ -1,0 +1,15 @@
+on_actions = {
+    on_daily_RUS = {
+        effect = {
+            if = {
+                limit = {
+                    date > 1936.3.7
+                    date < 1936.3.9
+                    NOT = { has_country_flag = RUS_people_we_reported }
+                }
+                set_country_flag = RUS_people_we_reported
+                country_event = RUS_people_we.1
+            }
+        }
+    }
+}

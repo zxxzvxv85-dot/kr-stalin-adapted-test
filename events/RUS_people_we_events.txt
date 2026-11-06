@@ -1,0 +1,16 @@
+add_namespace = RUS_people_we
+
+country_event = {
+    id = RUS_people_we.1
+    title = RUS_people_we.1.t
+    desc = RUS_people_we.1.d
+    picture = GFX_report_event_RUS_protest
+    is_triggered_only = yes
+    fire_only_once = yes
+    trigger = { tag = RUS }
+    immediate = { set_country_flag = RUS_people_we_reported }
+    option = {
+        name = RUS_people_we.1.a
+        add_popularity = { ideology = national_populist popularity = -0.01 }
+    }
+}

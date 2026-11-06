@@ -2,6 +2,14 @@
 
 最后更新：2026-11-06
 
+## 2026-11-06 — 新增“人们，我们”定日抗议事件
+
+- 按用户正文新增单页RUS_people_we.1，1936年3月8日经俄罗斯on_daily_RUS精确日期窗（>3.7且<3.9）派发。派发前设RUS_people_we_reported，事件immediate也设同旗标并fire_only_once，防每日重复及控制台提前测试后自然重发。不做迟到补发，不擅加政体/国策门槛。
+- 完整保留《今日评论》报道、五段正文、全部人名、俄罗斯学生联合会/俄罗斯学生联合大会两种原称；按钮“时间啊，向前！”仅原生add_popularity national_populist=-0.01，不追加愤怒值或简易模式翻倍。三语命名空间用同一中文文本回退，未声称已完成英/俄翻译。
+- 原生参照KR俄罗斯事件的add_popularity和本项目既有定日flavour每日钩子；配图采用已查看的KR GFX_report_event_RUS_protest（interface/kaiserreich/event_pictures.gfx及Europe/Russia对应照片），无新图片资产、无图生成。生成源先改再生成5输出，默认只读；维护索引接入。
+- 5项回归通过，覆盖日期前/当日/后及跨年、非RUS、已派发、单选项精确效果、直接测试设旗、全文/UTF-8 BOM/三语/配图引用和生成一致；501脚本/328本地化结构0错误，五个运行时文件RHoi绿色，repair dry_run168建议未应用、无红项，空白检查通过。未启动游戏，正文实际排版与日期触发仍待用户重启新局验收。
+- 仅测试开发目录；fetch/pull成功且远端无新增，上传目录/正式适配版不动。验证后本地提交，不推送GitHub。控制台测试：event RUS_people_we.1 RUS。
+
 ## 2026-11-06 — 完整同步测试开发内容到测试上传目录
 
 - 用户明确要求将当前测试开发目录内容同步测试上传目录；按完整可发布内容执行已审计tools/Build-CleanWorkshopUpload.ps1，FullSource模式，不沿用早期选择性更新。源运行时提交e88b7fe，fetch/pull成功、无远端新增、构建时未检测到hoi4进程。
