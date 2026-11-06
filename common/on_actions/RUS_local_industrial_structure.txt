@@ -1,0 +1,12 @@
+on_actions = {
+    on_startup = { effect = { RUS = { RUS_lis_refresh_country = yes } } }
+    on_daily_RUS = { effect = { RUS_lis_refresh_country = yes } }
+    on_state_control_changed = {
+        effect = {
+            if = {
+                limit = { OR = { tag = RUS FROM = { tag = RUS } } }
+                FROM.FROM = { RUS_lis_refresh_state = yes }
+            }
+        }
+    }
+}
