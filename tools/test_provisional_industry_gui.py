@@ -1,130 +1,86 @@
-"""Exercise the generated filter and phase guards, without claiming engine QA."""
+"""Protect native projects while retiring the provisional industrial panels."""
+import re
+import subprocess
 import unittest
-from itertools import product
-from national_plan import restore
-from PIL import Image
-from hoi4_politics_blocks import load, parse
-from generate_provisional_industry_gui import ROOT, CATEGORY, DECISIONS, ZONES, ART, decision_patch, render
+from generate_provisional_industry_gui import ROOT, CATEGORY, DECISIONS, CATEGORIES, render
+from hoi4_politics_blocks import parse
+from national_plan import FX
 
-TR={n.k:n.v for n in load(ROOT/'common/scripted_triggers/RUS_provisional_industry_triggers.txt')}
-def check(nodes,state):
- def one(n):
-  if n.k in TR:return check(TR[n.k],state)==(n.v=='yes')
-  if n.k=='OR':return any(one(x) for x in n.v)
-  if n.k=='NOT':return not any(one(x) for x in n.v)
-  if n.k=='original_tag':return state['rus']
-  if n.k=='is_ai':return state['ai']==(n.v=='yes')
-  if n.k=='has_socialist_government':return state['red']==(n.v=='yes')
-  if n.k=='has_government':return state['communist']
-  if n.k=='has_country_flag':return state['promoted']
-  if n.k=='has_country_leader':return state['stalin']
-  if n.k=='has_variable':return state['filter'] is not None
-  if n.k=='check_variable':return state['filter']==int(n.v[0].v)
-  raise AssertionError(n.k)
- return all(one(n) for n in nodes)
+BASELINE = 'f68786f'
+
+
+def old(path):
+    return subprocess.check_output(['git', '-C', str(ROOT), 'show', BASELINE+':'+path]).decode('utf-8-sig')
+
+
+def gameplay(text):
+    # Only the retired overview/filter/refresh are exempt from native AST equality.
+    text = re.sub(r'RUS_rc_refresh\s*=\s*yes', '', text)
+    text = re.sub(r'RUS_rc_show_\w+\s*=\s*yes', '', text)
+    text = re.sub(r'NOT\s*=\s*\{\s*RUS_np_context\s*=\s*yes\s*\}', 'RUS_np_context = no', text)
+    nodes = parse(text)
+    def clean(ns, depth=0):
+        result = []
+        for n in ns:
+            if n.k == 'RUS_rc_overview' or (n.k == 'visible' and n.v == []):
+                continue
+            result.append((n.k, n.op, clean(n.v, depth+1) if isinstance(n.v, list) else n.v))
+        # Decision field order has no meaning; effect statement order does.
+        return sorted(result, key=repr) if depth == 2 else result
+    return clean(nodes)
+
 
 class Tests(unittest.TestCase):
- def test_phase_and_filter_boundaries(self):
-  _,groups=decision_patch(restore((ROOT/DECISIONS).read_text(encoding='utf8')))
-  for rus,ai,red,communist,promoted,stalin in product([False,True],repeat=6):
-   stage=rus and not ai and (red or communist) and not (promoted or stalin)
-   for selected in [None,0,1,2,3,4]:
-    s=dict(rus=rus,ai=ai,red=red,communist=communist,promoted=promoted,stalin=stalin,filter=selected)
-    self.assertEqual(check(TR['RUS_rc_provisional_phase'],s),stage)
-    for key,values in groups.items():
-     self.assertEqual(check(TR['RUS_rc_show_'+key],s),not stage or selected in [None,0] or selected in values)
+    def test_native_gameplay_and_plan_rewards_preserved(self):
+        outputs = render()
+        self.assertEqual(gameplay(old(DECISIONS)), gameplay(outputs[DECISIONS]))
+        self.assertEqual(gameplay(old(FX)), gameplay(outputs[FX]))
+        # The original plan score and spirit scripts are outside generator ownership.
+        self.assertNotIn('common/ideas/RUS stalin first five year plan ideas.txt', outputs)
 
- def test_filter_is_read_only_and_overview_survives_empty_selection(self):
-  cat=next(n for n in parse(restore((ROOT/DECISIONS).read_text(encoding='utf-8-sig'))) if n.k==CATEGORY)
-  overview=cat.one('RUS_rc_overview')
-  self.assertEqual(overview.value('cost'),'0')
-  self.assertNotIn('RUS_rc_filter',overview.one('visible').raw())
-  for n in cat.v:
-   if n.one('days_mission_timeout'):self.assertNotIn('RUS_rc_show_',n.raw())
-  gui=load(ROOT/'common/scripted_guis/RUS_provisional_industry_gui.txt')[0].one('RUS_rc_dashboard')
-  for e in gui.one('effects').v:
-   body=e.one('hidden_effect').one('if')
-   self.assertEqual([x.k for x in body.v],['limit','set_variable','RUS_rc_refresh'])
-   self.assertEqual(body.one('set_variable').v[0].k,'RUS_rc_filter')
+    def test_no_attached_panels_or_reserved_space(self):
+        outputs = render()
+        category = next(n for n in parse(outputs[CATEGORIES]) if n.k == CATEGORY)
+        self.assertIsNone(category.one('scripted_gui'))
+        self.assertIsNone(category.one('picture'))
+        for path in ('interface/RUS_provisional_industry.gui',
+                     'interface/RUS_provisional_industry.gfx',
+                     'common/scripted_guis/RUS_provisional_industry_gui.txt',
+                     'common/on_actions/RUS_provisional_industry_on_actions.txt',
+                     'common/scripted_effects/RUS_provisional_industry_effects.txt'):
+            self.assertEqual(parse(outputs[path]), [], path)
+        # Every other category is untouched.
+        before = [n.norm() for n in parse(old(CATEGORIES)) if n.k != CATEGORY]
+        after = [n.norm() for n in parse(outputs[CATEGORIES]) if n.k != CATEGORY]
+        self.assertEqual(before, after)
 
- def test_assets_hits_and_language_bindings(self):
-  plate=Image.open(ROOT/ART/'plate.png').convert('RGBA')
-  for name,_,x,y,w,h in ZONES:
-   im=Image.open(ROOT/ART/(name+'.png')).convert('RGBA')
-   self.assertEqual(im.size,(w,h));self.assertGreater(im.getchannel('A').getextrema()[1],0)
-   self.assertLessEqual(x+w,plate.width);self.assertLessEqual(y+h,plate.height)
-   # Every opaque button pixel must exactly reconstruct the underlying art.
-   bg=plate.crop((x,y,x+w,y+h))
-   for a,b in zip(im.get_flattened_data(),bg.get_flattened_data()):
-    if a[3]:self.assertEqual(a[:3],b[:3])
-  for language in ['english','simp_chinese','russian']:
-   data=(ROOT/f'localisation/{language}/RUS_provisional_industry_l_{language}.yml').read_bytes()
-   self.assertTrue(data.startswith(b'\xef\xbb\xbf'))
-   for name,*_ in ZONES:self.assertIn(('RUS_rc_'+name+'_tt:').encode(),data)
+    def test_no_stranded_filters_or_polling_and_keep_completion_credit(self):
+        outputs = render()
+        runtime = '\n'.join(v for k, v in outputs.items() if k.startswith(('common/', 'interface/')))
+        for retired in ('RUS_rc_refresh', 'RUS_rc_filter', 'RUS_rc_show_', 'RUS_rc_dashboard', 'RUS_rc_overview'):
+            self.assertNotIn(retired, runtime)
+        category = next(n for n in parse(outputs[DECISIONS]) if n.k == CATEGORY)
+        legacy = [n for n in category.v if n.k.startswith('RUS_') and not n.k.startswith('RUS_np_') and n.one('days_remove') and n.one('remove_effect')]
+        self.assertEqual(len(legacy), 46)
+        for n in legacy:
+            self.assertIn('set_country_flag = RUS_rc_finished_'+n.k, n.one('remove_effect').raw())
 
- def test_generation_is_idempotent(self):
-  s=restore((ROOT/DECISIONS).read_text(encoding='utf8'));self.assertEqual(decision_patch(s)[0],s)
-  self.assertEqual(render(),render())
+    def test_blank_old_intro_and_preserved_national_plan_ledger(self):
+        outputs = render()
+        for lang in ('simp_chinese', 'english', 'russian'):
+            loc = outputs[f'localisation/{lang}/RUS_national_plan_l_{lang}.yml']
+            self.assertIn('RUS_np_header_old:0 ""', loc)
+            header = next(line for line in loc.splitlines() if 'RUS_np_header:0' in line)
+            self.assertIn('[?RUS_np_available|2]', header)
+            self.assertIn('[?RUS_np_slots|0]', header)
+        self.assertIn('RUS_rc_stalin_phase = {', outputs['common/scripted_triggers/RUS_provisional_industry_triggers.txt'])
 
- def test_gameplay_is_unchanged_except_ui_completion_flag(self):
-  import subprocess,re
-  before=subprocess.check_output(['git','-C',str(ROOT),'show','HEAD:'+DECISIONS]).decode('utf-8-sig')
-  before=restore(before)
-  after=restore((ROOT/DECISIONS).read_text(encoding='utf-8-sig'))
-  def strip(s):return re.sub(r'(?ms)^[ \t]*# RUS_RECOVERY_LEDGER_BEGIN\n.*?^[ \t]*# RUS_RECOVERY_LEDGER_END[ \t]*\n','',s).replace('RUS_rc_refresh = yes','')
-  self.assertEqual([n.norm() for n in parse(strip(before))],[n.norm() for n in parse(strip(after))])
-  for rel,text in render().items():self.assertEqual((ROOT/rel).read_text(encoding='utf-8-sig'),text,rel)
+    def test_generation_matches_and_is_idempotent(self):
+        outputs = render()
+        self.assertEqual(outputs, render())
+        for path, text in outputs.items():
+            self.assertEqual((ROOT/path).read_text(encoding='utf-8-sig'), text, path)
 
- def test_engine_timer_statistics_and_crisis_boundaries(self):
-  sg=load(ROOT/'common/scripted_guis/RUS_provisional_industry_gui.txt')[0].one('RUS_rc_dashboard')
-  self.assertIsNone(sg.one('triggers').one('_'))
-  self.assertNotIn('RUS_rc_blueprint_view',sg.raw())
-  calc=load(ROOT/'common/scripted_effects/RUS_provisional_industry_effects.txt')[0].one('if')
-  calc.v=[n for n in calc.v if n.k!='limit']
-  cat=next(n for n in parse(restore((ROOT/DECISIONS).read_text(encoding='utf-8-sig'))) if n.k==CATEGORY)
-  ids=[n.k for n in cat.v if n.one('days_remove') and n.one('remove_effect')]
-  self.assertEqual(len(ids),46)
-  for crisis in range(7):
-   for pattern in range(7):
-    timers={k:(-1 if pattern==0 else 0 if pattern==1 else (i+1)*2 if pattern in (2,4,6) else 5 if pattern==3 and i%3==0 else 0) for i,k in enumerate(ids)}
-    flags={'RUS_rc_finished_'+k for i,k in enumerate(ids) if i%4==0};v={}
-    if pattern in (4,6):flags|={'RUS_rc_settled_'+k for i,k in enumerate(ids) if i%2==0}
-    if pattern in (5,6):flags|={'RUS_rc_running_'+k for i,k in enumerate(ids) if i%3==0}
-    def value(k):
-     try:return float(k)
-     except ValueError:return timers.get(k.split('@',1)[1],0) if k.startswith('days_decision_timeout@') else v.get(k,0)
-    def pred(n):
-     if n.k=='OR':return any(pred(c) for c in n.v)
-     if n.k=='NOT':return not any(pred(c) for c in n.v)
-     if n.k=='has_idea':return n.v=='RUS_black_monday_'+str(crisis)
-     if n.k=='has_country_flag':return n.v in flags
-     if n.k=='check_variable':
-      c=n.v[0];a,b=value(c.k),value(c.v);return a>b if c.op=='>' else a<b if c.op=='<' else a==b
-     return all(pred(c) for c in n.v)
-    def run(ns):
-     for n in ns:
-      if n.k=='if':
-       if pred(n.one('limit')):run([x for x in n.v if x.k!='limit'])
-      elif n.k in ('set_variable','add_to_variable'):
-       c=n.v[0];v[c.k]=(v.get(c.k,0) if n.k=='add_to_variable' else 0)+value(c.v)
-      else:raise AssertionError(n.k)
-    run(calc.v);active_ids=[k for k in ids if 'RUS_rc_settled_'+k not in flags and (timers[k]>0 or 'RUS_rc_running_'+k in flags)];positive=[timers[k] for k in active_ids if timers[k]>0]
-    self.assertEqual(v['RUS_rc_active'],len(active_ids));self.assertEqual(v['RUS_rc_done'],sum('RUS_rc_finished_'+k in flags for k in ids))
-    self.assertEqual(v['RUS_rc_next_days'],min(positive,default=0))
-    self.assertEqual(v['RUS_rc_recovery_frame'],7-crisis)
-    self.assertEqual(v['RUS_rc_scene_frame'],1 if crisis>=5 else 2 if crisis>=3 else 3)
-    for key,*_ in ZONES:
-     self.assertEqual(v['RUS_rc_frame_'+key],2 if v['RUS_rc_active_'+key]>0 else 3 if v['RUS_rc_done_'+key]>0 else v['RUS_rc_scene_frame'])
 
- def test_dynamic_sprite_frames_match_click_overlays(self):
-  import numpy as np
-  scene=Image.open(ROOT/ART/'dynamic/scene.png').convert('RGBA')
-  self.assertEqual(scene.size,(492*3,394))
-  for name,_,x,y,w,h in ZONES:
-   sprite=Image.open(ROOT/ART/'dynamic'/(name+'.png')).convert('RGBA')
-   self.assertEqual(sprite.size,(w*3,h))
-   for frame in range(3):
-    actual=np.array(sprite.crop((frame*w,0,(frame+1)*w,h)));expected=np.array(scene.crop((frame*492+x,y,frame*492+x+w,y+h)))
-    mask=actual[:,:,3]>0;self.assertTrue(np.array_equal(actual[:,:,:3][mask],expected[:,:,:3][mask]))
-
-if __name__=='__main__':unittest.main()
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

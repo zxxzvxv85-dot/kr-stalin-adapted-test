@@ -15,7 +15,7 @@
 - `national_plan_catalog.py`为目录入口，读取`design/national_plan_20261104/catalog.json`的46项原奖励快照以及固定干线`corridors.json`，并定义16项新工程及差异成本。
 - `national_plan.py`生成账户、生命周期、期间占用、目标记录、地区修正、土改/教育接口、六区筛选与三语显示。独立副本使用`RUS_np_project_*` ID并沿用旧中文名，避免HOI4开局缓存allowed导致斯大林上台后项目仍未生成。
 - 普通管理工程必须彻底省略state_target等目标定义，不能写state_target=no：该写法仍创建带目标决议，且无目标限制时会枚举各国。目标州仅用于奖励作用域和悬浮高亮。
-- `generate_national_plan.py`与`generate_provisional_industry_gui.py`共用组合入口，先恢复目录拥有的原节点，再生成临时政府GUI，最后追加新一五层。默认只读`--check`，`--write`才写入。原46项在新阶段隐藏，临时政府/AI/其他国家保留旧激活与奖励；原分数helper和精神文件逐字节保留。
+- `generate_national_plan.py`与`generate_provisional_industry_gui.py`共用组合入口，先恢复目录拥有的原节点并保留工程完成记录，最后追加新一五层。临时政府场景/台账GUI于20261106按用户要求退役；组合入口仅维护原生决议，不再注册面板或每日UI刷新。默认只读`--check`，`--write`才写入。原46项在新阶段隐藏，临时政府/AI/其他国家保留旧激活与奖励；原分数helper和精神文件逐字节保留。
 - 国策树、阶段切换、原一五1800日总任务、600工厂/科技/分数验收、原计分倍率及精神数值不改。16项新增工程和所有追加目标不额外增加一五分数；重复电气化保留原基础计分，但追加奖励每项目最多一次。
 - 不修改正式版或上传目录，不调用上传构建器，不推送GitHub。独立debug工业沙盘和其他系统原成本不动。
 

@@ -285,7 +285,8 @@ def refresh():
 
 def native_base(p):
     n=parse(p['original'] if p['legacy'] else new_node(p))[0]
-    return n.one('remove_effect').inner()
+    # Catalogue snapshots include the retired dashboard observer; it is not a reward.
+    return n.one('remove_effect').inner().replace('RUS_rc_refresh = yes', '')
 
 def project_effects(p):
     k=p['key'];s=p['states'][0];out=[]
@@ -525,7 +526,7 @@ def localisations():
        'RUS_np_bonus_summary':'追加目标在期限内达成后记录资格，随工程正常竣工结算。','RUS_np_upgrade_rail_tt':'消耗§C建设资源§!：§R40§!',
        'RUS_np_transport_network':'工业区运输网络','RUS_np_region_0':'工业区配套不足Ⅱ','RUS_np_region_1':'工业区配套不足Ⅰ','RUS_np_region_3':'工业区配套完善Ⅰ',
        'RUS_np_header':'§C建设资源：[?RUS_np_available|2]§!　冻结：§Y[?RUS_np_frozen|2]§!　§g已消耗：[?RUS_np_spent|2]§!\\n每日收入：§G+[?RUS_np_income|2]§!　工程名额：[?RUS_np_active|0]/[?RUS_np_slots|0]　征用列车：[?RUS_np_trains|0]\\n计划干线平均等级：§Y[?RUS_np_rail_display|2]§!',
-       'RUS_np_header_old':'这些决议将§G促进§!我们的§C经济复苏§!。',
+       'RUS_np_header_old':'',
        'RUS_np_unlocked':'§G已达成§!','RUS_np_pending':'§Y未达成§!','RUS_np_claimed':'§g已领取§!'}
     l['RUS_np_terminate_tt']='终止工程，结算已用建设资源并返还余款及施工列车。政治点不返还，不获得竣工奖励。'
     l['RUS_np_rural_infrastructure']='落后的基础设施'

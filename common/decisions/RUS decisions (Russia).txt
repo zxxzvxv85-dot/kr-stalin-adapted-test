@@ -1151,24 +1151,11 @@ RUS_tesla_minesweeper_category = {
 }
 
 RUS_first_five_year_plan_industrial_projects = {
-    # RUS_RECOVERY_OVERVIEW_BEGIN
-    RUS_rc_overview = {
-        icon = GFX_decision_generic_construction
-        allowed = { original_tag = RUS }
-        visible = { RUS_rc_provisional_phase = yes }
-        cost = 0
-        ai_will_do = { base = 0 }
-        complete_effect = { hidden_effect = { set_variable = { RUS_rc_filter = 0 } RUS_rc_refresh = yes } }
-    }
-    # RUS_RECOVERY_OVERVIEW_END
 
 	RUS_stalin_ffyp_expand_coal_prospecting = {
 		icon = GFX_decision_generic_industry
 		allowed = { original_tag = RUS }
 		visible = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_stalin_ffyp_expand_coal_prospecting = yes
-		# RUS_RECOVERY_FILTER_END
 
 			has_completed_focus = RUS_kamenev_national_economic_line
 			NOT = { has_country_flag = RUS_stalin_ffyp_expand_coal_prospecting_started }
@@ -1250,9 +1237,6 @@ RUS_first_five_year_plan_industrial_projects = {
 		icon = GFX_decision_generic_industry
 		allowed = { original_tag = RUS }
 		visible = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_stalin_ffyp_accelerate_urban_development = yes
-		# RUS_RECOVERY_FILTER_END
 
 			has_completed_focus = RUS_kamenev_arsenal_of_revolution
 			NOT = { has_country_flag = RUS_stalin_ffyp_accelerate_urban_development_started }
@@ -1439,9 +1423,6 @@ RUS_first_five_year_plan_industrial_projects = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_kamenev_all_russian_electrification = yes
-		# RUS_RECOVERY_FILTER_END
 
 			has_completed_focus = RUS_kamenev_national_economic_line
 		}
@@ -1465,7 +1446,7 @@ RUS_first_five_year_plan_industrial_projects = {
 			log = "[GetLogRoot]: Decision activated RUS_kamenev_all_russian_electrification"
 			set_country_flag = RUS_kamenev_all_russian_electrification_in_progress
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -1535,12 +1516,12 @@ RUS_first_five_year_plan_industrial_projects = {
 				}
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamenev_all_russian_electrification set_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamenev_all_russian_electrification set_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification } }
  # RUS_RECOVERY_LEDGER_END
 	}
 
@@ -1548,9 +1529,6 @@ RUS_first_five_year_plan_industrial_projects = {
 		icon = GFX_decision_generic_electricity
 		allowed = { original_tag = RUS }
 		visible = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_kamenev_all_russian_electrification_automatic = yes
-		# RUS_RECOVERY_FILTER_END
  has_completed_focus = RUS_kamenev_national_economic_line }
 		cost = 0
 		days_re_enable = 1
@@ -1619,9 +1597,6 @@ RUS_first_five_year_plan_industrial_projects = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_renovate_and_expand_moscow = yes
-		# RUS_RECOVERY_FILTER_END
 
 			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
 			219 = {
@@ -1639,7 +1614,7 @@ RUS_first_five_year_plan_industrial_projects = {
 		complete_effect = {
 			log = "[GetLogRoot]: Decision activated RUS_renovate_and_expand_moscow"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -1647,12 +1622,12 @@ RUS_first_five_year_plan_industrial_projects = {
 			219 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
 			RUS_stalin_add_first_five_year_plan_score_3 = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow } }
  # RUS_RECOVERY_LEDGER_END
 	}
 
@@ -1662,9 +1637,6 @@ RUS_first_five_year_plan_industrial_projects = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_renovate_and_expand_tsaritsyn = yes
-		# RUS_RECOVERY_FILTER_END
 
 			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
 			217 = {
@@ -1682,7 +1654,7 @@ RUS_first_five_year_plan_industrial_projects = {
 		complete_effect = {
 			log = "[GetLogRoot]: Decision activated RUS_renovate_and_expand_tsaritsyn"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -1690,12 +1662,12 @@ RUS_first_five_year_plan_industrial_projects = {
 			217 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
 			RUS_stalin_add_first_five_year_plan_score_3 = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn } }
  # RUS_RECOVERY_LEDGER_END
 	}
 
@@ -1705,9 +1677,6 @@ RUS_first_five_year_plan_industrial_projects = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_renovate_and_expand_saint_petersburg = yes
-		# RUS_RECOVERY_FILTER_END
 
 			has_completed_focus = RUS_kamenev_industrialise_eastern_europe
 			195 = {
@@ -1725,7 +1694,7 @@ RUS_first_five_year_plan_industrial_projects = {
 		complete_effect = {
 			log = "[GetLogRoot]: Decision activated RUS_renovate_and_expand_saint_petersburg"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -1733,21 +1702,16 @@ RUS_first_five_year_plan_industrial_projects = {
 			195 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
 			RUS_stalin_add_first_five_year_plan_score_3 = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg } }
  # RUS_RECOVERY_LEDGER_END
 	}
 
 RUS_magnitogorsk = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_magnitogorsk = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_mountain_fortification
 		allowed = { always = no }
@@ -1778,7 +1742,7 @@ RUS_magnitogorsk = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_magnitogorsk"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_magnitogorsk clr_country_flag = RUS_rc_settled_RUS_magnitogorsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_magnitogorsk clr_country_flag = RUS_rc_settled_RUS_magnitogorsk }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -1805,20 +1769,17 @@ RUS_magnitogorsk = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_magnitogorsk set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_magnitogorsk set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_second_baku = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_second_baku = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_oil
 		allowed = { always = no }
@@ -1845,7 +1806,7 @@ RUS_second_baku = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_second_baku"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_second_baku clr_country_flag = RUS_rc_settled_RUS_second_baku RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_second_baku clr_country_flag = RUS_rc_settled_RUS_second_baku }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -1878,20 +1839,17 @@ RUS_second_baku = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_second_baku set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_second_baku set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_modernisation_of_AMO = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_modernisation_of_AMO = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = generic_tank
 		allowed = { always = no }
@@ -1917,7 +1875,7 @@ RUS_modernisation_of_AMO = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_modernisation_of_AMO"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -1963,20 +1921,17 @@ RUS_modernisation_of_AMO = {
 				country_event = { id = russia_socialist_events.439 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO set_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_running_RUS_modernisation_of_AMO RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO set_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_running_RUS_modernisation_of_AMO }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_running_RUS_modernisation_of_AMO RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_running_RUS_modernisation_of_AMO } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_izhevsk_mechanical_plant = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_izhevsk_mechanical_plant = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_merge_plant_tank
 		allowed = { always = no }
@@ -2002,7 +1957,7 @@ RUS_izhevsk_mechanical_plant = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_izhevsk_mechanical_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2046,20 +2001,17 @@ RUS_izhevsk_mechanical_plant = {
 				country_event = { id = russia_socialist_events.438 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant set_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant set_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_tula_arms_factory = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_tula_arms_factory = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_factories
 		allowed = { always = no }
@@ -2085,7 +2037,7 @@ RUS_tula_arms_factory = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tula_arms_factory"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tula_arms_factory clr_country_flag = RUS_rc_settled_RUS_tula_arms_factory RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tula_arms_factory clr_country_flag = RUS_rc_settled_RUS_tula_arms_factory }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2122,20 +2074,17 @@ RUS_tula_arms_factory = {
 			}
 			set_country_flag = improve_toz
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tula_arms_factory set_country_flag = RUS_rc_settled_RUS_tula_arms_factory clr_country_flag = RUS_rc_running_RUS_tula_arms_factory RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tula_arms_factory set_country_flag = RUS_rc_settled_RUS_tula_arms_factory clr_country_flag = RUS_rc_running_RUS_tula_arms_factory }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tula_arms_factory clr_country_flag = RUS_rc_running_RUS_tula_arms_factory RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tula_arms_factory clr_country_flag = RUS_rc_running_RUS_tula_arms_factory } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_create_tankograd = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_create_tankograd = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = generic_merge_plant_tank
 		allowed = { always = no }
@@ -2168,7 +2117,7 @@ RUS_create_tankograd = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_create_tankograd"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_create_tankograd clr_country_flag = RUS_rc_settled_RUS_create_tankograd RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_create_tankograd clr_country_flag = RUS_rc_settled_RUS_create_tankograd }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2212,20 +2161,17 @@ RUS_create_tankograd = {
 				country_event = { id = russia_socialist_events.440 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_create_tankograd set_country_flag = RUS_rc_settled_RUS_create_tankograd clr_country_flag = RUS_rc_running_RUS_create_tankograd RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_create_tankograd set_country_flag = RUS_rc_settled_RUS_create_tankograd clr_country_flag = RUS_rc_running_RUS_create_tankograd }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_create_tankograd clr_country_flag = RUS_rc_running_RUS_create_tankograd RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_create_tankograd clr_country_flag = RUS_rc_running_RUS_create_tankograd } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_convert_civilian_aviation_industry = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_convert_civilian_aviation_industry = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_merge_plant_aircraft
 		allowed = { always = no }
@@ -2250,7 +2196,7 @@ RUS_convert_civilian_aviation_industry = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_convert_civilian_aviation_industry"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2313,20 +2259,17 @@ RUS_convert_civilian_aviation_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_tsaritsyn_tractor_plant = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_tsaritsyn_tractor_plant = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_motorized
 		allowed = { always = no }
@@ -2352,7 +2295,7 @@ RUS_tsaritsyn_tractor_plant = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tsaritsyn_tractor_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2391,20 +2334,17 @@ RUS_tsaritsyn_tractor_plant = {
 				country_event = { id = russia_socialist_events.437 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant set_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant set_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_chelyabinsk_tractor_plant = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_chelyabinsk_tractor_plant = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_motorized
 		allowed = { always = no }
@@ -2431,7 +2371,7 @@ RUS_chelyabinsk_tractor_plant = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_chelyabinsk_tractor_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2468,20 +2408,17 @@ RUS_chelyabinsk_tractor_plant = {
 				}
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant set_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant set_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_kursk_tractor_plant = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_kursk_tractor_plant = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_trucks
 		allowed = { always = no }
@@ -2508,7 +2445,7 @@ RUS_kursk_tractor_plant = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_kursk_tractor_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2523,20 +2460,17 @@ RUS_kursk_tractor_plant = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_rostselmash = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_rostselmash = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = generic_factory
 		allowed = { always = no }
@@ -2564,7 +2498,7 @@ RUS_rostselmash = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_rostselmash"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_rostselmash clr_country_flag = RUS_rc_settled_RUS_rostselmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_rostselmash clr_country_flag = RUS_rc_settled_RUS_rostselmash }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2586,20 +2520,17 @@ RUS_rostselmash = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rostselmash set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rostselmash set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_stavropol_hydroelectric_dam = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_stavropol_hydroelectric_dam = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = hol_drain_water_lines
 		allowed = { always = no }
@@ -2627,12 +2558,12 @@ RUS_stavropol_hydroelectric_dam = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_stavropol_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_stavropol_hydroelectric_dam"
-			
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 				name = RUS_industrialise_eastern_europe
@@ -2647,7 +2578,7 @@ RUS_stavropol_hydroelectric_dam = {
 				category = industry
 			} }
 			# RUS_EASY_MODE_TECH_END
-			
+
 			235 = {
 				add_extra_state_shared_building_slots = 5
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
@@ -2672,20 +2603,17 @@ RUS_stavropol_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_rybinsk_hydroelectric_dam = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_rybinsk_hydroelectric_dam = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = hol_drain_water_lines
 		allowed = { always = no }
@@ -2713,12 +2641,12 @@ RUS_rybinsk_hydroelectric_dam = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_rybinsk_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_rybinsk_hydroelectric_dam"
-			
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 				name = RUS_rybinsk_hydroelectric_dam
@@ -2733,7 +2661,7 @@ RUS_rybinsk_hydroelectric_dam = {
 				category = industry
 			} }
 			# RUS_EASY_MODE_TECH_END
-			
+
 			248 = {
 				add_extra_state_shared_building_slots = 5
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
@@ -2758,20 +2686,17 @@ RUS_rybinsk_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_zhiguli_hydroelectric_dam = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_zhiguli_hydroelectric_dam = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = hol_drain_water_lines
 		allowed = { always = no }
@@ -2799,12 +2724,12 @@ RUS_zhiguli_hydroelectric_dam = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_zhiguli_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_zhiguli_hydroelectric_dam"
-			
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 				name = RUS_zhiguli_hydroelectric_dam
@@ -2819,7 +2744,7 @@ RUS_zhiguli_hydroelectric_dam = {
 				category = industry
 			} }
 			# RUS_EASY_MODE_TECH_END
-			
+
 			251 = {
 				add_extra_state_shared_building_slots = 5
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
@@ -2844,20 +2769,17 @@ RUS_zhiguli_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_krasnoyarsk_hydroelectric_dam = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_krasnoyarsk_hydroelectric_dam = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = hol_drain_water_lines
 		allowed = { always = no }
@@ -2885,12 +2807,12 @@ RUS_krasnoyarsk_hydroelectric_dam = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_krasnoyarsk_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision remove RUS_krasnoyarsk_hydroelectric_dam"
-			
+
 			# RUS_EASY_MODE_TECH_START
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_tech_bonus = {
 				name = RUS_krasnoyarsk_hydroelectric_dam
@@ -2905,7 +2827,7 @@ RUS_krasnoyarsk_hydroelectric_dam = {
 				category = industry
 			} }
 			# RUS_EASY_MODE_TECH_END
-			
+
 			568 = {
 				add_extra_state_shared_building_slots = 5
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_extra_state_shared_building_slots = 5 } # RUS_EASY_MODE_REWARD
@@ -2930,20 +2852,17 @@ RUS_krasnoyarsk_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_lipetsk_metallurgical_plant = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_lipetsk_metallurgical_plant = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = steel
 		allowed = { always = no }
@@ -2971,7 +2890,7 @@ RUS_lipetsk_metallurgical_plant = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_lipetsk_metallurgical_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -2994,20 +2913,17 @@ RUS_lipetsk_metallurgical_plant = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_uralmash = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_uralmash = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_merge_plant_tank
 		allowed = { always = no }
@@ -3034,7 +2950,7 @@ RUS_uralmash = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_uralmash"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_uralmash clr_country_flag = RUS_rc_settled_RUS_uralmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_uralmash clr_country_flag = RUS_rc_settled_RUS_uralmash }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3063,20 +2979,17 @@ RUS_uralmash = {
 				}
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_uralmash set_country_flag = RUS_rc_settled_RUS_uralmash clr_country_flag = RUS_rc_running_RUS_uralmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_uralmash set_country_flag = RUS_rc_settled_RUS_uralmash clr_country_flag = RUS_rc_running_RUS_uralmash }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_uralmash clr_country_flag = RUS_rc_running_RUS_uralmash RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_uralmash clr_country_flag = RUS_rc_running_RUS_uralmash } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_motovilikha_plants = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_motovilikha_plants = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = generic_motorized
 		allowed = { always = no }
@@ -3103,7 +3016,7 @@ RUS_motovilikha_plants = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_motovilikha_plants"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_motovilikha_plants clr_country_flag = RUS_rc_settled_RUS_motovilikha_plants RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_motovilikha_plants clr_country_flag = RUS_rc_settled_RUS_motovilikha_plants }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3119,20 +3032,17 @@ RUS_motovilikha_plants = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_motovilikha_plants set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_motovilikha_plants set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_admiralty_dockyards = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_admiralty_dockyards = yes }
-		# RUS_RECOVERY_FILTER_END
  #Unlocked by RUS_yekaterinas_legacy
 		icon = generic_naval
 		allowed = { always = no }
@@ -3160,7 +3070,7 @@ RUS_admiralty_dockyards = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_admiralty_dockyards"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_admiralty_dockyards clr_country_flag = RUS_rc_settled_RUS_admiralty_dockyards RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_admiralty_dockyards clr_country_flag = RUS_rc_settled_RUS_admiralty_dockyards }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3184,14 +3094,16 @@ RUS_admiralty_dockyards = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_admiralty_dockyards set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_admiralty_dockyards set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_kamensky_uralsky = { #Kachkanar
 		icon = aluminium
 		allowed = { always = no }
@@ -3202,9 +3114,6 @@ RUS_kamensky_uralsky = { #Kachkanar
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_kamensky_uralsky = yes
-		# RUS_RECOVERY_FILTER_END
  653 = { is_owned_and_controlled_by = ROOT } } #Yekaterinburg
 		cost = RUS_ic_cost_low
 
@@ -3227,7 +3136,7 @@ RUS_kamensky_uralsky = { #Kachkanar
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_kamensky_uralsky"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamensky_uralsky clr_country_flag = RUS_rc_settled_RUS_kamensky_uralsky RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamensky_uralsky clr_country_flag = RUS_rc_settled_RUS_kamensky_uralsky }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3253,12 +3162,12 @@ RUS_kamensky_uralsky = { #Kachkanar
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamensky_uralsky set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamensky_uralsky set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky } }
  # RUS_RECOVERY_LEDGER_END
 	}
 RUS_grozny_oil = {
@@ -3271,9 +3180,6 @@ RUS_grozny_oil = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_grozny_oil = yes
-		# RUS_RECOVERY_FILTER_END
  961 = { is_owned_and_controlled_by_ROOT_or_subject = yes } } #Chechnya
 		cost = RUS_ic_cost_med
 
@@ -3296,7 +3202,7 @@ RUS_grozny_oil = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_grozny_oil"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_grozny_oil clr_country_flag = RUS_rc_settled_RUS_grozny_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_grozny_oil clr_country_flag = RUS_rc_settled_RUS_grozny_oil }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3334,12 +3240,12 @@ RUS_grozny_oil = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			set_country_flag = RUS_Chechnya_improved
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_grozny_oil set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_grozny_oil set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil } }
  # RUS_RECOVERY_LEDGER_END
 	}
 RUS_arctic_mines = {
@@ -3352,9 +3258,6 @@ RUS_arctic_mines = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_arctic_mines = yes
-		# RUS_RECOVERY_FILTER_END
  213 = { is_owned_and_controlled_by = ROOT } } #Murmansk
 		cost = RUS_ic_cost_low
 
@@ -3382,7 +3285,7 @@ RUS_arctic_mines = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_arctic_mines"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_arctic_mines clr_country_flag = RUS_rc_settled_RUS_arctic_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_arctic_mines clr_country_flag = RUS_rc_settled_RUS_arctic_mines }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3410,12 +3313,12 @@ RUS_arctic_mines = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_arctic_mines set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_arctic_mines set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines } }
  # RUS_RECOVERY_LEDGER_END
 	}
 RUS_tyrnyauz_tungsten = {
@@ -3428,9 +3331,6 @@ RUS_tyrnyauz_tungsten = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_tyrnyauz_tungsten = yes
-		# RUS_RECOVERY_FILTER_END
  233 = { is_owned_and_controlled_by_ROOT_or_subject = yes } } #Terek
 		cost = RUS_ic_cost_low
 
@@ -3453,7 +3353,7 @@ RUS_tyrnyauz_tungsten = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tyrnyauz_tungsten"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3472,12 +3372,12 @@ RUS_tyrnyauz_tungsten = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			set_country_flag = RUS_vladikavkaz_improved_2
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten } }
  # RUS_RECOVERY_LEDGER_END
 	}
 RUS_romanshkino_oil = {
@@ -3490,9 +3390,6 @@ RUS_romanshkino_oil = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_romanshkino_oil = yes
-		# RUS_RECOVERY_FILTER_END
  249 = { is_owned_and_controlled_by = ROOT } } #Kazan
 		cost = RUS_ic_cost_med
 
@@ -3515,7 +3412,7 @@ RUS_romanshkino_oil = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_romanshkino_oil"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_romanshkino_oil clr_country_flag = RUS_rc_settled_RUS_romanshkino_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_romanshkino_oil clr_country_flag = RUS_rc_settled_RUS_romanshkino_oil }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3552,20 +3449,15 @@ RUS_romanshkino_oil = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_romanshkino_oil set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_romanshkino_oil set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil } }
  # RUS_RECOVERY_LEDGER_END
 	}
 RUS_northern_route = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_northern_route = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = train
 		allowed = { always = no }
@@ -3601,7 +3493,7 @@ RUS_northern_route = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_northern_route"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_northern_route clr_country_flag = RUS_rc_settled_RUS_northern_route RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_northern_route clr_country_flag = RUS_rc_settled_RUS_northern_route }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3618,20 +3510,17 @@ RUS_northern_route = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_northern_route set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_northern_route set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_upgrade_the_railroad_chelyabinsk = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_upgrade_the_railroad_chelyabinsk = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_railroad
 		allowed = { always = no }
@@ -3659,7 +3548,7 @@ RUS_upgrade_the_railroad_chelyabinsk = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_upgrade_the_railroad_chelyabinsk"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3675,20 +3564,17 @@ RUS_upgrade_the_railroad_chelyabinsk = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_upgrade_the_railroad_krasnoyarsk = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_upgrade_the_railroad_krasnoyarsk = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_railroad
 		allowed = { always = no }
@@ -3716,7 +3602,7 @@ RUS_upgrade_the_railroad_krasnoyarsk = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_upgrade_the_railroad_krasnoyarsk"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3732,20 +3618,17 @@ RUS_upgrade_the_railroad_krasnoyarsk = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_upgrade_the_railroad_vladivostok = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_upgrade_the_railroad_vladivostok = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_railroad
 		allowed = { always = no }
@@ -3783,7 +3666,7 @@ RUS_upgrade_the_railroad_vladivostok = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_upgrade_the_railroad_vladivostok"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3819,20 +3702,17 @@ RUS_upgrade_the_railroad_vladivostok = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_kuznetsk_basin = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_kuznetsk_basin = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = coal
 		allowed = { always = no }
@@ -3860,7 +3740,7 @@ RUS_kuznetsk_basin = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_kuznetsk_basin"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kuznetsk_basin clr_country_flag = RUS_rc_settled_RUS_kuznetsk_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kuznetsk_basin clr_country_flag = RUS_rc_settled_RUS_kuznetsk_basin }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3885,20 +3765,17 @@ RUS_kuznetsk_basin = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kuznetsk_basin set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kuznetsk_basin set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_bodaybo_gold_mines = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_bodaybo_gold_mines = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = gre_investment_decisions
 		allowed = { always = no }
@@ -3926,7 +3803,7 @@ RUS_bodaybo_gold_mines = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_bodaybo_gold_mines"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -3941,20 +3818,17 @@ RUS_bodaybo_gold_mines = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_far_eastern_fishing_industry = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_far_eastern_fishing_industry = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_cod
 		allowed = { always = no }
@@ -3988,7 +3862,7 @@ RUS_far_eastern_fishing_industry = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_far_eastern_fishing_industry"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4013,20 +3887,17 @@ RUS_far_eastern_fishing_industry = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_krasnoyarskpromstroy = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_krasnoyarskpromstroy = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = generic_factory
 		allowed = { always = no }
@@ -4053,7 +3924,7 @@ RUS_krasnoyarskpromstroy = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_krasnoyarskpromstroy"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4070,20 +3941,17 @@ RUS_krasnoyarskpromstroy = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_dalnremmash = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_dalnremmash = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_factories
 		allowed = { always = no }
@@ -4111,7 +3979,7 @@ RUS_dalnremmash = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_dalnremmash"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_dalnremmash clr_country_flag = RUS_rc_settled_RUS_dalnremmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_dalnremmash clr_country_flag = RUS_rc_settled_RUS_dalnremmash }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4126,20 +3994,17 @@ RUS_dalnremmash = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_dalnremmash set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_dalnremmash set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_rudny_altay = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_rudny_altay = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = steel
 		allowed = { always = no }
@@ -4168,7 +4033,7 @@ RUS_rudny_altay = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_rudny_altay"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_rudny_altay clr_country_flag = RUS_rc_settled_RUS_rudny_altay RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_rudny_altay clr_country_flag = RUS_rc_settled_RUS_rudny_altay }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4196,20 +4061,17 @@ RUS_rudny_altay = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rudny_altay set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rudny_altay set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_tekeli_metallurgical_combine = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_tekeli_metallurgical_combine = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = tungsten
 		allowed = { always = no }
@@ -4237,7 +4099,7 @@ RUS_tekeli_metallurgical_combine = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tekeli_metallurgical_combine"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4271,20 +4133,17 @@ RUS_tekeli_metallurgical_combine = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_emba_oil_area = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_emba_oil_area = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = oil
 		allowed = { always = no }
@@ -4318,7 +4177,7 @@ RUS_emba_oil_area = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_emba_oil_area"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_emba_oil_area clr_country_flag = RUS_rc_settled_RUS_emba_oil_area RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_emba_oil_area clr_country_flag = RUS_rc_settled_RUS_emba_oil_area }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4371,20 +4230,17 @@ RUS_emba_oil_area = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_emba_oil_area set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_emba_oil_area set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 RUS_verny_cotton_industry = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_verny_cotton_industry = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_cotton
 		allowed = { always = no }
@@ -4411,7 +4267,7 @@ RUS_verny_cotton_industry = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_verny_cotton_industry"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_verny_cotton_industry clr_country_flag = RUS_rc_settled_RUS_verny_cotton_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_verny_cotton_industry clr_country_flag = RUS_rc_settled_RUS_verny_cotton_industry }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4425,20 +4281,17 @@ RUS_verny_cotton_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_verny_cotton_industry set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_verny_cotton_industry set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 	RUS_siberian_timber_industries = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_siberian_timber_industries = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_generic_forestry
 		allowed = { always = no }
@@ -4460,7 +4313,7 @@ RUS_verny_cotton_industry = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_siberian_timber_industries"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_siberian_timber_industries clr_country_flag = RUS_rc_settled_RUS_siberian_timber_industries RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_siberian_timber_industries clr_country_flag = RUS_rc_settled_RUS_siberian_timber_industries }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4493,21 +4346,18 @@ RUS_verny_cotton_industry = {
 			RUS_stalin_add_first_five_year_plan_score_75 = yes
 			set_country_flag = RUS_completed_siberian_timber_industry
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_siberian_timber_industries set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_siberian_timber_industries set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 
 	RUS_improve_roads_in_central_russia = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_improve_roads_in_central_russia = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_cement_mixer
 		allowed = { always = no }
@@ -4546,7 +4396,7 @@ RUS_verny_cotton_industry = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_improve_roads_in_central_russia"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4575,21 +4425,18 @@ RUS_verny_cotton_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 
 	RUS_improve_roads_in_northern_russia = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_improve_roads_in_northern_russia = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_cement_mixer
 		allowed = { always = no }
@@ -4624,7 +4471,7 @@ RUS_verny_cotton_industry = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_improve_roads_in_northern_russia"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4642,21 +4489,18 @@ RUS_verny_cotton_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 
 	RUS_improve_roads_in_the_volga_basin = {
-		# RUS_RECOVERY_FILTER_BEGIN
-		visible = {
- NOT = { RUS_np_context = yes }
- RUS_rc_show_RUS_improve_roads_in_the_volga_basin = yes }
-		# RUS_RECOVERY_FILTER_END
 
 		icon = GFX_decision_cement_mixer
 		allowed = { always = no }
@@ -4691,7 +4535,7 @@ RUS_verny_cotton_industry = {
 		complete_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_improve_roads_in_the_volga_basin"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin }
  # RUS_RECOVERY_LEDGER_END
 		}
 		remove_effect = {
@@ -4712,14 +4556,16 @@ RUS_verny_cotton_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin RUS_rc_refresh = yes } }
+ cancel_effect = { hidden_effect = { set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin } }
  # RUS_RECOVERY_LEDGER_END
-	}
+
+ visible = { RUS_np_context = no }
+}
 
 	RUS_central_asia_railroads = {
 		icon = GFX_decision_railroad
@@ -4727,9 +4573,6 @@ RUS_verny_cotton_industry = {
 		visible = {
  NOT = { RUS_np_context = yes }
 
-		# RUS_RECOVERY_FILTER_BEGIN
-		RUS_rc_show_RUS_central_asia_railroads = yes
-		# RUS_RECOVERY_FILTER_END
 
 			402 = { #Turgay
 				is_owned_and_controlled_by_ROOT_or_subject = yes
@@ -4778,19 +4621,19 @@ RUS_verny_cotton_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_central_asia_railroads set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_central_asia_railroads set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads }
  # RUS_RECOVERY_LEDGER_END
 		}
 		cancel_effect = {
 			log = "[GetLogRoot][GetLogFrom]: Decision cancel RUS_central_asia_railroads"
 			add_political_power = RUS_ic_cost_low
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads }
  # RUS_RECOVERY_LEDGER_END
 		}
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
- complete_effect = { hidden_effect = { set_country_flag = RUS_rc_running_RUS_central_asia_railroads clr_country_flag = RUS_rc_settled_RUS_central_asia_railroads RUS_rc_refresh = yes } }
+ complete_effect = { hidden_effect = { set_country_flag = RUS_rc_running_RUS_central_asia_railroads clr_country_flag = RUS_rc_settled_RUS_central_asia_railroads } }
  # RUS_RECOVERY_LEDGER_END
 	}
 
@@ -5737,7 +5580,7 @@ RUS_np_project_kamenev_all_russian_electrification = {
 			log = "[GetLogRoot]: Decision activated RUS_kamenev_all_russian_electrification"
 			set_country_flag = RUS_kamenev_all_russian_electrification_in_progress
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -5852,7 +5695,7 @@ RUS_np_project_kamenev_all_russian_electrification = {
 				}
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamenev_all_russian_electrification set_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamenev_all_russian_electrification set_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -5928,7 +5771,7 @@ RUS_np_project_renovate_and_expand_moscow = {
 
 			log = "[GetLogRoot]: Decision activated RUS_renovate_and_expand_moscow"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -5977,7 +5820,7 @@ RUS_np_project_renovate_and_expand_moscow = {
 			219 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
 			RUS_stalin_add_first_five_year_plan_score_3 = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -6048,7 +5891,7 @@ RUS_np_project_renovate_and_expand_tsaritsyn = {
 
 			log = "[GetLogRoot]: Decision activated RUS_renovate_and_expand_tsaritsyn"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -6097,7 +5940,7 @@ RUS_np_project_renovate_and_expand_tsaritsyn = {
 			217 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
 			RUS_stalin_add_first_five_year_plan_score_3 = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -6168,7 +6011,7 @@ RUS_np_project_renovate_and_expand_saint_petersburg = {
 
 			log = "[GetLogRoot]: Decision activated RUS_renovate_and_expand_saint_petersburg"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -6217,7 +6060,7 @@ RUS_np_project_renovate_and_expand_saint_petersburg = {
 			195 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
 			RUS_stalin_add_first_five_year_plan_score_3 = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -6303,7 +6146,7 @@ RUS_np_project_magnitogorsk = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_magnitogorsk"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_magnitogorsk clr_country_flag = RUS_rc_settled_RUS_magnitogorsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_magnitogorsk clr_country_flag = RUS_rc_settled_RUS_magnitogorsk  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -6376,7 +6219,7 @@ RUS_np_project_magnitogorsk = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_magnitogorsk set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_magnitogorsk set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -6467,7 +6310,7 @@ RUS_np_project_second_baku = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_second_baku"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_second_baku clr_country_flag = RUS_rc_settled_RUS_second_baku RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_second_baku clr_country_flag = RUS_rc_settled_RUS_second_baku  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -6526,7 +6369,7 @@ RUS_np_project_second_baku = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_second_baku set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_second_baku set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -6597,7 +6440,7 @@ RUS_np_project_modernisation_of_AMO = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_modernisation_of_AMO"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -6703,7 +6546,7 @@ RUS_np_project_modernisation_of_AMO = {
 				country_event = { id = russia_socialist_events.439 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO set_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_running_RUS_modernisation_of_AMO RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO set_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_running_RUS_modernisation_of_AMO  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -6807,7 +6650,7 @@ RUS_np_project_izhevsk_mechanical_plant = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_izhevsk_mechanical_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -6897,7 +6740,7 @@ RUS_np_project_izhevsk_mechanical_plant = {
 				country_event = { id = russia_socialist_events.438 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant set_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant set_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -6987,7 +6830,7 @@ RUS_np_project_tula_arms_factory = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tula_arms_factory"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tula_arms_factory clr_country_flag = RUS_rc_settled_RUS_tula_arms_factory RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tula_arms_factory clr_country_flag = RUS_rc_settled_RUS_tula_arms_factory  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -7080,7 +6923,7 @@ RUS_np_project_tula_arms_factory = {
 			}
 			set_country_flag = improve_toz
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tula_arms_factory set_country_flag = RUS_rc_settled_RUS_tula_arms_factory clr_country_flag = RUS_rc_running_RUS_tula_arms_factory RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tula_arms_factory set_country_flag = RUS_rc_settled_RUS_tula_arms_factory clr_country_flag = RUS_rc_running_RUS_tula_arms_factory  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -7179,7 +7022,7 @@ RUS_np_project_create_tankograd = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_create_tankograd"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_create_tankograd clr_country_flag = RUS_rc_settled_RUS_create_tankograd RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_create_tankograd clr_country_flag = RUS_rc_settled_RUS_create_tankograd  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -7269,7 +7112,7 @@ RUS_np_project_create_tankograd = {
 				country_event = { id = russia_socialist_events.440 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_create_tankograd set_country_flag = RUS_rc_settled_RUS_create_tankograd clr_country_flag = RUS_rc_running_RUS_create_tankograd RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_create_tankograd set_country_flag = RUS_rc_settled_RUS_create_tankograd clr_country_flag = RUS_rc_running_RUS_create_tankograd  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -7358,7 +7201,7 @@ RUS_np_project_convert_civilian_aviation_industry = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_convert_civilian_aviation_industry"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -7467,7 +7310,7 @@ RUS_np_project_convert_civilian_aviation_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -7557,7 +7400,7 @@ RUS_np_project_tsaritsyn_tractor_plant = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tsaritsyn_tractor_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -7635,7 +7478,7 @@ RUS_np_project_tsaritsyn_tractor_plant = {
 				country_event = { id = russia_socialist_events.437 }
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant set_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant set_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -7719,7 +7562,7 @@ RUS_np_project_chelyabinsk_tractor_plant = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_chelyabinsk_tractor_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -7795,7 +7638,7 @@ RUS_np_project_chelyabinsk_tractor_plant = {
 				}
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant set_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant set_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -7879,7 +7722,7 @@ RUS_np_project_kursk_tractor_plant = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_kursk_tractor_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -7933,7 +7776,7 @@ RUS_np_project_kursk_tractor_plant = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -8018,7 +7861,7 @@ RUS_np_project_rostselmash = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_rostselmash"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_rostselmash clr_country_flag = RUS_rc_settled_RUS_rostselmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_rostselmash clr_country_flag = RUS_rc_settled_RUS_rostselmash  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -8080,7 +7923,7 @@ RUS_np_project_rostselmash = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rostselmash set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rostselmash set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -8166,7 +8009,7 @@ RUS_np_project_stavropol_hydroelectric_dam = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_stavropol_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -8257,7 +8100,7 @@ RUS_np_project_stavropol_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -8349,7 +8192,7 @@ RUS_np_project_rybinsk_hydroelectric_dam = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_rybinsk_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -8440,7 +8283,7 @@ RUS_np_project_rybinsk_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -8532,7 +8375,7 @@ RUS_np_project_zhiguli_hydroelectric_dam = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_zhiguli_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -8623,7 +8466,7 @@ RUS_np_project_zhiguli_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -8715,7 +8558,7 @@ RUS_np_project_krasnoyarsk_hydroelectric_dam = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_krasnoyarsk_hydroelectric_dam"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -8806,7 +8649,7 @@ RUS_np_project_krasnoyarsk_hydroelectric_dam = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_high = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -8898,7 +8741,7 @@ RUS_np_project_lipetsk_metallurgical_plant = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_lipetsk_metallurgical_plant"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -8967,7 +8810,7 @@ RUS_np_project_lipetsk_metallurgical_plant = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -9058,7 +8901,7 @@ RUS_np_project_uralmash = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_uralmash"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_uralmash clr_country_flag = RUS_rc_settled_RUS_uralmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_uralmash clr_country_flag = RUS_rc_settled_RUS_uralmash  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -9147,7 +8990,7 @@ RUS_np_project_uralmash = {
 				}
 			}
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_uralmash set_country_flag = RUS_rc_settled_RUS_uralmash clr_country_flag = RUS_rc_running_RUS_uralmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_uralmash set_country_flag = RUS_rc_settled_RUS_uralmash clr_country_flag = RUS_rc_running_RUS_uralmash  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -9252,7 +9095,7 @@ RUS_np_project_motovilikha_plants = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_motovilikha_plants"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_motovilikha_plants clr_country_flag = RUS_rc_settled_RUS_motovilikha_plants RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_motovilikha_plants clr_country_flag = RUS_rc_settled_RUS_motovilikha_plants  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -9314,7 +9157,7 @@ RUS_np_project_motovilikha_plants = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_motovilikha_plants set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_motovilikha_plants set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -9406,7 +9249,7 @@ RUS_np_project_admiralty_dockyards = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_admiralty_dockyards"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_admiralty_dockyards clr_country_flag = RUS_rc_settled_RUS_admiralty_dockyards RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_admiralty_dockyards clr_country_flag = RUS_rc_settled_RUS_admiralty_dockyards  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -9480,7 +9323,7 @@ RUS_np_project_admiralty_dockyards = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_admiralty_dockyards set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_admiralty_dockyards set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -9573,7 +9416,7 @@ RUS_np_project_kamensky_uralsky = { #Kachkanar
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_kamensky_uralsky"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamensky_uralsky clr_country_flag = RUS_rc_settled_RUS_kamensky_uralsky RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kamensky_uralsky clr_country_flag = RUS_rc_settled_RUS_kamensky_uralsky  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -9645,7 +9488,7 @@ RUS_np_project_kamensky_uralsky = { #Kachkanar
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamensky_uralsky set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamensky_uralsky set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -9734,7 +9577,7 @@ RUS_np_project_grozny_oil = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_grozny_oil"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_grozny_oil clr_country_flag = RUS_rc_settled_RUS_grozny_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_grozny_oil clr_country_flag = RUS_rc_settled_RUS_grozny_oil  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -9804,7 +9647,7 @@ RUS_np_project_grozny_oil = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			set_country_flag = RUS_Chechnya_improved
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_grozny_oil set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_grozny_oil set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -9885,7 +9728,7 @@ RUS_np_project_arctic_mines = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_arctic_mines"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_arctic_mines clr_country_flag = RUS_rc_settled_RUS_arctic_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_arctic_mines clr_country_flag = RUS_rc_settled_RUS_arctic_mines  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -9939,7 +9782,7 @@ RUS_np_project_arctic_mines = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_arctic_mines set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_arctic_mines set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -10009,7 +9852,7 @@ RUS_np_project_tyrnyauz_tungsten = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tyrnyauz_tungsten"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -10060,7 +9903,7 @@ RUS_np_project_tyrnyauz_tungsten = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			set_country_flag = RUS_vladikavkaz_improved_2
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -10136,7 +9979,7 @@ RUS_np_project_romanshkino_oil = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_romanshkino_oil"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_romanshkino_oil clr_country_flag = RUS_rc_settled_RUS_romanshkino_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_romanshkino_oil clr_country_flag = RUS_rc_settled_RUS_romanshkino_oil  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -10199,7 +10042,7 @@ RUS_np_project_romanshkino_oil = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_romanshkino_oil set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_romanshkino_oil set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -10283,7 +10126,7 @@ RUS_np_project_northern_route = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_northern_route"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_northern_route clr_country_flag = RUS_rc_settled_RUS_northern_route RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_northern_route clr_country_flag = RUS_rc_settled_RUS_northern_route  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -10345,7 +10188,7 @@ RUS_np_project_northern_route = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_northern_route set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_northern_route set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -10440,7 +10283,7 @@ RUS_np_project_upgrade_the_railroad_chelyabinsk = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_upgrade_the_railroad_chelyabinsk"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -10501,7 +10344,7 @@ RUS_np_project_upgrade_the_railroad_chelyabinsk = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -10596,7 +10439,7 @@ RUS_np_project_upgrade_the_railroad_krasnoyarsk = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_upgrade_the_railroad_krasnoyarsk"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -10657,7 +10500,7 @@ RUS_np_project_upgrade_the_railroad_krasnoyarsk = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -10760,7 +10603,7 @@ RUS_np_project_upgrade_the_railroad_vladivostok = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_upgrade_the_railroad_vladivostok"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -10841,7 +10684,7 @@ RUS_np_project_upgrade_the_railroad_vladivostok = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -10933,7 +10776,7 @@ RUS_np_project_kuznetsk_basin = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_kuznetsk_basin"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_kuznetsk_basin clr_country_flag = RUS_rc_settled_RUS_kuznetsk_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_kuznetsk_basin clr_country_flag = RUS_rc_settled_RUS_kuznetsk_basin  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -10990,7 +10833,7 @@ RUS_np_project_kuznetsk_basin = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kuznetsk_basin set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kuznetsk_basin set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -11069,7 +10912,7 @@ RUS_np_project_bodaybo_gold_mines = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_bodaybo_gold_mines"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -11110,7 +10953,7 @@ RUS_np_project_bodaybo_gold_mines = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -11188,7 +11031,7 @@ RUS_np_project_far_eastern_fishing_industry = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_far_eastern_fishing_industry"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -11252,7 +11095,7 @@ RUS_np_project_far_eastern_fishing_industry = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -11336,7 +11179,7 @@ RUS_np_project_krasnoyarskpromstroy = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_krasnoyarskpromstroy"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -11399,7 +11242,7 @@ RUS_np_project_krasnoyarskpromstroy = {
 			RUS_stalin_add_first_five_year_plan_score_low = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -11491,7 +11334,7 @@ RUS_np_project_dalnremmash = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_dalnremmash"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_dalnremmash clr_country_flag = RUS_rc_settled_RUS_dalnremmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_dalnremmash clr_country_flag = RUS_rc_settled_RUS_dalnremmash  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -11552,7 +11395,7 @@ RUS_np_project_dalnremmash = {
 			RUS_stalin_add_first_five_year_plan_score_med = yes
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_dalnremmash set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_dalnremmash set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -11644,7 +11487,7 @@ RUS_np_project_rudny_altay = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_rudny_altay"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_rudny_altay clr_country_flag = RUS_rc_settled_RUS_rudny_altay RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_rudny_altay clr_country_flag = RUS_rc_settled_RUS_rudny_altay  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -11698,7 +11541,7 @@ RUS_np_project_rudny_altay = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rudny_altay set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rudny_altay set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -11771,7 +11614,7 @@ RUS_np_project_tekeli_metallurgical_combine = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_tekeli_metallurgical_combine"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -11851,7 +11694,7 @@ RUS_np_project_tekeli_metallurgical_combine = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -11948,7 +11791,7 @@ RUS_np_project_emba_oil_area = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_emba_oil_area"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_emba_oil_area clr_country_flag = RUS_rc_settled_RUS_emba_oil_area RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_emba_oil_area clr_country_flag = RUS_rc_settled_RUS_emba_oil_area  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -12027,7 +11870,7 @@ RUS_np_project_emba_oil_area = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_emba_oil_area set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_emba_oil_area set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -12099,7 +11942,7 @@ RUS_np_project_verny_cotton_industry = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_verny_cotton_industry"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_verny_cotton_industry clr_country_flag = RUS_rc_settled_RUS_verny_cotton_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_verny_cotton_industry clr_country_flag = RUS_rc_settled_RUS_verny_cotton_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -12152,7 +11995,7 @@ RUS_np_project_verny_cotton_industry = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_verny_cotton_industry set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_verny_cotton_industry set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -12229,7 +12072,7 @@ RUS_np_project_siberian_timber_industries = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_siberian_timber_industries"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_siberian_timber_industries clr_country_flag = RUS_rc_settled_RUS_siberian_timber_industries RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_siberian_timber_industries clr_country_flag = RUS_rc_settled_RUS_siberian_timber_industries  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -12288,7 +12131,7 @@ RUS_np_project_siberian_timber_industries = {
 			RUS_stalin_add_first_five_year_plan_score_75 = yes
 			set_country_flag = RUS_completed_siberian_timber_industry
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_siberian_timber_industries set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_siberian_timber_industries set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -12372,7 +12215,7 @@ RUS_np_project_improve_roads_in_central_russia = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_improve_roads_in_central_russia"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -12447,7 +12290,7 @@ RUS_np_project_improve_roads_in_central_russia = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -12546,7 +12389,7 @@ RUS_np_project_improve_roads_in_northern_russia = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_improve_roads_in_northern_russia"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -12610,7 +12453,7 @@ RUS_np_project_improve_roads_in_northern_russia = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -12709,7 +12552,7 @@ RUS_np_project_improve_roads_in_the_volga_basin = {
 
 			log = "[GetLogRoot][GetLogFrom]: Decision complete RUS_improve_roads_in_the_volga_basin"
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin  }
  # RUS_RECOVERY_LEDGER_END
 
 	if = {
@@ -12776,7 +12619,7 @@ RUS_np_project_improve_roads_in_the_volga_basin = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_med = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -12882,7 +12725,7 @@ RUS_np_project_central_asia_railroads = {
 			RUS_stalin_industry_effect = yes
 			RUS_stalin_add_first_five_year_plan_score_low = yes
  # RUS_RECOVERY_LEDGER_BEGIN
- hidden_effect = { set_country_flag = RUS_rc_finished_RUS_central_asia_railroads set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads RUS_rc_refresh = yes }
+ hidden_effect = { set_country_flag = RUS_rc_finished_RUS_central_asia_railroads set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads  }
  # RUS_RECOVERY_LEDGER_END
 
 }
@@ -12931,7 +12774,7 @@ RUS_np_project_central_asia_railroads = {
 		fixed_random_seed = no
  # RUS_RECOVERY_LEDGER_BEGIN
  complete_effect = {
-	 hidden_effect = { set_country_flag = RUS_rc_running_RUS_central_asia_railroads clr_country_flag = RUS_rc_settled_RUS_central_asia_railroads RUS_rc_refresh = yes }
+	 hidden_effect = { set_country_flag = RUS_rc_running_RUS_central_asia_railroads clr_country_flag = RUS_rc_settled_RUS_central_asia_railroads  }
 	if = {
 	limit = { RUS_np_context = yes }
 	custom_effect_tooltip = RUS_np_central_asia_railroads_cost_tt
