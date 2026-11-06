@@ -77,3 +77,13 @@
 4. 民众愤怒7→8时出现7天任务，到期进入原革命事件；阶段交接后后续国策、既有精神与变量正常。
 5. 两种部长各测军愤4→5，只出现对应一版事件及180天任务，到期无后续事件。
 6. 完成未建日出项目后保留原建设/人力奖励，黑色星期一不再改善；愤怒说明沿用原版。
+
+## 2026-11-06 社会主义交接时恢复原有土地精神
+
+用户指定的是带引号的“圆满完成”的土地改革，ID为`RUS_pre_maximalist_land_reform`，不是正面完成阶段`RUS_maximalist_land_reform_stage_5`。原精神继续使用原定义：稳定度-20%、政治点获取-20%、生活消费品期望+20%。
+
+`RUS_opening_finish_phase`在原开局收尾if之外先判断original_tag=RUS、has_socialist_government和持有`RUS_opening_unfinished_land_reform`，原生swap_ideas直接移除该开局精神并添加`RUS_pre_maximalist_land_reform`。沿用现有执政党变化即时钩子及俄罗斯每日复核；即使先经非社会主义临时政府退出开局、之后才转红，也不因opening_active已清除而漏换。没有开局旧精神时不补发、不替换后来的改革阶段；反复调用不会叠加。
+
+不调用土改初始化/完成/加分helper，不设置土改成功旗标，不调整任何农业变量。原收尾的Russia_Focus/keep_completed和布局刷新原样保留。只维护`rework_savinkov_opening.py`对应effects源并单独再生其脚本，避免无关图标或事件重绘。
+
+`test_opening_land_handoff.py`七项检查覆盖萨文科夫不变、直接/分步转红、已完成开局、非俄罗斯、无旧精神、后续阶段不降级、变量不变、旧效果精确值与收尾逻辑保留；原开局模型补齐原生swap_ideas和社会主义条件解释，专门执行原先开局初始化→革命准备→交接→每日钩子片段。仍需重启新局确认实际切换和民族精神列表。仅测试开发目录，未同步上传。

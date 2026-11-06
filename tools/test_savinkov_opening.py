@@ -50,6 +50,7 @@ class Model:
             elif n.k=='has_country_flag':value=n.v in self.flags
             elif n.k=='has_idea':value=n.v in self.ideas
             elif n.k=='has_government':value=self.gov==n.v
+            elif n.k=='has_socialist_government':value=(self.gov in ('radical_socialist','syndicalist','totalist','communist'))==(n.v=='yes')
             elif n.k=='is_subject':value=n.v=='no'
             elif n.k=='RUS_boris_savinkov':value=self.leader
             elif n.k=='has_variable':value=n.v in self.v
@@ -87,6 +88,7 @@ class Model:
             elif n.k=='set_country_flag':self.flags.add(n.v)
             elif n.k=='clr_country_flag':self.flags.discard(n.v)
             elif n.k=='add_ideas':self.ideas.add(n.v)
+            elif n.k=='swap_ideas':self.ideas.discard(n.value('remove_idea'));self.ideas.add(n.value('add_idea'))
             elif n.k=='add_manpower':self.manpower+=self.number(n.v)
             elif n.k=='add_political_power':self.pp+=self.number(n.v)
             elif n.k=='complete_national_focus':

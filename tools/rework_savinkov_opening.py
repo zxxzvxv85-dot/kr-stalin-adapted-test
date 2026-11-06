@@ -184,6 +184,13 @@ def render_effects():
 }''')
     chunks.append('''RUS_opening_finish_phase = {
     if = {
+        limit = { original_tag = RUS has_socialist_government = yes has_idea = RUS_opening_unfinished_land_reform }
+        swap_ideas = {
+            remove_idea = RUS_opening_unfinished_land_reform
+            add_idea = RUS_pre_maximalist_land_reform
+        }
+    }
+    if = {
         limit = { has_country_flag = RUS_opening_active NOT = { has_government = national_populist } }
         clr_country_flag = RUS_opening_active
         set_country_flag = RUS_opening_finished
