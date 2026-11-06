@@ -254,12 +254,8 @@ def refresh():
     out += [iff('has_variable = RUS_basic_education_level',[sv(P+'education','RUS_basic_education_level'),mul(P+'education',.6),sv(P+'tmp','RUS_higher_education_level'),mul(P+'tmp',.4),add(P+'education',P+'tmp')])]
     out += clamp(P+'education',0,100)+[sv(P+'efficiency',P+'education'),mul(P+'efficiency',.005),add(P+'efficiency',.75),sv(P+'speed',1)]
     out += [iff('has_variable = RUS_education_enthusiasm',[sv(P+'speed','RUS_education_enthusiasm'),mul(P+'speed',.01),add(P+'speed',.5)])]+clamp(P+'speed',.5,1.5)
-    out += [sv(P+'income',P+'civ'),mul(P+'income',.02),mul(P+'income',P+'efficiency'),sv(P+'grant',P+'civ'),mul(P+'grant',10),mul(P+'grant',P+'efficiency'),sv(P+'slots',2)]
-    for v in ('civ','education'):
-        for threshold in (25,50,75,100,125,150):
-            if v=='education' and threshold>100:continue
-            out.append(iff('NOT = { '+ck(P+v,'<',threshold)+' }',[add(P+'slots',1)]))
-    out += clamp(P+'slots',2,8)+[sv(P+'active',0),sv(P+'trains',0),sv(P+'rail_average',0),sv(P+'rail_weight',0),sv(P+'farm_rate',0),sv(P+'repair',0)]
+    out += [sv(P+'income',P+'civ'),mul(P+'income',.02),mul(P+'income',P+'efficiency'),sv(P+'grant',P+'civ'),mul(P+'grant',10),mul(P+'grant',P+'efficiency'),sv(P+'slots',7)]
+    out += [sv(P+'active',0),sv(P+'trains',0),sv(P+'rail_average',0),sv(P+'rail_weight',0),sv(P+'farm_rate',0),sv(P+'repair',0)]
     for region in REGIONS:out += [sv(P+'rail_region_'+str(region),0),sv(P+'rail_weight_'+str(region),0)]
     for p in PROJECTS:
         value=var(p,'initial_days');base=p['base_days'].split('?')[0]
@@ -268,6 +264,7 @@ def refresh():
         out += clamp(value,1,3650)+[div(value,P+'speed'),*ceil(value),add(value,1)]
         out += [iff(running(p),[add(P+'active',1),add(P+'trains',var(p,'trains'))])]
         if p.get('reward')=='rural':out += [iff(flag(p,'completed'),[add(P+'farm_rate',var(p,'farm_rate')),add(P+'repair',.01)])]
+    out += [sv(P+'free_slots',P+'slots'),sub(P+'free_slots',P+'active'),*clamp(P+'free_slots',0,7)]
     for c in CORRIDORS:
         level=P+'rail_'+c['key']
         connected='has_railway_connection = { path = { '+' '.join(map(str,c['path']))+' } }'
@@ -457,8 +454,8 @@ def augment(out):
                 'limit = { has_state_flag = RUS_np_rural_area OR = { AND = { NOT = { infrastructure < 5 } NOT = { has_state_flag = RUS_np_rural_infra_five } } AND = { infrastructure < 5 has_state_flag = RUS_np_rural_infra_five } } }',
                 'RUS_np_refresh_rural_state = yes']).strip()])]))
     defaults=[iff('NOT = { has_variable = '+v+' }',[sv(v,x)]) for v,x in [('RUS_ic_cost_low',20),('RUS_ic_cost_med',40),('RUS_ic_cost_high',60),('RUS_ic_time_60',60),('RUS_ic_time_120',120)]]
-    init=['RUS_np_initialize_rural = yes','set_country_flag = RUS_np_initialized',*defaults,sv(P+'available',0),sv(P+'frozen',0),sv(P+'spent',0),sv(P+'filter',0),sv(P+'year','year'),sv(P+'farm_credit',0),sv(P+'day','global.num_days'),sub(P+'day',1),'RUS_np_refresh = yes',
-        sv(P+'fraction','global.num_days'),op('modulo',P+'fraction',365),mul(P+'fraction',-1),add(P+'fraction',365),div(P+'fraction',365),sv(P+'initial_grant',P+'grant'),mul(P+'initial_grant',P+'fraction'),add(P+'available',P+'initial_grant')]
+    init=['RUS_np_initialize_rural = yes','set_country_flag = RUS_np_initialized',*defaults,sv(P+'available',0),sv(P+'frozen',0),sv(P+'spent',0),sv(P+'filter',0),sv(P+'year','year'),sv(P+'farm_credit',0),sv(P+'day','global.num_days'),'RUS_np_refresh = yes',
+        sv(P+'initial_grant',P+'grant'),add(P+'available',P+'initial_grant')]
     # The deficit is explicitly local. Three bounded improvements clear it and
     # establish the positive tier; initialization cannot reapply it later.
     for s in (219,195,217):init += [iff(own(s),[scope(s,[sv('RUS_np_development',0),'add_dynamic_modifier = { modifier = RUS_np_region_0 }'])])]
@@ -470,7 +467,7 @@ def augment(out):
             iff('NOT = { '+owned(p)+' }',[remove_active(p),call(p,'cancel')]),
             b('else',[call(p,'tick'),iff(ck(var(p,'left'),'<',.001),[sv(P+'adjust','days_decision_timeout@'+p['id']),mul(P+'adjust',-1),call(p,'apply_timer_delta')]),b('else',[call(p,'timer')]).strip()]).strip()])]
     daily += ['RUS_np_refresh_transport = yes','RUS_np_refresh = yes']
-    effects.append(b('RUS_np_daily',[iff('RUS_np_context = yes',['RUS_np_initialize = yes',iff(ck(P+'day','<','global.num_days'),daily)]),b('else',[iff('has_country_flag = RUS_np_initialized',[
+    effects.append(b('RUS_np_daily',[iff('RUS_np_context = yes',[iff('has_country_flag = RUS_np_initialized '+ck(P+'day','<','global.num_days'),daily)]),b('else',[iff('has_country_flag = RUS_np_initialized',[
         iff(running(p),[remove_active(p),call(p,'cancel')]) for p in PROJECTS]+[
         equip(P+c+'_dispatch')+' '+sv(P+c+'_dispatch',0) for c in ('moscow','leningrad','tsaritsyn')]+['RUS_np_refresh_transport = yes'])]).strip()]))
     transport=[sv(P+'transport_bonus',0)]
@@ -545,8 +542,12 @@ def localisations():
     l['RUS_np_farm_credit_tt']='农业建设获得§G100§!单位农机。'
     l['RUS_np_fertilizer_reward_tt']='小麦、黑麦与甜菜产量：§G+3.00%§!'
     l['RUS_np_rural_reward_tt']='每日农机供应：§G+2§!\\n农机损耗率：§G-1.00%§!'
-    l['RUS_np_header']='当前分类：[RUSNPRegionName]\\n'+l['RUS_np_header']
+    l['RUS_np_header']='当前分类：[RUSNPRegionName]\\n建设账本：[RUSNPAccountStatus]\\n§C建设资源：[?RUS_np_available|2]§!　冻结：§Y[?RUS_np_frozen|2]§!　已消耗：§g[?RUS_np_spent|2]§!\\n初始拨款：§Y[?RUS_np_initial_grant|2]§!　年度拨款：§Y[?RUS_np_grant|2]§!\\n每日收入：§G+[?RUS_np_income|2]§!　工程名额：[?RUS_np_active|0]/§Y[?RUS_np_slots|0]§!　空闲：§G[?RUS_np_free_slots|0]§!\\n征用列车：§Y[?RUS_np_trains|0]§!　计划干线平均等级：§Y[?RUS_np_rail_display|2]§!'
+    l['RUS_np_account_ready']='§G已建立§!'
+    l['RUS_np_account_pending']='§Y待建立§!'
+
     sloc=[b('defined_text',['name = RUSNationalPlanLedger',b('text',['trigger = { RUS_np_context = yes }','localization_key = RUS_np_header']).strip(),'text = { localization_key = RUS_np_header_old }'])]
+    sloc.append(b('defined_text',['name = RUSNPAccountStatus',b('text',['trigger = { has_country_flag = RUS_np_initialized }','localization_key = RUS_np_account_ready']).strip(),'text = { localization_key = RUS_np_account_pending }']))
     sloc.append(b('defined_text',['name = RUSNPRegionName',*[b('text',['trigger = { check_variable = { RUS_np_filter = '+str(i)+' } }','localization_key = RUS_np_region_name_'+str(i)]).strip() for i in range(1,7)],'text = { localization_key = RUS_np_region_name_0 }']))
     for i in range(7):l[P+'region_name_'+str(i)]=REGIONS.get(i,'全部地区')
     for i in range(7):l[P+'filter_'+str(i)]='查看：'+REGIONS.get(i,'全部地区')
@@ -572,5 +573,21 @@ def localisations():
     out={'common/scripted_localisation/RUS_national_plan_loc.txt':''.join(sloc)}
     for lang in ('simp_chinese','english','russian'):
         out[f'localisation/{lang}/RUS_national_plan_l_{lang}.yml']='l_'+lang+':\n'+''.join(' '+k+':0 '+json.dumps(v.replace('\\n','\n'),ensure_ascii=False)+'\n' for k,v in l.items())
-    out['localisation/replace/RUS_national_plan_category_l_simp_chinese.yml']='l_simp_chinese:\n RUS_first_five_year_plan_industrial_projects_desc:0 "[RUSNationalPlanLedger]"\n'
+    # Use the existing category description dispatcher: a second replace entry
+    # loses to RUS_stalin_five_year_plan_replace in the engine's load order.
+    path = 'common/scripted_localisation/RUS_stalin_five_year_plan_scripted_loc.txt'
+    text = (ROOT/path).read_text(encoding='utf-8-sig')
+    node = next(n for n in parse(text) if n.value('name') == 'RUSGetFirstFiveYearPlanIndustrialProjectsDesc')
+    branches = [n.raw() for n in node.children('text') if n.value('localization_key') != 'RUS_np_header']
+    desc = b('defined_text', ['name = RUSGetFirstFiveYearPlanIndustrialProjectsDesc',
+        'text = { trigger = { RUS_np_context = yes } localization_key = RUS_np_header }', *branches])
+    out[path] = text[:node.a]+desc.rstrip()+text[node.b:]
+    for lang in ('simp_chinese', 'english', 'russian'):
+        path = f'localisation/replace/RUS_stalin_five_year_plan_replace_l_{lang}.yml'
+        text = (ROOT/path).read_text(encoding='utf-8-sig')
+        text, count = re.subn(r'(?m)^(\s*RUS_first_five_year_plan_industrial_projects_desc_normal:\s*(?:0\s*)?)"[^"\n]*"', r'\1""', text)
+        if count != 1: raise ValueError('Expected one legacy industrial intro: '+path)
+        out[path] = text
+    # Retire the competing duplicate key, without deleting a generated path.
+    out['localisation/replace/RUS_national_plan_category_l_simp_chinese.yml']='l_simp_chinese:\n'
     return out

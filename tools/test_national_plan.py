@@ -343,6 +343,67 @@ class PlanTests(unittest.TestCase):
                 self.assertEqual(m.vars[P+'frozen'],0)
                 self.assertEqual(m.stock,stock-(math.ceil(p['trains']*.25) if lost else 0))
                 self.assertFalse(m.legacy_rewards)
+    def test_account_opens_on_click_with_full_current_year_grant(self):
+        m=Model()
+        m.call('RUS_np_daily')
+        self.assertNotIn('RUS_np_initialized',m.flags)
+        self.assertNotIn(P+'available',m.vars)
+        # Open late in a year: grant is still the full annual 10*C*E.
+        m.vars['global.num_days']=364
+        m.run(NODES['RUS_np_open_account'].one('complete_effect').v)
+        self.assertIn('RUS_np_initialized',m.flags)
+        self.assertEqual(m.vars[P+'year'],1936)
+        self.assertAlmostEqual(m.vars[P+'initial_grant'],500)
+        self.assertAlmostEqual(m.vars[P+'available'],500)
+        self.assertAlmostEqual(m.vars[P+'income'],1)
+        self.assertEqual(m.vars[P+'free_slots'],7)
+        m.call('RUS_np_initialize');m.call('RUS_np_daily')
+        self.assertEqual(m.vars[P+'available'],500)
+        m.vars['global.num_days']+=1;m.call('RUS_np_daily')
+        self.assertEqual(m.vars[P+'available'],501)
+        m.call('RUS_np_daily');self.assertEqual(m.vars[P+'available'],501)
+        m.vars['year']=1937;m.vars['global.num_days']+=1;m.call('RUS_np_daily')
+        self.assertEqual(m.vars[P+'available'],1002)
+        m.call('RUS_np_initialize');m.call('RUS_np_daily')
+        self.assertEqual(m.vars[P+'available'],1002)
+
+    def test_seven_slots_and_original_resource_formula(self):
+        for civ,basic,higher in ((0,0,0),(20,32,7),(50,50,50),(200,100,100)):
+            m=Model();m.vars.update({'num_of_available_civilian_factories':civ,
+                'RUS_basic_education_level':basic,'RUS_higher_education_level':higher})
+            m.initialize();eff=.75+.005*(.6*basic+.4*higher)
+            self.assertAlmostEqual(m.vars[P+'available'],10*civ*eff)
+            self.assertAlmostEqual(m.vars[P+'income'],.02*civ*eff)
+            self.assertEqual(m.vars[P+'slots'],7)
+            self.assertEqual(m.vars[P+'free_slots'],7)
+            # Recount active records; a capacity refresh never stops an existing job.
+            for p in PROJECTS[:7]:m.flags.add(var(p,'running'))
+            m.call('RUS_np_refresh')
+            self.assertEqual(m.vars[P+'active'],7)
+            self.assertEqual(m.vars[P+'free_slots'],0)
+            self.assertFalse(m.check(TR['RUS_np_ready_'+PROJECTS[8]['key']]))
+            m.flags.add(var(PROJECTS[7],'running'));m.call('RUS_np_refresh')
+            self.assertEqual(m.vars[P+'active'],8)
+            self.assertEqual(m.vars[P+'free_slots'],0)
+
+    def test_category_dispatch_has_one_owner_and_live_resource_header(self):
+        outputs=render()
+        path='common/scripted_localisation/RUS_stalin_five_year_plan_scripted_loc.txt'
+        desc=next(n for n in parse(outputs[path]) if n.value('name')=='RUSGetFirstFiveYearPlanIndustrialProjectsDesc')
+        first=desc.children('text')[0]
+        self.assertEqual(first.value('localization_key'),'RUS_np_header')
+        self.assertIn('RUS_np_context = yes',first.raw())
+        key='RUS_first_five_year_plan_industrial_projects_desc'
+        for lang in ('simp_chinese','english','russian'):
+            loc=outputs[f'localisation/replace/RUS_stalin_five_year_plan_replace_l_{lang}.yml']
+            self.assertIn(key+': "[ROOT.RUSGetFirstFiveYearPlanIndustrialProjectsDesc]"',loc)
+            self.assertIn(key+'_normal: ""',loc)
+        self.assertNotIn(key+':',outputs['localisation/replace/RUS_national_plan_category_l_simp_chinese.yml'])
+        loc=outputs['localisation/simp_chinese/RUS_national_plan_l_simp_chinese.yml']
+        header=next(line for line in loc.splitlines() if 'RUS_np_header:0' in line)
+        for suffix in ('available','frozen','spent','initial_grant','grant','income','active','free_slots','trains','rail_display'):
+            self.assertIn('[?RUS_np_'+suffix+'|',header)
+
     def test_income_and_annual_grant_only_once_and_capacity_reduction_no_pause(self):
         m=Model().initialize();m.call('RUS_np_daily');before=m.vars[P+'available'];m.call('RUS_np_daily');self.assertEqual(m.vars[P+'available'],before)
         m.vars['year']=1937;m.vars['global.num_days']+=1;m.call('RUS_np_daily')

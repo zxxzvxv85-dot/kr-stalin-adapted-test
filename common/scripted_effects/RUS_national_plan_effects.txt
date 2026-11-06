@@ -50,55 +50,7 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_grant = RUS_np_civ }
 	multiply_variable = { RUS_np_grant = 10 }
 	multiply_variable = { RUS_np_grant = RUS_np_efficiency }
-	set_variable = { RUS_np_slots = 2 }
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_civ < 25 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_civ < 50 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_civ < 75 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_civ < 100 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_civ < 125 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_civ < 150 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_education < 25 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_education < 50 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_education < 75 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { NOT = { check_variable = { RUS_np_education < 100 } } }
-	add_to_variable = { RUS_np_slots = 1 }
-}
-	if = {
-	limit = { check_variable = { RUS_np_slots < 2 } }
-	set_variable = { RUS_np_slots = 2 }
-}
-	if = {
-	limit = { check_variable = { RUS_np_slots > 8 } }
-	set_variable = { RUS_np_slots = 8 }
-}
+	set_variable = { RUS_np_slots = 7 }
 	set_variable = { RUS_np_active = 0 }
 	set_variable = { RUS_np_trains = 0 }
 	set_variable = { RUS_np_rail_average = 0 }
@@ -1432,6 +1384,16 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_farm_rate = RUS_np_tsaritsyn_rural_farm_rate }
 	add_to_variable = { RUS_np_repair = 0.01 }
 }
+	set_variable = { RUS_np_free_slots = RUS_np_slots }
+	subtract_from_variable = { RUS_np_free_slots = RUS_np_active }
+	if = {
+	limit = { check_variable = { RUS_np_free_slots < 0 } }
+	set_variable = { RUS_np_free_slots = 0 }
+}
+	if = {
+	limit = { check_variable = { RUS_np_free_slots > 7 } }
+	set_variable = { RUS_np_free_slots = 7 }
+}
 	if = {
 	limit = { has_variable = RUS_np_rail_northern 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 247 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 248 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 253 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 351 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 398 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 399 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 400 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 573 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 653 = { is_owned_and_controlled_by_ROOT_or_subject = yes } has_railway_connection = { path = { 3215 11250 3358 11282 6380 9378 9278 6356 252 121 9122 11099 2 9168 2996 11143 143 3135 9200 11075 73 3066 3103 6089 9214 6124 272 3139 3027 370 9293 12203 7346 11352 7375 11228 237 4758 12567 1821 } } }
 	set_variable = { RUS_np_tmp = RUS_np_rail_northern }
@@ -1757,15 +1719,8 @@ RUS_np_initialize = {
 	set_variable = { RUS_np_year = year }
 	set_variable = { RUS_np_farm_credit = 0 }
 	set_variable = { RUS_np_day = global.num_days }
-	subtract_from_variable = { RUS_np_day = 1 }
 	RUS_np_refresh = yes
-	set_variable = { RUS_np_fraction = global.num_days }
-	modulo_variable = { RUS_np_fraction = 365 }
-	multiply_variable = { RUS_np_fraction = -1 }
-	add_to_variable = { RUS_np_fraction = 365 }
-	divide_variable = { RUS_np_fraction = 365 }
 	set_variable = { RUS_np_initial_grant = RUS_np_grant }
-	multiply_variable = { RUS_np_initial_grant = RUS_np_fraction }
 	add_to_variable = { RUS_np_available = RUS_np_initial_grant }
 	if = {
 	limit = { 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } }
@@ -1793,9 +1748,8 @@ RUS_np_initialize = {
 RUS_np_daily = {
 	if = {
 	limit = { RUS_np_context = yes }
-	RUS_np_initialize = yes
 	if = {
-	limit = { check_variable = { RUS_np_day < global.num_days } }
+	limit = { has_country_flag = RUS_np_initialized check_variable = { RUS_np_day < global.num_days } }
 	set_variable = { RUS_np_day = global.num_days }
 	RUS_np_refresh = yes
 	if = {
