@@ -20,6 +20,7 @@ class Model(ScriptModel):
     def __init__(self):
         super().__init__(copy.deepcopy(EFFECTS));self.context=True;self.stock=10000;self.scope=None;self.mio_scope=None;self.aat=True;self.events=[];self.offsite={};self.focuses=set();self.preview_mios=[]
         self.mios={token:{'size':0,'available':True,'assigned':False} for token in set(CONSORTIUM_MIOS)|{row[i] for row in MIO_TARGETS.values() for i in (0,2) if row[i]}}
+        self.trigger_root='RUS';self.ai=False
         self.country=self.vars;self.country.update({'global.num_days':100,'year':1936,'num_of_available_civilian_factories':50,
             'RUS_basic_education_level':50,'RUS_higher_education_level':50,'RUS_education_enthusiasm':50,
             'RUS_nat_machine_stock':1000,'RUS_nat_target':1000,'RUS_nat_installed':0,'RUS_first_five_year_plan_stage':3})
@@ -65,8 +66,14 @@ class Model(ScriptModel):
             elif n.k.isdigit():
                 oldscope,oldvars=self.scope,self.vars;self.scope=int(n.k);self.vars=self.states[self.scope]
                 ok=self.check(n.v);self.scope,self.vars=oldscope,oldvars
-            elif n.k in ('is_owned_and_controlled_by_ROOT_or_subject','is_owned_and_controlled_by'):ok=self.states[self.scope]['owned'] and self.states[self.scope].get('controlled',True)
-            elif n.k=='is_core_of':ok=self.states[self.scope].get('core',True)
+            elif n.k=='is_ai':ok=self.ai==(n.v=='yes')
+            elif n.k=='is_owned_and_controlled_by_ROOT_or_subject':ok=self.states[self.scope]['owned'] and self.states[self.scope].get('controlled',True)
+            elif n.k=='is_owned_and_controlled_by':
+                target=self.trigger_root if n.v=='ROOT' else n.v
+                ok=target=='RUS' and self.states[self.scope]['owned'] and self.states[self.scope].get('controlled',True)
+            elif n.k=='is_core_of':
+                target=self.trigger_root if n.v=='ROOT' else n.v
+                ok=target=='RUS' and self.states[self.scope].get('core',True)
             elif n.k=='state':ok=self.scope==int(n.v)
             elif n.k=='has_state_category':ok=self.vars.get('category')==n.v
             elif n.k=='has_state_flag':ok=n.v in self.state_flags.get(self.scope,set())
@@ -215,6 +222,32 @@ class PlanTests(unittest.TestCase):
         self.assertNotIn(P+'initialized',m.flags)
         hooks=load(ROOT/'common/on_actions/RUS_national_plan_on_actions.txt')[0]
         self.assertIn('RUS_np_initialize_rural',hooks.one('on_startup').raw())
+
+    def test_rural_startup_explicit_russia_and_real_screenshot_states(self):
+        import subprocess
+        before=parse(subprocess.check_output(['git','show','338eb16:common/scripted_triggers/RUS_national_plan_triggers.txt']).decode('utf8'))
+        old=next(n for n in before if n.k=='RUS_np_rural_candidate')
+        m=Model();m.context=False;m.trigger_root='GER';m.ai=True
+        for sid,filename in ((213,'213 - Murmansk.txt'),(237,'237 - Elista.txt')):
+            state=load(ROOT.parent/'1521695605/history/states'/filename)[0];h=state.one('history');buildings=h.one('buildings')
+            self.assertEqual(h.value('owner'),'RUS')
+            m.states[sid]=dict(owned=True,controlled=True,core=True,category=state.value('state_category'),
+                infrastructure=int(buildings.value('infrastructure','0')),
+                industrial_complex=int(buildings.value('industrial_complex','0')),arms_factory=int(buildings.value('arms_factory','0')))
+            m.state_flags[sid]=set();m.state_mods[sid]=set()
+            scope,variables=m.scope,m.vars;m.scope=sid;m.vars=m.states[sid]
+            self.assertFalse(m.check(old),'old relative ROOT must expose the scope dependency')
+            self.assertTrue(m.check(TR['RUS_np_rural_candidate']))
+            m.scope,m.vars=scope,variables
+        m.call('RUS_np_initialize_rural')
+        for sid in (213,237):
+            self.assertAlmostEqual(m.states[sid][P+'rural_build_speed'],-.2)
+            self.assertAlmostEqual(m.states[sid][P+'rural_slots'],-.15)
+            self.assertIn('RUS_np_rural_infrastructure',m.state_mods[sid])
+        self.assertNotIn(P+'initialized',m.flags)
+        dm=load(ROOT/DM);rural=next(n for n in dm if n.k=='RUS_np_rural_infrastructure')
+        owner=rural.one('enable').one('owner');self.assertTrue(m.check(owner))
+        m.ai=False;self.assertTrue(m.check(owner))
 
     def test_level_five_infrastructure_adds_ten_points_and_never_stacks(self):
         m=Model();m.context=False;s=next(s for s in m.states if s not in (219,195,217))

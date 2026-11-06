@@ -1708,7 +1708,7 @@ RUS_np_refresh_rural = {
 }
 RUS_np_initialize_rural = {
 	if = {
-	limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_np_rural_enabled } }
+	limit = { tag = RUS NOT = { has_country_flag = RUS_np_rural_enabled } }
 	set_country_flag = RUS_np_rural_enabled
 	RUS_np_refresh_rural = yes
 }

@@ -412,8 +412,8 @@ def augment(out):
     out[DEC]=text
     triggers=[b('RUS_np_context',['original_tag = RUS','is_ai = no','has_socialist_government = yes','RUS_rc_stalin_phase = yes'])]
     triggers += [b('RUS_np_rural_candidate',[
-        'is_core_of = ROOT','is_owned_and_controlled_by = ROOT',
-        'NOT = { state = 219 state = 195 state = 217 }',
+        'is_core_of = RUS','is_owned_and_controlled_by = RUS',
+        'NOT = { state = 219 } NOT = { state = 195 } NOT = { state = 217 }',
         'OR = { has_state_category = one has_state_category = two has_state_category = three has_state_category = four }',
         'infrastructure < 3','industrial_complex < 3','arms_factory < 3'])]
     for p in PROJECTS:
@@ -447,7 +447,8 @@ def augment(out):
         b('every_owned_state',['limit = { OR = { has_state_flag = RUS_np_rural_area RUS_np_rural_candidate = yes } }','RUS_np_refresh_rural_state = yes']).strip()])]
     effects.append(b('RUS_np_refresh_rural_state',rural_state))
     effects.append(b('RUS_np_refresh_rural',[iff('original_tag = RUS has_country_flag = RUS_np_rural_enabled',rural)]))
-    effects.append(b('RUS_np_initialize_rural',[iff('original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_np_rural_enabled }',[
+    # Startup must not depend on whether player ownership is settled yet.
+    effects.append(b('RUS_np_initialize_rural',[iff('tag = RUS NOT = { has_country_flag = RUS_np_rural_enabled }',[
         'set_country_flag = RUS_np_rural_enabled','RUS_np_refresh_rural = yes'])]))
     effects.append(b('RUS_np_rural_daily',['RUS_np_initialize_rural = yes','RUS_np_refresh_rural = yes',
         iff('has_country_flag = RUS_np_rural_enabled '+ck(P+'rural_infra_day','<','global.num_days'),[
@@ -494,7 +495,7 @@ def augment(out):
     dm=[b('RUS_np_transport_network',['enable = { RUS_np_context = yes }','production_speed_buildings_factor = RUS_np_transport_bonus','industrial_capacity_factory = RUS_np_transport_bonus'])]
     for key in ('RUS_np_rural_infrastructure','RUS_np_rural_infrastructure_improved'):
         dm.append(b(key,['icon = GFX_modifiers_generic_construction',
-            'enable = { is_core_of = RUS owner = { original_tag = RUS has_country_flag = RUS_np_rural_enabled } controller = { original_tag = RUS } }',
+            'enable = { is_core_of = RUS owner = { tag = RUS has_country_flag = RUS_np_rural_enabled } controller = { tag = RUS } }',
             'state_production_speed_buildings_factor = RUS_np_rural_build_speed','local_building_slots_factor = RUS_np_rural_slots']))
     for i,mods in [(0,{'state_production_speed_buildings_factor':-.05,'local_building_slots_factor':-.05}),(1,{'state_production_speed_buildings_factor':-.025}),(3,{'state_production_speed_buildings_factor':.05,'local_building_slots_factor':.05})]:
         dm.append(b(P+'region_'+str(i),['enable = { owner = { original_tag = RUS } controller = { original_tag = RUS } }',*[f'{m} = {v}' for m,v in mods.items()]]))
