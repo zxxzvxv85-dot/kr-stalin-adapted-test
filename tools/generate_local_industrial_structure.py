@@ -84,7 +84,7 @@ RUS_lis_refresh_country = {
     state_production_speed_arms_factory_factor = RUS_lis_mil_speed
 }
 '''
-    loc={MOD:'地方工业结构',MOD+'_desc':'民用工业形成施工与供应配套；军工集中则增加土地、劳动力和运输压力。'}
+    loc={MOD:'地方工业结构',MOD+'_desc':''}
     outputs={'common/scripted_effects/RUS_local_industrial_structure.txt':effects,
              'common/on_actions/RUS_local_industrial_structure.txt':actions,
              'common/dynamic_modifiers/RUS_local_industrial_structure.txt':modifier}
