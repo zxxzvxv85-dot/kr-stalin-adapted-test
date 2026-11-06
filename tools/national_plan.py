@@ -494,7 +494,7 @@ def augment(out):
     out[FX]='\n'.join(line.rstrip() for line in out[FX].split('\n'))
     dm=[b('RUS_np_transport_network',['enable = { RUS_np_context = yes }','production_speed_buildings_factor = RUS_np_transport_bonus','industrial_capacity_factory = RUS_np_transport_bonus'])]
     for key in ('RUS_np_rural_infrastructure','RUS_np_rural_infrastructure_improved'):
-        dm.append(b(key,['icon = GFX_modifiers_generic_construction',
+        dm.append(b(key,['icon = GFX_modifiers_PRC_rural_development',
             'enable = { is_core_of = RUS owner = { tag = RUS has_country_flag = RUS_np_rural_enabled } controller = { tag = RUS } }',
             'state_production_speed_buildings_factor = RUS_np_rural_build_speed','local_building_slots_factor = RUS_np_rural_slots']))
     for i,mods in [(0,{'state_production_speed_buildings_factor':-.05,'local_building_slots_factor':-.05}),(1,{'state_production_speed_buildings_factor':-.025}),(3,{'state_production_speed_buildings_factor':.05,'local_building_slots_factor':.05})]:
@@ -529,9 +529,9 @@ def localisations():
        'RUS_np_unlocked':'§G已达成§!','RUS_np_pending':'§Y未达成§!','RUS_np_claimed':'§g已领取§!'}
     l['RUS_np_terminate_tt']='终止工程，结算已用建设资源并返还余款及施工列车。政治点不返还，不获得竣工奖励。'
     l['RUS_np_rural_infrastructure']='落后的基础设施'
-    l['RUS_np_rural_infrastructure_desc']='乡间交通、供能与施工配套仍显不足，工业建设受到制约。'
+    l['RUS_np_rural_infrastructure_desc']=''
     l['RUS_np_rural_infrastructure_improved']='改善的基础设施'
-    l['RUS_np_rural_infrastructure_improved_desc']='工业化带来的交通与配套改善，正在惠及广大乡村。'
+    l['RUS_np_rural_infrastructure_improved_desc']=''
     l['RUS_np_mio_consortium_award_tt']='获得一次航空军工协作成果。可选择一个正在承担研究或生产任务的航空军工机构，经费获取增加§G25%§!。'
     l['RUS_np_redeem_mio_consortium']='分配航空工业协作成果'
     l['RUS_np_redeem_mio_consortium_desc']='$RUS_aat_consortium_tt$'
