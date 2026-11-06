@@ -1,0 +1,170 @@
+RUS_sc_remove_territorial = {
+	if = {
+		limit = { has_tech = RUS_sc_territorial_supply }
+		set_technology = { RUS_sc_territorial_supply = 0 popup = no }
+	}
+}
+
+RUS_sc_sync_territorial = {
+	if = {
+		limit = { RUS_sc_context = yes has_idea = RUS_sc_territorial }
+		if = {
+			limit = { NOT = { has_tech = RUS_sc_territorial_supply } }
+			set_technology = { RUS_sc_territorial_supply = 1 popup = no }
+		}
+	}
+	else = {
+		RUS_sc_remove_territorial = yes
+	}
+}
+
+RUS_sc_set_1 = {
+	if = {
+		limit = { NOT = { has_idea = RUS_sc_volunteers } }
+		add_ideas = RUS_sc_volunteers
+	}
+}
+
+RUS_sc_set_2 = {
+	if = {
+		limit = { NOT = { has_idea = RUS_sc_territorial } }
+		add_ideas = RUS_sc_territorial
+	}
+}
+
+RUS_sc_set_3 = {
+	if = {
+		limit = { NOT = { has_idea = RUS_sc_universal } }
+		add_ideas = RUS_sc_universal
+	}
+}
+
+RUS_sc_set_4 = {
+	if = {
+		limit = { NOT = { has_idea = RUS_sc_wartime } }
+		add_ideas = RUS_sc_wartime
+	}
+}
+
+RUS_sc_set_5 = {
+	if = {
+		limit = { NOT = { has_idea = RUS_sc_extended } }
+		add_ideas = RUS_sc_extended
+	}
+}
+
+RUS_sc_set_6 = {
+	if = {
+		limit = { NOT = { has_idea = RUS_sc_emergency } }
+		add_ideas = RUS_sc_emergency
+	}
+}
+
+RUS_sc_refresh = {
+	if = {
+		limit = { RUS_sc_context = yes }
+		if = {
+			limit = { NOT = { country_exists = GER } }
+			if = {
+				limit = { NOT = { OR = { has_idea = RUS_sc_territorial has_idea = RUS_sc_universal has_idea = RUS_sc_wartime } } }
+				if = {
+					limit = { OR = { has_completed_focus = RUS_future_foreign_062 has_country_flag = RUS_sc_reached_4 } }
+					RUS_sc_set_4 = yes
+				}
+				else_if = {
+					limit = { OR = { has_completed_focus = RUS_fr_general_staff_experimental_formations has_country_flag = RUS_sc_reached_3 } }
+					RUS_sc_set_3 = yes
+				}
+				else = {
+					RUS_sc_set_2 = yes
+				}
+			}
+		}
+		else_if = {
+			limit = { surrender_progress > 0.5 }
+			RUS_sc_set_6 = yes
+		}
+		else_if = {
+			limit = { surrender_progress > 0.2 }
+			RUS_sc_set_5 = yes
+		}
+		else = {
+			if = {
+				limit = { OR = { has_completed_focus = RUS_future_foreign_062 has_country_flag = RUS_sc_reached_4 } }
+				RUS_sc_set_4 = yes
+			}
+			else_if = {
+				limit = { OR = { has_completed_focus = RUS_fr_general_staff_experimental_formations has_country_flag = RUS_sc_reached_3 } }
+				RUS_sc_set_3 = yes
+			}
+			else_if = {
+				limit = { OR = { has_completed_focus = RUS_fr_post_revolutionary_armed_forces has_country_flag = RUS_sc_reached_2 } }
+				RUS_sc_set_2 = yes
+			}
+			else = {
+				RUS_sc_set_1 = yes
+			}
+		}
+		RUS_sc_sync_territorial = yes
+	}
+	else = {
+		if = {
+			limit = { has_idea = RUS_sc_volunteers }
+			add_ideas = volunteer_only
+		}
+		if = {
+			limit = { has_idea = RUS_sc_territorial }
+			add_ideas = limited_conscription
+		}
+		if = {
+			limit = { has_idea = RUS_sc_universal }
+			add_ideas = extensive_conscription
+		}
+		if = {
+			limit = { has_idea = RUS_sc_wartime }
+			add_ideas = service_by_requirement
+		}
+		if = {
+			limit = { has_idea = RUS_sc_extended }
+			add_ideas = all_adults_serve
+		}
+		if = {
+			limit = { has_idea = RUS_sc_emergency }
+			add_ideas = scraping_the_barrel
+		}
+		RUS_sc_remove_territorial = yes
+	}
+}
+
+RUS_sc_focus_2 = {
+	if = {
+		limit = { hidden_trigger = { RUS_sc_context = yes country_exists = GER NOT = { surrender_progress > 0.2 } NOT = { OR = { has_completed_focus = RUS_fr_general_staff_experimental_formations has_country_flag = RUS_sc_reached_3 } } NOT = { OR = { has_completed_focus = RUS_future_foreign_062 has_country_flag = RUS_sc_reached_4 } } } }
+		effect_tooltip = { add_ideas = RUS_sc_territorial }
+	}
+	hidden_effect = {
+		set_country_flag = RUS_sc_reached_2
+		RUS_sc_refresh = yes
+	}
+}
+
+RUS_sc_focus_3 = {
+	if = {
+		limit = { hidden_trigger = { RUS_sc_context = yes country_exists = GER NOT = { surrender_progress > 0.2 } NOT = { OR = { has_completed_focus = RUS_future_foreign_062 has_country_flag = RUS_sc_reached_4 } } } }
+		effect_tooltip = { add_ideas = RUS_sc_universal }
+	}
+	hidden_effect = {
+		set_country_flag = RUS_sc_reached_3
+		RUS_sc_refresh = yes
+	}
+}
+
+RUS_sc_focus_4 = {
+	if = {
+		limit = { hidden_trigger = { RUS_sc_context = yes country_exists = GER NOT = { surrender_progress > 0.2 }  } }
+		effect_tooltip = { add_ideas = RUS_sc_wartime }
+	}
+	hidden_effect = {
+		set_country_flag = RUS_sc_reached_4
+		RUS_sc_refresh = yes
+	}
+}

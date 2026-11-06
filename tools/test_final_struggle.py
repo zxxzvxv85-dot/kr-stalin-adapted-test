@@ -71,6 +71,14 @@ def run(nodes, state, scope="RUS"):
         elif k == "add_state_claim": state["claims"].add(v)
         elif k == "create_wargoal": state["wargoals"].append((scope, get(v, "target")))
         elif k == "add_to_faction": state["joins"].append((scope, v))
+        elif k == "RUS_sc_focus_4":
+            # Execute the shipped conscription hook too; the final-struggle
+            # fixture is socialist RUS with GER still existing.
+            from test_socialist_conscription import Model, law
+            m = Model()
+            m.ger = "GER" in state["countries"]
+            m.call("RUS_sc_focus_4")
+            assert m.current() == law(4)
         elif k in {"name", "custom_effect_tooltip", "scoped_play_song"}: pass  # Audio is an external engine boundary.
         else: raise AssertionError("Unexpected effect on claims-only path: " + k)
 

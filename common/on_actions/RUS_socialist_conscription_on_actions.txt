@@ -1,0 +1,23 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			RUS = { RUS_sc_refresh = yes }
+		}
+	}
+	on_daily_RUS = {
+		effect = {
+			if = {
+				limit = { original_tag = RUS }
+				RUS_sc_refresh = yes
+			}
+		}
+	}
+	on_government_change = {
+		effect = {
+			if = {
+				limit = { original_tag = RUS }
+				RUS_sc_refresh = yes
+			}
+		}
+	}
+}

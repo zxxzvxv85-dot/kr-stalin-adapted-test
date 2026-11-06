@@ -1,0 +1,190 @@
+ideas = {
+	mobilization_laws = {
+		RUS_sc_volunteers = {
+			picture = RUS_sc_volunteers
+			cost = 150
+			level = 6
+			removal_cost = -1
+			cancel_if_invalid = no
+			allowed = { original_tag = RUS }
+			visible = { RUS_sc_context = yes }
+			available = { hidden_trigger = { RUS_sc_context = yes } custom_trigger_tooltip = { tooltip = RUS_sc_auto_1_tt always = no } }
+			allowed_to_remove = { NOT = { country_exists = GER } }
+			on_add = {
+				set_temp_variable = { law_level = 6 }
+				mobilisation_laws_on_add_effect = yes
+				unlock_subunit = militia
+				RUS_sc_remove_territorial = yes
+			}
+			on_remove = {
+				RUS_sc_remove_territorial = yes
+			}
+			modifier = {
+				conscription = 0.03
+				modifier_army_sub_unit_militia_attack_factor = 0.1
+				modifier_army_sub_unit_militia_defence_factor = 0.1
+				modifier_army_sub_unit_militia_max_org_factor = 0.1
+				training_time_factor = -0.1
+				army_org_factor = -0.15
+				army_strength_factor = -0.15
+				mobilization_speed = -0.5
+			}
+			ai_will_do = { factor = 0 }
+		}
+		RUS_sc_territorial = {
+			picture = RUS_sc_territorial
+			cost = 150
+			level = 5
+			removal_cost = -1
+			cancel_if_invalid = no
+			allowed = { original_tag = RUS }
+			visible = { RUS_sc_context = yes }
+			available = { hidden_trigger = { RUS_sc_context = yes } NOT = { country_exists = GER } }
+			allowed_to_remove = { NOT = { country_exists = GER } }
+			on_add = {
+				set_temp_variable = { law_level = 5 }
+				mobilisation_laws_on_add_effect = yes
+				unlock_subunit = militia
+				if = {
+					limit = { RUS_sc_context = yes NOT = { has_tech = RUS_sc_territorial_supply } }
+					set_technology = { RUS_sc_territorial_supply = 1 popup = no }
+				}
+			}
+			on_remove = {
+				RUS_sc_remove_territorial = yes
+			}
+			modifier = {
+				conscription = 0.025
+				training_time_factor = -0.2
+				modifier_army_sub_unit_militia_defence_factor = 0.1
+				army_strength_factor = -0.1
+				modifier_army_sub_unit_militia_max_org_factor = -0.1
+				mobilization_speed = -0.3
+				custom_modifier_tooltip = RUS_sc_militia_supply_tt
+			}
+			ai_will_do = { factor = 0 }
+		}
+		RUS_sc_universal = {
+			picture = RUS_sc_universal
+			cost = 150
+			level = 4
+			removal_cost = -1
+			cancel_if_invalid = no
+			allowed = { original_tag = RUS }
+			visible = { RUS_sc_context = yes }
+			available = { hidden_trigger = { RUS_sc_context = yes } NOT = { country_exists = GER } }
+			allowed_to_remove = { NOT = { country_exists = GER } }
+			on_add = {
+				set_temp_variable = { law_level = 4 }
+				mobilisation_laws_on_add_effect = yes
+				RUS_sc_remove_territorial = yes
+			}
+			on_remove = {
+				RUS_sc_remove_territorial = yes
+			}
+			modifier = {
+				conscription = 0.05
+				army_org_factor = 0.05
+				army_org_regain = -0.15
+				training_time_factor = 0.1
+				mobilization_speed = -0.1
+			}
+			ai_will_do = { factor = 10 }
+		}
+		RUS_sc_wartime = {
+			picture = RUS_sc_wartime
+			cost = 150
+			level = 3
+			removal_cost = -1
+			cancel_if_invalid = no
+			allowed = { original_tag = RUS }
+			visible = { RUS_sc_context = yes }
+			available = { hidden_trigger = { RUS_sc_context = yes } NOT = { country_exists = GER } }
+			allowed_to_remove = { NOT = { country_exists = GER } }
+			on_add = {
+				set_temp_variable = { law_level = 3 }
+				mobilisation_laws_on_add_effect = yes
+				RUS_sc_remove_territorial = yes
+			}
+			on_remove = {
+				RUS_sc_remove_territorial = yes
+			}
+			modifier = {
+				conscription = 0.07
+				mobilization_speed = 0.3
+				reinforce_rate = 0.02
+				army_org_factor = -0.05
+				training_time_factor = 0.2
+				industrial_capacity_factory = -0.1
+				industrial_capacity_dockyard = -0.1
+				production_speed_buildings_factor = -0.1
+				war_stability_factor = -0.2
+			}
+			ai_will_do = { factor = 0 }
+		}
+		RUS_sc_extended = {
+			picture = RUS_sc_extended
+			cost = 150
+			level = 2
+			removal_cost = -1
+			cancel_if_invalid = no
+			allowed = { original_tag = RUS }
+			visible = { RUS_sc_context = yes }
+			available = { hidden_trigger = { RUS_sc_context = yes } custom_trigger_tooltip = { tooltip = RUS_sc_auto_5_tt always = no } }
+			allowed_to_remove = { NOT = { country_exists = GER } }
+			on_add = {
+				set_temp_variable = { law_level = 2 }
+				mobilisation_laws_on_add_effect = yes
+				RUS_sc_remove_territorial = yes
+			}
+			on_remove = {
+				RUS_sc_remove_territorial = yes
+			}
+			modifier = {
+				conscription = 0.15
+				mobilization_speed = 0.4
+				reinforce_rate = 0.03
+				army_strength_factor = -0.05
+				army_org_factor = -0.1
+				training_time_factor = 0.3
+				industrial_capacity_factory = -0.3
+				industrial_capacity_dockyard = -0.3
+				production_speed_buildings_factor = -0.3
+				war_stability_factor = -0.5
+			}
+			ai_will_do = { factor = 0 }
+		}
+		RUS_sc_emergency = {
+			picture = RUS_sc_emergency
+			cost = 150
+			level = 1
+			removal_cost = -1
+			cancel_if_invalid = no
+			allowed = { original_tag = RUS }
+			visible = { RUS_sc_context = yes }
+			available = { hidden_trigger = { RUS_sc_context = yes } custom_trigger_tooltip = { tooltip = RUS_sc_auto_6_tt always = no } }
+			allowed_to_remove = { NOT = { country_exists = GER } }
+			on_add = {
+				set_temp_variable = { law_level = 1 }
+				mobilisation_laws_on_add_effect = yes
+				RUS_sc_remove_territorial = yes
+			}
+			on_remove = {
+				RUS_sc_remove_territorial = yes
+			}
+			modifier = {
+				conscription = 0.25
+				mobilization_speed = 0.5
+				reinforce_rate = 0.04
+				army_strength_factor = -0.1
+				army_org_factor = -0.2
+				training_time_factor = 0.5
+				industrial_capacity_factory = -0.4
+				industrial_capacity_dockyard = -0.4
+				production_speed_buildings_factor = -0.4
+				war_stability_factor = -0.8
+			}
+			ai_will_do = { factor = 0 }
+		}
+	}
+}
