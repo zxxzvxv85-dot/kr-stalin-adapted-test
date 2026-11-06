@@ -8,7 +8,8 @@ HERE=Path(__file__).resolve().parent
 FRAME=ROOT/'tools/art_templates/KR_advisor_frame_bukharin_260x268.png'
 ROWS=[('su_beichen','su_beichen_source.jpg','35,0,410,455','苏北辰'),
       ('larruping','larruping_source.png','35,20,560,580','larruping'),
-      ('mia','mia_source.jpg','215,0,1040,1080','米娅')]
+      ('mia','mia_source.jpg','215,0,1040,1080','米娅'),
+      ('xin','xin_source.png','170,25,500,490','心')]
 
 def main():
     if sys.argv[1:]!=['--write']:raise SystemExit('Explicit image rebuild requires --write')

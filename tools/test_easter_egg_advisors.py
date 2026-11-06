@@ -112,6 +112,9 @@ class Tests(unittest.TestCase):
 
     def test_traits_and_portrait_bindings(self):
         traits=load(ROOT/'common/country_leader/RUS_easter_egg_advisor_traits.txt')[0]
+        xin=traits.one(token('xin')+'_trait')
+        self.assertEqual(float(xin.value('org_loss_at_low_org_factor')),-1)
+        self.assertFalse(xin.one('custom_modifier_tooltip'),'native modifier must display its real value')
         su=traits.one(token('su_beichen')+'_trait')
         expected=dict(army_attack_factor=.2,combat_width_factor=-.2,supply_consumption_factor=-.2,army_org_factor=.2)
         self.assertEqual({k:float(su.value(k)) for k in expected},expected)

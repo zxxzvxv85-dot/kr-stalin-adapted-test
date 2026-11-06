@@ -1103,6 +1103,30 @@ RUS_ddz_person_248856_eligible = {
 	}
 }
 
+# RUS_egg_xin — common/characters/RUS_easter_egg_advisors.txt
+RUS_ddz_person_346509_eligible = {
+	has_character = RUS_egg_xin
+	RUS_egg_xin = { NOT = { has_character_flag = is_dead } }
+	OR = {
+		has_country_leader = { character = RUS_egg_xin ruling_only = yes }
+		RUS_egg_xin = { is_political_advisor = yes }
+		RUS_egg_xin = { is_second_in_command = yes }
+		AND = {
+			RUS_egg_xin = { has_advisor_role = political_advisor }
+			OR = {
+				RUS_egg_xin = { is_political_advisor = yes }
+				AND = {
+					has_country_flag = RUS_egg_xin_unlocked
+					hidden_trigger = {
+						has_country_flag = RUS_egg_xin_unlocked
+					}
+					always = yes
+				}
+			}
+		}
+	}
+}
+
 # RUS_ernst_august_kostring — common/characters/RUS characters.txt
 RUS_ddz_person_334198_eligible = {
 	has_character = RUS_ernst_august_kostring
