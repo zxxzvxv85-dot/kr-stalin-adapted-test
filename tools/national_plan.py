@@ -570,7 +570,14 @@ def localisations():
             sloc.append(b('defined_text',['name = '+helper,b('text',['trigger = { '+flag(p,'completed')+' }','localization_key = RUS_np_claimed']).strip(),b('text',['trigger = { '+flag(p,'goal_'+str(i))+' }','localization_key = RUS_np_unlocked']).strip(),'text = { localization_key = RUS_np_pending }']))
         l[var(p,'description')]='\\n'.join(parts)
         l[p['id']+'_desc']='$'+var(p,'description')+'$'
-    out={'common/scripted_localisation/RUS_national_plan_loc.txt':''.join(sloc)}
+    # Native inline icon reference: vanilla interface/texticons.gfx,
+    # GFX_ETH_imperial_treasury, 17x16 RGBA coins. Alias only; no repaint/resizing.
+    l = {key: value.replace('§C建设资源', '£RUS_np_resources_texticon£ §C建设资源') for key, value in l.items()}
+    out={'common/scripted_localisation/RUS_national_plan_loc.txt':''.join(sloc),
+         'interface/RUS_national_plan.gfx': b('spriteTypes', [b('spriteType', [
+             'name = "GFX_RUS_np_resources_texticon"',
+             'texturefile = "gfx/texticons/ETH_imperial_treasury_text_icon.dds"',
+             'legacy_lazy_load = no']).strip()])}
     for lang in ('simp_chinese','english','russian'):
         out[f'localisation/{lang}/RUS_national_plan_l_{lang}.yml']='l_'+lang+':\n'+''.join(' '+k+':0 '+json.dumps(v.replace('\\n','\n'),ensure_ascii=False)+'\n' for k,v in l.items())
     # Use the existing category description dispatcher: a second replace entry

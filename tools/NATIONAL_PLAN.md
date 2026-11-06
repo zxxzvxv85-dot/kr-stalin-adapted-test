@@ -100,3 +100,5 @@
 用户截图确认埃利斯塔与摩尔曼斯克仅显示地方工业结构，原乡村修正缺失。修复初始化的玩家身份依赖、候选筛选的相对ROOT依赖，并拆开三城排除条件；不改乡村范围与数值，不改地方工业结构。回归模型读取KR两州真实历史数据，覆盖非RUS外层ROOT和玩家身份尚未确定的初始化；模型不等同引擎运行验证。27项一五测试通过，生成器23项输出一致，结构检查通过；仍需完全重启后的新局确认实际挂载。
 
 20261106介绍加载修复：原RUS_stalin_five_year_plan_replace同键覆盖后加载，曾使独立RUS_national_plan_category替换不生效。现撤掉竞争同键，原RUSGetFirstFiveYearPlanIndustrialProjectsDesc首分支按RUS_np_context选择资源表；旧normal正文三语置空，其他旧阶段分支保留。类别介绍只有一个本模组所有者，避免加载顺序决定显示。
+
+20261106金币文字图标：建设资源名称在余额、条件、冻结/退款、干线升级费用与追加奖励中统一前缀£RUS_np_resources_texticon£。interface/RUS_national_plan.gfx复用原版gfx/texticons/ETH_imperial_treasury_text_icon.dds（17×16 RGBA金币堆），按原版interface/texticons.gfx设置legacy_lazy_load=no；不改图像、不新增生成美术，也不改账本数值。
