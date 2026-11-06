@@ -29,6 +29,14 @@ country_event = {
 			country_event = { id = rus_stalin_white_revolt_events.3 days = 2 }
 			country_event = { id = rus_stalin_white_revolt_events.4 days = 21 }
 		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = RUS_siberian_credit_scheduled }
+				NOT = { has_country_flag = RUS_siberian_credit_seen }
+			}
+			set_country_flag = RUS_siberian_credit_scheduled
+			country_event = { id = rus_stalin_white_revolt_events.23 days = 30 }
+		}
 	}
 
 	option = {
@@ -443,4 +451,24 @@ country_event = {
 				country_event = { id = RUS_stalin_post_white_revolt_events.1 days = 7 }
 			}
 	}
+}
+
+country_event = {
+    id = rus_stalin_white_revolt_events.23
+    title = rus_stalin_white_revolt_events.23.t
+    desc = rus_stalin_white_revolt_events.23.d
+    picture = GFX_report_event_RUS_partisans1
+    is_triggered_only = yes
+    fire_only_once = yes
+    trigger = { has_socialist_government = yes }
+    immediate = { set_country_flag = RUS_siberian_credit_seen }
+    option = {
+        name = rus_stalin_white_revolt_events.23.a
+        add_stability = -0.01
+        if = {
+            limit = { hidden_trigger = { NOT = { has_country_flag = RUS_siberian_credit_followup_scheduled } } }
+            hidden_effect = { set_country_flag = RUS_siberian_credit_followup_scheduled }
+            country_event = { id = rus_stalin_white_revolt_events.18 days = 30 }
+        }
+    }
 }
