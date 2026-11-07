@@ -86,7 +86,8 @@ class Tests(unittest.TestCase):
         for path in ('common/characters/RUS_easter_egg_advisors.txt','common/country_leader/RUS_easter_egg_advisor_traits.txt'):
             before=parse(subprocess.check_output(['git','show','e7d2e3a:'+path]).decode('utf-8-sig'))[0]
             after=load(ROOT/path)[0]
-            self.assertEqual([n.norm() for n in before.v],[n.norm() for n in after.v if 'suyi' not in n.k])
+            baseline_keys={n.k for n in before.v}
+            self.assertEqual([n.norm() for n in before.v],[n.norm() for n in after.v if n.k in baseline_keys])
         self.assertIn('RUS_egg_suyi_daily = yes',(ROOT/'common/on_actions/RUS_easter_egg_on_actions.txt').read_text())
 
 if __name__=='__main__':unittest.main(verbosity=2)

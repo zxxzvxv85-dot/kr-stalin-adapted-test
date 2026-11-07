@@ -9,6 +9,14 @@ from generation_io import cli
 
 ROOT=Path(__file__).resolve().parents[1]
 ADVISORS={
+ 'hongying':dict(name='今日红缨在手',trait='远视极权自动化未来平权主义',
+     modifiers={'consumer_goods_factor':-1,'political_power_factor':2,
+                'production_speed_buildings_factor':5},desc=(
+     '背景：红缨的意识形态恐怕是近年来最值得研究的话题，他通常不被认为是正经的或是传统的革命者，如果说他是左派，他对自由意志的无限制打压会显得他像个保皇派，如果说他是右派，那么他对布尔什维克的政策又十分的推崇。'
+     '\n\n一个倾向于平等的极权主义者——或许这么说可能会比较合适，他还认为只要让AI哲人王掌管一切经济事务，所有事情都会变得好起来。'
+     '\n\n在组内，他也更倾向于快乐一些，虽然有时负面情绪会溢出来，但这微不足道。'
+     '\n\n要喜剧，不要悲剧，为了让所有事物都走向Happy End。'
+     '\n\n为了世界上所有美好而战——这人是个米卫兵')),
  'suyi':dict(name='Suyi',trait='概率学博士',modifiers={},desc=(
      '背景：Suyi的mod制作历程可谓成效显著，仅用数周时间，便凭借独具风格的文案撰写和策划运营，完成了从普通群友到核心组员的跨越式转变——这一转变并非偶然，既源于其在文案撰写和策划运营方面的持续积累，也与其温和稳重的做事风格密切相关。'
      '\n\n尽管Suyi在群内仍习惯以“季伯常”自居，但其工作热情仍感染着每一位组员。'
