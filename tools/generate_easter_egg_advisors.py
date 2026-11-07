@@ -38,7 +38,7 @@ def render_outputs():
     characters=[];traits=[];decisions=[];effects=[];sprites=[]
     loc={
       'RUS_easter_eggs_category':'彩蛋',
-      'RUS_easter_eggs_category_desc':'特别来客与不同寻常的选择。',
+      'RUS_easter_eggs_category_desc':'特别来客与不同寻常的选择。\n\n[ROOT.GetRUSEggSuyiCurrentPP]',
       'RUS_egg_guaranteed_minesweeper_tt':'扫雷小游戏无论胜负，均按成功结算。',
       'RUS_egg_guaranteed_doudizhu_tt':'每局斗地主必定获得§G四张2和大小王§!。',
       'RUS_egg_mia_trait_tt':'每月土改分数：§G+100§!（土改启用后）\n任命期间，每完成一次教育改革决议，“教育改革”永久追加科研速度：§G+5.00%§!。',
@@ -91,7 +91,7 @@ def render_outputs():
       'common/decisions/RUS_easter_egg_advisors.txt':block('RUS_easter_eggs_category',decisions),
       'common/decisions/categories/RUS_easter_egg_categories.txt':block('RUS_easter_eggs_category',[
           'icon = generic_communism','priority = 120','allowed = { original_tag = RUS }',
-          'visible = { is_ai = no }','visible_when_empty = no']),
+          'visible = { is_ai = no }','visible_when_empty = yes']),
       'common/scripted_effects/RUS_easter_egg_advisor_effects.txt':''.join(effects),
       'interface/RUS_easter_egg_advisors.gfx':block('spriteTypes',sprites),
       'common/dynamic_modifiers/RUS_easter_egg_modifiers.txt':
@@ -153,14 +153,16 @@ RUS_egg_suyi_daily = {
 }
 '''
     outputs['common/scripted_localisation/RUS_easter_egg_advisors_loc.txt']=block('defined_text',[
-        'name = RUSEggSuyiCurrentPP',
+        'name = GetRUSEggSuyiCurrentPP',
         'text = { trigger = { has_idea = RUS_egg_suyi_advisor has_country_flag = RUS_egg_suyi_rolled } localization_key = RUS_egg_suyi_pp_today }',
-        'text = { localization_key = RUS_egg_suyi_pp_range }'])
+        'text = { trigger = { has_country_flag = RUS_egg_suyi_unlocked } localization_key = RUS_egg_suyi_pp_range }',
+        'text = { localization_key = RUS_egg_suyi_pp_hidden }'])
     loc.update({
         'RUS_egg_suyi_daily_pp':'概率学博士',
-        'RUS_egg_suyi_trait_tt':'[RUSEggSuyiCurrentPP]',
-        'RUS_egg_suyi_pp_today':'$MODIFIER_POLITICAL_POWER_GAIN$：[?RUS_egg_suyi_pp|+=2]\n每日随机刷新：§Y-30.00至+30.00§!。',
-        'RUS_egg_suyi_pp_range':'$MODIFIER_POLITICAL_POWER_GAIN$：§Y-30.00至+30.00§!（每日随机刷新）',
+        'RUS_egg_suyi_trait_tt':'$MODIFIER_POLITICAL_POWER_GAIN$：§Y-30.00至+30.00§!（每日随机刷新）',
+        'RUS_egg_suyi_pp_today':'§YSuyi§!\n$MODIFIER_POLITICAL_POWER_GAIN$：[?ROOT.RUS_egg_suyi_pp|+=2]\n每日随机刷新：§Y-30.00至+30.00§!。',
+        'RUS_egg_suyi_pp_hidden':'',
+        'RUS_egg_suyi_pp_range':'§YSuyi§!\n$MODIFIER_POLITICAL_POWER_GAIN$：§Y-30.00至+30.00§!（每日随机刷新）',
     })
     for language in ('simp_chinese','english','russian'):
         outputs[f'localisation/{language}/RUS_easter_egg_advisors_l_{language}.yml']='l_'+language+':\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in loc.items())
