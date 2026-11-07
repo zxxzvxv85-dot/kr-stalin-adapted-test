@@ -1,4 +1,22 @@
 characters = {
+	RUS_egg_suyi = {
+	name = RUS_egg_suyi
+	portraits = { civilian = { small = GFX_portrait_RUS_egg_suyi_small } }
+	advisor = {
+	slot = political_advisor
+	idea_token = RUS_egg_suyi_advisor
+	desc = RUS_egg_suyi_advisor_desc
+	visible = { has_country_flag = RUS_egg_suyi_unlocked }
+	available = { hidden_trigger = { has_country_flag = RUS_egg_suyi_unlocked } not_already_hired_except_as = political_advisor }
+	traits = { RUS_egg_suyi_trait }
+	on_add = { hidden_effect = { RUS_egg_suyi_appoint = yes } }
+	on_remove = { hidden_effect = { clr_country_flag = RUS_egg_suyi_active remove_dynamic_modifier = { modifier = RUS_egg_suyi_daily_pp } force_update_dynamic_modifier = yes } }
+	cost = 0
+	can_be_fired = yes
+	ai_will_do = { base = 0 }
+}
+}
+
 	RUS_egg_xin = {
 	name = RUS_egg_xin
 	portraits = { civilian = { small = GFX_portrait_RUS_egg_xin_small } }

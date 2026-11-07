@@ -1,3 +1,9 @@
+RUS_egg_suyi_unlock = {
+	if = { limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_egg_suyi_unlocked } }
+	set_country_flag = RUS_egg_suyi_unlocked
+	if = { limit = { NOT = { has_character = RUS_egg_suyi } } recruit_character = RUS_egg_suyi }
+	}
+}
 RUS_egg_xin_unlock = {
 	if = { limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = RUS_egg_xin_unlocked } }
 	set_country_flag = RUS_egg_xin_unlocked
@@ -34,5 +40,38 @@ RUS_egg_mia_monthly = {
         limit = { has_idea = RUS_egg_mia_advisor is_ai = no original_tag = RUS }
         set_variable = { RUS_agri_score_award = 100 }
         RUS_agri_credit_score = yes
+    }
+}
+
+# Country-local persistent draw: appointing again on the same day reuses it.
+RUS_egg_suyi_roll = {
+    if = {
+        limit = { original_tag = RUS is_ai = no OR = { NOT = { has_country_flag = RUS_egg_suyi_rolled } check_variable = { RUS_egg_suyi_roll_day < global.num_days } } }
+        randomize_variable = { var = RUS_egg_suyi_pp distribution = uniform min = -30 max = 30 }
+        multiply_variable = { RUS_egg_suyi_pp = 100 }
+        round_variable = RUS_egg_suyi_pp
+        divide_variable = { RUS_egg_suyi_pp = 100 }
+        clamp_variable = { var = RUS_egg_suyi_pp min = -30 max = 30 }
+        set_variable = { RUS_egg_suyi_roll_day = global.num_days }
+        set_country_flag = RUS_egg_suyi_rolled
+    }
+}
+RUS_egg_suyi_appoint = {
+    if = {
+        limit = { original_tag = RUS is_ai = no has_country_flag = RUS_egg_suyi_unlocked }
+        set_country_flag = RUS_egg_suyi_active
+        RUS_egg_suyi_roll = yes
+        if = { limit = { NOT = { has_dynamic_modifier = RUS_egg_suyi_daily_pp } } add_dynamic_modifier = { modifier = RUS_egg_suyi_daily_pp } }
+        force_update_dynamic_modifier = yes
+    }
+}
+RUS_egg_suyi_daily = {
+    if = {
+        limit = { original_tag = RUS is_ai = no has_idea = RUS_egg_suyi_advisor }
+        RUS_egg_suyi_appoint = yes
+    }
+    else = {
+        clr_country_flag = RUS_egg_suyi_active
+        if = { limit = { has_dynamic_modifier = RUS_egg_suyi_daily_pp } remove_dynamic_modifier = { modifier = RUS_egg_suyi_daily_pp } force_update_dynamic_modifier = yes }
     }
 }

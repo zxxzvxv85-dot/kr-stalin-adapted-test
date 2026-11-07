@@ -9,6 +9,10 @@ from generation_io import cli
 
 ROOT=Path(__file__).resolve().parents[1]
 ADVISORS={
+ 'suyi':dict(name='Suyi',trait='概率学博士',modifiers={},desc=(
+     '背景：Suyi的mod制作历程可谓成效显著，仅用数周时间，便凭借独具风格的文案撰写和策划运营，完成了从普通群友到核心组员的跨越式转变——这一转变并非偶然，既源于其在文案撰写和策划运营方面的持续积累，也与其温和稳重的做事风格密切相关。'
+     '\n\n尽管Suyi在群内仍习惯以“季伯常”自居，但其工作热情仍感染着每一位组员。'
+     '\n\n“有理想的人，生活总是火热的。”')),
  'xin':dict(name='心',trait='自刎归天',modifiers={'org_loss_at_low_org_factor':-1},desc=(
      '背景：某种意义上来讲，牢心可能是制作组成分最复杂的人，在作为群友的早年生活中，他有时跳出来发表一些长篇大论，有时又会在长时间内陷入沉寂；不仅如此，牢心的还乐于在mod群里搬花样繁多的史，从科幻FPS对局到神笔历史小故事应有尽有，他自己美其名曰分享美食。尽管他的史经常0个人在意，但他依然乐此不疲。'
      '\n\n作为制作组新加入的成员之一，曾经的他对mod制作望而却步。直到某一天他下载了那个震撼的多么多么的多么mod——承蒙多么多么mod组的伟力，他被让KR红俄再次伟大的理想所感召，完成了从见证别人做mod到自己参与做mod的转变。为了达成这个伟大理想，无论付出何种代价都在所不惜，哪怕让群聊燃烧，让飞书陨落........')),
@@ -50,11 +54,15 @@ def render_outputs():
                 'visible = { has_country_flag = '+flag+' }',
                 'available = { hidden_trigger = { has_country_flag = '+flag+' } not_already_hired_except_as = political_advisor }',
                 'traits = { '+trait+' }','cost = 0','can_be_fired = yes','ai_will_do = { base = 0 }']).strip()]))
+        if key=='suyi':
+            characters[-1]=characters[-1].replace('cost = 0',
+                'on_add = { hidden_effect = { RUS_egg_suyi_appoint = yes } }\n\ton_remove = { hidden_effect = { clr_country_flag = RUS_egg_suyi_active remove_dynamic_modifier = { modifier = RUS_egg_suyi_daily_pp } force_update_dynamic_modifier = yes } }\n\tcost = 0')
         traits.append(block(trait,['random = no','sprite = 1',
             *[str(k)+' = '+str(v) for k,v in data['modifiers'].items()],
             *(['custom_modifier_tooltip = RUS_egg_guaranteed_minesweeper_tt'] if key=='larruping' else []),
             *(['custom_modifier_tooltip = RUS_egg_guaranteed_doudizhu_tt'] if key=='larruping' else []),
             *(['custom_modifier_tooltip = RUS_egg_mia_trait_tt'] if key=='mia' else []),
+            *(['custom_modifier_tooltip = RUS_egg_suyi_trait_tt'] if key=='suyi' else []),
             'ai_will_do = { factor = 0 }']))
         effects.append(block(ident+'_unlock',[
             'if = { limit = { original_tag = RUS is_ai = no NOT = { has_country_flag = '+flag+' } }',
@@ -87,10 +95,13 @@ def render_outputs():
       'common/scripted_effects/RUS_easter_egg_advisor_effects.txt':''.join(effects),
       'interface/RUS_easter_egg_advisors.gfx':block('spriteTypes',sprites),
       'common/dynamic_modifiers/RUS_easter_egg_modifiers.txt':
-          '# Tooltip only; actual reward is part of RUS_education_social_capacity.\n'+
-          block('RUS_edu_mia_reward_preview',['research_speed_factor = 0.05']),
+          '# Mia preview only; her actual reward is in RUS_education_social_capacity.\n# Suyi below is the live, variable-valued country modifier (no spirit icon).\n'+
+          block('RUS_edu_mia_reward_preview',['research_speed_factor = 0.05'])+
+          block('RUS_egg_suyi_daily_pp',['enable = { original_tag = RUS is_ai = no has_country_flag = RUS_egg_suyi_active }',
+              'political_power_gain = RUS_egg_suyi_pp']),
       'common/on_actions/RUS_easter_egg_on_actions.txt':block('on_actions',[
-          'on_monthly = { effect = { RUS_egg_mia_monthly = yes } }']),
+          'on_monthly = { effect = { RUS_egg_mia_monthly = yes } }',
+          'on_daily_RUS = { effect = { RUS_egg_suyi_daily = yes } }']),
     }
     outputs['common/scripted_effects/RUS_easter_egg_advisor_effects.txt']+='''
 RUS_egg_mia_education_completed = {
@@ -107,6 +118,50 @@ RUS_egg_mia_monthly = {
     }
 }
 '''
+    outputs['common/scripted_effects/RUS_easter_egg_advisor_effects.txt']+='''
+# Country-local persistent draw: appointing again on the same day reuses it.
+RUS_egg_suyi_roll = {
+    if = {
+        limit = { original_tag = RUS is_ai = no OR = { NOT = { has_country_flag = RUS_egg_suyi_rolled } check_variable = { RUS_egg_suyi_roll_day < global.num_days } } }
+        randomize_variable = { var = RUS_egg_suyi_pp distribution = uniform min = -30 max = 30 }
+        multiply_variable = { RUS_egg_suyi_pp = 100 }
+        round_variable = RUS_egg_suyi_pp
+        divide_variable = { RUS_egg_suyi_pp = 100 }
+        clamp_variable = { var = RUS_egg_suyi_pp min = -30 max = 30 }
+        set_variable = { RUS_egg_suyi_roll_day = global.num_days }
+        set_country_flag = RUS_egg_suyi_rolled
+    }
+}
+RUS_egg_suyi_appoint = {
+    if = {
+        limit = { original_tag = RUS is_ai = no has_country_flag = RUS_egg_suyi_unlocked }
+        set_country_flag = RUS_egg_suyi_active
+        RUS_egg_suyi_roll = yes
+        if = { limit = { NOT = { has_dynamic_modifier = RUS_egg_suyi_daily_pp } } add_dynamic_modifier = { modifier = RUS_egg_suyi_daily_pp } }
+        force_update_dynamic_modifier = yes
+    }
+}
+RUS_egg_suyi_daily = {
+    if = {
+        limit = { original_tag = RUS is_ai = no has_idea = RUS_egg_suyi_advisor }
+        RUS_egg_suyi_appoint = yes
+    }
+    else = {
+        clr_country_flag = RUS_egg_suyi_active
+        if = { limit = { has_dynamic_modifier = RUS_egg_suyi_daily_pp } remove_dynamic_modifier = { modifier = RUS_egg_suyi_daily_pp } force_update_dynamic_modifier = yes }
+    }
+}
+'''
+    outputs['common/scripted_localisation/RUS_easter_egg_advisors_loc.txt']=block('defined_text',[
+        'name = RUSEggSuyiCurrentPP',
+        'text = { trigger = { has_idea = RUS_egg_suyi_advisor has_country_flag = RUS_egg_suyi_rolled } localization_key = RUS_egg_suyi_pp_today }',
+        'text = { localization_key = RUS_egg_suyi_pp_range }'])
+    loc.update({
+        'RUS_egg_suyi_daily_pp':'概率学博士',
+        'RUS_egg_suyi_trait_tt':'[RUSEggSuyiCurrentPP]',
+        'RUS_egg_suyi_pp_today':'$MODIFIER_POLITICAL_POWER_GAIN$：[?RUS_egg_suyi_pp|+=2]\n每日随机刷新：§Y-30.00至+30.00§!。',
+        'RUS_egg_suyi_pp_range':'$MODIFIER_POLITICAL_POWER_GAIN$：§Y-30.00至+30.00§!（每日随机刷新）',
+    })
     for language in ('simp_chinese','english','russian'):
         outputs[f'localisation/{language}/RUS_easter_egg_advisors_l_{language}.yml']='l_'+language+':\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in loc.items())
     return {rel:'\n'.join(line.rstrip() for line in text.split('\n')) for rel,text in outputs.items()}
