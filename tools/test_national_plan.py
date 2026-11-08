@@ -322,7 +322,22 @@ class PlanTests(unittest.TestCase):
             self.assertEqual(node.one('ai_will_do').value('factor'),'0')
             self.assertFalse(any(n.k=='activate_targeted_decision' for n in walk(node.one('completion_reward').v)))
         self.assertEqual(set(seen),expected);self.assertEqual(len(seen),62)
-        self.assertIsNone(focuses['RUS_future_domestic_421'].one('completion_reward').one('unlock_decision_tooltip'))
+        self.assertIsNone(focuses['RUS_future_domestic_422'].one('completion_reward').one('unlock_decision_tooltip'))
+
+    def test_project_distribution_is_small_and_electricity_spans_later_focuses(self):
+        self.assertEqual(len(FOCUS_PROJECTS),26)
+        self.assertTrue(all(1 <= len(keys) <= 3 for keys in FOCUS_PROJECTS.values()))
+        land={'187','189','197','199','202','203','207','407','408','409','411','455','457'}
+        self.assertEqual(sum(len(keys) for suffix,keys in FOCUS_PROJECTS.items() if suffix in land),3)
+        electric=[p for p in PROJECTS if p['kind']=='energy']
+        self.assertEqual(len(electric),8)
+        self.assertEqual(len({PROJECT_FOCUS[p['key']] for p in electric}),5)
+        self.assertEqual(FOCUS_PROJECTS['804'],('kamenev_all_russian_electrification','kashira'))
+        # Each selected economic approach unlocks its own distinct projects.
+        for branch in ({'169','176','625','626','182'}, {'166','629','179','631','177'}, {'163','181','634','636','183'}):
+            keys={key for suffix in branch for key in FOCUS_PROJECTS[suffix]}
+            self.assertGreaterEqual(len(keys),10)
+            for key in keys:self.assertIn(PROJECT_FOCUS[key].split('_')[-1],branch)
 
     def score_model(self):
         m=Model().initialize()

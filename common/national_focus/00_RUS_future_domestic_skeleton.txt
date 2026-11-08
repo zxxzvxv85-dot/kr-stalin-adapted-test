@@ -1381,8 +1381,6 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_improve_roads_in_central_russia
 		unlock_decision_tooltip = RUS_np_project_improve_roads_in_northern_russia
 		unlock_decision_tooltip = RUS_np_project_improve_roads_in_the_volga_basin
-		unlock_decision_tooltip = RUS_np_metro
-		unlock_decision_tooltip = RUS_np_moscow_volga
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -1404,13 +1402,7 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_domestic_151 }
 	completion_reward = {
 		unlock_decision_tooltip = RUS_np_project_kamenev_all_russian_electrification
-		unlock_decision_tooltip = RUS_np_project_stavropol_hydroelectric_dam
-		unlock_decision_tooltip = RUS_np_project_rybinsk_hydroelectric_dam
-		unlock_decision_tooltip = RUS_np_project_zhiguli_hydroelectric_dam
-		unlock_decision_tooltip = RUS_np_project_krasnoyarsk_hydroelectric_dam
 		unlock_decision_tooltip = RUS_np_kashira
-		unlock_decision_tooltip = RUS_np_moscow_grid
-		unlock_decision_tooltip = RUS_np_svir
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -1728,11 +1720,6 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_northern_route
 		unlock_decision_tooltip = RUS_np_project_upgrade_the_railroad_chelyabinsk
 		unlock_decision_tooltip = RUS_np_project_upgrade_the_railroad_krasnoyarsk
-		unlock_decision_tooltip = RUS_np_project_upgrade_the_railroad_vladivostok
-		unlock_decision_tooltip = RUS_np_project_central_asia_railroads
-		unlock_decision_tooltip = RUS_np_moscow_logistics
-		unlock_decision_tooltip = RUS_np_leningrad_logistics
-		unlock_decision_tooltip = RUS_np_tsaritsyn_logistics
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -1766,18 +1753,6 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_renovate_and_expand_moscow
 		unlock_decision_tooltip = RUS_np_project_renovate_and_expand_tsaritsyn
 		unlock_decision_tooltip = RUS_np_project_renovate_and_expand_saint_petersburg
-		unlock_decision_tooltip = RUS_np_project_magnitogorsk
-		unlock_decision_tooltip = RUS_np_project_izhevsk_mechanical_plant
-		unlock_decision_tooltip = RUS_np_project_tula_arms_factory
-		unlock_decision_tooltip = RUS_np_project_create_tankograd
-		unlock_decision_tooltip = RUS_np_project_lipetsk_metallurgical_plant
-		unlock_decision_tooltip = RUS_np_project_uralmash
-		unlock_decision_tooltip = RUS_np_project_motovilikha_plants
-		unlock_decision_tooltip = RUS_np_project_admiralty_dockyards
-		unlock_decision_tooltip = RUS_np_project_kamensky_uralsky
-		unlock_decision_tooltip = RUS_np_project_krasnoyarskpromstroy
-		unlock_decision_tooltip = RUS_np_project_tekeli_metallurgical_combine
-		unlock_decision_tooltip = RUS_np_volkhov
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -1991,14 +1966,7 @@ shared_focus = {
 	completion_reward = {
 		unlock_decision_tooltip = RUS_np_project_second_baku
 		unlock_decision_tooltip = RUS_np_project_grozny_oil
-		unlock_decision_tooltip = RUS_np_project_arctic_mines
-		unlock_decision_tooltip = RUS_np_project_tyrnyauz_tungsten
 		unlock_decision_tooltip = RUS_np_project_romanshkino_oil
-		unlock_decision_tooltip = RUS_np_project_kuznetsk_basin
-		unlock_decision_tooltip = RUS_np_project_bodaybo_gold_mines
-		unlock_decision_tooltip = RUS_np_project_rudny_altay
-		unlock_decision_tooltip = RUS_np_project_emba_oil_area
-		unlock_decision_tooltip = RUS_np_project_siberian_timber_industries
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -2183,7 +2151,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_160 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_modernisation_of_AMO
+		unlock_decision_tooltip = RUS_np_project_tula_arms_factory
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2202,7 +2173,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_160 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_moscow_rural
+		unlock_decision_tooltip = RUS_np_leningrad_rural
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2221,7 +2195,11 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_160 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_far_eastern_fishing_industry
+		unlock_decision_tooltip = RUS_np_project_central_asia_railroads
+		unlock_decision_tooltip = RUS_np_project_upgrade_the_railroad_vladivostok
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2240,7 +2218,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_160 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_emba_oil_area
+		unlock_decision_tooltip = RUS_np_project_arctic_mines
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2484,7 +2465,10 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_domestic_421 focus = RUS_future_domestic_422 }
 	mutually_exclusive = { focus = RUS_future_domestic_163 }
 	mutually_exclusive = { focus = RUS_future_domestic_166 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_magnitogorsk
+		unlock_decision_tooltip = RUS_np_moscow_logistics
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2505,7 +2489,10 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_domestic_377 focus = RUS_future_domestic_421 focus = RUS_future_domestic_486 }
 	mutually_exclusive = { focus = RUS_future_domestic_163 }
 	mutually_exclusive = { focus = RUS_future_domestic_169 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_verny_cotton_industry
+		unlock_decision_tooltip = RUS_np_project_kursk_tractor_plant
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2526,7 +2513,10 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_domestic_377 focus = RUS_future_domestic_487 }
 	mutually_exclusive = { focus = RUS_future_domestic_166 }
 	mutually_exclusive = { focus = RUS_future_domestic_169 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_kuznetsk_basin
+		unlock_decision_tooltip = RUS_np_project_tekeli_metallurgical_combine
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2564,11 +2554,7 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_187 }
-	completion_reward = {
-		unlock_decision_tooltip = RUS_np_project_far_eastern_fishing_industry
-		unlock_decision_tooltip = RUS_np_project_verny_cotton_industry
-		unlock_decision_tooltip = RUS_np_bobrik
-	}
+	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
 
@@ -2688,7 +2674,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_169 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_bearing
+		unlock_decision_tooltip = RUS_np_moscow_grid
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2707,7 +2696,11 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_169 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_bodaybo_gold_mines
+		unlock_decision_tooltip = RUS_np_project_tyrnyauz_tungsten
+		unlock_decision_tooltip = RUS_np_project_rudny_altay
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2726,7 +2719,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_166 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_rostselmash
+		unlock_decision_tooltip = RUS_np_bobrik
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2745,7 +2741,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_163 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_svir
+		unlock_decision_tooltip = RUS_np_uvz
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2764,7 +2763,11 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_163 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_create_tankograd
+		unlock_decision_tooltip = RUS_np_project_krasnoyarskpromstroy
+		unlock_decision_tooltip = RUS_np_project_admiralty_dockyards
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2783,12 +2786,7 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_202 }
-	completion_reward = {
-		unlock_decision_tooltip = RUS_np_project_modernisation_of_AMO
-		unlock_decision_tooltip = RUS_np_project_convert_civilian_aviation_industry
-		unlock_decision_tooltip = RUS_np_gaz
-		unlock_decision_tooltip = RUS_np_bearing
-	}
+	completion_reward = { }
 	ai_will_do = { factor = 0 }
 }
 
@@ -2864,7 +2862,11 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_625 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_lipetsk_metallurgical_plant
+		unlock_decision_tooltip = RUS_np_project_uralmash
+		unlock_decision_tooltip = RUS_np_project_motovilikha_plants
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2883,7 +2885,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_629 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_izhevsk_mechanical_plant
+		unlock_decision_tooltip = RUS_np_project_kamensky_uralsky
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2902,7 +2907,11 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_181 focus = RUS_future_domestic_634 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_convert_civilian_aviation_industry
+		unlock_decision_tooltip = RUS_np_project_dalnremmash
+		unlock_decision_tooltip = RUS_np_project_siberian_timber_industries
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -2924,10 +2933,6 @@ shared_focus = {
 	completion_reward = {
 		unlock_decision_tooltip = RUS_np_project_tsaritsyn_tractor_plant
 		unlock_decision_tooltip = RUS_np_project_chelyabinsk_tractor_plant
-		unlock_decision_tooltip = RUS_np_project_kursk_tractor_plant
-		unlock_decision_tooltip = RUS_np_project_rostselmash
-		unlock_decision_tooltip = RUS_np_uvz
-		unlock_decision_tooltip = RUS_np_project_dalnremmash
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -2967,8 +2972,6 @@ shared_focus = {
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_203 }
 	completion_reward = {
-		unlock_decision_tooltip = RUS_np_moscow_rural
-		unlock_decision_tooltip = RUS_np_leningrad_rural
 		unlock_decision_tooltip = RUS_np_tsaritsyn_rural
 	}
 	ai_will_do = { factor = 0 }
@@ -3011,7 +3014,11 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_626 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_project_zhiguli_hydroelectric_dam
+		unlock_decision_tooltip = RUS_np_project_krasnoyarsk_hydroelectric_dam
+		unlock_decision_tooltip = RUS_np_moscow_volga
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -3030,7 +3037,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_179 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_gaz
+		unlock_decision_tooltip = RUS_np_metro
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -3049,7 +3059,10 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_179 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_leningrad_logistics
+		unlock_decision_tooltip = RUS_np_tsaritsyn_logistics
+	}
 	ai_will_do = { factor = 0 }
 }
 
@@ -3068,7 +3081,11 @@ shared_focus = {
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_636 }
-	completion_reward = { }
+	completion_reward = {
+		unlock_decision_tooltip = RUS_np_volkhov
+		unlock_decision_tooltip = RUS_np_project_stavropol_hydroelectric_dam
+		unlock_decision_tooltip = RUS_np_project_rybinsk_hydroelectric_dam
+	}
 	ai_will_do = { factor = 0 }
 }
 
