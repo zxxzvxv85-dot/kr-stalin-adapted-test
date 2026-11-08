@@ -5565,7 +5565,7 @@ RUS_np_project_kamenev_all_russian_electrification = {
 	original_tag = RUS
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } }
 }
 		available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_kamenev_all_russian_electrification = yes num_of_civilian_factories_available_for_projects > -1
@@ -5636,7 +5636,7 @@ RUS_np_project_kamenev_all_russian_electrification = {
 				custom_effect_tooltip = RUS_tesla_all_russian_electrification_chance_tt
 			}
 			hidden_effect = {
-				RUS_stalin_ensure_first_five_year_plan = yes
+
 				clr_country_flag = RUS_kamenev_all_russian_electrification_in_progress
 				random_owned_controlled_state = {
 					limit = {
@@ -5683,8 +5683,8 @@ RUS_np_project_kamenev_all_russian_electrification = {
 						}
 					}
 				}
-				add_to_variable = { RUS_first_five_year_plan_score = 1 }
-				RUS_stalin_refresh_first_five_year_plan_stage = yes
+
+
 				if = {
 					limit = { has_country_flag = RUS_tesla_network_bonus_active }
 					RUS_tesla_refresh_power_grid_bonuses = yes
@@ -5699,6 +5699,7 @@ RUS_np_project_kamenev_all_russian_electrification = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_kamenev_all_russian_electrification_score_tt
 	custom_effect_tooltip = RUS_np_kamenev_all_russian_electrification_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -5757,7 +5758,7 @@ RUS_np_project_renovate_and_expand_moscow = {
 	original_tag = RUS
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_renovate_and_expand_moscow_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_renovate_and_expand_moscow_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow }
 }
 		available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_renovate_and_expand_moscow = yes num_of_civilian_factories_available_for_projects > 0
@@ -5818,12 +5819,13 @@ RUS_np_project_renovate_and_expand_moscow = {
 
 			log = "[GetLogRoot]: Decision removed RUS_renovate_and_expand_moscow"
 			219 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
-			RUS_stalin_add_first_five_year_plan_score_3 = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_renovate_and_expand_moscow_score_tt
 	custom_effect_tooltip = RUS_np_renovate_and_expand_moscow_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -5877,7 +5879,7 @@ RUS_np_project_renovate_and_expand_tsaritsyn = {
 	original_tag = RUS
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn }
 }
 		available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_renovate_and_expand_tsaritsyn = yes num_of_civilian_factories_available_for_projects > 0
@@ -5938,12 +5940,13 @@ RUS_np_project_renovate_and_expand_tsaritsyn = {
 
 			log = "[GetLogRoot]: Decision removed RUS_renovate_and_expand_tsaritsyn"
 			217 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
-			RUS_stalin_add_first_five_year_plan_score_3 = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_renovate_and_expand_tsaritsyn_score_tt
 	custom_effect_tooltip = RUS_np_renovate_and_expand_tsaritsyn_goal_1_tt
 	effect_tooltip = {
 	217 = {
@@ -5997,7 +6000,7 @@ RUS_np_project_renovate_and_expand_saint_petersburg = {
 	original_tag = RUS
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg }
 }
 		available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_renovate_and_expand_saint_petersburg = yes num_of_civilian_factories_available_for_projects > 0
@@ -6058,12 +6061,13 @@ RUS_np_project_renovate_and_expand_saint_petersburg = {
 
 			log = "[GetLogRoot]: Decision removed RUS_renovate_and_expand_saint_petersburg"
 			195 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
-			RUS_stalin_add_first_five_year_plan_score_3 = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_renovate_and_expand_saint_petersburg_score_tt
 	custom_effect_tooltip = RUS_np_renovate_and_expand_saint_petersburg_goal_1_tt
 	effect_tooltip = {
 	195 = {
@@ -6114,7 +6118,7 @@ on_map_mode = decision_view_only
 RUS_np_project_magnitogorsk = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_magnitogorsk_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_magnitogorsk }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_magnitogorsk_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_magnitogorsk }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -6217,12 +6221,13 @@ RUS_np_project_magnitogorsk = {
 				rename_state_effect = yes
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_magnitogorsk set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_magnitogorsk_score_tt
 	custom_effect_tooltip = RUS_np_magnitogorsk_goal_1_tt
 	effect_tooltip = {
 	582 = {
@@ -6278,7 +6283,7 @@ on_map_mode = decision_view_only
 RUS_np_project_second_baku = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_second_baku_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_second_baku }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_second_baku_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_second_baku }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -6367,12 +6372,13 @@ RUS_np_project_second_baku = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_second_baku set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_second_baku_score_tt
 	custom_effect_tooltip = RUS_np_second_baku_goal_1_tt
 	effect_tooltip = {
 	651 = {
@@ -6409,7 +6415,7 @@ on_map_mode = decision_view_only
 RUS_np_project_modernisation_of_AMO = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_modernisation_of_AMO_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_197 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_modernisation_of_AMO_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -6512,7 +6518,7 @@ RUS_np_project_modernisation_of_AMO = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			set_country_flag = improve_amo
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
@@ -6550,6 +6556,7 @@ RUS_np_project_modernisation_of_AMO = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_modernisation_of_AMO_score_tt
 	custom_effect_tooltip = RUS_np_modernisation_of_AMO_goal_1_tt
 	effect_tooltip = {
 	566 = {
@@ -6619,7 +6626,7 @@ on_map_mode = decision_view_only
 RUS_np_project_izhevsk_mechanical_plant = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_izhevsk_mechanical_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_izhevsk_mechanical_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -6708,7 +6715,7 @@ RUS_np_project_izhevsk_mechanical_plant = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
 				mio:RUS_imz_organisation = {
@@ -6744,6 +6751,7 @@ RUS_np_project_izhevsk_mechanical_plant = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_izhevsk_mechanical_plant_score_tt
 	custom_effect_tooltip = RUS_np_izhevsk_mechanical_plant_goal_1_tt
 	effect_tooltip = {
 	399 = {
@@ -6799,7 +6807,7 @@ on_map_mode = decision_view_only
 RUS_np_project_tula_arms_factory = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_tula_arms_factory_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tula_arms_factory }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_tula_arms_factory_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tula_arms_factory }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -6898,7 +6906,7 @@ RUS_np_project_tula_arms_factory = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 3 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
@@ -6927,6 +6935,7 @@ RUS_np_project_tula_arms_factory = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_tula_arms_factory_score_tt
 	custom_effect_tooltip = RUS_np_tula_arms_factory_goal_1_tt
 	effect_tooltip = {
 	223 = {
@@ -6992,7 +7001,7 @@ on_map_mode = decision_view_only
 RUS_np_project_create_tankograd = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_create_tankograd_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_create_tankograd }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_create_tankograd_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_create_tankograd }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -7080,7 +7089,7 @@ RUS_np_project_create_tankograd = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 instant_build = yes } } # RUS_EASY_MODE_REWARD
 			}
 			set_country_flag = improve_chtz
-			RUS_stalin_add_first_five_year_plan_tankograd_bonus = yes
+
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
 				mio:RUS_chtz_organisation = {
@@ -7116,6 +7125,7 @@ RUS_np_project_create_tankograd = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_create_tankograd_score_tt
 	custom_effect_tooltip = RUS_np_create_tankograd_goal_1_tt
 	effect_tooltip = {
 	572 = {
@@ -7171,7 +7181,7 @@ on_map_mode = decision_view_only
 RUS_np_project_convert_civilian_aviation_industry = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_convert_civilian_aviation_industry_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_197 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_convert_civilian_aviation_industry_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -7308,12 +7318,13 @@ RUS_np_project_convert_civilian_aviation_industry = {
 			}
 			else = { custom_effect_tooltip = RUS_no_aat_consortium_tt }
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_convert_civilian_aviation_industry_score_tt
 	custom_effect_tooltip = RUS_np_convert_civilian_aviation_industry_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -7369,7 +7380,7 @@ on_map_mode = decision_view_only
 RUS_np_project_tsaritsyn_tractor_plant = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_199 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -7453,7 +7464,7 @@ RUS_np_project_tsaritsyn_tractor_plant = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
 
 			custom_effect_tooltip = tooltip_white_line
 			set_country_flag = unlock_tstz
@@ -7482,6 +7493,7 @@ RUS_np_project_tsaritsyn_tractor_plant = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_tsaritsyn_tractor_plant_score_tt
 	custom_effect_tooltip = RUS_np_tsaritsyn_tractor_plant_goal_1_tt
 	effect_tooltip = {
 	217 = {
@@ -7530,7 +7542,7 @@ on_map_mode = decision_view_only
 RUS_np_project_chelyabinsk_tractor_plant = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_199 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -7622,7 +7634,7 @@ RUS_np_project_chelyabinsk_tractor_plant = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
 
 			set_country_flag = unlock_chtz
 			if = {
@@ -7642,6 +7654,7 @@ RUS_np_project_chelyabinsk_tractor_plant = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_chelyabinsk_tractor_plant_score_tt
 	custom_effect_tooltip = RUS_np_chelyabinsk_tractor_plant_goal_1_tt
 	effect_tooltip = {
 	572 = {
@@ -7690,7 +7703,7 @@ on_map_mode = decision_view_only
 RUS_np_project_kursk_tractor_plant = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_kursk_tractor_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_199 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_kursk_tractor_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -7774,12 +7787,13 @@ RUS_np_project_kursk_tractor_plant = {
 				add_victory_points = { province = 3580 value = 3 }
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_kursk_tractor_plant_score_tt
 	custom_effect_tooltip = RUS_np_kursk_tractor_plant_goal_1_tt
 	effect_tooltip = {
 	220 = {
@@ -7828,7 +7842,7 @@ on_map_mode = decision_view_only
 RUS_np_project_rostselmash = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_rostselmash_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_rostselmash }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_199 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_rostselmash_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_rostselmash }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -7921,12 +7935,13 @@ RUS_np_project_rostselmash = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rostselmash set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_rostselmash_score_tt
 	custom_effect_tooltip = RUS_np_rostselmash_goal_1_tt
 	effect_tooltip = {
 	218 = {
@@ -7976,7 +7991,7 @@ on_map_mode = decision_view_only
 RUS_np_project_stavropol_hydroelectric_dam = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -8098,12 +8113,13 @@ RUS_np_project_stavropol_hydroelectric_dam = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_stavropol_hydroelectric_dam_score_tt
 	custom_effect_tooltip = RUS_np_stavropol_hydroelectric_dam_goal_1_tt
 	effect_tooltip = {
 	235 = {
@@ -8159,7 +8175,7 @@ on_map_mode = decision_view_only
 RUS_np_project_rybinsk_hydroelectric_dam = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -8281,12 +8297,13 @@ RUS_np_project_rybinsk_hydroelectric_dam = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_rybinsk_hydroelectric_dam_score_tt
 	custom_effect_tooltip = RUS_np_rybinsk_hydroelectric_dam_goal_1_tt
 	effect_tooltip = {
 	248 = {
@@ -8342,7 +8359,7 @@ on_map_mode = decision_view_only
 RUS_np_project_zhiguli_hydroelectric_dam = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -8464,12 +8481,13 @@ RUS_np_project_zhiguli_hydroelectric_dam = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_zhiguli_hydroelectric_dam_score_tt
 	custom_effect_tooltip = RUS_np_zhiguli_hydroelectric_dam_goal_1_tt
 	effect_tooltip = {
 	251 = {
@@ -8525,7 +8543,7 @@ on_map_mode = decision_view_only
 RUS_np_project_krasnoyarsk_hydroelectric_dam = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -8647,12 +8665,13 @@ RUS_np_project_krasnoyarsk_hydroelectric_dam = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_krasnoyarsk_hydroelectric_dam_score_tt
 	custom_effect_tooltip = RUS_np_krasnoyarsk_hydroelectric_dam_goal_1_tt
 	effect_tooltip = {
 	568 = {
@@ -8708,7 +8727,7 @@ on_map_mode = decision_view_only
 RUS_np_project_lipetsk_metallurgical_plant = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -8808,12 +8827,13 @@ RUS_np_project_lipetsk_metallurgical_plant = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_lipetsk_metallurgical_plant_score_tt
 	custom_effect_tooltip = RUS_np_lipetsk_metallurgical_plant_goal_1_tt
 	effect_tooltip = {
 	258 = {
@@ -8869,7 +8889,7 @@ on_map_mode = decision_view_only
 RUS_np_project_uralmash = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_uralmash_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_uralmash }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_uralmash_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_uralmash }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -8974,7 +8994,7 @@ RUS_np_project_uralmash = {
 				add_victory_points = { province = 1821 value = 5 }
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 
 			set_country_flag = unlock_uztm
 			if = {
@@ -8994,6 +9014,7 @@ RUS_np_project_uralmash = {
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_uralmash_score_tt
 	custom_effect_tooltip = RUS_np_uralmash_goal_1_tt
 	effect_tooltip = {
 	653 = {
@@ -9063,7 +9084,7 @@ on_map_mode = decision_view_only
 RUS_np_project_motovilikha_plants = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_motovilikha_plants_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_motovilikha_plants }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_motovilikha_plants_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_motovilikha_plants }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -9155,12 +9176,13 @@ RUS_np_project_motovilikha_plants = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_motovilikha_plants set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_motovilikha_plants_score_tt
 	custom_effect_tooltip = RUS_np_motovilikha_plants_goal_1_tt
 	effect_tooltip = {
 	398 = {
@@ -9216,7 +9238,7 @@ on_map_mode = decision_view_only
 RUS_np_project_admiralty_dockyards = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_admiralty_dockyards_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_admiralty_dockyards }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_admiralty_dockyards_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_admiralty_dockyards }
 }
 		# RUS_RECOVERY_FILTER_END
  #Unlocked by RUS_yekaterinas_legacy
@@ -9321,12 +9343,13 @@ RUS_np_project_admiralty_dockyards = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_admiralty_dockyards set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_admiralty_dockyards_score_tt
 	custom_effect_tooltip = RUS_np_admiralty_dockyards_goal_1_tt
 	effect_tooltip = {
 	137 = {
@@ -9392,7 +9415,7 @@ RUS_np_project_kamensky_uralsky = { #Kachkanar
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_kamensky_uralsky = yes num_of_civilian_factories_available_for_projects > 1
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_kamensky_uralsky_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_kamensky_uralsky }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_kamensky_uralsky_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_kamensky_uralsky }
 } #Yekaterinburg
 		cost = RUS_ic_cost_low
 
@@ -9486,12 +9509,13 @@ RUS_np_project_kamensky_uralsky = { #Kachkanar
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamensky_uralsky set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_kamensky_uralsky_score_tt
 	custom_effect_tooltip = RUS_np_kamensky_uralsky_goal_1_tt
 	effect_tooltip = {
 	653 = {
@@ -9553,7 +9577,7 @@ RUS_np_project_grozny_oil = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_grozny_oil = yes num_of_civilian_factories_available_for_projects > -1
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_grozny_oil_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_grozny_oil }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_grozny_oil_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_grozny_oil }
 } #Chechnya
 		cost = RUS_ic_cost_med
 
@@ -9644,13 +9668,14 @@ RUS_np_project_grozny_oil = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			set_country_flag = RUS_Chechnya_improved
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_grozny_oil set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_grozny_oil_score_tt
 	custom_effect_tooltip = RUS_np_grozny_oil_goal_1_tt
 	effect_tooltip = {
 	961 = {
@@ -9699,7 +9724,7 @@ RUS_np_project_arctic_mines = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_arctic_mines = yes num_of_civilian_factories_available_for_projects > -1
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_arctic_mines_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_arctic_mines }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_arctic_mines_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_arctic_mines }
 } #Murmansk
 		cost = RUS_ic_cost_low
 
@@ -9780,12 +9805,13 @@ RUS_np_project_arctic_mines = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_arctic_mines set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_arctic_mines_score_tt
 	custom_effect_tooltip = RUS_np_arctic_mines_goal_1_tt
 	effect_tooltip = {
 	213 = {
@@ -9828,7 +9854,7 @@ RUS_np_project_tyrnyauz_tungsten = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_tyrnyauz_tungsten = yes num_of_civilian_factories_available_for_projects > -1
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tyrnyauz_tungsten_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tyrnyauz_tungsten_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten }
 } #Terek
 		cost = RUS_ic_cost_low
 
@@ -9900,13 +9926,14 @@ RUS_np_project_tyrnyauz_tungsten = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			set_country_flag = RUS_vladikavkaz_improved_2
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_tyrnyauz_tungsten_score_tt
 	custom_effect_tooltip = RUS_np_tyrnyauz_tungsten_goal_1_tt
 	effect_tooltip = {
 	233 = {
@@ -9955,7 +9982,7 @@ RUS_np_project_romanshkino_oil = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_romanshkino_oil = yes num_of_civilian_factories_available_for_projects > -1
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_romanshkino_oil_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_romanshkino_oil }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_romanshkino_oil_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_romanshkino_oil }
 } #Kazan
 		cost = RUS_ic_cost_med
 
@@ -10040,12 +10067,13 @@ RUS_np_project_romanshkino_oil = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_romanshkino_oil set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_romanshkino_oil_score_tt
 	custom_effect_tooltip = RUS_np_romanshkino_oil_goal_1_tt
 	effect_tooltip = {
 	249 = {
@@ -10082,7 +10110,7 @@ on_map_mode = decision_view_only
 RUS_np_project_northern_route = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_northern_route_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_northern_route }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_northern_route_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_northern_route }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -10185,13 +10213,14 @@ RUS_np_project_northern_route = {
 				target_province = 1821
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_northern_route set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_northern_route_score_tt
 	custom_effect_tooltip = RUS_np_northern_route_goal_1_tt
 	effect_tooltip = {
 	400 = {
@@ -10247,7 +10276,7 @@ on_map_mode = decision_view_only
 RUS_np_project_upgrade_the_railroad_chelyabinsk = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -10341,13 +10370,14 @@ RUS_np_project_upgrade_the_railroad_chelyabinsk = {
 				target_province = 9292
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_upgrade_the_railroad_chelyabinsk_score_tt
 	custom_effect_tooltip = RUS_np_upgrade_the_railroad_chelyabinsk_goal_1_tt
 	effect_tooltip = {
 	651 = {
@@ -10403,7 +10433,7 @@ on_map_mode = decision_view_only
 RUS_np_project_upgrade_the_railroad_krasnoyarsk = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -10497,13 +10527,14 @@ RUS_np_project_upgrade_the_railroad_krasnoyarsk = {
 				target_province = 4797
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_upgrade_the_railroad_krasnoyarsk_score_tt
 	custom_effect_tooltip = RUS_np_upgrade_the_railroad_krasnoyarsk_goal_1_tt
 	effect_tooltip = {
 	570 = {
@@ -10559,7 +10590,7 @@ on_map_mode = decision_view_only
 RUS_np_project_upgrade_the_railroad_vladivostok = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -10681,13 +10712,14 @@ RUS_np_project_upgrade_the_railroad_vladivostok = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_upgrade_the_railroad_vladivostok_score_tt
 	custom_effect_tooltip = RUS_np_upgrade_the_railroad_vladivostok_goal_1_tt
 	effect_tooltip = {
 	657 = {
@@ -10743,7 +10775,7 @@ on_map_mode = decision_view_only
 RUS_np_project_kuznetsk_basin = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_kuznetsk_basin_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_kuznetsk_basin }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_kuznetsk_basin_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_kuznetsk_basin }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -10830,13 +10862,14 @@ RUS_np_project_kuznetsk_basin = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kuznetsk_basin set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_kuznetsk_basin_score_tt
 	custom_effect_tooltip = RUS_np_kuznetsk_basin_goal_1_tt
 	effect_tooltip = {
 	569 = {
@@ -10879,7 +10912,7 @@ on_map_mode = decision_view_only
 RUS_np_project_bodaybo_gold_mines = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_bodaybo_gold_mines_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_bodaybo_gold_mines_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -10950,13 +10983,14 @@ RUS_np_project_bodaybo_gold_mines = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_bodaybo_gold_mines_score_tt
 	custom_effect_tooltip = RUS_np_bodaybo_gold_mines_goal_1_tt
 	effect_tooltip = {
 	565 = {
@@ -10993,7 +11027,7 @@ on_map_mode = decision_view_only
 RUS_np_project_far_eastern_fishing_industry = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_far_eastern_fishing_industry_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_189 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_far_eastern_fishing_industry_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -11092,13 +11126,14 @@ RUS_np_project_far_eastern_fishing_industry = {
 			add_equipment_to_stockpile = { type = convoy amount = 50 }
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_equipment_to_stockpile = { type = convoy amount = 50 } } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_far_eastern_fishing_industry_score_tt
 	custom_effect_tooltip = RUS_np_far_eastern_fishing_industry_goal_1_tt
 	effect_tooltip = {
 	409 = {
@@ -11147,7 +11182,7 @@ on_map_mode = decision_view_only
 RUS_np_project_krasnoyarskpromstroy = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_krasnoyarskpromstroy_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_krasnoyarskpromstroy_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -11239,13 +11274,14 @@ RUS_np_project_krasnoyarskpromstroy = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_krasnoyarskpromstroy_score_tt
 	custom_effect_tooltip = RUS_np_krasnoyarskpromstroy_goal_1_tt
 	effect_tooltip = {
 	568 = {
@@ -11301,7 +11337,7 @@ on_map_mode = decision_view_only
 RUS_np_project_dalnremmash = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_dalnremmash_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_dalnremmash }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_199 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_dalnremmash_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_dalnremmash }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -11392,13 +11428,14 @@ RUS_np_project_dalnremmash = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_dalnremmash set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_dalnremmash_score_tt
 	custom_effect_tooltip = RUS_np_dalnremmash_goal_1_tt
 	effect_tooltip = {
 	409 = {
@@ -11454,7 +11491,7 @@ on_map_mode = decision_view_only
 RUS_np_project_rudny_altay = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_rudny_altay_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_rudny_altay }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_rudny_altay_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_rudny_altay }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -11539,12 +11576,13 @@ RUS_np_project_rudny_altay = {
 				state = 810
 			} } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rudny_altay set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_rudny_altay_score_tt
 	custom_effect_tooltip = RUS_np_rudny_altay_goal_1_tt
 	effect_tooltip = {
 	810 = {
@@ -11581,7 +11619,7 @@ on_map_mode = decision_view_only
 RUS_np_project_tekeli_metallurgical_combine = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_tekeli_metallurgical_combine_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_tekeli_metallurgical_combine_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -11692,12 +11730,13 @@ RUS_np_project_tekeli_metallurgical_combine = {
 				state = 589
 			} } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_tekeli_metallurgical_combine_score_tt
 	custom_effect_tooltip = RUS_np_tekeli_metallurgical_combine_goal_1_tt
 	effect_tooltip = {
 	589 = {
@@ -11753,7 +11792,7 @@ on_map_mode = decision_view_only
 RUS_np_project_emba_oil_area = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_emba_oil_area_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_emba_oil_area }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_emba_oil_area_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_emba_oil_area }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -11868,12 +11907,13 @@ RUS_np_project_emba_oil_area = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_emba_oil_area set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_emba_oil_area_score_tt
 	custom_effect_tooltip = RUS_np_emba_oil_area_goal_1_tt
 	effect_tooltip = {
 	402 = {
@@ -11910,7 +11950,7 @@ on_map_mode = decision_view_only
 RUS_np_project_verny_cotton_industry = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_verny_cotton_industry_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_verny_cotton_industry }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_189 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_verny_cotton_industry_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_verny_cotton_industry }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -11993,12 +12033,13 @@ RUS_np_project_verny_cotton_industry = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_verny_cotton_industry set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_verny_cotton_industry_score_tt
 	custom_effect_tooltip = RUS_np_verny_cotton_industry_goal_1_tt
 	effect_tooltip = {
 	589 = {
@@ -12047,7 +12088,7 @@ on_map_mode = decision_view_only
 RUS_np_project_siberian_timber_industries = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_siberian_timber_industries_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_siberian_timber_industries }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_160 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_siberian_timber_industries_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_siberian_timber_industries }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -12128,13 +12169,14 @@ RUS_np_project_siberian_timber_industries = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_75 = yes
+
 			set_country_flag = RUS_completed_siberian_timber_industry
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_siberian_timber_industries set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_siberian_timber_industries_score_tt
 	custom_effect_tooltip = RUS_np_siberian_timber_industries_goal_1_tt
 	effect_tooltip = {
 	569 = {
@@ -12171,7 +12213,7 @@ on_map_mode = decision_view_only
 RUS_np_project_improve_roads_in_central_russia = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_improve_roads_in_central_russia_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_424 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } NOT = { has_country_flag = RUS_np_improve_roads_in_central_russia_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -12288,12 +12330,13 @@ RUS_np_project_improve_roads_in_central_russia = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_improve_roads_in_central_russia_score_tt
 	custom_effect_tooltip = RUS_np_improve_roads_in_central_russia_goal_1_tt
 	effect_tooltip = {
 	254 = {
@@ -12349,7 +12392,7 @@ on_map_mode = decision_view_only
 RUS_np_project_improve_roads_in_northern_russia = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_improve_roads_in_northern_russia_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_424 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_improve_roads_in_northern_russia_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -12451,12 +12494,13 @@ RUS_np_project_improve_roads_in_northern_russia = {
 			 } #Novgorod
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_improve_roads_in_northern_russia_score_tt
 	custom_effect_tooltip = RUS_np_improve_roads_in_northern_russia_goal_1_tt
 	effect_tooltip = {
 	263 = {
@@ -12512,7 +12556,7 @@ on_map_mode = decision_view_only
 RUS_np_project_improve_roads_in_the_volga_basin = {
 		# RUS_RECOVERY_FILTER_BEGIN
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_424 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin }
 }
 		# RUS_RECOVERY_FILTER_END
 
@@ -12617,12 +12661,13 @@ RUS_np_project_improve_roads_in_the_volga_basin = {
 			 } #Velikoknyazhesk
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_improve_roads_in_the_volga_basin_score_tt
 	custom_effect_tooltip = RUS_np_improve_roads_in_the_volga_basin_goal_1_tt
 	effect_tooltip = {
 	217 = {
@@ -12681,7 +12726,7 @@ RUS_np_project_central_asia_railroads = {
 	original_tag = RUS
 }
 		visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_central_asia_railroads_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_central_asia_railroads }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } NOT = { has_country_flag = RUS_np_central_asia_railroads_completed } NOT = { has_country_flag = RUS_rc_finished_RUS_central_asia_railroads }
 }
 		highlight_states = {
 	highlight_provinces = { 7874 12619 1418 1680 10308 10239 4232 7425 4250 }
@@ -12723,12 +12768,13 @@ RUS_np_project_central_asia_railroads = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_central_asia_railroads set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads  }
  # RUS_RECOVERY_LEDGER_END
 
 }
+	custom_effect_tooltip = RUS_np_central_asia_railroads_score_tt
 	custom_effect_tooltip = RUS_np_central_asia_railroads_goal_1_tt
 	effect_tooltip = {
 	404 = {
@@ -12839,7 +12885,7 @@ RUS_np_gaz = {
 	cost = 40
 	days_remove = RUS_np_gaz_initial_days?180
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_gaz_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_197 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_gaz_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_gaz = yes num_of_civilian_factories_available_for_projects > 1
@@ -12907,6 +12953,7 @@ RUS_np_gaz = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_gaz_score_tt
 	custom_effect_tooltip = RUS_np_gaz_goal_1_tt
 	effect_tooltip = {
 	252 = {
@@ -12968,7 +13015,7 @@ RUS_np_bearing = {
 	cost = 35
 	days_remove = RUS_np_bearing_initial_days?150
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_bearing_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_197 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_bearing_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_bearing = yes num_of_civilian_factories_available_for_projects > 0
@@ -13014,6 +13061,7 @@ RUS_np_bearing = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_bearing_score_tt
 	custom_effect_tooltip = RUS_np_bearing_goal_1_tt
 	effect_tooltip = {
 	RUS_np_award_education = yes
@@ -13053,7 +13101,7 @@ RUS_np_kashira = {
 	cost = 40
 	days_remove = RUS_np_kashira_initial_days?180
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_kashira_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_kashira_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_kashira = yes num_of_civilian_factories_available_for_projects > 1
@@ -13119,6 +13167,7 @@ RUS_np_kashira = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_kashira_score_tt
 	custom_effect_tooltip = RUS_np_kashira_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -13179,7 +13228,7 @@ RUS_np_moscow_grid = {
 	cost = 25
 	days_remove = RUS_np_moscow_grid_initial_days?120
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_grid_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_grid_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_moscow_grid = yes num_of_civilian_factories_available_for_projects > 1
@@ -13245,6 +13294,7 @@ RUS_np_moscow_grid = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_moscow_grid_score_tt
 	custom_effect_tooltip = RUS_np_moscow_grid_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -13305,7 +13355,7 @@ RUS_np_metro = {
 	cost = 50
 	days_remove = RUS_np_metro_initial_days?270
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_metro_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_424 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_metro_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_metro = yes num_of_civilian_factories_available_for_projects > 2
@@ -13391,6 +13441,7 @@ RUS_np_metro = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_metro_score_tt
 	custom_effect_tooltip = RUS_np_metro_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -13446,7 +13497,7 @@ RUS_np_moscow_volga = {
 	cost = 75
 	days_remove = RUS_np_moscow_volga_initial_days?540
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_volga_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_424 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_volga_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_moscow_volga = yes num_of_civilian_factories_available_for_projects > 2
@@ -13537,6 +13588,7 @@ RUS_np_moscow_volga = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_moscow_volga_score_tt
 	custom_effect_tooltip = RUS_np_moscow_volga_goal_1_tt
 	effect_tooltip = {
 	247 = {
@@ -13597,7 +13649,7 @@ RUS_np_svir = {
 	cost = 60
 	days_remove = RUS_np_svir_initial_days?365
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_svir_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_svir_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_svir = yes num_of_civilian_factories_available_for_projects > 1
@@ -13663,6 +13715,7 @@ RUS_np_svir = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_svir_score_tt
 	custom_effect_tooltip = RUS_np_svir_goal_1_tt
 	effect_tooltip = {
 	216 = {
@@ -13723,7 +13776,7 @@ RUS_np_volkhov = {
 	cost = 45
 	days_remove = RUS_np_volkhov_initial_days?210
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_volkhov_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_420 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_volkhov_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_volkhov = yes num_of_civilian_factories_available_for_projects > 1
@@ -13797,6 +13850,7 @@ RUS_np_volkhov = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_volkhov_score_tt
 	custom_effect_tooltip = RUS_np_volkhov_goal_1_tt
 	effect_tooltip = {
 	264 = {
@@ -13861,7 +13915,7 @@ RUS_np_uvz = {
 	cost = 50
 	days_remove = RUS_np_uvz_initial_days?240
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_uvz_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_199 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_uvz_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_uvz = yes num_of_civilian_factories_available_for_projects > 1
@@ -13909,6 +13963,7 @@ RUS_np_uvz = {
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 10 }
 
 }
+	custom_effect_tooltip = RUS_np_uvz_score_tt
 	custom_effect_tooltip = RUS_np_uvz_goal_1_tt
 	effect_tooltip = {
 	RUS_np_award_education = yes
@@ -13949,7 +14004,7 @@ RUS_np_bobrik = {
 	cost = 45
 	days_remove = RUS_np_bobrik_initial_days?210
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_bobrik_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_189 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_bobrik_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_bobrik = yes num_of_civilian_factories_available_for_projects > -1
@@ -14011,6 +14066,7 @@ RUS_np_bobrik = {
 	hidden_effect = { set_variable = { RUS_np_fertilizer = 0.03 } }
 
 }
+	custom_effect_tooltip = RUS_np_bobrik_score_tt
 	custom_effect_tooltip = RUS_np_bobrik_goal_1_tt
 	effect_tooltip = {
 	223 = {
@@ -14064,7 +14120,7 @@ RUS_np_moscow_logistics = {
 	cost = 25
 	days_remove = RUS_np_moscow_logistics_initial_days?120
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_logistics_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_logistics_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_moscow_logistics = yes num_of_civilian_factories_available_for_projects > -1
@@ -14161,6 +14217,7 @@ RUS_np_moscow_logistics = {
 	hidden_effect = { set_variable = { RUS_np_rail_moscow_core = 2 } }
 
 }
+	custom_effect_tooltip = RUS_np_moscow_logistics_score_tt
 	custom_effect_tooltip = RUS_np_moscow_logistics_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -14225,7 +14282,7 @@ RUS_np_moscow_rural = {
 	cost = 20
 	days_remove = RUS_np_moscow_rural_initial_days?120
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_rural_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_455 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_rural_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_moscow_rural = yes num_of_civilian_factories_available_for_projects > 0
@@ -14303,6 +14360,7 @@ RUS_np_moscow_rural = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_moscow_rural_score_tt
 	custom_effect_tooltip = RUS_np_moscow_rural_goal_1_tt
 	effect_tooltip = {
 	219 = {
@@ -14360,7 +14418,7 @@ RUS_np_leningrad_logistics = {
 	cost = 25
 	days_remove = RUS_np_leningrad_logistics_initial_days?120
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_leningrad_logistics_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_leningrad_logistics_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_leningrad_logistics = yes num_of_civilian_factories_available_for_projects > -1
@@ -14457,6 +14515,7 @@ RUS_np_leningrad_logistics = {
 	hidden_effect = { set_variable = { RUS_np_rail_leningrad_core = 2 } }
 
 }
+	custom_effect_tooltip = RUS_np_leningrad_logistics_score_tt
 	custom_effect_tooltip = RUS_np_leningrad_logistics_goal_1_tt
 	effect_tooltip = {
 	195 = {
@@ -14521,7 +14580,7 @@ RUS_np_leningrad_rural = {
 	cost = 20
 	days_remove = RUS_np_leningrad_rural_initial_days?120
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_leningrad_rural_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_455 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_leningrad_rural_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_leningrad_rural = yes num_of_civilian_factories_available_for_projects > 0
@@ -14595,6 +14654,7 @@ RUS_np_leningrad_rural = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_leningrad_rural_score_tt
 	custom_effect_tooltip = RUS_np_leningrad_rural_goal_1_tt
 	effect_tooltip = {
 	195 = {
@@ -14648,7 +14708,7 @@ RUS_np_tsaritsyn_logistics = {
 	cost = 25
 	days_remove = RUS_np_tsaritsyn_logistics_initial_days?120
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_logistics_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_621 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_logistics_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_tsaritsyn_logistics = yes num_of_civilian_factories_available_for_projects > -1
@@ -14745,6 +14805,7 @@ RUS_np_tsaritsyn_logistics = {
 	hidden_effect = { set_variable = { RUS_np_rail_tsaritsyn_core = 2 } }
 
 }
+	custom_effect_tooltip = RUS_np_tsaritsyn_logistics_score_tt
 	custom_effect_tooltip = RUS_np_tsaritsyn_logistics_goal_1_tt
 	effect_tooltip = {
 	217 = {
@@ -14809,7 +14870,7 @@ RUS_np_tsaritsyn_rural = {
 	cost = 20
 	days_remove = RUS_np_tsaritsyn_rural_initial_days?120
 	visible = {
-	RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_rural_completed }
+	RUS_np_context = yes has_completed_focus = RUS_future_domestic_455 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_rural_completed }
 }
 	available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_tsaritsyn_rural = yes num_of_civilian_factories_available_for_projects > 0
@@ -14884,6 +14945,7 @@ RUS_np_tsaritsyn_rural = {
 }
 
 }
+	custom_effect_tooltip = RUS_np_tsaritsyn_rural_score_tt
 	custom_effect_tooltip = RUS_np_tsaritsyn_rural_goal_1_tt
 	effect_tooltip = {
 	217 = {

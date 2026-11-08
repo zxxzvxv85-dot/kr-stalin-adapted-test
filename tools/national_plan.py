@@ -6,12 +6,32 @@ add_days_remove/remove_decision/get_supply_vehicles; state-scoped add_manpower.
 import json,re
 from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
+from national_plan_focuses import PROJECT_FOCUS,focus_condition
 
 CAT='RUS_first_five_year_plan_industrial_projects'
 DEC='common/decisions/RUS decisions (Russia).txt'
 FX='common/scripted_effects/RUS_national_plan_effects.txt'
 DM='common/dynamic_modifiers/RUS_national_plan_modifiers.txt'
 P='RUS_np_'
+SCORE_FILE='common/scripted_effects/RUS_stalin_five_year_plan_effects.txt'
+SCORE_HOOK='\t\t# NATIONAL_PLAN_PENDING_SCORE\n\t\tRUS_np_flush_plan_score = yes\n'
+
+def score_hook(text):
+    """Own one call at plan initialization; preserve every original stage value."""
+    text=text.replace(SCORE_HOOK,'')
+    node=parse(text)[0]
+    refresh=next(n for n in node.one('if').v if n.k=='RUS_stalin_refresh_first_five_year_plan_stage')
+    start=text.rfind('\n',0,refresh.a)+1
+    return text[:start]+SCORE_HOOK+text[start:]
+
+SCORE_VALUES={'low':2,'3':3,'med':4,'high':6,'75':7.5}
+def project_score(p):
+    if not p['legacy']:return 2
+    if repeatable(p):return 1
+    if 'RUS_stalin_add_first_five_year_plan_tankograd_bonus' in p['original']:return 4
+    names=re.findall(r'RUS_stalin_add_first_five_year_plan_score_(\w+)\s*=\s*yes',p['original'])
+    assert len(names)==1,p['key']
+    return SCORE_VALUES[names[0]]
 def b(key,body):return key+' = {\n'+''.join('\t'+s+'\n' for s in body)+'}\n'
 def sv(v,x):return f'set_variable = {{ {v} = {x} }}'
 def op(k,v,x):return f'{k}_variable = {{ {v} = {x} }}'
@@ -188,7 +208,7 @@ def patch_node(node,p):
         e=n.one(key)
         value=b(key,([e.inner()] if append and e else [])+body).strip()
         fields[key]=value
-    # New playtest entry: all 62 projects are directly listed without focuses.
+    # Real focus unlocks share the same catalogue as their native focus previews.
     # Outside managed Russia, preserve original gates and PP prices.
     # allowed is cached by HOI4 at start; it must contain static country identity
     # only. Managed copies have their own IDs so original activated decisions
@@ -201,7 +221,7 @@ def patch_node(node,p):
     if p.get('original_id')=='RUS_convert_civilian_aviation_industry':extra='219 = { NOT = { industrial_complex < 3 } }'
     field('available',['hidden_trigger = { RUS_np_context = yes } RUS_np_ready_'+p['key']+' = yes num_of_civilian_factories_available_for_projects > '+str(p['civ']-1)+' '+extra])
     once=unfinished(p)
-    field('visible',['RUS_np_context = yes OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = '+str(p['region'])+' } } '+once])
+    field('visible',['RUS_np_context = yes '+focus_condition(p)+' OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = '+str(p['region'])+' } } '+once])
     for c in CORRIDORS:
         if c['project']==p.get('original_id',p['id']):field('highlight_states',rail_highlight(c))
     start=n.one('complete_effect')
@@ -211,9 +231,9 @@ def patch_node(node,p):
             *([f'effect_tooltip = {{ add_dynamic_modifier = {{ modifier = {var(p,"cost")} }} }}'] if p['civ'] or p['consumer'] else []),
             *goal_tooltips(p),
             'hidden_effect = { '+call(p,'begin')+' }'])])
-    original=node.one('remove_effect').inner()
+    original=managed_base(p)
     field('remove_effect',[
-        b('effect_tooltip',[original]).strip(),*goal_tooltips(p),
+        b('effect_tooltip',[original]).strip(),'custom_effect_tooltip = '+var(p,'score_tt'),*goal_tooltips(p),
         'hidden_effect = { '+call(p,'finish')+' }'])
     # The managed ledger never refunds PP (the old Central Asia cancellation
     # did). Its legacy UI flags are cleared by the common release handler.
@@ -285,6 +305,20 @@ def native_base(p):
     # Catalogue snapshots include the retired dashboard observer; it is not a reward.
     return n.one('remove_effect').inner().replace('RUS_rc_refresh = yes', '')
 
+def managed_base(p):
+    """Move only scoring into the shared pre-plan ledger, keeping other rewards."""
+    text=native_base(p);edits=[]
+    def walk(nodes):
+        for n in nodes:
+            is_score=(n.k.startswith('RUS_stalin_add_first_five_year_plan_')
+                      or n.k in ('RUS_stalin_ensure_first_five_year_plan','RUS_stalin_refresh_first_five_year_plan_stage')
+                      or n.k=='add_to_variable' and n.one('RUS_first_five_year_plan_score'))
+            if is_score:edits.append((n.a,n.b))
+            elif isinstance(n.v,list):walk(n.v)
+    walk(parse(text))
+    for a,z in sorted(edits,reverse=True):text=text[:a]+text[z:]
+    return text
+
 def project_effects(p):
     k=p['key'];s=p['states'][0];out=[]
     timer='days_decision_timeout@'+p['id']
@@ -346,7 +380,9 @@ def project_effects(p):
     for i,(_,_,reward) in enumerate(goals(p),1):bonus += [iff(flag(p,'goal_'+str(i)),reward)]
     for c in CORRIDORS:
         if p['legacy'] and c['project']==p['original_id']:bonus += [sv(P+'rail_'+c['key'],c['level']),'build_railway = { level = '+str(c['level'])+' path = { '+' '.join(map(str,c['path']))+' } }']
-    reward=[call(p,'goals'),native_base(p),iff('NOT = { '+flag(p,'completed')+' }',bonus),'set_country_flag = '+var(p,'completed'),
+    reward=[call(p,'goals'),managed_base(p),add(P+'pending_plan_score',project_score(p)),
+        *(['set_country_flag = RUS_first_five_year_plan_tankograd_completed'] if k=='create_tankograd' else []),
+        'RUS_np_flush_plan_score = yes',iff('NOT = { '+flag(p,'completed')+' }',bonus),'set_country_flag = '+var(p,'completed'),
         sv(P+'consumed',var(p,'paid')),mul(P+'consumed',.8),sv(P+'refund',var(p,'paid')),sub(P+'refund',P+'consumed'),call(p,'release')]
     finish=[call(p,'tick'),iff(owned(p),reward),b('else',[call(p,'cancel')]).strip()]
     out.append(b(var(p,'finish'),[iff(running(p),finish)]))
@@ -396,6 +432,7 @@ def management():
     return ''.join(out)
 
 def augment(out):
+    out[SCORE_FILE]=score_hook((ROOT/SCORE_FILE).read_text(encoding='utf-8-sig'))
     text=out[DEC];cat=next(n for n in parse(text) if n.k==CAT);by={n.k:n for n in cat.v}
     edits=[]
     for p in PROJECTS:
@@ -415,13 +452,17 @@ def augment(out):
         'OR = { has_state_category = one has_state_category = two has_state_category = three has_state_category = four }',
         'infrastructure < 3','industrial_complex < 3','arms_factory < 3'])]
     for p in PROJECTS:
-        condition=['RUS_np_context = yes','has_country_flag = RUS_np_initialized','NOT = { '+running(p)+' }',unfinished(p),owned(p),
+        condition=['RUS_np_context = yes',focus_condition(p),'has_country_flag = RUS_np_initialized','NOT = { '+running(p)+' }',unfinished(p),owned(p),
             'custom_trigger_tooltip = { tooltip = RUS_np_budget_tt NOT = { '+ck(P+'available','<',p['budget'])+' } }',
             'custom_trigger_tooltip = { tooltip = RUS_np_slot_tt '+ck(P+'active','<',P+'slots')+' }',
             'custom_trigger_tooltip = { tooltip = RUS_np_trains_tt '+stock(p['trains'])+' }']
         triggers.append(b('RUS_np_ready_'+p['key'],condition))
     out['common/scripted_triggers/RUS_national_plan_triggers.txt']='\n'.join(line.rstrip() for line in ''.join(triggers).split('\n'))
     effects=[b('RUS_np_refresh',refresh())]
+    effects.append(b('RUS_np_flush_plan_score',[iff(
+        'has_country_flag = RUS_auto_kamenev_vst_left_path RUS_completed_focus_4_year_plan = yes has_dynamic_modifier = { modifier = RUS_first_five_year_plan } '+ck(P+'pending_plan_score','>',0),[
+            add('RUS_first_five_year_plan_score',P+'pending_plan_score'),sv(P+'pending_plan_score',0),
+            'RUS_stalin_refresh_first_five_year_plan_stage = yes'])]))
     effects.append(mio_effects())
     # One state pass at initialization, on score changes, or every 30 days for
     # newly acquired rural cores. No all-state scan from GUI visibility checks.
@@ -460,7 +501,7 @@ def augment(out):
     # establish the positive tier; initialization cannot reapply it later.
     for s in (219,195,217):init += [iff(own(s),[scope(s,[sv('RUS_np_development',0),'add_dynamic_modifier = { modifier = RUS_np_region_0 }'])])]
     effects.append(b('RUS_np_initialize',[iff('RUS_np_context = yes NOT = { has_country_flag = RUS_np_initialized }',init)]))
-    daily=[sv(P+'day','global.num_days'),'RUS_np_refresh = yes',
+    daily=[sv(P+'day','global.num_days'),'RUS_np_flush_plan_score = yes','RUS_np_refresh = yes',
         iff(ck(P+'year','<','year'),[sv(P+'year','year'),add(P+'available',P+'grant')]),add(P+'available',P+'income')]
     for p in PROJECTS:
         daily += [iff(running(p),[
@@ -488,7 +529,7 @@ def augment(out):
         'hidden_effect = { '+add(P+'available',15)+' '+add(P+'bonus_resources',15)+' }']))
     effects.append(b('RUS_np_award_land_score',['custom_effect_tooltip = RUS_np_land_award_tt',b('hidden_effect',[
         sv('RUS_agri_score_award',5),'RUS_agri_credit_score = yes','RUS_nat_refresh = yes']).strip()]))
-    out[FX]='# Generated national plan. Legacy score/spirit functions are not modified.\n'+''.join(effects)
+    out[FX]='# Generated national plan. Original scoring weights and spirit stages retained.\n'+''.join(effects)
     out[FX]='\n'.join(line.rstrip() for line in out[FX].split('\n'))
     dm=[b('RUS_np_transport_network',['enable = { RUS_np_context = yes }','production_speed_buildings_factor = RUS_np_transport_bonus','industrial_capacity_factory = RUS_np_transport_bonus'])]
     for key in ('RUS_np_rural_infrastructure','RUS_np_rural_infrastructure_improved'):
@@ -508,11 +549,12 @@ def augment(out):
     out['common/synchronized_dynamic_tokens/RUS_national_plan_tokens.txt']='\n'.join(p['id'] for p in PROJECTS)+'\n'
     out.update(localisations())
     # Human-reviewable 62-row ledger generated from the same runtime catalogue.
-    columns=['ID','原工程ID','地区分类','目标地区','基准工期','建设资源','征用普通列车','额外占用民工','额外消费品系数','追加目标1','追加目标2','一五计分','历史来源','军工机构追加奖励']
+    columns=['ID','原工程ID','地区分类','目标地区','基准工期','建设资源','征用普通列车','额外占用民工','额外消费品系数','追加目标1','追加目标2','一五计分','历史来源','军工机构追加奖励','解锁国策']
     rows=['\t'.join(columns)]
     for p in PROJECTS:
-        values=[p['id'],p.get('original_id','新增'),REGIONS[p['region']],','.join(map(str,p['states'])),p['base_days'],p['budget'],p['trains'],p['civ'],p['consumer'],goals(p)[0][1],goals(p)[1][1],'原奖励原值' if p['legacy'] else '0',p.get('source','原版工程')]
+        values=[p['id'],p.get('original_id','新增'),REGIONS[p['region']],','.join(map(str,p['states'])),p['base_days'],p['budget'],p['trains'],p['civ'],p['consumer'],goals(p)[0][1],goals(p)[1][1],project_score(p),p.get('source','原版工程')]
         award=MIO_REWARDS.get(p['key']);values.append(('航空军工协作：选择在用机构，经费获取+25%' if award[0]=='consortium' else MIO_TARGETS[award[0]][3]+'：规模+1') if award else '无')
+        values.append(PROJECT_FOCUS[p['key']])
         rows.append('\t'.join(map(str,values)))
     out['tools/design/national_plan_20261104/projects.tsv']='\n'.join(rows)+'\n'
     return out
@@ -545,6 +587,9 @@ def localisations():
     l['RUS_np_header']='当前分类：[RUSNPRegionName]\\n建设账本：[RUSNPAccountStatus]\\n§C建设资源：[?RUS_np_available|2]§!　冻结：§Y[?RUS_np_frozen|2]§!　已消耗：§g[?RUS_np_spent|2]§!\\n初始拨款：§Y[?RUS_np_initial_grant|2]§!　年度拨款：§Y[?RUS_np_grant|2]§!\\n每日收入：§G+[?RUS_np_income|2]§!　工程名额：[?RUS_np_active|0]/§Y[?RUS_np_slots|0]§!　空闲：§G[?RUS_np_free_slots|0]§!\\n征用列车：§Y[?RUS_np_trains|0]§!　计划干线平均等级：§Y[?RUS_np_rail_display|2]§!'
     l['RUS_np_account_ready']='§G已建立§!'
     l['RUS_np_account_pending']='§Y待建立§!'
+    l['RUS_np_header']+='\\n待计入一五计划的分数：§Y[?RUS_np_pending_plan_score|1]§!'
+    for p in PROJECTS:
+        l[var(p,'score_tt')]=f'一五计划分数：§G+{project_score(p):g}§!（计划启用前保留）'
 
     sloc=[b('defined_text',['name = RUSNationalPlanLedger',b('text',['trigger = { RUS_np_context = yes }','localization_key = RUS_np_header']).strip(),'text = { localization_key = RUS_np_header_old }'])]
     sloc.append(b('defined_text',['name = RUSNPAccountStatus',b('text',['trigger = { has_country_flag = RUS_np_initialized }','localization_key = RUS_np_account_ready']).strip(),'text = { localization_key = RUS_np_account_pending }']))

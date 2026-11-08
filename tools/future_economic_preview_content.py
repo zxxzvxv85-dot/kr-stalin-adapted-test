@@ -1,8 +1,8 @@
 """Approved economic rewards; these nodes retain their existing preview gates.
 
 References: KR Russia relief_work, urban_housing_projects and
-modernise_transsiberian. Use their native recovery, state-upgrade and targeted
-decision mechanisms, without copying unrelated political or MIO rewards.
+modernise_transsiberian. Keep recovery, construction research and state upgrades;
+new managed project unlock displays are owned by national_plan_focuses.py.
 """
 
 
@@ -30,20 +30,10 @@ def focus_rewards():
         '# RUS_EASY_MODE_TECH_END',
     ]
     return {
-        '424': recovery + [
-            'activate_targeted_decision = { target = 254 decision = RUS_improve_roads_in_central_russia }',
-            'activate_targeted_decision = { target = 263 decision = RUS_improve_roads_in_northern_russia }',
-            'activate_targeted_decision = { target = 217 decision = RUS_improve_roads_in_the_volga_basin }',
-        ] + recovery_hint,
+        '424': recovery + recovery_hint,
         '420': recovery + [
             f'{state} = {{ increase_state_category_by_one_level = yes }}'
             for state in (195, 242, 249, 263, 572, 651)
         ],
-        '621': construction + [
-            'custom_effect_tooltip = tooltip_white_line',
-            'activate_targeted_decision = { target = 400 decision = RUS_northern_route }',
-            'activate_targeted_decision = { target = 651 decision = RUS_upgrade_the_railroad_chelyabinsk }',
-            'activate_targeted_decision = { target = 570 decision = RUS_upgrade_the_railroad_krasnoyarsk }',
-            'activate_targeted_decision = { target = 657 decision = RUS_upgrade_the_railroad_vladivostok }',
-        ] + recovery_hint,
+        '621': construction + recovery_hint,
     }

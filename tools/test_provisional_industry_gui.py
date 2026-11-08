@@ -5,6 +5,7 @@ import unittest
 from generate_provisional_industry_gui import ROOT, CATEGORY, DECISIONS, CATEGORIES, render
 from hoi4_politics_blocks import parse
 from national_plan import FX
+from national_plan_catalog import PROJECTS
 
 BASELINE = 'f68786f'
 
@@ -22,6 +23,11 @@ def gameplay(text):
     def clean(ns, depth=0):
         result = []
         for n in ns:
+            # Managed construction copies now have intentional focus gates and
+            # deferred scores, verified by test_national_plan.py. This test
+            # protects the original decision entries and unrelated categories.
+            if depth == 1 and n.k.startswith('RUS_np_'):
+                continue
             if n.k == 'RUS_rc_overview' or (n.k == 'visible' and n.v == []):
                 continue
             result.append((n.k, n.op, clean(n.v, depth+1) if isinstance(n.v, list) else n.v))
@@ -36,7 +42,8 @@ class Tests(unittest.TestCase):
         self.assertEqual(gameplay(old(DECISIONS)), gameplay(outputs[DECISIONS]))
         # Account policy may evolve; only the retired panel's project rewards
         # belong to this regression. Account/refresh changes have their own tests.
-        account = {'RUS_np_initialize', 'RUS_np_refresh', 'RUS_np_daily'}
+        account = {'RUS_np_initialize', 'RUS_np_refresh', 'RUS_np_daily', 'RUS_np_flush_plan_score'}
+        account.update('RUS_np_'+p['key']+'_finish' for p in PROJECTS)
         def effects(text):
             return '\n'.join(n.raw() for n in parse(text) if n.k not in account)
         self.assertEqual(gameplay(effects(old(FX))), gameplay(effects(outputs[FX])))

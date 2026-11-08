@@ -4,7 +4,8 @@ from pathlib import Path
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import parse,load
 from national_plan_catalog import ROOT,DATA,PROJECTS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS
-from national_plan import FX,DM,DEC,CAT,P,var,native_base,goals,restore,mio_preview
+from national_plan import FX,DM,DEC,CAT,P,var,native_base,managed_base,project_score,goals,restore,mio_preview,SCORE_FILE,SCORE_HOOK,score_hook
+from national_plan_focuses import PROJECT_FOCUS,FOCUS_PROJECTS
 from generate_provisional_industry_gui import render
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf8'))
@@ -21,6 +22,7 @@ class Model(ScriptModel):
         super().__init__(copy.deepcopy(EFFECTS));self.context=True;self.stock=10000;self.scope=None;self.mio_scope=None;self.aat=True;self.events=[];self.offsite={};self.focuses=set();self.preview_mios=[]
         self.mios={token:{'size':0,'available':True,'assigned':False} for token in set(CONSORTIUM_MIOS)|{row[i] for row in MIO_TARGETS.values() for i in (0,2) if row[i]}}
         self.trigger_root='RUS';self.ai=False
+        self.focuses.update(PROJECT_FOCUS.values());self.plan_active=False
         self.country=self.vars;self.country.update({'global.num_days':100,'year':1936,'num_of_available_civilian_factories':50,
             'RUS_basic_education_level':50,'RUS_higher_education_level':50,'RUS_education_enthusiasm':50,
             'RUS_nat_machine_stock':1000,'RUS_nat_target':1000,'RUS_nat_installed':0,'RUS_first_five_year_plan_stage':3})
@@ -33,7 +35,7 @@ class Model(ScriptModel):
         # guards, settlement, goals, refunds and generated rewards executable.
         for p in PROJECTS:
             if not p['legacy']:continue
-            signature=[n.norm() for n in parse(native_base(p))]
+            signature=[n.norm() for n in parse(managed_base(p))]
             for n in walk([self.effects[var(p,'finish')]]):
                 if not isinstance(n.v,list):continue
                 for i in range(len(n.v)-len(signature)+1):
@@ -51,6 +53,7 @@ class Model(ScriptModel):
         if hasattr(nodes,'v'):nodes=nodes.v
         for n in nodes:
             if n.k in TR:ok=self.check(TR[n.k])==(n.v=='yes')
+            elif n.k=='RUS_completed_focus_4_year_plan':ok=self.plan_active==(n.v=='yes')
             elif n.k=='has_dlc_aat':ok=self.aat==(n.v=='yes')
             elif n.k=='has_completed_focus':ok=n.v in self.focuses
             elif n.k=='has_military_industrial_organization':ok=n.v in self.mios
@@ -88,12 +91,13 @@ class Model(ScriptModel):
         pending=[]
         native={'add_equipment_to_stockpile','add_dynamic_modifier','remove_dynamic_modifier','add_days_remove','remove_decision','remove_targeted_decision',
             'effect_tooltip','custom_effect_tooltip','force_update_dynamic_modifier','add_extra_state_shared_building_slots','add_building_construction',
-            'add_manpower','add_resource','build_railway','model_legacy_reward','RUS_education_refresh','RUS_agri_credit_score','RUS_nat_refresh','every_owned_state','set_state_flag','clr_state_flag','add_mio_size','country_event','add_offsite_building'}
+            'add_manpower','add_resource','build_railway','model_legacy_reward','RUS_education_refresh','RUS_agri_credit_score','RUS_nat_refresh','every_owned_state','set_state_flag','clr_state_flag','add_mio_size','country_event','add_offsite_building','add_ideas'}
         for n in nodes:
             if n.k not in native and not n.k.isdigit() and not n.k.startswith('mio:'):pending.append(n);continue
             if pending:super().run(pending);pending=[]
             if n.k.startswith('mio:'):
                 before=self.mio_scope;self.mio_scope=n.k.split(':')[1];self.run(n.v);self.mio_scope=before
+            elif n.k=='add_ideas':self.ideas.add(n.v)
             elif n.k=='add_mio_size':self.mios[self.mio_scope]['size']+=int(n.v)
             elif n.k=='effect_tooltip':self.preview_mios.extend(x.k.split(':',1)[1] for x in walk(n.v) if x.k.startswith('mio:'))
             elif n.k=='country_event':self.events.append(n.v if isinstance(n.v,str) else n.value('id'))
@@ -278,24 +282,98 @@ class PlanTests(unittest.TestCase):
             self.assertFalse(m.check(TR['RUS_np_rural_candidate']))
     def test_catalogue_and_preserved_spirit_score(self):
         self.assertEqual(len(PROJECTS),62);self.assertEqual(sum(p['legacy'] for p in PROJECTS),46)
-        for path,digest in DATA['preserved'].items():self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),digest)
-        # Every old native reward, including easy-mode branches and scoring,
-        # occurs contiguously and unchanged in its managed completion handler.
+        for path,digest in DATA['preserved'].items():
+            raw=(ROOT/path).read_bytes()
+            if path==SCORE_FILE:
+                # Exactly one owned initialization call; all original values,
+                # mission logic and original scoring helpers stay byte-identical.
+                raw=raw.replace(SCORE_HOOK.encode(),b'')
+            self.assertEqual(hashlib.sha256(raw).hexdigest(),digest)
+        # Non-scoring native rewards, including easy-mode branches, remain a
+        # contiguous subtree. Deferred scoring is exercised separately below.
         for p in PROJECTS:
             if not p['legacy']:continue
-            expected=[n.norm() for n in parse(native_base(p))]
+            expected=[n.norm() for n in parse(managed_base(p))]
             self.assertTrue(any(isinstance(n.v,list) and any([x.norm() for x in n.v[i:i+len(expected)]]==expected for i in range(len(n.v)-len(expected)+1)) for n in walk([EFFECTS[var(p,'finish')]])),p['id'])
             self.assertEqual(NODES[p['id']].value('cost'),parse(p['original'])[0].value('cost'))
             self.assertFalse(any(n.k=='add_political_power' for n in walk(NODES[p['id']].one('cancel_effect').v)))
-    def test_all_62_directly_visible_without_focus_and_classified(self):
+    def test_all_62_focus_unlocked_and_classified(self):
         m=Model().initialize()
         for p in PROJECTS:
             n=NODES[p['id']];self.assertTrue(m.check(n.one('allowed')),p['id'])
             self.assertEqual([x.k for x in n.one('allowed').v],['original_tag'],'allowed is cached at game start')
+            m.focuses.remove(PROJECT_FOCUS[p['key']])
+            self.assertFalse(m.check(n.one('visible')),p['id'])
+            self.assertFalse(m.check(TR['RUS_np_ready_'+p['key']]),p['id'])
+            m.call(var(p,'begin'));self.assertNotIn(var(p,'running'),m.flags)
+            m.focuses.add(PROJECT_FOCUS[p['key']])
             self.assertTrue(m.check(n.one('visible')),p['id'])
             m.vars[P+'filter']=p['region'];self.assertTrue(m.check(n.one('visible')))
             m.vars[P+'filter']=p['region']%6+1;self.assertFalse(m.check(n.one('visible')))
             m.vars[P+'filter']=0
+
+    def test_focus_previews_match_all_unlocks_without_old_project_activations(self):
+        focuses={n.value('id'):n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt') if n.k=='shared_focus'}
+        expected={p['id'] for p in PROJECTS};seen=[]
+        for suffix,keys in FOCUS_PROJECTS.items():
+            node=focuses['RUS_future_domestic_'+suffix]
+            seen += [n.v for n in node.one('completion_reward').v if n.k=='unlock_decision_tooltip']
+            self.assertIsNotNone(node.one('available').one('custom_trigger_tooltip').one('always'))
+            self.assertEqual(node.one('ai_will_do').value('factor'),'0')
+            self.assertFalse(any(n.k=='activate_targeted_decision' for n in walk(node.one('completion_reward').v)))
+        self.assertEqual(set(seen),expected);self.assertEqual(len(seen),62)
+        self.assertIsNone(focuses['RUS_future_domestic_421'].one('completion_reward').one('unlock_decision_tooltip'))
+
+    def score_model(self):
+        m=Model().initialize()
+        m.vars[P+'available']=100000
+        m.effects.update(load_effects((ROOT/SCORE_FILE).read_text(encoding='utf8')))
+        m.flags.add('RUS_first_five_year_plan_mission_started')
+        return m
+
+    def test_pre_plan_scores_transfer_on_initialization_once_and_refresh_original_spirit(self):
+        m=self.score_model()
+        for p in PROJECTS:
+            m.start(p);m.call(var(p,'finish'))
+        total=sum(project_score(p) for p in PROJECTS)
+        self.assertAlmostEqual(m.vars[P+'pending_plan_score'],total)
+        self.assertNotIn('RUS_first_five_year_plan_score',m.vars)
+        self.assertNotIn('RUS_first_five_year_plan',m.dynamic)
+        m.flags.add('RUS_auto_kamenev_vst_left_path');m.plan_active=True
+        m.call('RUS_stalin_ensure_first_five_year_plan')
+        self.assertAlmostEqual(m.vars['RUS_first_five_year_plan_score'],total)
+        self.assertEqual(m.vars[P+'pending_plan_score'],0)
+        self.assertEqual(m.vars['RUS_first_five_year_plan_stage'],6)
+        self.assertAlmostEqual(m.vars['RUS_first_five_year_plan_construction_speed'],.225)
+        for _ in range(3):m.call('RUS_stalin_ensure_first_five_year_plan');m.call('RUS_np_flush_plan_score')
+        self.assertAlmostEqual(m.vars['RUS_first_five_year_plan_score'],total)
+
+    def test_active_plan_credit_and_repeat_electrification_count_exactly_once_per_completion(self):
+        m=self.score_model();m.flags.add('RUS_auto_kamenev_vst_left_path');m.plan_active=True
+        m.call('RUS_stalin_ensure_first_five_year_plan')
+        for p in PROJECTS:
+            before=m.vars['RUS_first_five_year_plan_score']
+            m.start(p);m.call(var(p,'finish'));m.call(var(p,'finish'));m.call(var(p,'cancel'))
+            self.assertAlmostEqual(m.vars['RUS_first_five_year_plan_score']-before,project_score(p))
+        p=PROJECTS[0];before=m.vars['RUS_first_five_year_plan_score']
+        m.start(p);m.call(var(p,'finish'))
+        self.assertEqual(m.vars['RUS_first_five_year_plan_score']-before,1)
+        self.assertEqual(m.vars[P+'pending_plan_score'],0)
+
+    def test_cancel_and_enemy_termination_never_credit_pre_plan_score(self):
+        for p in PROJECTS:
+            for lost in (False,True):
+                m=self.score_model();m.start(p)
+                if lost:
+                    m.states[p['states'][0]]['owned']=False;m.call(var(p,'finish'))
+                else:m.call(var(p,'cancel'))
+                self.assertEqual(m.vars.get(P+'pending_plan_score',0),0)
+                self.assertNotIn('RUS_first_five_year_plan_score',m.vars)
+
+    def test_score_hook_is_single_and_idempotent(self):
+        text=(ROOT/SCORE_FILE).read_text(encoding='utf8')
+        self.assertEqual(text.count(SCORE_HOOK),1)
+        self.assertEqual(score_hook(text),text)
     def test_one_time_projects_and_repeat_electrification_keep_original_scoring(self):
         p=next(p for p in PROJECTS if p['key']=='renovate_and_expand_moscow')
         m=Model().initialize();m.start(p);m.vars[var(p,'left')]=0;m.call(var(p,'finish'))

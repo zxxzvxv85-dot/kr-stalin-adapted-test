@@ -126,6 +126,11 @@ def main():
     }
     expected_rewards.update({PREFIX+s:'\n'.join(v['reward']) for s,v in education.items()})
     expected_rewards.update({PREFIX+s:'\n'.join(v) for s,v in economic_preview_rewards().items()})
+    from national_plan_catalog import PROJECTS
+    from national_plan_focuses import unlock_rewards
+    for suffix, rewards in unlock_rewards(PROJECTS).items():
+        key=PREFIX+suffix
+        expected_rewards[key]=expected_rewards.get(key,'')+'\n'+'\n'.join(rewards)
     from football_event_content import focus_reward
     expected_rewards[PREFIX+'151'] = '\n'.join(focus_reward())
     for key,n in by_id.items():

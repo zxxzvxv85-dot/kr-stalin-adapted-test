@@ -20,6 +20,8 @@ from provisional_government_content import content as provisional_content, local
 from education_reform_content import education_focuses,color_poster_categories
 from football_event_content import focus_reward as football_focus_reward
 from future_economic_preview_content import focus_rewards as economic_preview_rewards
+from national_plan_catalog import PROJECTS
+from national_plan_focuses import unlock_rewards
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path('tools/design/RUS_future_domestic_layout.drawio')
@@ -289,6 +291,7 @@ def render_outputs():
             text += ['\tmutually_exclusive = { focus = '+other+' }']
         reward = list(authored['reward']) if authored else []
         reward += economic_preview_rewards().get(node['suffix'], [])
+        reward += unlock_rewards(PROJECTS).get(node['suffix'], [])
         if key == 'RUS_future_domestic_151':
             reward += football_focus_reward()
         if reward:

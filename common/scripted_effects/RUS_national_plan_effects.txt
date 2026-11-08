@@ -1,4 +1,4 @@
-# Generated national plan. Legacy score/spirit functions are not modified.
+# Generated national plan. Original scoring weights and spirit stages retained.
 RUS_np_refresh = {
 	set_variable = { RUS_np_civ = num_of_available_civilian_factories }
 	if = {
@@ -1503,6 +1503,14 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_trains = RUS_np_tsaritsyn_dispatch }
 	RUS_np_refresh_rural = yes
 }
+RUS_np_flush_plan_score = {
+	if = {
+	limit = { has_country_flag = RUS_auto_kamenev_vst_left_path RUS_completed_focus_4_year_plan = yes has_dynamic_modifier = { modifier = RUS_first_five_year_plan } check_variable = { RUS_np_pending_plan_score > 0 } }
+	add_to_variable = { RUS_first_five_year_plan_score = RUS_np_pending_plan_score }
+	set_variable = { RUS_np_pending_plan_score = 0 }
+	RUS_stalin_refresh_first_five_year_plan_stage = yes
+}
+}
 RUS_np_award_mio_amo = {
 	if = {
 	limit = { has_dlc_aat = yes }
@@ -1751,6 +1759,7 @@ RUS_np_daily = {
 	if = {
 	limit = { has_country_flag = RUS_np_initialized check_variable = { RUS_np_day < global.num_days } }
 	set_variable = { RUS_np_day = global.num_days }
+	RUS_np_flush_plan_score = yes
 	RUS_np_refresh = yes
 	if = {
 	limit = { check_variable = { RUS_np_year < year } }
@@ -3633,7 +3642,7 @@ RUS_np_kamenev_all_russian_electrification_finish = {
 				custom_effect_tooltip = RUS_tesla_all_russian_electrification_chance_tt
 			}
 			hidden_effect = {
-				RUS_stalin_ensure_first_five_year_plan = yes
+
 				clr_country_flag = RUS_kamenev_all_russian_electrification_in_progress
 				random_owned_controlled_state = {
 					limit = {
@@ -3680,8 +3689,8 @@ RUS_np_kamenev_all_russian_electrification_finish = {
 						}
 					}
 				}
-				add_to_variable = { RUS_first_five_year_plan_score = 1 }
-				RUS_stalin_refresh_first_five_year_plan_stage = yes
+
+
 				if = {
 					limit = { has_country_flag = RUS_tesla_network_bonus_active }
 					RUS_tesla_refresh_power_grid_bonuses = yes
@@ -3695,6 +3704,8 @@ RUS_np_kamenev_all_russian_electrification_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamenev_all_russian_electrification set_country_flag = RUS_rc_settled_RUS_kamenev_all_russian_electrification clr_country_flag = RUS_rc_running_RUS_kamenev_all_russian_electrification  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kamenev_all_russian_electrification_completed } }
 	if = {
@@ -4031,11 +4042,13 @@ RUS_np_renovate_and_expand_moscow_finish = {
 
 			log = "[GetLogRoot]: Decision removed RUS_renovate_and_expand_moscow"
 			219 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
-			RUS_stalin_add_first_five_year_plan_score_3 = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_moscow clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_moscow  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 3 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_renovate_and_expand_moscow_completed } }
 	if = {
@@ -4367,11 +4380,13 @@ RUS_np_renovate_and_expand_tsaritsyn_finish = {
 
 			log = "[GetLogRoot]: Decision removed RUS_renovate_and_expand_tsaritsyn"
 			217 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
-			RUS_stalin_add_first_five_year_plan_score_3 = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_tsaritsyn clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_tsaritsyn  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 3 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_completed } }
 	if = {
@@ -4703,11 +4718,13 @@ RUS_np_renovate_and_expand_saint_petersburg_finish = {
 
 			log = "[GetLogRoot]: Decision removed RUS_renovate_and_expand_saint_petersburg"
 			195 = { add_dynamic_modifier = { modifier = RUS_urban_renovation_and_expansion } }
-			RUS_stalin_add_first_five_year_plan_score_3 = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg set_country_flag = RUS_rc_settled_RUS_renovate_and_expand_saint_petersburg clr_country_flag = RUS_rc_running_RUS_renovate_and_expand_saint_petersburg  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 3 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_completed } }
 	if = {
@@ -5058,11 +5075,13 @@ RUS_np_magnitogorsk_finish = {
 				rename_state_effect = yes
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_magnitogorsk set_country_flag = RUS_rc_settled_RUS_magnitogorsk clr_country_flag = RUS_rc_running_RUS_magnitogorsk  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_magnitogorsk_completed } }
 	if = {
@@ -5422,11 +5441,13 @@ RUS_np_second_baku_finish = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_second_baku set_country_flag = RUS_rc_settled_RUS_second_baku clr_country_flag = RUS_rc_running_RUS_second_baku  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_second_baku_completed } }
 	if = {
@@ -5754,7 +5775,7 @@ RUS_np_modernisation_of_AMO_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			set_country_flag = improve_amo
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
@@ -5791,6 +5812,8 @@ RUS_np_modernisation_of_AMO_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO set_country_flag = RUS_rc_settled_RUS_modernisation_of_AMO clr_country_flag = RUS_rc_running_RUS_modernisation_of_AMO  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_modernisation_of_AMO_completed } }
 	if = {
@@ -6138,7 +6161,7 @@ RUS_np_izhevsk_mechanical_plant_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
 				mio:RUS_imz_organisation = {
@@ -6173,6 +6196,8 @@ RUS_np_izhevsk_mechanical_plant_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant set_country_flag = RUS_rc_settled_RUS_izhevsk_mechanical_plant clr_country_flag = RUS_rc_running_RUS_izhevsk_mechanical_plant  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_izhevsk_mechanical_plant_completed } }
 	if = {
@@ -6515,7 +6540,7 @@ RUS_np_tula_arms_factory_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 3 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
@@ -6543,6 +6568,8 @@ RUS_np_tula_arms_factory_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tula_arms_factory set_country_flag = RUS_rc_settled_RUS_tula_arms_factory clr_country_flag = RUS_rc_running_RUS_tula_arms_factory  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tula_arms_factory_completed } }
 	if = {
@@ -6886,7 +6913,7 @@ RUS_np_create_tankograd_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 2 instant_build = yes } } # RUS_EASY_MODE_REWARD
 			}
 			set_country_flag = improve_chtz
-			RUS_stalin_add_first_five_year_plan_tankograd_bonus = yes
+
 			if = { #Tooltip for those that have MIOs
 				limit = { has_dlc_aat = yes }
 				mio:RUS_chtz_organisation = {
@@ -6921,6 +6948,9 @@ RUS_np_create_tankograd_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_create_tankograd set_country_flag = RUS_rc_settled_RUS_create_tankograd clr_country_flag = RUS_rc_running_RUS_create_tankograd  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	set_country_flag = RUS_first_five_year_plan_tankograd_completed
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_create_tankograd_completed } }
 	if = {
@@ -7312,11 +7342,13 @@ RUS_np_convert_civilian_aviation_industry_finish = {
 			}
 			else = { custom_effect_tooltip = RUS_no_aat_consortium_tt }
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry set_country_flag = RUS_rc_settled_RUS_convert_civilian_aviation_industry clr_country_flag = RUS_rc_running_RUS_convert_civilian_aviation_industry  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_convert_civilian_aviation_industry_completed } }
 	if = {
@@ -7661,7 +7693,7 @@ RUS_np_tsaritsyn_tractor_plant_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = infrastructure level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
 
 			custom_effect_tooltip = tooltip_white_line
 			set_country_flag = unlock_tstz
@@ -7689,6 +7721,8 @@ RUS_np_tsaritsyn_tractor_plant_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant set_country_flag = RUS_rc_settled_RUS_tsaritsyn_tractor_plant clr_country_flag = RUS_rc_running_RUS_tsaritsyn_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_completed } }
 	if = {
@@ -8033,7 +8067,7 @@ RUS_np_chelyabinsk_tractor_plant_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
 
 			set_country_flag = unlock_chtz
 			if = {
@@ -8052,6 +8086,8 @@ RUS_np_chelyabinsk_tractor_plant_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant set_country_flag = RUS_rc_settled_RUS_chelyabinsk_tractor_plant clr_country_flag = RUS_rc_running_RUS_chelyabinsk_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_completed } }
 	if = {
@@ -8388,11 +8424,13 @@ RUS_np_kursk_tractor_plant_finish = {
 				add_victory_points = { province = 3580 value = 3 }
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant set_country_flag = RUS_rc_settled_RUS_kursk_tractor_plant clr_country_flag = RUS_rc_running_RUS_kursk_tractor_plant  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kursk_tractor_plant_completed } }
 	if = {
@@ -8736,11 +8774,13 @@ RUS_np_rostselmash_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rostselmash set_country_flag = RUS_rc_settled_RUS_rostselmash clr_country_flag = RUS_rc_running_RUS_rostselmash  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_rostselmash_completed } }
 	if = {
@@ -9108,11 +9148,13 @@ RUS_np_stavropol_hydroelectric_dam_finish = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_stavropol_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_stavropol_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_completed } }
 	if = {
@@ -9486,11 +9528,13 @@ RUS_np_rybinsk_hydroelectric_dam_finish = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_rybinsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_rybinsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_completed } }
 	if = {
@@ -9864,11 +9908,13 @@ RUS_np_zhiguli_hydroelectric_dam_finish = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_zhiguli_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_zhiguli_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_completed } }
 	if = {
@@ -10242,11 +10288,13 @@ RUS_np_krasnoyarsk_hydroelectric_dam_finish = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_high = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam set_country_flag = RUS_rc_settled_RUS_krasnoyarsk_hydroelectric_dam clr_country_flag = RUS_rc_running_RUS_krasnoyarsk_hydroelectric_dam  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_completed } }
 	if = {
@@ -10598,11 +10646,13 @@ RUS_np_lipetsk_metallurgical_plant_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant set_country_flag = RUS_rc_settled_RUS_lipetsk_metallurgical_plant clr_country_flag = RUS_rc_running_RUS_lipetsk_metallurgical_plant  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_completed } }
 	if = {
@@ -10950,7 +11000,7 @@ RUS_np_uralmash_finish = {
 				add_victory_points = { province = 1821 value = 5 }
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 
 			set_country_flag = unlock_uztm
 			if = {
@@ -10969,6 +11019,8 @@ RUS_np_uralmash_finish = {
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_uralmash set_country_flag = RUS_rc_settled_RUS_uralmash clr_country_flag = RUS_rc_running_RUS_uralmash  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_uralmash_completed } }
 	if = {
@@ -11318,11 +11370,13 @@ RUS_np_motovilikha_plants_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = arms_factory level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_motovilikha_plants set_country_flag = RUS_rc_settled_RUS_motovilikha_plants clr_country_flag = RUS_rc_running_RUS_motovilikha_plants  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_motovilikha_plants_completed } }
 	if = {
@@ -11675,11 +11729,13 @@ RUS_np_admiralty_dockyards_finish = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_admiralty_dockyards set_country_flag = RUS_rc_settled_RUS_admiralty_dockyards clr_country_flag = RUS_rc_running_RUS_admiralty_dockyards  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_admiralty_dockyards_completed } }
 	if = {
@@ -12035,11 +12091,13 @@ RUS_np_kamensky_uralsky_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kamensky_uralsky set_country_flag = RUS_rc_settled_RUS_kamensky_uralsky clr_country_flag = RUS_rc_running_RUS_kamensky_uralsky  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kamensky_uralsky_completed } }
 	if = {
@@ -12407,12 +12465,14 @@ RUS_np_grozny_oil_finish = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			set_country_flag = RUS_Chechnya_improved
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_grozny_oil set_country_flag = RUS_rc_settled_RUS_grozny_oil clr_country_flag = RUS_rc_running_RUS_grozny_oil  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_grozny_oil_completed } }
 	if = {
@@ -12754,11 +12814,13 @@ RUS_np_arctic_mines_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_arctic_mines set_country_flag = RUS_rc_settled_RUS_arctic_mines clr_country_flag = RUS_rc_running_RUS_arctic_mines  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_arctic_mines_completed } }
 	if = {
@@ -13088,12 +13150,14 @@ RUS_np_tyrnyauz_tungsten_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			set_country_flag = RUS_vladikavkaz_improved_2
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten set_country_flag = RUS_rc_settled_RUS_tyrnyauz_tungsten clr_country_flag = RUS_rc_running_RUS_tyrnyauz_tungsten  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tyrnyauz_tungsten_completed } }
 	if = {
@@ -13444,11 +13508,13 @@ RUS_np_romanshkino_oil_finish = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_romanshkino_oil set_country_flag = RUS_rc_settled_RUS_romanshkino_oil clr_country_flag = RUS_rc_running_RUS_romanshkino_oil  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_romanshkino_oil_completed } }
 	if = {
@@ -13772,12 +13838,14 @@ RUS_np_northern_route_finish = {
 				target_province = 1821
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_northern_route set_country_flag = RUS_rc_settled_RUS_northern_route clr_country_flag = RUS_rc_running_RUS_northern_route  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_northern_route_completed } }
 	if = {
@@ -14121,12 +14189,14 @@ RUS_np_upgrade_the_railroad_chelyabinsk_finish = {
 				target_province = 9292
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_chelyabinsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_chelyabinsk  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed } }
 	if = {
@@ -14470,12 +14540,14 @@ RUS_np_upgrade_the_railroad_krasnoyarsk_finish = {
 				target_province = 4797
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_krasnoyarsk clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_krasnoyarsk  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed } }
 	if = {
@@ -14839,12 +14911,14 @@ RUS_np_upgrade_the_railroad_vladivostok_finish = {
 				}
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			RUS_decrease_black_monday = yes
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok set_country_flag = RUS_rc_settled_RUS_upgrade_the_railroad_vladivostok clr_country_flag = RUS_rc_running_RUS_upgrade_the_railroad_vladivostok  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed } }
 	if = {
@@ -15201,12 +15275,14 @@ RUS_np_kuznetsk_basin_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_kuznetsk_basin set_country_flag = RUS_rc_settled_RUS_kuznetsk_basin clr_country_flag = RUS_rc_running_RUS_kuznetsk_basin  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kuznetsk_basin_completed } }
 	if = {
@@ -15534,12 +15610,14 @@ RUS_np_bodaybo_gold_mines_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines set_country_flag = RUS_rc_settled_RUS_bodaybo_gold_mines clr_country_flag = RUS_rc_running_RUS_bodaybo_gold_mines  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_bodaybo_gold_mines_completed } }
 	if = {
@@ -15873,12 +15951,14 @@ RUS_np_far_eastern_fishing_industry_finish = {
 			add_equipment_to_stockpile = { type = convoy amount = 50 }
 			if = { limit = { hidden_trigger = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } add_equipment_to_stockpile = { type = convoy amount = 50 } } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry set_country_flag = RUS_rc_settled_RUS_far_eastern_fishing_industry clr_country_flag = RUS_rc_running_RUS_far_eastern_fishing_industry  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_far_eastern_fishing_industry_completed } }
 	if = {
@@ -16218,12 +16298,14 @@ RUS_np_krasnoyarskpromstroy_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy set_country_flag = RUS_rc_settled_RUS_krasnoyarskpromstroy clr_country_flag = RUS_rc_running_RUS_krasnoyarskpromstroy  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_krasnoyarskpromstroy_completed } }
 	if = {
@@ -16566,12 +16648,14 @@ RUS_np_dalnremmash_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
 			add_to_variable = { RUS_siberian_decisions = 1 }
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_dalnremmash set_country_flag = RUS_rc_settled_RUS_dalnremmash clr_country_flag = RUS_rc_running_RUS_dalnremmash  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_dalnremmash_completed } }
 	if = {
@@ -16926,11 +17010,13 @@ RUS_np_rudny_altay_finish = {
 				state = 810
 			} } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_rudny_altay set_country_flag = RUS_rc_settled_RUS_rudny_altay clr_country_flag = RUS_rc_running_RUS_rudny_altay  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_rudny_altay_completed } }
 	if = {
@@ -17274,11 +17360,13 @@ RUS_np_tekeli_metallurgical_combine_finish = {
 				state = 589
 			} } # RUS_EASY_MODE_REWARD
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine set_country_flag = RUS_rc_settled_RUS_tekeli_metallurgical_combine clr_country_flag = RUS_rc_running_RUS_tekeli_metallurgical_combine  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tekeli_metallurgical_combine_completed } }
 	if = {
@@ -17658,11 +17746,13 @@ RUS_np_emba_oil_area_finish = {
 				} } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_emba_oil_area set_country_flag = RUS_rc_settled_RUS_emba_oil_area clr_country_flag = RUS_rc_running_RUS_emba_oil_area  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_emba_oil_area_completed } }
 	if = {
@@ -17986,11 +18076,13 @@ RUS_np_verny_cotton_industry_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 2 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_verny_cotton_industry set_country_flag = RUS_rc_settled_RUS_verny_cotton_industry clr_country_flag = RUS_rc_running_RUS_verny_cotton_industry  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_verny_cotton_industry_completed } }
 	if = {
@@ -18342,12 +18434,14 @@ RUS_np_siberian_timber_industries_finish = {
 				if = { limit = { hidden_trigger = { owner = { has_country_flag = RUS_easy_mode_enabled is_ai = no } } } add_building_construction = { type = industrial_complex level = 1 } } # RUS_EASY_MODE_REWARD
 			}
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_75 = yes
+
 			set_country_flag = RUS_completed_siberian_timber_industry
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_siberian_timber_industries set_country_flag = RUS_rc_settled_RUS_siberian_timber_industries clr_country_flag = RUS_rc_running_RUS_siberian_timber_industries  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 7.5 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_siberian_timber_industries_completed } }
 	if = {
@@ -18686,11 +18780,13 @@ RUS_np_improve_roads_in_central_russia_finish = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_central_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_central_russia  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_improve_roads_in_central_russia_completed } }
 	if = {
@@ -19037,11 +19133,13 @@ RUS_np_improve_roads_in_northern_russia_finish = {
 			 } #Novgorod
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia set_country_flag = RUS_rc_settled_RUS_improve_roads_in_northern_russia clr_country_flag = RUS_rc_running_RUS_improve_roads_in_northern_russia  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_improve_roads_in_northern_russia_completed } }
 	if = {
@@ -19391,11 +19489,13 @@ RUS_np_improve_roads_in_the_volga_basin_finish = {
 			 } #Velikoknyazhesk
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_med = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin set_country_flag = RUS_rc_settled_RUS_improve_roads_in_the_volga_basin clr_country_flag = RUS_rc_running_RUS_improve_roads_in_the_volga_basin  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed } }
 	if = {
@@ -19748,11 +19848,13 @@ RUS_np_central_asia_railroads_finish = {
 			}
 			RUS_decrease_black_monday = yes
 			RUS_stalin_industry_effect = yes
-			RUS_stalin_add_first_five_year_plan_score_low = yes
+
  # RUS_RECOVERY_LEDGER_BEGIN
  hidden_effect = { set_country_flag = RUS_rc_finished_RUS_central_asia_railroads set_country_flag = RUS_rc_settled_RUS_central_asia_railroads clr_country_flag = RUS_rc_running_RUS_central_asia_railroads  }
  # RUS_RECOVERY_LEDGER_END
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_central_asia_railroads_completed } }
 	if = {
@@ -20096,6 +20198,8 @@ RUS_np_gaz_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_gaz_completed } }
 	if = {
@@ -20436,6 +20540,8 @@ RUS_np_bearing_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_bearing_completed } }
 	if = {
@@ -20753,6 +20859,8 @@ RUS_np_kashira_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kashira_completed } }
 	if = {
@@ -21091,6 +21199,8 @@ RUS_np_moscow_grid_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_grid_completed } }
 	if = {
@@ -21454,6 +21564,8 @@ RUS_np_metro_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_metro_completed } }
 	if = {
@@ -21812,6 +21924,8 @@ RUS_np_moscow_volga_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_volga_completed } }
 	if = {
@@ -22150,6 +22264,8 @@ RUS_np_svir_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_svir_completed } }
 	if = {
@@ -22492,6 +22608,8 @@ RUS_np_volkhov_finish = {
 	add_resource = { type = aluminium amount = 8 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_volkhov_completed } }
 	if = {
@@ -22835,6 +22953,8 @@ RUS_np_uvz_finish = {
 }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 10 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_uvz_completed } }
 	if = {
@@ -23156,6 +23276,8 @@ RUS_np_bobrik_finish = {
 	custom_effect_tooltip = RUS_np_fertilizer_reward_tt
 	hidden_effect = { set_variable = { RUS_np_fertilizer = 0.03 } }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_bobrik_completed } }
 	if = {
@@ -23514,6 +23636,8 @@ RUS_np_moscow_logistics_finish = {
 	build_railway = { level = 2 path = { 6380 301 11362 6316 378 280 3370 3268 6392 6295 6299 11375 } }
 	hidden_effect = { set_variable = { RUS_np_rail_moscow_core = 2 } }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_logistics_completed } }
 	if = {
@@ -23875,6 +23999,8 @@ RUS_np_moscow_rural_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_rural_completed } }
 	if = {
@@ -24237,6 +24363,8 @@ RUS_np_leningrad_logistics_finish = {
 	build_railway = { level = 2 path = { 6380 11282 3358 11250 3215 11315 2999 187 9111 6086 6035 6095 9164 11068 79 6174 } }
 	hidden_effect = { set_variable = { RUS_np_rail_leningrad_core = 2 } }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_leningrad_logistics_completed } }
 	if = {
@@ -24594,6 +24722,8 @@ RUS_np_leningrad_rural_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_leningrad_rural_completed } }
 	if = {
@@ -24952,6 +25082,8 @@ RUS_np_tsaritsyn_logistics_finish = {
 	build_railway = { level = 2 path = { 6380 6414 9348 6290 6396 6262 6315 9313 6279 6230 6398 6341 413 3527 6553 6428 3566 6587 11408 9564 3539 11485 9436 3582 9504 3529 } }
 	hidden_effect = { set_variable = { RUS_np_rail_tsaritsyn_core = 2 } }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_logistics_completed } }
 	if = {
@@ -25309,6 +25441,8 @@ RUS_np_tsaritsyn_rural_finish = {
 }
 }
 
+	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_rural_completed } }
 	if = {
