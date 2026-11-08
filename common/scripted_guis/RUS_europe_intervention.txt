@@ -21,6 +21,12 @@ scripted_gui = {
 			has_socialist_government = yes
 			has_country_flag = RUS_europe_intervention_gui_unlocked
 		}
+		triggers = {
+			RUS_europe_intervention_overview_button_click_enabled = { has_country_flag = RUS_europe_intervention_filter_active }
+		}
+		effects = {
+			RUS_europe_intervention_overview_button_click = { RUS_clear_europe_intervention_selection = yes }
+		}
 	}
 
 	RUS_europe_intervention_portrait_gui = {
@@ -57,7 +63,6 @@ scripted_gui = {
 		}
 		triggers = {
 			RUS_europe_intervention_no_selection_visible = { NOT = { has_country_flag = RUS_europe_intervention_filter_active } }
-			RUS_europe_intervention_overview_button_click_enabled = { has_country_flag = RUS_europe_intervention_filter_active }
 			RUS_europe_intervention_NORDICS_ICE_button_visible = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
 			RUS_europe_intervention_NORDICS_ICE_button_click_enabled = { OR = { ICE = { exists = yes } NOR = { exists = yes } SWE = { exists = yes } FIN = { exists = yes } DEN = { exists = yes } } }
 			RUS_europe_intervention_NORDICS_ICE_selected_visible = { has_country_flag = RUS_europe_intervention_selected_NORDICS }
@@ -249,7 +254,6 @@ scripted_gui = {
 			RUS_europe_intervention_PER_selected_name_visible = { has_country_flag = RUS_europe_intervention_selected_PER }
 		}
 		effects = {
-			RUS_europe_intervention_overview_button_click = { RUS_clear_europe_intervention_selection = yes }
 			RUS_europe_intervention_NORDICS_ICE_button_click = {
 				RUS_clear_europe_intervention_selection = yes
 				set_country_flag = RUS_europe_intervention_filter_active

@@ -9,6 +9,7 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
+from repair_europe_overview_navigation import repair_gui, repair_scripted_gui
 
 
 
@@ -837,7 +838,7 @@ def build_gui(selector_boxes: dict[str, tuple[int, int, int, int]]) -> str:
     ])
     category_block = lines[1:-1]
     lines = ["guiTypes = {", *category_block, "}"]
-    return "\n".join(lines) + "\n"
+    return repair_gui("\n".join(lines) + "\n")
 
 
 def build_scripted_gui() -> str:
@@ -928,7 +929,7 @@ def build_scripted_gui() -> str:
             "\t\t\t}",
         ])
     lines.extend(["\t\t}", "\t}", "}"])
-    return "\n".join(lines) + "\n"
+    return repair_scripted_gui("\n".join(lines) + "\n")
 
 
 def build_scripted_effect_and_trigger() -> dict[str, str]:
