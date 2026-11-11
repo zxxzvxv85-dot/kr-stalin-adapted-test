@@ -75,5 +75,18 @@ country_event = {
 	picture = GFX_report_event_generic_farming
 	is_triggered_only = yes
 
-	option = { name = RUS_agricultural_management.4.a }
+	option = {
+		name = RUS_agricultural_management.4.a
+		hidden_effect = { country_event = { id = RUS_agricultural_management.5 } }
+	}
+}
+
+country_event = {
+	id = RUS_agricultural_management.5
+	title = RUS_agricultural_management.5.t
+	desc = RUS_agricultural_management.5.d
+	picture = GFX_report_event_generic_farming
+	is_triggered_only = yes
+
+	option = { name = RUS_agricultural_management.5.a }
 }
