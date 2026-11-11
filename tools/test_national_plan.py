@@ -314,21 +314,27 @@ class PlanTests(unittest.TestCase):
 
     def test_focus_previews_match_all_unlocks_without_old_project_activations(self):
         focuses={n.value('id'):n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt') if n.k=='shared_focus'}
-        expected={p['id'] for p in PROJECTS};seen=[]
+        project_ids = {p['key']: p['id'] for p in PROJECTS}
+        expected = set(project_ids.values())
+        seen = []
         for suffix,keys in FOCUS_PROJECTS.items():
             node=focuses['RUS_future_domestic_'+suffix]
-            seen += [n.v for n in node.one('completion_reward').v if n.k=='unlock_decision_tooltip']
+            unlocks = [n.v for n in node.one('completion_reward').v if n.k == 'unlock_decision_tooltip']
+            self.assertEqual(unlocks, [project_ids[key] for key in keys], node.value('id'))
+            seen.extend(unlocks)
             self.assertIsNotNone(node.one('available').one('custom_trigger_tooltip').one('always'))
             self.assertEqual(node.one('ai_will_do').value('factor'),'0')
             self.assertFalse(any(n.k=='activate_targeted_decision' for n in walk(node.one('completion_reward').v)))
         self.assertEqual(set(seen),expected);self.assertEqual(len(seen),62)
         self.assertIsNone(focuses['RUS_future_domestic_422'].one('completion_reward').one('unlock_decision_tooltip'))
+        self.assertIsNone(focuses['RUS_future_domestic_455'].one('completion_reward').one('unlock_decision_tooltip'))
 
     def test_project_distribution_is_small_and_electricity_spans_later_focuses(self):
-        self.assertEqual(len(FOCUS_PROJECTS),26)
+        self.assertEqual(len(FOCUS_PROJECTS),25)
         self.assertTrue(all(1 <= len(keys) <= 3 for keys in FOCUS_PROJECTS.values()))
         land={'187','189','197','199','202','203','207','407','408','409','411','455','457'}
-        self.assertEqual(sum(len(keys) for suffix,keys in FOCUS_PROJECTS.items() if suffix in land),3)
+        self.assertEqual(sum(len(keys) for suffix,keys in FOCUS_PROJECTS.items() if suffix in land),2)
+        self.assertEqual(FOCUS_PROJECTS['486'], ('moscow_rural', 'leningrad_rural', 'tsaritsyn_rural'))
         electric=[p for p in PROJECTS if p['kind']=='energy']
         self.assertEqual(len(electric),8)
         self.assertEqual(len({PROJECT_FOCUS[p['key']] for p in electric}),5)

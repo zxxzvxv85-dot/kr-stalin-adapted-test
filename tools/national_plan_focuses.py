@@ -14,7 +14,7 @@ FOCUS_PROJECTS = {
             'renovate_and_expand_saint_petersburg'),
     '160': ('second_baku', 'grozny_oil', 'romanshkino_oil'),
     '421': ('modernisation_of_AMO', 'tula_arms_factory'),
-    '486': ('moscow_rural', 'leningrad_rural'),
+    '486': ('moscow_rural', 'leningrad_rural', 'tsaritsyn_rural'),
     '377': ('far_eastern_fishing_industry', 'central_asia_railroads', 'upgrade_the_railroad_vladivostok'),
     '487': ('emba_oil_area', 'arctic_mines'),
     # Federal planning: integrated industry, surveys, power and trunk transport.
@@ -35,9 +35,8 @@ FOCUS_PROJECTS = {
     '634': ('create_tankograd', 'krasnoyarskpromstroy', 'admiralty_dockyards'),
     '636': ('convert_civilian_aviation_industry', 'dalnremmash', 'siberian_timber_industries'),
     '183': ('volkhov', 'stavropol_hydroelectric_dam', 'rybinsk_hydroelectric_dam'),
-    # Only three construction projects remain on the land-reform branch.
+    # The land-reform branch retains the two tractor plants.
     '199': ('tsaritsyn_tractor_plant', 'chelyabinsk_tractor_plant'),
-    '455': ('tsaritsyn_rural',),
 }
 PROJECT_FOCUS = {key: 'RUS_future_domestic_'+suffix
                  for suffix, keys in FOCUS_PROJECTS.items() for key in keys}
