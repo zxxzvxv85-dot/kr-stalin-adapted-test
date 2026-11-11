@@ -11,7 +11,8 @@ ROWS=[('su_beichen','su_beichen_source.jpg','35,0,410,455','苏北辰'),
       ('mia','mia_source.jpg','215,0,1040,1080','米娅'),
       ('xin','xin_source.png','170,25,500,490','心'),
       ('suyi','suyi_source.png','0,0,606,606','Suyi'),
-      ('hongying','hongying_source.png','0,0,602,601','今日红缨在手')]
+      ('hongying','hongying_source.png','0,0,602,601','今日红缨在手'),
+      ('aphrora','aphrora_source.png','132,20,540,564','Aphrora')]
 
 def main():
     if sys.argv[1:]!=['--write']:raise SystemExit('Explicit image rebuild requires --write')

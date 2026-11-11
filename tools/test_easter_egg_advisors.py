@@ -14,11 +14,18 @@ class Model(ScriptModel):
         super().__init__(copy.deepcopy(FX));self.ideas={'RUS_egg_larruping_advisor'} if hired else set()
         self.characters=set();self.recruits=0;self.events=[];self.states=[dict(energy_infrastructure=0,industrial_infrastructure=0,slots=0) for _ in range(eligible)]
         self.state=None;self.country=self.vars
+        self.tag = 'RUS'
+        self.ai = False
+        self.existing_countries = set()
+        self.annexations = []
     def check(self,nodes):
         if hasattr(nodes,'v'):nodes=nodes.v
         for n in nodes:
             if n.k=='has_idea':ok=n.v in self.ideas
             elif n.k=='has_character':ok=n.v in self.characters
+            elif n.k == 'original_tag':ok = n.v == self.tag
+            elif n.k == 'is_ai':ok = (n.v == 'yes') == self.ai
+            elif n.k == 'country_exists':ok = n.v in self.existing_countries
             elif n.k=='any_owned_state':ok=any(s['energy_infrastructure']<1 and s['industrial_infrastructure']<1 for s in self.states)
             elif n.k=='owner':
                 old=self.vars;self.vars=self.country;ok=self.check(n.v);self.vars=old
@@ -26,7 +33,7 @@ class Model(ScriptModel):
             if not ok:return False
         return True
     def run(self,nodes):
-        handled={'clamp_variable','recruit_character','country_event','while_loop_effect','random_owned_controlled_state',
+        handled={'clamp_variable','recruit_character','country_event','annex_country','while_loop_effect','random_owned_controlled_state',
                  'add_extra_state_shared_building_slots','add_building_construction',
                  'RUS_tesla_minesweeper_refresh_gui','RUS_tesla_refresh_power_grid_bonuses'}
         pending=[]
@@ -36,6 +43,10 @@ class Model(ScriptModel):
             if n.k=='clamp_variable':
                 key=n.value('var');self.vars[key]=max(self.number(n.value('min')),min(self.number(n.value('max')),self.number(key)))
             elif n.k=='recruit_character':self.characters.add(n.v);self.recruits+=1
+            elif n.k == 'annex_country':
+                target = n.value('target')
+                self.existing_countries.remove(target)
+                self.annexations.append(target)
             elif n.k=='country_event':self.events.append((n.value('id'),int(n.value('days'))))
             elif n.k=='while_loop_effect':
                 count=0
@@ -127,6 +138,23 @@ class Tests(unittest.TestCase):
             portrait=chars.one(token(key)).one('portraits').one('civilian').value('small')
             im=Image.open(ROOT/sprites[portrait]);self.assertEqual(im.size,(65,67));self.assertEqual(im.mode,'RGBA')
             self.assertEqual(im.getchannel('A').getextrema(),(0,255))
+
+    def test_aphrora_annexes_germany_on_appointment_only(self):
+        ident = token('aphrora')
+        characters = load(ROOT/'common/characters/RUS_easter_egg_advisors.txt')[0]
+        appointment = characters.one(ident).one('advisor').one('on_add')
+        for tag, ai, germany_exists in (('RUS', False, True), ('RUS', False, False),
+                                        ('RUS', True, True), ('FRA', False, True)):
+            with self.subTest(tag=tag, ai=ai, germany_exists=germany_exists):
+                model = Model()
+                model.tag, model.ai = tag, ai
+                model.existing_countries = {'GER'} if germany_exists else set()
+                model.call(ident+'_unlock')
+                self.assertEqual(model.annexations, [])
+                model.run(appointment.v)
+                model.run(appointment.v)
+                expected = ['GER'] if tag == 'RUS' and not ai and germany_exists else []
+                self.assertEqual(model.annexations, expected)
 
     def test_hired_loss_is_victory_once_with_original_streak_reward(self):
         for result in ('finish_victory','finish_defeat'):

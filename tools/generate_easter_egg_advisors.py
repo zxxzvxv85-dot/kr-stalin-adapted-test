@@ -9,6 +9,12 @@ from generation_io import cli
 
 ROOT=Path(__file__).resolve().parents[1]
 ADVISORS={
+ 'aphrora':dict(
+     name='Aphrora', trait='金牌顾问', modifiers={},
+     trait_tooltip='群号1094481847，不会的进群问 Aphrora\n任命后吞并德意志帝国（若其仍存在）。',
+     desc=(
+         '“原来是这样啊，不知道的还以为在第一次世界大战时，德国皇帝威廉二世否决了最高统帅部的无限制潜艇战决议导致美国没有参与欧陆的战争，在法国巴黎爆发工团革命后协约国与同盟国签订停战协议，而被推翻的协约国各国政府分别流亡北非与加拿大，而法兰西公社与不列颠同盟成立了第三国际，同时由于社会革命党对列宁的刺杀与德国对俄国内战的干涉，导致乌克兰，白俄罗斯，波兰，波罗的海，立陶宛，芬兰，格鲁吉亚与阿塞拜疆独立并加入由德意志国领导的帝国公约，而在战后的20年，俄国白军头面人物萨文科夫制杖全俄大权，但在面临黑色星期一时的强行手段以及独裁专政引起了全俄的强烈不满，由玛利亚 斯皮里多诺娃领导的社革与布尔什维克以及其他社会主义民主党派组成的全俄劳联推翻了萨文科夫的统治恢复了俄罗斯社会主义共和国，而在随后的劳工大会中全俄劳联尤其是其中的左翼-布尔什维克集团赢得了选举，恢复了苏维埃制度，而已经加入全俄劳联的季诺维也夫打算用自己的全部影响力接管布尔什维克时，斯大林，斯维尔德洛夫，加米涅夫三人推翻了他的意图，俄共（布）在斯大林的领导下成立了苏维埃俄罗斯社会主义联邦共和国，并在第二次世界大战中战胜了帝国公约，成立了苏维埃社会主义共和国联盟呢。”'
+         '\n据他所说，这个名字是某种英文转写的阿芙乐尔，作为本模组一位忠实的玩家，他积极的为本模组的发展建言献策，却没有参与到制作之中，但这并不意味着他没有为本组做出贡献，至少上面这篇短文就很好地简短介绍了本模组的剧情走向。而在群中，他积极的帮助大家游玩这个模组，从dlc的补全到土改小游戏的帮助，都能提现他的热心，自己对kr世界观中共产主义事业的努力')),
  'hongying':dict(name='今日红缨在手',trait='远视极权自动化未来平权主义',
      modifiers={'consumer_goods_factor':-1,'political_power_factor':2,
                 'production_speed_buildings_factor':5},desc=(
@@ -54,6 +60,9 @@ def render_outputs():
     }
     for key,data in ADVISORS.items():
         ident=token(key);idea=ident+'_advisor';flag=ident+'_unlocked';trait=ident+'_trait'
+        trait_tooltip = data.get('trait_tooltip')
+        if trait_tooltip:
+            loc[trait+'_tt'] = trait_tooltip
         characters.append(block(ident,[
             'name = '+ident,
             'portraits = { civilian = { small = GFX_portrait_'+ident+'_small } }',
@@ -61,12 +70,24 @@ def render_outputs():
                 'slot = political_advisor','idea_token = '+idea,'desc = '+idea+'_desc',
                 'visible = { has_country_flag = '+flag+' }',
                 'available = { hidden_trigger = { has_country_flag = '+flag+' } not_already_hired_except_as = political_advisor }',
-                'traits = { '+trait+' }','cost = 0','can_be_fired = yes','ai_will_do = { base = 0 }']).strip()]))
+                'traits = { '+trait+' }',
+                *([
+                    'on_add = {',
+                    '\thidden_effect = {',
+                    '\t\tif = {',
+                    '\t\t\tlimit = { original_tag = RUS is_ai = no country_exists = GER }',
+                    '\t\t\tannex_country = { target = GER }',
+                    '\t\t}',
+                    '\t}',
+                    '}',
+                ] if key == 'aphrora' else []),
+                'cost = 0','can_be_fired = yes','ai_will_do = { base = 0 }']).strip()]))
         if key=='suyi':
             characters[-1]=characters[-1].replace('cost = 0',
                 'on_add = { hidden_effect = { RUS_egg_suyi_appoint = yes } }\n\ton_remove = { hidden_effect = { clr_country_flag = RUS_egg_suyi_active remove_dynamic_modifier = { modifier = RUS_egg_suyi_daily_pp } force_update_dynamic_modifier = yes } }\n\tcost = 0')
         traits.append(block(trait,['random = no','sprite = 1',
             *[str(k)+' = '+str(v) for k,v in data['modifiers'].items()],
+            *(['custom_modifier_tooltip = '+trait+'_tt'] if trait_tooltip else []),
             *(['custom_modifier_tooltip = RUS_egg_guaranteed_minesweeper_tt'] if key=='larruping' else []),
             *(['custom_modifier_tooltip = RUS_egg_guaranteed_doudizhu_tt'] if key=='larruping' else []),
             *(['custom_modifier_tooltip = RUS_egg_mia_trait_tt'] if key=='mia' else []),
