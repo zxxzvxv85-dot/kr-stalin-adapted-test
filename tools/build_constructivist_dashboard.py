@@ -43,7 +43,9 @@ def indicator(name,f):
     return wheel().rotate(-360*f/PREVIEW_FRAMES,resample=Image.Resampling.BICUBIC)
 
 def export():
-    result={'background':Image.open(SOURCE).convert('RGBA').resize((492,615),Image.Resampling.LANCZOS)}
+    from dashboard_sector_motion import clean_background, export as sector_export
+    result={'background':clean_background()}
+    result.update(sector_export())
     result['wheel']=wheel()
     result['wheel_empty']=Image.new('RGBA',(WHEEL_SIZE,WHEEL_SIZE))
     mask=Image.new('RGBA',(WHEEL_SIZE,WHEEL_SIZE),'white');mask.putalpha(wheel().getchannel('A'))

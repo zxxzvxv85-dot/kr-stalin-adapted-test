@@ -1,6 +1,14 @@
 scripted_gui = { RUS_np_dashboard = { context_type = decision_category window_name = "RUS_np_dashboard_window"
 visible = { RUS_np_context = yes } ai_enabled = { always = no }
 triggers = {
+power_flow_active_visible = { check_variable = { RUS_np_ui_active_1 > 0 } }
+power_flow_idle_visible = { NOT = { check_variable = { RUS_np_ui_active_1 > 0 } } }
+rollers_active_visible = { check_variable = { RUS_np_ui_active_2 > 0 } }
+rollers_idle_visible = { NOT = { check_variable = { RUS_np_ui_active_2 > 0 } } }
+freight_active_visible = { check_variable = { RUS_np_ui_active_3 > 0 } }
+freight_idle_visible = { NOT = { check_variable = { RUS_np_ui_active_3 > 0 } } }
+harvest_active_visible = { check_variable = { RUS_np_ui_active_4 > 0 } }
+harvest_idle_visible = { NOT = { check_variable = { RUS_np_ui_active_4 > 0 } } }
 wheel_active_visible = { check_variable = { RUS_np_active > 0 } }
 wheel_idle_visible = { NOT = { check_variable = { RUS_np_active > 0 } } }
 stage_1_visible = { RUS_completed_focus_4_year_plan = yes check_variable = { RUS_first_five_year_plan_stage > 0 } }

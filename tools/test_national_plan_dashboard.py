@@ -66,11 +66,29 @@ class DashboardTests(unittest.TestCase):
                 self.assertEqual(animation.value('animationblendmode'),'"normal"')
             if path.endswith('hit_score.png'):
                 self.assertEqual(im.getchannel('A').getextrema(),(0,0))
+            if n.k=='frameAnimatedSpriteType':
+                self.assertEqual(frames,64)
+                self.assertEqual(n.value('looping'),'yes')
+                self.assertLessEqual(im.width,16384)
             im.close()
         loc=out['localisation/simp_chinese/RUS_national_plan_dashboard_l_simp_chinese.yml']
         for row in LABELS:self.assertIn(' '+row[6]+':0 ',loc)
         self.assertIn('RUS_first_five_year_plan_score|1',loc)
         self.assertIn('RUS_np_pending_plan_score|1',loc)
         self.assertEqual(out,render())
+
+    def test_sector_motion_only_runs_for_selected_regions_active_projects(self):
+        from dashboard_sector_motion import MOTIONS
+        node=parse(render()['common/scripted_guis/RUS_national_plan_dashboard.txt'])[0].v[0]
+        triggers={n.k:n for n in node.one('triggers').v}
+        m=Model();m.initialize()
+        for p in PROJECTS:
+            if p['region']==1:m.flags.add('RUS_np_'+p['key']+'_running')
+        for region in [0,1,2]:
+            m.vars['RUS_np_filter']=region;m.call('RUS_np_refresh')
+            for i,name in enumerate(MOTIONS,1):
+                active=m.vars.get(P+'active_'+str(i),0)>0
+                self.assertEqual(m.check(triggers[name+'_active_visible'].v),active)
+                self.assertEqual(m.check(triggers[name+'_idle_visible'].v),not active)
 
 if __name__=='__main__':unittest.main(verbosity=2)

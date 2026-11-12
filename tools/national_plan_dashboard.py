@@ -7,6 +7,7 @@ import json
 from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT, PROJECTS, REGIONS
 from national_plan import CAT, DEC, FX, b, sv, add, iff, ck
+from dashboard_sector_motion import MOTIONS, FRAMES
 
 P = 'RUS_np_ui_'
 ART = 'gfx/interface/RUS_national_plan_dashboard'
@@ -81,6 +82,9 @@ def augment(out):
         sprite('hit_'+name,'hit_'+name,3)
     sprite('wheel_static','wheel')
     sprite('foreground','foreground')
+    for name,(_,_,_,_,fps) in MOTIONS.items():
+        sprite('sector_'+name,'sector_'+name,FRAMES,True,fps)
+        sprite('sector_'+name+'_idle','sector_'+name+'_idle')
     # Continuous native UV rotation; retain original score face above it.
     # References: vanilla nationalfocusview.gfx, frontendmainview.gfx and
     # gfx/FX/sprite_animation.fxh (normal alpha blending).
@@ -100,6 +104,11 @@ def augment(out):
         name,x,y,w,h,font,key=row
         gui.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} font = "{font}" text = "{key}" maxWidth = {w} maxHeight = {h} format = center '+('pdx_tooltip = '+tooltip if tooltip else 'alwaystransparent = yes')+' }')
     icon('background',6,0,'background')
+    for i,(name,(x,y,_,_,_)) in enumerate(MOTIONS.items(),1):
+        icon(name+'_active',x,y,'sector_'+name)
+        icon(name+'_idle',x,y,'sector_'+name+'_idle')
+        triggers += [name+'_active_visible = { check_variable = { '+P+'active_'+str(i)+' > 0 } }',
+                     name+'_idle_visible = { NOT = { check_variable = { '+P+'active_'+str(i)+' > 0 } } }']
     icon('wheel_idle',136,202,'wheel_static')
     icon('wheel_active',136,202,'wheel_moving')
     triggers += ['wheel_active_visible = { check_variable = { RUS_np_active > 0 } }',
