@@ -29,7 +29,7 @@ LABELS = [
  ('status', 78, 534, 348, 18, 'Main_14', P+'status')]
 for i,(x,y,w) in enumerate(SECTOR_POS,1):
     LABELS += [(f'sector_{i}_label',x+12,y+1,w-14,16,'Main_14',P+f'sector_{i}'),
-               (f'sector_{i}_counts',x+12,y+17,w-14,16,'Main_14',P+f'counts_{i}')]
+               (f'sector_{i}_counts',x+12,y+13,w-14,16,'Main_14',P+f'counts_{i}')]
 for i in range(1,7):
     LABELS.append((f'region_{i}_label',42+(i-1)%3*144,557+(i-1)//3*29,132,18,'Main_14',P+f'region_{i}'))
 
