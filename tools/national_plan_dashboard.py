@@ -1,6 +1,6 @@
 """Constructivist national-plan panel. Presentation only; no new polling/rewards.
 
-Native animation reference: 3011069378/interface/tht_sov_ui.gfx.
+Native animation reference: vanilla nationalfocusview.gfx and sprite_animation.fxh.
 Decision-category controls reference: RUS_education_dashboard.
 """
 import json
@@ -79,8 +79,15 @@ def augment(out):
         sprite(name,name)
     for name in ('header','sector','area','region','score','close'):
         sprite('hit_'+name,'hit_'+name,3)
-    for name in ('rotor','electric','furnace','transport','farm'):
-        sprite(name,name,24,True,8)
+    sprite('wheel_static','wheel')
+    sprite('foreground','foreground')
+    # Continuous native UV rotation; retain original score face above it.
+    # References: vanilla nationalfocusview.gfx, frontendmainview.gfx and
+    # gfx/FX/sprite_animation.fxh (normal alpha blending).
+    gfx.append('spriteType = { name = "GFX_'+P+'wheel_moving" texturefile = "'+ART+'/wheel_empty.png" effectFile = "gfx/FX/buttonstate_onlydisable.lua" '+
+      'animation = { animationmaskfile = "'+ART+'/wheel_mask.png" animationtexturefile = "'+ART+'/wheel.png" '+
+      'animationrotation = -90.0 animationlooping = yes animationtime = 24.0 animationdelay = 0.0 animationblendmode = "normal" animationtype = "rotating" '+
+      'animationrotationoffset = { x = 0.0 y = 0.0 } animationtexturescale = { x = 1.0 y = 1.0 } } legacy_lazy_load = no }')
     gfx.append('}')
     gui=['guiTypes = { containerWindowType = { name = "RUS_np_dashboard_window" position = { x = 0 y = 0 } size = { width = 504 height = 620 }']
     triggers=[]; effects=[]
@@ -93,11 +100,11 @@ def augment(out):
         name,x,y,w,h,font,key=row
         gui.append(f'instantTextBoxType = {{ name = "{name}" position = {{ x = {x} y = {y} }} font = "{font}" text = "{key}" maxWidth = {w} maxHeight = {h} format = center '+('pdx_tooltip = '+tooltip if tooltip else 'alwaystransparent = yes')+' }')
     icon('background',6,0,'background')
-    icon('rotor',188,254,'rotor')
-    triggers.append('rotor_visible = { check_variable = { RUS_np_active > 0 } }')
-    for i,(name,x,y) in enumerate([('electric',48,164),('furnace',385,165),('transport',70,428),('farm',374,405)],1):
-        icon(name,x,y,name)
-        triggers.append(f'{name}_visible = {{ check_variable = {{ {P}active_{i} > 0 }} }}')
+    icon('wheel_idle',136,202,'wheel_static')
+    icon('wheel_active',136,202,'wheel_moving')
+    triggers += ['wheel_active_visible = { check_variable = { RUS_np_active > 0 } }',
+                 'wheel_idle_visible = { NOT = { check_variable = { RUS_np_active > 0 } } }']
+    icon('stationary_faces',0,0,'foreground')
     for i in range(1,7):
         icon(f'stage_{i}',216+(i-1)*11,365,'stage_pip')
         triggers.append(f'stage_{i}_visible = {{ RUS_completed_focus_4_year_plan = yes check_variable = {{ RUS_first_five_year_plan_stage > {i-1} }} }}')

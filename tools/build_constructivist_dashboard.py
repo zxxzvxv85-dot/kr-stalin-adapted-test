@@ -1,59 +1,54 @@
-"""Export generated backplate and code-native animated UI indicators.
+"""Package generated art into a moving wheel and stationary UI layers.
 
-Only --write produces assets. Original ImageGen art remains unmodified.
-Geometric indicators are UI graphics; they never repaint the source artwork.
+Only --write produces assets. ImageGen sources remain unmodified. Resizing,
+alpha masks and rotation are runtime asset packaging, not source repainting.
 """
 import argparse, math, json
+from functools import lru_cache
 from pathlib import Path
 from PIL import Image, ImageDraw
 from national_plan_catalog import ROOT
 
 SOURCE=ROOT/'tools/design/constructivist_dashboard_20261112/backplate.png'
+WHEEL_SOURCE=SOURCE.parent/'motion_v2/rotor_source.png'
 DEST=ROOT/'gfx/interface/RUS_national_plan_dashboard'
 IVORY=(225,203,157,235);RED=(223,55,29,245);DARK=(20,20,18,250)
+WHEEL_XY=(136,202)
+WHEEL_SIZE=224
+PREVIEW_FRAMES=192
+ROTATION_SECONDS=24
+
+@lru_cache(None)
+def wheel():
+    with Image.open(WHEEL_SOURCE) as source:im=source.convert('RGBA')
+    bounds=im.getchannel('A').getbbox()
+    assert bounds and im.getchannel('A').getextrema()[0]==0,'Wheel needs real transparency'
+    im=im.crop(bounds).resize((216,216),Image.Resampling.LANCZOS)
+    result=Image.new('RGBA',(WHEEL_SIZE,WHEEL_SIZE));result.paste(im,(4,4))
+    return result
+
+@lru_cache(None)
+def foreground():
+    """Stationary original score face and plaques above the rotating disk."""
+    im=Image.new('RGBA',(504,620));im.alpha_composite(Image.open(SOURCE).convert('RGBA').resize((492,615),Image.Resampling.LANCZOS),(6,0))
+    mask=Image.new('L',(504*4,620*4));d=ImageDraw.Draw(mask)
+    d.ellipse(tuple(v*4 for v in (192,258,304,370)),fill=255)
+    for rect in [(25,244,163,277),(344,244,482,277),(25,477,176,509),(328,477,482,509)]:
+        d.rectangle(tuple(v*4 for v in rect),fill=255)
+    im.putalpha(mask.resize((504,620),Image.Resampling.LANCZOS))
+    return im
 
 def indicator(name,f):
-    size=(120,120) if name=='rotor' else (64,48)
-    im=Image.new('RGBA',size);d=ImageDraw.Draw(im)
-    t=f/24
-    if name=='rotor':
-        # The text disk stays still; only this narrow segmented track turns.
-        for j in range(16):
-            a=(j*22.5+t*360)%360
-            d.arc((3,3,117,117),a,a+13,fill=IVORY if j%4 else RED,width=3)
-            if j%4==0:
-                r=57;ang=math.radians(a)
-                x,y=60+r*math.cos(ang),60+r*math.sin(ang)
-                d.ellipse((x-2,y-2,x+2,y+2),fill=RED)
-    elif name=='electric':
-        for j in range(4):
-            d.arc((-15+j*10,8,35+j*10,60),206,300,fill=(*IVORY[:3],55+int(170*((t+j/4)%1))),width=2)
-    elif name=='furnace':
-        for j in range(3):
-            alpha=int(100+140*(.5+.5*math.sin(t*math.tau+j)))
-            x=j*17
-            d.polygon([(x,42),(x+7,19),(x+17,19),(x+22,42)],fill=(*RED[:3],alpha))
-            d.line((x+8,14,x+8,5),fill=(*IVORY[:3],alpha),width=2)
-    elif name=='transport':
-        # Small repeated angular cars run on an existing diagonal corridor.
-        for j in range(4):
-            x=((j*22+t*22)%88)-22;y=36-x*.35
-            d.polygon([(x,y),(x+12,y-4),(x+12,y-10),(x,y-6)],fill=IVORY)
-            d.line((x+1,y+3,x+13,y-1),fill=RED,width=2)
-    elif name=='farm':
-        for j in range(8):
-            a=math.tau*(j/8+t);c=(31,24)
-            pts=[(c[0]+r*math.cos(a+o),c[1]+r*math.sin(a+o)) for r,o in [(8,0),(21,0),(21,.22),(8,.38)]]
-            d.polygon(pts,fill=RED if j%2 else IVORY)
-        d.ellipse((27,20,35,28),fill=DARK,outline=IVORY)
-    return im
+    assert name=='rotor'
+    return wheel().rotate(-360*f/PREVIEW_FRAMES,resample=Image.Resampling.BICUBIC)
 
 def export():
     result={'background':Image.open(SOURCE).convert('RGBA').resize((492,615),Image.Resampling.LANCZOS)}
-    for name in ('rotor','electric','furnace','transport','farm'):
-        first=indicator(name,0);w,h=first.size;sheet=Image.new('RGBA',(w*24,h))
-        for f in range(24):sheet.paste(indicator(name,f),(f*w,0))
-        result[name]=sheet
+    result['wheel']=wheel()
+    result['wheel_empty']=Image.new('RGBA',(WHEEL_SIZE,WHEEL_SIZE))
+    mask=Image.new('RGBA',(WHEEL_SIZE,WHEEL_SIZE),'white');mask.putalpha(wheel().getchannel('A'))
+    result['wheel_mask']=mask
+    result['foreground']=foreground()
     for name,(w,h) in {'header':(428,20),'sector':(134,32),'area':(158,166),'region':(136,24),'score':(92,100),'close':(136,23)}.items():
         im=Image.new('RGBA',(w*3,h));d=ImageDraw.Draw(im)
         d.rectangle((w,0,w*2-1,h-1),fill=(239,218,175,22),outline=(239,218,175,120))
@@ -62,6 +57,10 @@ def export():
             im=Image.new('RGBA',(w*3,h));d=ImageDraw.Draw(im)
             d.rectangle((w,0,w*2-1,h-1),fill=(239,218,175,14))
             d.rectangle((w*2,0,w*3-1,h-1),fill=(212,57,27,24))
+        if name=='score':
+            # The invisible circular-face control must never expose a rectangle,
+            # including native hover and pressed frames.
+            im=Image.new('RGBA',(w*3,h))
         result['hit_'+name]=im
     for name,(w,h) in {'selected_sector':(112,2),'selected_region':(123,2),'stage_pip':(6,4)}.items():
         result[name]=Image.new('RGBA',(w,h),RED if name!='stage_pip' else IVORY)

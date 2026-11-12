@@ -57,11 +57,15 @@ class DashboardTests(unittest.TestCase):
         out=render();gfx=parse(out['interface/RUS_national_plan_dashboard.gfx'])[0]
         for n in gfx.v:
             path=n.value('texturefile').strip('"');im=Image.open(ROOT/path)
-            frames=int(n.value('noOfFrames'))
+            frames=int(n.value('noOfFrames') or 1)
             self.assertEqual(im.width%frames,0,path)
-            if n.k=='frameAnimatedSpriteType':
-                self.assertEqual(frames,24);self.assertEqual(n.value('looping'),'yes')
-                self.assertGreater(im.getchannel('A').getextrema()[1],0)
+            if n.value('name')=='"GFX_RUS_np_ui_wheel_moving"':
+                animation=n.one('animation')
+                self.assertEqual(animation.value('animationtype'),'"rotating"')
+                self.assertEqual(animation.value('animationtime'),'24.0')
+                self.assertEqual(animation.value('animationblendmode'),'"normal"')
+            if path.endswith('hit_score.png'):
+                self.assertEqual(im.getchannel('A').getextrema(),(0,0))
             im.close()
         loc=out['localisation/simp_chinese/RUS_national_plan_dashboard_l_simp_chinese.yml']
         for row in LABELS:self.assertIn(' '+row[6]+':0 ',loc)
