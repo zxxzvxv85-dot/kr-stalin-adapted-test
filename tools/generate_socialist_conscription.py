@@ -13,6 +13,14 @@ KR = ROOT.parent / '1521695605'
 PREFIX = 'RUS_sc_'
 KEYS = ('volunteers','territorial','universal','wartime','extended','emergency')
 NAMES = ('工农志愿兵役制','常备军与地域兵役制','普遍义务兵役制','战时扩大征召','扩大役龄征召','全民紧急征召')
+CHINESE_DESCRIPTIONS = {
+ 'volunteers': '“工农红军由劳动阶级中觉悟最高、最有组织性的人员组成。凡年满十八岁的社会主义共和国公民，均可申请加入红军。”',
+ 'territorial': '“现役兵役可在工农红军部队的常备编制或地域部队的轮换编制中履行，也可在部队以外履行。……地域部队轮换人员的现役期由集训和集训之间的休假组成。整个现役期内，集训总时长因兵种而异，上限为八至十二个月。”',
+ 'universal': '“普遍兵役义务由法律规定。在工农红军服役是共和国公民的光荣义务。……一切共和国男性公民，无论种族、民族、宗教信仰、教育程度、社会出身和地位，均须在共和国武装力量中服兵役。”',
+ 'wartime': '“为了保卫我们伟大的祖国和无产阶级革命的火种，凡出生于1905年至1918年（含首尾两年）的负有兵役义务人员，均须应召。”',
+ 'extended': '“动员1890年至1904年出生的负有兵役义务人员，并征召1922年至1923年出生的应征人员。征召范围为斯摩棱斯克州、图拉州、库尔斯克州，以及奥廖尔州柳季诺沃—布良斯克—谢夫斯克一线以西地区。”',
+ 'emergency': '“本市的工人、职员和学生按区动员参加人民民兵，并按区组建二十五个师。……民兵师从十七至五十五岁的劳动者中动员组建。”',
+}
 FOCI = ('RUS_fr_post_revolutionary_armed_forces','RUS_fr_general_staff_experimental_formations','RUS_future_foreign_062')
 VANILLA = ('disarmed_nation','volunteer_only','limited_conscription','extensive_conscription','service_by_requirement','all_adults_serve','scraping_the_barrel')
 STATS = (
@@ -126,7 +134,8 @@ def render_outputs():
  loc['RUS_sc_auto_5_tt']='投降度高于§Y20%§!时自动采用'
  loc['RUS_sc_auto_6_tt']='投降度高于§Y50%§!时自动采用'
  for lang in ('simp_chinese','english','russian'):
-  out[f'localisation/{lang}/RUS_socialist_conscription_l_{lang}.yml']='l_'+lang+':\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in loc.items())
+  descriptions = {PREFIX+k+'_desc': v for k,v in CHINESE_DESCRIPTIONS.items()} if lang == 'simp_chinese' else {}
+  out[f'localisation/{lang}/RUS_socialist_conscription_l_{lang}.yml']='l_'+lang+':\n'+''.join(' '+k+':0 '+json.dumps(v,ensure_ascii=False)+'\n' for k,v in (loc | descriptions).items())
  out['interface/RUS_socialist_conscription.gfx']=b('spriteTypes',[
   b('spriteType',['name = "GFX_idea_RUS_sc_'+key+'"','texturefile = "gfx/interface/ideas/RUS_sc_'+key+'.dds"']).strip() for key in KEYS])
  return out
