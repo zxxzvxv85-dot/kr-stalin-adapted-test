@@ -29,15 +29,16 @@ LABELS = [
  ('stage', 205, 343, 86, 18, 'Main_14', P+'stage'),
  ('status', 78, 534, 348, 18, 'Main_14', P+'status')]
 for i,(x,y,w) in enumerate(SECTOR_POS,1):
-    LABELS.append((f'sector_{i}_label',x+12,y-1,w-14,16,'Main_14',P+f'sector_{i}'))
     # Separate words and values: changing the numeric font must not enlarge
-    # the Chinese captions or shift the whole line into the title.
-    left=x+12+(w-14-100)//2
+    # Chinese captions. Give two-character labels genuine wrapping slack;
+    # native layout wraps at an exact 28px fit even when glyph advances fit.
+    # Sector names live in the existing clickable-area tooltip, not this plaque.
+    left=x+12+(w-14-120)//2
     for suffix,dx,width,font,key,dy in [
-        ('active_label',0,28,'Main_14',P+'active_label',14),
-        ('active_value',28,20,'hoi_16mbs',P+f'active_value_{i}',13),
-        ('done_label',52,28,'Main_14',P+'done_label',14),
-        ('done_value',80,20,'hoi_16mbs',P+f'done_value_{i}',13)]:
+        ('active_label',0,40,'Main_14',P+'active_label',7),
+        ('active_value',40,20,'hoi_16mbs',P+f'active_value_{i}',6),
+        ('done_label',60,40,'Main_14',P+'done_label',7),
+        ('done_value',100,20,'hoi_16mbs',P+f'done_value_{i}',6)]:
         LABELS.append((f'sector_{i}_{suffix}',left+dx,y+dy,width,18,font,key))
 for i in range(1,7):
     LABELS.append((f'region_{i}_label',42+(i-1)%3*144,557+(i-1)//3*29,132,18,'Main_14',P+f'region_{i}'))
