@@ -29,8 +29,16 @@ LABELS = [
  ('stage', 205, 343, 86, 18, 'Main_14', P+'stage'),
  ('status', 78, 534, 348, 18, 'Main_14', P+'status')]
 for i,(x,y,w) in enumerate(SECTOR_POS,1):
-    LABELS += [(f'sector_{i}_label',x+12,y+1,w-14,16,'Main_14',P+f'sector_{i}'),
-               (f'sector_{i}_counts',x+12,y+13,w-14,18,'hoi_16mbs',P+f'counts_{i}')]
+    LABELS.append((f'sector_{i}_label',x+12,y-1,w-14,16,'Main_14',P+f'sector_{i}'))
+    # Separate words and values: changing the numeric font must not enlarge
+    # the Chinese captions or shift the whole line into the title.
+    left=x+12+(w-14-100)//2
+    for suffix,dx,width,font,key,dy in [
+        ('active_label',0,28,'Main_14',P+'active_label',14),
+        ('active_value',28,20,'hoi_16mbs',P+f'active_value_{i}',13),
+        ('done_label',52,28,'Main_14',P+'done_label',14),
+        ('done_value',80,20,'hoi_16mbs',P+f'done_value_{i}',13)]:
+        LABELS.append((f'sector_{i}_{suffix}',left+dx,y+dy,width,18,font,key))
 for i in range(1,7):
     LABELS.append((f'region_{i}_label',42+(i-1)%3*144,557+(i-1)//3*29,132,18,'Main_14',P+f'region_{i}'))
 
@@ -59,6 +67,7 @@ def augment(out):
       P+'stage_pending':'计划未启动',
       P+'status':'[RUSNPRegionName] · [RUSNPSectorName]',
       P+'sector_0':'全部工程', P+'blank':'',
+      P+'active_label':'在建', P+'done_label':'竣工',
       P+'ledger_tt':'§Y国家建设账本§!\n点击展开或收起详细账目。',
       P+'all_tt':'显示全部地区、全部类型的已解锁工程。',
       P+'resources_tt':'§C国家建设资源§!\n可用：[?RUS_np_available|2]\n冻结：[?RUS_np_frozen|2]\n已消耗：[?RUS_np_spent|2]',
@@ -113,6 +122,8 @@ def augment(out):
     icon('wheel_active',136,202,'wheel_moving')
     triggers += ['wheel_active_visible = { check_variable = { RUS_np_active > 0 } }',
                  'wheel_idle_visible = { NOT = { check_variable = { RUS_np_active > 0 } } }']
+    for name in ('score_label','score','stage'):
+        triggers.append(name+'_visible = { RUS_completed_focus_4_year_plan = yes }')
     icon('stationary_faces',0,0,'foreground')
     for i in range(1,7):
         icon(f'stage_{i}',216+(i-1)*11,365,'stage_pip')
@@ -129,6 +140,8 @@ def augment(out):
         triggers.append(f'sector_{i}_selected_visible = {{ check_variable = {{ {P}sector = {i} }} }}')
         loc[P+f'sector_{i}']=SECTORS[i][0]
         loc[P+f'counts_{i}']=f'在建 §Y[?{P}active_{i}|0]§!  竣工 §G[?{P}done_{i}|0]§!'
+        loc[P+f'active_value_{i}']=f'§Y[?{P}active_{i}|0]§!'
+        loc[P+f'done_value_{i}']=f'§G[?{P}done_{i}|0]§!'
         loc[P+f'sector_{i}_tt']=SECTORS[i][0]+'\n点击筛选；再次点击取消此类型筛选。\n统计范围随当前地区变化。'
     for i in range(1,7):
         x=41+(i-1)%3*144;y=554+(i-1)//3*29
