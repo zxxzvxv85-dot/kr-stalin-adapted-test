@@ -18,19 +18,19 @@ SECTOR_POS = [(25, 246, 134), (345, 246, 134), (25, 479, 148), (329, 479, 150)]
 # Native-size source for both GUI and layout proof. Text never baked into art.
 LABELS = [
  ('title', 42, 9, 420, 18, 'hoi_16mbs', P+'title'),
- ('resources', 43, 36, 132, 18, 'Main_14', P+'resources'),
- ('frozen', 188, 36, 132, 18, 'Main_14', P+'frozen'),
- ('income', 330, 36, 132, 18, 'Main_14', P+'income'),
- ('slots', 43, 68, 132, 18, 'Main_14', P+'slots'),
- ('trains', 188, 68, 132, 18, 'Main_14', P+'trains'),
- ('rail', 330, 68, 132, 18, 'Main_14', P+'rail'),
+ ('resources', 43, 36, 132, 18, 'hoi_16mbs', P+'resources'),
+ ('frozen', 188, 36, 132, 18, 'hoi_16mbs', P+'frozen'),
+ ('income', 330, 36, 132, 18, 'hoi_16mbs', P+'income'),
+ ('slots', 43, 68, 132, 18, 'hoi_16mbs', P+'slots'),
+ ('trains', 188, 68, 132, 18, 'hoi_16mbs', P+'trains'),
+ ('rail', 330, 68, 132, 18, 'hoi_16mbs', P+'rail'),
  ('score_label', 205, 287, 86, 18, 'Main_14', P+'score_label'),
  ('score', 205, 309, 86, 25, 'hoi_24header', P+'score'),
  ('stage', 205, 343, 86, 18, 'Main_14', P+'stage'),
  ('status', 78, 534, 348, 18, 'Main_14', P+'status')]
 for i,(x,y,w) in enumerate(SECTOR_POS,1):
     LABELS += [(f'sector_{i}_label',x+12,y+1,w-14,16,'Main_14',P+f'sector_{i}'),
-               (f'sector_{i}_counts',x+12,y+13,w-14,16,'Main_14',P+f'counts_{i}')]
+               (f'sector_{i}_counts',x+12,y+13,w-14,18,'hoi_16mbs',P+f'counts_{i}')]
 for i in range(1,7):
     LABELS.append((f'region_{i}_label',42+(i-1)%3*144,557+(i-1)//3*29,132,18,'Main_14',P+f'region_{i}'))
 
