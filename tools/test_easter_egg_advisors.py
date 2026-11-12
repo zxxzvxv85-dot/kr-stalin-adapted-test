@@ -4,7 +4,7 @@ from PIL import Image
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import parse,load
 from generate_easter_egg_advisors import ROOT,ADVISORS,token,render_outputs
-from generate_tesla_minesweeper import PREFIX,render_outputs as mines_outputs
+from generate_tesla_minesweeper import BOARD_SIZE, MINE_COUNT, PREFIX, cell_id, neighbors, render_outputs as mines_outputs
 
 FX=load_effects((ROOT/'common/scripted_effects/RUS_easter_egg_advisor_effects.txt').read_text(),
                (ROOT/'common/scripted_effects/RUS_tesla_minesweeper.txt').read_text())
@@ -185,6 +185,56 @@ class Tests(unittest.TestCase):
         m.ideas.clear();m.call(PREFIX+'_start');m.call(PREFIX+'_finish_defeat')
         self.assertIn(PREFIX+'_lost',m.flags);self.assertNotIn(PREFIX+'_won',m.flags)
 
+    def test_minesweeper_draws_fresh_first_click_safe_boards(self):
+        model = Model()
+        cell_count = BOARD_SIZE ** 2
+        corner_layouts = set()
+        for round_number in range(cell_count + 64):
+            first = round_number if round_number < cell_count else 0
+            model.call(f'{PREFIX}_start')
+            self.assertNotIn(f'{PREFIX}_initialised', model.flags)
+            model.call(f'{PREFIX}_reveal_{cell_id(first)}')
+            mines = frozenset(i for i in range(cell_count) if f'{PREFIX}_mine_{cell_id(i)}' in model.flags)
+            self.assertEqual(len(mines), MINE_COUNT)
+            self.assertNotIn(first, mines)
+            expected = {first}
+            frontier = [first]
+            while frontier:
+                adjacent = set(neighbors(frontier.pop()))
+                if adjacent.isdisjoint(mines):
+                    frontier.extend(adjacent - expected)
+                    expected.update(adjacent)
+            revealed = {i for i in range(cell_count) if f'{PREFIX}_revealed_{cell_id(i)}' in model.flags}
+            self.assertEqual(revealed, expected)
+            if first == 0:
+                corner_layouts.add(mines)
+        self.assertGreater(len(corner_layouts), 48)
+
+    def test_minesweeper_reopen_repairs_counts_without_changing_saved_play(self):
+        model = Model()
+        # Exercise all eight neighbors of an interior cell, plus a corner pair.
+        mines = {18, 19, 20, 26, 28, 34, 35, 36, 62, 63}
+        saved_flags = {f'{PREFIX}_active', f'{PREFIX}_initialised',
+                       f'{PREFIX}_marked_18', f'{PREFIX}_revealed_27'}
+        saved_flags.update(f'{PREFIX}_mine_{cell_id(i)}' for i in mines)
+        model.flags.update(saved_flags)
+        model.flags.add(f'{PREFIX}_count_27_1')
+        model.vars[f'{PREFIX}_flags'] = 1
+        for _ in range(2):
+            model.call(f'{PREFIX}_close')
+            model.call(f'{PREFIX}_open')
+            self.assertEqual({flag for flag in model.flags if not flag.startswith(f'{PREFIX}_count_')},
+                             saved_flags | {f'{PREFIX}_window_open'})
+            expected = set()
+            for i in range(BOARD_SIZE ** 2):
+                row, col = divmod(i, BOARD_SIZE)
+                count = sum(mine != i and abs(mine // BOARD_SIZE - row) <= 1
+                            and abs(mine % BOARD_SIZE - col) <= 1 for mine in mines)
+                expected.add(f'{PREFIX}_count_{cell_id(i)}_{count}')
+            self.assertEqual({flag for flag in model.flags if flag.startswith(f'{PREFIX}_count_')}, expected)
+            self.assertEqual(model.vars[f'{PREFIX}_flags'], 1)
+        self.assertNotIn(f'{PREFIX}_generate_board', model.calls)
+
     def test_original_settlement_bodies_and_other_gameplay_are_preserved(self):
         # Fixed, reviewed pre-feature baseline; the check must also pass after
         # this feature is committed and HEAD already contains the wrappers.
@@ -197,7 +247,8 @@ class Tests(unittest.TestCase):
             elif key==PREFIX+'_finish_defeat':
                 body=after[key].one('if').one('else')
                 self.assertEqual([x.norm() for x in body.v],[x.norm() for x in n.v])
-            else:self.assertEqual(after[key].norm(),n.norm(),key)
+            elif key not in (PREFIX+'_generate_board', PREFIX+'_repair_counts'):
+                self.assertEqual(after[key].norm(),n.norm(),key)
         for render in (render_outputs,mines_outputs):
             for path,text in render().items():self.assertEqual((ROOT/path).read_text(encoding='utf-8-sig'),text,path)
 

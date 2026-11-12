@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import random
 from pathlib import Path
 
 
@@ -9,7 +8,6 @@ ROOT = Path(__file__).resolve().parents[1]
 CELL = 34
 BOARD_SIZE = 8
 MINE_COUNT = 10
-LAYOUT_COUNT = 48
 PREFIX = "RUS_tesla_minesweeper"
 
 
@@ -29,63 +27,6 @@ def neighbors(index: int) -> list[int]:
             if 0 <= other_row < BOARD_SIZE and 0 <= other_column < BOARD_SIZE:
                 result.append(other_row * BOARD_SIZE + other_column)
     return result
-
-
-def make_layouts() -> list[tuple[int, ...]]:
-    rng = random.Random(19360710)
-    layouts: set[tuple[int, ...]] = set()
-    while len(layouts) < LAYOUT_COUNT:
-        layouts.add(tuple(sorted(rng.sample(range(BOARD_SIZE * BOARD_SIZE), MINE_COUNT))))
-    result = sorted(layouts)
-    for index in range(BOARD_SIZE * BOARD_SIZE):
-        safe_layouts = sum(index not in layout for layout in result)
-        if safe_layouts < 24:
-            raise RuntimeError(f"Cell {index} has too few first-click-safe layouts: {safe_layouts}")
-    return result
-
-
-def validate_classic_reveal(layouts: list[tuple[int, ...]]) -> int:
-    checked_empty_cells = 0
-    for layout in layouts:
-        mines = set(layout)
-        if len(mines) != MINE_COUNT:
-            raise RuntimeError(f"Layout does not contain exactly {MINE_COUNT} mines: {layout}")
-
-        counts = {
-            index: sum(neighbor in mines for neighbor in neighbors(index))
-            for index in range(BOARD_SIZE * BOARD_SIZE)
-        }
-        for start in range(BOARD_SIZE * BOARD_SIZE):
-            if start in mines or counts[start] != 0:
-                continue
-
-            expected = {start}
-            frontier = [start]
-            while frontier:
-                current = frontier.pop()
-                for neighbor in neighbors(current):
-                    if neighbor in mines or neighbor in expected:
-                        continue
-                    expected.add(neighbor)
-                    if counts[neighbor] == 0:
-                        frontier.append(neighbor)
-
-            scripted_result = {start}
-            for _ in range(16):
-                for index in range(BOARD_SIZE * BOARD_SIZE):
-                    if index in mines or index in scripted_result:
-                        continue
-                    if any(
-                        neighbor in scripted_result and counts[neighbor] == 0
-                        for neighbor in neighbors(index)
-                    ):
-                        scripted_result.add(index)
-
-            if scripted_result != expected or scripted_result & mines:
-                raise RuntimeError(f"Classic empty-cell reveal failed for layout {layout}, cell {start}")
-            checked_empty_cells += 1
-
-    return checked_empty_cells
 
 
 def draw_assets(output_root: Path = ROOT) -> None:
@@ -532,7 +473,7 @@ def guard_settlements(text: str) -> str:
     return '\n'.join(line.rstrip() for line in text.split('\n'))
 
 
-def build_effects(layouts: list[tuple[int, ...]]) -> str:
+def build_effects() -> str:
     lines = [
         "RUS_tesla_minesweeper_refresh_gui = {",
         f"\tset_variable_to_random = global.{PREFIX}_update",
@@ -578,46 +519,58 @@ def build_effects(layouts: list[tuple[int, ...]]) -> str:
         "}",
         "",
         "RUS_tesla_minesweeper_generate_board = {",
-        "\trandom_list = {",
+        "\tfor_loop_effect = {",
+        f"\t\tend = {MINE_COUNT}",
+        f"\t\tvalue = {PREFIX}_mine_draw",
+        "\t\trandom_list = {",
     ])
-    for layout in layouts:
+    # Draw without replacement, leaving the first clicked cell safe.
+    for index in range(BOARD_SIZE * BOARD_SIZE):
+        mine_flag = f"{PREFIX}_mine_{cell_id(index)}"
         lines.extend([
-            "\t\t10 = {",
-            "\t\t\tmodifier = {",
-            "\t\t\t\tfactor = 0",
-            "\t\t\t\tOR = {",
+            "\t\t\t1 = {",
+            "\t\t\t\tmodifier = {",
+            "\t\t\t\t\tfactor = 0",
+            "\t\t\t\t\tOR = {",
+            f"\t\t\t\t\t\tcheck_variable = {{ {PREFIX}_first_cell = {index} }}",
+            f"\t\t\t\t\t\thas_country_flag = {mine_flag}",
+            "\t\t\t\t\t}",
+            "\t\t\t\t}",
+            f"\t\t\t\tset_country_flag = {mine_flag}",
+            "\t\t\t}",
         ])
-        for mine in layout:
-            lines.append(f"\t\t\t\t\tcheck_variable = {{ {PREFIX}_first_cell = {mine} }}")
-        lines.extend(["\t\t\t\t}", "\t\t\t}"])
-        for mine in layout:
-            lines.append(f"\t\t\tset_country_flag = {PREFIX}_mine_{cell_id(mine)}")
-        mine_set = set(layout)
-        for index in range(BOARD_SIZE * BOARD_SIZE):
-            adjacent_mines = sum(neighbor in mine_set for neighbor in neighbors(index))
-            lines.append(f"\t\t\tset_country_flag = {PREFIX}_count_{cell_id(index)}_{adjacent_mines}")
-        lines.append("\t\t}")
     lines.extend([
+        "\t\t}",
         "\t}",
+        "\tRUS_tesla_minesweeper_repair_counts = yes",
         f"\tset_country_flag = {PREFIX}_initialised",
         "}",
         "",
         "RUS_tesla_minesweeper_repair_counts = {",
     ])
+    # Derive the GUI count flags from the saved mine positions for any layout.
+    count_var = f"{PREFIX}_adjacent_mines"
     for index in range(BOARD_SIZE * BOARD_SIZE):
         ident = cell_id(index)
+        adjacent = neighbors(index)
         for count in range(9):
             lines.append(f"\tclr_country_flag = {PREFIX}_count_{ident}_{count}")
-    for layout in layouts:
-        mine_set = set(layout)
-        lines.extend(["\tif = {", "\t\tlimit = {", "\t\t\tAND = {"])
-        for mine in layout:
-            lines.append(f"\t\t\t\thas_country_flag = {PREFIX}_mine_{cell_id(mine)}")
-        lines.extend(["\t\t\t}", "\t\t}"])
-        for index in range(BOARD_SIZE * BOARD_SIZE):
-            adjacent_mines = sum(neighbor in mine_set for neighbor in neighbors(index))
-            lines.append(f"\t\tset_country_flag = {PREFIX}_count_{cell_id(index)}_{adjacent_mines}")
-        lines.append("\t}")
+        lines.append(f"\tset_temp_variable = {{ {count_var} = 0 }}")
+        for neighbor in adjacent:
+            lines.extend([
+                "\tif = {",
+                f"\t\tlimit = {{ has_country_flag = {PREFIX}_mine_{cell_id(neighbor)} }}",
+                f"\t\tadd_to_temp_variable = {{ {count_var} = 1 }}",
+                "\t}",
+            ])
+        for count in range(len(adjacent) + 1):
+            branch = "if" if count == 0 else "else_if"
+            lines.extend([
+                f"\t{branch} = {{",
+                f"\t\tlimit = {{ check_variable = {{ {count_var} = {count} }} }}",
+                f"\t\tset_country_flag = {PREFIX}_count_{ident}_{count}",
+                "\t}",
+            ])
     lines.append("}")
     lines.extend(["", "RUS_tesla_minesweeper_expand_empty_cells = {", "\tfor_loop_effect = {", "\t\tend = 16"])
     for index in range(BOARD_SIZE * BOARD_SIZE):
@@ -837,14 +790,12 @@ def build_localisation(language: str, values: dict[str, str]) -> str:
 
 def render_outputs() -> dict[str, str]:
     """Return maintained text files without rewriting images or source files."""
-    layouts = make_layouts()
-    validate_classic_reveal(layouts)
     outputs = {
         f"interface/{PREFIX}.gfx": build_gfx(),
         f"interface/{PREFIX}.gui": build_gui(),
         f"common/scripted_guis/{PREFIX}.txt": build_scripted_gui(),
         f"common/scripted_triggers/{PREFIX}.txt": build_triggers(),
-        f"common/scripted_effects/{PREFIX}.txt": build_effects(layouts),
+        f"common/scripted_effects/{PREFIX}.txt": build_effects(),
         "events/RUS_tesla_minesweeper_events.txt": build_events(),
     }
     for language, values in LOCALISATIONS.items():
