@@ -50,10 +50,11 @@ class Tests(unittest.TestCase):
         # The original plan score and spirit scripts are outside generator ownership.
         self.assertNotIn('common/ideas/RUS stalin first five year plan ideas.txt', outputs)
 
-    def test_no_attached_panels_or_reserved_space(self):
+    def test_only_new_plan_panel_and_no_retired_panels(self):
         outputs = render()
         category = next(n for n in parse(outputs[CATEGORIES]) if n.k == CATEGORY)
-        self.assertIsNone(category.one('scripted_gui'))
+        self.assertEqual(category.value('scripted_gui'), 'RUS_np_dashboard')
+        self.assertIn('visible = { RUS_np_context = yes }', outputs['common/scripted_guis/RUS_national_plan_dashboard.txt'])
         self.assertIsNone(category.one('picture'))
         for path in ('interface/RUS_provisional_industry.gui',
                      'interface/RUS_provisional_industry.gfx',

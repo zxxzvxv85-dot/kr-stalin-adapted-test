@@ -630,7 +630,7 @@ def localisations():
     path = 'common/scripted_localisation/RUS_stalin_five_year_plan_scripted_loc.txt'
     text = (ROOT/path).read_text(encoding='utf-8-sig')
     node = next(n for n in parse(text) if n.value('name') == 'RUSGetFirstFiveYearPlanIndustrialProjectsDesc')
-    branches = [n.raw() for n in node.children('text') if n.value('localization_key') != 'RUS_np_header']
+    branches = [n.raw() for n in node.children('text') if n.value('localization_key') not in ('RUS_np_header', 'RUS_np_ui_blank')]
     desc = b('defined_text', ['name = RUSGetFirstFiveYearPlanIndustrialProjectsDesc',
         'text = { trigger = { RUS_np_context = yes } localization_key = RUS_np_header }', *branches])
     out[path] = text[:node.a]+desc.rstrip()+text[node.b:]

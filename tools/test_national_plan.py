@@ -490,7 +490,7 @@ class PlanTests(unittest.TestCase):
         path='common/scripted_localisation/RUS_stalin_five_year_plan_scripted_loc.txt'
         desc=next(n for n in parse(outputs[path]) if n.value('name')=='RUSGetFirstFiveYearPlanIndustrialProjectsDesc')
         first=desc.children('text')[0]
-        self.assertEqual(first.value('localization_key'),'RUS_np_header')
+        self.assertEqual(first.value('localization_key'),'RUS_np_ui_blank')
         self.assertIn('RUS_np_context = yes',first.raw())
         key='RUS_first_five_year_plan_industrial_projects_desc'
         for lang in ('simp_chinese','english','russian'):

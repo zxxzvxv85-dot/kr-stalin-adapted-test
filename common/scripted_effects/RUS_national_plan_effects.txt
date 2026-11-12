@@ -1502,6 +1502,697 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_trains = RUS_np_leningrad_dispatch }
 	add_to_variable = { RUS_np_trains = RUS_np_tsaritsyn_dispatch }
 	RUS_np_refresh_rural = yes
+
+set_variable = { RUS_np_ui_active_1 = 0 }
+set_variable = { RUS_np_ui_done_1 = 0 }
+set_variable = { RUS_np_ui_active_2 = 0 }
+set_variable = { RUS_np_ui_done_2 = 0 }
+set_variable = { RUS_np_ui_active_3 = 0 }
+set_variable = { RUS_np_ui_done_3 = 0 }
+set_variable = { RUS_np_ui_active_4 = 0 }
+set_variable = { RUS_np_ui_done_4 = 0 }
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_kamenev_all_russian_electrification_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_kamenev_all_russian_electrification_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_renovate_and_expand_moscow_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_renovate_and_expand_moscow_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_magnitogorsk_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_magnitogorsk_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_second_baku_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_second_baku_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_modernisation_of_AMO_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_modernisation_of_AMO_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_izhevsk_mechanical_plant_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_izhevsk_mechanical_plant_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_tula_arms_factory_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tula_arms_factory_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_create_tankograd_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_create_tankograd_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_convert_civilian_aviation_industry_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_convert_civilian_aviation_industry_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_kursk_tractor_plant_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_kursk_tractor_plant_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_rostselmash_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_rostselmash_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_uralmash_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_uralmash_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_motovilikha_plants_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_motovilikha_plants_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_admiralty_dockyards_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_admiralty_dockyards_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_kamensky_uralsky_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_kamensky_uralsky_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_grozny_oil_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_grozny_oil_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_arctic_mines_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_arctic_mines_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_tyrnyauz_tungsten_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tyrnyauz_tungsten_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_romanshkino_oil_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_romanshkino_oil_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_northern_route_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_northern_route_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_kuznetsk_basin_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_kuznetsk_basin_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_bodaybo_gold_mines_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_bodaybo_gold_mines_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_far_eastern_fishing_industry_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_far_eastern_fishing_industry_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_krasnoyarskpromstroy_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_krasnoyarskpromstroy_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_dalnremmash_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_dalnremmash_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_rudny_altay_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_rudny_altay_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_tekeli_metallurgical_combine_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tekeli_metallurgical_combine_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_emba_oil_area_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_emba_oil_area_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_verny_cotton_industry_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_verny_cotton_industry_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_siberian_timber_industries_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_siberian_timber_industries_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 5 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_improve_roads_in_central_russia_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_improve_roads_in_central_russia_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_improve_roads_in_northern_russia_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_improve_roads_in_northern_russia_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 6 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_central_asia_railroads_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_central_asia_railroads_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_gaz_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_gaz_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_bearing_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_bearing_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_kashira_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_kashira_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_grid_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_grid_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_metro_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_metro_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_volga_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_volga_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_svir_running }
+	add_to_variable = { RUS_np_ui_active_1 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_svir_completed }
+	add_to_variable = { RUS_np_ui_done_1 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_volkhov_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_volkhov_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_uvz_running }
+	add_to_variable = { RUS_np_ui_active_2 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_uvz_completed }
+	add_to_variable = { RUS_np_ui_done_2 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_bobrik_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_bobrik_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_logistics_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_logistics_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_rural_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_rural_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_leningrad_logistics_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_leningrad_logistics_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_leningrad_rural_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_leningrad_rural_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_logistics_running }
+	add_to_variable = { RUS_np_ui_active_3 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_logistics_completed }
+	add_to_variable = { RUS_np_ui_done_3 = 1 }
+}
+}
+if = {
+	limit = { OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } }
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_rural_running }
+	add_to_variable = { RUS_np_ui_active_4 = 1 }
+}
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_rural_completed }
+	add_to_variable = { RUS_np_ui_done_4 = 1 }
+}
+}
 }
 RUS_np_flush_plan_score = {
 	if = {

@@ -33,7 +33,7 @@ def category_patch(text):
     c = find(text, CATEGORY)
     gui = c.one('scripted_gui')
     if gui:
-        if gui.v != 'RUS_rc_dashboard':
+        if gui.v not in ('RUS_rc_dashboard', 'RUS_np_dashboard'):
             raise ValueError('Another GUI owns industrial projects')
         # No replacement picture/container: native decisions follow immediately.
         start = text.rfind('\n', 0, gui.a) + 1
@@ -79,7 +79,8 @@ RUS_rc_stalin_phase = {
             c = find(text, CATEGORY)
             text = text[:c.a] + re.sub(r'(?m)^[ \t]+$', '', text[c.a:c.b]) + text[c.b:]
         outputs[path] = text
-    return outputs
+    from national_plan_dashboard import augment as dashboard
+    return dashboard(outputs)
 
 
 if __name__ == '__main__': cli(render, root=ROOT)
