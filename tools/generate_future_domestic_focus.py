@@ -19,6 +19,7 @@ from hoi4_politics_blocks import load
 from provisional_government_content import content as provisional_content, localisation_outputs as provisional_localisation
 from education_reform_content import education_focuses,color_poster_categories
 from football_event_content import focus_reward as football_focus_reward
+from red_army_decree_content import focus_reward as decree_focus_reward, outputs as decree_outputs
 from future_economic_preview_content import focus_rewards as economic_preview_rewards
 from national_plan_catalog import PROJECTS
 from national_plan_focuses import unlock_rewards
@@ -294,6 +295,8 @@ def render_outputs():
         reward += unlock_rewards(PROJECTS).get(node['suffix'], [])
         if key == 'RUS_future_domestic_151':
             reward += football_focus_reward()
+        if key == 'RUS_future_domestic_142':
+            reward += decree_focus_reward()
         if reward:
             text += ['\tcompletion_reward = {'] + ['\t\t'+line for line in reward] + ['\t}']
         else:
@@ -338,6 +341,7 @@ def render_outputs():
                      ' '+n['id']+'_desc:0 '+json.dumps(desc, ensure_ascii=False)]
         result[Path(f'localisation/{lang}/RUS_future_domestic_l_{lang}.yml')] = ('\n'.join(rows)+'\n').encode('utf-8-sig')
     result.update(provisional_localisation())
+    result.update(decree_outputs())
     return result, nodes, selected, meta
 
 

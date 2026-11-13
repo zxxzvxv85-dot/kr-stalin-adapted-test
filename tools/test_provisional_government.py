@@ -32,6 +32,9 @@ def main():
         '142': ('0', 'add_political_power = 10'),
     }
     for suffix, (cost, rewards) in expected.items():
+        if suffix == '142':
+            from red_army_decree_content import focus_reward
+            rewards += '\n'+'\n'.join(focus_reward())
         node = focuses[PREFIX+suffix]
         assert node.value('cost') == cost
         assert [n.norm() for n in node.one('completion_reward').v] == [n.norm() for n in parse(rewards)]

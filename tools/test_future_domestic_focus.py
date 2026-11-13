@@ -133,6 +133,8 @@ def main():
         expected_rewards[key]=expected_rewards.get(key,'')+'\n'+'\n'.join(rewards)
     from football_event_content import focus_reward
     expected_rewards[PREFIX+'151'] = '\n'.join(focus_reward())
+    from red_army_decree_content import focus_reward as decree_focus_reward
+    expected_rewards[PREFIX+'142'] += '\n'+'\n'.join(decree_focus_reward())
     for key,n in by_id.items():
         assert [e.norm() for e in n.one('completion_reward').v] == [e.norm() for e in parse(expected_rewards.get(key, ''))]
         assert n.one('select_effect') is None
