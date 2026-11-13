@@ -321,7 +321,6 @@ def managed_base(p):
 
 def project_effects(p):
     k=p['key'];s=p['states'][0];out=[]
-    timer='days_decision_timeout@'+p['id']
     base=p['base_days'].split('?')[0]
     start=[sv(var(p,'total'),p['fallback'])]
     if not base.isdigit():start += [iff('has_variable = '+base,[sv(var(p,'total'),base)])]
@@ -334,7 +333,13 @@ def project_effects(p):
         start += [sv(var(p,'factory_target'),f'{s}.building_level@{kind}'),add(var(p,'factory_target'),amount)]
     if p['civ'] or p['consumer']:start += [f'add_dynamic_modifier = {{ modifier = {var(p,"cost")} }}']
     start += ['clr_country_flag = '+var(p,'goal_'+str(i)) for i in (1,2)]
-    start += [call(p,'goals'),'RUS_np_refresh = yes',call(p,'timer')]
+    # days_remove already supplies the initial native timer. Do not query or
+    # adjust it during complete_effect: the engine may not have installed it yet.
+    # Track the expiry date we requested, not days_decision_timeout (which can
+    # return zero for an active removal timer). Repeated reads of zero used to
+    # append the whole remaining duration every day, then prevent settlement.
+    start += [sv(var(p,'deadline'),'global.num_days'),add(var(p,'deadline'),var(p,'initial_days')),
+              call(p,'goals'),'RUS_np_refresh = yes']
     out.append(b(var(p,'begin'),[iff('RUS_np_ready_'+k+' = yes',start)]))
     goal_lines=[]
     for i,(condition,_,_) in enumerate(goals(p),1):
@@ -353,10 +358,19 @@ def project_effects(p):
             f'add_days_remove = {{ decision = {p["id"]} days = {-step} }}',add(P+'adjust',step)]))
     out.append(b(var(p,'apply_timer_delta'),[f'round_variable = {P}adjust',
         iff(ck(P+'adjust','>',0),positive),b('else',negative).strip()]))
-    timerlines=[sv(var(p,'display'),var(p,'left')),div(var(p,'display'),P+'speed'),*ceil(var(p,'display')),
-        *clamp(var(p,'display'),1,7300),sv(P+'adjust',var(p,'display')),add(P+'adjust',1),sub(P+'adjust',timer),
+    timerlines=[sv(var(p,'display'),0),
+        iff('NOT = { '+ck(var(p,'left'),'<',.001)+' }',[
+            sv(var(p,'display'),var(p,'left')),div(var(p,'display'),P+'speed'),*ceil(var(p,'display')),
+            *clamp(var(p,'display'),1,7300),add(var(p,'display'),1)]),
+        sv(P+'adjust','global.num_days'),add(P+'adjust',var(p,'display')),
+        sub(P+'adjust',var(p,'deadline')),
+        # Store the new deadline before applying effects, so callbacks or a
+        # second same-day refresh cannot apply the same delta twice.
+        sv(var(p,'deadline'),'global.num_days'),add(var(p,'deadline'),var(p,'display')),
         call(p,'apply_timer_delta')]
-    out.append(b(var(p,'timer'),[iff(running(p),timerlines)]))
+    # A missing controller record must never be interpreted as expiry day zero.
+    # Do not invent a deadline for old/corrupt jobs from an unreliable native read.
+    out.append(b(var(p,'timer'),[iff(running(p)+' has_variable = '+var(p,'deadline'),timerlines)]))
     pulse=[sv(var(p,'last_day'),'global.num_days'),call(p,'goals'),sub(var(p,'left'),P+'speed'),*clamp(var(p,'left'),0,var(p,'total'))]
     out.append(b(var(p,'tick'),[iff(running(p)+' '+ck(var(p,'last_day'),'<','global.num_days'),pulse)]))
     # Release is guarded by running; the durable managed flag prevents a
@@ -506,7 +520,7 @@ def augment(out):
     for p in PROJECTS:
         daily += [iff(running(p),[
             iff('NOT = { '+owned(p)+' }',[remove_active(p),call(p,'cancel')]),
-            b('else',[call(p,'tick'),iff(ck(var(p,'left'),'<',.001),[sv(P+'adjust','days_decision_timeout@'+p['id']),mul(P+'adjust',-1),call(p,'apply_timer_delta')]),b('else',[call(p,'timer')]).strip()]).strip()])]
+            b('else',[call(p,'tick'),call(p,'timer')]).strip()])]
     daily += ['RUS_np_refresh_transport = yes','RUS_np_refresh = yes']
     effects.append(b('RUS_np_daily',[iff('RUS_np_context = yes',[iff('has_country_flag = RUS_np_initialized '+ck(P+'day','<','global.num_days'),daily)]),b('else',[iff('has_country_flag = RUS_np_initialized',[
         iff(running(p),[remove_active(p),call(p,'cancel')]) for p in PROJECTS]+[

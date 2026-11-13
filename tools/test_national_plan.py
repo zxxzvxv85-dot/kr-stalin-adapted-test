@@ -523,6 +523,57 @@ class PlanTests(unittest.TestCase):
                 m.advance(p,order)
                 if var(p,'completed') in m.flags:break
             self.assertIn(var(p,'completed'),m.flags);self.assertNotIn(var(p,'running'),m.flags)
+
+    def test_unavailable_native_timeout_cannot_accumulate_thousands_of_days(self):
+        # The supplied save has total=120, left=0 and still-running rural jobs.
+        # Reproduce the failure with a zero timeout read: the old controller
+        # leaves 7381 native days at day 120 instead of finishing the project.
+        class ZeroTimeout(Model):
+            def number(self,value):
+                if isinstance(value,str) and value.startswith('days_decision_timeout@'):
+                    return 0
+                return super().number(value)
+        rural=[p for p in PROJECTS if p['key'] in
+               ('moscow_rural','leningrad_rural','tsaritsyn_rural')]
+        for order in ('before','after'):
+            m=ZeroTimeout().initialize()
+            for p in rural:m.start(p)
+            for day in range(122):
+                m.advance(rural[0],order)
+                for p in rural:
+                    self.assertLessEqual(m.timers.get(p['id'],0),121)
+            for p in rural:
+                self.assertIn(var(p,'completed'),m.flags)
+                self.assertNotIn(var(p,'running'),m.flags)
+                self.assertEqual(m.vars[var(p,'paid')],0)
+            self.assertEqual(m.vars[P+'frozen'],0)
+
+    def test_timer_deadline_is_idempotent_with_continuously_changing_heat(self):
+        p=next(p for p in PROJECTS if p['key']=='moscow_rural')
+        for order in ('before','after'):
+            m=Model().initialize();m.start(p)
+            for day in range(245):
+                m.vars['RUS_education_enthusiasm']=(day*17)%101
+                m.advance(p,order)
+                if var(p,'completed') in m.flags:break
+                remaining=m.timers[p['id']]
+                # Refreshing a tooltip/filter or re-entering the same controller
+                # on this date cannot append a second copy of the correction.
+                m.call(var(p,'timer'));m.call(var(p,'timer'))
+                self.assertEqual(m.timers[p['id']],remaining)
+                expected=m.vars[var(p,'left')]/m.vars[P+'speed']
+                self.assertLessEqual(abs(remaining-expected),3)
+            self.assertIn(var(p,'completed'),m.flags)
+
+    def test_missing_deadline_does_not_add_the_absolute_calendar_date(self):
+        p=next(p for p in PROJECTS if p['key']=='moscow_rural')
+        m=Model().initialize();m.start(p)
+        m.vars.pop(var(p,'deadline'))
+        m.vars['global.num_days']=709145
+        before=m.timers[p['id']]
+        m.call(var(p,'timer'))
+        self.assertEqual(m.timers[p['id']],before)
+        self.assertNotIn('days_decision_timeout@',(ROOT/FX).read_text(encoding='utf8'))
     def test_last_day_goal_latches_and_previews_never_award(self):
         p=next(p for p in PROJECTS if p['key']=='bearing');m=Model().initialize();m.start(p)
         self.assertNotIn(var(p,'goal_1'),m.flags)
