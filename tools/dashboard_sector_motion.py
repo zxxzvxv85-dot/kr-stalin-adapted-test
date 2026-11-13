@@ -27,16 +27,9 @@ def part(name):
 
 @lru_cache(None)
 def clean_background():
-    """Only adopt the generated empty-track patch; preserve every other pixel."""
-    original=Image.open(SOURCE/'backplate.png').convert('RGBA')
-    clean=Image.open(PARTS/'clean_track.png').convert('RGBA').resize(original.size,Image.Resampling.LANCZOS)
-    mask=Image.new('L',original.size)
-    d=ImageDraw.Draw(mask)
-    d.rectangle((20,910,518,1088),fill=255)
-    mask=mask.filter(ImageFilter.GaussianBlur(5))
-    # Labels and all artwork outside the train strip stay original.
-    merged=Image.composite(clean,original,mask)
-    return merged.resize((492,615),Image.Resampling.LANCZOS)
+    """ImageGen restored illustration without the four sector plaques."""
+    with Image.open(SOURCE/'no_plaques_v4/background.png') as im:
+        return im.convert('RGBA').resize((492,615),Image.Resampling.LANCZOS)
 
 @lru_cache(None)
 def freight_source():

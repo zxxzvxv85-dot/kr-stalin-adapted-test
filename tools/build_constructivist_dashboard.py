@@ -29,12 +29,10 @@ def wheel():
 
 @lru_cache(None)
 def foreground():
-    """Stationary original score face and plaques above the rotating disk."""
+    """Stationary original score face above the rotating disk."""
     im=Image.new('RGBA',(504,620));im.alpha_composite(Image.open(SOURCE).convert('RGBA').resize((492,615),Image.Resampling.LANCZOS),(6,0))
     mask=Image.new('L',(504*4,620*4));d=ImageDraw.Draw(mask)
     d.ellipse(tuple(v*4 for v in (192,258,304,370)),fill=255)
-    for rect in [(25,244,163,277),(344,244,482,277),(25,477,176,509),(328,477,482,509)]:
-        d.rectangle(tuple(v*4 for v in rect),fill=255)
     im.putalpha(mask.resize((504,620),Image.Resampling.LANCZOS))
     return im
 
@@ -56,9 +54,7 @@ def export():
         d.rectangle((w,0,w*2-1,h-1),fill=(239,218,175,22),outline=(239,218,175,120))
         d.rectangle((w*2,0,w*3-1,h-1),fill=(212,57,27,65),outline=RED)
         if name=='area':
-            im=Image.new('RGBA',(w*3,h));d=ImageDraw.Draw(im)
-            d.rectangle((w,0,w*2-1,h-1),fill=(239,218,175,14))
-            d.rectangle((w*2,0,w*3-1,h-1),fill=(212,57,27,24))
+            im=Image.new('RGBA',(w*3,h))
         if name=='score':
             # The invisible circular-face control must never expose a rectangle,
             # including native hover and pressed frames.

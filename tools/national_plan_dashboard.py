@@ -28,18 +28,6 @@ LABELS = [
  ('score', 205, 309, 86, 25, 'hoi_24header', P+'score'),
  ('stage', 205, 343, 86, 18, 'Main_14', P+'stage'),
  ('status', 78, 534, 348, 18, 'Main_14', P+'status')]
-for i,(x,y,w) in enumerate(SECTOR_POS,1):
-    # Separate words and values: changing the numeric font must not enlarge
-    # Chinese captions. Give two-character labels genuine wrapping slack;
-    # native layout wraps at an exact 28px fit even when glyph advances fit.
-    # Sector names live in the existing clickable-area tooltip, not this plaque.
-    left=x+12+(w-14-120)//2
-    for suffix,dx,width,font,key,dy in [
-        ('active_label',0,40,'Main_14',P+'active_label',7),
-        ('active_value',40,20,'hoi_16mbs',P+f'active_value_{i}',6),
-        ('done_label',60,40,'Main_14',P+'done_label',7),
-        ('done_value',100,20,'hoi_16mbs',P+f'done_value_{i}',6)]:
-        LABELS.append((f'sector_{i}_{suffix}',left+dx,y+dy,width,18,font,key))
 for i in range(1,7):
     LABELS.append((f'region_{i}_label',42+(i-1)%3*144,557+(i-1)//3*29,132,18,'Main_14',P+f'region_{i}'))
 
@@ -137,8 +125,6 @@ def augment(out):
         ax,ay=[(18,110),(328,110),(18,378),(328,378)][i-1]
         button(f'sector_{i}',ax,ay,'area',P+f'sector_{i}_tt',f'if = {{ limit = {{ check_variable = {{ {P}sector = {i} }} }} set_variable = {{ {P}sector = 0 }} }} else = {{ set_variable = {{ {P}sector = {i} }} }} RUS_np_refresh = yes')
         triggers.append(f'sector_{i}_visible = {{ NOT = {{ has_country_flag = {P}ledger_open }} }}')
-        icon(f'sector_{i}_selected',x+13,y+29,'selected_sector')
-        triggers.append(f'sector_{i}_selected_visible = {{ check_variable = {{ {P}sector = {i} }} }}')
         loc[P+f'sector_{i}']=SECTORS[i][0]
         loc[P+f'counts_{i}']=f'在建 §Y[?{P}active_{i}|0]§!  竣工 §G[?{P}done_{i}|0]§!'
         loc[P+f'active_value_{i}']=f'§Y[?{P}active_{i}|0]§!'
