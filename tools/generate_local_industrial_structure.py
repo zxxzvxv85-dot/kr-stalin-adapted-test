@@ -17,6 +17,9 @@ def render_outputs():
         limit = { controller = { tag = RUS } }
         set_variable = { RUS_lis_cached_civ = building_level@industrial_complex }
         set_variable = { RUS_lis_cached_mil = building_level@arms_factory }
+        set_variable = { RUS_lis_cached_infra = building_level@infrastructure }
+        set_variable = { RUS_lis_infra_bonus = RUS_lis_cached_infra }
+        multiply_variable = { RUS_lis_infra_bonus = 0.02 }
         set_variable = { RUS_lis_civ_denominator = RUS_lis_cached_civ }
         add_to_variable = { RUS_lis_civ_denominator = 10 }
         set_variable = { RUS_lis_mil_denominator = RUS_lis_cached_mil }
@@ -33,6 +36,8 @@ def render_outputs():
         multiply_variable = { RUS_lis_mil_speed = -50 }
         divide_variable = { RUS_lis_mil_speed = RUS_lis_mil_denominator }
         divide_variable = { RUS_lis_mil_speed = 100 }
+        add_to_variable = { RUS_lis_civ_speed = RUS_lis_infra_bonus }
+        add_to_variable = { RUS_lis_mil_speed = RUS_lis_infra_bonus }
         if = {
             limit = { NOT = { has_dynamic_modifier = { modifier = RUS_local_industrial_structure } } }
             add_dynamic_modifier = { modifier = RUS_local_industrial_structure }
@@ -54,8 +59,10 @@ RUS_lis_refresh_country = {
                 OR = {
                     NOT = { has_variable = RUS_lis_cached_civ }
                     NOT = { has_variable = RUS_lis_cached_mil }
+                    NOT = { has_variable = RUS_lis_cached_infra }
                     NOT = { check_variable = { RUS_lis_cached_civ = building_level@industrial_complex } }
                     NOT = { check_variable = { RUS_lis_cached_mil = building_level@arms_factory } }
+                    NOT = { check_variable = { RUS_lis_cached_infra = building_level@infrastructure } }
                     NOT = { has_dynamic_modifier = { modifier = RUS_local_industrial_structure } }
                 }
             }

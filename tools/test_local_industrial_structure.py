@@ -86,6 +86,23 @@ class Tests(unittest.TestCase):
         vm.states[2]['controller']='RUS';vm.state_call(2,'RUS_lis_refresh_state')
         self.assertIn(MOD,vm.states[2]['mods'])
         vm.tag='GER';snapshot=copy.deepcopy(vm.states);vm.call('RUS_lis_refresh_country');self.assertEqual(vm.states,snapshot)
+
+    def test_infrastructure_updates_both_speeds_without_factory_changes(self):
+        vm=Model({1:dict(industrial_complex=10,arms_factory=5,infrastructure=0)})
+        for level in (0,1,2,3,4,5,2,0):
+            vm.states[1]['infrastructure']=level
+            vm.call('RUS_lis_refresh_country');v=vm.states[1]['vars']
+            self.assertAlmostEqual(v['RUS_lis_civ_speed'],.08+.02*level)
+            self.assertAlmostEqual(v['RUS_lis_mil_speed'],-.1+.02*level)
+            count=vm.refreshes
+            vm.call('RUS_lis_refresh_country')
+            self.assertEqual(vm.refreshes,count)
+            self.assertEqual(vm.states[1]['mods'],{MOD})
+        # Infrastructure also supports a previously undeveloped occupied state.
+        vm=Model({1:dict(owner='GER',core=False,infrastructure=5)})
+        vm.call('RUS_lis_refresh_country');v=vm.states[1]['vars']
+        self.assertAlmostEqual(v['RUS_lis_civ_speed'],.1)
+        self.assertAlmostEqual(v['RUS_lis_mil_speed'],.1)
     def test_recovery_of_missing_attachment_and_coexistence_with_rural_modifier(self):
         vm=Model({1:dict(industrial_complex=20,arms_factory=5,mods={'RUS_np_rural_infrastructure'})})
         vm.call('RUS_lis_refresh_country');vm.states[1]['mods'].remove(MOD);vm.call('RUS_lis_refresh_country')
