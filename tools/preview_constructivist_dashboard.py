@@ -6,7 +6,7 @@ import json,re,html,base64
 from functools import lru_cache
 from pathlib import Path
 from PIL import Image,ImageDraw
-from national_plan_catalog import ROOT
+from national_plan_catalog import ROOT, CURRENT_PLACE_NAMES
 from national_plan_dashboard import ART,P,LABELS,SECTOR_POS,REGION_NAMES
 from hoi4_bitmap_fonts import render,measure
 from build_constructivist_dashboard import indicator, foreground, WHEEL_XY, PREVIEW_FRAMES
@@ -23,7 +23,12 @@ HELPERS={'RUSNPScoreCaption':'一五计划分数','RUSNPScoreValue':'78.5','RUSN
 def atlas(name):
     return Image.open(ROOT/ART/('sector_'+name+'.png')).convert('RGBA')
 
+def sample_places(s):
+    for name,state in CURRENT_PLACE_NAMES.items():s=s.replace(f'[{state}.GetName]',name)
+    return s
+
 def resolved(s):
+    s=sample_places(s)
     for k,v in HELPERS.items():s=s.replace('['+k+']',v)
     return re.sub(r'\[\?([\w]+)\|(%?)(\d+)\]',lambda m:f'{VARS.get(m[1],0)*(100 if m[2] else 1):.{m[3]}f}'+('%' if m[2] else ''),s)
 
@@ -80,7 +85,7 @@ def browser():
     for i,(x,y) in enumerate([(18,110),(328,110),(18,378),(328,378)],1):button(f's-{i}',x,y,158,166,'筛选'+LOC[P+f'sector_{i}'])
     for i,name in enumerate(REGION_NAMES):button(f'r-{i+1}',41+i%3*144,554+i//3*29,136,24,'筛选'+name)
     s.append('<section class="ledger" id="ledger" hidden><h3>国家建设账本</h3><div id="ledger-content"></div><button id="close">收起账本</button></section></div><footer id="filter-note">点击四块产业图案或下方地区切换筛选；点击中央分数恢复全部。<br>点击标题展开账本。此页用于查看动效与排版，游戏内显示真实存档数值。</footer></main>')
-    s.append('<script>const templates='+json.dumps({r[0]:LOC[r[6]] for r in LABELS},ensure_ascii=False)+';const ledgerTemplate='+json.dumps(LOC[P+'ledger_body'],ensure_ascii=False)+';const base='+json.dumps(VARS)+';const regions='+json.dumps(['全部地区']+REGION_NAMES,ensure_ascii=False)+';const sectors='+json.dumps(['全部工程']+[LOC[P+f'sector_{i}'] for i in range(1,5)],ensure_ascii=False)+';')
+    s.append('<script>const templates='+json.dumps({r[0]:sample_places(LOC[r[6]]) for r in LABELS},ensure_ascii=False)+';const ledgerTemplate='+json.dumps(LOC[P+'ledger_body'],ensure_ascii=False)+';const base='+json.dumps(VARS)+';const regions='+json.dumps(['全部地区']+REGION_NAMES,ensure_ascii=False)+';const sectors='+json.dumps(['全部工程']+[LOC[P+f'sector_{i}'] for i in range(1,5)],ensure_ascii=False)+';')
     s.append(r'''let region=0,sector=0,state=1;const el=id=>document.getElementById(id);function formatted(s,v){s=s.replace(/\[RUSNPScoreCaption\]/g,state?'一五计划分数':'预备建设分数').replace(/\[RUSNPScoreValue\]/g,(state?v.RUS_first_five_year_plan_score:0).toFixed(1)).replace(/\[RUSNPStageCaption\]/g,state?'阶段 '+v.RUS_first_five_year_plan_stage:'计划未启动').replace(/\[RUSNPRegionName\]/g,regions[region]).replace(/\[RUSNPSectorName\]/g,sectors[sector]);s=s.replace(/\[\?([\w]+)\|(%?)(\d+)\]/g,(_,k,p,n)=>((v[k]||0)*(p?100:1)).toFixed(+n)+(p?'%':''));return '<span>'+s.replace(/§([CYGR!])/g,(_,c)=>'</span><span style="color:'+({C:'#77c9db',Y:'#f0cb75',G:'#91ba80',R:'#ed543d','!':'#e3dfcf'}[c])+'">').replace(/\n/g,'<br>')+'</span>'}function update(){let v={...base};if(state===0)Object.assign(v,{RUS_np_available:1200,RUS_np_frozen:0,RUS_np_active:0,RUS_np_trains:0,RUS_np_rail_display:0,RUS_np_spent:0,RUS_np_free_slots:7,RUS_first_five_year_plan_score:0,RUS_first_five_year_plan_stage:0});if(state===2)Object.assign(v,{RUS_np_available:2634.75,RUS_np_frozen:420,RUS_np_active:6,RUS_np_trains:90,RUS_np_rail_display:2.5,RUS_np_spent:1480,RUS_np_free_slots:1,RUS_first_five_year_plan_score:136.5,RUS_first_five_year_plan_stage:5});for(let i=1;i<=4;i++){v['RUS_np_ui_active_'+i]=state?(region?(i===((region-1)%4+1)?1:0):(state===2&&i<3?2:1)):0;v['RUS_np_ui_done_'+i]=state?(region?i:i+1+(state===2?3:0)):0;el('s-'+i).classList.toggle('on',sector===i);el('s-'+i).setAttribute('aria-pressed',sector===i)}for(const [k,t] of Object.entries(templates))el(k).innerHTML=formatted(t,v);for(let i=1;i<=6;i++){el('r-'+i).classList.toggle('on',region===i);el('r-'+i).setAttribute('aria-pressed',region===i);el('pip-'+(i-1)).style.display=i<=v.RUS_first_five_year_plan_stage?'block':'none'}for(const id of ['score_label','score','stage'])el(id).style.display=state?'block':'none';el('anim-rotor').classList.toggle('still',!state);for(let i=1;i<=4;i++)el('anim-sector-'+i).classList.toggle('still',!v['RUS_np_ui_active_'+i]);el('ledger-content').innerHTML=formatted(ledgerTemplate,v)}el('ledger-toggle').onclick=()=>el('ledger').hidden=!el('ledger').hidden;el('close').onclick=()=>el('ledger').hidden=true;el('all').onclick=()=>{region=sector=0;update()};for(let i=1;i<=6;i++)el('r-'+i).onclick=()=>{region=region===i?0:i;update()};for(let i=1;i<=4;i++)el('s-'+i).onclick=()=>{sector=sector===i?0:i;update()};el('sample').onchange=e=>{state=+e.target.value;update()};update();</script></html>''')
     (OUT/'interactive.html').write_text('\n'.join(s),encoding='utf8')
 

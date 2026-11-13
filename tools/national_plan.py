@@ -7,6 +7,7 @@ import json,re
 from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
 from national_plan_focuses import PROJECT_FOCUS,focus_condition
+from national_plan_catalog import current_place_names
 
 CAT='RUS_first_five_year_plan_industrial_projects'
 DEC='common/decisions/RUS decisions (Russia).txt'
@@ -608,17 +609,19 @@ def localisations():
     sloc=[b('defined_text',['name = RUSNationalPlanLedger',b('text',['trigger = { RUS_np_context = yes }','localization_key = RUS_np_header']).strip(),'text = { localization_key = RUS_np_header_old }'])]
     sloc.append(b('defined_text',['name = RUSNPAccountStatus',b('text',['trigger = { has_country_flag = RUS_np_initialized }','localization_key = RUS_np_account_ready']).strip(),'text = { localization_key = RUS_np_account_pending }']))
     sloc.append(b('defined_text',['name = RUSNPRegionName',*[b('text',['trigger = { check_variable = { RUS_np_filter = '+str(i)+' } }','localization_key = RUS_np_region_name_'+str(i)]).strip() for i in range(1,7)],'text = { localization_key = RUS_np_region_name_0 }']))
-    for i in range(7):l[P+'region_name_'+str(i)]=REGIONS.get(i,'全部地区')
-    for i in range(7):l[P+'filter_'+str(i)]='查看：'+REGIONS.get(i,'全部地区')
-    for c in CORRIDORS:l[P+'upgrade_'+c['key']]='升级计划干线：'+c['label']
+    for i in range(7):l[P+'region_name_'+str(i)]=current_place_names(REGIONS.get(i,'全部地区'))
+    for i in range(7):l[P+'filter_'+str(i)]='查看：'+current_place_names(REGIONS.get(i,'全部地区'))
+    for c in CORRIDORS:l[P+'upgrade_'+c['key']]='升级计划干线：'+current_place_names(c['label'])
     for city,name in [('moscow','莫斯科'),('leningrad','列宁格勒'),('tsaritsyn','察里津')]:
+        name=current_place_names(name)
         l[P+city+'_dispatch']='加强'+name+'工业区运输';l[P+city+'_recall']='撤回'+name+'运输列车'
         l[P+city+'_dispatch_desc']='征用10列普通列车。铁路保持连通时，扩大工业区运输与工业协作收益。'
         l[P+city+'_recall_desc']='返还本工业区投入运输的列车，解除对应运输加成。'
     for p in PROJECTS:
         l[var(p,'cost')]='工程建设投入'
         l[var(p,'cost_tt')]=f'冻结§C建设资源§!：§Y{p["budget"]}§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n正常竣工返还未使用的20%§C建设资源§!'+('及全部施工列车。' if p['trains'] else '。')
-        l[p['id']]=('$'+p['original_id']+'$') if p['legacy'] else p['name']
+        l[p['id']]=('$'+p['original_id']+'$') if p['legacy'] else current_place_names(p['name'])
+        if p['key']=='tsaritsyn_tractor_plant':l[p['id']]='[217.GetName]拖拉机厂'
         l[var(p,'terminate')]='终止工程：$'+p['id']+'$'
         l[var(p,'terminate')+'_desc']='$RUS_np_terminate_tt$'
         parts=([p['intro'],''] if p.get('intro') else [])+['$'+var(p,'cost_tt')+'$','追加目标：']

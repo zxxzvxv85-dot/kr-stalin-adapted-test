@@ -9,6 +9,15 @@ ROOT=Path(__file__).resolve().parents[1]
 SPEC=ROOT/'tools/design/national_plan_20261104/catalog.json'
 DATA=json.loads(SPEC.read_text(encoding='utf8'))
 REGIONS={1:'莫斯科与中央工业区',2:'列宁格勒与西北工业区',3:'察里津与伏尔加工业区',4:'乌拉尔工业区',5:'西伯利亚与远东',6:'高加索与中亚'}
+# Geographic references use the live state name, as in KR's [219.GetName].
+# Do not substitute distinct towns (e.g. Kashira) with their enclosing state's name.
+CURRENT_PLACE_NAMES={'莫斯科':219,'列宁格勒':195,'察里津':217,'下诺夫哥罗德':252}
+
+def current_place_names(text):
+    for name,state in CURRENT_PLACE_NAMES.items():
+        text=text.replace(name,f'[{state}.GetName]')
+    return text
+
 # Mod-owned reward metadata. Existing native rewards remain unmodified.
 MIO_TARGETS={
  'amo':('RUS_amo_organisation','RUS_adb_merged_amo','RUS_adb_organisation','汽车工业'),

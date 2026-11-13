@@ -5,7 +5,7 @@ Decision-category controls reference: RUS_education_dashboard.
 """
 import json
 from hoi4_politics_blocks import parse
-from national_plan_catalog import ROOT, PROJECTS, REGIONS
+from national_plan_catalog import ROOT, PROJECTS, REGIONS, current_place_names
 from national_plan import CAT, DEC, FX, b, sv, add, iff, ck
 from dashboard_sector_motion import MOTIONS, FRAMES
 
@@ -27,7 +27,7 @@ LABELS = [
  ('score_label', 205, 287, 86, 18, 'Main_14', P+'score_label'),
  ('score', 205, 309, 86, 25, 'hoi_24header', P+'score'),
  ('stage', 205, 343, 86, 18, 'Main_14', P+'stage'),
- ('status', 78, 534, 348, 18, 'Main_14', P+'status')]
+ ('status', 78, 530, 348, 18, 'Main_14', P+'status')]
 for i in range(1,7):
     LABELS.append((f'region_{i}_label',42+(i-1)%3*144,557+(i-1)//3*29,132,18,'Main_14',P+f'region_{i}'))
 
@@ -135,8 +135,8 @@ def augment(out):
         button(f'region_{i}',x,y,'region',P+f'region_{i}_tt',f'if = {{ limit = {{ check_variable = {{ RUS_np_filter = {i} }} }} set_variable = {{ RUS_np_filter = 0 }} }} else = {{ set_variable = {{ RUS_np_filter = {i} }} }} RUS_np_refresh = yes')
         icon(f'region_{i}_selected',x+6,y+21,'selected_region')
         triggers.append(f'region_{i}_selected_visible = {{ check_variable = {{ RUS_np_filter = {i} }} }}')
-        loc[P+f'region_{i}']=REGION_NAMES[i-1]
-        loc[P+f'region_{i}_tt']=REGIONS[i]+'\n点击筛选；再次点击显示全部地区。'
+        loc[P+f'region_{i}']=current_place_names(REGION_NAMES[i-1])
+        loc[P+f'region_{i}_tt']=current_place_names(REGIONS[i])+'\n点击筛选；再次点击显示全部地区。'
     for row in LABELS:label(row,P+row[0]+'_tt' if row[0] in ('resources','frozen','income','slots','trains','rail') else None)
     # Draw the expanded ledger last; its panel catches clicks over the machine.
     icon('ledger_panel',36,105,'ledger',False)
