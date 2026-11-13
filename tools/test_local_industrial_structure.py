@@ -93,7 +93,7 @@ class Tests(unittest.TestCase):
             vm.states[1]['infrastructure']=level
             vm.call('RUS_lis_refresh_country');v=vm.states[1]['vars']
             self.assertAlmostEqual(v['RUS_lis_civ_speed'],.08+.02*level)
-            self.assertAlmostEqual(v['RUS_lis_mil_speed'],-.1+.02*level)
+            self.assertAlmostEqual(v['RUS_lis_mil_speed'],-.1*(1-.1*level))
             count=vm.refreshes
             vm.call('RUS_lis_refresh_country')
             self.assertEqual(vm.refreshes,count)
@@ -102,7 +102,21 @@ class Tests(unittest.TestCase):
         vm=Model({1:dict(owner='GER',core=False,infrastructure=5)})
         vm.call('RUS_lis_refresh_country');v=vm.states[1]['vars']
         self.assertAlmostEqual(v['RUS_lis_civ_speed'],.1)
-        self.assertAlmostEqual(v['RUS_lis_mil_speed'],.1)
+        self.assertAlmostEqual(v['RUS_lis_mil_speed'],0)
+
+    def test_infrastructure_relieves_military_penalty_without_positive_bonus(self):
+        for factories in (0,1,5,20,1000):
+            original=-.5*factories/(factories+20)
+            last=original
+            for infra in range(6):
+                vm=Model({1:dict(arms_factory=factories,infrastructure=infra)})
+                vm.call('RUS_lis_refresh_country')
+                value=vm.states[1]['vars']['RUS_lis_mil_speed']
+                self.assertAlmostEqual(value,original*(1-.1*infra))
+                self.assertGreaterEqual(value+1e-12,last)
+                self.assertLessEqual(value,0)
+                last=value
+            self.assertAlmostEqual(last,original*.5)
     def test_recovery_of_missing_attachment_and_coexistence_with_rural_modifier(self):
         vm=Model({1:dict(industrial_complex=20,arms_factory=5,mods={'RUS_np_rural_infrastructure'})})
         vm.call('RUS_lis_refresh_country');vm.states[1]['mods'].remove(MOD);vm.call('RUS_lis_refresh_country')
