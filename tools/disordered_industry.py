@@ -26,7 +26,7 @@ PENALTIES = {
 FINALS = {
     'federal': dict(production_speed_buildings_factor=.05,
                     production_factory_efficiency_gain_factor=-.20,
-                    industrial_capacity_factory=-.05, consumer_goods_expected_value=.025,
+                    industrial_capacity_factory=-.05, consumer_goods_expected_value=-.025,
                     production_cost_industrial_complex_factor=-.10, political_power_factor=-.05,
                     production_cost_infrastructure_factor=-.10,
                     custom_modifier_tooltip=PREFIX+'_discount_tt'),
