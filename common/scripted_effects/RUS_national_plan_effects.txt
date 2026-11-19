@@ -1,5 +1,62 @@
 # Generated national plan. Original scoring weights and spirit stages retained.
+RUS_np_refresh_prices = {
+	set_variable = { RUS_np_pp_15 = 15 }
+	set_variable = { RUS_np_pp_20 = 20 }
+	set_variable = { RUS_np_pp_25 = 25 }
+	set_variable = { RUS_np_pp_30 = 30 }
+	set_variable = { RUS_np_pp_35 = 35 }
+	set_variable = { RUS_np_pp_40 = 40 }
+	set_variable = { RUS_np_pp_45 = 45 }
+	set_variable = { RUS_np_pp_50 = 50 }
+	set_variable = { RUS_np_pp_60 = 60 }
+	set_variable = { RUS_np_pp_75 = 75 }
+	set_variable = { RUS_np_pp_high = 60 }
+	if = {
+	limit = { has_variable = RUS_ic_cost_high }
+	set_variable = { RUS_np_pp_high = RUS_ic_cost_high }
+}
+	set_variable = { RUS_np_pp_low = 20 }
+	if = {
+	limit = { has_variable = RUS_ic_cost_low }
+	set_variable = { RUS_np_pp_low = RUS_ic_cost_low }
+}
+	set_variable = { RUS_np_pp_med = 40 }
+	if = {
+	limit = { has_variable = RUS_ic_cost_med }
+	set_variable = { RUS_np_pp_med = RUS_ic_cost_med }
+}
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	multiply_variable = { RUS_np_pp_15 = 0.8 }
+	round_variable = RUS_np_pp_15
+	multiply_variable = { RUS_np_pp_20 = 0.8 }
+	round_variable = RUS_np_pp_20
+	multiply_variable = { RUS_np_pp_25 = 0.8 }
+	round_variable = RUS_np_pp_25
+	multiply_variable = { RUS_np_pp_30 = 0.8 }
+	round_variable = RUS_np_pp_30
+	multiply_variable = { RUS_np_pp_35 = 0.8 }
+	round_variable = RUS_np_pp_35
+	multiply_variable = { RUS_np_pp_40 = 0.8 }
+	round_variable = RUS_np_pp_40
+	multiply_variable = { RUS_np_pp_45 = 0.8 }
+	round_variable = RUS_np_pp_45
+	multiply_variable = { RUS_np_pp_50 = 0.8 }
+	round_variable = RUS_np_pp_50
+	multiply_variable = { RUS_np_pp_60 = 0.8 }
+	round_variable = RUS_np_pp_60
+	multiply_variable = { RUS_np_pp_75 = 0.8 }
+	round_variable = RUS_np_pp_75
+	multiply_variable = { RUS_np_pp_high = 0.8 }
+	round_variable = RUS_np_pp_high
+	multiply_variable = { RUS_np_pp_low = 0.8 }
+	round_variable = RUS_np_pp_low
+	multiply_variable = { RUS_np_pp_med = 0.8 }
+	round_variable = RUS_np_pp_med
+}
+}
 RUS_np_refresh = {
+	RUS_np_refresh_prices = yes
 	set_variable = { RUS_np_civ = num_of_available_civilian_factories }
 	if = {
 	limit = { check_variable = { RUS_np_civ < 0 } }
@@ -3570,10 +3627,14 @@ RUS_np_kamenev_all_russian_electrification_begin = {
 	set_country_flag = RUS_np_kamenev_all_russian_electrification_running
 	set_variable = { RUS_np_kamenev_all_russian_electrification_left = RUS_np_kamenev_all_russian_electrification_total }
 	set_variable = { RUS_np_kamenev_all_russian_electrification_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_kamenev_all_russian_electrification_paid = 64.0 }
+}
 	set_variable = { RUS_np_kamenev_all_russian_electrification_trains = 10 }
 	set_variable = { RUS_np_kamenev_all_russian_electrification_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_kamenev_all_russian_electrification_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_kamenev_all_russian_electrification_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_kamenev_all_russian_electrification_goal_1
 	clr_country_flag = RUS_np_kamenev_all_russian_electrification_goal_2
@@ -3981,10 +4042,14 @@ RUS_np_renovate_and_expand_moscow_begin = {
 	set_country_flag = RUS_np_renovate_and_expand_moscow_running
 	set_variable = { RUS_np_renovate_and_expand_moscow_left = RUS_np_renovate_and_expand_moscow_total }
 	set_variable = { RUS_np_renovate_and_expand_moscow_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_renovate_and_expand_moscow_paid = 112.0 }
+}
 	set_variable = { RUS_np_renovate_and_expand_moscow_trains = 0 }
 	set_variable = { RUS_np_renovate_and_expand_moscow_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_renovate_and_expand_moscow_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_renovate_and_expand_moscow_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_renovate_and_expand_moscow_cost }
 	clr_country_flag = RUS_np_renovate_and_expand_moscow_goal_1
@@ -4327,10 +4392,14 @@ RUS_np_renovate_and_expand_tsaritsyn_begin = {
 	set_country_flag = RUS_np_renovate_and_expand_tsaritsyn_running
 	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_left = RUS_np_renovate_and_expand_tsaritsyn_total }
 	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_paid = 112.0 }
+}
 	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_trains = 0 }
 	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_renovate_and_expand_tsaritsyn_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_renovate_and_expand_tsaritsyn_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_renovate_and_expand_tsaritsyn_cost }
 	clr_country_flag = RUS_np_renovate_and_expand_tsaritsyn_goal_1
@@ -4673,10 +4742,14 @@ RUS_np_renovate_and_expand_saint_petersburg_begin = {
 	set_country_flag = RUS_np_renovate_and_expand_saint_petersburg_running
 	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_left = RUS_np_renovate_and_expand_saint_petersburg_total }
 	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_paid = 112.0 }
+}
 	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_trains = 0 }
 	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_renovate_and_expand_saint_petersburg_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_renovate_and_expand_saint_petersburg_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_renovate_and_expand_saint_petersburg_cost }
 	clr_country_flag = RUS_np_renovate_and_expand_saint_petersburg_goal_1
@@ -5019,10 +5092,14 @@ RUS_np_magnitogorsk_begin = {
 	set_country_flag = RUS_np_magnitogorsk_running
 	set_variable = { RUS_np_magnitogorsk_left = RUS_np_magnitogorsk_total }
 	set_variable = { RUS_np_magnitogorsk_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_magnitogorsk_paid = 112.0 }
+}
 	set_variable = { RUS_np_magnitogorsk_trains = 10 }
 	set_variable = { RUS_np_magnitogorsk_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_magnitogorsk_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_magnitogorsk_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_magnitogorsk_cost }
 	clr_country_flag = RUS_np_magnitogorsk_goal_1
@@ -5389,10 +5466,14 @@ RUS_np_second_baku_begin = {
 	set_country_flag = RUS_np_second_baku_running
 	set_variable = { RUS_np_second_baku_left = RUS_np_second_baku_total }
 	set_variable = { RUS_np_second_baku_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_second_baku_paid = 64.0 }
+}
 	set_variable = { RUS_np_second_baku_trains = 10 }
 	set_variable = { RUS_np_second_baku_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_second_baku_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_second_baku_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_second_baku_goal_1
 	clr_country_flag = RUS_np_second_baku_goal_2
@@ -5744,10 +5825,14 @@ RUS_np_modernisation_of_AMO_begin = {
 	set_country_flag = RUS_np_modernisation_of_AMO_running
 	set_variable = { RUS_np_modernisation_of_AMO_left = RUS_np_modernisation_of_AMO_total }
 	set_variable = { RUS_np_modernisation_of_AMO_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_modernisation_of_AMO_paid = 64.0 }
+}
 	set_variable = { RUS_np_modernisation_of_AMO_trains = 10 }
 	set_variable = { RUS_np_modernisation_of_AMO_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_modernisation_of_AMO_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_modernisation_of_AMO_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_modernisation_of_AMO_cost }
 	clr_country_flag = RUS_np_modernisation_of_AMO_goal_1
@@ -6142,10 +6227,14 @@ RUS_np_izhevsk_mechanical_plant_begin = {
 	set_country_flag = RUS_np_izhevsk_mechanical_plant_running
 	set_variable = { RUS_np_izhevsk_mechanical_plant_left = RUS_np_izhevsk_mechanical_plant_total }
 	set_variable = { RUS_np_izhevsk_mechanical_plant_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_izhevsk_mechanical_plant_paid = 64.0 }
+}
 	set_variable = { RUS_np_izhevsk_mechanical_plant_trains = 10 }
 	set_variable = { RUS_np_izhevsk_mechanical_plant_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_izhevsk_mechanical_plant_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_izhevsk_mechanical_plant_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_izhevsk_mechanical_plant_cost }
 	clr_country_flag = RUS_np_izhevsk_mechanical_plant_goal_1
@@ -6529,10 +6618,14 @@ RUS_np_tula_arms_factory_begin = {
 	set_country_flag = RUS_np_tula_arms_factory_running
 	set_variable = { RUS_np_tula_arms_factory_left = RUS_np_tula_arms_factory_total }
 	set_variable = { RUS_np_tula_arms_factory_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_tula_arms_factory_paid = 64.0 }
+}
 	set_variable = { RUS_np_tula_arms_factory_trains = 10 }
 	set_variable = { RUS_np_tula_arms_factory_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_tula_arms_factory_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_tula_arms_factory_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_tula_arms_factory_cost }
 	clr_country_flag = RUS_np_tula_arms_factory_goal_1
@@ -6910,10 +7003,14 @@ RUS_np_create_tankograd_begin = {
 	set_country_flag = RUS_np_create_tankograd_running
 	set_variable = { RUS_np_create_tankograd_left = RUS_np_create_tankograd_total }
 	set_variable = { RUS_np_create_tankograd_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_create_tankograd_paid = 64.0 }
+}
 	set_variable = { RUS_np_create_tankograd_trains = 10 }
 	set_variable = { RUS_np_create_tankograd_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_create_tankograd_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_create_tankograd_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_create_tankograd_cost }
 	clr_country_flag = RUS_np_create_tankograd_goal_1
@@ -7298,10 +7395,14 @@ RUS_np_convert_civilian_aviation_industry_begin = {
 	set_country_flag = RUS_np_convert_civilian_aviation_industry_running
 	set_variable = { RUS_np_convert_civilian_aviation_industry_left = RUS_np_convert_civilian_aviation_industry_total }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_convert_civilian_aviation_industry_paid = 64.0 }
+}
 	set_variable = { RUS_np_convert_civilian_aviation_industry_trains = 10 }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_convert_civilian_aviation_industry_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_convert_civilian_aviation_industry_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_convert_civilian_aviation_industry_cost }
 	clr_country_flag = RUS_np_convert_civilian_aviation_industry_goal_1
@@ -7704,10 +7805,14 @@ RUS_np_tsaritsyn_tractor_plant_begin = {
 	set_country_flag = RUS_np_tsaritsyn_tractor_plant_running
 	set_variable = { RUS_np_tsaritsyn_tractor_plant_left = RUS_np_tsaritsyn_tractor_plant_total }
 	set_variable = { RUS_np_tsaritsyn_tractor_plant_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_tsaritsyn_tractor_plant_paid = 112.0 }
+}
 	set_variable = { RUS_np_tsaritsyn_tractor_plant_trains = 5 }
 	set_variable = { RUS_np_tsaritsyn_tractor_plant_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_tsaritsyn_tractor_plant_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_tsaritsyn_tractor_plant_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -5 }
 	add_dynamic_modifier = { modifier = RUS_np_tsaritsyn_tractor_plant_cost }
 	clr_country_flag = RUS_np_tsaritsyn_tractor_plant_goal_1
@@ -8079,10 +8184,14 @@ RUS_np_chelyabinsk_tractor_plant_begin = {
 	set_country_flag = RUS_np_chelyabinsk_tractor_plant_running
 	set_variable = { RUS_np_chelyabinsk_tractor_plant_left = RUS_np_chelyabinsk_tractor_plant_total }
 	set_variable = { RUS_np_chelyabinsk_tractor_plant_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_chelyabinsk_tractor_plant_paid = 112.0 }
+}
 	set_variable = { RUS_np_chelyabinsk_tractor_plant_trains = 5 }
 	set_variable = { RUS_np_chelyabinsk_tractor_plant_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_chelyabinsk_tractor_plant_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_chelyabinsk_tractor_plant_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -5 }
 	add_dynamic_modifier = { modifier = RUS_np_chelyabinsk_tractor_plant_cost }
 	clr_country_flag = RUS_np_chelyabinsk_tractor_plant_goal_1
@@ -8452,10 +8561,14 @@ RUS_np_kursk_tractor_plant_begin = {
 	set_country_flag = RUS_np_kursk_tractor_plant_running
 	set_variable = { RUS_np_kursk_tractor_plant_left = RUS_np_kursk_tractor_plant_total }
 	set_variable = { RUS_np_kursk_tractor_plant_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_kursk_tractor_plant_paid = 64.0 }
+}
 	set_variable = { RUS_np_kursk_tractor_plant_trains = 5 }
 	set_variable = { RUS_np_kursk_tractor_plant_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_kursk_tractor_plant_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_kursk_tractor_plant_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -5 }
 	add_dynamic_modifier = { modifier = RUS_np_kursk_tractor_plant_cost }
 	clr_country_flag = RUS_np_kursk_tractor_plant_goal_1
@@ -8803,10 +8916,14 @@ RUS_np_rostselmash_begin = {
 	set_country_flag = RUS_np_rostselmash_running
 	set_variable = { RUS_np_rostselmash_left = RUS_np_rostselmash_total }
 	set_variable = { RUS_np_rostselmash_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_rostselmash_paid = 64.0 }
+}
 	set_variable = { RUS_np_rostselmash_trains = 5 }
 	set_variable = { RUS_np_rostselmash_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_rostselmash_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_rostselmash_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -5 }
 	add_dynamic_modifier = { modifier = RUS_np_rostselmash_cost }
 	clr_country_flag = RUS_np_rostselmash_goal_1
@@ -9162,10 +9279,14 @@ RUS_np_stavropol_hydroelectric_dam_begin = {
 	set_country_flag = RUS_np_stavropol_hydroelectric_dam_running
 	set_variable = { RUS_np_stavropol_hydroelectric_dam_left = RUS_np_stavropol_hydroelectric_dam_total }
 	set_variable = { RUS_np_stavropol_hydroelectric_dam_paid = 220 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_stavropol_hydroelectric_dam_paid = 176.0 }
+}
 	set_variable = { RUS_np_stavropol_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_stavropol_hydroelectric_dam_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 220 }
-	add_to_variable = { RUS_np_frozen = 220 }
+	subtract_from_variable = { RUS_np_available = RUS_np_stavropol_hydroelectric_dam_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_stavropol_hydroelectric_dam_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_stavropol_hydroelectric_dam_cost }
 	clr_country_flag = RUS_np_stavropol_hydroelectric_dam_goal_1
@@ -9550,10 +9671,14 @@ RUS_np_rybinsk_hydroelectric_dam_begin = {
 	set_country_flag = RUS_np_rybinsk_hydroelectric_dam_running
 	set_variable = { RUS_np_rybinsk_hydroelectric_dam_left = RUS_np_rybinsk_hydroelectric_dam_total }
 	set_variable = { RUS_np_rybinsk_hydroelectric_dam_paid = 220 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_rybinsk_hydroelectric_dam_paid = 176.0 }
+}
 	set_variable = { RUS_np_rybinsk_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_rybinsk_hydroelectric_dam_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 220 }
-	add_to_variable = { RUS_np_frozen = 220 }
+	subtract_from_variable = { RUS_np_available = RUS_np_rybinsk_hydroelectric_dam_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_rybinsk_hydroelectric_dam_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_rybinsk_hydroelectric_dam_cost }
 	clr_country_flag = RUS_np_rybinsk_hydroelectric_dam_goal_1
@@ -9938,10 +10063,14 @@ RUS_np_zhiguli_hydroelectric_dam_begin = {
 	set_country_flag = RUS_np_zhiguli_hydroelectric_dam_running
 	set_variable = { RUS_np_zhiguli_hydroelectric_dam_left = RUS_np_zhiguli_hydroelectric_dam_total }
 	set_variable = { RUS_np_zhiguli_hydroelectric_dam_paid = 220 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_zhiguli_hydroelectric_dam_paid = 176.0 }
+}
 	set_variable = { RUS_np_zhiguli_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_zhiguli_hydroelectric_dam_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 220 }
-	add_to_variable = { RUS_np_frozen = 220 }
+	subtract_from_variable = { RUS_np_available = RUS_np_zhiguli_hydroelectric_dam_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_zhiguli_hydroelectric_dam_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_zhiguli_hydroelectric_dam_cost }
 	clr_country_flag = RUS_np_zhiguli_hydroelectric_dam_goal_1
@@ -10326,10 +10455,14 @@ RUS_np_krasnoyarsk_hydroelectric_dam_begin = {
 	set_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_running
 	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_left = RUS_np_krasnoyarsk_hydroelectric_dam_total }
 	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_paid = 220 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_paid = 176.0 }
+}
 	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 220 }
-	add_to_variable = { RUS_np_frozen = 220 }
+	subtract_from_variable = { RUS_np_available = RUS_np_krasnoyarsk_hydroelectric_dam_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_krasnoyarsk_hydroelectric_dam_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_krasnoyarsk_hydroelectric_dam_cost }
 	clr_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_goal_1
@@ -10714,10 +10847,14 @@ RUS_np_lipetsk_metallurgical_plant_begin = {
 	set_country_flag = RUS_np_lipetsk_metallurgical_plant_running
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_left = RUS_np_lipetsk_metallurgical_plant_total }
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_lipetsk_metallurgical_plant_paid = 64.0 }
+}
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_trains = 10 }
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_lipetsk_metallurgical_plant_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_lipetsk_metallurgical_plant_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_lipetsk_metallurgical_plant_cost }
 	clr_country_flag = RUS_np_lipetsk_metallurgical_plant_goal_1
@@ -11080,10 +11217,14 @@ RUS_np_uralmash_begin = {
 	set_country_flag = RUS_np_uralmash_running
 	set_variable = { RUS_np_uralmash_left = RUS_np_uralmash_total }
 	set_variable = { RUS_np_uralmash_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_uralmash_paid = 64.0 }
+}
 	set_variable = { RUS_np_uralmash_trains = 10 }
 	set_variable = { RUS_np_uralmash_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_uralmash_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_uralmash_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_uralmash_cost }
 	clr_country_flag = RUS_np_uralmash_goal_1
@@ -11461,10 +11602,14 @@ RUS_np_motovilikha_plants_begin = {
 	set_country_flag = RUS_np_motovilikha_plants_running
 	set_variable = { RUS_np_motovilikha_plants_left = RUS_np_motovilikha_plants_total }
 	set_variable = { RUS_np_motovilikha_plants_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_motovilikha_plants_paid = 64.0 }
+}
 	set_variable = { RUS_np_motovilikha_plants_trains = 10 }
 	set_variable = { RUS_np_motovilikha_plants_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_motovilikha_plants_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_motovilikha_plants_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_motovilikha_plants_cost }
 	clr_country_flag = RUS_np_motovilikha_plants_goal_1
@@ -11820,10 +11965,14 @@ RUS_np_admiralty_dockyards_begin = {
 	set_country_flag = RUS_np_admiralty_dockyards_running
 	set_variable = { RUS_np_admiralty_dockyards_left = RUS_np_admiralty_dockyards_total }
 	set_variable = { RUS_np_admiralty_dockyards_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_admiralty_dockyards_paid = 64.0 }
+}
 	set_variable = { RUS_np_admiralty_dockyards_trains = 10 }
 	set_variable = { RUS_np_admiralty_dockyards_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_admiralty_dockyards_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_admiralty_dockyards_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_admiralty_dockyards_cost }
 	clr_country_flag = RUS_np_admiralty_dockyards_goal_1
@@ -12188,10 +12337,14 @@ RUS_np_kamensky_uralsky_begin = {
 	set_country_flag = RUS_np_kamensky_uralsky_running
 	set_variable = { RUS_np_kamensky_uralsky_left = RUS_np_kamensky_uralsky_total }
 	set_variable = { RUS_np_kamensky_uralsky_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_kamensky_uralsky_paid = 64.0 }
+}
 	set_variable = { RUS_np_kamensky_uralsky_trains = 10 }
 	set_variable = { RUS_np_kamensky_uralsky_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_kamensky_uralsky_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_kamensky_uralsky_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_kamensky_uralsky_cost }
 	clr_country_flag = RUS_np_kamensky_uralsky_goal_1
@@ -12557,10 +12710,14 @@ RUS_np_grozny_oil_begin = {
 	set_country_flag = RUS_np_grozny_oil_running
 	set_variable = { RUS_np_grozny_oil_left = RUS_np_grozny_oil_total }
 	set_variable = { RUS_np_grozny_oil_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_grozny_oil_paid = 64.0 }
+}
 	set_variable = { RUS_np_grozny_oil_trains = 10 }
 	set_variable = { RUS_np_grozny_oil_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_grozny_oil_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_grozny_oil_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_grozny_oil_goal_1
 	clr_country_flag = RUS_np_grozny_oil_goal_2
@@ -12927,10 +13084,14 @@ RUS_np_arctic_mines_begin = {
 	set_country_flag = RUS_np_arctic_mines_running
 	set_variable = { RUS_np_arctic_mines_left = RUS_np_arctic_mines_total }
 	set_variable = { RUS_np_arctic_mines_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_arctic_mines_paid = 64.0 }
+}
 	set_variable = { RUS_np_arctic_mines_trains = 10 }
 	set_variable = { RUS_np_arctic_mines_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_arctic_mines_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_arctic_mines_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_arctic_mines_goal_1
 	clr_country_flag = RUS_np_arctic_mines_goal_2
@@ -13277,10 +13438,14 @@ RUS_np_tyrnyauz_tungsten_begin = {
 	set_country_flag = RUS_np_tyrnyauz_tungsten_running
 	set_variable = { RUS_np_tyrnyauz_tungsten_left = RUS_np_tyrnyauz_tungsten_total }
 	set_variable = { RUS_np_tyrnyauz_tungsten_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_tyrnyauz_tungsten_paid = 64.0 }
+}
 	set_variable = { RUS_np_tyrnyauz_tungsten_trains = 10 }
 	set_variable = { RUS_np_tyrnyauz_tungsten_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_tyrnyauz_tungsten_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_tyrnyauz_tungsten_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_tyrnyauz_tungsten_goal_1
 	clr_country_flag = RUS_np_tyrnyauz_tungsten_goal_2
@@ -13628,10 +13793,14 @@ RUS_np_romanshkino_oil_begin = {
 	set_country_flag = RUS_np_romanshkino_oil_running
 	set_variable = { RUS_np_romanshkino_oil_left = RUS_np_romanshkino_oil_total }
 	set_variable = { RUS_np_romanshkino_oil_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_romanshkino_oil_paid = 112.0 }
+}
 	set_variable = { RUS_np_romanshkino_oil_trains = 10 }
 	set_variable = { RUS_np_romanshkino_oil_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_romanshkino_oil_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_romanshkino_oil_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_romanshkino_oil_goal_1
 	clr_country_flag = RUS_np_romanshkino_oil_goal_2
@@ -13987,10 +14156,14 @@ RUS_np_northern_route_begin = {
 	set_country_flag = RUS_np_northern_route_running
 	set_variable = { RUS_np_northern_route_left = RUS_np_northern_route_total }
 	set_variable = { RUS_np_northern_route_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_northern_route_paid = 112.0 }
+}
 	set_variable = { RUS_np_northern_route_trains = 20 }
 	set_variable = { RUS_np_northern_route_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_northern_route_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_northern_route_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -20 }
 	clr_country_flag = RUS_np_northern_route_goal_1
 	clr_country_flag = RUS_np_northern_route_goal_2
@@ -14347,10 +14520,14 @@ RUS_np_upgrade_the_railroad_chelyabinsk_begin = {
 	set_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_running
 	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_left = RUS_np_upgrade_the_railroad_chelyabinsk_total }
 	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_paid = 112.0 }
+}
 	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_trains = 20 }
 	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_upgrade_the_railroad_chelyabinsk_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_upgrade_the_railroad_chelyabinsk_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -20 }
 	clr_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_goal_1
 	clr_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_goal_2
@@ -14706,10 +14883,14 @@ RUS_np_upgrade_the_railroad_krasnoyarsk_begin = {
 	set_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_running
 	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_left = RUS_np_upgrade_the_railroad_krasnoyarsk_total }
 	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_paid = 112.0 }
+}
 	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_trains = 20 }
 	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_upgrade_the_railroad_krasnoyarsk_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_upgrade_the_railroad_krasnoyarsk_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -20 }
 	clr_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_goal_1
 	clr_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_goal_2
@@ -15065,10 +15246,14 @@ RUS_np_upgrade_the_railroad_vladivostok_begin = {
 	set_country_flag = RUS_np_upgrade_the_railroad_vladivostok_running
 	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_left = RUS_np_upgrade_the_railroad_vladivostok_total }
 	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_paid = 112.0 }
+}
 	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_trains = 20 }
 	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_upgrade_the_railroad_vladivostok_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_upgrade_the_railroad_vladivostok_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -20 }
 	clr_country_flag = RUS_np_upgrade_the_railroad_vladivostok_goal_1
 	clr_country_flag = RUS_np_upgrade_the_railroad_vladivostok_goal_2
@@ -15444,10 +15629,14 @@ RUS_np_kuznetsk_basin_begin = {
 	set_country_flag = RUS_np_kuznetsk_basin_running
 	set_variable = { RUS_np_kuznetsk_basin_left = RUS_np_kuznetsk_basin_total }
 	set_variable = { RUS_np_kuznetsk_basin_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_kuznetsk_basin_paid = 112.0 }
+}
 	set_variable = { RUS_np_kuznetsk_basin_trains = 10 }
 	set_variable = { RUS_np_kuznetsk_basin_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_kuznetsk_basin_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_kuznetsk_basin_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_kuznetsk_basin_goal_1
 	clr_country_flag = RUS_np_kuznetsk_basin_goal_2
@@ -15801,10 +15990,14 @@ RUS_np_bodaybo_gold_mines_begin = {
 	set_country_flag = RUS_np_bodaybo_gold_mines_running
 	set_variable = { RUS_np_bodaybo_gold_mines_left = RUS_np_bodaybo_gold_mines_total }
 	set_variable = { RUS_np_bodaybo_gold_mines_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_bodaybo_gold_mines_paid = 64.0 }
+}
 	set_variable = { RUS_np_bodaybo_gold_mines_trains = 10 }
 	set_variable = { RUS_np_bodaybo_gold_mines_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_bodaybo_gold_mines_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_bodaybo_gold_mines_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_bodaybo_gold_mines_goal_1
 	clr_country_flag = RUS_np_bodaybo_gold_mines_goal_2
@@ -16138,10 +16331,14 @@ RUS_np_far_eastern_fishing_industry_begin = {
 	set_country_flag = RUS_np_far_eastern_fishing_industry_running
 	set_variable = { RUS_np_far_eastern_fishing_industry_left = RUS_np_far_eastern_fishing_industry_total }
 	set_variable = { RUS_np_far_eastern_fishing_industry_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_far_eastern_fishing_industry_paid = 64.0 }
+}
 	set_variable = { RUS_np_far_eastern_fishing_industry_trains = 5 }
 	set_variable = { RUS_np_far_eastern_fishing_industry_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_far_eastern_fishing_industry_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_far_eastern_fishing_industry_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -5 }
 	add_dynamic_modifier = { modifier = RUS_np_far_eastern_fishing_industry_cost }
 	clr_country_flag = RUS_np_far_eastern_fishing_industry_goal_1
@@ -16499,10 +16696,14 @@ RUS_np_krasnoyarskpromstroy_begin = {
 	set_country_flag = RUS_np_krasnoyarskpromstroy_running
 	set_variable = { RUS_np_krasnoyarskpromstroy_left = RUS_np_krasnoyarskpromstroy_total }
 	set_variable = { RUS_np_krasnoyarskpromstroy_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_krasnoyarskpromstroy_paid = 64.0 }
+}
 	set_variable = { RUS_np_krasnoyarskpromstroy_trains = 10 }
 	set_variable = { RUS_np_krasnoyarskpromstroy_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_krasnoyarskpromstroy_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_krasnoyarskpromstroy_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	set_variable = { RUS_np_krasnoyarskpromstroy_factory_target = 568.building_level@industrial_complex }
 	add_to_variable = { RUS_np_krasnoyarskpromstroy_factory_target = 1 }
@@ -16861,10 +17062,14 @@ RUS_np_dalnremmash_begin = {
 	set_country_flag = RUS_np_dalnremmash_running
 	set_variable = { RUS_np_dalnremmash_left = RUS_np_dalnremmash_total }
 	set_variable = { RUS_np_dalnremmash_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_dalnremmash_paid = 64.0 }
+}
 	set_variable = { RUS_np_dalnremmash_trains = 10 }
 	set_variable = { RUS_np_dalnremmash_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_dalnremmash_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_dalnremmash_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_dalnremmash_cost }
 	clr_country_flag = RUS_np_dalnremmash_goal_1
@@ -17219,10 +17424,14 @@ RUS_np_rudny_altay_begin = {
 	set_country_flag = RUS_np_rudny_altay_running
 	set_variable = { RUS_np_rudny_altay_left = RUS_np_rudny_altay_total }
 	set_variable = { RUS_np_rudny_altay_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_rudny_altay_paid = 64.0 }
+}
 	set_variable = { RUS_np_rudny_altay_trains = 10 }
 	set_variable = { RUS_np_rudny_altay_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_rudny_altay_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_rudny_altay_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_rudny_altay_goal_1
 	clr_country_flag = RUS_np_rudny_altay_goal_2
@@ -17569,10 +17778,14 @@ RUS_np_tekeli_metallurgical_combine_begin = {
 	set_country_flag = RUS_np_tekeli_metallurgical_combine_running
 	set_variable = { RUS_np_tekeli_metallurgical_combine_left = RUS_np_tekeli_metallurgical_combine_total }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_tekeli_metallurgical_combine_paid = 64.0 }
+}
 	set_variable = { RUS_np_tekeli_metallurgical_combine_trains = 10 }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_tekeli_metallurgical_combine_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_tekeli_metallurgical_combine_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_tekeli_metallurgical_combine_cost }
 	clr_country_flag = RUS_np_tekeli_metallurgical_combine_goal_1
@@ -17946,10 +18159,14 @@ RUS_np_emba_oil_area_begin = {
 	set_country_flag = RUS_np_emba_oil_area_running
 	set_variable = { RUS_np_emba_oil_area_left = RUS_np_emba_oil_area_total }
 	set_variable = { RUS_np_emba_oil_area_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_emba_oil_area_paid = 64.0 }
+}
 	set_variable = { RUS_np_emba_oil_area_trains = 10 }
 	set_variable = { RUS_np_emba_oil_area_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_emba_oil_area_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_emba_oil_area_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_emba_oil_area_goal_1
 	clr_country_flag = RUS_np_emba_oil_area_goal_2
@@ -18321,10 +18538,14 @@ RUS_np_verny_cotton_industry_begin = {
 	set_country_flag = RUS_np_verny_cotton_industry_running
 	set_variable = { RUS_np_verny_cotton_industry_left = RUS_np_verny_cotton_industry_total }
 	set_variable = { RUS_np_verny_cotton_industry_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_verny_cotton_industry_paid = 64.0 }
+}
 	set_variable = { RUS_np_verny_cotton_industry_trains = 5 }
 	set_variable = { RUS_np_verny_cotton_industry_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_verny_cotton_industry_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_verny_cotton_industry_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -5 }
 	add_dynamic_modifier = { modifier = RUS_np_verny_cotton_industry_cost }
 	clr_country_flag = RUS_np_verny_cotton_industry_goal_1
@@ -18671,10 +18892,14 @@ RUS_np_siberian_timber_industries_begin = {
 	set_country_flag = RUS_np_siberian_timber_industries_running
 	set_variable = { RUS_np_siberian_timber_industries_left = RUS_np_siberian_timber_industries_total }
 	set_variable = { RUS_np_siberian_timber_industries_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_siberian_timber_industries_paid = 112.0 }
+}
 	set_variable = { RUS_np_siberian_timber_industries_trains = 10 }
 	set_variable = { RUS_np_siberian_timber_industries_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_siberian_timber_industries_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_siberian_timber_industries_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	clr_country_flag = RUS_np_siberian_timber_industries_goal_1
 	clr_country_flag = RUS_np_siberian_timber_industries_goal_2
@@ -19026,10 +19251,14 @@ RUS_np_improve_roads_in_central_russia_begin = {
 	set_country_flag = RUS_np_improve_roads_in_central_russia_running
 	set_variable = { RUS_np_improve_roads_in_central_russia_left = RUS_np_improve_roads_in_central_russia_total }
 	set_variable = { RUS_np_improve_roads_in_central_russia_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_improve_roads_in_central_russia_paid = 112.0 }
+}
 	set_variable = { RUS_np_improve_roads_in_central_russia_trains = 0 }
 	set_variable = { RUS_np_improve_roads_in_central_russia_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_improve_roads_in_central_russia_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_improve_roads_in_central_russia_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_improve_roads_in_central_russia_cost }
 	clr_country_flag = RUS_np_improve_roads_in_central_russia_goal_1
@@ -19398,10 +19627,14 @@ RUS_np_improve_roads_in_northern_russia_begin = {
 	set_country_flag = RUS_np_improve_roads_in_northern_russia_running
 	set_variable = { RUS_np_improve_roads_in_northern_russia_left = RUS_np_improve_roads_in_northern_russia_total }
 	set_variable = { RUS_np_improve_roads_in_northern_russia_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_improve_roads_in_northern_russia_paid = 112.0 }
+}
 	set_variable = { RUS_np_improve_roads_in_northern_russia_trains = 0 }
 	set_variable = { RUS_np_improve_roads_in_northern_russia_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_improve_roads_in_northern_russia_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_improve_roads_in_northern_russia_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_improve_roads_in_northern_russia_cost }
 	clr_country_flag = RUS_np_improve_roads_in_northern_russia_goal_1
@@ -19759,10 +19992,14 @@ RUS_np_improve_roads_in_the_volga_basin_begin = {
 	set_country_flag = RUS_np_improve_roads_in_the_volga_basin_running
 	set_variable = { RUS_np_improve_roads_in_the_volga_basin_left = RUS_np_improve_roads_in_the_volga_basin_total }
 	set_variable = { RUS_np_improve_roads_in_the_volga_basin_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_improve_roads_in_the_volga_basin_paid = 112.0 }
+}
 	set_variable = { RUS_np_improve_roads_in_the_volga_basin_trains = 0 }
 	set_variable = { RUS_np_improve_roads_in_the_volga_basin_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_improve_roads_in_the_volga_basin_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_improve_roads_in_the_volga_basin_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_improve_roads_in_the_volga_basin_cost }
 	clr_country_flag = RUS_np_improve_roads_in_the_volga_basin_goal_1
@@ -20123,10 +20360,14 @@ RUS_np_central_asia_railroads_begin = {
 	set_country_flag = RUS_np_central_asia_railroads_running
 	set_variable = { RUS_np_central_asia_railroads_left = RUS_np_central_asia_railroads_total }
 	set_variable = { RUS_np_central_asia_railroads_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_central_asia_railroads_paid = 64.0 }
+}
 	set_variable = { RUS_np_central_asia_railroads_trains = 20 }
 	set_variable = { RUS_np_central_asia_railroads_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_central_asia_railroads_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_central_asia_railroads_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -20 }
 	clr_country_flag = RUS_np_central_asia_railroads_goal_1
 	clr_country_flag = RUS_np_central_asia_railroads_goal_2
@@ -20488,10 +20729,14 @@ RUS_np_gaz_begin = {
 	set_country_flag = RUS_np_gaz_running
 	set_variable = { RUS_np_gaz_left = RUS_np_gaz_total }
 	set_variable = { RUS_np_gaz_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_gaz_paid = 112.0 }
+}
 	set_variable = { RUS_np_gaz_trains = 10 }
 	set_variable = { RUS_np_gaz_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_gaz_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_gaz_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	set_variable = { RUS_np_gaz_factory_target = 252.building_level@industrial_complex }
 	add_to_variable = { RUS_np_gaz_factory_target = 1 }
@@ -20840,10 +21085,14 @@ RUS_np_bearing_begin = {
 	set_country_flag = RUS_np_bearing_running
 	set_variable = { RUS_np_bearing_left = RUS_np_bearing_total }
 	set_variable = { RUS_np_bearing_paid = 100 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_bearing_paid = 80.0 }
+}
 	set_variable = { RUS_np_bearing_trains = 0 }
 	set_variable = { RUS_np_bearing_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 100 }
-	add_to_variable = { RUS_np_frozen = 100 }
+	subtract_from_variable = { RUS_np_available = RUS_np_bearing_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_bearing_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_bearing_cost }
 	clr_country_flag = RUS_np_bearing_goal_1
@@ -21168,10 +21417,14 @@ RUS_np_kashira_begin = {
 	set_country_flag = RUS_np_kashira_running
 	set_variable = { RUS_np_kashira_left = RUS_np_kashira_total }
 	set_variable = { RUS_np_kashira_paid = 140 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_kashira_paid = 112.0 }
+}
 	set_variable = { RUS_np_kashira_trains = 10 }
 	set_variable = { RUS_np_kashira_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 140 }
-	add_to_variable = { RUS_np_frozen = 140 }
+	subtract_from_variable = { RUS_np_available = RUS_np_kashira_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_kashira_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_kashira_cost }
 	clr_country_flag = RUS_np_kashira_goal_1
@@ -21516,10 +21769,14 @@ RUS_np_moscow_grid_begin = {
 	set_country_flag = RUS_np_moscow_grid_running
 	set_variable = { RUS_np_moscow_grid_left = RUS_np_moscow_grid_total }
 	set_variable = { RUS_np_moscow_grid_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_moscow_grid_paid = 64.0 }
+}
 	set_variable = { RUS_np_moscow_grid_trains = 10 }
 	set_variable = { RUS_np_moscow_grid_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_moscow_grid_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_moscow_grid_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_moscow_grid_cost }
 	clr_country_flag = RUS_np_moscow_grid_goal_1
@@ -21864,10 +22121,14 @@ RUS_np_metro_begin = {
 	set_country_flag = RUS_np_metro_running
 	set_variable = { RUS_np_metro_left = RUS_np_metro_total }
 	set_variable = { RUS_np_metro_paid = 180 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_metro_paid = 144.0 }
+}
 	set_variable = { RUS_np_metro_trains = 0 }
 	set_variable = { RUS_np_metro_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 180 }
-	add_to_variable = { RUS_np_frozen = 180 }
+	subtract_from_variable = { RUS_np_available = RUS_np_metro_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_metro_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_metro_cost }
 	clr_country_flag = RUS_np_metro_goal_1
@@ -22232,10 +22493,14 @@ RUS_np_moscow_volga_begin = {
 	set_country_flag = RUS_np_moscow_volga_running
 	set_variable = { RUS_np_moscow_volga_left = RUS_np_moscow_volga_total }
 	set_variable = { RUS_np_moscow_volga_paid = 220 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_moscow_volga_paid = 176.0 }
+}
 	set_variable = { RUS_np_moscow_volga_trains = 20 }
 	set_variable = { RUS_np_moscow_volga_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 220 }
-	add_to_variable = { RUS_np_frozen = 220 }
+	subtract_from_variable = { RUS_np_available = RUS_np_moscow_volga_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_moscow_volga_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -20 }
 	add_dynamic_modifier = { modifier = RUS_np_moscow_volga_cost }
 	clr_country_flag = RUS_np_moscow_volga_goal_1
@@ -22605,10 +22870,14 @@ RUS_np_svir_begin = {
 	set_country_flag = RUS_np_svir_running
 	set_variable = { RUS_np_svir_left = RUS_np_svir_total }
 	set_variable = { RUS_np_svir_paid = 220 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_svir_paid = 176.0 }
+}
 	set_variable = { RUS_np_svir_trains = 10 }
 	set_variable = { RUS_np_svir_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 220 }
-	add_to_variable = { RUS_np_frozen = 220 }
+	subtract_from_variable = { RUS_np_available = RUS_np_svir_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_svir_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_svir_cost }
 	clr_country_flag = RUS_np_svir_goal_1
@@ -22953,10 +23222,14 @@ RUS_np_volkhov_begin = {
 	set_country_flag = RUS_np_volkhov_running
 	set_variable = { RUS_np_volkhov_left = RUS_np_volkhov_total }
 	set_variable = { RUS_np_volkhov_paid = 160 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_volkhov_paid = 128.0 }
+}
 	set_variable = { RUS_np_volkhov_trains = 10 }
 	set_variable = { RUS_np_volkhov_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 160 }
-	add_to_variable = { RUS_np_frozen = 160 }
+	subtract_from_variable = { RUS_np_available = RUS_np_volkhov_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_volkhov_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	add_dynamic_modifier = { modifier = RUS_np_volkhov_cost }
 	clr_country_flag = RUS_np_volkhov_goal_1
@@ -23306,10 +23579,14 @@ RUS_np_uvz_begin = {
 	set_country_flag = RUS_np_uvz_running
 	set_variable = { RUS_np_uvz_left = RUS_np_uvz_total }
 	set_variable = { RUS_np_uvz_paid = 180 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_uvz_paid = 144.0 }
+}
 	set_variable = { RUS_np_uvz_trains = 10 }
 	set_variable = { RUS_np_uvz_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 180 }
-	add_to_variable = { RUS_np_frozen = 180 }
+	subtract_from_variable = { RUS_np_available = RUS_np_uvz_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_uvz_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -10 }
 	set_variable = { RUS_np_uvz_factory_target = 653.building_level@arms_factory }
 	add_to_variable = { RUS_np_uvz_factory_target = 1 }
@@ -23638,10 +23915,14 @@ RUS_np_bobrik_begin = {
 	set_country_flag = RUS_np_bobrik_running
 	set_variable = { RUS_np_bobrik_left = RUS_np_bobrik_total }
 	set_variable = { RUS_np_bobrik_paid = 160 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_bobrik_paid = 128.0 }
+}
 	set_variable = { RUS_np_bobrik_trains = 5 }
 	set_variable = { RUS_np_bobrik_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 160 }
-	add_to_variable = { RUS_np_frozen = 160 }
+	subtract_from_variable = { RUS_np_available = RUS_np_bobrik_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_bobrik_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -5 }
 	add_dynamic_modifier = { modifier = RUS_np_bobrik_cost }
 	clr_country_flag = RUS_np_bobrik_goal_1
@@ -23982,10 +24263,14 @@ RUS_np_moscow_logistics_begin = {
 	set_country_flag = RUS_np_moscow_logistics_running
 	set_variable = { RUS_np_moscow_logistics_left = RUS_np_moscow_logistics_total }
 	set_variable = { RUS_np_moscow_logistics_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_moscow_logistics_paid = 64.0 }
+}
 	set_variable = { RUS_np_moscow_logistics_trains = 15 }
 	set_variable = { RUS_np_moscow_logistics_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_moscow_logistics_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_moscow_logistics_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -15 }
 	clr_country_flag = RUS_np_moscow_logistics_goal_1
 	clr_country_flag = RUS_np_moscow_logistics_goal_2
@@ -24361,10 +24646,14 @@ RUS_np_moscow_rural_begin = {
 	set_country_flag = RUS_np_moscow_rural_running
 	set_variable = { RUS_np_moscow_rural_left = RUS_np_moscow_rural_total }
 	set_variable = { RUS_np_moscow_rural_paid = 60 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_moscow_rural_paid = 48.0 }
+}
 	set_variable = { RUS_np_moscow_rural_trains = 0 }
 	set_variable = { RUS_np_moscow_rural_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 60 }
-	add_to_variable = { RUS_np_frozen = 60 }
+	subtract_from_variable = { RUS_np_available = RUS_np_moscow_rural_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_moscow_rural_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_moscow_rural_cost }
 	clr_country_flag = RUS_np_moscow_rural_goal_1
@@ -24725,10 +25014,14 @@ RUS_np_leningrad_logistics_begin = {
 	set_country_flag = RUS_np_leningrad_logistics_running
 	set_variable = { RUS_np_leningrad_logistics_left = RUS_np_leningrad_logistics_total }
 	set_variable = { RUS_np_leningrad_logistics_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_leningrad_logistics_paid = 64.0 }
+}
 	set_variable = { RUS_np_leningrad_logistics_trains = 15 }
 	set_variable = { RUS_np_leningrad_logistics_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_leningrad_logistics_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_leningrad_logistics_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -15 }
 	clr_country_flag = RUS_np_leningrad_logistics_goal_1
 	clr_country_flag = RUS_np_leningrad_logistics_goal_2
@@ -25104,10 +25397,14 @@ RUS_np_leningrad_rural_begin = {
 	set_country_flag = RUS_np_leningrad_rural_running
 	set_variable = { RUS_np_leningrad_rural_left = RUS_np_leningrad_rural_total }
 	set_variable = { RUS_np_leningrad_rural_paid = 60 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_leningrad_rural_paid = 48.0 }
+}
 	set_variable = { RUS_np_leningrad_rural_trains = 0 }
 	set_variable = { RUS_np_leningrad_rural_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 60 }
-	add_to_variable = { RUS_np_frozen = 60 }
+	subtract_from_variable = { RUS_np_available = RUS_np_leningrad_rural_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_leningrad_rural_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_leningrad_rural_cost }
 	clr_country_flag = RUS_np_leningrad_rural_goal_1
@@ -25460,10 +25757,14 @@ RUS_np_tsaritsyn_logistics_begin = {
 	set_country_flag = RUS_np_tsaritsyn_logistics_running
 	set_variable = { RUS_np_tsaritsyn_logistics_left = RUS_np_tsaritsyn_logistics_total }
 	set_variable = { RUS_np_tsaritsyn_logistics_paid = 80 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_tsaritsyn_logistics_paid = 64.0 }
+}
 	set_variable = { RUS_np_tsaritsyn_logistics_trains = 15 }
 	set_variable = { RUS_np_tsaritsyn_logistics_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 80 }
-	add_to_variable = { RUS_np_frozen = 80 }
+	subtract_from_variable = { RUS_np_available = RUS_np_tsaritsyn_logistics_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_tsaritsyn_logistics_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = -15 }
 	clr_country_flag = RUS_np_tsaritsyn_logistics_goal_1
 	clr_country_flag = RUS_np_tsaritsyn_logistics_goal_2
@@ -25839,10 +26140,14 @@ RUS_np_tsaritsyn_rural_begin = {
 	set_country_flag = RUS_np_tsaritsyn_rural_running
 	set_variable = { RUS_np_tsaritsyn_rural_left = RUS_np_tsaritsyn_rural_total }
 	set_variable = { RUS_np_tsaritsyn_rural_paid = 60 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_federal }
+	set_variable = { RUS_np_tsaritsyn_rural_paid = 48.0 }
+}
 	set_variable = { RUS_np_tsaritsyn_rural_trains = 0 }
 	set_variable = { RUS_np_tsaritsyn_rural_last_day = global.num_days }
-	subtract_from_variable = { RUS_np_available = 60 }
-	add_to_variable = { RUS_np_frozen = 60 }
+	subtract_from_variable = { RUS_np_available = RUS_np_tsaritsyn_rural_paid }
+	add_to_variable = { RUS_np_frozen = RUS_np_tsaritsyn_rural_paid }
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 0 }
 	add_dynamic_modifier = { modifier = RUS_np_tsaritsyn_rural_cost }
 	clr_country_flag = RUS_np_tsaritsyn_rural_goal_1

@@ -53,7 +53,11 @@ def main():
     removed_edges={(PREFIX+s,PREFIX+t) for s,t in [('151','305'),('174','305'),('316','324'),
                    ('318','324'),('320','324'),('324','439'),('324','477')]}
     assert added_edges<=actual_edges and not removed_edges&actual_edges
-    assert len(actual_edges)==226
+    added_edges |= {(PREFIX+s, PREFIX+t) for t, sources in {
+        '169': ('486','377','487'), '166': ('422','487'), '163': ('422','421','486'),
+    }.items() for s in sources}
+    assert added_edges <= actual_edges
+    assert len(actual_edges)==234
     assert data_digest(sorted(actual_edges-added_edges))=='3d4aea7f44eb62ff6d55997dbc523fc167c64c6bd879ceec8575ed32742fbca2', 'Unrequested prerequisite change'
     for suffix,parents in {'804':{'151'},'805':{'174'},'305':{'144'},
                            '320':{'314','460'},'439':{'400'},'477':{'400'}}.items():
@@ -135,6 +139,11 @@ def main():
     expected_rewards[PREFIX+'151'] = '\n'.join(focus_reward())
     from red_army_decree_content import focus_reward as decree_focus_reward
     expected_rewards[PREFIX+'142'] += '\n'+'\n'.join(decree_focus_reward())
+    from disordered_industry import focus_reward as industry_reward, POLICIES, ROUTES
+    industry_suffixes = '424 621 420 160 422 421 486 377 487 169 166 163 176 625 629 181 634 626 179 636 182 631 177 183'.split()
+    for suffix in industry_suffixes:
+        key = PREFIX + suffix
+        expected_rewards[key] = expected_rewards.get(key, '') + '\n' + '\n'.join(industry_reward(key, {key}))
     for key,n in by_id.items():
         assert [e.norm() for e in n.one('completion_reward').v] == [e.norm() for e in parse(expected_rewards.get(key, ''))]
         assert n.one('select_effect') is None
@@ -149,7 +158,11 @@ def main():
                           else 'RUS_future_domestic_preview_only_tt')
             assert tip.value('tooltip')==expected_tip
         prereqs=n.children('prerequisite')
-        assert len(prereqs)<=1, 'Unannotated AND prerequisite'
+        if key.removeprefix(PREFIX) in ROUTES:
+            assert {p.value('focus') for p in prereqs} == {PREFIX+s for s in POLICIES}
+            assert all(len(p.v) == 1 for p in prereqs)
+        else:
+            assert len(prereqs)<=1, 'Unannotated AND prerequisite'
         for p in prereqs:
             assert all(v.v in ids for v in p.children('focus'))
             assert all((v.v in plan_ids)==(key in plan_ids) for v in p.children('focus')), 'Cross-stage prerequisite would be unreachable'
@@ -250,7 +263,7 @@ def main():
     assert not manifest['planned_stage_entry']['implemented']
     assert set(manifest['planned_stage_entry']['any_completed'])=={PREFIX+s for s in ['177','182','183']}
     assert manifest['planned_stage_entry']['all_completed']==[PREFIX+'237']
-    print(f'PASS: 154 domestic + 17 unchanged hidden first-five-year-plan focuses; 226 edges including four explicit additions and seven removals; 169 retained icons unchanged; {or_merges} OR merges; education 8-route choices; 2 hidden AND gates; 7 exclusions; revised geometry and three-language names/keys/BOM valid.')
+    print(f'PASS: 154 domestic + 17 unchanged hidden first-five-year-plan focuses; 234 edges including all five policies per economic route; 169 retained icons unchanged; {or_merges} OR merges; education 8-route choices; 2 hidden AND gates; 7 exclusions; revised geometry and three-language names/keys/BOM valid.')
 
 
 if __name__=='__main__':

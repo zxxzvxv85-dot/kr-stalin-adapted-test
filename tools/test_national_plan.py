@@ -4,11 +4,13 @@ from pathlib import Path
 from doudizhu_script_model import ScriptModel,load_effects
 from hoi4_politics_blocks import parse,load
 from national_plan_catalog import ROOT,DATA,PROJECTS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS
-from national_plan import FX,DM,DEC,CAT,P,var,native_base,managed_base,project_score,goals,restore,mio_preview,SCORE_FILE,SCORE_HOOK,score_hook
+from national_plan import FX,DM,DEC,CAT,P,var,native_base,managed_base,project_score,goals,restore,mio_preview,SCORE_FILE,SCORE_HOOK,score_hook,base_pp,pp_price
+import disordered_industry as industry
 from national_plan_focuses import PROJECT_FOCUS,FOCUS_PROJECTS
 from generate_provisional_industry_gui import render
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf8'))
+EFFECTS.update(load_effects((ROOT/'common/scripted_effects/RUS_disordered_industry.txt').read_text(encoding='utf8')))
 TR={n.k:n.v for n in load(ROOT/'common/scripted_triggers/RUS_national_plan_triggers.txt')}
 NODES={n.k:n for n in next(n for n in load(ROOT/DEC) if n.k==CAT).v}
 
@@ -91,7 +93,7 @@ class Model(ScriptModel):
     def run(self,nodes):
         pending=[]
         native={'add_equipment_to_stockpile','add_dynamic_modifier','remove_dynamic_modifier','add_days_remove','remove_decision','remove_targeted_decision',
-            'effect_tooltip','custom_effect_tooltip','force_update_dynamic_modifier','add_extra_state_shared_building_slots','add_building_construction',
+            'effect_tooltip','custom_effect_tooltip','force_update_dynamic_modifier','add_extra_state_shared_building_slots','add_building_construction','remove_ideas',
             'add_manpower','add_resource','build_railway','model_legacy_reward','RUS_education_refresh','RUS_agri_credit_score','RUS_nat_refresh','every_owned_state','set_state_flag','clr_state_flag','add_mio_size','country_event','add_offsite_building','add_ideas'}
         for n in nodes:
             if n.k not in native and not n.k.isdigit() and not n.k.startswith('mio:'):pending.append(n);continue
@@ -99,6 +101,7 @@ class Model(ScriptModel):
             if n.k.startswith('mio:'):
                 before=self.mio_scope;self.mio_scope=n.k.split(':')[1];self.run(n.v);self.mio_scope=before
             elif n.k=='add_ideas':self.ideas.add(n.v)
+            elif n.k=='remove_ideas':self.ideas.difference_update(x.k for x in n.v)
             elif n.k=='add_mio_size':self.mios[self.mio_scope]['size']+=int(n.v)
             elif n.k=='effect_tooltip':self.preview_mios.extend(x.k.split(':',1)[1] for x in walk(n.v) if x.k.startswith('mio:'))
             elif n.k=='country_event':self.events.append(n.v if isinstance(n.v,str) else n.value('id'))
@@ -155,6 +158,61 @@ class Model(ScriptModel):
                 self.call(var(p,'finish'))
 
 class PlanTests(unittest.TestCase):
+    def test_first_policy_locks_route_and_tenth_focus_sets_spirit(self):
+        prefix = 'RUS_future_domestic_'
+        focuses = {n.value('id'): n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')}
+        first_choices = {'422': '169', '421': '166', '486': '166', '377': '163', '487': '163'}
+        for first, winner in first_choices.items():
+            m = Model()
+            m.focuses.clear()
+            m.ideas = {industry.OLD}
+            m.context = False
+            m.call(industry.REFRESH)
+            self.assertEqual(m.ideas, {industry.OLD})
+            m.context = True
+            m.call(industry.REFRESH)
+            self.assertEqual(m.ideas, {industry.PREFIX+'_0'})
+            policies = [first] + [s for s in first_choices if s != first]
+            for progress, suffix in enumerate(['424', '621', '420', '160', *policies], 1):
+                key = prefix+suffix
+                m.focuses.add(key)
+                m.run([n for n in focuses[key].one('completion_reward').v
+                       if n.k == 'hidden_effect' or industry.CHOICE in n.raw()])
+                m.call(industry.REFRESH)
+                self.assertEqual(m.ideas, {f'{industry.PREFIX}_{progress}'})
+                for route in industry.ROUTES:
+                    node = focuses[prefix+route]
+                    route_check = next(n for n in node.one('available').children('custom_trigger_tooltip')
+                                       if n.one('check_variable'))
+                    prerequisites = all(p.value('focus') in m.focuses for p in node.children('prerequisite'))
+                    self.assertEqual(prerequisites and m.check([route_check]), progress == 9 and route == winner)
+            m.focuses.add(prefix+winner)
+            m.call(industry.REFRESH)
+            m.call(industry.REFRESH)
+            self.assertEqual(m.ideas, {f'{industry.PREFIX}_{industry.ROUTES[winner]}'})
+
+    def test_federal_discount_changes_pp_and_reserves_discounted_budget(self):
+        m = Model().initialize()
+        p = next(p for p in PROJECTS if base_pp(p) == 'RUS_ic_cost_low')
+        price, _ = pp_price(base_pp(p))
+        m.vars['RUS_ic_cost_low'] = 25
+        m.call('RUS_np_refresh_prices')
+        self.assertEqual(m.vars[price], 25)
+        m.vars[P+'available'] = p['budget'] * .8
+        ready = TR['RUS_np_ready_'+p['key']]
+        self.assertFalse(m.check(ready))
+        m.ideas.add(industry.DISCOUNT_IDEA)
+        m.call('RUS_np_refresh_prices')
+        self.assertEqual(m.vars[price], 20)
+        self.assertTrue(m.check(ready))
+        m.call(var(p,'begin'))
+        self.assertAlmostEqual(m.vars[var(p,'paid')], p['budget'] * .8)
+        self.assertAlmostEqual(m.vars[P+'available'], 0)
+        self.assertAlmostEqual(m.vars[P+'frozen'], p['budget'] * .8)
+        m.ideas.clear()
+        m.call(var(p,'cancel'))
+        self.assertEqual(m.vars[P+'frozen'], 0)
+
     def test_managed_projects_cannot_expand_to_world_targets(self):
         targeted={'state_target','state_trigger','targets','target_array','target_trigger','target_root_trigger'}
         for p in PROJECTS:
@@ -296,7 +354,8 @@ class PlanTests(unittest.TestCase):
             if not p['legacy']:continue
             expected=[n.norm() for n in parse(managed_base(p))]
             self.assertTrue(any(isinstance(n.v,list) and any([x.norm() for x in n.v[i:i+len(expected)]]==expected for i in range(len(n.v)-len(expected)+1)) for n in walk([EFFECTS[var(p,'finish')]])),p['id'])
-            self.assertEqual(NODES[p['id']].value('cost'),parse(p['original'])[0].value('cost'))
+            price, fallback = pp_price(base_pp(p))
+            self.assertEqual(NODES[p['id']].value('cost'), f'{price}?{fallback}')
             self.assertFalse(any(n.k=='add_political_power' for n in walk(NODES[p['id']].one('cancel_effect').v)))
     def test_foundation_opens_account_independently_of_stalin(self):
         m = Model()

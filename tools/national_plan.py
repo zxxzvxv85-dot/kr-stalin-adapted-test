@@ -7,6 +7,7 @@ import json,re
 from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
 from national_plan_focuses import PLAN_UNLOCK_FOCUS,PROJECT_FOCUS,focus_condition
+from disordered_industry import DISCOUNT
 from national_plan_catalog import current_place_names
 
 CAT='RUS_first_five_year_plan_industrial_projects'
@@ -44,6 +45,31 @@ def iff(c,lines):return b('if',['limit = { '+c+' }',*lines]).strip()
 def ck(v,rel,x):return f'check_variable = {{ {v} {rel} {x} }}'
 def clamp(v,lo,hi):return [iff(ck(v,'<',lo),[sv(v,lo)]),iff(ck(v,'>',hi),[sv(v,hi)])]
 def var(p,s):return P+p['key']+'_'+s
+
+def base_pp(p):
+    if p['legacy']:
+        return parse(p['original'])[0].value('cost').split('?')[0]
+    return str(p['cost'])
+
+def pp_price(base):
+    value = P+'pp_'+base.removeprefix('RUS_ic_cost_')
+    defaults = {'RUS_ic_cost_low':20, 'RUS_ic_cost_med':40, 'RUS_ic_cost_high':60}
+    return value, defaults.get(base, base)
+
+def discounted_budget(p):
+    return p['budget']*4/5
+
+def refresh_prices():
+    prices = sorted({base_pp(p) for p in PROJECTS})
+    out = []
+    for base in prices:
+        value, fallback = pp_price(base)
+        out.append(sv(value, fallback))
+        if not base.isdigit():
+            out.append(iff('has_variable = '+base, [sv(value,base)]))
+    out.append(iff(DISCOUNT, [line for base in prices for line in
+                               (mul(pp_price(base)[0],.8), 'round_variable = '+pp_price(base)[0])]))
+    return out
 def flag(p,s):return 'has_country_flag = '+var(p,s)
 def call(p,s):return var(p,s)+' = yes'
 def stock(n):return f'has_equipment = {{ train_equipment_1 > {n-1} }}'
@@ -215,6 +241,8 @@ def patch_node(node,p):
     # only. Managed copies have their own IDs so original activated decisions
     # and their provisional availability are not changed.
     field('allowed',['original_tag = RUS'])
+    price, fallback = pp_price(base_pp(p))
+    fields['cost'] = f'cost = {price}?{fallback}'
     fields['on_map_mode']='on_map_mode = decision_view_only'
     fields['days_remove']='days_remove = '+var(p,'initial_days')+'?'+str(p['fallback'])
     extra=''
@@ -271,7 +299,7 @@ def rail_highlight(c):
     return ['highlight_provinces = { '+' '.join(map(str,c['path']))+' }','highlight_only_provinces = yes']
 
 def refresh():
-    out=[sv(P+'civ','num_of_available_civilian_factories'),*clamp(P+'civ',0,10000),sv(P+'education',0)]
+    out=['RUS_np_refresh_prices = yes',sv(P+'civ','num_of_available_civilian_factories'),*clamp(P+'civ',0,10000),sv(P+'education',0)]
     out += [iff('has_variable = RUS_basic_education_level',[sv(P+'education','RUS_basic_education_level'),mul(P+'education',.6),sv(P+'tmp','RUS_higher_education_level'),mul(P+'tmp',.4),add(P+'education',P+'tmp')])]
     out += clamp(P+'education',0,100)+[sv(P+'efficiency',P+'education'),mul(P+'efficiency',.005),add(P+'efficiency',.75),sv(P+'speed',1)]
     out += [iff('has_variable = RUS_education_enthusiasm',[sv(P+'speed','RUS_education_enthusiasm'),mul(P+'speed',.01),add(P+'speed',.5)])]+clamp(P+'speed',.5,1.5)
@@ -327,8 +355,10 @@ def project_effects(p):
     if not base.isdigit():start += [iff('has_variable = '+base,[sv(var(p,'total'),base)])]
     start += clamp(var(p,'total'),1,3650)+[
         'set_country_flag = '+var(p,'managed'),'set_country_flag = '+var(p,'running'),
-        sv(var(p,'left'),var(p,'total')),sv(var(p,'paid'),p['budget']),sv(var(p,'trains'),p['trains']),sv(var(p,'last_day'),'global.num_days'),
-        sub(P+'available',p['budget']),add(P+'frozen',p['budget']),equip(-p['trains'])]
+        sv(var(p,'left'),var(p,'total')),sv(var(p,'paid'),p['budget']),
+        iff(DISCOUNT,[sv(var(p,'paid'),discounted_budget(p))]),
+        sv(var(p,'trains'),p['trains']),sv(var(p,'last_day'),'global.num_days'),
+        sub(P+'available',var(p,'paid')),add(P+'frozen',var(p,'paid')),equip(-p['trains'])]
     if k in FACTORY_GOALS:
         _,kind,_,amount,_=FACTORY_GOALS[k]
         start += [sv(var(p,'factory_target'),f'{s}.building_level@{kind}'),add(var(p,'factory_target'),amount)]
@@ -468,12 +498,12 @@ def augment(out):
         'infrastructure < 3','industrial_complex < 3','arms_factory < 3'])]
     for p in PROJECTS:
         condition=['RUS_np_context = yes',focus_condition(p),'has_country_flag = RUS_np_initialized','NOT = { '+running(p)+' }',unfinished(p),owned(p),
-            'custom_trigger_tooltip = { tooltip = RUS_np_budget_tt NOT = { '+ck(P+'available','<',p['budget'])+' } }',
+            'custom_trigger_tooltip = { tooltip = RUS_np_budget_tt OR = { AND = { '+DISCOUNT+' NOT = { '+ck(P+'available','<',discounted_budget(p))+' } } AND = { NOT = { '+DISCOUNT+' } NOT = { '+ck(P+'available','<',p['budget'])+' } } } }',
             'custom_trigger_tooltip = { tooltip = RUS_np_slot_tt '+ck(P+'active','<',P+'slots')+' }',
             'custom_trigger_tooltip = { tooltip = RUS_np_trains_tt '+stock(p['trains'])+' }']
         triggers.append(b('RUS_np_ready_'+p['key'],condition))
     out['common/scripted_triggers/RUS_national_plan_triggers.txt']='\n'.join(line.rstrip() for line in ''.join(triggers).split('\n'))
-    effects=[b('RUS_np_refresh',refresh())]
+    effects=[b('RUS_np_refresh_prices',refresh_prices()), b('RUS_np_refresh',refresh())]
     effects.append(b('RUS_np_flush_plan_score',[iff(
         'has_country_flag = RUS_auto_kamenev_vst_left_path RUS_completed_focus_4_year_plan = yes has_dynamic_modifier = { modifier = RUS_first_five_year_plan } '+ck(P+'pending_plan_score','>',0),[
             add('RUS_first_five_year_plan_score',P+'pending_plan_score'),sv(P+'pending_plan_score',0),
@@ -619,7 +649,13 @@ def localisations():
         l[P+city+'_recall_desc']='返还本工业区投入运输的列车，解除对应运输加成。'
     for p in PROJECTS:
         l[var(p,'cost')]='工程建设投入'
-        l[var(p,'cost_tt')]=f'冻结§C建设资源§!：§Y{p["budget"]}§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n正常竣工返还未使用的20%§C建设资源§!'+('及全部施工列车。' if p['trains'] else '。')
+        budget_loc = 'RUSNPBudget_'+p['key']
+        l[var(p,'cost_tt')]=f'冻结§C建设资源§!：§Y[{budget_loc}]§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n正常竣工返还未使用的20%§C建设资源§!'+('及全部施工列车。' if p['trains'] else '。')
+        l[var(p,'budget_normal')] = f'{p["budget"]:g}'
+        l[var(p,'budget_discount')] = f'{discounted_budget(p):g}'
+        sloc.append(b('defined_text', ['name = '+budget_loc,
+            'text = { trigger = { '+DISCOUNT+' } localization_key = '+var(p,'budget_discount')+' }',
+            'text = { localization_key = '+var(p,'budget_normal')+' }']))
         l[p['id']]=('$'+p['original_id']+'$') if p['legacy'] else current_place_names(p['name'])
         if p['key']=='tsaritsyn_tractor_plant':l[p['id']]='[217.GetName]拖拉机厂'
         l[var(p,'terminate')]='终止工程：$'+p['id']+'$'

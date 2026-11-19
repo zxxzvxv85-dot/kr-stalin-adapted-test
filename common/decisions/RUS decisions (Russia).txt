@@ -5647,7 +5647,7 @@ RUS_np_project_kamenev_all_russian_electrification = {
 		available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_kamenev_all_russian_electrification = yes num_of_civilian_factories_available_for_projects > -1
 }
-		cost = 15
+		cost = RUS_np_pp_15?15
 		days_remove = RUS_np_kamenev_all_russian_electrification_initial_days?45
 		fire_only_once = no
 		modifier = { civilian_factory_use = 1 }
@@ -5843,7 +5843,7 @@ RUS_np_project_renovate_and_expand_moscow = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_renovate_and_expand_moscow = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 219 } }
-		cost = 30
+		cost = RUS_np_pp_30?30
 		days_remove = RUS_np_renovate_and_expand_moscow_initial_days?180
 		fire_only_once = yes
 		ai_will_do = { base = 1 }
@@ -5966,7 +5966,7 @@ RUS_np_project_renovate_and_expand_tsaritsyn = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_renovate_and_expand_tsaritsyn = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 217 } }
-		cost = 30
+		cost = RUS_np_pp_30?30
 		days_remove = RUS_np_renovate_and_expand_tsaritsyn_initial_days?180
 		fire_only_once = yes
 		ai_will_do = { base = 1 }
@@ -6089,7 +6089,7 @@ RUS_np_project_renovate_and_expand_saint_petersburg = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_renovate_and_expand_saint_petersburg = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 195 } }
-		cost = 30
+		cost = RUS_np_pp_30?30
 		days_remove = RUS_np_renovate_and_expand_saint_petersburg_initial_days?180
 		fire_only_once = yes
 		ai_will_do = { base = 1 }
@@ -6215,7 +6215,7 @@ RUS_np_project_magnitogorsk = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_magnitogorsk = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 582 } } #Orsk
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_magnitogorsk_initial_days?120
 		fire_only_once = yes
@@ -6381,7 +6381,7 @@ RUS_np_project_second_baku = {
 		available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_second_baku = yes num_of_civilian_factories_available_for_projects > -1
 }
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_second_baku_initial_days?60
 		fire_only_once = yes
@@ -6516,7 +6516,7 @@ RUS_np_project_modernisation_of_AMO = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_modernisation_of_AMO = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 566 } } #Irkutsk
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_modernisation_of_AMO_initial_days?60
 		fire_only_once = yes
@@ -6729,7 +6729,7 @@ RUS_np_project_izhevsk_mechanical_plant = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_izhevsk_mechanical_plant = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 399 } } #Izhevsk
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_izhevsk_mechanical_plant_initial_days?60
 		fire_only_once = yes
@@ -6912,7 +6912,7 @@ RUS_np_project_tula_arms_factory = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_tula_arms_factory = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 223 } } #Tula
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_tula_arms_factory_initial_days?60
 		fire_only_once = yes
@@ -7108,7 +7108,7 @@ RUS_np_project_create_tankograd = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_create_tankograd = yes num_of_civilian_factories_available_for_projects > 1 has_country_flag = unlock_chtz
 }
 		highlight_states = { highlight_state_targets = { state = 572 } } #Chelyabinsk
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_create_tankograd_initial_days?60
 		fire_only_once = yes
@@ -7290,7 +7290,7 @@ RUS_np_project_convert_civilian_aviation_industry = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_convert_civilian_aviation_industry = yes num_of_civilian_factories_available_for_projects > 1 219 = { NOT = { industrial_complex < 3 } }
 }
 		highlight_states = { highlight_state_targets = { state = 219 } } #Moscow
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_convert_civilian_aviation_industry_initial_days?60
 		fire_only_once = yes
@@ -7491,7 +7491,7 @@ RUS_np_project_tsaritsyn_tractor_plant = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_tsaritsyn_tractor_plant = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 217 } } #Tsaritsyn
-		cost = RUS_ic_cost_high
+		cost = RUS_np_pp_high?60
 
 		days_remove = RUS_np_tsaritsyn_tractor_plant_initial_days?120
 		fire_only_once = yes
@@ -7655,7 +7655,7 @@ RUS_np_project_chelyabinsk_tractor_plant = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_chelyabinsk_tractor_plant = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 572 } } #Chelyabinsk
-		cost = RUS_ic_cost_high
+		cost = RUS_np_pp_high?60
 
 
 		days_remove = RUS_np_chelyabinsk_tractor_plant_initial_days?120
@@ -7818,7 +7818,7 @@ RUS_np_project_kursk_tractor_plant = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_kursk_tractor_plant = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 220 } } #Kursk
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_kursk_tractor_plant_initial_days?60
@@ -7959,7 +7959,7 @@ RUS_np_project_rostselmash = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_rostselmash = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 218 } } #Rostov
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_rostselmash_initial_days?60
@@ -8110,7 +8110,7 @@ RUS_np_project_stavropol_hydroelectric_dam = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_stavropol_hydroelectric_dam = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 235 } } #Stavropol
-		cost = RUS_ic_cost_high
+		cost = RUS_np_pp_high?60
 
 
 		days_remove = RUS_np_stavropol_hydroelectric_dam_initial_days?365
@@ -8296,7 +8296,7 @@ RUS_np_project_rybinsk_hydroelectric_dam = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_rybinsk_hydroelectric_dam = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 248 } } #Yaroslavl
-		cost = RUS_ic_cost_high
+		cost = RUS_np_pp_high?60
 
 
 		days_remove = RUS_np_rybinsk_hydroelectric_dam_initial_days?365
@@ -8482,7 +8482,7 @@ RUS_np_project_zhiguli_hydroelectric_dam = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_zhiguli_hydroelectric_dam = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 251 } } #Samara
-		cost = RUS_ic_cost_high
+		cost = RUS_np_pp_high?60
 
 
 		days_remove = RUS_np_zhiguli_hydroelectric_dam_initial_days?365
@@ -8668,7 +8668,7 @@ RUS_np_project_krasnoyarsk_hydroelectric_dam = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_krasnoyarsk_hydroelectric_dam = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 568 } } #Krasnoyarsk
-		cost = RUS_ic_cost_high
+		cost = RUS_np_pp_high?60
 
 
 		days_remove = RUS_np_krasnoyarsk_hydroelectric_dam_initial_days?365
@@ -8854,7 +8854,7 @@ RUS_np_project_lipetsk_metallurgical_plant = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_lipetsk_metallurgical_plant = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 258 } } #Lipetsk
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_lipetsk_metallurgical_plant_initial_days?60
@@ -9018,7 +9018,7 @@ RUS_np_project_uralmash = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_uralmash = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 653 } } #Yekateriburg
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_uralmash_initial_days?60
@@ -9215,7 +9215,7 @@ RUS_np_project_motovilikha_plants = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_motovilikha_plants = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 398 } } #Perm
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_motovilikha_plants_initial_days?60
@@ -9371,7 +9371,7 @@ RUS_np_project_admiralty_dockyards = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_admiralty_dockyards = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 137 } } #Crimea
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_admiralty_dockyards_initial_days?60
@@ -9540,7 +9540,7 @@ RUS_np_project_kamensky_uralsky = { #Kachkanar
 
  OR = { check_variable = { RUS_np_ui_sector = 0 } check_variable = { RUS_np_ui_sector = 2 } }
 } #Yekaterinburg
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_kamensky_uralsky_initial_days?60
@@ -9704,7 +9704,7 @@ RUS_np_project_grozny_oil = {
 
  OR = { check_variable = { RUS_np_ui_sector = 0 } check_variable = { RUS_np_ui_sector = 2 } }
 } #Chechnya
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_grozny_oil_initial_days?60
@@ -9853,7 +9853,7 @@ RUS_np_project_arctic_mines = {
 
  OR = { check_variable = { RUS_np_ui_sector = 0 } check_variable = { RUS_np_ui_sector = 2 } }
 } #Murmansk
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_arctic_mines_initial_days?60
@@ -9985,7 +9985,7 @@ RUS_np_project_tyrnyauz_tungsten = {
 
  OR = { check_variable = { RUS_np_ui_sector = 0 } check_variable = { RUS_np_ui_sector = 2 } }
 } #Terek
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_tyrnyauz_tungsten_initial_days?60
@@ -10115,7 +10115,7 @@ RUS_np_project_romanshkino_oil = {
 
  OR = { check_variable = { RUS_np_ui_sector = 0 } check_variable = { RUS_np_ui_sector = 2 } }
 } #Kazan
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_romanshkino_oil_initial_days?120
@@ -10258,7 +10258,7 @@ RUS_np_project_northern_route = {
 	highlight_provinces = { 3215 11250 3358 11282 6380 9378 9278 6356 252 121 9122 11099 2 9168 2996 11143 143 3135 9200 11075 73 3066 3103 6089 9214 6124 272 3139 3027 370 9293 12203 7346 11352 7375 11228 237 4758 12567 1821 }
 	highlight_only_provinces = yes
 } #Vyatka
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_northern_route_initial_days?120
@@ -10426,7 +10426,7 @@ RUS_np_project_upgrade_the_railroad_chelyabinsk = {
 	highlight_provinces = { 6380 301 3290 9235 11217 214 3339 6362 6410 9407 11344 11394 11262 6391 9286 11269 3317 286 3276 6302 6226 9365 9243 11225 11377 11256 3265 4324 4283 1305 1278 12117 10142 10329 12157 9292 }
 	highlight_only_provinces = yes
 } #Ufa
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_upgrade_the_railroad_chelyabinsk_initial_days?120
@@ -10585,7 +10585,7 @@ RUS_np_project_upgrade_the_railroad_krasnoyarsk = {
 	highlight_provinces = { 9292 1327 1292 1775 1294 1694 7874 7800 1709 10696 12679 1733 1860 7825 7274 4866 7757 12631 7886 10712 10639 12691 9142 12621 1876 1813 10549 10661 12540 4797 }
 	highlight_only_provinces = yes
 } #Novonikolayevsk
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_upgrade_the_railroad_krasnoyarsk_initial_days?120
@@ -10744,7 +10744,7 @@ RUS_np_project_upgrade_the_railroad_vladivostok = {
 	highlight_provinces = { 4797 10543 1762 4837 10528 7835 7816 1696 4705 1672 7786 4677 4719 10612 7743 4745 10638 4876 12485 4506 7582 7526 12412 9782 7591 10376 3791 11906 6811 810 3977 957 }
 	highlight_only_provinces = yes
 } #Blagoveshchensk
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_upgrade_the_railroad_vladivostok_initial_days?120
@@ -10928,7 +10928,7 @@ RUS_np_project_kuznetsk_basin = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_kuznetsk_basin = yes num_of_civilian_factories_available_for_projects > -1
 }
 		highlight_states = { highlight_state_targets = { state = 569 } } #Schlegovsk
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_kuznetsk_basin_initial_days?120
@@ -11067,7 +11067,7 @@ RUS_np_project_bodaybo_gold_mines = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_bodaybo_gold_mines = yes num_of_civilian_factories_available_for_projects > -1
 }
 		highlight_states = { highlight_state_targets = { state = 565 } } #Bodaybo
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_bodaybo_gold_mines_initial_days?60
@@ -11189,7 +11189,7 @@ RUS_np_project_far_eastern_fishing_industry = {
 				state = 560 #Nikolayevsk
 			}
 		}
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_far_eastern_fishing_industry_initial_days?60
@@ -11341,7 +11341,7 @@ RUS_np_project_krasnoyarskpromstroy = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_krasnoyarskpromstroy = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 568 } } #Krasnoyarsk
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 
 
 		days_remove = RUS_np_krasnoyarskpromstroy_initial_days?60
@@ -11498,7 +11498,7 @@ RUS_np_project_dalnremmash = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_dalnremmash = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 409 } } #Khabarovsk
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_dalnremmash_initial_days?60
@@ -11654,7 +11654,7 @@ RUS_np_project_rudny_altay = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_rudny_altay = yes num_of_civilian_factories_available_for_projects > -1
 }
 		highlight_states = { highlight_state_targets = { state = 810 } } #Alash-kala
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_rudny_altay_initial_days?60
@@ -11784,7 +11784,7 @@ RUS_np_project_tekeli_metallurgical_combine = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_tekeli_metallurgical_combine = yes num_of_civilian_factories_available_for_projects > 1
 }
 		highlight_states = { highlight_state_targets = { state = 589 } } #Semirechye
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_tekeli_metallurgical_combine_initial_days?60
@@ -11964,7 +11964,7 @@ RUS_np_project_emba_oil_area = {
 				state = 406 #Guryev
 			}
 		}
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_emba_oil_area_initial_days?60
@@ -12118,7 +12118,7 @@ RUS_np_project_verny_cotton_industry = {
 		available = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_verny_cotton_industry = yes num_of_civilian_factories_available_for_projects > 0
 }
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 
 		days_remove = RUS_np_verny_cotton_industry_initial_days?60
@@ -12261,7 +12261,7 @@ RUS_np_project_siberian_timber_industries = {
 		highlight_states = {
 			highlight_state_targets = { state = 569 } #Schlegovsk
 		}
-		cost = 75
+		cost = RUS_np_pp_75?75
 
 
 		days_remove = RUS_np_siberian_timber_industries_initial_days?120
@@ -12386,7 +12386,7 @@ RUS_np_project_improve_roads_in_central_russia = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_improve_roads_in_central_russia = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 254 } } #Ryazan
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_improve_roads_in_central_russia_initial_days?120
 		fire_only_once = yes
@@ -12567,7 +12567,7 @@ RUS_np_project_improve_roads_in_northern_russia = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_improve_roads_in_northern_russia = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 263 } } #Novgorod
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_improve_roads_in_northern_russia_initial_days?120
 		fire_only_once = yes
@@ -12733,7 +12733,7 @@ RUS_np_project_improve_roads_in_the_volga_basin = {
 	hidden_trigger = { RUS_np_context = yes } RUS_np_ready_improve_roads_in_the_volga_basin = yes num_of_civilian_factories_available_for_projects > 0
 }
 		highlight_states = { highlight_state_targets = { state = 217 } } #Tsaritsyn
-		cost = RUS_ic_cost_med
+		cost = RUS_np_pp_med?40
 
 		days_remove = RUS_np_improve_roads_in_the_volga_basin_initial_days?120
 		fire_only_once = yes
@@ -12900,7 +12900,7 @@ RUS_np_project_central_asia_railroads = {
 	highlight_only_provinces = yes
 } #Karaganda
 
-		cost = RUS_ic_cost_low
+		cost = RUS_np_pp_low?20
 		days_remove = RUS_np_central_asia_railroads_initial_days?90
 
 		fire_only_once = yes
@@ -13049,7 +13049,7 @@ RUS_np_gaz = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 40
+	cost = RUS_np_pp_40?40
 	days_remove = RUS_np_gaz_initial_days?180
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_631 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_gaz_completed }
@@ -13181,7 +13181,7 @@ RUS_np_bearing = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 35
+	cost = RUS_np_pp_35?35
 	days_remove = RUS_np_bearing_initial_days?150
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_176 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_bearing_completed }
@@ -13269,7 +13269,7 @@ RUS_np_kashira = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 40
+	cost = RUS_np_pp_40?40
 	days_remove = RUS_np_kashira_initial_days?180
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_804 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_kashira_completed }
@@ -13398,7 +13398,7 @@ RUS_np_moscow_grid = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 25
+	cost = RUS_np_pp_25?25
 	days_remove = RUS_np_moscow_grid_initial_days?120
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_176 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_grid_completed }
@@ -13527,7 +13527,7 @@ RUS_np_metro = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 50
+	cost = RUS_np_pp_50?50
 	days_remove = RUS_np_metro_initial_days?270
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_631 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_metro_completed }
@@ -13671,7 +13671,7 @@ RUS_np_moscow_volga = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 75
+	cost = RUS_np_pp_75?75
 	days_remove = RUS_np_moscow_volga_initial_days?540
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_182 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_volga_completed }
@@ -13825,7 +13825,7 @@ RUS_np_svir = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 60
+	cost = RUS_np_pp_60?60
 	days_remove = RUS_np_svir_initial_days?365
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_181 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_svir_completed }
@@ -13954,7 +13954,7 @@ RUS_np_volkhov = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 45
+	cost = RUS_np_pp_45?45
 	days_remove = RUS_np_volkhov_initial_days?210
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_183 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_volkhov_completed }
@@ -14095,7 +14095,7 @@ RUS_np_uvz = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 50
+	cost = RUS_np_pp_50?50
 	days_remove = RUS_np_uvz_initial_days?240
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_181 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 4 } } NOT = { has_country_flag = RUS_np_uvz_completed }
@@ -14186,7 +14186,7 @@ RUS_np_bobrik = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 45
+	cost = RUS_np_pp_45?45
 	days_remove = RUS_np_bobrik_initial_days?210
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_629 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_bobrik_completed }
@@ -14304,7 +14304,7 @@ RUS_np_moscow_logistics = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 25
+	cost = RUS_np_pp_25?25
 	days_remove = RUS_np_moscow_logistics_initial_days?120
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_169 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_logistics_completed }
@@ -14468,7 +14468,7 @@ RUS_np_moscow_rural = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 20
+	cost = RUS_np_pp_20?20
 	days_remove = RUS_np_moscow_rural_initial_days?120
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_486 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 1 } } NOT = { has_country_flag = RUS_np_moscow_rural_completed }
@@ -14606,7 +14606,7 @@ RUS_np_leningrad_logistics = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 25
+	cost = RUS_np_pp_25?25
 	days_remove = RUS_np_leningrad_logistics_initial_days?120
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_177 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_leningrad_logistics_completed }
@@ -14770,7 +14770,7 @@ RUS_np_leningrad_rural = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 20
+	cost = RUS_np_pp_20?20
 	days_remove = RUS_np_leningrad_rural_initial_days?120
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_486 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 2 } } NOT = { has_country_flag = RUS_np_leningrad_rural_completed }
@@ -14900,7 +14900,7 @@ RUS_np_tsaritsyn_logistics = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 25
+	cost = RUS_np_pp_25?25
 	days_remove = RUS_np_tsaritsyn_logistics_initial_days?120
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_177 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_logistics_completed }
@@ -15064,7 +15064,7 @@ RUS_np_tsaritsyn_rural = {
 	original_tag = RUS
 }
 	fire_only_once = yes
-	cost = 20
+	cost = RUS_np_pp_20?20
 	days_remove = RUS_np_tsaritsyn_rural_initial_days?120
 	visible = {
 	RUS_np_context = yes has_completed_focus = RUS_future_domestic_486 OR = { check_variable = { RUS_np_filter = 0 } check_variable = { RUS_np_filter = 3 } } NOT = { has_country_flag = RUS_np_tsaritsyn_rural_completed }
