@@ -59,6 +59,7 @@ def focus_reward(focus, branch):
             f'custom_effect_tooltip = {PREFIX}_{policy}_first_tt '
             f'hidden_effect = {{ set_variable = {{ {CHOICE} = {ROUTE_ORDER.index(policy)+1} }} }} }}')
     if focus in branch:
+        effects.append(f'custom_effect_tooltip = {PREFIX}_recovery_tt')
         effects.append(f'hidden_effect = {{ {REFRESH} = yes }}')
     return effects
 
@@ -130,6 +131,12 @@ def outputs(branch):
         ('russian','Дезорганизованная промышленность','Стоимость экономических проектов в политической власти и строительных ресурсах: §G−20%§!'),
     ):
         lines = [f'l_{lang}:', f' {PREFIX}_discount_tt:0 "{tooltip}"']
+        recovery = {
+            'simp_chinese': '削弱§Y混乱的工业§!的惩罚一层（最多十层）',
+            'english': 'Reduce the penalties from §YDisordered Industry§! by one step (up to ten steps)',
+            'russian': 'Ослабляет штрафы от духа «§YДезорганизованная промышленность§!» на одну ступень (до десяти ступеней)',
+        }[lang]
+        lines.append(f' {PREFIX}_recovery_tt:0 "{recovery}"')
         infrastructure = {'simp_chinese':'§Y基础设施§!建造花费',
                           'english':'§YInfrastructure§! construction cost',
                           'russian':'Стоимость строительства §Yинфраструктуры§!'}[lang]
