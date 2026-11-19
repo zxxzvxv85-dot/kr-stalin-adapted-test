@@ -5,6 +5,7 @@ from decimal import Decimal
 OLD = 'RUS_opening_disordered_industry'
 PREFIX = 'RUS_disordered_industry'
 REFRESH = PREFIX + '_refresh'
+PREVIEW = PREFIX + '_preview'
 DISCOUNT_IDEA = PREFIX + '_federal'
 DISCOUNT = f'has_idea = {DISCOUNT_IDEA}'
 ROUTES = {'169': 'federal', '166': 'cooperative', '163': 'trusts'}
@@ -52,14 +53,16 @@ def economy_branch(edges):
 
 def focus_reward(focus, branch):
     effects = []
-    policy = POLICIES.get(focus.rsplit('_', 1)[-1])
+    suffix = focus.rsplit('_', 1)[-1]
+    policy = POLICIES.get(suffix)
     if policy:
         effects.append(
             f'if = {{ limit = {{ hidden_trigger = {{ NOT = {{ has_variable = {CHOICE} }} }} }} '
             f'custom_effect_tooltip = {PREFIX}_{policy}_first_tt '
             f'hidden_effect = {{ set_variable = {{ {CHOICE} = {ROUTE_ORDER.index(policy)+1} }} }} }}')
     if focus in branch:
-        effects.append(f'custom_effect_tooltip = {PREFIX}_recovery_tt')
+        preview = f'{PREVIEW}_{ROUTES[suffix]}' if suffix in ROUTES else PREVIEW
+        effects.append(f'{preview} = yes')
         effects.append(f'hidden_effect = {{ {REFRESH} = yes }}')
     return effects
 
@@ -68,6 +71,30 @@ def route_requirement(suffix):
     route = ROUTES[suffix]
     return (f'custom_trigger_tooltip = {{ tooltip = {PREFIX}_{route}_requires_tt '
             f'check_variable = {{ {CHOICE} = {ROUTE_ORDER.index(route)+1} }} }}')
+
+
+def idea_previews(tiers):
+    # The engine compares the actual idea definitions, including integer trade
+    # thresholds and the final route's modifiers.
+    def preview(name, swaps, fallback=None):
+        lines = [f'{name} = {{']
+        for index, (before, after) in enumerate(swaps):
+            lines.extend([
+                f'\t{"else_if" if index else "if"} = {{',
+                f'\t\tlimit = {{ hidden_trigger = {{ has_idea = {before} }} }}',
+                f'\t\teffect_tooltip = {{ swap_ideas = {{ remove_idea = {before} add_idea = {after} }} }}',
+                '\t}',
+            ])
+        if fallback:
+            lines.append(f'\telse = {{ {fallback} = yes }}')
+        return [*lines, '}', '']
+
+    lines = preview(PREVIEW, zip(tiers, tiers[1:]))
+    for route in ROUTE_ORDER:
+        final = f'{PREFIX}_{route}'
+        lines.extend(preview(f'{PREVIEW}_{route}',
+                             [(tiers[9], final), (tiers[10], final)], PREVIEW))
+    return lines
 
 
 def outputs(branch):
@@ -114,7 +141,8 @@ def outputs(branch):
                        f'\t\t\t\tadd_ideas = {idea}',
                        '\t\t\t\tRUS_np_refresh_prices = yes',
                        '\t\t\t}', '\t\t}'])
-    effect.extend(['\t}', '}'])
+    effect.extend(['\t}', '}', ''])
+    effect.extend(idea_previews(tiers))
     actions = f'''on_actions = {{
 \ton_ruling_party_change_immediate = {{ effect = {{ {REFRESH} = yes }} }}
 \ton_daily_RUS = {{ effect = {{ {REFRESH} = yes }} }}
@@ -122,7 +150,7 @@ def outputs(branch):
 '''
     result = {
         Path('common/ideas/RUS_disordered_industry.txt'): '\n'.join(ideas)+'\n',
-        Path('common/scripted_effects/RUS_disordered_industry.txt'): '\n'.join(effect)+'\n',
+        Path('common/scripted_effects/RUS_disordered_industry.txt'): '\n'.join(effect).rstrip()+'\n',
         Path('common/on_actions/RUS_disordered_industry.txt'): actions,
     }
     for lang, label, tooltip in (
@@ -131,12 +159,6 @@ def outputs(branch):
         ('russian','Дезорганизованная промышленность','Стоимость экономических проектов в политической власти и строительных ресурсах: §G−20%§!'),
     ):
         lines = [f'l_{lang}:', f' {PREFIX}_discount_tt:0 "{tooltip}"']
-        recovery = {
-            'simp_chinese': '削弱§Y混乱的工业§!的惩罚一层（最多十层）',
-            'english': 'Reduce the penalties from §YDisordered Industry§! by one step (up to ten steps)',
-            'russian': 'Ослабляет штрафы от духа «§YДезорганизованная промышленность§!» на одну ступень (до десяти ступеней)',
-        }[lang]
-        lines.append(f' {PREFIX}_recovery_tt:0 "{recovery}"')
         infrastructure = {'simp_chinese':'§Y基础设施§!建造花费',
                           'english':'§YInfrastructure§! construction cost',
                           'russian':'Стоимость строительства §Yинфраструктуры§!'}[lang]

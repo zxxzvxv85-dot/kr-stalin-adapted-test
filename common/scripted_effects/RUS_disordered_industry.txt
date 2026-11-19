@@ -140,3 +140,82 @@ RUS_disordered_industry_refresh = {
 		}
 	}
 }
+
+RUS_disordered_industry_preview = {
+	if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_0 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_0 add_idea = RUS_disordered_industry_1 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_1 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_1 add_idea = RUS_disordered_industry_2 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_2 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_2 add_idea = RUS_disordered_industry_3 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_3 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_3 add_idea = RUS_disordered_industry_4 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_4 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_4 add_idea = RUS_disordered_industry_5 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_5 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_5 add_idea = RUS_disordered_industry_6 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_6 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_6 add_idea = RUS_disordered_industry_7 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_7 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_7 add_idea = RUS_disordered_industry_8 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_8 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_8 add_idea = RUS_disordered_industry_9 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_9 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_9 add_idea = RUS_disordered_industry_10 } }
+	}
+}
+
+RUS_disordered_industry_preview_federal = {
+	if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_9 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_9 add_idea = RUS_disordered_industry_federal } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_10 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_10 add_idea = RUS_disordered_industry_federal } }
+	}
+	else = { RUS_disordered_industry_preview = yes }
+}
+
+RUS_disordered_industry_preview_cooperative = {
+	if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_9 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_9 add_idea = RUS_disordered_industry_cooperative } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_10 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_10 add_idea = RUS_disordered_industry_cooperative } }
+	}
+	else = { RUS_disordered_industry_preview = yes }
+}
+
+RUS_disordered_industry_preview_trusts = {
+	if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_9 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_9 add_idea = RUS_disordered_industry_trusts } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_10 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_10 add_idea = RUS_disordered_industry_trusts } }
+	}
+	else = { RUS_disordered_industry_preview = yes }
+}
