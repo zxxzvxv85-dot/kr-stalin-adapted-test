@@ -4,8 +4,11 @@ Construction is spread through the economic branches, with at most three
 projects per focus. Mutually exclusive approaches own distinct project groups;
 this does not open preview focuses or wire the future five-year-plan phase.
 """
+PLAN_UNLOCK_SUFFIX = '424'
+PLAN_UNLOCK_FOCUS = 'RUS_future_domestic_' + PLAN_UNLOCK_SUFFIX
+
 FOCUS_PROJECTS = {
-    '424': ('improve_roads_in_central_russia', 'improve_roads_in_northern_russia',
+    PLAN_UNLOCK_SUFFIX: ('improve_roads_in_central_russia', 'improve_roads_in_northern_russia',
             'improve_roads_in_the_volga_basin'),
     '621': ('northern_route', 'upgrade_the_railroad_chelyabinsk',
             'upgrade_the_railroad_krasnoyarsk'),
@@ -52,5 +55,7 @@ def unlock_rewards(projects):
     """Native KR-style unlock display; actual eligibility lives in decisions."""
     by_key = {p['key']: p for p in projects}
     assert set(by_key) == set(PROJECT_FOCUS)
-    return {suffix: ['unlock_decision_tooltip = '+by_key[key]['id'] for key in keys]
-            for suffix, keys in FOCUS_PROJECTS.items()}
+    rewards = {suffix: ['unlock_decision_tooltip = '+by_key[key]['id'] for key in keys]
+               for suffix, keys in FOCUS_PROJECTS.items()}
+    rewards[PLAN_UNLOCK_SUFFIX].insert(0, 'unlock_decision_tooltip = RUS_np_open_account')
+    return rewards

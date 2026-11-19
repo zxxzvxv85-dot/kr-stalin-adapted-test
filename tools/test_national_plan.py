@@ -21,7 +21,7 @@ class Model(ScriptModel):
     def __init__(self):
         super().__init__(copy.deepcopy(EFFECTS));self.context=True;self.stock=10000;self.scope=None;self.mio_scope=None;self.aat=True;self.events=[];self.offsite={};self.focuses=set();self.preview_mios=[]
         self.mios={token:{'size':0,'available':True,'assigned':False} for token in set(CONSORTIUM_MIOS)|{row[i] for row in MIO_TARGETS.values() for i in (0,2) if row[i]}}
-        self.trigger_root='RUS';self.ai=False
+        self.trigger_root='RUS';self.ai=False;self.stalin_phase=True
         self.focuses.update(PROJECT_FOCUS.values());self.plan_active=False
         self.country=self.vars;self.country.update({'global.num_days':100,'year':1936,'num_of_available_civilian_factories':50,
             'RUS_basic_education_level':50,'RUS_higher_education_level':50,'RUS_education_enthusiasm':50,
@@ -62,7 +62,8 @@ class Model(ScriptModel):
                 ok=self.mio_scope in self.mios and self.check(n.v);self.mio_scope=before
             elif n.k in ('is_mio_available','is_mio_assigned_to_task'):
                 ok=self.mios[self.mio_scope]['available' if n.k=='is_mio_available' else 'assigned']==(n.v=='yes')
-            elif n.k in ('RUS_rc_stalin_phase','has_socialist_government'):ok=self.context==(n.v=='yes')
+            elif n.k=='RUS_rc_stalin_phase':ok=self.stalin_phase==(n.v=='yes')
+            elif n.k=='has_socialist_government':ok=self.context==(n.v=='yes')
             elif n.k=='custom_trigger_tooltip':ok=self.check([x for x in n.v if x.k!='tooltip'])
             elif n.k=='has_equipment':ok=all(self.compare(self.stock,self.number(x.v),x.op) for x in n.v)
             elif n.k=='num_of_civilian_factories_available_for_projects':ok=self.compare(50,self.number(n.v),n.op)
@@ -297,6 +298,21 @@ class PlanTests(unittest.TestCase):
             self.assertTrue(any(isinstance(n.v,list) and any([x.norm() for x in n.v[i:i+len(expected)]]==expected for i in range(len(n.v)-len(expected)+1)) for n in walk([EFFECTS[var(p,'finish')]])),p['id'])
             self.assertEqual(NODES[p['id']].value('cost'),parse(p['original'])[0].value('cost'))
             self.assertFalse(any(n.k=='add_political_power' for n in walk(NODES[p['id']].one('cancel_effect').v)))
+    def test_foundation_opens_account_independently_of_stalin(self):
+        m = Model()
+        focus = 'RUS_future_domestic_424'
+        account = NODES['RUS_np_open_account']
+        m.focuses.remove(focus)
+        self.assertFalse(m.check(account.one('visible')))
+        m.run(account.one('complete_effect').v)
+        self.assertNotIn('RUS_np_initialized', m.flags)
+        m.stalin_phase = False
+        m.focuses.add(focus)
+        self.assertTrue(m.check(account.one('visible')))
+        m.run(account.one('complete_effect').v)
+        self.assertIn('RUS_np_initialized', m.flags)
+        self.assertFalse(m.check(account.one('visible')))
+
     def test_all_62_focus_unlocked_and_classified(self):
         m=Model().initialize()
         for p in PROJECTS:
@@ -320,6 +336,8 @@ class PlanTests(unittest.TestCase):
         for suffix,keys in FOCUS_PROJECTS.items():
             node=focuses['RUS_future_domestic_'+suffix]
             unlocks = [n.v for n in node.one('completion_reward').v if n.k == 'unlock_decision_tooltip']
+            if suffix == '424':
+                self.assertEqual(unlocks.pop(0), 'RUS_np_open_account')
             self.assertEqual(unlocks, [project_ids[key] for key in keys], node.value('id'))
             seen.extend(unlocks)
             self.assertIsNotNone(node.one('available').one('custom_trigger_tooltip').one('always'))

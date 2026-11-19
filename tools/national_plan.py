@@ -6,7 +6,7 @@ add_days_remove/remove_decision/get_supply_vehicles; state-scoped add_manpower.
 import json,re
 from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
-from national_plan_focuses import PROJECT_FOCUS,focus_condition
+from national_plan_focuses import PLAN_UNLOCK_FOCUS,PROJECT_FOCUS,focus_condition
 from national_plan_catalog import current_place_names
 
 CAT='RUS_first_five_year_plan_industrial_projects'
@@ -460,7 +460,7 @@ def augment(out):
     edits.append((cat.ib,cat.ib,appended))
     for a,z,s in sorted(edits,reverse=True):text=text[:a]+s+text[z:]
     out[DEC]=text
-    triggers=[b('RUS_np_context',['original_tag = RUS','is_ai = no','has_socialist_government = yes','RUS_rc_stalin_phase = yes'])]
+    triggers=[b('RUS_np_context',['original_tag = RUS','is_ai = no','has_socialist_government = yes','has_completed_focus = '+PLAN_UNLOCK_FOCUS])]
     triggers += [b('RUS_np_rural_candidate',[
         'is_core_of = RUS','is_owned_and_controlled_by = RUS',
         'NOT = { state = 219 } NOT = { state = 195 } NOT = { state = 217 }',
