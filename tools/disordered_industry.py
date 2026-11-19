@@ -124,10 +124,10 @@ def outputs(branch):
         Path('common/scripted_effects/RUS_disordered_industry.txt'): '\n'.join(effect)+'\n',
         Path('common/on_actions/RUS_disordered_industry.txt'): actions,
     }
-    for lang, label, desc, tooltip in (
-        ('simp_chinese','混乱的工业','工业区正在改组，旧有的生产与运输障碍逐渐消解。','经济项目政治点数及建设资源花费：§G−20%§!'),
-        ('english','Disordered Industry','The industrial districts are being reorganised, easing longstanding disruptions to production and transport.','Economic Project Political Power and Construction Resource Cost: §G−20%§!'),
-        ('russian','Дезорганизованная промышленность','Промышленные районы перестраиваются, что постепенно устраняет перебои в производстве и перевозках.','Стоимость экономических проектов в политической власти и строительных ресурсах: §G−20%§!'),
+    for lang, label, tooltip in (
+        ('simp_chinese','混乱的工业','经济项目政治点数及建设资源花费：§G−20%§!'),
+        ('english','Disordered Industry','Economic Project Political Power and Construction Resource Cost: §G−20%§!'),
+        ('russian','Дезорганизованная промышленность','Стоимость экономических проектов в политической власти и строительных ресурсах: §G−20%§!'),
     ):
         lines = [f'l_{lang}:', f' {PREFIX}_discount_tt:0 "{tooltip}"']
         infrastructure = {'simp_chinese':'§Y基础设施§!建造花费',
@@ -149,7 +149,7 @@ def outputs(branch):
                 requirement = 'Первая выполненная мера: ' + ' или '.join(policies)
             lines.append(f' {PREFIX}_{route}_requires_tt:0 "{requirement}"')
         for idea in definitions:
-            lines.extend([f' {idea}:0 "{label}"', f' {idea}_desc:0 "{desc}"'])
+            lines.extend([f' {idea}:0 "{label}"', f' {idea}_desc:0 "${OLD}_desc$"'])
         result[Path(f'localisation/{lang}/RUS_disordered_industry_l_{lang}.yml')] = '\n'.join(lines)+'\n'
     return {path: text.encode('utf-8-sig' if path.suffix == '.yml' else 'utf-8')
             for path, text in result.items()}
