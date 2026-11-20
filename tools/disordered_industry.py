@@ -14,6 +14,7 @@ COOPERATIVE_MONTHLY_EDUCATION = 0.5
 TRUSTS_DAILY_RESOURCES = 0.5
 MONTHLY_EDUCATION = PREFIX + '_monthly_education'
 ROUTE_BONUS_TOOLTIPS = {
+    'federal': PREFIX + '_discount_tt',
     'cooperative': PREFIX + '_cooperative_education_tt',
     'trusts': PREFIX + '_trusts_resources_tt',
 }
@@ -38,7 +39,7 @@ FINALS = {
                     industrial_capacity_factory=-.05, consumer_goods_expected_value=-.025,
                     production_cost_industrial_complex_factor=-.10, political_power_factor=-.05,
                     production_cost_infrastructure_factor=-.10,
-                    custom_modifier_tooltip=PREFIX+'_discount_tt'),
+                    custom_modifier_tooltip=ROUTE_BONUS_TOOLTIPS['federal']),
     'cooperative': dict(production_cost_infrastructure_factor=-.25,
                         resource_trade_cost_bonus_per_factory=2, stability_factor=.05,
                         consumer_goods_expected_value=.025, global_building_slots_factor=.10,
@@ -180,12 +181,16 @@ def outputs(branch):
         Path('common/scripted_effects/RUS_disordered_industry.txt'): '\n'.join(effect).rstrip()+'\n',
         Path('common/on_actions/RUS_disordered_industry.txt'): actions,
     }
-    for lang, label, tooltip in (
-        ('simp_chinese','混乱的工业','经济项目政治点数及建设资源花费：§G−20%§!'),
-        ('english','Disordered Industry','Economic Project Political Power and Construction Resource Cost: §G−20%§!'),
-        ('russian','Дезорганизованная промышленность','Стоимость экономических проектов в политической власти и строительных ресурсах: §G−20%§!'),
+    for lang, label, pp_cost, resource_cost in (
+        ('simp_chinese', '混乱的工业', '工业决议政治点数花费', '工业决议建设资源花费'),
+        ('english', 'Disordered Industry', 'Industrial Decision Political Power Cost',
+         'Industrial Decision Construction Resource Cost'),
+        ('russian', 'Дезорганизованная промышленность', 'Затраты политической власти на промышленные решения',
+         'Затраты строительных ресурсов на промышленные решения'),
     ):
-        lines = [f'l_{lang}:', f' {PREFIX}_discount_tt:0 "{tooltip}"']
+        discount_text = (f'£pol_power£ {pp_cost}: §G−20%§!\\n'
+                         f'£RUS_np_resources_texticon£ {resource_cost}: §G−20%§!')
+        lines = [f'l_{lang}:', f' {ROUTE_BONUS_TOOLTIPS["federal"]}:0 "{discount_text}"']
         education_text, resources_text = {
             'simp_chinese': ('每月基础教育水平和高等教育水平各 §G+{education}§!（教育系统启用后）',
                              '每日建设资源收入 §G+{resources}§!（国家建设账本开启后）'),
@@ -194,8 +199,8 @@ def outputs(branch):
             'russian': ('Начальное и высшее образование ежемесячно §G+{education}§! каждое при действующей реформе образования',
                         'Ежедневный доход строительных ресурсов §G+{resources}§! при открытом строительном счёте'),
         }[lang]
-        education_text = education_text.format(education=COOPERATIVE_MONTHLY_EDUCATION)
-        resources_text = resources_text.format(resources=TRUSTS_DAILY_RESOURCES)
+        education_text = '£research_speed_icon£ ' + education_text.format(education=COOPERATIVE_MONTHLY_EDUCATION)
+        resources_text = '£RUS_np_resources_texticon£ ' + resources_text.format(resources=TRUSTS_DAILY_RESOURCES)
         lines.extend([f' {ROUTE_BONUS_TOOLTIPS["cooperative"]}:0 "{education_text}"',
                       f' {ROUTE_BONUS_TOOLTIPS["trusts"]}:0 "{resources_text}"'])
         infrastructure = {'simp_chinese':'§Y基础设施§!建造花费',
