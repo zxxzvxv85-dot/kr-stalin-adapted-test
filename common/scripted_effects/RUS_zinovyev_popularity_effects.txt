@@ -1,0 +1,10 @@
+RUS_zinovyev_apply_popularity_bonus = {
+	if = {
+		limit = {
+			RUS_zinovyev_in_office = yes
+			NOT = { has_dynamic_modifier = { modifier = RUS_zinovyev_popularity_bonus } }
+		}
+		add_dynamic_modifier = { modifier = RUS_zinovyev_popularity_bonus }
+		force_update_dynamic_modifier = yes
+	}
+}

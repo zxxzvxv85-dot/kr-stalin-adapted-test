@@ -177,7 +177,7 @@ characters = {
 		country_leader = {
 			desc = RUS_grigory_zinovyev_leader_desc
 			ideology = syndicalist_subtype
-			traits = { RUS_grishka_third_sic KR_bolshevik_zinovyev }
+			traits = { RUS_zinovyev_popularity_trait KR_bolshevik_zinovyev }
 		}
 		advisor = {
 			slot = second_in_command
@@ -192,7 +192,8 @@ characters = {
 				NOT = { has_country_leader = { character = RUS_grigory_zinovyev } }
 
 			}
-			traits = { RUS_grishka_third_sic KR_vst_left_zinovyev }
+			traits = { RUS_zinovyev_popularity_trait KR_vst_left_zinovyev }
+			on_add = { hidden_effect = { RUS_zinovyev_apply_popularity_bonus = yes } }
 			cost = 0
 			can_be_fired = no
 		}
