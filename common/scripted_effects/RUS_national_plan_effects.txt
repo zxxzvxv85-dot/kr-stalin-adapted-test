@@ -108,6 +108,10 @@ RUS_np_refresh = {
 	multiply_variable = { RUS_np_grant = 10 }
 	multiply_variable = { RUS_np_grant = RUS_np_efficiency }
 	set_variable = { RUS_np_slots = 7 }
+	if = {
+	limit = { has_idea = RUS_disordered_industry_trusts }
+	add_to_variable = { RUS_np_income = 0.5 }
+}
 	set_variable = { RUS_np_active = 0 }
 	set_variable = { RUS_np_trains = 0 }
 	set_variable = { RUS_np_rail_average = 0 }

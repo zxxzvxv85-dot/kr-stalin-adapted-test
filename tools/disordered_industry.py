@@ -8,6 +8,15 @@ REFRESH = PREFIX + '_refresh'
 PREVIEW = PREFIX + '_preview'
 DISCOUNT_IDEA = PREFIX + '_federal'
 DISCOUNT = f'has_idea = {DISCOUNT_IDEA}'
+COOPERATIVE_IDEA = PREFIX + '_cooperative'
+TRUSTS_IDEA = PREFIX + '_trusts'
+COOPERATIVE_MONTHLY_EDUCATION = 0.5
+TRUSTS_DAILY_RESOURCES = 0.5
+MONTHLY_EDUCATION = PREFIX + '_monthly_education'
+ROUTE_BONUS_TOOLTIPS = {
+    'cooperative': PREFIX + '_cooperative_education_tt',
+    'trusts': PREFIX + '_trusts_resources_tt',
+}
 ROUTES = {'169': 'federal', '166': 'cooperative', '163': 'trusts'}
 ROUTE_ORDER = tuple(ROUTES.values())
 POLICIES = {'422': 'federal', '421': 'cooperative', '486': 'cooperative',
@@ -34,11 +43,13 @@ FINALS = {
                         resource_trade_cost_bonus_per_factory=2, stability_factor=.05,
                         consumer_goods_expected_value=.025, global_building_slots_factor=.10,
                         monthly_population=.10, production_cost_arms_factory_factor=.10,
-                        military_industrial_organization_funds_gain=-.20, research_speed_factor=-.05),
+                        military_industrial_organization_funds_gain=-.20, research_speed_factor=-.05,
+                        custom_modifier_tooltip=ROUTE_BONUS_TOOLTIPS['cooperative']),
     'trusts': dict(production_speed_buildings_factor=.10, industrial_capacity_factory=.03,
                    political_power_factor=-.10, stability_factor=-.05, war_support_factor=-.05,
                    military_industrial_organization_funds_gain=.10, resource_trade_cost_bonus_per_factory=1,
-                   production_cost_industrial_complex_factor=-.10, production_cost_arms_factory_factor=-.05),
+                   production_cost_industrial_complex_factor=-.10, production_cost_arms_factory_factor=-.05,
+                   custom_modifier_tooltip=ROUTE_BONUS_TOOLTIPS['trusts']),
 }
 
 
@@ -76,15 +87,17 @@ def route_requirement(suffix):
 def idea_previews(tiers):
     # The engine compares the actual idea definitions, including integer trade
     # thresholds and the final route's modifiers.
-    def preview(name, swaps, fallback=None):
+    def preview(name, swaps, fallback=None, bonus_tooltip=None):
         lines = [f'{name} = {{']
         for index, (before, after) in enumerate(swaps):
             lines.extend([
                 f'\t{"else_if" if index else "if"} = {{',
                 f'\t\tlimit = {{ hidden_trigger = {{ has_idea = {before} }} }}',
                 f'\t\teffect_tooltip = {{ swap_ideas = {{ remove_idea = {before} add_idea = {after} }} }}',
-                '\t}',
             ])
+            if bonus_tooltip:
+                lines.append(f'\t\tcustom_effect_tooltip = {bonus_tooltip}')
+            lines.append('\t}')
         if fallback:
             lines.append(f'\telse = {{ {fallback} = yes }}')
         return [*lines, '}', '']
@@ -93,7 +106,8 @@ def idea_previews(tiers):
     for route in ROUTE_ORDER:
         final = f'{PREFIX}_{route}'
         lines.extend(preview(f'{PREVIEW}_{route}',
-                             [(tiers[9], final), (tiers[10], final)], PREVIEW))
+                             [(tiers[9], final), (tiers[10], final)], PREVIEW,
+                             ROUTE_BONUS_TOOLTIPS.get(route)))
     return lines
 
 
@@ -143,9 +157,22 @@ def outputs(branch):
                        '\t\t\t}', '\t\t}'])
     effect.extend(['\t}', '}', ''])
     effect.extend(idea_previews(tiers))
+    effect.extend(f'''{MONTHLY_EDUCATION} = {{
+\tif = {{
+\t\tlimit = {{
+\t\t\thas_socialist_government = yes
+\t\t\thas_country_flag = RUS_education_system_active
+\t\t\thas_idea = {COOPERATIVE_IDEA}
+\t\t}}
+\t\tadd_to_variable = {{ RUS_basic_education_level = {COOPERATIVE_MONTHLY_EDUCATION} }}
+\t\tadd_to_variable = {{ RUS_higher_education_level = {COOPERATIVE_MONTHLY_EDUCATION} }}
+\t\tRUS_education_refresh = yes
+\t}}
+}}'''.splitlines())
     actions = f'''on_actions = {{
 \ton_ruling_party_change_immediate = {{ effect = {{ {REFRESH} = yes }} }}
 \ton_daily_RUS = {{ effect = {{ {REFRESH} = yes }} }}
+\ton_monthly_RUS = {{ effect = {{ {MONTHLY_EDUCATION} = yes }} }}
 }}
 '''
     result = {
@@ -159,6 +186,18 @@ def outputs(branch):
         ('russian','Дезорганизованная промышленность','Стоимость экономических проектов в политической власти и строительных ресурсах: §G−20%§!'),
     ):
         lines = [f'l_{lang}:', f' {PREFIX}_discount_tt:0 "{tooltip}"']
+        education_text, resources_text = {
+            'simp_chinese': ('每月基础教育水平和高等教育水平各 §G+{education}§!（教育系统启用后）',
+                             '每日建设资源收入 §G+{resources}§!（国家建设账本开启后）'),
+            'english': ('Monthly Basic and Higher Education each §G+{education}§! while education reform is active',
+                        'Daily Construction Resource Income §G+{resources}§! while the construction account is open'),
+            'russian': ('Начальное и высшее образование ежемесячно §G+{education}§! каждое при действующей реформе образования',
+                        'Ежедневный доход строительных ресурсов §G+{resources}§! при открытом строительном счёте'),
+        }[lang]
+        education_text = education_text.format(education=COOPERATIVE_MONTHLY_EDUCATION)
+        resources_text = resources_text.format(resources=TRUSTS_DAILY_RESOURCES)
+        lines.extend([f' {ROUTE_BONUS_TOOLTIPS["cooperative"]}:0 "{education_text}"',
+                      f' {ROUTE_BONUS_TOOLTIPS["trusts"]}:0 "{resources_text}"'])
         infrastructure = {'simp_chinese':'§Y基础设施§!建造花费',
                           'english':'§YInfrastructure§! construction cost',
                           'russian':'Стоимость строительства §Yинфраструктуры§!'}[lang]

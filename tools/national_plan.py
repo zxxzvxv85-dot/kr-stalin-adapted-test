@@ -7,7 +7,7 @@ import json,re
 from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
 from national_plan_focuses import PLAN_UNLOCK_FOCUS,PROJECT_FOCUS,focus_condition
-from disordered_industry import DISCOUNT
+from disordered_industry import DISCOUNT, TRUSTS_IDEA, TRUSTS_DAILY_RESOURCES
 from national_plan_catalog import current_place_names
 
 CAT='RUS_first_five_year_plan_industrial_projects'
@@ -304,6 +304,7 @@ def refresh():
     out += clamp(P+'education',0,100)+[sv(P+'efficiency',P+'education'),mul(P+'efficiency',.005),add(P+'efficiency',.75),sv(P+'speed',1)]
     out += [iff('has_variable = RUS_education_enthusiasm',[sv(P+'speed','RUS_education_enthusiasm'),mul(P+'speed',.01),add(P+'speed',.5)])]+clamp(P+'speed',.5,1.5)
     out += [sv(P+'income',P+'civ'),mul(P+'income',.02),mul(P+'income',P+'efficiency'),sv(P+'grant',P+'civ'),mul(P+'grant',10),mul(P+'grant',P+'efficiency'),sv(P+'slots',7)]
+    out += [iff(f'has_idea = {TRUSTS_IDEA}', [add(P+'income', TRUSTS_DAILY_RESOURCES)])]
     out += [sv(P+'active',0),sv(P+'trains',0),sv(P+'rail_average',0),sv(P+'rail_weight',0),sv(P+'farm_rate',0),sv(P+'repair',0)]
     for region in REGIONS:out += [sv(P+'rail_region_'+str(region),0),sv(P+'rail_weight_'+str(region),0)]
     for p in PROJECTS:
