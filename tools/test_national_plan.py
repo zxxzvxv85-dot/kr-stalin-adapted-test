@@ -6,7 +6,7 @@ from hoi4_politics_blocks import parse,load
 from national_plan_catalog import ROOT,DATA,PROJECTS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS
 from national_plan import FX,DM,DEC,CAT,P,var,native_base,managed_base,project_score,goals,restore,mio_preview,SCORE_FILE,SCORE_HOOK,score_hook,base_pp,pp_price
 import disordered_industry as industry
-from national_plan_focuses import PROJECT_FOCUS,FOCUS_PROJECTS
+from national_plan_focuses import PROJECT_FOCUS,FOCUS_PROJECTS,FIVE_YEAR_PLAN_PROJECTS
 from generate_provisional_industry_gui import render
 
 EFFECTS=load_effects((ROOT/FX).read_text(encoding='utf8'))
@@ -388,7 +388,9 @@ class PlanTests(unittest.TestCase):
             m.vars[P+'filter']=0
 
     def test_focus_previews_match_all_unlocks_without_old_project_activations(self):
-        focuses={n.value('id'):n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt') if n.k=='shared_focus'}
+        focus_files = ('00_RUS_future_domestic_skeleton.txt', '00_RUS_future_five_year_plan_skeleton.txt')
+        focuses = {n.value('id'): n for path in focus_files
+                   for n in load(ROOT/'common/national_focus'/path) if n.k=='shared_focus'}
         project_ids = {p['key']: p['id'] for p in PROJECTS}
         expected = set(project_ids.values())
         seen = []
@@ -407,20 +409,55 @@ class PlanTests(unittest.TestCase):
         self.assertIsNone(focuses['RUS_future_domestic_455'].one('completion_reward').one('unlock_decision_tooltip'))
 
     def test_project_distribution_is_small_and_electricity_spans_later_focuses(self):
-        self.assertEqual(len(FOCUS_PROJECTS),25)
-        self.assertTrue(all(1 <= len(keys) <= 3 for keys in FOCUS_PROJECTS.values()))
+        self.assertEqual(sum(map(len, FIVE_YEAR_PLAN_PROJECTS.values())), 28)
+        self.assertEqual(FOCUS_PROJECTS['160'], ('renovate_and_expand_moscow', 'renovate_and_expand_tsaritsyn',
+                                                'renovate_and_expand_saint_petersburg', 'metro'))
+        self.assertNotIn('420', FOCUS_PROJECTS)
         land={'187','189','197','199','202','203','207','407','408','409','411','455','457'}
         self.assertEqual(sum(len(keys) for suffix,keys in FOCUS_PROJECTS.items() if suffix in land),2)
-        self.assertEqual(FOCUS_PROJECTS['486'], ('moscow_rural', 'leningrad_rural', 'tsaritsyn_rural'))
+        self.assertEqual(FOCUS_PROJECTS['486'], ('moscow_rural',))
         electric=[p for p in PROJECTS if p['kind']=='energy']
         self.assertEqual(len(electric),8)
-        self.assertEqual(len({PROJECT_FOCUS[p['key']] for p in electric}),5)
-        self.assertEqual(FOCUS_PROJECTS['804'],('kamenev_all_russian_electrification','kashira'))
+        self.assertEqual(FOCUS_PROJECTS['804'], ('kamenev_all_russian_electrification', 'kashira', 'moscow_grid'))
+        self.assertEqual(set(FOCUS_PROJECTS['804']) & set(FIVE_YEAR_PLAN_PROJECTS['723']), set())
+        domestic = [n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt') if n.k=='shared_focus']
+        descendants = { 'RUS_future_domestic_160' }
+        for _ in range(len(domestic)):
+            expanded = descendants | {n.value('id') for n in domestic if any(
+                p.v in descendants for group in n.children('prerequisite') for p in group.children('focus'))}
+            if expanded == descendants:
+                break
+            descendants = expanded
+        self.assertTrue(all(len(FOCUS_PROJECTS.get(key.rsplit('_',1)[-1], ())) <= 1
+                            for key in descendants - {'RUS_future_domestic_160'}))
         # Each selected economic approach unlocks its own distinct projects.
         for branch in ({'169','176','625','626','182'}, {'166','629','179','631','177'}, {'163','181','634','636','183'}):
             keys={key for suffix in branch for key in FOCUS_PROJECTS[suffix]}
-            self.assertGreaterEqual(len(keys),10)
+            self.assertEqual(len(keys),5)
             for key in keys:self.assertIn(PROJECT_FOCUS[key].split('_')[-1],branch)
+
+    def test_electrification_focus_awards_one_tesla_size_even_if_unlocked_later(self):
+        mio_id = 'RUS_tesla_electrical_organisation'
+        focus = next(n for n in load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')
+                     if n.value('id') == 'RUS_future_domestic_804')
+        award = next(n for n in focus.one('completion_reward').v if n.k=='if')
+        effect = 'RUS_tesla_apply_electrification_focus_reward'
+        m = Model()
+        m.effects[effect] = next(n for n in load(ROOT/'common/scripted_effects/RUS_tesla_effects.txt') if n.k==effect)
+        m.mios[mio_id] = {'size': 0}
+        m.aat = False
+        m.run([award])
+        self.assertFalse(m.flags & {'RUS_tesla_electrification_focus_reward_pending'})
+        m.aat = True
+        m.run([award])
+        self.assertEqual(m.preview_mios, [mio_id])
+        self.assertEqual(m.mios[mio_id]['size'], 0)
+        m.flags.add('RUS_tesla_mio_unlocked')
+        m.call(effect)
+        m.call(effect)
+        m.run([award])
+        self.assertEqual(m.mios[mio_id]['size'], 1)
+        self.assertNotIn('RUS_tesla_electrification_focus_reward_pending', m.flags)
 
     def score_model(self):
         m=Model().initialize()

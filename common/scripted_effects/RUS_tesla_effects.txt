@@ -122,9 +122,25 @@ RUS_tesla_sync_company_programmes = {
 	RUS_tesla_refresh_power_grid_bonuses = yes
 }
 
+RUS_tesla_apply_electrification_focus_reward = {
+	if = {
+		limit = {
+			has_dlc_aat = yes
+			has_country_flag = RUS_tesla_electrification_focus_reward_pending
+			NOT = { has_country_flag = RUS_tesla_electrification_focus_reward_claimed }
+			has_country_flag = RUS_tesla_mio_unlocked
+			has_military_industrial_organization = RUS_tesla_electrical_organisation
+		}
+		clr_country_flag = RUS_tesla_electrification_focus_reward_pending
+		set_country_flag = RUS_tesla_electrification_focus_reward_claimed
+		mio:RUS_tesla_electrical_organisation = { add_mio_size = 1 }
+	}
+}
+
 RUS_tesla_company_on_add = {
 	set_country_flag = RUS_tesla_company_hired
 	set_country_flag = RUS_tesla_mio_unlocked
+	RUS_tesla_apply_electrification_focus_reward = yes
 	if = {
 		limit = { NOT = { has_country_flag = RUS_tesla_minesweeper_unlock_event_fired } }
 		set_country_flag = RUS_tesla_minesweeper_unlock_event_fired

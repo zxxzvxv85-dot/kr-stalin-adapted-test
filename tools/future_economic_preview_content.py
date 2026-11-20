@@ -30,6 +30,19 @@ def focus_rewards():
         '# RUS_EASY_MODE_TECH_END',
     ]
     return {
+        '804': [
+            'if = {',
+            '\tlimit = { has_dlc_aat = yes }',
+            '\teffect_tooltip = { mio:RUS_tesla_electrical_organisation = { add_mio_size = 1 } }',
+            '\thidden_effect = {',
+            '\t\tif = {',
+            '\t\t\tlimit = { NOT = { has_country_flag = RUS_tesla_electrification_focus_reward_claimed } }',
+            '\t\t\tset_country_flag = RUS_tesla_electrification_focus_reward_pending',
+            '\t\t\tRUS_tesla_apply_electrification_focus_reward = yes',
+            '\t\t}',
+            '\t}',
+            '}',
+        ],
         '424': recovery + recovery_hint,
         '420': recovery + [
             f'{state} = {{ increase_state_category_by_one_level = yes }}'

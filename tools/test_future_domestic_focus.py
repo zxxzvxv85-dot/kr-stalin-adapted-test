@@ -84,7 +84,9 @@ def main():
     tree = next(n for n in load(ROOT/TREE) if n.k=='focus_tree')
     # The first-five-year-plan stage retains its previous definitions as well
     # as its hidden selector. Other Russian routes are guarded by the opening suite.
-    assert digest((ROOT/'common/national_focus/00_RUS_future_five_year_plan_skeleton.txt').read_text(encoding='utf-8-sig'))=='6a7350d8c75ecf30a1382c70cca1d88481bef181722a6dcfe6fed9405a12826b', 'Hidden first-five-year-plan tree changed'
+    phase_text = (ROOT/'common/national_focus/00_RUS_future_five_year_plan_skeleton.txt').read_text(encoding='utf-8-sig')
+    base_phase = re.sub(r'\tcompletion_reward = \{\n(?:\t\tunlock_decision_tooltip = RUS_np_\w+\n)+\t\}', '\tcompletion_reward = { }', phase_text)
+    assert digest(base_phase)=='6a7350d8c75ecf30a1382c70cca1d88481bef181722a6dcfe6fed9405a12826b', 'Hidden first-five-year-plan tree changed beyond project assignments'
     refs = [n.v for n in tree.children('shared_focus') if n.v.startswith(PREFIX)]
     assert Counter(refs)==Counter(domestic_ids), 'Domestic integration missing, duplicated or still contains first-five-year-plan nodes'
     phase_tree=next(n for n in phase_file if n.k=='focus_tree')
@@ -263,7 +265,7 @@ def main():
     assert not manifest['planned_stage_entry']['implemented']
     assert set(manifest['planned_stage_entry']['any_completed'])=={PREFIX+s for s in ['177','182','183']}
     assert manifest['planned_stage_entry']['all_completed']==[PREFIX+'237']
-    print(f'PASS: 154 domestic + 17 unchanged hidden first-five-year-plan focuses; 234 edges including all five policies per economic route; 169 retained icons unchanged; {or_merges} OR merges; education 8-route choices; 2 hidden AND gates; 7 exclusions; revised geometry and three-language names/keys/BOM valid.')
+    print(f'PASS: 154 domestic + 17 hidden first-five-year-plan focuses; 234 edges including all five policies per economic route; 169 retained icons unchanged; {or_merges} OR merges; education 8-route choices; 2 hidden AND gates; 7 exclusions; revised geometry and three-language names/keys/BOM valid.')
 
 
 if __name__=='__main__':
