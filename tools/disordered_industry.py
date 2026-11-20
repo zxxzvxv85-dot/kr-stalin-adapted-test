@@ -91,13 +91,18 @@ def idea_previews(tiers):
     def preview(name, swaps, fallback=None, bonus_tooltip=None):
         lines = [f'{name} = {{']
         for index, (before, after) in enumerate(swaps):
+            swap = f'swap_ideas = {{ remove_idea = {before} add_idea = {after} }}'
             lines.extend([
                 f'\t{"else_if" if index else "if"} = {{',
                 f'\t\tlimit = {{ hidden_trigger = {{ has_idea = {before} }} }}',
-                f'\t\teffect_tooltip = {{ swap_ideas = {{ remove_idea = {before} add_idea = {after} }} }}',
             ])
             if bonus_tooltip:
-                lines.append(f'\t\tcustom_effect_tooltip = {bonus_tooltip}')
+                lines.extend(['\t\teffect_tooltip = {',
+                              f'\t\t\t{swap}',
+                              f'\t\t\tcustom_effect_tooltip = {bonus_tooltip}',
+                              '\t\t}'])
+            else:
+                lines.append(f'\t\teffect_tooltip = {{ {swap} }}')
             lines.append('\t}')
         if fallback:
             lines.append(f'\telse = {{ {fallback} = yes }}')
@@ -182,24 +187,28 @@ def outputs(branch):
         Path('common/on_actions/RUS_disordered_industry.txt'): actions,
     }
     for lang, label, pp_cost, resource_cost in (
-        ('simp_chinese', '混乱的工业', '工业决议政治点数花费', '工业决议建设资源花费'),
+        ('simp_chinese', '混乱的工业', '工业决议政治点数花费', '工业决议§C建设资源§!花费'),
         ('english', 'Disordered Industry', 'Industrial Decision Political Power Cost',
-         'Industrial Decision Construction Resource Cost'),
+         'Industrial Decision §CConstruction Resource§! Cost'),
         ('russian', 'Дезорганизованная промышленность', 'Затраты политической власти на промышленные решения',
-         'Затраты строительных ресурсов на промышленные решения'),
+         'Затраты §Cстроительных ресурсов§! на промышленные решения'),
     ):
-        discount_text = (f'£pol_power£ {pp_cost}: §G−20%§!\\n'
-                         f'£RUS_np_resources_texticon£ {resource_cost}: §G−20%§!')
+        discount_text = (f'£pol_power£ {pp_cost}: §G-20%§!\\n'
+                         f'£RUS_np_resources_texticon£ {resource_cost}: §G-20%§!')
         lines = [f'l_{lang}:', f' {ROUTE_BONUS_TOOLTIPS["federal"]}:0 "{discount_text}"']
-        education_text, resources_text = {
-            'simp_chinese': ('每月基础教育水平和高等教育水平各 §G+{education}§!（教育系统启用后）',
-                             '每日建设资源收入 §G+{resources}§!（国家建设账本开启后）'),
-            'english': ('Monthly Basic and Higher Education each §G+{education}§! while education reform is active',
-                        'Daily Construction Resource Income §G+{resources}§! while the construction account is open'),
-            'russian': ('Начальное и высшее образование ежемесячно §G+{education}§! каждое при действующей реформе образования',
-                        'Ежедневный доход строительных ресурсов §G+{resources}§! при открытом строительном счёте'),
+        basic_text, higher_text, education_condition, resources_text = {
+            'simp_chinese': ('每月§C基础教育水平§!', '每月§Y高等教育水平§!', '教育系统启用后',
+                             '每日§C建设资源§!收入 §G+{resources}§!（国家建设账本开启后）'),
+            'english': ('Monthly §CBasic Education§!', 'Monthly §YHigher Education§!', 'While education reform is active',
+                        'Daily §CConstruction Resource§! Income §G+{resources}§! while the construction account is open'),
+            'russian': ('Ежемесячный прирост §Cначального образования§!', 'Ежемесячный прирост §Yвысшего образования§!',
+                        'При действующей реформе образования',
+                        'Ежедневный доход §Cстроительных ресурсов§! §G+{resources}§! при открытом строительном счёте'),
         }[lang]
-        education_text = '£research_speed_icon£ ' + education_text.format(education=COOPERATIVE_MONTHLY_EDUCATION)
+        gain = f'§G+{COOPERATIVE_MONTHLY_EDUCATION}§!'
+        education_text = (f'£RUS_edu_basic_texticon£ {basic_text}: {gain}\\n'
+                          f'£RUS_edu_higher_texticon£ {higher_text}: {gain}\\n'
+                          f'§g{education_condition}§!')
         resources_text = '£RUS_np_resources_texticon£ ' + resources_text.format(resources=TRUSTS_DAILY_RESOURCES)
         lines.extend([f' {ROUTE_BONUS_TOOLTIPS["cooperative"]}:0 "{education_text}"',
                       f' {ROUTE_BONUS_TOOLTIPS["trusts"]}:0 "{resources_text}"'])
