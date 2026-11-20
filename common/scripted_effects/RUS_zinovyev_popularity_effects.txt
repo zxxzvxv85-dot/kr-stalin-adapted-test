@@ -1,6 +1,19 @@
 RUS_zinovyev_apply_popularity_bonus = {
 	if = {
 		limit = {
+			OR = {
+				NOT = { has_variable = RUS_zinovyev_totalist_support }
+				NOT = { check_variable = { RUS_zinovyev_totalist_support = party_popularity@totalist } }
+			}
+		}
+		set_variable = { RUS_zinovyev_totalist_support = party_popularity@totalist }
+		if = {
+			limit = { has_dynamic_modifier = { modifier = RUS_zinovyev_popularity_bonus } }
+			force_update_dynamic_modifier = yes
+		}
+	}
+	if = {
+		limit = {
 			RUS_zinovyev_in_office = yes
 			NOT = { has_dynamic_modifier = { modifier = RUS_zinovyev_popularity_bonus } }
 		}
