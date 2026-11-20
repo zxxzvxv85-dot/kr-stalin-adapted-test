@@ -16,6 +16,7 @@ from hoi4_politics_blocks import load
 from generate_soviet_congress import ROOT, PARTIES, CHILDREN, ALL_PARTIES, FRAMES, LEADERS, TOTAL, WIDTH, HEIGHT, MAIN_HEIGHT, CONTENT_RIGHT, HALL_SIZE, VERTICAL_SHIFT, PARENTS, CIVIC_SOURCES, SHARED, PORTRAIT_LINE_GAP, outputs, seats, table_rows, row_elements, leader_portraits, leader_textures, portrait_texticon
 from hoi4_bitmap_fonts import GAME
 from hoi4_bitmap_fonts import measure, font_data
+from generate_soviet_congress import HALL_SOURCE
 
 
 class CongressModel(ScriptModel):
@@ -342,7 +343,7 @@ def main():
                     tag,name=ref.split('.',1); assert tag=='RUS'
                     resolved.append(fresh.vars[name])
                 assert resolved==[count,count/8]
-    manifest=json.loads((ROOT/'tools/design/soviet_congress_hall_20261023/manifest.json').read_text(encoding='utf-8'))
+    manifest=json.loads((ROOT/HALL_SOURCE.with_name('manifest.json')).read_text(encoding='utf-8'))
     source=ROOT/manifest['source']; image=Image.open(source)
     assert hashlib.sha256(source.read_bytes()).hexdigest()==manifest['source_sha256']
     assert list(image.size)==manifest['source_dimensions'] and image.width/image.height==2

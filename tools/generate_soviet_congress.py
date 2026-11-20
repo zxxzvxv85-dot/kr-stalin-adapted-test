@@ -27,7 +27,7 @@ CONTENT_RIGHT = 468
 HALL_SIZE = (476, 238)
 VERTICAL_SHIFT = 158
 TABLE_COLUMNS = [('name',48,244),('count',300,62),('share',380,88)]
-HALL_SOURCE = Path('tools/design/soviet_congress_hall_20261023/source-symmetric.png')
+HALL_SOURCE = Path('tools/design/soviet_congress_hall_20261120/source.png')
 PARTIES = [
     ('bolsheviks', '俄罗斯共产党（布尔什维克）', '473', 240, '#d65b60'),
     ('unions', '工会联盟', '275', 160, '#d7b45d'),
