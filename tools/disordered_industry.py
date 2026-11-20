@@ -53,28 +53,28 @@ FINALS = {
                    custom_modifier_tooltip=ROUTE_BONUS_TOOLTIPS['trusts']),
 }
 
-# Modifier labels and sprites are supplied by vanilla and KR. The three
+# Use the modifier labels and any icons already supplied by vanilla and KR. The three
 # building-cost labels are supplied by this mod.
 PREVIEW_ROWS = {
-    'monthly_population': ('MODIFIER_GLOBAL_MONTHLY_POPULATION', 'population_texticon'),
-    'political_power_factor': ('MODIFIER_POLITICAL_POWER_FACTOR', 'pol_power'),
-    'consumer_goods_factor': ('MODIFIER_CONSUMER_GOODS_FACTOR', 'consumer_goods_texticon'),
-    'consumer_goods_expected_value': ('MODIFIER_CONSUMER_GOODS_EXPECTED_VALUE', 'consumer_goods_texticon'),
-    'stability_factor': ('MODIFIER_STABILITY_FACTOR', 'stability_texticon'),
-    'war_support_factor': ('MODIFIER_WAR_SUPPORT_FACTOR', 'war_support_texticon'),
-    'conversion_cost_civ_to_mil_factor': ('MODIFIER_CONVERSION_COST_CIV_TO_MIL_FACTOR', 'mil_factory'),
-    'global_building_slots': ('MODIFIER_GLOBAL_BUILDING_SLOTS', 'state'),
-    'global_building_slots_factor': ('MODIFIER_GLOBAL_BUILDING_SLOTS_FACTOR', 'state'),
-    'production_speed_buildings_factor': ('MODIFIER_PRODUCTION_SPEED_BUILDINGS_FACTOR', 'build_cost_ic_texticon'),
-    'production_factory_efficiency_gain_factor': ('MODIFIER_PRODUCTION_FACTORY_EFFICIENCY_GAIN_FACTOR', ''),
-    'research_speed_factor': ('MODIFIER_RESEARCH_SPEED_FACTOR', 'research_speed_icon'),
-    'industrial_capacity_factory': ('MODIFIER_INDUSTRIAL_CAPACITY_FACTOR', 'mil_factory'),
-    'resource_trade_cost_bonus_per_factory': ('MODIFIER_RESOURCE_TRADE_COST_BONUS_PER_FACTORY', 'resources_to_market_icon'),
-    'military_industrial_organization_funds_gain': ('MODIFIER_MIO_FUNDS_GAIN', 'RUS_np_resources_texticon'),
-    'production_cost_infrastructure_factor': ('modifier_production_cost_infrastructure_factor', ''),
-    'production_cost_arms_factory_factor': ('modifier_production_cost_arms_factory_factor', ''),
-    'production_cost_industrial_complex_factor': ('modifier_production_cost_industrial_complex_factor', ''),
-    'production_speed_rail_way_factor': ('modifier_production_speed_rail_way_factor', 'railways_texticon'),
+    'monthly_population': 'MODIFIER_GLOBAL_MONTHLY_POPULATION',
+    'political_power_factor': 'MODIFIER_POLITICAL_POWER_FACTOR',
+    'consumer_goods_factor': 'MODIFIER_CONSUMER_GOODS_FACTOR',
+    'consumer_goods_expected_value': 'MODIFIER_CONSUMER_GOODS_EXPECTED_VALUE',
+    'stability_factor': 'MODIFIER_STABILITY_FACTOR',
+    'war_support_factor': 'MODIFIER_WAR_SUPPORT_FACTOR',
+    'conversion_cost_civ_to_mil_factor': 'MODIFIER_CONVERSION_COST_CIV_TO_MIL_FACTOR',
+    'global_building_slots': 'MODIFIER_GLOBAL_BUILDING_SLOTS',
+    'global_building_slots_factor': 'MODIFIER_GLOBAL_BUILDING_SLOTS_FACTOR',
+    'production_speed_buildings_factor': 'MODIFIER_PRODUCTION_SPEED_BUILDINGS_FACTOR',
+    'production_factory_efficiency_gain_factor': 'MODIFIER_PRODUCTION_FACTORY_EFFICIENCY_GAIN_FACTOR',
+    'research_speed_factor': 'MODIFIER_RESEARCH_SPEED_FACTOR',
+    'industrial_capacity_factory': 'MODIFIER_INDUSTRIAL_CAPACITY_FACTOR',
+    'resource_trade_cost_bonus_per_factory': 'MODIFIER_RESOURCE_TRADE_COST_BONUS_PER_FACTORY',
+    'military_industrial_organization_funds_gain': 'MODIFIER_MIO_FUNDS_GAIN',
+    'production_cost_infrastructure_factor': 'modifier_production_cost_infrastructure_factor',
+    'production_cost_arms_factory_factor': 'modifier_production_cost_arms_factory_factor',
+    'production_cost_industrial_complex_factor': 'modifier_production_cost_industrial_complex_factor',
+    'production_speed_rail_way_factor': 'modifier_production_speed_rail_way_factor',
 }
 INTEGER_ROWS = {'global_building_slots', 'resource_trade_cost_bonus_per_factory'}
 NEUTRAL_ROWS = {'consumer_goods_factor', 'consumer_goods_expected_value'}
@@ -90,15 +90,14 @@ def route_preview_text(before, after, heading, bonus):
     """Join modifier deltas and the bonus in a single contiguous tooltip."""
     assert (before.keys() | after.keys()) - {'custom_modifier_tooltip'} <= PREVIEW_ROWS.keys()
     rows = [f'§Y${OLD}$§!{heading}']
-    for modifier, (label, icon) in PREVIEW_ROWS.items():
+    for modifier, label in PREVIEW_ROWS.items():
         delta = Decimal(str(after.get(modifier, 0))) - Decimal(str(before.get(modifier, 0)))
         if not delta:
             continue
         color = 'Y' if modifier in NEUTRAL_ROWS else (
             'G' if (delta < 0 if modifier in COST_ROWS else delta > 0) else 'R')
         amount = f'{int(delta):+d}' if modifier in INTEGER_ROWS else f'{delta*100:+.2f}%'
-        icon_text = f'£{icon}£ ' if icon else ''
-        rows.append(f'{icon_text}${label}$: §{color}{amount}§!')
+        rows.append(f'${label}$: §{color}{amount}§!')
     rows.append(f'${bonus}$')
     return '\\n'.join(rows)
 
