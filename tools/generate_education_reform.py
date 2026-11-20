@@ -184,6 +184,7 @@ def effects():
         daily += cond('has_country_flag = '+active(a),[op('subtract_from',remain(a),1)]+clamp(remain(a),0,a['days']))
     daily += [add(VARS['basic'],'RUS_edu_external_basic_gain'),add(VARS['higher'],'RUS_edu_external_higher_gain'),
               add(VARS['heat'],'RUS_edu_external_heat_change')]
+    daily += cond('RUS_zinovyev_in_office = yes', [add(VARS['heat'], .05)])
     daily += cond(f'check_variable = {{ RUS_education_enthusiasm > {HEAT_WEEKLY_STABILITY_THRESHOLD} }}',[add('RUS_education_overheat_days',1)])
     daily += ['else = { '+setv('RUS_education_overheat_days',0)+' }','RUS_education_refresh = yes']
     out.append(block('RUS_education_daily',daily))

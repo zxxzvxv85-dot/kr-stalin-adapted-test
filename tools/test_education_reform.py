@@ -24,11 +24,13 @@ class EducationModel(ScriptModel):
         self.idea_expiry={};self.dynamic_expiry={};self.research_slots=3
         self.political_power=0;self.political_advisors=set();self.advisor_activations=[]
         self.characters={'RUS_mikhail_kalinin'};self.kalinin_dead=False;self.kalinin_other_role=False
+        self.zinovyev_in_office = False
         self.states={i:dict(owned=True,controlled=True,modifiers={}) for i in (195,219,202)}
     def check(self,nodes):
         if hasattr(nodes,'v'): nodes=nodes.v
         for n in nodes:
             if n.k=='has_idea': ok=n.v in self.ideas
+            elif n.k=='RUS_zinovyev_in_office': ok=self.zinovyev_in_office==(n.v=='yes')
             elif n.k=='has_character':ok=n.v in self.characters
             elif n.k=='has_free_political_advisor_slot':
                 taken=self.political_advisors|({'RUS_mikhail_kalinin_advisor'} if 'RUS_mikhail_kalinin_advisor' in self.ideas else set())
@@ -965,6 +967,14 @@ class EducationTests(unittest.TestCase):
         m=initialized();m.advance(30)
         self.assertAlmostEqual(m.vars[VARS['heat']],29)
         self.assertEqual(m.vars[VARS['basic']],32);self.assertEqual(m.vars[VARS['higher']],7)
+    def test_zinovyev_offsets_daily_enthusiasm_decay_while_in_office(self):
+        m = initialized()
+        m.zinovyev_in_office = True
+        m.advance(10)
+        self.assertAlmostEqual(m.vars[VARS['heat']], 31.5)
+        m.zinovyev_in_office = False
+        m.advance(10)
+        self.assertAlmostEqual(m.vars[VARS['heat']], 30.5)
     def test_entry_only_and_idempotence(self):
         m=EducationModel();m.call('RUS_education_reform_start');self.assertNotIn('RUS_education_system_active',m.flags)
         m.done.add('RUS_future_domestic_205');m.call('RUS_education_reform_start');m.advance(5)
