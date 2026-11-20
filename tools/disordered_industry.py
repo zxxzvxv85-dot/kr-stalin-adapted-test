@@ -53,6 +53,55 @@ FINALS = {
                    custom_modifier_tooltip=ROUTE_BONUS_TOOLTIPS['trusts']),
 }
 
+# Modifier labels and sprites are supplied by vanilla and KR. The three
+# building-cost labels are supplied by this mod.
+PREVIEW_ROWS = {
+    'monthly_population': ('MODIFIER_GLOBAL_MONTHLY_POPULATION', 'population_texticon'),
+    'political_power_factor': ('MODIFIER_POLITICAL_POWER_FACTOR', 'pol_power'),
+    'consumer_goods_factor': ('MODIFIER_CONSUMER_GOODS_FACTOR', 'consumer_goods_texticon'),
+    'consumer_goods_expected_value': ('MODIFIER_CONSUMER_GOODS_EXPECTED_VALUE', 'consumer_goods_texticon'),
+    'stability_factor': ('MODIFIER_STABILITY_FACTOR', 'stability_texticon'),
+    'war_support_factor': ('MODIFIER_WAR_SUPPORT_FACTOR', 'war_support_texticon'),
+    'conversion_cost_civ_to_mil_factor': ('MODIFIER_CONVERSION_COST_CIV_TO_MIL_FACTOR', 'mil_factory'),
+    'global_building_slots': ('MODIFIER_GLOBAL_BUILDING_SLOTS', 'state'),
+    'global_building_slots_factor': ('MODIFIER_GLOBAL_BUILDING_SLOTS_FACTOR', 'state'),
+    'production_speed_buildings_factor': ('MODIFIER_PRODUCTION_SPEED_BUILDINGS_FACTOR', 'build_cost_ic_texticon'),
+    'production_factory_efficiency_gain_factor': ('MODIFIER_PRODUCTION_FACTORY_EFFICIENCY_GAIN_FACTOR', ''),
+    'research_speed_factor': ('MODIFIER_RESEARCH_SPEED_FACTOR', 'research_speed_icon'),
+    'industrial_capacity_factory': ('MODIFIER_INDUSTRIAL_CAPACITY_FACTOR', 'mil_factory'),
+    'resource_trade_cost_bonus_per_factory': ('MODIFIER_RESOURCE_TRADE_COST_BONUS_PER_FACTORY', 'resources_to_market_icon'),
+    'military_industrial_organization_funds_gain': ('MODIFIER_MIO_FUNDS_GAIN', 'RUS_np_resources_texticon'),
+    'production_cost_infrastructure_factor': ('modifier_production_cost_infrastructure_factor', ''),
+    'production_cost_arms_factory_factor': ('modifier_production_cost_arms_factory_factor', ''),
+    'production_cost_industrial_complex_factor': ('modifier_production_cost_industrial_complex_factor', ''),
+    'production_speed_rail_way_factor': ('modifier_production_speed_rail_way_factor', 'railways_texticon'),
+}
+INTEGER_ROWS = {'global_building_slots', 'resource_trade_cost_bonus_per_factory'}
+NEUTRAL_ROWS = {'consumer_goods_factor', 'consumer_goods_expected_value'}
+COST_ROWS = {'conversion_cost_civ_to_mil_factor', 'production_cost_infrastructure_factor',
+             'production_cost_arms_factory_factor', 'production_cost_industrial_complex_factor'}
+
+
+def route_preview_key(route, tier):
+    return f'{PREVIEW}_{route}_{tier}_tt'
+
+
+def route_preview_text(before, after, heading, bonus):
+    """Join modifier deltas and the bonus in a single contiguous tooltip."""
+    assert (before.keys() | after.keys()) - {'custom_modifier_tooltip'} <= PREVIEW_ROWS.keys()
+    rows = [f'§Y${OLD}$§!{heading}']
+    for modifier, (label, icon) in PREVIEW_ROWS.items():
+        delta = Decimal(str(after.get(modifier, 0))) - Decimal(str(before.get(modifier, 0)))
+        if not delta:
+            continue
+        color = 'Y' if modifier in NEUTRAL_ROWS else (
+            'G' if (delta < 0 if modifier in COST_ROWS else delta > 0) else 'R')
+        amount = f'{int(delta):+d}' if modifier in INTEGER_ROWS else f'{delta*100:+.2f}%'
+        icon_text = f'£{icon}£ ' if icon else ''
+        rows.append(f'{icon_text}${label}$: §{color}{amount}§!')
+    rows.append(f'${bonus}$')
+    return '\\n'.join(rows)
+
 
 def economy_branch(edges):
     result = {'RUS_future_domestic_424'}
@@ -86,9 +135,9 @@ def route_requirement(suffix):
 
 
 def idea_previews(tiers):
-    # The engine compares the actual idea definitions, including integer trade
-    # thresholds and the final route's modifiers.
-    def preview(name, swaps, fallback=None, bonus_tooltip=None):
+    # Generic recovery can use the engine's idea diff. The final previews
+    # join deltas and scripted bonuses so the engine cannot split the blocks.
+    def preview(name, swaps, fallback=None, route=None):
         lines = [f'{name} = {{']
         for index, (before, after) in enumerate(swaps):
             swap = f'swap_ideas = {{ remove_idea = {before} add_idea = {after} }}'
@@ -96,11 +145,9 @@ def idea_previews(tiers):
                 f'\t{"else_if" if index else "if"} = {{',
                 f'\t\tlimit = {{ hidden_trigger = {{ has_idea = {before} }} }}',
             ])
-            if bonus_tooltip:
-                lines.extend(['\t\teffect_tooltip = {',
-                              f'\t\t\t{swap}',
-                              f'\t\t\tcustom_effect_tooltip = {bonus_tooltip}',
-                              '\t\t}'])
+            if route:
+                tier = before.rsplit('_', 1)[-1]
+                lines.append(f'\t\tcustom_effect_tooltip = {route_preview_key(route, tier)}')
             else:
                 lines.append(f'\t\teffect_tooltip = {{ {swap} }}')
             lines.append('\t}')
@@ -113,7 +160,7 @@ def idea_previews(tiers):
         final = f'{PREFIX}_{route}'
         lines.extend(preview(f'{PREVIEW}_{route}',
                              [(tiers[9], final), (tiers[10], final)], PREVIEW,
-                             ROUTE_BONUS_TOOLTIPS.get(route)))
+                             route))
     return lines
 
 
@@ -196,22 +243,29 @@ def outputs(branch):
         discount_text = (f'£pol_power£ {pp_cost}: §G-20%§!\\n'
                          f'£RUS_np_resources_texticon£ {resource_cost}: §G-20%§!')
         lines = [f'l_{lang}:', f' {ROUTE_BONUS_TOOLTIPS["federal"]}:0 "{discount_text}"']
-        basic_text, higher_text, education_condition, resources_text = {
+        basic_text, higher_text, education_condition, resources_text, resources_condition, heading = {
             'simp_chinese': ('每月§C基础教育水平§!', '每月§Y高等教育水平§!', '教育系统启用后',
-                             '每日§C建设资源§!收入 §G+{resources}§!（国家建设账本开启后）'),
+                             '每日§C建设资源§!收入 §G+{resources}§!', '国家建设账本开启后', '追加效果：'),
             'english': ('Monthly §CBasic Education§!', 'Monthly §YHigher Education§!', 'While education reform is active',
-                        'Daily §CConstruction Resource§! Income §G+{resources}§! while the construction account is open'),
+                        'Daily §CConstruction Resource§! Income §G+{resources}§!',
+                        'While the construction account is open', ' is modified by'),
             'russian': ('Ежемесячный прирост §Cначального образования§!', 'Ежемесячный прирост §Yвысшего образования§!',
                         'При действующей реформе образования',
-                        'Ежедневный доход §Cстроительных ресурсов§! §G+{resources}§! при открытом строительном счёте'),
+                        'Ежедневный доход §Cстроительных ресурсов§! §G+{resources}§!',
+                        'При открытом строительном счёте', ' — изменение эффектов:'),
         }[lang]
         gain = f'§G+{COOPERATIVE_MONTHLY_EDUCATION}§!'
         education_text = (f'£RUS_edu_basic_texticon£ {basic_text}: {gain}\\n'
                           f'£RUS_edu_higher_texticon£ {higher_text}: {gain}\\n'
                           f'§g{education_condition}§!')
-        resources_text = '£RUS_np_resources_texticon£ ' + resources_text.format(resources=TRUSTS_DAILY_RESOURCES)
+        resources_text = ('£RUS_np_resources_texticon£ ' + resources_text.format(resources=TRUSTS_DAILY_RESOURCES)
+                          + f'\\n§g{resources_condition}§!')
         lines.extend([f' {ROUTE_BONUS_TOOLTIPS["cooperative"]}:0 "{education_text}"',
                       f' {ROUTE_BONUS_TOOLTIPS["trusts"]}:0 "{resources_text}"'])
+        for route, bonus in ROUTE_BONUS_TOOLTIPS.items():
+            for tier in (9, 10):
+                preview_text = route_preview_text(definitions[tiers[tier]], FINALS[route], heading, bonus)
+                lines.append(f' {route_preview_key(route, tier)}:0 "{preview_text}"')
         infrastructure = {'simp_chinese':'§Y基础设施§!建造花费',
                           'english':'§YInfrastructure§! construction cost',
                           'russian':'Стоимость строительства §Yинфраструктуры§!'}[lang]
