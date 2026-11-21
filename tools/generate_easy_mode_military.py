@@ -36,7 +36,9 @@ def definitions() -> list[tuple[str, str, list[tuple[str, str]]]]:
         name, body = match.groups()
         icon = re.search(r"(?m)^\s*icon\s*=\s*(\S+)", body)
         values = re.findall(r"(?m)^\s*([a-zA-Z_]+)\s*=\s*(RUS_fr_[a-zA-Z_]+)\s*$", body)
-        values = [(modifier, variable) for modifier, variable in values if modifier != "custom_modifier_tooltip"]
+        # The People's Army effects are fixed rewards, including a boolean.
+        values = [(modifier, variable) for modifier, variable in values
+                  if modifier != "custom_modifier_tooltip" and not variable.startswith("RUS_fr_people_army_")]
         if values:
             results.append((name, icon.group(1) if icon else "GFX_idea_FOP_revolutionary_army", values))
     return results

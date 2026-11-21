@@ -27710,8 +27710,13 @@ focus_tree = {
 			custom_effect_tooltip = RUS_fr_military_reform_materials_limit_increase_10_tt
 			add_to_variable = { RUS_fr_military_reform_materials_limit = 10 }
 			custom_effect_tooltip = RUS_fr_unify_basic_army_reform_tt
+			custom_effect_tooltip = RUS_fr_people_army_keep_entrenchment_tt
+			set_variable = { RUS_fr_people_army_moving_org_loss = -0.20 tooltip = org_loss_when_moving_tt }
+			set_variable = { RUS_fr_people_army_planning_decay = -0.20 tooltip = RUS_fr_people_army_planning_decay_tt }
 			hidden_effect = {
+				set_variable = { RUS_fr_people_army_keep_entrenchment = 1 }
 				RUS_fr_initialise_unified_army_reform = yes
+				force_update_dynamic_modifier = yes
 			}
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MANPOWER }
