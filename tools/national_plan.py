@@ -7,7 +7,10 @@ import json,re
 from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
 from national_plan_focuses import PLAN_UNLOCK_FOCUS,PROJECT_FOCUS,focus_condition
-from disordered_industry import DISCOUNT, TRUSTS_IDEA, TRUSTS_DAILY_RESOURCES
+from disordered_industry import (
+    DISCOUNT, RESEARCH_BASELINE, RESEARCH_FACTOR, RESEARCH_FOCUS,
+    RESEARCH_REDUCTION, RESEARCH_STEP, TRUSTS_IDEA, TRUSTS_DAILY_RESOURCES,
+)
 from national_plan_catalog import current_place_names
 
 CAT='RUS_first_five_year_plan_industrial_projects'
@@ -61,14 +64,31 @@ def discounted_budget(p):
 
 def refresh_prices():
     prices = sorted({base_pp(p) for p in PROJECTS})
-    out = []
+    out = [
+        sv(RESEARCH_FACTOR, 1),
+        sv(RESEARCH_REDUCTION, 0),
+        iff(f'has_completed_focus = {RESEARCH_FOCUS}', [
+            iff(f'NOT = {{ has_variable = {RESEARCH_BASELINE} }}',
+                [sv(RESEARCH_BASELINE, 'num_researched_technologies')]),
+            sv(RESEARCH_REDUCTION, 'num_researched_technologies'),
+            sub(RESEARCH_REDUCTION, RESEARCH_BASELINE),
+            mul(RESEARCH_REDUCTION, -RESEARCH_STEP),
+            *clamp(RESEARCH_REDUCTION, -.99, 0),
+            add(RESEARCH_FACTOR, RESEARCH_REDUCTION),
+        ]),
+    ]
     for base in prices:
         value, fallback = pp_price(base)
         out.append(sv(value, fallback))
         if not base.isdigit():
             out.append(iff('has_variable = '+base, [sv(value,base)]))
-    out.append(iff(DISCOUNT, [line for base in prices for line in
-                               (mul(pp_price(base)[0],.8), 'round_variable = '+pp_price(base)[0])]))
+    fee_factor = P+'fee_factor'
+    out.extend([sv(fee_factor, RESEARCH_FACTOR), iff(DISCOUNT, [mul(fee_factor, .8)])])
+    out.append(iff(ck(fee_factor, '<', 1), [line for base in prices for line in
+                                           (mul(pp_price(base)[0], fee_factor), 'round_variable = '+pp_price(base)[0])]))
+    for p in PROJECTS:
+        budget = var(p, 'budget_current')
+        out.extend([sv(budget, p['budget']), mul(budget, fee_factor)])
     return out
 def flag(p,s):return 'has_country_flag = '+var(p,s)
 def call(p,s):return var(p,s)+' = yes'
@@ -303,6 +323,7 @@ def refresh():
     out += [iff('has_variable = RUS_basic_education_level',[sv(P+'education','RUS_basic_education_level'),mul(P+'education',.6),sv(P+'tmp','RUS_higher_education_level'),mul(P+'tmp',.4),add(P+'education',P+'tmp')])]
     out += clamp(P+'education',0,100)+[sv(P+'efficiency',P+'education'),mul(P+'efficiency',.005),add(P+'efficiency',.75),sv(P+'speed',1)]
     out += [iff('has_variable = RUS_education_enthusiasm',[sv(P+'speed','RUS_education_enthusiasm'),mul(P+'speed',.01),add(P+'speed',.5)])]+clamp(P+'speed',.5,1.5)
+    out += [div(P+'speed', RESEARCH_FACTOR)]
     out += [sv(P+'income',P+'civ'),mul(P+'income',.02),mul(P+'income',P+'efficiency'),sv(P+'grant',P+'civ'),mul(P+'grant',10),mul(P+'grant',P+'efficiency'),sv(P+'slots',7)]
     out += [iff(f'has_idea = {TRUSTS_IDEA}', [add(P+'income', TRUSTS_DAILY_RESOURCES)])]
     out += [sv(P+'active',0),sv(P+'trains',0),sv(P+'rail_average',0),sv(P+'rail_weight',0),sv(P+'farm_rate',0),sv(P+'repair',0)]
@@ -358,6 +379,7 @@ def project_effects(p):
         'set_country_flag = '+var(p,'managed'),'set_country_flag = '+var(p,'running'),
         sv(var(p,'left'),var(p,'total')),sv(var(p,'paid'),p['budget']),
         iff(DISCOUNT,[sv(var(p,'paid'),discounted_budget(p))]),
+        iff('has_variable = '+var(p,'budget_current'),[sv(var(p,'paid'),var(p,'budget_current'))]),
         sv(var(p,'trains'),p['trains']),sv(var(p,'last_day'),'global.num_days'),
         sub(P+'available',var(p,'paid')),add(P+'frozen',var(p,'paid')),equip(-p['trains'])]
     if k in FACTORY_GOALS:
@@ -498,8 +520,14 @@ def augment(out):
         'OR = { has_state_category = one has_state_category = two has_state_category = three has_state_category = four }',
         'infrastructure < 3','industrial_complex < 3','arms_factory < 3'])]
     for p in PROJECTS:
+        budget = var(p, 'budget_current')
+        enough_budget = (
+            'OR = { AND = { has_variable = '+budget+' NOT = { '+ck(P+'available','<',budget)+' } } '
+            'AND = { NOT = { has_variable = '+budget+' } OR = { '
+            'AND = { '+DISCOUNT+' NOT = { '+ck(P+'available','<',discounted_budget(p))+' } } '
+            'AND = { NOT = { '+DISCOUNT+' } NOT = { '+ck(P+'available','<',p['budget'])+' } } } } }')
         condition=['RUS_np_context = yes',focus_condition(p),'has_country_flag = RUS_np_initialized','NOT = { '+running(p)+' }',unfinished(p),owned(p),
-            'custom_trigger_tooltip = { tooltip = RUS_np_budget_tt OR = { AND = { '+DISCOUNT+' NOT = { '+ck(P+'available','<',discounted_budget(p))+' } } AND = { NOT = { '+DISCOUNT+' } NOT = { '+ck(P+'available','<',p['budget'])+' } } } }',
+            'custom_trigger_tooltip = { tooltip = RUS_np_budget_tt '+enough_budget+' }',
             'custom_trigger_tooltip = { tooltip = RUS_np_slot_tt '+ck(P+'active','<',P+'slots')+' }',
             'custom_trigger_tooltip = { tooltip = RUS_np_trains_tt '+stock(p['trains'])+' }']
         triggers.append(b('RUS_np_ready_'+p['key'],condition))
@@ -654,7 +682,9 @@ def localisations():
         l[var(p,'cost_tt')]=f'冻结§C建设资源§!：§Y[{budget_loc}]§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n正常竣工返还未使用的20%§C建设资源§!'+('及全部施工列车。' if p['trains'] else '。')
         l[var(p,'budget_normal')] = f'{p["budget"]:g}'
         l[var(p,'budget_discount')] = f'{discounted_budget(p):g}'
+        l[var(p,'budget_live')] = f'[?{var(p,"budget_current")}|2]'
         sloc.append(b('defined_text', ['name = '+budget_loc,
+            'text = { trigger = { has_variable = '+var(p,'budget_current')+' } localization_key = '+var(p,'budget_live')+' }',
             'text = { trigger = { '+DISCOUNT+' } localization_key = '+var(p,'budget_discount')+' }',
             'text = { localization_key = '+var(p,'budget_normal')+' }']))
         l[p['id']]=('$'+p['original_id']+'$') if p['legacy'] else current_place_names(p['name'])

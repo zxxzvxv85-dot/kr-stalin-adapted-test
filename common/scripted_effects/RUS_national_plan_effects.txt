@@ -1,5 +1,26 @@
 # Generated national plan. Original scoring weights and spirit stages retained.
 RUS_np_refresh_prices = {
+	set_variable = { RUS_disordered_industry_research_factor = 1 }
+	set_variable = { RUS_disordered_industry_research_reduction = 0 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_176 }
+	if = {
+	limit = { NOT = { has_variable = RUS_disordered_industry_research_baseline } }
+	set_variable = { RUS_disordered_industry_research_baseline = num_researched_technologies }
+}
+	set_variable = { RUS_disordered_industry_research_reduction = num_researched_technologies }
+	subtract_from_variable = { RUS_disordered_industry_research_reduction = RUS_disordered_industry_research_baseline }
+	multiply_variable = { RUS_disordered_industry_research_reduction = -0.002 }
+	if = {
+	limit = { check_variable = { RUS_disordered_industry_research_reduction < -0.99 } }
+	set_variable = { RUS_disordered_industry_research_reduction = -0.99 }
+}
+	if = {
+	limit = { check_variable = { RUS_disordered_industry_research_reduction > 0 } }
+	set_variable = { RUS_disordered_industry_research_reduction = 0 }
+}
+	add_to_variable = { RUS_disordered_industry_research_factor = RUS_disordered_industry_research_reduction }
+}
 	set_variable = { RUS_np_pp_15 = 15 }
 	set_variable = { RUS_np_pp_20 = 20 }
 	set_variable = { RUS_np_pp_25 = 25 }
@@ -25,35 +46,164 @@ RUS_np_refresh_prices = {
 	limit = { has_variable = RUS_ic_cost_med }
 	set_variable = { RUS_np_pp_med = RUS_ic_cost_med }
 }
+	set_variable = { RUS_np_fee_factor = RUS_disordered_industry_research_factor }
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
-	multiply_variable = { RUS_np_pp_15 = 0.8 }
+	multiply_variable = { RUS_np_fee_factor = 0.8 }
+}
+	if = {
+	limit = { check_variable = { RUS_np_fee_factor < 1 } }
+	multiply_variable = { RUS_np_pp_15 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_15
-	multiply_variable = { RUS_np_pp_20 = 0.8 }
+	multiply_variable = { RUS_np_pp_20 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_20
-	multiply_variable = { RUS_np_pp_25 = 0.8 }
+	multiply_variable = { RUS_np_pp_25 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_25
-	multiply_variable = { RUS_np_pp_30 = 0.8 }
+	multiply_variable = { RUS_np_pp_30 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_30
-	multiply_variable = { RUS_np_pp_35 = 0.8 }
+	multiply_variable = { RUS_np_pp_35 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_35
-	multiply_variable = { RUS_np_pp_40 = 0.8 }
+	multiply_variable = { RUS_np_pp_40 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_40
-	multiply_variable = { RUS_np_pp_45 = 0.8 }
+	multiply_variable = { RUS_np_pp_45 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_45
-	multiply_variable = { RUS_np_pp_50 = 0.8 }
+	multiply_variable = { RUS_np_pp_50 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_50
-	multiply_variable = { RUS_np_pp_60 = 0.8 }
+	multiply_variable = { RUS_np_pp_60 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_60
-	multiply_variable = { RUS_np_pp_75 = 0.8 }
+	multiply_variable = { RUS_np_pp_75 = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_75
-	multiply_variable = { RUS_np_pp_high = 0.8 }
+	multiply_variable = { RUS_np_pp_high = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_high
-	multiply_variable = { RUS_np_pp_low = 0.8 }
+	multiply_variable = { RUS_np_pp_low = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_low
-	multiply_variable = { RUS_np_pp_med = 0.8 }
+	multiply_variable = { RUS_np_pp_med = RUS_np_fee_factor }
 	round_variable = RUS_np_pp_med
 }
+	set_variable = { RUS_np_kamenev_all_russian_electrification_budget_current = 80 }
+	multiply_variable = { RUS_np_kamenev_all_russian_electrification_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_renovate_and_expand_moscow_budget_current = 140 }
+	multiply_variable = { RUS_np_renovate_and_expand_moscow_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_budget_current = 140 }
+	multiply_variable = { RUS_np_renovate_and_expand_tsaritsyn_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_budget_current = 140 }
+	multiply_variable = { RUS_np_renovate_and_expand_saint_petersburg_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_magnitogorsk_budget_current = 140 }
+	multiply_variable = { RUS_np_magnitogorsk_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_second_baku_budget_current = 80 }
+	multiply_variable = { RUS_np_second_baku_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_modernisation_of_AMO_budget_current = 80 }
+	multiply_variable = { RUS_np_modernisation_of_AMO_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_izhevsk_mechanical_plant_budget_current = 80 }
+	multiply_variable = { RUS_np_izhevsk_mechanical_plant_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_tula_arms_factory_budget_current = 80 }
+	multiply_variable = { RUS_np_tula_arms_factory_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_create_tankograd_budget_current = 80 }
+	multiply_variable = { RUS_np_create_tankograd_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_convert_civilian_aviation_industry_budget_current = 80 }
+	multiply_variable = { RUS_np_convert_civilian_aviation_industry_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_tsaritsyn_tractor_plant_budget_current = 140 }
+	multiply_variable = { RUS_np_tsaritsyn_tractor_plant_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_chelyabinsk_tractor_plant_budget_current = 140 }
+	multiply_variable = { RUS_np_chelyabinsk_tractor_plant_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_kursk_tractor_plant_budget_current = 80 }
+	multiply_variable = { RUS_np_kursk_tractor_plant_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_rostselmash_budget_current = 80 }
+	multiply_variable = { RUS_np_rostselmash_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_stavropol_hydroelectric_dam_budget_current = 220 }
+	multiply_variable = { RUS_np_stavropol_hydroelectric_dam_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_rybinsk_hydroelectric_dam_budget_current = 220 }
+	multiply_variable = { RUS_np_rybinsk_hydroelectric_dam_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_zhiguli_hydroelectric_dam_budget_current = 220 }
+	multiply_variable = { RUS_np_zhiguli_hydroelectric_dam_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_budget_current = 220 }
+	multiply_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_lipetsk_metallurgical_plant_budget_current = 80 }
+	multiply_variable = { RUS_np_lipetsk_metallurgical_plant_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_uralmash_budget_current = 80 }
+	multiply_variable = { RUS_np_uralmash_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_motovilikha_plants_budget_current = 80 }
+	multiply_variable = { RUS_np_motovilikha_plants_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_admiralty_dockyards_budget_current = 80 }
+	multiply_variable = { RUS_np_admiralty_dockyards_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_kamensky_uralsky_budget_current = 80 }
+	multiply_variable = { RUS_np_kamensky_uralsky_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_grozny_oil_budget_current = 80 }
+	multiply_variable = { RUS_np_grozny_oil_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_arctic_mines_budget_current = 80 }
+	multiply_variable = { RUS_np_arctic_mines_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_tyrnyauz_tungsten_budget_current = 80 }
+	multiply_variable = { RUS_np_tyrnyauz_tungsten_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_romanshkino_oil_budget_current = 140 }
+	multiply_variable = { RUS_np_romanshkino_oil_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_northern_route_budget_current = 140 }
+	multiply_variable = { RUS_np_northern_route_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_budget_current = 140 }
+	multiply_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_budget_current = 140 }
+	multiply_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_budget_current = 140 }
+	multiply_variable = { RUS_np_upgrade_the_railroad_vladivostok_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_kuznetsk_basin_budget_current = 140 }
+	multiply_variable = { RUS_np_kuznetsk_basin_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_bodaybo_gold_mines_budget_current = 80 }
+	multiply_variable = { RUS_np_bodaybo_gold_mines_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_far_eastern_fishing_industry_budget_current = 80 }
+	multiply_variable = { RUS_np_far_eastern_fishing_industry_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_krasnoyarskpromstroy_budget_current = 80 }
+	multiply_variable = { RUS_np_krasnoyarskpromstroy_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_dalnremmash_budget_current = 80 }
+	multiply_variable = { RUS_np_dalnremmash_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_rudny_altay_budget_current = 80 }
+	multiply_variable = { RUS_np_rudny_altay_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_tekeli_metallurgical_combine_budget_current = 80 }
+	multiply_variable = { RUS_np_tekeli_metallurgical_combine_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_emba_oil_area_budget_current = 80 }
+	multiply_variable = { RUS_np_emba_oil_area_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_verny_cotton_industry_budget_current = 80 }
+	multiply_variable = { RUS_np_verny_cotton_industry_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_siberian_timber_industries_budget_current = 140 }
+	multiply_variable = { RUS_np_siberian_timber_industries_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_improve_roads_in_central_russia_budget_current = 140 }
+	multiply_variable = { RUS_np_improve_roads_in_central_russia_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_improve_roads_in_northern_russia_budget_current = 140 }
+	multiply_variable = { RUS_np_improve_roads_in_northern_russia_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_improve_roads_in_the_volga_basin_budget_current = 140 }
+	multiply_variable = { RUS_np_improve_roads_in_the_volga_basin_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_central_asia_railroads_budget_current = 80 }
+	multiply_variable = { RUS_np_central_asia_railroads_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_gaz_budget_current = 140 }
+	multiply_variable = { RUS_np_gaz_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_bearing_budget_current = 100 }
+	multiply_variable = { RUS_np_bearing_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_kashira_budget_current = 140 }
+	multiply_variable = { RUS_np_kashira_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_moscow_grid_budget_current = 80 }
+	multiply_variable = { RUS_np_moscow_grid_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_metro_budget_current = 180 }
+	multiply_variable = { RUS_np_metro_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_moscow_volga_budget_current = 220 }
+	multiply_variable = { RUS_np_moscow_volga_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_svir_budget_current = 220 }
+	multiply_variable = { RUS_np_svir_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_volkhov_budget_current = 160 }
+	multiply_variable = { RUS_np_volkhov_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_uvz_budget_current = 180 }
+	multiply_variable = { RUS_np_uvz_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_bobrik_budget_current = 160 }
+	multiply_variable = { RUS_np_bobrik_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_moscow_logistics_budget_current = 80 }
+	multiply_variable = { RUS_np_moscow_logistics_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_moscow_rural_budget_current = 60 }
+	multiply_variable = { RUS_np_moscow_rural_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_leningrad_logistics_budget_current = 80 }
+	multiply_variable = { RUS_np_leningrad_logistics_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_leningrad_rural_budget_current = 60 }
+	multiply_variable = { RUS_np_leningrad_rural_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_tsaritsyn_logistics_budget_current = 80 }
+	multiply_variable = { RUS_np_tsaritsyn_logistics_budget_current = RUS_np_fee_factor }
+	set_variable = { RUS_np_tsaritsyn_rural_budget_current = 60 }
+	multiply_variable = { RUS_np_tsaritsyn_rural_budget_current = RUS_np_fee_factor }
 }
 RUS_np_refresh = {
 	RUS_np_refresh_prices = yes
@@ -101,6 +251,7 @@ RUS_np_refresh = {
 	limit = { check_variable = { RUS_np_speed > 1.5 } }
 	set_variable = { RUS_np_speed = 1.5 }
 }
+	divide_variable = { RUS_np_speed = RUS_disordered_industry_research_factor }
 	set_variable = { RUS_np_income = RUS_np_civ }
 	multiply_variable = { RUS_np_income = 0.02 }
 	multiply_variable = { RUS_np_income = RUS_np_efficiency }
@@ -3635,6 +3786,10 @@ RUS_np_kamenev_all_russian_electrification_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_kamenev_all_russian_electrification_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_kamenev_all_russian_electrification_budget_current }
+	set_variable = { RUS_np_kamenev_all_russian_electrification_paid = RUS_np_kamenev_all_russian_electrification_budget_current }
+}
 	set_variable = { RUS_np_kamenev_all_russian_electrification_trains = 10 }
 	set_variable = { RUS_np_kamenev_all_russian_electrification_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_kamenev_all_russian_electrification_paid }
@@ -4050,6 +4205,10 @@ RUS_np_renovate_and_expand_moscow_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_renovate_and_expand_moscow_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_renovate_and_expand_moscow_budget_current }
+	set_variable = { RUS_np_renovate_and_expand_moscow_paid = RUS_np_renovate_and_expand_moscow_budget_current }
+}
 	set_variable = { RUS_np_renovate_and_expand_moscow_trains = 0 }
 	set_variable = { RUS_np_renovate_and_expand_moscow_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_renovate_and_expand_moscow_paid }
@@ -4399,6 +4558,10 @@ RUS_np_renovate_and_expand_tsaritsyn_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_renovate_and_expand_tsaritsyn_budget_current }
+	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_paid = RUS_np_renovate_and_expand_tsaritsyn_budget_current }
 }
 	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_trains = 0 }
 	set_variable = { RUS_np_renovate_and_expand_tsaritsyn_last_day = global.num_days }
@@ -4750,6 +4913,10 @@ RUS_np_renovate_and_expand_saint_petersburg_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_renovate_and_expand_saint_petersburg_budget_current }
+	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_paid = RUS_np_renovate_and_expand_saint_petersburg_budget_current }
+}
 	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_trains = 0 }
 	set_variable = { RUS_np_renovate_and_expand_saint_petersburg_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_renovate_and_expand_saint_petersburg_paid }
@@ -5099,6 +5266,10 @@ RUS_np_magnitogorsk_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_magnitogorsk_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_magnitogorsk_budget_current }
+	set_variable = { RUS_np_magnitogorsk_paid = RUS_np_magnitogorsk_budget_current }
 }
 	set_variable = { RUS_np_magnitogorsk_trains = 10 }
 	set_variable = { RUS_np_magnitogorsk_last_day = global.num_days }
@@ -5474,6 +5645,10 @@ RUS_np_second_baku_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_second_baku_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_second_baku_budget_current }
+	set_variable = { RUS_np_second_baku_paid = RUS_np_second_baku_budget_current }
+}
 	set_variable = { RUS_np_second_baku_trains = 10 }
 	set_variable = { RUS_np_second_baku_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_second_baku_paid }
@@ -5832,6 +6007,10 @@ RUS_np_modernisation_of_AMO_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_modernisation_of_AMO_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_modernisation_of_AMO_budget_current }
+	set_variable = { RUS_np_modernisation_of_AMO_paid = RUS_np_modernisation_of_AMO_budget_current }
 }
 	set_variable = { RUS_np_modernisation_of_AMO_trains = 10 }
 	set_variable = { RUS_np_modernisation_of_AMO_last_day = global.num_days }
@@ -6235,6 +6414,10 @@ RUS_np_izhevsk_mechanical_plant_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_izhevsk_mechanical_plant_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_izhevsk_mechanical_plant_budget_current }
+	set_variable = { RUS_np_izhevsk_mechanical_plant_paid = RUS_np_izhevsk_mechanical_plant_budget_current }
+}
 	set_variable = { RUS_np_izhevsk_mechanical_plant_trains = 10 }
 	set_variable = { RUS_np_izhevsk_mechanical_plant_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_izhevsk_mechanical_plant_paid }
@@ -6626,6 +6809,10 @@ RUS_np_tula_arms_factory_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_tula_arms_factory_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_tula_arms_factory_budget_current }
+	set_variable = { RUS_np_tula_arms_factory_paid = RUS_np_tula_arms_factory_budget_current }
+}
 	set_variable = { RUS_np_tula_arms_factory_trains = 10 }
 	set_variable = { RUS_np_tula_arms_factory_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_tula_arms_factory_paid }
@@ -7010,6 +7197,10 @@ RUS_np_create_tankograd_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_create_tankograd_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_create_tankograd_budget_current }
+	set_variable = { RUS_np_create_tankograd_paid = RUS_np_create_tankograd_budget_current }
 }
 	set_variable = { RUS_np_create_tankograd_trains = 10 }
 	set_variable = { RUS_np_create_tankograd_last_day = global.num_days }
@@ -7402,6 +7593,10 @@ RUS_np_convert_civilian_aviation_industry_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_convert_civilian_aviation_industry_budget_current }
+	set_variable = { RUS_np_convert_civilian_aviation_industry_paid = RUS_np_convert_civilian_aviation_industry_budget_current }
 }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_trains = 10 }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_last_day = global.num_days }
@@ -7813,6 +8008,10 @@ RUS_np_tsaritsyn_tractor_plant_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_tsaritsyn_tractor_plant_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_tsaritsyn_tractor_plant_budget_current }
+	set_variable = { RUS_np_tsaritsyn_tractor_plant_paid = RUS_np_tsaritsyn_tractor_plant_budget_current }
+}
 	set_variable = { RUS_np_tsaritsyn_tractor_plant_trains = 5 }
 	set_variable = { RUS_np_tsaritsyn_tractor_plant_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_tsaritsyn_tractor_plant_paid }
@@ -8192,6 +8391,10 @@ RUS_np_chelyabinsk_tractor_plant_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_chelyabinsk_tractor_plant_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_chelyabinsk_tractor_plant_budget_current }
+	set_variable = { RUS_np_chelyabinsk_tractor_plant_paid = RUS_np_chelyabinsk_tractor_plant_budget_current }
+}
 	set_variable = { RUS_np_chelyabinsk_tractor_plant_trains = 5 }
 	set_variable = { RUS_np_chelyabinsk_tractor_plant_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_chelyabinsk_tractor_plant_paid }
@@ -8569,6 +8772,10 @@ RUS_np_kursk_tractor_plant_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_kursk_tractor_plant_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_kursk_tractor_plant_budget_current }
+	set_variable = { RUS_np_kursk_tractor_plant_paid = RUS_np_kursk_tractor_plant_budget_current }
+}
 	set_variable = { RUS_np_kursk_tractor_plant_trains = 5 }
 	set_variable = { RUS_np_kursk_tractor_plant_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_kursk_tractor_plant_paid }
@@ -8923,6 +9130,10 @@ RUS_np_rostselmash_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_rostselmash_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_rostselmash_budget_current }
+	set_variable = { RUS_np_rostselmash_paid = RUS_np_rostselmash_budget_current }
 }
 	set_variable = { RUS_np_rostselmash_trains = 5 }
 	set_variable = { RUS_np_rostselmash_last_day = global.num_days }
@@ -9286,6 +9497,10 @@ RUS_np_stavropol_hydroelectric_dam_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_stavropol_hydroelectric_dam_paid = 176.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_stavropol_hydroelectric_dam_budget_current }
+	set_variable = { RUS_np_stavropol_hydroelectric_dam_paid = RUS_np_stavropol_hydroelectric_dam_budget_current }
 }
 	set_variable = { RUS_np_stavropol_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_stavropol_hydroelectric_dam_last_day = global.num_days }
@@ -9679,6 +9894,10 @@ RUS_np_rybinsk_hydroelectric_dam_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_rybinsk_hydroelectric_dam_paid = 176.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_rybinsk_hydroelectric_dam_budget_current }
+	set_variable = { RUS_np_rybinsk_hydroelectric_dam_paid = RUS_np_rybinsk_hydroelectric_dam_budget_current }
+}
 	set_variable = { RUS_np_rybinsk_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_rybinsk_hydroelectric_dam_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_rybinsk_hydroelectric_dam_paid }
@@ -10070,6 +10289,10 @@ RUS_np_zhiguli_hydroelectric_dam_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_zhiguli_hydroelectric_dam_paid = 176.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_zhiguli_hydroelectric_dam_budget_current }
+	set_variable = { RUS_np_zhiguli_hydroelectric_dam_paid = RUS_np_zhiguli_hydroelectric_dam_budget_current }
 }
 	set_variable = { RUS_np_zhiguli_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_zhiguli_hydroelectric_dam_last_day = global.num_days }
@@ -10463,6 +10686,10 @@ RUS_np_krasnoyarsk_hydroelectric_dam_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_paid = 176.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_krasnoyarsk_hydroelectric_dam_budget_current }
+	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_paid = RUS_np_krasnoyarsk_hydroelectric_dam_budget_current }
+}
 	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_trains = 10 }
 	set_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_krasnoyarsk_hydroelectric_dam_paid }
@@ -10855,6 +11082,10 @@ RUS_np_lipetsk_metallurgical_plant_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_lipetsk_metallurgical_plant_budget_current }
+	set_variable = { RUS_np_lipetsk_metallurgical_plant_paid = RUS_np_lipetsk_metallurgical_plant_budget_current }
+}
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_trains = 10 }
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_lipetsk_metallurgical_plant_paid }
@@ -11224,6 +11455,10 @@ RUS_np_uralmash_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_uralmash_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_uralmash_budget_current }
+	set_variable = { RUS_np_uralmash_paid = RUS_np_uralmash_budget_current }
 }
 	set_variable = { RUS_np_uralmash_trains = 10 }
 	set_variable = { RUS_np_uralmash_last_day = global.num_days }
@@ -11610,6 +11845,10 @@ RUS_np_motovilikha_plants_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_motovilikha_plants_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_motovilikha_plants_budget_current }
+	set_variable = { RUS_np_motovilikha_plants_paid = RUS_np_motovilikha_plants_budget_current }
+}
 	set_variable = { RUS_np_motovilikha_plants_trains = 10 }
 	set_variable = { RUS_np_motovilikha_plants_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_motovilikha_plants_paid }
@@ -11972,6 +12211,10 @@ RUS_np_admiralty_dockyards_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_admiralty_dockyards_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_admiralty_dockyards_budget_current }
+	set_variable = { RUS_np_admiralty_dockyards_paid = RUS_np_admiralty_dockyards_budget_current }
 }
 	set_variable = { RUS_np_admiralty_dockyards_trains = 10 }
 	set_variable = { RUS_np_admiralty_dockyards_last_day = global.num_days }
@@ -12345,6 +12588,10 @@ RUS_np_kamensky_uralsky_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_kamensky_uralsky_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_kamensky_uralsky_budget_current }
+	set_variable = { RUS_np_kamensky_uralsky_paid = RUS_np_kamensky_uralsky_budget_current }
+}
 	set_variable = { RUS_np_kamensky_uralsky_trains = 10 }
 	set_variable = { RUS_np_kamensky_uralsky_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_kamensky_uralsky_paid }
@@ -12717,6 +12964,10 @@ RUS_np_grozny_oil_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_grozny_oil_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_grozny_oil_budget_current }
+	set_variable = { RUS_np_grozny_oil_paid = RUS_np_grozny_oil_budget_current }
 }
 	set_variable = { RUS_np_grozny_oil_trains = 10 }
 	set_variable = { RUS_np_grozny_oil_last_day = global.num_days }
@@ -13092,6 +13343,10 @@ RUS_np_arctic_mines_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_arctic_mines_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_arctic_mines_budget_current }
+	set_variable = { RUS_np_arctic_mines_paid = RUS_np_arctic_mines_budget_current }
+}
 	set_variable = { RUS_np_arctic_mines_trains = 10 }
 	set_variable = { RUS_np_arctic_mines_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_arctic_mines_paid }
@@ -13445,6 +13700,10 @@ RUS_np_tyrnyauz_tungsten_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_tyrnyauz_tungsten_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_tyrnyauz_tungsten_budget_current }
+	set_variable = { RUS_np_tyrnyauz_tungsten_paid = RUS_np_tyrnyauz_tungsten_budget_current }
 }
 	set_variable = { RUS_np_tyrnyauz_tungsten_trains = 10 }
 	set_variable = { RUS_np_tyrnyauz_tungsten_last_day = global.num_days }
@@ -13800,6 +14059,10 @@ RUS_np_romanshkino_oil_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_romanshkino_oil_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_romanshkino_oil_budget_current }
+	set_variable = { RUS_np_romanshkino_oil_paid = RUS_np_romanshkino_oil_budget_current }
 }
 	set_variable = { RUS_np_romanshkino_oil_trains = 10 }
 	set_variable = { RUS_np_romanshkino_oil_last_day = global.num_days }
@@ -14163,6 +14426,10 @@ RUS_np_northern_route_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_northern_route_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_northern_route_budget_current }
+	set_variable = { RUS_np_northern_route_paid = RUS_np_northern_route_budget_current }
 }
 	set_variable = { RUS_np_northern_route_trains = 20 }
 	set_variable = { RUS_np_northern_route_last_day = global.num_days }
@@ -14528,6 +14795,10 @@ RUS_np_upgrade_the_railroad_chelyabinsk_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_upgrade_the_railroad_chelyabinsk_budget_current }
+	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_paid = RUS_np_upgrade_the_railroad_chelyabinsk_budget_current }
+}
 	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_trains = 20 }
 	set_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_upgrade_the_railroad_chelyabinsk_paid }
@@ -14891,6 +15162,10 @@ RUS_np_upgrade_the_railroad_krasnoyarsk_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_upgrade_the_railroad_krasnoyarsk_budget_current }
+	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_paid = RUS_np_upgrade_the_railroad_krasnoyarsk_budget_current }
+}
 	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_trains = 20 }
 	set_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_upgrade_the_railroad_krasnoyarsk_paid }
@@ -15253,6 +15528,10 @@ RUS_np_upgrade_the_railroad_vladivostok_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_upgrade_the_railroad_vladivostok_budget_current }
+	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_paid = RUS_np_upgrade_the_railroad_vladivostok_budget_current }
 }
 	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_trains = 20 }
 	set_variable = { RUS_np_upgrade_the_railroad_vladivostok_last_day = global.num_days }
@@ -15637,6 +15916,10 @@ RUS_np_kuznetsk_basin_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_kuznetsk_basin_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_kuznetsk_basin_budget_current }
+	set_variable = { RUS_np_kuznetsk_basin_paid = RUS_np_kuznetsk_basin_budget_current }
+}
 	set_variable = { RUS_np_kuznetsk_basin_trains = 10 }
 	set_variable = { RUS_np_kuznetsk_basin_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_kuznetsk_basin_paid }
@@ -15998,6 +16281,10 @@ RUS_np_bodaybo_gold_mines_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_bodaybo_gold_mines_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_bodaybo_gold_mines_budget_current }
+	set_variable = { RUS_np_bodaybo_gold_mines_paid = RUS_np_bodaybo_gold_mines_budget_current }
+}
 	set_variable = { RUS_np_bodaybo_gold_mines_trains = 10 }
 	set_variable = { RUS_np_bodaybo_gold_mines_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_bodaybo_gold_mines_paid }
@@ -16338,6 +16625,10 @@ RUS_np_far_eastern_fishing_industry_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_far_eastern_fishing_industry_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_far_eastern_fishing_industry_budget_current }
+	set_variable = { RUS_np_far_eastern_fishing_industry_paid = RUS_np_far_eastern_fishing_industry_budget_current }
 }
 	set_variable = { RUS_np_far_eastern_fishing_industry_trains = 5 }
 	set_variable = { RUS_np_far_eastern_fishing_industry_last_day = global.num_days }
@@ -16703,6 +16994,10 @@ RUS_np_krasnoyarskpromstroy_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_krasnoyarskpromstroy_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_krasnoyarskpromstroy_budget_current }
+	set_variable = { RUS_np_krasnoyarskpromstroy_paid = RUS_np_krasnoyarskpromstroy_budget_current }
 }
 	set_variable = { RUS_np_krasnoyarskpromstroy_trains = 10 }
 	set_variable = { RUS_np_krasnoyarskpromstroy_last_day = global.num_days }
@@ -17070,6 +17365,10 @@ RUS_np_dalnremmash_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_dalnremmash_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_dalnremmash_budget_current }
+	set_variable = { RUS_np_dalnremmash_paid = RUS_np_dalnremmash_budget_current }
+}
 	set_variable = { RUS_np_dalnremmash_trains = 10 }
 	set_variable = { RUS_np_dalnremmash_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_dalnremmash_paid }
@@ -17432,6 +17731,10 @@ RUS_np_rudny_altay_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_rudny_altay_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_rudny_altay_budget_current }
+	set_variable = { RUS_np_rudny_altay_paid = RUS_np_rudny_altay_budget_current }
+}
 	set_variable = { RUS_np_rudny_altay_trains = 10 }
 	set_variable = { RUS_np_rudny_altay_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_rudny_altay_paid }
@@ -17785,6 +18088,10 @@ RUS_np_tekeli_metallurgical_combine_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_tekeli_metallurgical_combine_budget_current }
+	set_variable = { RUS_np_tekeli_metallurgical_combine_paid = RUS_np_tekeli_metallurgical_combine_budget_current }
 }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_trains = 10 }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_last_day = global.num_days }
@@ -18167,6 +18474,10 @@ RUS_np_emba_oil_area_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_emba_oil_area_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_emba_oil_area_budget_current }
+	set_variable = { RUS_np_emba_oil_area_paid = RUS_np_emba_oil_area_budget_current }
+}
 	set_variable = { RUS_np_emba_oil_area_trains = 10 }
 	set_variable = { RUS_np_emba_oil_area_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_emba_oil_area_paid }
@@ -18546,6 +18857,10 @@ RUS_np_verny_cotton_industry_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_verny_cotton_industry_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_verny_cotton_industry_budget_current }
+	set_variable = { RUS_np_verny_cotton_industry_paid = RUS_np_verny_cotton_industry_budget_current }
+}
 	set_variable = { RUS_np_verny_cotton_industry_trains = 5 }
 	set_variable = { RUS_np_verny_cotton_industry_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_verny_cotton_industry_paid }
@@ -18899,6 +19214,10 @@ RUS_np_siberian_timber_industries_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_siberian_timber_industries_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_siberian_timber_industries_budget_current }
+	set_variable = { RUS_np_siberian_timber_industries_paid = RUS_np_siberian_timber_industries_budget_current }
 }
 	set_variable = { RUS_np_siberian_timber_industries_trains = 10 }
 	set_variable = { RUS_np_siberian_timber_industries_last_day = global.num_days }
@@ -19258,6 +19577,10 @@ RUS_np_improve_roads_in_central_russia_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_improve_roads_in_central_russia_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_improve_roads_in_central_russia_budget_current }
+	set_variable = { RUS_np_improve_roads_in_central_russia_paid = RUS_np_improve_roads_in_central_russia_budget_current }
 }
 	set_variable = { RUS_np_improve_roads_in_central_russia_trains = 0 }
 	set_variable = { RUS_np_improve_roads_in_central_russia_last_day = global.num_days }
@@ -19635,6 +19958,10 @@ RUS_np_improve_roads_in_northern_russia_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_improve_roads_in_northern_russia_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_improve_roads_in_northern_russia_budget_current }
+	set_variable = { RUS_np_improve_roads_in_northern_russia_paid = RUS_np_improve_roads_in_northern_russia_budget_current }
+}
 	set_variable = { RUS_np_improve_roads_in_northern_russia_trains = 0 }
 	set_variable = { RUS_np_improve_roads_in_northern_russia_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_improve_roads_in_northern_russia_paid }
@@ -19999,6 +20326,10 @@ RUS_np_improve_roads_in_the_volga_basin_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_improve_roads_in_the_volga_basin_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_improve_roads_in_the_volga_basin_budget_current }
+	set_variable = { RUS_np_improve_roads_in_the_volga_basin_paid = RUS_np_improve_roads_in_the_volga_basin_budget_current }
 }
 	set_variable = { RUS_np_improve_roads_in_the_volga_basin_trains = 0 }
 	set_variable = { RUS_np_improve_roads_in_the_volga_basin_last_day = global.num_days }
@@ -20367,6 +20698,10 @@ RUS_np_central_asia_railroads_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_central_asia_railroads_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_central_asia_railroads_budget_current }
+	set_variable = { RUS_np_central_asia_railroads_paid = RUS_np_central_asia_railroads_budget_current }
 }
 	set_variable = { RUS_np_central_asia_railroads_trains = 20 }
 	set_variable = { RUS_np_central_asia_railroads_last_day = global.num_days }
@@ -20737,6 +21072,10 @@ RUS_np_gaz_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_gaz_paid = 112.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_gaz_budget_current }
+	set_variable = { RUS_np_gaz_paid = RUS_np_gaz_budget_current }
+}
 	set_variable = { RUS_np_gaz_trains = 10 }
 	set_variable = { RUS_np_gaz_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_gaz_paid }
@@ -21093,6 +21432,10 @@ RUS_np_bearing_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_bearing_paid = 80.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_bearing_budget_current }
+	set_variable = { RUS_np_bearing_paid = RUS_np_bearing_budget_current }
+}
 	set_variable = { RUS_np_bearing_trains = 0 }
 	set_variable = { RUS_np_bearing_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_bearing_paid }
@@ -21424,6 +21767,10 @@ RUS_np_kashira_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_kashira_paid = 112.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_kashira_budget_current }
+	set_variable = { RUS_np_kashira_paid = RUS_np_kashira_budget_current }
 }
 	set_variable = { RUS_np_kashira_trains = 10 }
 	set_variable = { RUS_np_kashira_last_day = global.num_days }
@@ -21777,6 +22124,10 @@ RUS_np_moscow_grid_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_moscow_grid_paid = 64.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_moscow_grid_budget_current }
+	set_variable = { RUS_np_moscow_grid_paid = RUS_np_moscow_grid_budget_current }
+}
 	set_variable = { RUS_np_moscow_grid_trains = 10 }
 	set_variable = { RUS_np_moscow_grid_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_moscow_grid_paid }
@@ -22128,6 +22479,10 @@ RUS_np_metro_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_metro_paid = 144.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_metro_budget_current }
+	set_variable = { RUS_np_metro_paid = RUS_np_metro_budget_current }
 }
 	set_variable = { RUS_np_metro_trains = 0 }
 	set_variable = { RUS_np_metro_last_day = global.num_days }
@@ -22500,6 +22855,10 @@ RUS_np_moscow_volga_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_moscow_volga_paid = 176.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_moscow_volga_budget_current }
+	set_variable = { RUS_np_moscow_volga_paid = RUS_np_moscow_volga_budget_current }
 }
 	set_variable = { RUS_np_moscow_volga_trains = 20 }
 	set_variable = { RUS_np_moscow_volga_last_day = global.num_days }
@@ -22878,6 +23237,10 @@ RUS_np_svir_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_svir_paid = 176.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_svir_budget_current }
+	set_variable = { RUS_np_svir_paid = RUS_np_svir_budget_current }
+}
 	set_variable = { RUS_np_svir_trains = 10 }
 	set_variable = { RUS_np_svir_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_svir_paid }
@@ -23229,6 +23592,10 @@ RUS_np_volkhov_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_volkhov_paid = 128.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_volkhov_budget_current }
+	set_variable = { RUS_np_volkhov_paid = RUS_np_volkhov_budget_current }
 }
 	set_variable = { RUS_np_volkhov_trains = 10 }
 	set_variable = { RUS_np_volkhov_last_day = global.num_days }
@@ -23587,6 +23954,10 @@ RUS_np_uvz_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_uvz_paid = 144.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_uvz_budget_current }
+	set_variable = { RUS_np_uvz_paid = RUS_np_uvz_budget_current }
+}
 	set_variable = { RUS_np_uvz_trains = 10 }
 	set_variable = { RUS_np_uvz_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_uvz_paid }
@@ -23922,6 +24293,10 @@ RUS_np_bobrik_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_bobrik_paid = 128.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_bobrik_budget_current }
+	set_variable = { RUS_np_bobrik_paid = RUS_np_bobrik_budget_current }
 }
 	set_variable = { RUS_np_bobrik_trains = 5 }
 	set_variable = { RUS_np_bobrik_last_day = global.num_days }
@@ -24270,6 +24645,10 @@ RUS_np_moscow_logistics_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_moscow_logistics_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_moscow_logistics_budget_current }
+	set_variable = { RUS_np_moscow_logistics_paid = RUS_np_moscow_logistics_budget_current }
 }
 	set_variable = { RUS_np_moscow_logistics_trains = 15 }
 	set_variable = { RUS_np_moscow_logistics_last_day = global.num_days }
@@ -24654,6 +25033,10 @@ RUS_np_moscow_rural_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_moscow_rural_paid = 48.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_moscow_rural_budget_current }
+	set_variable = { RUS_np_moscow_rural_paid = RUS_np_moscow_rural_budget_current }
+}
 	set_variable = { RUS_np_moscow_rural_trains = 0 }
 	set_variable = { RUS_np_moscow_rural_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_moscow_rural_paid }
@@ -25021,6 +25404,10 @@ RUS_np_leningrad_logistics_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_leningrad_logistics_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_leningrad_logistics_budget_current }
+	set_variable = { RUS_np_leningrad_logistics_paid = RUS_np_leningrad_logistics_budget_current }
 }
 	set_variable = { RUS_np_leningrad_logistics_trains = 15 }
 	set_variable = { RUS_np_leningrad_logistics_last_day = global.num_days }
@@ -25405,6 +25792,10 @@ RUS_np_leningrad_rural_begin = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_leningrad_rural_paid = 48.0 }
 }
+	if = {
+	limit = { has_variable = RUS_np_leningrad_rural_budget_current }
+	set_variable = { RUS_np_leningrad_rural_paid = RUS_np_leningrad_rural_budget_current }
+}
 	set_variable = { RUS_np_leningrad_rural_trains = 0 }
 	set_variable = { RUS_np_leningrad_rural_last_day = global.num_days }
 	subtract_from_variable = { RUS_np_available = RUS_np_leningrad_rural_paid }
@@ -25764,6 +26155,10 @@ RUS_np_tsaritsyn_logistics_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_tsaritsyn_logistics_paid = 64.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_tsaritsyn_logistics_budget_current }
+	set_variable = { RUS_np_tsaritsyn_logistics_paid = RUS_np_tsaritsyn_logistics_budget_current }
 }
 	set_variable = { RUS_np_tsaritsyn_logistics_trains = 15 }
 	set_variable = { RUS_np_tsaritsyn_logistics_last_day = global.num_days }
@@ -26147,6 +26542,10 @@ RUS_np_tsaritsyn_rural_begin = {
 	if = {
 	limit = { has_idea = RUS_disordered_industry_federal }
 	set_variable = { RUS_np_tsaritsyn_rural_paid = 48.0 }
+}
+	if = {
+	limit = { has_variable = RUS_np_tsaritsyn_rural_budget_current }
+	set_variable = { RUS_np_tsaritsyn_rural_paid = RUS_np_tsaritsyn_rural_budget_current }
 }
 	set_variable = { RUS_np_tsaritsyn_rural_trains = 0 }
 	set_variable = { RUS_np_tsaritsyn_rural_last_day = global.num_days }

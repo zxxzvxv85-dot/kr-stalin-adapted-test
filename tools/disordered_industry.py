@@ -23,6 +23,13 @@ ROUTE_ORDER = tuple(ROUTES.values())
 POLICIES = {'422': 'federal', '421': 'cooperative', '486': 'cooperative',
             '377': 'trusts', '487': 'trusts'}
 CHOICE = PREFIX + '_first_policy'
+RESEARCH_FOCUS = 'RUS_future_domestic_176'
+FEDERAL_FOCUS = 'RUS_future_domestic_169'
+RESEARCH_BASELINE = PREFIX + '_research_baseline'
+RESEARCH_FACTOR = PREFIX + '_research_factor'
+RESEARCH_REDUCTION = PREFIX + '_research_reduction'
+RESEARCH_STEP = .002
+RESEARCH_TOOLTIP = PREFIX + '_research_tt'
 PENALTIES = {
     'stability_factor': '-.10',
     'production_speed_buildings_factor': '-.10',
@@ -124,6 +131,11 @@ def focus_reward(focus, branch):
         preview = f'{PREVIEW}_{ROUTES[suffix]}' if suffix in ROUTES else PREVIEW
         effects.append(f'{preview} = yes')
         effects.append(f'hidden_effect = {{ {REFRESH} = yes }}')
+    if focus == RESEARCH_FOCUS:
+        effects.extend([
+            f'custom_effect_tooltip = {RESEARCH_TOOLTIP}',
+            f'hidden_effect = {{ RUS_np_refresh = yes }}',
+        ])
     return effects
 
 
@@ -183,6 +195,7 @@ def outputs(branch):
                       '\t\t\tallowed = { original_tag = RUS }', '\t\t\tremoval_cost = -1',
                       '\t\t\tmodifier = {'])
         ideas.extend(f'\t\t\t\t{key} = {value}' for key, value in modifiers.items())
+        ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_research_active_tt')
         ideas.extend(['\t\t\t}', '\t\t}'])
     ideas.extend(['\t}', '}'])
 
@@ -231,6 +244,24 @@ def outputs(branch):
         Path('common/ideas/RUS_disordered_industry.txt'): '\n'.join(ideas)+'\n',
         Path('common/scripted_effects/RUS_disordered_industry.txt'): '\n'.join(effect).rstrip()+'\n',
         Path('common/on_actions/RUS_disordered_industry.txt'): actions,
+        Path('common/scripted_localisation/RUS_disordered_industry_loc.txt'): f'''defined_text = {{
+	name = RUSIndustrialSituationName
+	text = {{
+		trigger = {{ has_completed_focus = {FEDERAL_FOCUS} }}
+		localization_key = {PREFIX}_federal_name
+	}}
+	text = {{ localization_key = {OLD} }}
+}}
+
+defined_text = {{
+	name = RUSIndustrialResearchTooltip
+	text = {{
+		trigger = {{ has_completed_focus = {RESEARCH_FOCUS} }}
+		localization_key = {PREFIX}_research_progress_tt
+	}}
+	text = {{ localization_key = {PREFIX}_research_blank_tt }}
+}}
+''',
     }
     for lang, label, pp_cost, resource_cost in (
         ('simp_chinese', '混乱的工业', '工业决议政治点数花费', '工业决议§C建设资源§!花费'),
@@ -242,6 +273,29 @@ def outputs(branch):
         discount_text = (f'£pol_power£ {pp_cost}: §G-20%§!\\n'
                          f'£RUS_np_resources_texticon£ {resource_cost}: §G-20%§!')
         lines = [f'l_{lang}:', f' {ROUTE_BONUS_TOOLTIPS["federal"]}:0 "{discount_text}"']
+        federal_name, research_condition, duration_label, total_label = {
+            'simp_chinese': ('工业现状：联邦计划委员会', '此后每完成一项科技',
+                             '工业决议所需时间', '科技累计减免'),
+            'english': ('State of Industry: Federal Planning Commission', 'For each technology completed from now on',
+                        'Industrial Decision Duration', 'Cumulative Research Reduction'),
+            'russian': ('Состояние промышленности: Федеральная плановая комиссия',
+                        'За каждую технологию, завершённую после принятия фокуса',
+                        'Срок выполнения промышленных решений', 'Суммарное снижение за технологии'),
+        }[lang]
+        per_tech = f'§G-{RESEARCH_STEP*100:g}%§!'
+        research_text = '\\n'.join([
+            f'£research_speed_icon §g{research_condition}§!',
+            f'£clock_texticon {duration_label}: {per_tech}',
+            f'£pol_power£ {pp_cost}: {per_tech}',
+            f'£RUS_np_resources_texticon£ {resource_cost}: {per_tech}',
+        ])
+        lines.extend([
+            f' {PREFIX}_federal_name:0 "{federal_name}"',
+            f' {RESEARCH_TOOLTIP}:0 "{research_text}"',
+            f' {PREFIX}_research_active_tt:0 "[RUSIndustrialResearchTooltip]"',
+            f' {PREFIX}_research_blank_tt:0 ""',
+            f' {PREFIX}_research_progress_tt:0 "${RESEARCH_TOOLTIP}$\\n{total_label}: §G[?{RESEARCH_REDUCTION}|=1%]§!"',
+        ])
         basic_text, higher_text, education_condition, resources_text, resources_condition, heading = {
             'simp_chinese': ('每月§C基础教育水平§!', '每月§Y高等教育水平§!', '教育系统启用后',
                              '每日§C建设资源§!收入 §G+{resources}§!', '国家建设账本开启后', '追加效果：'),
@@ -284,7 +338,9 @@ def outputs(branch):
                 requirement = 'Первая выполненная мера: ' + ' или '.join(policies)
             lines.append(f' {PREFIX}_{route}_requires_tt:0 "{requirement}"')
         for idea in definitions:
-            lines.extend([f' {idea}:0 "{label}"', f' {idea}_desc:0 "${OLD}_desc$"'])
+            name = (f'${PREFIX}_federal_name$' if idea == DISCOUNT_IDEA else
+                    '[RUSIndustrialSituationName]' if idea in tiers else label)
+            lines.extend([f' {idea}:0 "{name}"', f' {idea}_desc:0 "${OLD}_desc$"'])
         result[Path(f'localisation/{lang}/RUS_disordered_industry_l_{lang}.yml')] = '\n'.join(lines)+'\n'
     return {path: text.encode('utf-8-sig' if path.suffix == '.yml' else 'utf-8')
             for path, text in result.items()}

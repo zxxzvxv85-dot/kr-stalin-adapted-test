@@ -213,6 +213,37 @@ class PlanTests(unittest.TestCase):
         m.call(var(p,'cancel'))
         self.assertEqual(m.vars[P+'frozen'], 0)
 
+    def test_research_discounts_running_time_and_only_future_project_fees(self):
+        m = Model()
+        m.focuses.remove(industry.RESEARCH_FOCUS)
+        m.vars['num_researched_technologies'] = 80
+        m.initialize()
+        self.assertNotIn(industry.RESEARCH_BASELINE, m.vars)
+        m.focuses.add(industry.RESEARCH_FOCUS)
+        m.call('RUS_np_refresh')
+        self.assertEqual(m.vars[industry.RESEARCH_BASELINE], 80)
+        self.assertEqual(m.vars[industry.RESEARCH_FACTOR], 1)
+
+        project = next(p for p in PROJECTS if base_pp(p) == 'RUS_ic_cost_low')
+        days = m.vars[var(project, 'initial_days')]
+        m.start(project)
+        paid = m.vars[var(project, 'paid')]
+        m.vars['num_researched_technologies'] = 100
+        m.ideas.add(industry.DISCOUNT_IDEA)
+        m.call('RUS_np_refresh')
+        self.assertAlmostEqual(m.vars[industry.RESEARCH_FACTOR], .96)
+        self.assertGreater(m.vars[P+'speed'], 1)
+        self.assertLess(m.vars[var(project, 'initial_days')], days)
+        self.assertEqual(m.vars[var(project, 'paid')], paid)
+        self.assertAlmostEqual(m.vars[var(project, 'budget_current')], project['budget'] * .96 * .8)
+        remaining = m.vars[var(project, 'left')]
+        m.vars['global.num_days'] += 1
+        m.call(var(project, 'tick'))
+        self.assertAlmostEqual(remaining - m.vars[var(project, 'left')], 1 / .96)
+        m.call(var(project, 'cancel'))
+        m.start(project)
+        self.assertAlmostEqual(m.vars[var(project, 'paid')], project['budget'] * .96 * .8)
+
     def test_managed_projects_cannot_expand_to_world_targets(self):
         targeted={'state_target','state_trigger','targets','target_array','target_trigger','target_root_trigger'}
         for p in PROJECTS:
