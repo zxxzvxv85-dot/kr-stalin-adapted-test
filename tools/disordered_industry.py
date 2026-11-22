@@ -7,6 +7,8 @@ PREFIX = 'RUS_disordered_industry'
 REFRESH = PREFIX + '_refresh'
 PREVIEW = PREFIX + '_preview'
 DISCOUNT_IDEA = PREFIX + '_federal'
+FEDERAL_PICTURE = DISCOUNT_IDEA
+FEDERAL_TEXTURE = 'gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_169.png'
 DISCOUNT = f'has_idea = {DISCOUNT_IDEA}'
 COOPERATIVE_IDEA = PREFIX + '_cooperative'
 TRUSTS_IDEA = PREFIX + '_trusts'
@@ -160,7 +162,7 @@ def route_requirement(suffix):
             f'check_variable = {{ {CHOICE} = {ROUTE_ORDER.index(route)+1} }} }}')
 
 
-def idea_previews(tiers):
+def idea_previews(tiers, federal_tiers):
     # Generic recovery can use the engine's idea diff. The final previews
     # join deltas and scripted bonuses so the engine cannot split the blocks.
     def preview(name, swaps, fallback=None, route=None):
@@ -181,17 +183,22 @@ def idea_previews(tiers):
             lines.append(f'\telse = {{ {fallback} = yes }}')
         return [*lines, '}', '']
 
-    lines = preview(PREVIEW, zip(tiers, tiers[1:]))
+    lines = preview(PREVIEW, [*zip(tiers, tiers[1:]),
+                              *zip(federal_tiers, [*federal_tiers[1:], DISCOUNT_IDEA])])
+    federal_transition = f'{PREVIEW}_federal_transition'
+    lines.extend(preview(federal_transition, zip(tiers[:9], federal_tiers[1:]), PREVIEW))
     for route in ROUTE_ORDER:
         final = f'{PREFIX}_{route}'
         lines.extend(preview(f'{PREVIEW}_{route}',
-                             [(tiers[9], final), (tiers[10], final)], PREVIEW,
+                             [(tiers[9], final), (tiers[10], final)],
+                             federal_transition if route == 'federal' else PREVIEW,
                              route))
     return lines
 
 
 def outputs(branch):
     tiers = [f'{PREFIX}_{index}' for index in range(11)]
+    federal_tiers = [f'{DISCOUNT_IDEA}_{index}' for index in range(10)]
     definitions = {}
     for index, idea in enumerate(tiers):
         remaining = Decimal(10-index)/10
@@ -203,15 +210,18 @@ def outputs(branch):
         if trade:
             definitions[idea]['resource_trade_cost_bonus_per_factory'] = trade
         definitions[idea].update(production_speed_rail_way_factor=.025, global_building_slots=1)
+    definitions.update({federal: definitions[base] for base, federal in zip(tiers, federal_tiers)})
     definitions.update({f'{PREFIX}_{suffix}': mod for suffix,mod in FINALS.items()})
     ideas = ['ideas = {', '\tcountry = {']
     for idea, modifiers in definitions.items():
-        ideas.extend([f'\t\t{idea} = {{', '\t\t\tpicture = POL_disjointed_industry',
+        federal = idea in federal_tiers or idea == DISCOUNT_IDEA
+        picture = FEDERAL_PICTURE if federal else 'POL_disjointed_industry'
+        ideas.extend([f'\t\t{idea} = {{', f'\t\t\tpicture = {picture}',
                       '\t\t\tallowed = { original_tag = RUS }', '\t\t\tremoval_cost = -1',
                       '\t\t\tmodifier = {'])
         ideas.extend(f'\t\t\t\t{key} = {value}' for key, value in modifiers.items())
         ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_research_active_tt')
-        if idea in tiers or idea == DISCOUNT_IDEA:
+        if idea in tiers or federal:
             ideas.extend(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_{policy}_active_tt'
                          for policy in FEDERAL_POLICIES.values())
         ideas.extend(['\t\t\t}', '\t\t}'])
@@ -227,6 +237,8 @@ def outputs(branch):
         effect.append(f'\t\tif = {{ limit = {{ has_completed_focus = {focus} }} add_to_temp_variable = {{ {count} = 1 }} }}')
     cases = [(f'check_variable = {{ {count} > 9 }} has_completed_focus = RUS_future_domestic_{focus}',
               f'{PREFIX}_{route}') for focus, route in ROUTES.items()]
+    cases.extend((f'has_completed_focus = {FEDERAL_FOCUS} check_variable = {{ {count} = {index} }}', idea)
+                 for index, idea in enumerate(federal_tiers))
     cases.extend([(f'check_variable = {{ {count} > 9 }}',tiers[10]),
                   *((f'check_variable = {{ {count} = {index} }}',tiers[index]) for index in range(10))])
     for index, (condition, idea) in enumerate(cases):
@@ -239,7 +251,7 @@ def outputs(branch):
                        '\t\t\t\tRUS_np_refresh_prices = yes',
                        '\t\t\t}', '\t\t}'])
     effect.extend(['\t}', '}', ''])
-    effect.extend(idea_previews(tiers))
+    effect.extend(idea_previews(tiers, federal_tiers))
     effect.extend(f'''{MONTHLY_EDUCATION} = {{
 \tif = {{
 \t\tlimit = {{
@@ -259,6 +271,13 @@ def outputs(branch):
 }}
 '''
     result = {
+        Path('interface/RUS_disordered_industry.gfx'): f'''spriteTypes = {{
+	spriteType = {{
+		name = "GFX_idea_{FEDERAL_PICTURE}"
+		texturefile = "{FEDERAL_TEXTURE}"
+	}}
+}}
+''',
         Path('common/ideas/RUS_disordered_industry.txt'): '\n'.join(ideas)+'\n',
         Path('common/scripted_effects/RUS_disordered_industry.txt'): '\n'.join(effect).rstrip()+'\n',
         Path('common/on_actions/RUS_disordered_industry.txt'): actions,
@@ -397,7 +416,7 @@ defined_text = {{
                 requirement = 'Первая выполненная мера: ' + ' или '.join(policies)
             lines.append(f' {PREFIX}_{route}_requires_tt:0 "{requirement}"')
         for idea in definitions:
-            name = (f'${PREFIX}_federal_name$' if idea == DISCOUNT_IDEA else
+            name = (f'${PREFIX}_federal_name$' if idea == DISCOUNT_IDEA or idea in federal_tiers else
                     '[RUSIndustrialSituationName]' if idea in tiers else label)
             lines.extend([f' {idea}:0 "{name}"', f' {idea}_desc:0 "${OLD}_desc$"'])
         result[Path(f'localisation/{lang}/RUS_disordered_industry_l_{lang}.yml')] = '\n'.join(lines)+'\n'

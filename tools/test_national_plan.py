@@ -176,8 +176,7 @@ class PlanTests(unittest.TestCase):
             for progress, suffix in enumerate(['424', '621', '420', '160', *policies], 1):
                 key = prefix+suffix
                 m.focuses.add(key)
-                m.run([n for n in focuses[key].one('completion_reward').v
-                       if n.k == 'hidden_effect' or industry.CHOICE in n.raw()])
+                m.run([n for n in focuses[key].one('completion_reward').v if industry.CHOICE in n.raw()])
                 m.call(industry.REFRESH)
                 self.assertEqual(m.ideas, {f'{industry.PREFIX}_{progress}'})
                 for route in industry.ROUTES:
@@ -190,6 +189,34 @@ class PlanTests(unittest.TestCase):
             m.call(industry.REFRESH)
             m.call(industry.REFRESH)
             self.assertEqual(m.ideas, {f'{industry.PREFIX}_{industry.ROUTES[winner]}'})
+
+    def test_federal_spirit_uses_focus_icon_as_soon_as_route_is_completed(self):
+        m = Model()
+        m.focuses = {'RUS_future_domestic_'+s for s in ('424', '621', '420', '421', '422', '486', '377', '487')}
+        m.ideas = {industry.OLD}
+        m.call(industry.REFRESH)
+        self.assertEqual(m.ideas, {industry.PREFIX+'_8'})
+        m.focuses.add(industry.FEDERAL_FOCUS)
+        m.call(industry.REFRESH)
+        intermediate = industry.DISCOUNT_IDEA+'_9'
+        self.assertEqual(m.ideas, {intermediate})
+        m.call(industry.REFRESH)
+        self.assertEqual(m.ideas, {intermediate})
+        m.focuses.add('RUS_future_domestic_160')
+        m.call(industry.REFRESH)
+        self.assertEqual(m.ideas, {industry.DISCOUNT_IDEA})
+
+        spirits = load(ROOT/'common/ideas/RUS_disordered_industry.txt')[0].one('country').v
+        by_name = {node.k: node for node in spirits}
+        for tier in range(10):
+            original = by_name[f'{industry.PREFIX}_{tier}']
+            federal = by_name[f'{industry.DISCOUNT_IDEA}_{tier}']
+            self.assertEqual(original.one('modifier').norm(), federal.one('modifier').norm())
+            self.assertEqual(federal.value('picture'), industry.FEDERAL_PICTURE)
+        self.assertEqual(by_name[industry.DISCOUNT_IDEA].value('picture'), industry.FEDERAL_PICTURE)
+        sprite = load(ROOT/'interface/RUS_disordered_industry.gfx')[0].one('spriteType')
+        self.assertEqual(sprite.value('texturefile').strip('"'), industry.FEDERAL_TEXTURE)
+        self.assertTrue((ROOT/industry.FEDERAL_TEXTURE).is_file())
 
     def test_federal_discount_changes_pp_and_reserves_discounted_budget(self):
         m = Model().initialize()

@@ -1,6 +1,6 @@
 RUS_disordered_industry_refresh = {
 	if = {
-		limit = { original_tag = RUS has_socialist_government = yes OR = { has_idea = RUS_opening_disordered_industry has_idea = RUS_disordered_industry_0 has_idea = RUS_disordered_industry_1 has_idea = RUS_disordered_industry_2 has_idea = RUS_disordered_industry_3 has_idea = RUS_disordered_industry_4 has_idea = RUS_disordered_industry_5 has_idea = RUS_disordered_industry_6 has_idea = RUS_disordered_industry_7 has_idea = RUS_disordered_industry_8 has_idea = RUS_disordered_industry_9 has_idea = RUS_disordered_industry_10 has_idea = RUS_disordered_industry_federal has_idea = RUS_disordered_industry_cooperative has_idea = RUS_disordered_industry_trusts } }
+		limit = { original_tag = RUS has_socialist_government = yes OR = { has_idea = RUS_opening_disordered_industry has_idea = RUS_disordered_industry_0 has_idea = RUS_disordered_industry_1 has_idea = RUS_disordered_industry_2 has_idea = RUS_disordered_industry_3 has_idea = RUS_disordered_industry_4 has_idea = RUS_disordered_industry_5 has_idea = RUS_disordered_industry_6 has_idea = RUS_disordered_industry_7 has_idea = RUS_disordered_industry_8 has_idea = RUS_disordered_industry_9 has_idea = RUS_disordered_industry_10 has_idea = RUS_disordered_industry_federal_0 has_idea = RUS_disordered_industry_federal_1 has_idea = RUS_disordered_industry_federal_2 has_idea = RUS_disordered_industry_federal_3 has_idea = RUS_disordered_industry_federal_4 has_idea = RUS_disordered_industry_federal_5 has_idea = RUS_disordered_industry_federal_6 has_idea = RUS_disordered_industry_federal_7 has_idea = RUS_disordered_industry_federal_8 has_idea = RUS_disordered_industry_federal_9 has_idea = RUS_disordered_industry_federal has_idea = RUS_disordered_industry_cooperative has_idea = RUS_disordered_industry_trusts } }
 		set_temp_variable = { RUS_disordered_industry_count = 0 }
 		if = { limit = { has_completed_focus = RUS_future_domestic_160 } add_to_temp_variable = { RUS_disordered_industry_count = 1 } }
 		if = { limit = { has_completed_focus = RUS_future_domestic_163 } add_to_temp_variable = { RUS_disordered_industry_count = 1 } }
@@ -29,7 +29,7 @@ RUS_disordered_industry_refresh = {
 		if = {
 			limit = { check_variable = { RUS_disordered_industry_count > 9 } has_completed_focus = RUS_future_domestic_169 }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_federal
 				RUS_np_refresh_prices = yes
 			}
@@ -37,7 +37,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count > 9 } has_completed_focus = RUS_future_domestic_166 }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_cooperative } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_cooperative
 				RUS_np_refresh_prices = yes
 			}
@@ -45,15 +45,95 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count > 9 } has_completed_focus = RUS_future_domestic_163 }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_trusts } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative }
 				add_ideas = RUS_disordered_industry_trusts
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 0 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_0 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_0
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 1 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_1 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_1
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 2 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_2 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_2
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 3 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_3 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_3
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 4 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_4 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_4
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 5 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_5 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_5
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 6 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_6 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_6
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 7 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_7 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_7
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 8 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_8 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_8
+				RUS_np_refresh_prices = yes
+			}
+		}
+		else_if = {
+			limit = { has_completed_focus = RUS_future_domestic_169 check_variable = { RUS_disordered_industry_count = 9 } }
+			if = { limit = { NOT = { has_idea = RUS_disordered_industry_federal_9 } }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				add_ideas = RUS_disordered_industry_federal_9
 				RUS_np_refresh_prices = yes
 			}
 		}
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count > 9 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_10 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_10
 				RUS_np_refresh_prices = yes
 			}
@@ -61,7 +141,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 0 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_0 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_0
 				RUS_np_refresh_prices = yes
 			}
@@ -69,7 +149,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 1 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_1 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_1
 				RUS_np_refresh_prices = yes
 			}
@@ -77,7 +157,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 2 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_2 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_2
 				RUS_np_refresh_prices = yes
 			}
@@ -85,7 +165,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 3 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_3 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_3
 				RUS_np_refresh_prices = yes
 			}
@@ -93,7 +173,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 4 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_4 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_4
 				RUS_np_refresh_prices = yes
 			}
@@ -101,7 +181,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 5 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_5 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_5
 				RUS_np_refresh_prices = yes
 			}
@@ -109,7 +189,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 6 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_6 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_6
 				RUS_np_refresh_prices = yes
 			}
@@ -117,7 +197,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 7 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_7 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_8 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_7
 				RUS_np_refresh_prices = yes
 			}
@@ -125,7 +205,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 8 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_8 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_9 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_8
 				RUS_np_refresh_prices = yes
 			}
@@ -133,7 +213,7 @@ RUS_disordered_industry_refresh = {
 		else_if = {
 			limit = { check_variable = { RUS_disordered_industry_count = 9 } }
 			if = { limit = { NOT = { has_idea = RUS_disordered_industry_9 } }
-				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_10 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
+				remove_ideas = { RUS_opening_disordered_industry RUS_disordered_industry_0 RUS_disordered_industry_1 RUS_disordered_industry_2 RUS_disordered_industry_3 RUS_disordered_industry_4 RUS_disordered_industry_5 RUS_disordered_industry_6 RUS_disordered_industry_7 RUS_disordered_industry_8 RUS_disordered_industry_10 RUS_disordered_industry_federal_0 RUS_disordered_industry_federal_1 RUS_disordered_industry_federal_2 RUS_disordered_industry_federal_3 RUS_disordered_industry_federal_4 RUS_disordered_industry_federal_5 RUS_disordered_industry_federal_6 RUS_disordered_industry_federal_7 RUS_disordered_industry_federal_8 RUS_disordered_industry_federal_9 RUS_disordered_industry_federal RUS_disordered_industry_cooperative RUS_disordered_industry_trusts }
 				add_ideas = RUS_disordered_industry_9
 				RUS_np_refresh_prices = yes
 			}
@@ -182,6 +262,86 @@ RUS_disordered_industry_preview = {
 		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_9 } }
 		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_9 add_idea = RUS_disordered_industry_10 } }
 	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_0 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_0 add_idea = RUS_disordered_industry_federal_1 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_1 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_1 add_idea = RUS_disordered_industry_federal_2 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_2 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_2 add_idea = RUS_disordered_industry_federal_3 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_3 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_3 add_idea = RUS_disordered_industry_federal_4 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_4 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_4 add_idea = RUS_disordered_industry_federal_5 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_5 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_5 add_idea = RUS_disordered_industry_federal_6 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_6 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_6 add_idea = RUS_disordered_industry_federal_7 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_7 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_7 add_idea = RUS_disordered_industry_federal_8 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_8 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_8 add_idea = RUS_disordered_industry_federal_9 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_federal_9 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_federal_9 add_idea = RUS_disordered_industry_federal } }
+	}
+}
+
+RUS_disordered_industry_preview_federal_transition = {
+	if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_0 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_0 add_idea = RUS_disordered_industry_federal_1 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_1 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_1 add_idea = RUS_disordered_industry_federal_2 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_2 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_2 add_idea = RUS_disordered_industry_federal_3 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_3 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_3 add_idea = RUS_disordered_industry_federal_4 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_4 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_4 add_idea = RUS_disordered_industry_federal_5 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_5 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_5 add_idea = RUS_disordered_industry_federal_6 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_6 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_6 add_idea = RUS_disordered_industry_federal_7 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_7 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_7 add_idea = RUS_disordered_industry_federal_8 } }
+	}
+	else_if = {
+		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_8 } }
+		effect_tooltip = { swap_ideas = { remove_idea = RUS_disordered_industry_8 add_idea = RUS_disordered_industry_federal_9 } }
+	}
+	else = { RUS_disordered_industry_preview = yes }
 }
 
 RUS_disordered_industry_preview_federal = {
@@ -193,7 +353,7 @@ RUS_disordered_industry_preview_federal = {
 		limit = { hidden_trigger = { has_idea = RUS_disordered_industry_10 } }
 		custom_effect_tooltip = RUS_disordered_industry_preview_federal_10_tt
 	}
-	else = { RUS_disordered_industry_preview = yes }
+	else = { RUS_disordered_industry_preview_federal_transition = yes }
 }
 
 RUS_disordered_industry_preview_cooperative = {
