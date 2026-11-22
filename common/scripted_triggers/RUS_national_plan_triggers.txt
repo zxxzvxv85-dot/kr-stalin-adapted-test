@@ -4,6 +4,10 @@ RUS_np_context = {
 	has_socialist_government = yes
 	has_completed_focus = RUS_future_domestic_424
 }
+RUS_np_long_range_ready = {
+	NOT = { check_variable = { RUS_np_completed_projects < 30 } }
+	has_variable = RUS_np_completed_projects
+}
 RUS_np_rural_candidate = {
 	is_core_of = RUS
 	is_owned_and_controlled_by = RUS

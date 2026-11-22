@@ -286,7 +286,7 @@ def render_outputs():
         text += ['\t\thas_completed_focus = '+s for s,t in meta['hidden_required_edges'] if t==key]
         if authored and authored['mode'] == 'manual':
             text += ['\t\t'+line for line in authored.get('available', [])]
-            text += ['\t\thidden_trigger = { has_socialist_government = yes }', '\t}']
+            text += ['\t\thidden_trigger = { has_socialist_government = yes }']
         else:
             tip = ('RUS_provisional_revolution_event_only_tt' if authored and authored['mode']=='revolution_event'
                    else 'RUS_provisional_pending_event_only_tt' if authored else 'RUS_future_domestic_preview_only_tt')
@@ -294,7 +294,12 @@ def render_outputs():
                      '\t\t\ttooltip = '+tip, '\t\t\talways = no', '\t\t}']
             if node['suffix'] in disordered_industry.ROUTES:
                 text += ['\t\t'+disordered_industry.route_requirement(node['suffix'])]
-            text += ['\t}']
+        if key == disordered_industry.LONG_RANGE_FOCUS:
+            text += ['\t\tcustom_trigger_tooltip = {',
+                     '\t\t\ttooltip = RUS_disordered_industry_long_range_requires_tt',
+                     '\t\t\tRUS_np_long_range_ready = yes',
+                     '\t\t}']
+        text += ['\t}']
         if node['phase']=='domestic':
             text += ['\tallow_branch = { NOT = { has_government = national_populist } }']
         if node['suffix'] in disordered_industry.ROUTES:

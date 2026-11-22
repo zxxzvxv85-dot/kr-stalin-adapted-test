@@ -4,12 +4,7 @@ RUS_np_refresh_prices = {
 	set_variable = { RUS_disordered_industry_research_reduction = 0 }
 	if = {
 	limit = { has_completed_focus = RUS_future_domestic_176 }
-	if = {
-	limit = { NOT = { has_variable = RUS_disordered_industry_research_baseline } }
-	set_variable = { RUS_disordered_industry_research_baseline = num_researched_technologies }
-}
 	set_variable = { RUS_disordered_industry_research_reduction = num_researched_technologies }
-	subtract_from_variable = { RUS_disordered_industry_research_reduction = RUS_disordered_industry_research_baseline }
 	multiply_variable = { RUS_disordered_industry_research_reduction = -0.002 }
 	if = {
 	limit = { check_variable = { RUS_disordered_industry_research_reduction < -0.99 } }
@@ -269,18 +264,49 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_rail_weight = 0 }
 	set_variable = { RUS_np_farm_rate = 0 }
 	set_variable = { RUS_np_repair = 0 }
+	set_variable = { RUS_np_completed_projects = 0 }
 	set_variable = { RUS_np_rail_region_1 = 0 }
 	set_variable = { RUS_np_rail_weight_1 = 0 }
+	set_variable = { RUS_np_transport_duration_1 = 1 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_626 OR = { OR = { has_country_flag = RUS_np_improve_roads_in_central_russia_completed has_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia } has_country_flag = RUS_np_moscow_logistics_completed } }
+	set_variable = { RUS_np_transport_duration_1 = 0.9 }
+}
 	set_variable = { RUS_np_rail_region_2 = 0 }
 	set_variable = { RUS_np_rail_weight_2 = 0 }
+	set_variable = { RUS_np_transport_duration_2 = 1 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_626 OR = { OR = { has_country_flag = RUS_np_northern_route_completed has_country_flag = RUS_rc_finished_RUS_northern_route } OR = { has_country_flag = RUS_np_improve_roads_in_northern_russia_completed has_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia } has_country_flag = RUS_np_leningrad_logistics_completed } }
+	set_variable = { RUS_np_transport_duration_2 = 0.9 }
+}
 	set_variable = { RUS_np_rail_region_3 = 0 }
 	set_variable = { RUS_np_rail_weight_3 = 0 }
+	set_variable = { RUS_np_transport_duration_3 = 1 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_626 OR = { OR = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed has_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin } has_country_flag = RUS_np_tsaritsyn_logistics_completed } }
+	set_variable = { RUS_np_transport_duration_3 = 0.9 }
+}
 	set_variable = { RUS_np_rail_region_4 = 0 }
 	set_variable = { RUS_np_rail_weight_4 = 0 }
+	set_variable = { RUS_np_transport_duration_4 = 1 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_626 OR = { OR = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk } } }
+	set_variable = { RUS_np_transport_duration_4 = 0.9 }
+}
 	set_variable = { RUS_np_rail_region_5 = 0 }
 	set_variable = { RUS_np_rail_weight_5 = 0 }
+	set_variable = { RUS_np_transport_duration_5 = 1 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_626 OR = { OR = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk } OR = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok } } }
+	set_variable = { RUS_np_transport_duration_5 = 0.9 }
+}
 	set_variable = { RUS_np_rail_region_6 = 0 }
 	set_variable = { RUS_np_rail_weight_6 = 0 }
+	set_variable = { RUS_np_transport_duration_6 = 1 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_626 OR = { OR = { has_country_flag = RUS_np_central_asia_railroads_completed has_country_flag = RUS_rc_finished_RUS_central_asia_railroads } } }
+	set_variable = { RUS_np_transport_duration_6 = 0.9 }
+}
 	set_variable = { RUS_np_kamenev_all_russian_electrification_initial_days = 45 }
 	if = {
 	limit = { has_variable = RUS_tesla_industry_time_45 }
@@ -298,6 +324,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_kamenev_all_russian_electrification_initial_days = 0.499 }
 	round_variable = RUS_np_kamenev_all_russian_electrification_initial_days
 	add_to_variable = { RUS_np_kamenev_all_russian_electrification_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_kamenev_all_russian_electrification_completed has_country_flag = RUS_rc_finished_RUS_kamenev_all_russian_electrification } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_kamenev_all_russian_electrification_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -321,6 +351,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_renovate_and_expand_moscow_initial_days
 	add_to_variable = { RUS_np_renovate_and_expand_moscow_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_renovate_and_expand_moscow_completed has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_moscow } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_renovate_and_expand_moscow_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_renovate_and_expand_moscow_trains }
@@ -342,6 +376,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_renovate_and_expand_tsaritsyn_initial_days = 0.499 }
 	round_variable = RUS_np_renovate_and_expand_tsaritsyn_initial_days
 	add_to_variable = { RUS_np_renovate_and_expand_tsaritsyn_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_completed has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_tsaritsyn } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -365,6 +403,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_renovate_and_expand_saint_petersburg_initial_days
 	add_to_variable = { RUS_np_renovate_and_expand_saint_petersburg_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_completed has_country_flag = RUS_rc_finished_RUS_renovate_and_expand_saint_petersburg } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_renovate_and_expand_saint_petersburg_trains }
@@ -383,9 +425,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_magnitogorsk_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_magnitogorsk_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_magnitogorsk_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_magnitogorsk_initial_days = 0.499 }
 	round_variable = RUS_np_magnitogorsk_initial_days
 	add_to_variable = { RUS_np_magnitogorsk_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_magnitogorsk_completed has_country_flag = RUS_rc_finished_RUS_magnitogorsk } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_magnitogorsk_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -405,9 +452,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_second_baku_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_second_baku_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_second_baku_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_second_baku_initial_days = 0.499 }
 	round_variable = RUS_np_second_baku_initial_days
 	add_to_variable = { RUS_np_second_baku_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_second_baku_completed has_country_flag = RUS_rc_finished_RUS_second_baku } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_second_baku_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -427,9 +479,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_modernisation_of_AMO_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_modernisation_of_AMO_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_modernisation_of_AMO_initial_days = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_modernisation_of_AMO_initial_days = 0.499 }
 	round_variable = RUS_np_modernisation_of_AMO_initial_days
 	add_to_variable = { RUS_np_modernisation_of_AMO_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_modernisation_of_AMO_completed has_country_flag = RUS_rc_finished_RUS_modernisation_of_AMO } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_modernisation_of_AMO_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -449,9 +506,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_izhevsk_mechanical_plant_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_izhevsk_mechanical_plant_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_izhevsk_mechanical_plant_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_izhevsk_mechanical_plant_initial_days = 0.499 }
 	round_variable = RUS_np_izhevsk_mechanical_plant_initial_days
 	add_to_variable = { RUS_np_izhevsk_mechanical_plant_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_izhevsk_mechanical_plant_completed has_country_flag = RUS_rc_finished_RUS_izhevsk_mechanical_plant } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_izhevsk_mechanical_plant_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -471,9 +533,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_tula_arms_factory_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_tula_arms_factory_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_tula_arms_factory_initial_days = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_tula_arms_factory_initial_days = 0.499 }
 	round_variable = RUS_np_tula_arms_factory_initial_days
 	add_to_variable = { RUS_np_tula_arms_factory_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_tula_arms_factory_completed has_country_flag = RUS_rc_finished_RUS_tula_arms_factory } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_tula_arms_factory_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -493,9 +560,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_create_tankograd_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_create_tankograd_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_create_tankograd_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_create_tankograd_initial_days = 0.499 }
 	round_variable = RUS_np_create_tankograd_initial_days
 	add_to_variable = { RUS_np_create_tankograd_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_create_tankograd_completed has_country_flag = RUS_rc_finished_RUS_create_tankograd } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_create_tankograd_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -515,9 +587,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_convert_civilian_aviation_industry_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_convert_civilian_aviation_industry_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_convert_civilian_aviation_industry_initial_days = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_convert_civilian_aviation_industry_initial_days = 0.499 }
 	round_variable = RUS_np_convert_civilian_aviation_industry_initial_days
 	add_to_variable = { RUS_np_convert_civilian_aviation_industry_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_convert_civilian_aviation_industry_completed has_country_flag = RUS_rc_finished_RUS_convert_civilian_aviation_industry } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_convert_civilian_aviation_industry_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -541,6 +618,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_tsaritsyn_tractor_plant_initial_days
 	add_to_variable = { RUS_np_tsaritsyn_tractor_plant_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_completed has_country_flag = RUS_rc_finished_RUS_tsaritsyn_tractor_plant } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_tsaritsyn_tractor_plant_trains }
@@ -562,6 +643,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_chelyabinsk_tractor_plant_initial_days = 0.499 }
 	round_variable = RUS_np_chelyabinsk_tractor_plant_initial_days
 	add_to_variable = { RUS_np_chelyabinsk_tractor_plant_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_completed has_country_flag = RUS_rc_finished_RUS_chelyabinsk_tractor_plant } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -585,6 +670,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_kursk_tractor_plant_initial_days
 	add_to_variable = { RUS_np_kursk_tractor_plant_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_kursk_tractor_plant_completed has_country_flag = RUS_rc_finished_RUS_kursk_tractor_plant } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_kursk_tractor_plant_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_kursk_tractor_plant_trains }
@@ -606,6 +695,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_rostselmash_initial_days = 0.499 }
 	round_variable = RUS_np_rostselmash_initial_days
 	add_to_variable = { RUS_np_rostselmash_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_rostselmash_completed has_country_flag = RUS_rc_finished_RUS_rostselmash } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_rostselmash_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -629,6 +722,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_stavropol_hydroelectric_dam_initial_days
 	add_to_variable = { RUS_np_stavropol_hydroelectric_dam_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_completed has_country_flag = RUS_rc_finished_RUS_stavropol_hydroelectric_dam } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_stavropol_hydroelectric_dam_trains }
@@ -650,6 +747,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_rybinsk_hydroelectric_dam_initial_days = 0.499 }
 	round_variable = RUS_np_rybinsk_hydroelectric_dam_initial_days
 	add_to_variable = { RUS_np_rybinsk_hydroelectric_dam_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_completed has_country_flag = RUS_rc_finished_RUS_rybinsk_hydroelectric_dam } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -673,6 +774,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_zhiguli_hydroelectric_dam_initial_days
 	add_to_variable = { RUS_np_zhiguli_hydroelectric_dam_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_completed has_country_flag = RUS_rc_finished_RUS_zhiguli_hydroelectric_dam } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_zhiguli_hydroelectric_dam_trains }
@@ -695,6 +800,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_krasnoyarsk_hydroelectric_dam_initial_days
 	add_to_variable = { RUS_np_krasnoyarsk_hydroelectric_dam_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_completed has_country_flag = RUS_rc_finished_RUS_krasnoyarsk_hydroelectric_dam } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_krasnoyarsk_hydroelectric_dam_trains }
@@ -713,9 +822,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_lipetsk_metallurgical_plant_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_lipetsk_metallurgical_plant_initial_days = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_lipetsk_metallurgical_plant_initial_days = 0.499 }
 	round_variable = RUS_np_lipetsk_metallurgical_plant_initial_days
 	add_to_variable = { RUS_np_lipetsk_metallurgical_plant_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_completed has_country_flag = RUS_rc_finished_RUS_lipetsk_metallurgical_plant } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -735,9 +849,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_uralmash_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_uralmash_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_uralmash_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_uralmash_initial_days = 0.499 }
 	round_variable = RUS_np_uralmash_initial_days
 	add_to_variable = { RUS_np_uralmash_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_uralmash_completed has_country_flag = RUS_rc_finished_RUS_uralmash } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_uralmash_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -757,9 +876,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_motovilikha_plants_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_motovilikha_plants_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_motovilikha_plants_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_motovilikha_plants_initial_days = 0.499 }
 	round_variable = RUS_np_motovilikha_plants_initial_days
 	add_to_variable = { RUS_np_motovilikha_plants_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_motovilikha_plants_completed has_country_flag = RUS_rc_finished_RUS_motovilikha_plants } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_motovilikha_plants_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -779,9 +903,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_admiralty_dockyards_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_admiralty_dockyards_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_admiralty_dockyards_initial_days = RUS_np_transport_duration_2 }
 	add_to_variable = { RUS_np_admiralty_dockyards_initial_days = 0.499 }
 	round_variable = RUS_np_admiralty_dockyards_initial_days
 	add_to_variable = { RUS_np_admiralty_dockyards_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_admiralty_dockyards_completed has_country_flag = RUS_rc_finished_RUS_admiralty_dockyards } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_admiralty_dockyards_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -801,9 +930,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_kamensky_uralsky_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_kamensky_uralsky_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_kamensky_uralsky_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_kamensky_uralsky_initial_days = 0.499 }
 	round_variable = RUS_np_kamensky_uralsky_initial_days
 	add_to_variable = { RUS_np_kamensky_uralsky_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_kamensky_uralsky_completed has_country_flag = RUS_rc_finished_RUS_kamensky_uralsky } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_kamensky_uralsky_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -823,9 +957,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_grozny_oil_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_grozny_oil_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_grozny_oil_initial_days = RUS_np_transport_duration_3 }
 	add_to_variable = { RUS_np_grozny_oil_initial_days = 0.499 }
 	round_variable = RUS_np_grozny_oil_initial_days
 	add_to_variable = { RUS_np_grozny_oil_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_grozny_oil_completed has_country_flag = RUS_rc_finished_RUS_grozny_oil } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_grozny_oil_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -845,9 +984,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_arctic_mines_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_arctic_mines_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_arctic_mines_initial_days = RUS_np_transport_duration_2 }
 	add_to_variable = { RUS_np_arctic_mines_initial_days = 0.499 }
 	round_variable = RUS_np_arctic_mines_initial_days
 	add_to_variable = { RUS_np_arctic_mines_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_arctic_mines_completed has_country_flag = RUS_rc_finished_RUS_arctic_mines } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_arctic_mines_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -867,9 +1011,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_tyrnyauz_tungsten_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_tyrnyauz_tungsten_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_tyrnyauz_tungsten_initial_days = RUS_np_transport_duration_3 }
 	add_to_variable = { RUS_np_tyrnyauz_tungsten_initial_days = 0.499 }
 	round_variable = RUS_np_tyrnyauz_tungsten_initial_days
 	add_to_variable = { RUS_np_tyrnyauz_tungsten_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_tyrnyauz_tungsten_completed has_country_flag = RUS_rc_finished_RUS_tyrnyauz_tungsten } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_tyrnyauz_tungsten_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -889,9 +1038,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_romanshkino_oil_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_romanshkino_oil_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_romanshkino_oil_initial_days = RUS_np_transport_duration_3 }
 	add_to_variable = { RUS_np_romanshkino_oil_initial_days = 0.499 }
 	round_variable = RUS_np_romanshkino_oil_initial_days
 	add_to_variable = { RUS_np_romanshkino_oil_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_romanshkino_oil_completed has_country_flag = RUS_rc_finished_RUS_romanshkino_oil } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_romanshkino_oil_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -915,6 +1069,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_northern_route_initial_days
 	add_to_variable = { RUS_np_northern_route_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_northern_route_completed has_country_flag = RUS_rc_finished_RUS_northern_route } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_northern_route_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_northern_route_trains }
@@ -936,6 +1094,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_initial_days = 0.499 }
 	round_variable = RUS_np_upgrade_the_railroad_chelyabinsk_initial_days
 	add_to_variable = { RUS_np_upgrade_the_railroad_chelyabinsk_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_chelyabinsk } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -959,6 +1121,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_upgrade_the_railroad_krasnoyarsk_initial_days
 	add_to_variable = { RUS_np_upgrade_the_railroad_krasnoyarsk_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_krasnoyarsk } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_upgrade_the_railroad_krasnoyarsk_trains }
@@ -981,6 +1147,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_upgrade_the_railroad_vladivostok_initial_days
 	add_to_variable = { RUS_np_upgrade_the_railroad_vladivostok_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed has_country_flag = RUS_rc_finished_RUS_upgrade_the_railroad_vladivostok } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_upgrade_the_railroad_vladivostok_trains }
@@ -999,9 +1169,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_kuznetsk_basin_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_kuznetsk_basin_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_kuznetsk_basin_initial_days = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_kuznetsk_basin_initial_days = 0.499 }
 	round_variable = RUS_np_kuznetsk_basin_initial_days
 	add_to_variable = { RUS_np_kuznetsk_basin_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_kuznetsk_basin_completed has_country_flag = RUS_rc_finished_RUS_kuznetsk_basin } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_kuznetsk_basin_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1021,9 +1196,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_bodaybo_gold_mines_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_bodaybo_gold_mines_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_bodaybo_gold_mines_initial_days = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_bodaybo_gold_mines_initial_days = 0.499 }
 	round_variable = RUS_np_bodaybo_gold_mines_initial_days
 	add_to_variable = { RUS_np_bodaybo_gold_mines_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_bodaybo_gold_mines_completed has_country_flag = RUS_rc_finished_RUS_bodaybo_gold_mines } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_bodaybo_gold_mines_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1047,6 +1227,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_far_eastern_fishing_industry_initial_days
 	add_to_variable = { RUS_np_far_eastern_fishing_industry_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_far_eastern_fishing_industry_completed has_country_flag = RUS_rc_finished_RUS_far_eastern_fishing_industry } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_far_eastern_fishing_industry_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_far_eastern_fishing_industry_trains }
@@ -1065,9 +1249,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_krasnoyarskpromstroy_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_krasnoyarskpromstroy_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_krasnoyarskpromstroy_initial_days = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_krasnoyarskpromstroy_initial_days = 0.499 }
 	round_variable = RUS_np_krasnoyarskpromstroy_initial_days
 	add_to_variable = { RUS_np_krasnoyarskpromstroy_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_krasnoyarskpromstroy_completed has_country_flag = RUS_rc_finished_RUS_krasnoyarskpromstroy } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_krasnoyarskpromstroy_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1087,9 +1276,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_dalnremmash_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_dalnremmash_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_dalnremmash_initial_days = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_dalnremmash_initial_days = 0.499 }
 	round_variable = RUS_np_dalnremmash_initial_days
 	add_to_variable = { RUS_np_dalnremmash_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_dalnremmash_completed has_country_flag = RUS_rc_finished_RUS_dalnremmash } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_dalnremmash_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1109,9 +1303,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_rudny_altay_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_rudny_altay_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_rudny_altay_initial_days = RUS_np_transport_duration_6 }
 	add_to_variable = { RUS_np_rudny_altay_initial_days = 0.499 }
 	round_variable = RUS_np_rudny_altay_initial_days
 	add_to_variable = { RUS_np_rudny_altay_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_rudny_altay_completed has_country_flag = RUS_rc_finished_RUS_rudny_altay } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_rudny_altay_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1131,9 +1330,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_tekeli_metallurgical_combine_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_tekeli_metallurgical_combine_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_tekeli_metallurgical_combine_initial_days = RUS_np_transport_duration_6 }
 	add_to_variable = { RUS_np_tekeli_metallurgical_combine_initial_days = 0.499 }
 	round_variable = RUS_np_tekeli_metallurgical_combine_initial_days
 	add_to_variable = { RUS_np_tekeli_metallurgical_combine_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_tekeli_metallurgical_combine_completed has_country_flag = RUS_rc_finished_RUS_tekeli_metallurgical_combine } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_tekeli_metallurgical_combine_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1153,9 +1357,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_emba_oil_area_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_emba_oil_area_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_emba_oil_area_initial_days = RUS_np_transport_duration_6 }
 	add_to_variable = { RUS_np_emba_oil_area_initial_days = 0.499 }
 	round_variable = RUS_np_emba_oil_area_initial_days
 	add_to_variable = { RUS_np_emba_oil_area_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_emba_oil_area_completed has_country_flag = RUS_rc_finished_RUS_emba_oil_area } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_emba_oil_area_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1179,6 +1388,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_verny_cotton_industry_initial_days
 	add_to_variable = { RUS_np_verny_cotton_industry_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_verny_cotton_industry_completed has_country_flag = RUS_rc_finished_RUS_verny_cotton_industry } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_verny_cotton_industry_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_verny_cotton_industry_trains }
@@ -1197,9 +1410,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_siberian_timber_industries_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_siberian_timber_industries_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_siberian_timber_industries_initial_days = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_siberian_timber_industries_initial_days = 0.499 }
 	round_variable = RUS_np_siberian_timber_industries_initial_days
 	add_to_variable = { RUS_np_siberian_timber_industries_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_siberian_timber_industries_completed has_country_flag = RUS_rc_finished_RUS_siberian_timber_industries } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_siberian_timber_industries_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1223,6 +1441,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_improve_roads_in_central_russia_initial_days
 	add_to_variable = { RUS_np_improve_roads_in_central_russia_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_improve_roads_in_central_russia_completed has_country_flag = RUS_rc_finished_RUS_improve_roads_in_central_russia } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_improve_roads_in_central_russia_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_improve_roads_in_central_russia_trains }
@@ -1244,6 +1466,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_improve_roads_in_northern_russia_initial_days = 0.499 }
 	round_variable = RUS_np_improve_roads_in_northern_russia_initial_days
 	add_to_variable = { RUS_np_improve_roads_in_northern_russia_initial_days = 1 }
+	if = {
+	limit = { OR = { has_country_flag = RUS_np_improve_roads_in_northern_russia_completed has_country_flag = RUS_rc_finished_RUS_improve_roads_in_northern_russia } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_improve_roads_in_northern_russia_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1267,6 +1493,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_improve_roads_in_the_volga_basin_initial_days
 	add_to_variable = { RUS_np_improve_roads_in_the_volga_basin_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed has_country_flag = RUS_rc_finished_RUS_improve_roads_in_the_volga_basin } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_improve_roads_in_the_volga_basin_trains }
@@ -1289,6 +1519,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_central_asia_railroads_initial_days
 	add_to_variable = { RUS_np_central_asia_railroads_initial_days = 1 }
 	if = {
+	limit = { OR = { has_country_flag = RUS_np_central_asia_railroads_completed has_country_flag = RUS_rc_finished_RUS_central_asia_railroads } }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_central_asia_railroads_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_central_asia_railroads_trains }
@@ -1303,9 +1537,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_gaz_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_gaz_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_gaz_initial_days = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_gaz_initial_days = 0.499 }
 	round_variable = RUS_np_gaz_initial_days
 	add_to_variable = { RUS_np_gaz_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_gaz_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_gaz_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1321,9 +1560,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_bearing_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_bearing_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_bearing_initial_days = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_bearing_initial_days = 0.499 }
 	round_variable = RUS_np_bearing_initial_days
 	add_to_variable = { RUS_np_bearing_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_bearing_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_bearing_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1343,6 +1587,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_kashira_initial_days
 	add_to_variable = { RUS_np_kashira_initial_days = 1 }
 	if = {
+	limit = { has_country_flag = RUS_np_kashira_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_kashira_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_kashira_trains }
@@ -1360,6 +1608,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_moscow_grid_initial_days = 0.499 }
 	round_variable = RUS_np_moscow_grid_initial_days
 	add_to_variable = { RUS_np_moscow_grid_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_grid_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_moscow_grid_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1379,6 +1631,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_metro_initial_days
 	add_to_variable = { RUS_np_metro_initial_days = 1 }
 	if = {
+	limit = { has_country_flag = RUS_np_metro_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_metro_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_metro_trains }
@@ -1396,6 +1652,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_moscow_volga_initial_days = 0.499 }
 	round_variable = RUS_np_moscow_volga_initial_days
 	add_to_variable = { RUS_np_moscow_volga_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_volga_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_moscow_volga_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1415,6 +1675,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_svir_initial_days
 	add_to_variable = { RUS_np_svir_initial_days = 1 }
 	if = {
+	limit = { has_country_flag = RUS_np_svir_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_svir_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_svir_trains }
@@ -1429,9 +1693,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_volkhov_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_volkhov_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_volkhov_initial_days = RUS_np_transport_duration_2 }
 	add_to_variable = { RUS_np_volkhov_initial_days = 0.499 }
 	round_variable = RUS_np_volkhov_initial_days
 	add_to_variable = { RUS_np_volkhov_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_volkhov_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_volkhov_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1447,9 +1716,14 @@ RUS_np_refresh = {
 	set_variable = { RUS_np_uvz_initial_days = 3650 }
 }
 	divide_variable = { RUS_np_uvz_initial_days = RUS_np_speed }
+	multiply_variable = { RUS_np_uvz_initial_days = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_uvz_initial_days = 0.499 }
 	round_variable = RUS_np_uvz_initial_days
 	add_to_variable = { RUS_np_uvz_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_uvz_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_uvz_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1469,6 +1743,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_bobrik_initial_days
 	add_to_variable = { RUS_np_bobrik_initial_days = 1 }
 	if = {
+	limit = { has_country_flag = RUS_np_bobrik_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_bobrik_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_bobrik_trains }
@@ -1487,6 +1765,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_moscow_logistics_initial_days
 	add_to_variable = { RUS_np_moscow_logistics_initial_days = 1 }
 	if = {
+	limit = { has_country_flag = RUS_np_moscow_logistics_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_moscow_logistics_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_moscow_logistics_trains }
@@ -1504,6 +1786,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_moscow_rural_initial_days = 0.499 }
 	round_variable = RUS_np_moscow_rural_initial_days
 	add_to_variable = { RUS_np_moscow_rural_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_moscow_rural_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_moscow_rural_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1528,6 +1814,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_leningrad_logistics_initial_days
 	add_to_variable = { RUS_np_leningrad_logistics_initial_days = 1 }
 	if = {
+	limit = { has_country_flag = RUS_np_leningrad_logistics_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_leningrad_logistics_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_leningrad_logistics_trains }
@@ -1545,6 +1835,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_leningrad_rural_initial_days = 0.499 }
 	round_variable = RUS_np_leningrad_rural_initial_days
 	add_to_variable = { RUS_np_leningrad_rural_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_leningrad_rural_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_leningrad_rural_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -1569,6 +1863,10 @@ RUS_np_refresh = {
 	round_variable = RUS_np_tsaritsyn_logistics_initial_days
 	add_to_variable = { RUS_np_tsaritsyn_logistics_initial_days = 1 }
 	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_logistics_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
+	if = {
 	limit = { has_country_flag = RUS_np_tsaritsyn_logistics_running }
 	add_to_variable = { RUS_np_active = 1 }
 	add_to_variable = { RUS_np_trains = RUS_np_tsaritsyn_logistics_trains }
@@ -1586,6 +1884,10 @@ RUS_np_refresh = {
 	add_to_variable = { RUS_np_tsaritsyn_rural_initial_days = 0.499 }
 	round_variable = RUS_np_tsaritsyn_rural_initial_days
 	add_to_variable = { RUS_np_tsaritsyn_rural_initial_days = 1 }
+	if = {
+	limit = { has_country_flag = RUS_np_tsaritsyn_rural_completed }
+	add_to_variable = { RUS_np_completed_projects = 1 }
+}
 	if = {
 	limit = { has_country_flag = RUS_np_tsaritsyn_rural_running }
 	add_to_variable = { RUS_np_active = 1 }
@@ -3805,7 +4107,7 @@ RUS_np_kamenev_all_russian_electrification_begin = {
 }
 RUS_np_kamenev_all_russian_electrification_goals = {
 	if = {
-	limit = { has_country_flag = RUS_np_kamenev_all_russian_electrification_running NOT = { has_country_flag = RUS_np_kamenev_all_russian_electrification_completed } }
+	limit = { has_country_flag = RUS_np_kamenev_all_russian_electrification_running OR = { NOT = { has_country_flag = RUS_np_kamenev_all_russian_electrification_completed } has_completed_focus = RUS_future_domestic_625 } }
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kamenev_all_russian_electrification_goal_1 } 219 = { is_owned_and_controlled_by_ROOT_or_subject = yes } 219 = { NOT = { infrastructure < 3 } } }
 	set_country_flag = RUS_np_kamenev_all_russian_electrification_goal_1
@@ -4128,6 +4430,10 @@ RUS_np_kamenev_all_russian_electrification_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 1 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kamenev_all_russian_electrification_completed } }
@@ -4171,7 +4477,13 @@ RUS_np_kamenev_all_russian_electrification_finish = {
 }
 	set_country_flag = RUS_np_kamenev_all_russian_electrification_completed
 	set_variable = { RUS_np_consumed = RUS_np_kamenev_all_russian_electrification_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_kamenev_all_russian_electrification_goal_1 has_country_flag = RUS_np_kamenev_all_russian_electrification_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_kamenev_all_russian_electrification_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_kamenev_all_russian_electrification_release = yes
@@ -4487,6 +4799,10 @@ RUS_np_renovate_and_expand_moscow_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 3 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_renovate_and_expand_moscow_completed } }
@@ -4525,7 +4841,13 @@ RUS_np_renovate_and_expand_moscow_finish = {
 }
 	set_country_flag = RUS_np_renovate_and_expand_moscow_completed
 	set_variable = { RUS_np_consumed = RUS_np_renovate_and_expand_moscow_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_renovate_and_expand_moscow_goal_1 has_country_flag = RUS_np_renovate_and_expand_moscow_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_renovate_and_expand_moscow_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_renovate_and_expand_moscow_release = yes
@@ -4841,6 +5163,10 @@ RUS_np_renovate_and_expand_tsaritsyn_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 3 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_completed } }
@@ -4879,7 +5205,13 @@ RUS_np_renovate_and_expand_tsaritsyn_finish = {
 }
 	set_country_flag = RUS_np_renovate_and_expand_tsaritsyn_completed
 	set_variable = { RUS_np_consumed = RUS_np_renovate_and_expand_tsaritsyn_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_goal_1 has_country_flag = RUS_np_renovate_and_expand_tsaritsyn_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_renovate_and_expand_tsaritsyn_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_renovate_and_expand_tsaritsyn_release = yes
@@ -5195,6 +5527,10 @@ RUS_np_renovate_and_expand_saint_petersburg_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 3 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_completed } }
@@ -5233,7 +5569,13 @@ RUS_np_renovate_and_expand_saint_petersburg_finish = {
 }
 	set_country_flag = RUS_np_renovate_and_expand_saint_petersburg_completed
 	set_variable = { RUS_np_consumed = RUS_np_renovate_and_expand_saint_petersburg_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_goal_1 has_country_flag = RUS_np_renovate_and_expand_saint_petersburg_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_renovate_and_expand_saint_petersburg_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_renovate_and_expand_saint_petersburg_release = yes
@@ -5454,6 +5796,7 @@ RUS_np_magnitogorsk_timer = {
 	limit = { NOT = { check_variable = { RUS_np_magnitogorsk_left < 0.001 } } }
 	set_variable = { RUS_np_magnitogorsk_display = RUS_np_magnitogorsk_left }
 	divide_variable = { RUS_np_magnitogorsk_display = RUS_np_speed }
+	multiply_variable = { RUS_np_magnitogorsk_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_magnitogorsk_display = 0.499 }
 	round_variable = RUS_np_magnitogorsk_display
 	if = {
@@ -5479,7 +5822,9 @@ RUS_np_magnitogorsk_tick = {
 	limit = { has_country_flag = RUS_np_magnitogorsk_running check_variable = { RUS_np_magnitogorsk_last_day < global.num_days } }
 	set_variable = { RUS_np_magnitogorsk_last_day = global.num_days }
 	RUS_np_magnitogorsk_goals = yes
-	subtract_from_variable = { RUS_np_magnitogorsk_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_magnitogorsk_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_magnitogorsk_left < 0 } }
 	set_variable = { RUS_np_magnitogorsk_left = 0 }
@@ -5568,6 +5913,10 @@ RUS_np_magnitogorsk_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_magnitogorsk_completed } }
@@ -5611,7 +5960,13 @@ RUS_np_magnitogorsk_finish = {
 }
 	set_country_flag = RUS_np_magnitogorsk_completed
 	set_variable = { RUS_np_consumed = RUS_np_magnitogorsk_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_magnitogorsk_goal_1 has_country_flag = RUS_np_magnitogorsk_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_magnitogorsk_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_magnitogorsk_release = yes
@@ -5831,6 +6186,7 @@ RUS_np_second_baku_timer = {
 	limit = { NOT = { check_variable = { RUS_np_second_baku_left < 0.001 } } }
 	set_variable = { RUS_np_second_baku_display = RUS_np_second_baku_left }
 	divide_variable = { RUS_np_second_baku_display = RUS_np_speed }
+	multiply_variable = { RUS_np_second_baku_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_second_baku_display = 0.499 }
 	round_variable = RUS_np_second_baku_display
 	if = {
@@ -5856,7 +6212,9 @@ RUS_np_second_baku_tick = {
 	limit = { has_country_flag = RUS_np_second_baku_running check_variable = { RUS_np_second_baku_last_day < global.num_days } }
 	set_variable = { RUS_np_second_baku_last_day = global.num_days }
 	RUS_np_second_baku_goals = yes
-	subtract_from_variable = { RUS_np_second_baku_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_second_baku_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_second_baku_left < 0 } }
 	set_variable = { RUS_np_second_baku_left = 0 }
@@ -5950,6 +6308,10 @@ RUS_np_second_baku_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_second_baku_completed } }
@@ -5974,7 +6336,13 @@ RUS_np_second_baku_finish = {
 }
 	set_country_flag = RUS_np_second_baku_completed
 	set_variable = { RUS_np_consumed = RUS_np_second_baku_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_second_baku_goal_1 has_country_flag = RUS_np_second_baku_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_second_baku_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_second_baku_release = yes
@@ -6199,6 +6567,7 @@ RUS_np_modernisation_of_AMO_timer = {
 	limit = { NOT = { check_variable = { RUS_np_modernisation_of_AMO_left < 0.001 } } }
 	set_variable = { RUS_np_modernisation_of_AMO_display = RUS_np_modernisation_of_AMO_left }
 	divide_variable = { RUS_np_modernisation_of_AMO_display = RUS_np_speed }
+	multiply_variable = { RUS_np_modernisation_of_AMO_display = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_modernisation_of_AMO_display = 0.499 }
 	round_variable = RUS_np_modernisation_of_AMO_display
 	if = {
@@ -6224,7 +6593,9 @@ RUS_np_modernisation_of_AMO_tick = {
 	limit = { has_country_flag = RUS_np_modernisation_of_AMO_running check_variable = { RUS_np_modernisation_of_AMO_last_day < global.num_days } }
 	set_variable = { RUS_np_modernisation_of_AMO_last_day = global.num_days }
 	RUS_np_modernisation_of_AMO_goals = yes
-	subtract_from_variable = { RUS_np_modernisation_of_AMO_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_5 }
+	subtract_from_variable = { RUS_np_modernisation_of_AMO_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_modernisation_of_AMO_left < 0 } }
 	set_variable = { RUS_np_modernisation_of_AMO_left = 0 }
@@ -6332,6 +6703,10 @@ RUS_np_modernisation_of_AMO_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_modernisation_of_AMO_completed } }
@@ -6380,7 +6755,13 @@ RUS_np_modernisation_of_AMO_finish = {
 }
 	set_country_flag = RUS_np_modernisation_of_AMO_completed
 	set_variable = { RUS_np_consumed = RUS_np_modernisation_of_AMO_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_modernisation_of_AMO_goal_1 has_country_flag = RUS_np_modernisation_of_AMO_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_modernisation_of_AMO_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_modernisation_of_AMO_release = yes
@@ -6601,6 +6982,7 @@ RUS_np_izhevsk_mechanical_plant_timer = {
 	limit = { NOT = { check_variable = { RUS_np_izhevsk_mechanical_plant_left < 0.001 } } }
 	set_variable = { RUS_np_izhevsk_mechanical_plant_display = RUS_np_izhevsk_mechanical_plant_left }
 	divide_variable = { RUS_np_izhevsk_mechanical_plant_display = RUS_np_speed }
+	multiply_variable = { RUS_np_izhevsk_mechanical_plant_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_izhevsk_mechanical_plant_display = 0.499 }
 	round_variable = RUS_np_izhevsk_mechanical_plant_display
 	if = {
@@ -6626,7 +7008,9 @@ RUS_np_izhevsk_mechanical_plant_tick = {
 	limit = { has_country_flag = RUS_np_izhevsk_mechanical_plant_running check_variable = { RUS_np_izhevsk_mechanical_plant_last_day < global.num_days } }
 	set_variable = { RUS_np_izhevsk_mechanical_plant_last_day = global.num_days }
 	RUS_np_izhevsk_mechanical_plant_goals = yes
-	subtract_from_variable = { RUS_np_izhevsk_mechanical_plant_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_izhevsk_mechanical_plant_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_izhevsk_mechanical_plant_left < 0 } }
 	set_variable = { RUS_np_izhevsk_mechanical_plant_left = 0 }
@@ -6732,6 +7116,10 @@ RUS_np_izhevsk_mechanical_plant_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_izhevsk_mechanical_plant_completed } }
@@ -6775,7 +7163,13 @@ RUS_np_izhevsk_mechanical_plant_finish = {
 }
 	set_country_flag = RUS_np_izhevsk_mechanical_plant_completed
 	set_variable = { RUS_np_consumed = RUS_np_izhevsk_mechanical_plant_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_izhevsk_mechanical_plant_goal_1 has_country_flag = RUS_np_izhevsk_mechanical_plant_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_izhevsk_mechanical_plant_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_izhevsk_mechanical_plant_release = yes
@@ -6996,6 +7390,7 @@ RUS_np_tula_arms_factory_timer = {
 	limit = { NOT = { check_variable = { RUS_np_tula_arms_factory_left < 0.001 } } }
 	set_variable = { RUS_np_tula_arms_factory_display = RUS_np_tula_arms_factory_left }
 	divide_variable = { RUS_np_tula_arms_factory_display = RUS_np_speed }
+	multiply_variable = { RUS_np_tula_arms_factory_display = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_tula_arms_factory_display = 0.499 }
 	round_variable = RUS_np_tula_arms_factory_display
 	if = {
@@ -7021,7 +7416,9 @@ RUS_np_tula_arms_factory_tick = {
 	limit = { has_country_flag = RUS_np_tula_arms_factory_running check_variable = { RUS_np_tula_arms_factory_last_day < global.num_days } }
 	set_variable = { RUS_np_tula_arms_factory_last_day = global.num_days }
 	RUS_np_tula_arms_factory_goals = yes
-	subtract_from_variable = { RUS_np_tula_arms_factory_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_1 }
+	subtract_from_variable = { RUS_np_tula_arms_factory_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_tula_arms_factory_left < 0 } }
 	set_variable = { RUS_np_tula_arms_factory_left = 0 }
@@ -7120,6 +7517,10 @@ RUS_np_tula_arms_factory_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tula_arms_factory_completed } }
@@ -7164,7 +7565,13 @@ RUS_np_tula_arms_factory_finish = {
 }
 	set_country_flag = RUS_np_tula_arms_factory_completed
 	set_variable = { RUS_np_consumed = RUS_np_tula_arms_factory_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_tula_arms_factory_goal_1 has_country_flag = RUS_np_tula_arms_factory_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_tula_arms_factory_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_tula_arms_factory_release = yes
@@ -7385,6 +7792,7 @@ RUS_np_create_tankograd_timer = {
 	limit = { NOT = { check_variable = { RUS_np_create_tankograd_left < 0.001 } } }
 	set_variable = { RUS_np_create_tankograd_display = RUS_np_create_tankograd_left }
 	divide_variable = { RUS_np_create_tankograd_display = RUS_np_speed }
+	multiply_variable = { RUS_np_create_tankograd_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_create_tankograd_display = 0.499 }
 	round_variable = RUS_np_create_tankograd_display
 	if = {
@@ -7410,7 +7818,9 @@ RUS_np_create_tankograd_tick = {
 	limit = { has_country_flag = RUS_np_create_tankograd_running check_variable = { RUS_np_create_tankograd_last_day < global.num_days } }
 	set_variable = { RUS_np_create_tankograd_last_day = global.num_days }
 	RUS_np_create_tankograd_goals = yes
-	subtract_from_variable = { RUS_np_create_tankograd_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_create_tankograd_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_create_tankograd_left < 0 } }
 	set_variable = { RUS_np_create_tankograd_left = 0 }
@@ -7516,6 +7926,10 @@ RUS_np_create_tankograd_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	set_country_flag = RUS_first_five_year_plan_tankograd_completed
 	RUS_np_flush_plan_score = yes
 	if = {
@@ -7560,7 +7974,13 @@ RUS_np_create_tankograd_finish = {
 }
 	set_country_flag = RUS_np_create_tankograd_completed
 	set_variable = { RUS_np_consumed = RUS_np_create_tankograd_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_create_tankograd_goal_1 has_country_flag = RUS_np_create_tankograd_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_create_tankograd_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_create_tankograd_release = yes
@@ -7781,6 +8201,7 @@ RUS_np_convert_civilian_aviation_industry_timer = {
 	limit = { NOT = { check_variable = { RUS_np_convert_civilian_aviation_industry_left < 0.001 } } }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_display = RUS_np_convert_civilian_aviation_industry_left }
 	divide_variable = { RUS_np_convert_civilian_aviation_industry_display = RUS_np_speed }
+	multiply_variable = { RUS_np_convert_civilian_aviation_industry_display = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_convert_civilian_aviation_industry_display = 0.499 }
 	round_variable = RUS_np_convert_civilian_aviation_industry_display
 	if = {
@@ -7806,7 +8227,9 @@ RUS_np_convert_civilian_aviation_industry_tick = {
 	limit = { has_country_flag = RUS_np_convert_civilian_aviation_industry_running check_variable = { RUS_np_convert_civilian_aviation_industry_last_day < global.num_days } }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_last_day = global.num_days }
 	RUS_np_convert_civilian_aviation_industry_goals = yes
-	subtract_from_variable = { RUS_np_convert_civilian_aviation_industry_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_1 }
+	subtract_from_variable = { RUS_np_convert_civilian_aviation_industry_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_convert_civilian_aviation_industry_left < 0 } }
 	set_variable = { RUS_np_convert_civilian_aviation_industry_left = 0 }
@@ -7931,6 +8354,10 @@ RUS_np_convert_civilian_aviation_industry_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_convert_civilian_aviation_industry_completed } }
@@ -7974,7 +8401,13 @@ RUS_np_convert_civilian_aviation_industry_finish = {
 }
 	set_country_flag = RUS_np_convert_civilian_aviation_industry_completed
 	set_variable = { RUS_np_consumed = RUS_np_convert_civilian_aviation_industry_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_convert_civilian_aviation_industry_goal_1 has_country_flag = RUS_np_convert_civilian_aviation_industry_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_convert_civilian_aviation_industry_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_convert_civilian_aviation_industry_release = yes
@@ -8321,6 +8754,10 @@ RUS_np_tsaritsyn_tractor_plant_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_tractor_plant_completed } }
@@ -8357,7 +8794,13 @@ RUS_np_tsaritsyn_tractor_plant_finish = {
 }
 	set_country_flag = RUS_np_tsaritsyn_tractor_plant_completed
 	set_variable = { RUS_np_consumed = RUS_np_tsaritsyn_tractor_plant_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_tsaritsyn_tractor_plant_goal_1 has_country_flag = RUS_np_tsaritsyn_tractor_plant_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_tsaritsyn_tractor_plant_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_tsaritsyn_tractor_plant_release = yes
@@ -8702,6 +9145,10 @@ RUS_np_chelyabinsk_tractor_plant_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_chelyabinsk_tractor_plant_completed } }
@@ -8738,7 +9185,13 @@ RUS_np_chelyabinsk_tractor_plant_finish = {
 }
 	set_country_flag = RUS_np_chelyabinsk_tractor_plant_completed
 	set_variable = { RUS_np_consumed = RUS_np_chelyabinsk_tractor_plant_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_chelyabinsk_tractor_plant_goal_1 has_country_flag = RUS_np_chelyabinsk_tractor_plant_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_chelyabinsk_tractor_plant_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_chelyabinsk_tractor_plant_release = yes
@@ -9061,6 +9514,10 @@ RUS_np_kursk_tractor_plant_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kursk_tractor_plant_completed } }
@@ -9097,7 +9554,13 @@ RUS_np_kursk_tractor_plant_finish = {
 }
 	set_country_flag = RUS_np_kursk_tractor_plant_completed
 	set_variable = { RUS_np_consumed = RUS_np_kursk_tractor_plant_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_kursk_tractor_plant_goal_1 has_country_flag = RUS_np_kursk_tractor_plant_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_kursk_tractor_plant_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_kursk_tractor_plant_release = yes
@@ -9427,6 +9890,10 @@ RUS_np_rostselmash_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_rostselmash_completed } }
@@ -9464,7 +9931,13 @@ RUS_np_rostselmash_finish = {
 }
 	set_country_flag = RUS_np_rostselmash_completed
 	set_variable = { RUS_np_consumed = RUS_np_rostselmash_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_rostselmash_goal_1 has_country_flag = RUS_np_rostselmash_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_rostselmash_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_rostselmash_release = yes
@@ -9817,6 +10290,10 @@ RUS_np_stavropol_hydroelectric_dam_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_stavropol_hydroelectric_dam_completed } }
@@ -9860,7 +10337,13 @@ RUS_np_stavropol_hydroelectric_dam_finish = {
 }
 	set_country_flag = RUS_np_stavropol_hydroelectric_dam_completed
 	set_variable = { RUS_np_consumed = RUS_np_stavropol_hydroelectric_dam_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_stavropol_hydroelectric_dam_goal_1 has_country_flag = RUS_np_stavropol_hydroelectric_dam_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_stavropol_hydroelectric_dam_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_stavropol_hydroelectric_dam_release = yes
@@ -10213,6 +10696,10 @@ RUS_np_rybinsk_hydroelectric_dam_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_rybinsk_hydroelectric_dam_completed } }
@@ -10256,7 +10743,13 @@ RUS_np_rybinsk_hydroelectric_dam_finish = {
 }
 	set_country_flag = RUS_np_rybinsk_hydroelectric_dam_completed
 	set_variable = { RUS_np_consumed = RUS_np_rybinsk_hydroelectric_dam_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_rybinsk_hydroelectric_dam_goal_1 has_country_flag = RUS_np_rybinsk_hydroelectric_dam_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_rybinsk_hydroelectric_dam_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_rybinsk_hydroelectric_dam_release = yes
@@ -10609,6 +11102,10 @@ RUS_np_zhiguli_hydroelectric_dam_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_zhiguli_hydroelectric_dam_completed } }
@@ -10652,7 +11149,13 @@ RUS_np_zhiguli_hydroelectric_dam_finish = {
 }
 	set_country_flag = RUS_np_zhiguli_hydroelectric_dam_completed
 	set_variable = { RUS_np_consumed = RUS_np_zhiguli_hydroelectric_dam_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_zhiguli_hydroelectric_dam_goal_1 has_country_flag = RUS_np_zhiguli_hydroelectric_dam_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_zhiguli_hydroelectric_dam_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_zhiguli_hydroelectric_dam_release = yes
@@ -11005,6 +11508,10 @@ RUS_np_krasnoyarsk_hydroelectric_dam_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 6 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_completed } }
@@ -11048,7 +11555,13 @@ RUS_np_krasnoyarsk_hydroelectric_dam_finish = {
 }
 	set_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_completed
 	set_variable = { RUS_np_consumed = RUS_np_krasnoyarsk_hydroelectric_dam_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_goal_1 has_country_flag = RUS_np_krasnoyarsk_hydroelectric_dam_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_krasnoyarsk_hydroelectric_dam_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_krasnoyarsk_hydroelectric_dam_release = yes
@@ -11269,6 +11782,7 @@ RUS_np_lipetsk_metallurgical_plant_timer = {
 	limit = { NOT = { check_variable = { RUS_np_lipetsk_metallurgical_plant_left < 0.001 } } }
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_display = RUS_np_lipetsk_metallurgical_plant_left }
 	divide_variable = { RUS_np_lipetsk_metallurgical_plant_display = RUS_np_speed }
+	multiply_variable = { RUS_np_lipetsk_metallurgical_plant_display = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_lipetsk_metallurgical_plant_display = 0.499 }
 	round_variable = RUS_np_lipetsk_metallurgical_plant_display
 	if = {
@@ -11294,7 +11808,9 @@ RUS_np_lipetsk_metallurgical_plant_tick = {
 	limit = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_running check_variable = { RUS_np_lipetsk_metallurgical_plant_last_day < global.num_days } }
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_last_day = global.num_days }
 	RUS_np_lipetsk_metallurgical_plant_goals = yes
-	subtract_from_variable = { RUS_np_lipetsk_metallurgical_plant_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_1 }
+	subtract_from_variable = { RUS_np_lipetsk_metallurgical_plant_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_lipetsk_metallurgical_plant_left < 0 } }
 	set_variable = { RUS_np_lipetsk_metallurgical_plant_left = 0 }
@@ -11379,6 +11895,10 @@ RUS_np_lipetsk_metallurgical_plant_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_lipetsk_metallurgical_plant_completed } }
@@ -11422,7 +11942,13 @@ RUS_np_lipetsk_metallurgical_plant_finish = {
 }
 	set_country_flag = RUS_np_lipetsk_metallurgical_plant_completed
 	set_variable = { RUS_np_consumed = RUS_np_lipetsk_metallurgical_plant_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_lipetsk_metallurgical_plant_goal_1 has_country_flag = RUS_np_lipetsk_metallurgical_plant_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_lipetsk_metallurgical_plant_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_lipetsk_metallurgical_plant_release = yes
@@ -11647,6 +12173,7 @@ RUS_np_uralmash_timer = {
 	limit = { NOT = { check_variable = { RUS_np_uralmash_left < 0.001 } } }
 	set_variable = { RUS_np_uralmash_display = RUS_np_uralmash_left }
 	divide_variable = { RUS_np_uralmash_display = RUS_np_speed }
+	multiply_variable = { RUS_np_uralmash_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_uralmash_display = 0.499 }
 	round_variable = RUS_np_uralmash_display
 	if = {
@@ -11672,7 +12199,9 @@ RUS_np_uralmash_tick = {
 	limit = { has_country_flag = RUS_np_uralmash_running check_variable = { RUS_np_uralmash_last_day < global.num_days } }
 	set_variable = { RUS_np_uralmash_last_day = global.num_days }
 	RUS_np_uralmash_goals = yes
-	subtract_from_variable = { RUS_np_uralmash_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_uralmash_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_uralmash_left < 0 } }
 	set_variable = { RUS_np_uralmash_left = 0 }
@@ -11763,6 +12292,10 @@ RUS_np_uralmash_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_uralmash_completed } }
@@ -11811,7 +12344,13 @@ RUS_np_uralmash_finish = {
 }
 	set_country_flag = RUS_np_uralmash_completed
 	set_variable = { RUS_np_consumed = RUS_np_uralmash_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_uralmash_goal_1 has_country_flag = RUS_np_uralmash_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_uralmash_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_uralmash_release = yes
@@ -12032,6 +12571,7 @@ RUS_np_motovilikha_plants_timer = {
 	limit = { NOT = { check_variable = { RUS_np_motovilikha_plants_left < 0.001 } } }
 	set_variable = { RUS_np_motovilikha_plants_display = RUS_np_motovilikha_plants_left }
 	divide_variable = { RUS_np_motovilikha_plants_display = RUS_np_speed }
+	multiply_variable = { RUS_np_motovilikha_plants_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_motovilikha_plants_display = 0.499 }
 	round_variable = RUS_np_motovilikha_plants_display
 	if = {
@@ -12057,7 +12597,9 @@ RUS_np_motovilikha_plants_tick = {
 	limit = { has_country_flag = RUS_np_motovilikha_plants_running check_variable = { RUS_np_motovilikha_plants_last_day < global.num_days } }
 	set_variable = { RUS_np_motovilikha_plants_last_day = global.num_days }
 	RUS_np_motovilikha_plants_goals = yes
-	subtract_from_variable = { RUS_np_motovilikha_plants_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_motovilikha_plants_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_motovilikha_plants_left < 0 } }
 	set_variable = { RUS_np_motovilikha_plants_left = 0 }
@@ -12135,6 +12677,10 @@ RUS_np_motovilikha_plants_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_motovilikha_plants_completed } }
@@ -12178,7 +12724,13 @@ RUS_np_motovilikha_plants_finish = {
 }
 	set_country_flag = RUS_np_motovilikha_plants_completed
 	set_variable = { RUS_np_consumed = RUS_np_motovilikha_plants_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_motovilikha_plants_goal_1 has_country_flag = RUS_np_motovilikha_plants_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_motovilikha_plants_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_motovilikha_plants_release = yes
@@ -12399,6 +12951,7 @@ RUS_np_admiralty_dockyards_timer = {
 	limit = { NOT = { check_variable = { RUS_np_admiralty_dockyards_left < 0.001 } } }
 	set_variable = { RUS_np_admiralty_dockyards_display = RUS_np_admiralty_dockyards_left }
 	divide_variable = { RUS_np_admiralty_dockyards_display = RUS_np_speed }
+	multiply_variable = { RUS_np_admiralty_dockyards_display = RUS_np_transport_duration_2 }
 	add_to_variable = { RUS_np_admiralty_dockyards_display = 0.499 }
 	round_variable = RUS_np_admiralty_dockyards_display
 	if = {
@@ -12424,7 +12977,9 @@ RUS_np_admiralty_dockyards_tick = {
 	limit = { has_country_flag = RUS_np_admiralty_dockyards_running check_variable = { RUS_np_admiralty_dockyards_last_day < global.num_days } }
 	set_variable = { RUS_np_admiralty_dockyards_last_day = global.num_days }
 	RUS_np_admiralty_dockyards_goals = yes
-	subtract_from_variable = { RUS_np_admiralty_dockyards_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_2 }
+	subtract_from_variable = { RUS_np_admiralty_dockyards_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_admiralty_dockyards_left < 0 } }
 	set_variable = { RUS_np_admiralty_dockyards_left = 0 }
@@ -12510,6 +13065,10 @@ RUS_np_admiralty_dockyards_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_admiralty_dockyards_completed } }
@@ -12554,7 +13113,13 @@ RUS_np_admiralty_dockyards_finish = {
 }
 	set_country_flag = RUS_np_admiralty_dockyards_completed
 	set_variable = { RUS_np_consumed = RUS_np_admiralty_dockyards_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_admiralty_dockyards_goal_1 has_country_flag = RUS_np_admiralty_dockyards_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_admiralty_dockyards_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_admiralty_dockyards_release = yes
@@ -12775,6 +13340,7 @@ RUS_np_kamensky_uralsky_timer = {
 	limit = { NOT = { check_variable = { RUS_np_kamensky_uralsky_left < 0.001 } } }
 	set_variable = { RUS_np_kamensky_uralsky_display = RUS_np_kamensky_uralsky_left }
 	divide_variable = { RUS_np_kamensky_uralsky_display = RUS_np_speed }
+	multiply_variable = { RUS_np_kamensky_uralsky_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_kamensky_uralsky_display = 0.499 }
 	round_variable = RUS_np_kamensky_uralsky_display
 	if = {
@@ -12800,7 +13366,9 @@ RUS_np_kamensky_uralsky_tick = {
 	limit = { has_country_flag = RUS_np_kamensky_uralsky_running check_variable = { RUS_np_kamensky_uralsky_last_day < global.num_days } }
 	set_variable = { RUS_np_kamensky_uralsky_last_day = global.num_days }
 	RUS_np_kamensky_uralsky_goals = yes
-	subtract_from_variable = { RUS_np_kamensky_uralsky_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_kamensky_uralsky_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_kamensky_uralsky_left < 0 } }
 	set_variable = { RUS_np_kamensky_uralsky_left = 0 }
@@ -12888,6 +13456,10 @@ RUS_np_kamensky_uralsky_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kamensky_uralsky_completed } }
@@ -12931,7 +13503,13 @@ RUS_np_kamensky_uralsky_finish = {
 }
 	set_country_flag = RUS_np_kamensky_uralsky_completed
 	set_variable = { RUS_np_consumed = RUS_np_kamensky_uralsky_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_kamensky_uralsky_goal_1 has_country_flag = RUS_np_kamensky_uralsky_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_kamensky_uralsky_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_kamensky_uralsky_release = yes
@@ -13155,6 +13733,7 @@ RUS_np_grozny_oil_timer = {
 	limit = { NOT = { check_variable = { RUS_np_grozny_oil_left < 0.001 } } }
 	set_variable = { RUS_np_grozny_oil_display = RUS_np_grozny_oil_left }
 	divide_variable = { RUS_np_grozny_oil_display = RUS_np_speed }
+	multiply_variable = { RUS_np_grozny_oil_display = RUS_np_transport_duration_3 }
 	add_to_variable = { RUS_np_grozny_oil_display = 0.499 }
 	round_variable = RUS_np_grozny_oil_display
 	if = {
@@ -13180,7 +13759,9 @@ RUS_np_grozny_oil_tick = {
 	limit = { has_country_flag = RUS_np_grozny_oil_running check_variable = { RUS_np_grozny_oil_last_day < global.num_days } }
 	set_variable = { RUS_np_grozny_oil_last_day = global.num_days }
 	RUS_np_grozny_oil_goals = yes
-	subtract_from_variable = { RUS_np_grozny_oil_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_3 }
+	subtract_from_variable = { RUS_np_grozny_oil_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_grozny_oil_left < 0 } }
 	set_variable = { RUS_np_grozny_oil_left = 0 }
@@ -13279,6 +13860,10 @@ RUS_np_grozny_oil_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_grozny_oil_completed } }
@@ -13309,7 +13894,13 @@ RUS_np_grozny_oil_finish = {
 }
 	set_country_flag = RUS_np_grozny_oil_completed
 	set_variable = { RUS_np_consumed = RUS_np_grozny_oil_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_grozny_oil_goal_1 has_country_flag = RUS_np_grozny_oil_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_grozny_oil_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_grozny_oil_release = yes
@@ -13529,6 +14120,7 @@ RUS_np_arctic_mines_timer = {
 	limit = { NOT = { check_variable = { RUS_np_arctic_mines_left < 0.001 } } }
 	set_variable = { RUS_np_arctic_mines_display = RUS_np_arctic_mines_left }
 	divide_variable = { RUS_np_arctic_mines_display = RUS_np_speed }
+	multiply_variable = { RUS_np_arctic_mines_display = RUS_np_transport_duration_2 }
 	add_to_variable = { RUS_np_arctic_mines_display = 0.499 }
 	round_variable = RUS_np_arctic_mines_display
 	if = {
@@ -13554,7 +14146,9 @@ RUS_np_arctic_mines_tick = {
 	limit = { has_country_flag = RUS_np_arctic_mines_running check_variable = { RUS_np_arctic_mines_last_day < global.num_days } }
 	set_variable = { RUS_np_arctic_mines_last_day = global.num_days }
 	RUS_np_arctic_mines_goals = yes
-	subtract_from_variable = { RUS_np_arctic_mines_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_2 }
+	subtract_from_variable = { RUS_np_arctic_mines_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_arctic_mines_left < 0 } }
 	set_variable = { RUS_np_arctic_mines_left = 0 }
@@ -13643,6 +14237,10 @@ RUS_np_arctic_mines_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_arctic_mines_completed } }
@@ -13667,7 +14265,13 @@ RUS_np_arctic_mines_finish = {
 }
 	set_country_flag = RUS_np_arctic_mines_completed
 	set_variable = { RUS_np_consumed = RUS_np_arctic_mines_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_arctic_mines_goal_1 has_country_flag = RUS_np_arctic_mines_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_arctic_mines_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_arctic_mines_release = yes
@@ -13891,6 +14495,7 @@ RUS_np_tyrnyauz_tungsten_timer = {
 	limit = { NOT = { check_variable = { RUS_np_tyrnyauz_tungsten_left < 0.001 } } }
 	set_variable = { RUS_np_tyrnyauz_tungsten_display = RUS_np_tyrnyauz_tungsten_left }
 	divide_variable = { RUS_np_tyrnyauz_tungsten_display = RUS_np_speed }
+	multiply_variable = { RUS_np_tyrnyauz_tungsten_display = RUS_np_transport_duration_3 }
 	add_to_variable = { RUS_np_tyrnyauz_tungsten_display = 0.499 }
 	round_variable = RUS_np_tyrnyauz_tungsten_display
 	if = {
@@ -13916,7 +14521,9 @@ RUS_np_tyrnyauz_tungsten_tick = {
 	limit = { has_country_flag = RUS_np_tyrnyauz_tungsten_running check_variable = { RUS_np_tyrnyauz_tungsten_last_day < global.num_days } }
 	set_variable = { RUS_np_tyrnyauz_tungsten_last_day = global.num_days }
 	RUS_np_tyrnyauz_tungsten_goals = yes
-	subtract_from_variable = { RUS_np_tyrnyauz_tungsten_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_3 }
+	subtract_from_variable = { RUS_np_tyrnyauz_tungsten_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_tyrnyauz_tungsten_left < 0 } }
 	set_variable = { RUS_np_tyrnyauz_tungsten_left = 0 }
@@ -13996,6 +14603,10 @@ RUS_np_tyrnyauz_tungsten_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tyrnyauz_tungsten_completed } }
@@ -14026,7 +14637,13 @@ RUS_np_tyrnyauz_tungsten_finish = {
 }
 	set_country_flag = RUS_np_tyrnyauz_tungsten_completed
 	set_variable = { RUS_np_consumed = RUS_np_tyrnyauz_tungsten_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_tyrnyauz_tungsten_goal_1 has_country_flag = RUS_np_tyrnyauz_tungsten_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_tyrnyauz_tungsten_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_tyrnyauz_tungsten_release = yes
@@ -14246,6 +14863,7 @@ RUS_np_romanshkino_oil_timer = {
 	limit = { NOT = { check_variable = { RUS_np_romanshkino_oil_left < 0.001 } } }
 	set_variable = { RUS_np_romanshkino_oil_display = RUS_np_romanshkino_oil_left }
 	divide_variable = { RUS_np_romanshkino_oil_display = RUS_np_speed }
+	multiply_variable = { RUS_np_romanshkino_oil_display = RUS_np_transport_duration_3 }
 	add_to_variable = { RUS_np_romanshkino_oil_display = 0.499 }
 	round_variable = RUS_np_romanshkino_oil_display
 	if = {
@@ -14271,7 +14889,9 @@ RUS_np_romanshkino_oil_tick = {
 	limit = { has_country_flag = RUS_np_romanshkino_oil_running check_variable = { RUS_np_romanshkino_oil_last_day < global.num_days } }
 	set_variable = { RUS_np_romanshkino_oil_last_day = global.num_days }
 	RUS_np_romanshkino_oil_goals = yes
-	subtract_from_variable = { RUS_np_romanshkino_oil_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_3 }
+	subtract_from_variable = { RUS_np_romanshkino_oil_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_romanshkino_oil_left < 0 } }
 	set_variable = { RUS_np_romanshkino_oil_left = 0 }
@@ -14369,6 +14989,10 @@ RUS_np_romanshkino_oil_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_romanshkino_oil_completed } }
@@ -14393,7 +15017,13 @@ RUS_np_romanshkino_oil_finish = {
 }
 	set_country_flag = RUS_np_romanshkino_oil_completed
 	set_variable = { RUS_np_consumed = RUS_np_romanshkino_oil_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_romanshkino_oil_goal_1 has_country_flag = RUS_np_romanshkino_oil_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_romanshkino_oil_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_romanshkino_oil_release = yes
@@ -14716,6 +15346,10 @@ RUS_np_northern_route_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_northern_route_completed } }
@@ -14761,7 +15395,13 @@ RUS_np_northern_route_finish = {
 }
 	set_country_flag = RUS_np_northern_route_completed
 	set_variable = { RUS_np_consumed = RUS_np_northern_route_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_northern_route_goal_1 has_country_flag = RUS_np_northern_route_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_northern_route_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_northern_route_release = yes
@@ -15083,6 +15723,10 @@ RUS_np_upgrade_the_railroad_chelyabinsk_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed } }
@@ -15128,7 +15772,13 @@ RUS_np_upgrade_the_railroad_chelyabinsk_finish = {
 }
 	set_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_completed
 	set_variable = { RUS_np_consumed = RUS_np_upgrade_the_railroad_chelyabinsk_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_goal_1 has_country_flag = RUS_np_upgrade_the_railroad_chelyabinsk_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_upgrade_the_railroad_chelyabinsk_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_upgrade_the_railroad_chelyabinsk_release = yes
@@ -15450,6 +16100,10 @@ RUS_np_upgrade_the_railroad_krasnoyarsk_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed } }
@@ -15495,7 +16149,13 @@ RUS_np_upgrade_the_railroad_krasnoyarsk_finish = {
 }
 	set_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_completed
 	set_variable = { RUS_np_consumed = RUS_np_upgrade_the_railroad_krasnoyarsk_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_goal_1 has_country_flag = RUS_np_upgrade_the_railroad_krasnoyarsk_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_upgrade_the_railroad_krasnoyarsk_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_upgrade_the_railroad_krasnoyarsk_release = yes
@@ -15837,6 +16497,10 @@ RUS_np_upgrade_the_railroad_vladivostok_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed } }
@@ -15882,7 +16546,13 @@ RUS_np_upgrade_the_railroad_vladivostok_finish = {
 }
 	set_country_flag = RUS_np_upgrade_the_railroad_vladivostok_completed
 	set_variable = { RUS_np_consumed = RUS_np_upgrade_the_railroad_vladivostok_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_goal_1 has_country_flag = RUS_np_upgrade_the_railroad_vladivostok_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_upgrade_the_railroad_vladivostok_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_upgrade_the_railroad_vladivostok_release = yes
@@ -16106,6 +16776,7 @@ RUS_np_kuznetsk_basin_timer = {
 	limit = { NOT = { check_variable = { RUS_np_kuznetsk_basin_left < 0.001 } } }
 	set_variable = { RUS_np_kuznetsk_basin_display = RUS_np_kuznetsk_basin_left }
 	divide_variable = { RUS_np_kuznetsk_basin_display = RUS_np_speed }
+	multiply_variable = { RUS_np_kuznetsk_basin_display = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_kuznetsk_basin_display = 0.499 }
 	round_variable = RUS_np_kuznetsk_basin_display
 	if = {
@@ -16131,7 +16802,9 @@ RUS_np_kuznetsk_basin_tick = {
 	limit = { has_country_flag = RUS_np_kuznetsk_basin_running check_variable = { RUS_np_kuznetsk_basin_last_day < global.num_days } }
 	set_variable = { RUS_np_kuznetsk_basin_last_day = global.num_days }
 	RUS_np_kuznetsk_basin_goals = yes
-	subtract_from_variable = { RUS_np_kuznetsk_basin_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_5 }
+	subtract_from_variable = { RUS_np_kuznetsk_basin_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_kuznetsk_basin_left < 0 } }
 	set_variable = { RUS_np_kuznetsk_basin_left = 0 }
@@ -16217,6 +16890,10 @@ RUS_np_kuznetsk_basin_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kuznetsk_basin_completed } }
@@ -16247,7 +16924,13 @@ RUS_np_kuznetsk_basin_finish = {
 }
 	set_country_flag = RUS_np_kuznetsk_basin_completed
 	set_variable = { RUS_np_consumed = RUS_np_kuznetsk_basin_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_kuznetsk_basin_goal_1 has_country_flag = RUS_np_kuznetsk_basin_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_kuznetsk_basin_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_kuznetsk_basin_release = yes
@@ -16467,6 +17150,7 @@ RUS_np_bodaybo_gold_mines_timer = {
 	limit = { NOT = { check_variable = { RUS_np_bodaybo_gold_mines_left < 0.001 } } }
 	set_variable = { RUS_np_bodaybo_gold_mines_display = RUS_np_bodaybo_gold_mines_left }
 	divide_variable = { RUS_np_bodaybo_gold_mines_display = RUS_np_speed }
+	multiply_variable = { RUS_np_bodaybo_gold_mines_display = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_bodaybo_gold_mines_display = 0.499 }
 	round_variable = RUS_np_bodaybo_gold_mines_display
 	if = {
@@ -16492,7 +17176,9 @@ RUS_np_bodaybo_gold_mines_tick = {
 	limit = { has_country_flag = RUS_np_bodaybo_gold_mines_running check_variable = { RUS_np_bodaybo_gold_mines_last_day < global.num_days } }
 	set_variable = { RUS_np_bodaybo_gold_mines_last_day = global.num_days }
 	RUS_np_bodaybo_gold_mines_goals = yes
-	subtract_from_variable = { RUS_np_bodaybo_gold_mines_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_5 }
+	subtract_from_variable = { RUS_np_bodaybo_gold_mines_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_bodaybo_gold_mines_left < 0 } }
 	set_variable = { RUS_np_bodaybo_gold_mines_left = 0 }
@@ -16568,6 +17254,10 @@ RUS_np_bodaybo_gold_mines_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_bodaybo_gold_mines_completed } }
@@ -16592,7 +17282,13 @@ RUS_np_bodaybo_gold_mines_finish = {
 }
 	set_country_flag = RUS_np_bodaybo_gold_mines_completed
 	set_variable = { RUS_np_consumed = RUS_np_bodaybo_gold_mines_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_bodaybo_gold_mines_goal_1 has_country_flag = RUS_np_bodaybo_gold_mines_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_bodaybo_gold_mines_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_bodaybo_gold_mines_release = yes
@@ -16925,6 +17621,10 @@ RUS_np_far_eastern_fishing_industry_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_far_eastern_fishing_industry_completed } }
@@ -16961,7 +17661,13 @@ RUS_np_far_eastern_fishing_industry_finish = {
 }
 	set_country_flag = RUS_np_far_eastern_fishing_industry_completed
 	set_variable = { RUS_np_consumed = RUS_np_far_eastern_fishing_industry_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_far_eastern_fishing_industry_goal_1 has_country_flag = RUS_np_far_eastern_fishing_industry_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_far_eastern_fishing_industry_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_far_eastern_fishing_industry_release = yes
@@ -17184,6 +17890,7 @@ RUS_np_krasnoyarskpromstroy_timer = {
 	limit = { NOT = { check_variable = { RUS_np_krasnoyarskpromstroy_left < 0.001 } } }
 	set_variable = { RUS_np_krasnoyarskpromstroy_display = RUS_np_krasnoyarskpromstroy_left }
 	divide_variable = { RUS_np_krasnoyarskpromstroy_display = RUS_np_speed }
+	multiply_variable = { RUS_np_krasnoyarskpromstroy_display = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_krasnoyarskpromstroy_display = 0.499 }
 	round_variable = RUS_np_krasnoyarskpromstroy_display
 	if = {
@@ -17209,7 +17916,9 @@ RUS_np_krasnoyarskpromstroy_tick = {
 	limit = { has_country_flag = RUS_np_krasnoyarskpromstroy_running check_variable = { RUS_np_krasnoyarskpromstroy_last_day < global.num_days } }
 	set_variable = { RUS_np_krasnoyarskpromstroy_last_day = global.num_days }
 	RUS_np_krasnoyarskpromstroy_goals = yes
-	subtract_from_variable = { RUS_np_krasnoyarskpromstroy_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_5 }
+	subtract_from_variable = { RUS_np_krasnoyarskpromstroy_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_krasnoyarskpromstroy_left < 0 } }
 	set_variable = { RUS_np_krasnoyarskpromstroy_left = 0 }
@@ -17288,6 +17997,10 @@ RUS_np_krasnoyarskpromstroy_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_krasnoyarskpromstroy_completed } }
@@ -17331,7 +18044,13 @@ RUS_np_krasnoyarskpromstroy_finish = {
 }
 	set_country_flag = RUS_np_krasnoyarskpromstroy_completed
 	set_variable = { RUS_np_consumed = RUS_np_krasnoyarskpromstroy_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_krasnoyarskpromstroy_goal_1 has_country_flag = RUS_np_krasnoyarskpromstroy_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_krasnoyarskpromstroy_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_krasnoyarskpromstroy_release = yes
@@ -17552,6 +18271,7 @@ RUS_np_dalnremmash_timer = {
 	limit = { NOT = { check_variable = { RUS_np_dalnremmash_left < 0.001 } } }
 	set_variable = { RUS_np_dalnremmash_display = RUS_np_dalnremmash_left }
 	divide_variable = { RUS_np_dalnremmash_display = RUS_np_speed }
+	multiply_variable = { RUS_np_dalnremmash_display = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_dalnremmash_display = 0.499 }
 	round_variable = RUS_np_dalnremmash_display
 	if = {
@@ -17577,7 +18297,9 @@ RUS_np_dalnremmash_tick = {
 	limit = { has_country_flag = RUS_np_dalnremmash_running check_variable = { RUS_np_dalnremmash_last_day < global.num_days } }
 	set_variable = { RUS_np_dalnremmash_last_day = global.num_days }
 	RUS_np_dalnremmash_goals = yes
-	subtract_from_variable = { RUS_np_dalnremmash_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_5 }
+	subtract_from_variable = { RUS_np_dalnremmash_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_dalnremmash_left < 0 } }
 	set_variable = { RUS_np_dalnremmash_left = 0 }
@@ -17654,6 +18376,10 @@ RUS_np_dalnremmash_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_dalnremmash_completed } }
@@ -17697,7 +18423,13 @@ RUS_np_dalnremmash_finish = {
 }
 	set_country_flag = RUS_np_dalnremmash_completed
 	set_variable = { RUS_np_consumed = RUS_np_dalnremmash_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_dalnremmash_goal_1 has_country_flag = RUS_np_dalnremmash_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_dalnremmash_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_dalnremmash_release = yes
@@ -17917,6 +18649,7 @@ RUS_np_rudny_altay_timer = {
 	limit = { NOT = { check_variable = { RUS_np_rudny_altay_left < 0.001 } } }
 	set_variable = { RUS_np_rudny_altay_display = RUS_np_rudny_altay_left }
 	divide_variable = { RUS_np_rudny_altay_display = RUS_np_speed }
+	multiply_variable = { RUS_np_rudny_altay_display = RUS_np_transport_duration_6 }
 	add_to_variable = { RUS_np_rudny_altay_display = 0.499 }
 	round_variable = RUS_np_rudny_altay_display
 	if = {
@@ -17942,7 +18675,9 @@ RUS_np_rudny_altay_tick = {
 	limit = { has_country_flag = RUS_np_rudny_altay_running check_variable = { RUS_np_rudny_altay_last_day < global.num_days } }
 	set_variable = { RUS_np_rudny_altay_last_day = global.num_days }
 	RUS_np_rudny_altay_goals = yes
-	subtract_from_variable = { RUS_np_rudny_altay_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_6 }
+	subtract_from_variable = { RUS_np_rudny_altay_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_rudny_altay_left < 0 } }
 	set_variable = { RUS_np_rudny_altay_left = 0 }
@@ -18031,6 +18766,10 @@ RUS_np_rudny_altay_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_rudny_altay_completed } }
@@ -18055,7 +18794,13 @@ RUS_np_rudny_altay_finish = {
 }
 	set_country_flag = RUS_np_rudny_altay_completed
 	set_variable = { RUS_np_consumed = RUS_np_rudny_altay_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_rudny_altay_goal_1 has_country_flag = RUS_np_rudny_altay_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_rudny_altay_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_rudny_altay_release = yes
@@ -18276,6 +19021,7 @@ RUS_np_tekeli_metallurgical_combine_timer = {
 	limit = { NOT = { check_variable = { RUS_np_tekeli_metallurgical_combine_left < 0.001 } } }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_display = RUS_np_tekeli_metallurgical_combine_left }
 	divide_variable = { RUS_np_tekeli_metallurgical_combine_display = RUS_np_speed }
+	multiply_variable = { RUS_np_tekeli_metallurgical_combine_display = RUS_np_transport_duration_6 }
 	add_to_variable = { RUS_np_tekeli_metallurgical_combine_display = 0.499 }
 	round_variable = RUS_np_tekeli_metallurgical_combine_display
 	if = {
@@ -18301,7 +19047,9 @@ RUS_np_tekeli_metallurgical_combine_tick = {
 	limit = { has_country_flag = RUS_np_tekeli_metallurgical_combine_running check_variable = { RUS_np_tekeli_metallurgical_combine_last_day < global.num_days } }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_last_day = global.num_days }
 	RUS_np_tekeli_metallurgical_combine_goals = yes
-	subtract_from_variable = { RUS_np_tekeli_metallurgical_combine_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_6 }
+	subtract_from_variable = { RUS_np_tekeli_metallurgical_combine_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_tekeli_metallurgical_combine_left < 0 } }
 	set_variable = { RUS_np_tekeli_metallurgical_combine_left = 0 }
@@ -18397,6 +19145,10 @@ RUS_np_tekeli_metallurgical_combine_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tekeli_metallurgical_combine_completed } }
@@ -18440,7 +19192,13 @@ RUS_np_tekeli_metallurgical_combine_finish = {
 }
 	set_country_flag = RUS_np_tekeli_metallurgical_combine_completed
 	set_variable = { RUS_np_consumed = RUS_np_tekeli_metallurgical_combine_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_tekeli_metallurgical_combine_goal_1 has_country_flag = RUS_np_tekeli_metallurgical_combine_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_tekeli_metallurgical_combine_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_tekeli_metallurgical_combine_release = yes
@@ -18660,6 +19418,7 @@ RUS_np_emba_oil_area_timer = {
 	limit = { NOT = { check_variable = { RUS_np_emba_oil_area_left < 0.001 } } }
 	set_variable = { RUS_np_emba_oil_area_display = RUS_np_emba_oil_area_left }
 	divide_variable = { RUS_np_emba_oil_area_display = RUS_np_speed }
+	multiply_variable = { RUS_np_emba_oil_area_display = RUS_np_transport_duration_6 }
 	add_to_variable = { RUS_np_emba_oil_area_display = 0.499 }
 	round_variable = RUS_np_emba_oil_area_display
 	if = {
@@ -18685,7 +19444,9 @@ RUS_np_emba_oil_area_tick = {
 	limit = { has_country_flag = RUS_np_emba_oil_area_running check_variable = { RUS_np_emba_oil_area_last_day < global.num_days } }
 	set_variable = { RUS_np_emba_oil_area_last_day = global.num_days }
 	RUS_np_emba_oil_area_goals = yes
-	subtract_from_variable = { RUS_np_emba_oil_area_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_6 }
+	subtract_from_variable = { RUS_np_emba_oil_area_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_emba_oil_area_left < 0 } }
 	set_variable = { RUS_np_emba_oil_area_left = 0 }
@@ -18799,6 +19560,10 @@ RUS_np_emba_oil_area_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_emba_oil_area_completed } }
@@ -18823,7 +19588,13 @@ RUS_np_emba_oil_area_finish = {
 }
 	set_country_flag = RUS_np_emba_oil_area_completed
 	set_variable = { RUS_np_consumed = RUS_np_emba_oil_area_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_emba_oil_area_goal_1 has_country_flag = RUS_np_emba_oil_area_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_emba_oil_area_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_emba_oil_area_release = yes
@@ -19145,6 +19916,10 @@ RUS_np_verny_cotton_industry_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_verny_cotton_industry_completed } }
@@ -19181,7 +19956,13 @@ RUS_np_verny_cotton_industry_finish = {
 }
 	set_country_flag = RUS_np_verny_cotton_industry_completed
 	set_variable = { RUS_np_consumed = RUS_np_verny_cotton_industry_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_verny_cotton_industry_goal_1 has_country_flag = RUS_np_verny_cotton_industry_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_verny_cotton_industry_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_verny_cotton_industry_release = yes
@@ -19401,6 +20182,7 @@ RUS_np_siberian_timber_industries_timer = {
 	limit = { NOT = { check_variable = { RUS_np_siberian_timber_industries_left < 0.001 } } }
 	set_variable = { RUS_np_siberian_timber_industries_display = RUS_np_siberian_timber_industries_left }
 	divide_variable = { RUS_np_siberian_timber_industries_display = RUS_np_speed }
+	multiply_variable = { RUS_np_siberian_timber_industries_display = RUS_np_transport_duration_5 }
 	add_to_variable = { RUS_np_siberian_timber_industries_display = 0.499 }
 	round_variable = RUS_np_siberian_timber_industries_display
 	if = {
@@ -19426,7 +20208,9 @@ RUS_np_siberian_timber_industries_tick = {
 	limit = { has_country_flag = RUS_np_siberian_timber_industries_running check_variable = { RUS_np_siberian_timber_industries_last_day < global.num_days } }
 	set_variable = { RUS_np_siberian_timber_industries_last_day = global.num_days }
 	RUS_np_siberian_timber_industries_goals = yes
-	subtract_from_variable = { RUS_np_siberian_timber_industries_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_5 }
+	subtract_from_variable = { RUS_np_siberian_timber_industries_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_siberian_timber_industries_left < 0 } }
 	set_variable = { RUS_np_siberian_timber_industries_left = 0 }
@@ -19520,6 +20304,10 @@ RUS_np_siberian_timber_industries_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 7.5 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_siberian_timber_industries_completed } }
@@ -19544,7 +20332,13 @@ RUS_np_siberian_timber_industries_finish = {
 }
 	set_country_flag = RUS_np_siberian_timber_industries_completed
 	set_variable = { RUS_np_consumed = RUS_np_siberian_timber_industries_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_siberian_timber_industries_goal_1 has_country_flag = RUS_np_siberian_timber_industries_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_siberian_timber_industries_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_siberian_timber_industries_release = yes
@@ -19881,6 +20675,10 @@ RUS_np_improve_roads_in_central_russia_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_improve_roads_in_central_russia_completed } }
@@ -19924,7 +20722,13 @@ RUS_np_improve_roads_in_central_russia_finish = {
 }
 	set_country_flag = RUS_np_improve_roads_in_central_russia_completed
 	set_variable = { RUS_np_consumed = RUS_np_improve_roads_in_central_russia_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_improve_roads_in_central_russia_goal_1 has_country_flag = RUS_np_improve_roads_in_central_russia_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_improve_roads_in_central_russia_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_improve_roads_in_central_russia_release = yes
@@ -20250,6 +21054,10 @@ RUS_np_improve_roads_in_northern_russia_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_improve_roads_in_northern_russia_completed } }
@@ -20293,7 +21101,13 @@ RUS_np_improve_roads_in_northern_russia_finish = {
 }
 	set_country_flag = RUS_np_improve_roads_in_northern_russia_completed
 	set_variable = { RUS_np_consumed = RUS_np_improve_roads_in_northern_russia_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_improve_roads_in_northern_russia_goal_1 has_country_flag = RUS_np_improve_roads_in_northern_russia_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_improve_roads_in_northern_russia_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_improve_roads_in_northern_russia_release = yes
@@ -20622,6 +21436,10 @@ RUS_np_improve_roads_in_the_volga_basin_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 4 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed } }
@@ -20665,7 +21483,13 @@ RUS_np_improve_roads_in_the_volga_basin_finish = {
 }
 	set_country_flag = RUS_np_improve_roads_in_the_volga_basin_completed
 	set_variable = { RUS_np_consumed = RUS_np_improve_roads_in_the_volga_basin_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_improve_roads_in_the_volga_basin_goal_1 has_country_flag = RUS_np_improve_roads_in_the_volga_basin_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_improve_roads_in_the_volga_basin_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_improve_roads_in_the_volga_basin_release = yes
@@ -20997,6 +21821,10 @@ RUS_np_central_asia_railroads_finish = {
  # RUS_RECOVERY_LEDGER_END
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_central_asia_railroads_completed } }
@@ -21042,7 +21870,13 @@ RUS_np_central_asia_railroads_finish = {
 }
 	set_country_flag = RUS_np_central_asia_railroads_completed
 	set_variable = { RUS_np_consumed = RUS_np_central_asia_railroads_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_central_asia_railroads_goal_1 has_country_flag = RUS_np_central_asia_railroads_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_central_asia_railroads_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_central_asia_railroads_release = yes
@@ -21261,6 +22095,7 @@ RUS_np_gaz_timer = {
 	limit = { NOT = { check_variable = { RUS_np_gaz_left < 0.001 } } }
 	set_variable = { RUS_np_gaz_display = RUS_np_gaz_left }
 	divide_variable = { RUS_np_gaz_display = RUS_np_speed }
+	multiply_variable = { RUS_np_gaz_display = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_gaz_display = 0.499 }
 	round_variable = RUS_np_gaz_display
 	if = {
@@ -21286,7 +22121,9 @@ RUS_np_gaz_tick = {
 	limit = { has_country_flag = RUS_np_gaz_running check_variable = { RUS_np_gaz_last_day < global.num_days } }
 	set_variable = { RUS_np_gaz_last_day = global.num_days }
 	RUS_np_gaz_goals = yes
-	subtract_from_variable = { RUS_np_gaz_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_1 }
+	subtract_from_variable = { RUS_np_gaz_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_gaz_left < 0 } }
 	set_variable = { RUS_np_gaz_left = 0 }
@@ -21358,6 +22195,10 @@ RUS_np_gaz_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_gaz_completed } }
@@ -21402,7 +22243,13 @@ RUS_np_gaz_finish = {
 }
 	set_country_flag = RUS_np_gaz_completed
 	set_variable = { RUS_np_consumed = RUS_np_gaz_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_gaz_goal_1 has_country_flag = RUS_np_gaz_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_gaz_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_gaz_release = yes
@@ -21619,6 +22466,7 @@ RUS_np_bearing_timer = {
 	limit = { NOT = { check_variable = { RUS_np_bearing_left < 0.001 } } }
 	set_variable = { RUS_np_bearing_display = RUS_np_bearing_left }
 	divide_variable = { RUS_np_bearing_display = RUS_np_speed }
+	multiply_variable = { RUS_np_bearing_display = RUS_np_transport_duration_1 }
 	add_to_variable = { RUS_np_bearing_display = 0.499 }
 	round_variable = RUS_np_bearing_display
 	if = {
@@ -21644,7 +22492,9 @@ RUS_np_bearing_tick = {
 	limit = { has_country_flag = RUS_np_bearing_running check_variable = { RUS_np_bearing_last_day < global.num_days } }
 	set_variable = { RUS_np_bearing_last_day = global.num_days }
 	RUS_np_bearing_goals = yes
-	subtract_from_variable = { RUS_np_bearing_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_1 }
+	subtract_from_variable = { RUS_np_bearing_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_bearing_left < 0 } }
 	set_variable = { RUS_np_bearing_left = 0 }
@@ -21716,6 +22566,10 @@ RUS_np_bearing_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_bearing_completed } }
@@ -21738,7 +22592,13 @@ RUS_np_bearing_finish = {
 }
 	set_country_flag = RUS_np_bearing_completed
 	set_variable = { RUS_np_consumed = RUS_np_bearing_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_bearing_goal_1 has_country_flag = RUS_np_bearing_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_bearing_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_bearing_release = yes
@@ -22051,6 +22911,10 @@ RUS_np_kashira_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_kashira_completed } }
@@ -22094,7 +22958,13 @@ RUS_np_kashira_finish = {
 }
 	set_country_flag = RUS_np_kashira_completed
 	set_variable = { RUS_np_consumed = RUS_np_kashira_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_kashira_goal_1 has_country_flag = RUS_np_kashira_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_kashira_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_kashira_release = yes
@@ -22407,6 +23277,10 @@ RUS_np_moscow_grid_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_grid_completed } }
@@ -22450,7 +23324,13 @@ RUS_np_moscow_grid_finish = {
 }
 	set_country_flag = RUS_np_moscow_grid_completed
 	set_variable = { RUS_np_consumed = RUS_np_moscow_grid_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_moscow_grid_goal_1 has_country_flag = RUS_np_moscow_grid_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_moscow_grid_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_moscow_grid_release = yes
@@ -22788,6 +23668,10 @@ RUS_np_metro_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_metro_completed } }
@@ -22826,7 +23710,13 @@ RUS_np_metro_finish = {
 }
 	set_country_flag = RUS_np_metro_completed
 	set_variable = { RUS_np_consumed = RUS_np_metro_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_metro_goal_1 has_country_flag = RUS_np_metro_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_metro_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_metro_release = yes
@@ -23164,6 +24054,10 @@ RUS_np_moscow_volga_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_volga_completed } }
@@ -23207,7 +24101,13 @@ RUS_np_moscow_volga_finish = {
 }
 	set_country_flag = RUS_np_moscow_volga_completed
 	set_variable = { RUS_np_consumed = RUS_np_moscow_volga_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_moscow_volga_goal_1 has_country_flag = RUS_np_moscow_volga_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_moscow_volga_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_moscow_volga_release = yes
@@ -23520,6 +24420,10 @@ RUS_np_svir_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_svir_completed } }
@@ -23563,7 +24467,13 @@ RUS_np_svir_finish = {
 }
 	set_country_flag = RUS_np_svir_completed
 	set_variable = { RUS_np_consumed = RUS_np_svir_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_svir_goal_1 has_country_flag = RUS_np_svir_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_svir_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_svir_release = yes
@@ -23780,6 +24690,7 @@ RUS_np_volkhov_timer = {
 	limit = { NOT = { check_variable = { RUS_np_volkhov_left < 0.001 } } }
 	set_variable = { RUS_np_volkhov_display = RUS_np_volkhov_left }
 	divide_variable = { RUS_np_volkhov_display = RUS_np_speed }
+	multiply_variable = { RUS_np_volkhov_display = RUS_np_transport_duration_2 }
 	add_to_variable = { RUS_np_volkhov_display = 0.499 }
 	round_variable = RUS_np_volkhov_display
 	if = {
@@ -23805,7 +24716,9 @@ RUS_np_volkhov_tick = {
 	limit = { has_country_flag = RUS_np_volkhov_running check_variable = { RUS_np_volkhov_last_day < global.num_days } }
 	set_variable = { RUS_np_volkhov_last_day = global.num_days }
 	RUS_np_volkhov_goals = yes
-	subtract_from_variable = { RUS_np_volkhov_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_2 }
+	subtract_from_variable = { RUS_np_volkhov_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_volkhov_left < 0 } }
 	set_variable = { RUS_np_volkhov_left = 0 }
@@ -23880,6 +24793,10 @@ RUS_np_volkhov_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_volkhov_completed } }
@@ -23924,7 +24841,13 @@ RUS_np_volkhov_finish = {
 }
 	set_country_flag = RUS_np_volkhov_completed
 	set_variable = { RUS_np_consumed = RUS_np_volkhov_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_volkhov_goal_1 has_country_flag = RUS_np_volkhov_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_volkhov_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_volkhov_release = yes
@@ -24143,6 +25066,7 @@ RUS_np_uvz_timer = {
 	limit = { NOT = { check_variable = { RUS_np_uvz_left < 0.001 } } }
 	set_variable = { RUS_np_uvz_display = RUS_np_uvz_left }
 	divide_variable = { RUS_np_uvz_display = RUS_np_speed }
+	multiply_variable = { RUS_np_uvz_display = RUS_np_transport_duration_4 }
 	add_to_variable = { RUS_np_uvz_display = 0.499 }
 	round_variable = RUS_np_uvz_display
 	if = {
@@ -24168,7 +25092,9 @@ RUS_np_uvz_tick = {
 	limit = { has_country_flag = RUS_np_uvz_running check_variable = { RUS_np_uvz_last_day < global.num_days } }
 	set_variable = { RUS_np_uvz_last_day = global.num_days }
 	RUS_np_uvz_goals = yes
-	subtract_from_variable = { RUS_np_uvz_left = RUS_np_speed }
+	set_variable = { RUS_np_regional_work = RUS_np_speed }
+	divide_variable = { RUS_np_regional_work = RUS_np_transport_duration_4 }
+	subtract_from_variable = { RUS_np_uvz_left = RUS_np_regional_work }
 	if = {
 	limit = { check_variable = { RUS_np_uvz_left < 0 } }
 	set_variable = { RUS_np_uvz_left = 0 }
@@ -24241,6 +25167,10 @@ RUS_np_uvz_finish = {
 	add_equipment_to_stockpile = { type = train_equipment_1 amount = 10 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_uvz_completed } }
@@ -24264,7 +25194,13 @@ RUS_np_uvz_finish = {
 }
 	set_country_flag = RUS_np_uvz_completed
 	set_variable = { RUS_np_consumed = RUS_np_uvz_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_uvz_goal_1 has_country_flag = RUS_np_uvz_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_uvz_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_uvz_release = yes
@@ -24580,6 +25516,10 @@ RUS_np_bobrik_finish = {
 	hidden_effect = { set_variable = { RUS_np_fertilizer = 0.03 } }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_bobrik_completed } }
@@ -24616,7 +25556,13 @@ RUS_np_bobrik_finish = {
 }
 	set_country_flag = RUS_np_bobrik_completed
 	set_variable = { RUS_np_consumed = RUS_np_bobrik_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_bobrik_goal_1 has_country_flag = RUS_np_bobrik_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_bobrik_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_bobrik_release = yes
@@ -24956,6 +25902,10 @@ RUS_np_moscow_logistics_finish = {
 	hidden_effect = { set_variable = { RUS_np_rail_moscow_core = 2 } }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_logistics_completed } }
@@ -25003,7 +25953,13 @@ RUS_np_moscow_logistics_finish = {
 }
 	set_country_flag = RUS_np_moscow_logistics_completed
 	set_variable = { RUS_np_consumed = RUS_np_moscow_logistics_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_moscow_logistics_goal_1 has_country_flag = RUS_np_moscow_logistics_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_moscow_logistics_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_moscow_logistics_release = yes
@@ -25335,6 +26291,10 @@ RUS_np_moscow_rural_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_moscow_rural_completed } }
@@ -25375,7 +26335,13 @@ RUS_np_moscow_rural_finish = {
 }
 	set_country_flag = RUS_np_moscow_rural_completed
 	set_variable = { RUS_np_consumed = RUS_np_moscow_rural_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_moscow_rural_goal_1 has_country_flag = RUS_np_moscow_rural_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_moscow_rural_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_moscow_rural_release = yes
@@ -25715,6 +26681,10 @@ RUS_np_leningrad_logistics_finish = {
 	hidden_effect = { set_variable = { RUS_np_rail_leningrad_core = 2 } }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_leningrad_logistics_completed } }
@@ -25762,7 +26732,13 @@ RUS_np_leningrad_logistics_finish = {
 }
 	set_country_flag = RUS_np_leningrad_logistics_completed
 	set_variable = { RUS_np_consumed = RUS_np_leningrad_logistics_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_leningrad_logistics_goal_1 has_country_flag = RUS_np_leningrad_logistics_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_leningrad_logistics_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_leningrad_logistics_release = yes
@@ -26090,6 +27066,10 @@ RUS_np_leningrad_rural_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_leningrad_rural_completed } }
@@ -26126,7 +27106,13 @@ RUS_np_leningrad_rural_finish = {
 }
 	set_country_flag = RUS_np_leningrad_rural_completed
 	set_variable = { RUS_np_consumed = RUS_np_leningrad_rural_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_leningrad_rural_goal_1 has_country_flag = RUS_np_leningrad_rural_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_leningrad_rural_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_leningrad_rural_release = yes
@@ -26466,6 +27452,10 @@ RUS_np_tsaritsyn_logistics_finish = {
 	hidden_effect = { set_variable = { RUS_np_rail_tsaritsyn_core = 2 } }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_logistics_completed } }
@@ -26513,7 +27503,13 @@ RUS_np_tsaritsyn_logistics_finish = {
 }
 	set_country_flag = RUS_np_tsaritsyn_logistics_completed
 	set_variable = { RUS_np_consumed = RUS_np_tsaritsyn_logistics_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_tsaritsyn_logistics_goal_1 has_country_flag = RUS_np_tsaritsyn_logistics_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_tsaritsyn_logistics_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_tsaritsyn_logistics_release = yes
@@ -26841,6 +27837,10 @@ RUS_np_tsaritsyn_rural_finish = {
 }
 
 	add_to_variable = { RUS_np_pending_plan_score = 2 }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_182 }
+	add_to_variable = { RUS_np_pending_plan_score = 1 }
+}
 	RUS_np_flush_plan_score = yes
 	if = {
 	limit = { NOT = { has_country_flag = RUS_np_tsaritsyn_rural_completed } }
@@ -26878,7 +27878,13 @@ RUS_np_tsaritsyn_rural_finish = {
 }
 	set_country_flag = RUS_np_tsaritsyn_rural_completed
 	set_variable = { RUS_np_consumed = RUS_np_tsaritsyn_rural_paid }
+	if = {
+	limit = { has_completed_focus = RUS_future_domestic_625 has_country_flag = RUS_np_tsaritsyn_rural_goal_1 has_country_flag = RUS_np_tsaritsyn_rural_goal_2 }
+	multiply_variable = { RUS_np_consumed = 0.7 }
+}
+	else = {
 	multiply_variable = { RUS_np_consumed = 0.8 }
+}
 	set_variable = { RUS_np_refund = RUS_np_tsaritsyn_rural_paid }
 	subtract_from_variable = { RUS_np_refund = RUS_np_consumed }
 	RUS_np_tsaritsyn_rural_release = yes

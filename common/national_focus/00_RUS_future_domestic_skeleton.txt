@@ -2756,6 +2756,7 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_bodaybo_gold_mines
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
+		custom_effect_tooltip = RUS_disordered_industry_accounting_tt
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -2924,6 +2925,8 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_lipetsk_metallurgical_plant
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
+		custom_effect_tooltip = RUS_disordered_industry_coordination_tt
+		hidden_effect = { RUS_np_refresh = yes }
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -3068,6 +3071,10 @@ shared_focus = {
 			tooltip = RUS_future_domestic_preview_only_tt
 			always = no
 		}
+		custom_trigger_tooltip = {
+			tooltip = RUS_disordered_industry_long_range_requires_tt
+			RUS_np_long_range_ready = yes
+		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_626 }
@@ -3075,6 +3082,7 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_zhiguli_hydroelectric_dam
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
+		custom_effect_tooltip = RUS_disordered_industry_long_range_tt
 	}
 	ai_will_do = { factor = 0 }
 }

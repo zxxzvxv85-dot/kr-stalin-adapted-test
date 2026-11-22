@@ -218,11 +218,10 @@ class PlanTests(unittest.TestCase):
         m.focuses.remove(industry.RESEARCH_FOCUS)
         m.vars['num_researched_technologies'] = 80
         m.initialize()
-        self.assertNotIn(industry.RESEARCH_BASELINE, m.vars)
+        self.assertEqual(m.vars[industry.RESEARCH_FACTOR], 1)
         m.focuses.add(industry.RESEARCH_FOCUS)
         m.call('RUS_np_refresh')
-        self.assertEqual(m.vars[industry.RESEARCH_BASELINE], 80)
-        self.assertEqual(m.vars[industry.RESEARCH_FACTOR], 1)
+        self.assertAlmostEqual(m.vars[industry.RESEARCH_FACTOR], .84)
 
         project = next(p for p in PROJECTS if base_pp(p) == 'RUS_ic_cost_low')
         days = m.vars[var(project, 'initial_days')]
@@ -231,18 +230,18 @@ class PlanTests(unittest.TestCase):
         m.vars['num_researched_technologies'] = 100
         m.ideas.add(industry.DISCOUNT_IDEA)
         m.call('RUS_np_refresh')
-        self.assertAlmostEqual(m.vars[industry.RESEARCH_FACTOR], .96)
+        self.assertAlmostEqual(m.vars[industry.RESEARCH_FACTOR], .8)
         self.assertGreater(m.vars[P+'speed'], 1)
         self.assertLess(m.vars[var(project, 'initial_days')], days)
         self.assertEqual(m.vars[var(project, 'paid')], paid)
-        self.assertAlmostEqual(m.vars[var(project, 'budget_current')], project['budget'] * .96 * .8)
+        self.assertAlmostEqual(m.vars[var(project, 'budget_current')], project['budget'] * .8 * .8)
         remaining = m.vars[var(project, 'left')]
         m.vars['global.num_days'] += 1
         m.call(var(project, 'tick'))
-        self.assertAlmostEqual(remaining - m.vars[var(project, 'left')], 1 / .96)
+        self.assertAlmostEqual(remaining - m.vars[var(project, 'left')], 1 / .8)
         m.call(var(project, 'cancel'))
         m.start(project)
-        self.assertAlmostEqual(m.vars[var(project, 'paid')], project['budget'] * .96 * .8)
+        self.assertAlmostEqual(m.vars[var(project, 'paid')], project['budget'] * .8 * .8)
 
     def test_managed_projects_cannot_expand_to_world_targets(self):
         targeted={'state_target','state_trigger','targets','target_array','target_trigger','target_root_trigger'}
@@ -501,7 +500,7 @@ class PlanTests(unittest.TestCase):
         m=self.score_model()
         for p in PROJECTS:
             m.start(p);m.call(var(p,'finish'))
-        total=sum(project_score(p) for p in PROJECTS)
+        total=sum(project_score(p)+industry.LONG_RANGE_SCORE for p in PROJECTS)
         self.assertAlmostEqual(m.vars[P+'pending_plan_score'],total)
         self.assertNotIn('RUS_first_five_year_plan_score',m.vars)
         self.assertNotIn('RUS_first_five_year_plan',m.dynamic)
@@ -520,11 +519,81 @@ class PlanTests(unittest.TestCase):
         for p in PROJECTS:
             before=m.vars['RUS_first_five_year_plan_score']
             m.start(p);m.call(var(p,'finish'));m.call(var(p,'finish'));m.call(var(p,'cancel'))
-            self.assertAlmostEqual(m.vars['RUS_first_five_year_plan_score']-before,project_score(p))
+            self.assertAlmostEqual(m.vars['RUS_first_five_year_plan_score']-before,
+                                   project_score(p)+industry.LONG_RANGE_SCORE)
         p=PROJECTS[0];before=m.vars['RUS_first_five_year_plan_score']
         m.start(p);m.call(var(p,'finish'))
-        self.assertEqual(m.vars['RUS_first_five_year_plan_score']-before,1)
+        self.assertEqual(m.vars['RUS_first_five_year_plan_score']-before,1+industry.LONG_RANGE_SCORE)
         self.assertEqual(m.vars[P+'pending_plan_score'],0)
+
+    def test_federal_accounting_requires_both_goals_and_normal_completion(self):
+        p=next(p for p in PROJECTS if p['key']=='bearing')
+        for policy, both, cancel, consumed in (
+            (False,True,False,.8), (True,False,False,.8),
+            (True,True,False,.7), (True,True,True,.8),
+        ):
+            m=Model().initialize()
+            if not policy:
+                m.focuses.remove(industry.ACCOUNTING_FOCUS)
+            m.start(p)
+            paid=m.vars[var(p,'paid')]
+            m.flags.add(var(p,'goal_1'))
+            if both:
+                m.flags.add(var(p,'goal_2'))
+            m.vars[var(p,'left')]=0
+            m.call(var(p,'cancel' if cancel else 'finish'))
+            self.assertAlmostEqual(m.vars[P+'spent'],paid*consumed)
+            self.assertEqual(m.vars[P+'frozen'],0)
+
+    def test_federal_coordination_only_speeds_local_industry_once(self):
+        local=next(p for p in PROJECTS if p['key']=='lipetsk_metallurgical_plant')
+        remote=next(p for p in PROJECTS if p['key']=='bodaybo_gold_mines')
+        energy=next(p for p in PROJECTS if p['key']=='kashira')
+        road=next(p for p in PROJECTS if p['key']=='improve_roads_in_central_russia')
+        hub=next(p for p in PROJECTS if p['key']=='moscow_logistics')
+        m=Model().initialize()
+        base={p['key']:m.vars[var(p,'initial_days')] for p in (local,remote,energy)}
+        m.start(local)
+        m.flags.add(var(road,'completed'))
+        m.flags.add(var(hub,'completed'))
+        m.call('RUS_np_refresh')
+        self.assertEqual(m.vars[P+'transport_duration_1'],.9)
+        self.assertLess(m.vars[var(local,'initial_days')],base[local['key']])
+        for p in (remote,energy):
+            self.assertEqual(m.vars[var(p,'initial_days')],base[p['key']])
+        remaining=m.vars[var(local,'left')]
+        m.vars['global.num_days']+=1
+        m.call(var(local,'tick'))
+        self.assertAlmostEqual(remaining-m.vars[var(local,'left')],m.vars[P+'speed']/.9)
+        m.focuses.remove(industry.COORDINATION_FOCUS)
+        m.call('RUS_np_refresh')
+        self.assertEqual(m.vars[P+'transport_duration_1'],1)
+
+    def test_long_range_requires_distinct_finished_projects_and_only_boosts_future_score(self):
+        m=self.score_model()
+        m.focuses.remove(industry.LONG_RANGE_FOCUS)
+        repeat=next(p for p in PROJECTS if p['key']=='kamenev_all_russian_electrification')
+        for _ in range(2):
+            m.start(repeat)
+            m.call(var(repeat,'finish'))
+        self.assertEqual(m.vars[P+'completed_projects'],1)
+        self.assertEqual(m.vars[P+'pending_plan_score'],2*project_score(repeat))
+        others=[p for p in PROJECTS if p!=repeat]
+        m.flags.update(var(p,'completed') for p in others[:28])
+        m.call('RUS_np_refresh')
+        self.assertEqual(m.vars[P+'completed_projects'],29)
+        self.assertFalse(m.check(TR['RUS_np_long_range_ready']))
+        m.flags.add(var(others[28],'completed'))
+        m.call('RUS_np_refresh')
+        self.assertTrue(m.check(TR['RUS_np_long_range_ready']))
+        m.focuses.add(industry.LONG_RANGE_FOCUS)
+        before=m.vars[P+'pending_plan_score']
+        m.start(repeat)
+        m.call(var(repeat,'finish'))
+        m.call(var(repeat,'finish'))
+        self.assertEqual(m.vars[P+'pending_plan_score']-before,
+                         project_score(repeat)+industry.LONG_RANGE_SCORE)
+        self.assertEqual(m.vars[P+'completed_projects'],30)
 
     def test_cancel_and_enemy_termination_never_credit_pre_plan_score(self):
         for p in PROJECTS:

@@ -8,8 +8,10 @@ from hoi4_politics_blocks import parse
 from national_plan_catalog import ROOT,DATA,PROJECTS,REGIONS,CORRIDORS,MIO_TARGETS,MIO_REWARDS,CONSORTIUM_MIOS,FACTORY_GOALS,EXTRA_EDUCATION_PROJECTS,EXTRA_RESOURCE_PROJECTS,EXTRA_STRATEGIC_PROJECTS
 from national_plan_focuses import PLAN_UNLOCK_FOCUS,PROJECT_FOCUS,focus_condition
 from disordered_industry import (
-    DISCOUNT, RESEARCH_BASELINE, RESEARCH_FACTOR, RESEARCH_FOCUS,
+    DISCOUNT, RESEARCH_FACTOR, RESEARCH_FOCUS,
     RESEARCH_REDUCTION, RESEARCH_STEP, TRUSTS_IDEA, TRUSTS_DAILY_RESOURCES,
+    ACCOUNTING_FOCUS, COORDINATION_FOCUS, LONG_RANGE_FOCUS, PROJECTS_REQUIRED,
+    GOAL_REFUND, REGIONAL_DURATION_FACTOR, LONG_RANGE_SCORE,
 )
 from national_plan_catalog import current_place_names
 
@@ -68,10 +70,7 @@ def refresh_prices():
         sv(RESEARCH_FACTOR, 1),
         sv(RESEARCH_REDUCTION, 0),
         iff(f'has_completed_focus = {RESEARCH_FOCUS}', [
-            iff(f'NOT = {{ has_variable = {RESEARCH_BASELINE} }}',
-                [sv(RESEARCH_BASELINE, 'num_researched_technologies')]),
             sv(RESEARCH_REDUCTION, 'num_researched_technologies'),
-            sub(RESEARCH_REDUCTION, RESEARCH_BASELINE),
             mul(RESEARCH_REDUCTION, -RESEARCH_STEP),
             *clamp(RESEARCH_REDUCTION, -.99, 0),
             add(RESEARCH_FACTOR, RESEARCH_REDUCTION),
@@ -92,6 +91,27 @@ def refresh_prices():
     return out
 def flag(p,s):return 'has_country_flag = '+var(p,s)
 def call(p,s):return var(p,s)+' = yes'
+def completed_project(p):
+    completed = flag(p, 'completed')
+    if p['legacy']:
+        return f'OR = {{ {completed} has_country_flag = RUS_rc_finished_{p["original_id"]} }}'
+    return completed
+
+def transport_projects(region):
+    for p in PROJECTS:
+        if p['kind'] == 'road' and p.get('reward') != 'canal':
+            road_region = 1 if p['key'] == 'improve_roads_in_central_russia' else p['region']
+            if road_region == region:
+                yield p
+        if p['kind'] == 'rail' and any(
+            c['project'] in (p['id'], p.get('original_id')) and region in c['regions']
+            for c in CORRIDORS
+        ):
+            yield p
+
+def local_duration_factor(p):
+    return P+'transport_duration_'+str(p['region']) if p['kind'] in ('industry', 'resource') else None
+
 def stock(n):return f'has_equipment = {{ train_equipment_1 > {n-1} }}'
 def equip(x):return f'add_equipment_to_stockpile = {{ type = train_equipment_1 amount = {x} }}'
 def scope(s,lines):return b(str(s),lines).strip()
@@ -327,12 +347,23 @@ def refresh():
     out += [sv(P+'income',P+'civ'),mul(P+'income',.02),mul(P+'income',P+'efficiency'),sv(P+'grant',P+'civ'),mul(P+'grant',10),mul(P+'grant',P+'efficiency'),sv(P+'slots',7)]
     out += [iff(f'has_idea = {TRUSTS_IDEA}', [add(P+'income', TRUSTS_DAILY_RESOURCES)])]
     out += [sv(P+'active',0),sv(P+'trains',0),sv(P+'rail_average',0),sv(P+'rail_weight',0),sv(P+'farm_rate',0),sv(P+'repair',0)]
-    for region in REGIONS:out += [sv(P+'rail_region_'+str(region),0),sv(P+'rail_weight_'+str(region),0)]
+    out += [sv(P+'completed_projects',0)]
+    for region in REGIONS:
+        out += [sv(P+'rail_region_'+str(region),0),sv(P+'rail_weight_'+str(region),0)]
+        factor = P+'transport_duration_'+str(region)
+        out.append(sv(factor, 1))
+        completed = ' '.join(completed_project(p) for p in transport_projects(region))
+        if completed:
+            out.append(iff(f'has_completed_focus = {COORDINATION_FOCUS} OR = {{ {completed} }}',
+                           [sv(factor, REGIONAL_DURATION_FACTOR)]))
     for p in PROJECTS:
         value=var(p,'initial_days');base=p['base_days'].split('?')[0]
+        factor = local_duration_factor(p)
         out += [sv(value,p['fallback'])]
         if not base.isdigit():out += [iff('has_variable = '+base,[sv(value,base)])]
-        out += clamp(value,1,3650)+[div(value,P+'speed'),*ceil(value),add(value,1)]
+        out += clamp(value,1,3650)+[div(value,P+'speed'),
+            *([mul(value,factor)] if factor else []),*ceil(value),add(value,1)]
+        out += [iff(completed_project(p), [add(P+'completed_projects',1)])]
         out += [iff(running(p),[add(P+'active',1),add(P+'trains',var(p,'trains'))])]
         if p.get('reward')=='rural':out += [iff(flag(p,'completed'),[add(P+'farm_rate',var(p,'farm_rate')),add(P+'repair',.01)])]
     out += [sv(P+'free_slots',P+'slots'),sub(P+'free_slots',P+'active'),*clamp(P+'free_slots',0,7)]
@@ -372,6 +403,7 @@ def managed_base(p):
 
 def project_effects(p):
     k=p['key'];s=p['states'][0];out=[]
+    factor = local_duration_factor(p)
     base=p['base_days'].split('?')[0]
     start=[sv(var(p,'total'),p['fallback'])]
     if not base.isdigit():start += [iff('has_variable = '+base,[sv(var(p,'total'),base)])]
@@ -398,7 +430,12 @@ def project_effects(p):
     goal_lines=[]
     for i,(condition,_,_) in enumerate(goals(p),1):
         goal_lines += [iff('NOT = { '+flag(p,'goal_'+str(i))+' } '+owned(p)+' '+condition,['set_country_flag = '+var(p,'goal_'+str(i))])]
-    out.append(b(var(p,'goals'),[iff(running(p)+' NOT = { '+flag(p,'completed')+' }',goal_lines)]))
+    goals_active = running(p)
+    if repeatable(p):
+        goals_active += f' OR = {{ NOT = {{ {flag(p,"completed")} }} has_completed_focus = {ACCOUNTING_FOCUS} }}'
+    else:
+        goals_active += ' NOT = { '+flag(p,'completed')+' }'
+    out.append(b(var(p,'goals'),[iff(goals_active,goal_lines)]))
     # One guard day keeps an engine expiry from racing a slow final pulse.
     # No progress is discarded: terminal processing tops up at most one pulse.
     # add_days_remove.days accepts a literal integer, not a variable token.
@@ -414,7 +451,8 @@ def project_effects(p):
         iff(ck(P+'adjust','>',0),positive),b('else',negative).strip()]))
     timerlines=[sv(var(p,'display'),0),
         iff('NOT = { '+ck(var(p,'left'),'<',.001)+' }',[
-            sv(var(p,'display'),var(p,'left')),div(var(p,'display'),P+'speed'),*ceil(var(p,'display')),
+            sv(var(p,'display'),var(p,'left')),div(var(p,'display'),P+'speed'),
+            *([mul(var(p,'display'),factor)] if factor else []),*ceil(var(p,'display')),
             *clamp(var(p,'display'),1,7300),add(var(p,'display'),1)]),
         sv(P+'adjust','global.num_days'),add(P+'adjust',var(p,'display')),
         sub(P+'adjust',var(p,'deadline')),
@@ -425,7 +463,12 @@ def project_effects(p):
     # A missing controller record must never be interpreted as expiry day zero.
     # Do not invent a deadline for old/corrupt jobs from an unreliable native read.
     out.append(b(var(p,'timer'),[iff(running(p)+' has_variable = '+var(p,'deadline'),timerlines)]))
-    pulse=[sv(var(p,'last_day'),'global.num_days'),call(p,'goals'),sub(var(p,'left'),P+'speed'),*clamp(var(p,'left'),0,var(p,'total'))]
+    work = P+'speed'
+    pulse = [sv(var(p,'last_day'),'global.num_days'),call(p,'goals')]
+    if factor:
+        work = P+'regional_work'
+        pulse += [sv(work,P+'speed'),div(work,factor)]
+    pulse += [sub(var(p,'left'),work),*clamp(var(p,'left'),0,var(p,'total'))]
     out.append(b(var(p,'tick'),[iff(running(p)+' '+ck(var(p,'last_day'),'<','global.num_days'),pulse)]))
     # Release is guarded by running; the durable managed flag prevents a
     # duplicate native callback from falling through to original rewards.
@@ -449,9 +492,14 @@ def project_effects(p):
     for c in CORRIDORS:
         if p['legacy'] and c['project']==p['original_id']:bonus += [sv(P+'rail_'+c['key'],c['level']),'build_railway = { level = '+str(c['level'])+' path = { '+' '.join(map(str,c['path']))+' } }']
     reward=[call(p,'goals'),managed_base(p),add(P+'pending_plan_score',project_score(p)),
+        iff(f'has_completed_focus = {LONG_RANGE_FOCUS}', [add(P+'pending_plan_score',LONG_RANGE_SCORE)]),
         *(['set_country_flag = RUS_first_five_year_plan_tankograd_completed'] if k=='create_tankograd' else []),
         'RUS_np_flush_plan_score = yes',iff('NOT = { '+flag(p,'completed')+' }',bonus),'set_country_flag = '+var(p,'completed'),
-        sv(P+'consumed',var(p,'paid')),mul(P+'consumed',.8),sv(P+'refund',var(p,'paid')),sub(P+'refund',P+'consumed'),call(p,'release')]
+        sv(P+'consumed',var(p,'paid')),
+        iff(f'has_completed_focus = {ACCOUNTING_FOCUS} '+flag(p,'goal_1')+' '+flag(p,'goal_2'),
+            [mul(P+'consumed',1-GOAL_REFUND)]),
+        b('else',[mul(P+'consumed',.8)]).strip(),
+        sv(P+'refund',var(p,'paid')),sub(P+'refund',P+'consumed'),call(p,'release')]
     finish=[call(p,'tick'),iff(owned(p),reward),b('else',[call(p,'cancel')]).strip()]
     out.append(b(var(p,'finish'),[iff(running(p),finish)]))
     return ''.join(out)
@@ -514,6 +562,8 @@ def augment(out):
     for a,z,s in sorted(edits,reverse=True):text=text[:a]+s+text[z:]
     out[DEC]=text
     triggers=[b('RUS_np_context',['original_tag = RUS','is_ai = no','has_socialist_government = yes','has_completed_focus = '+PLAN_UNLOCK_FOCUS])]
+    triggers.append(b('RUS_np_long_range_ready', ['NOT = { '+ck(P+'completed_projects','<',PROJECTS_REQUIRED)+' }',
+        'has_variable = '+P+'completed_projects']))
     triggers += [b('RUS_np_rural_candidate',[
         'is_core_of = RUS','is_owned_and_controlled_by = RUS',
         'NOT = { state = 219 } NOT = { state = 195 } NOT = { state = 217 }',
@@ -662,10 +712,12 @@ def localisations():
     l['RUS_np_account_ready']='§G已建立§!'
     l['RUS_np_account_pending']='§Y待建立§!'
     l['RUS_np_header']+='\\n待计入一五计划的分数：§Y[?RUS_np_pending_plan_score|1]§!'
-    for p in PROJECTS:
-        l[var(p,'score_tt')]=f'一五计划分数：§G+{project_score(p):g}§!（计划启用前保留）'
-
     sloc=[b('defined_text',['name = RUSNationalPlanLedger',b('text',['trigger = { RUS_np_context = yes }','localization_key = RUS_np_header']).strip(),'text = { localization_key = RUS_np_header_old }'])]
+    l['RUS_np_refund_base_tt'] = '正常竣工返还已冻结的20%§C建设资源§!'
+    l['RUS_np_refund_accounting_tt'] = f'正常竣工返还已冻结的20%§C建设资源§!，两项追加目标均达成时返还§G{GOAL_REFUND:.0%}§!'
+    sloc.append(b('defined_text', ['name = RUSNPCompletionRefund',
+        f'text = {{ trigger = {{ has_completed_focus = {ACCOUNTING_FOCUS} }} localization_key = RUS_np_refund_accounting_tt }}',
+        'text = { localization_key = RUS_np_refund_base_tt }']))
     sloc.append(b('defined_text',['name = RUSNPAccountStatus',b('text',['trigger = { has_country_flag = RUS_np_initialized }','localization_key = RUS_np_account_ready']).strip(),'text = { localization_key = RUS_np_account_pending }']))
     sloc.append(b('defined_text',['name = RUSNPRegionName',*[b('text',['trigger = { check_variable = { RUS_np_filter = '+str(i)+' } }','localization_key = RUS_np_region_name_'+str(i)]).strip() for i in range(1,7)],'text = { localization_key = RUS_np_region_name_0 }']))
     for i in range(7):l[P+'region_name_'+str(i)]=current_place_names(REGIONS.get(i,'全部地区'))
@@ -679,7 +731,14 @@ def localisations():
     for p in PROJECTS:
         l[var(p,'cost')]='工程建设投入'
         budget_loc = 'RUSNPBudget_'+p['key']
-        l[var(p,'cost_tt')]=f'冻结§C建设资源§!：§Y[{budget_loc}]§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n正常竣工返还未使用的20%§C建设资源§!'+('及全部施工列车。' if p['trains'] else '。')
+        l[var(p,'cost_tt')]=f'冻结§C建设资源§!：§Y[{budget_loc}]§!'+(f'\\n征用普通列车：§Y{p["trains"]}§!' if p['trains'] else '')+'\\n[RUSNPCompletionRefund]'+('，并返还全部施工列车。' if p['trains'] else '。')
+        score_loc = 'RUSNPScore_'+p['key']
+        l[var(p,'score_tt')] = f'一五计划分数：§G+[{score_loc}]§!（计划启用前保留）'
+        l[var(p,'score_base')] = f'{project_score(p):g}'
+        l[var(p,'score_long_range')] = f'{project_score(p)+LONG_RANGE_SCORE:g}'
+        sloc.append(b('defined_text', ['name = '+score_loc,
+            f'text = {{ trigger = {{ has_completed_focus = {LONG_RANGE_FOCUS} }} localization_key = {var(p,"score_long_range")} }}',
+            'text = { localization_key = '+var(p,'score_base')+' }']))
         l[var(p,'budget_normal')] = f'{p["budget"]:g}'
         l[var(p,'budget_discount')] = f'{discounted_budget(p):g}'
         l[var(p,'budget_live')] = f'[?{var(p,"budget_current")}|2]'

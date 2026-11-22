@@ -25,11 +25,22 @@ POLICIES = {'422': 'federal', '421': 'cooperative', '486': 'cooperative',
 CHOICE = PREFIX + '_first_policy'
 RESEARCH_FOCUS = 'RUS_future_domestic_176'
 FEDERAL_FOCUS = 'RUS_future_domestic_169'
-RESEARCH_BASELINE = PREFIX + '_research_baseline'
 RESEARCH_FACTOR = PREFIX + '_research_factor'
 RESEARCH_REDUCTION = PREFIX + '_research_reduction'
 RESEARCH_STEP = .002
 RESEARCH_TOOLTIP = PREFIX + '_research_tt'
+ACCOUNTING_FOCUS = 'RUS_future_domestic_625'
+COORDINATION_FOCUS = 'RUS_future_domestic_626'
+LONG_RANGE_FOCUS = 'RUS_future_domestic_182'
+PROJECTS_REQUIRED = 30
+GOAL_REFUND = .30
+REGIONAL_DURATION_FACTOR = .90
+LONG_RANGE_SCORE = 1
+FEDERAL_POLICIES = {
+    ACCOUNTING_FOCUS: 'accounting',
+    COORDINATION_FOCUS: 'coordination',
+    LONG_RANGE_FOCUS: 'long_range',
+}
 PENALTIES = {
     'stability_factor': '-.10',
     'production_speed_buildings_factor': '-.10',
@@ -136,6 +147,10 @@ def focus_reward(focus, branch):
             f'custom_effect_tooltip = {RESEARCH_TOOLTIP}',
             f'hidden_effect = {{ RUS_np_refresh = yes }}',
         ])
+    if focus in FEDERAL_POLICIES:
+        effects.append(f'custom_effect_tooltip = {PREFIX}_{FEDERAL_POLICIES[focus]}_tt')
+    if focus == COORDINATION_FOCUS:
+        effects.append('hidden_effect = { RUS_np_refresh = yes }')
     return effects
 
 
@@ -196,6 +211,9 @@ def outputs(branch):
                       '\t\t\tmodifier = {'])
         ideas.extend(f'\t\t\t\t{key} = {value}' for key, value in modifiers.items())
         ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_research_active_tt')
+        if idea in tiers or idea == DISCOUNT_IDEA:
+            ideas.extend(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_{policy}_active_tt'
+                         for policy in FEDERAL_POLICIES.values())
         ideas.extend(['\t\t\t}', '\t\t}'])
     ideas.extend(['\t}', '}'])
 
@@ -263,6 +281,18 @@ defined_text = {{
 }}
 ''',
     }
+    policy_loc = Path('common/scripted_localisation/RUS_disordered_industry_loc.txt')
+    for focus, policy in FEDERAL_POLICIES.items():
+        result[policy_loc] += f'''
+defined_text = {{
+	name = RUSIndustrialPolicy_{policy}
+	text = {{
+		trigger = {{ has_completed_focus = {focus} }}
+		localization_key = {PREFIX}_{policy}_tt
+	}}
+	text = {{ localization_key = {PREFIX}_research_blank_tt }}
+}}
+'''
     for lang, label, pp_cost, resource_cost in (
         ('simp_chinese', '混乱的工业', '工业决议政治点数花费', '工业决议§C建设资源§!花费'),
         ('english', 'Disordered Industry', 'Industrial Decision Political Power Cost',
@@ -274,12 +304,12 @@ defined_text = {{
                          f'£RUS_np_resources_texticon£ {resource_cost}: §G-20%§!')
         lines = [f'l_{lang}:', f' {ROUTE_BONUS_TOOLTIPS["federal"]}:0 "{discount_text}"']
         federal_name, research_condition, duration_label, total_label = {
-            'simp_chinese': ('工业现状：联邦计划委员会', '此后每完成一项科技',
+            'simp_chinese': ('工业现状：联邦计划委员会', '每项已完成的科技',
                              '工业决议所需时间', '科技累计减免'),
-            'english': ('State of Industry: Federal Planning Commission', 'For each technology completed from now on',
+            'english': ('State of Industry: Federal Planning Commission', 'Per researched technology',
                         'Industrial Decision Duration', 'Cumulative Research Reduction'),
             'russian': ('Состояние промышленности: Федеральная плановая комиссия',
-                        'За каждую технологию, завершённую после принятия фокуса',
+                        'За каждую изученную технологию',
                         'Срок выполнения промышленных решений', 'Суммарное снижение за технологии'),
         }[lang]
         per_tech = f'§G-{RESEARCH_STEP*100:g}%§!'
@@ -296,6 +326,35 @@ defined_text = {{
             f' {PREFIX}_research_blank_tt:0 ""',
             f' {PREFIX}_research_progress_tt:0 "${RESEARCH_TOOLTIP}$\\n{total_label}: §G[?{RESEARCH_REDUCTION}|=1%]§!"',
         ])
+        refund, refund_condition, duration, duration_condition, score, requirement = {
+            'simp_chinese': ('正常竣工时返还的§C建设资源§!比例',
+                             '两项追加目标均已达成',
+                             '工业与资源类决议所需时间',
+                             '所在工业区已有公路或铁路工程竣工',
+                             '工业决议竣工获得的§Y一五计划分数§!',
+                             '至少完成 {required} 项不同的工业决议（当前：§Y[?RUS_np_completed_projects|0]§!）'),
+            'english': ('§CConstruction Resource§! Refund on Completion',
+                        'With both additional objectives met',
+                        'Industry and Resource Decision Duration',
+                        'In industrial regions with a completed road or railway project',
+                        '§YFirst Five-Year Plan Score§! per Completed Industrial Decision',
+                        'Complete at least {required} distinct industrial decisions (current: §Y[?RUS_np_completed_projects|0]§!)'),
+            'russian': ('Возврат §Cстроительных ресурсов§! при завершении проекта',
+                        'Выполнены обе дополнительные задачи',
+                        'Срок выполнения промышленных и ресурсных решений',
+                        'В промышленном районе завершён дорожный или железнодорожный проект',
+                        '§YОчки первой пятилетки§! за завершённое промышленное решение',
+                        'Завершено не менее {required} разных промышленных решений (сейчас: §Y[?RUS_np_completed_projects|0]§!)'),
+        }[lang]
+        policy_text = {
+            'accounting': f'£RUS_np_resources_texticon£ {refund}: §G{GOAL_REFUND:.0%}§!\\n§g{refund_condition}§!',
+            'coordination': f'£clock_texticon {duration}: §G-{1-REGIONAL_DURATION_FACTOR:.0%}§!\\n§g{duration_condition}§!',
+            'long_range': f'£decision_icon_small£ {score}: §G+{LONG_RANGE_SCORE}§!',
+        }
+        for policy, value in policy_text.items():
+            lines.extend([f' {PREFIX}_{policy}_tt:0 "{value}"',
+                          f' {PREFIX}_{policy}_active_tt:0 "[RUSIndustrialPolicy_{policy}]"'])
+        lines.append(f' {PREFIX}_long_range_requires_tt:0 "{requirement.format(required=PROJECTS_REQUIRED)}"')
         basic_text, higher_text, education_condition, resources_text, resources_condition, heading = {
             'simp_chinese': ('每月§C基础教育水平§!', '每月§Y高等教育水平§!', '教育系统启用后',
                              '每日§C建设资源§!收入 §G+{resources}§!', '国家建设账本开启后', '追加效果：'),
