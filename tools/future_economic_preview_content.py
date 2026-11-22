@@ -6,6 +6,14 @@ new managed project unlock displays are owned by national_plan_focuses.py.
 """
 
 
+PROJECT_RECOVERY_HINT = 'RUS_future_domestic_project_recovery_tt'
+PROJECT_RECOVERY_TEXT = {
+    'simp_chinese': '每竣工一项由此解锁的公路或铁路工程，§Y黑色星期一§!的负面效果降低§G一档§!。',
+    'english': 'Each road or railway project unlocked here weakens §YBlack Monday§! by §Gone stage§! upon completion.',
+    'russian': 'Каждый завершённый дорожный или железнодорожный проект, открытый этим фокусом, ослабляет эффект §YЧёрного понедельника§! на §Gодну ступень§!.',
+}
+
+
 def focus_rewards():
     recovery = [
         'if = {',
@@ -17,7 +25,7 @@ def focus_rewards():
         'if = {',
         '\tlimit = { NOT = { has_country_flag = RUS_BM_solved } }',
         '\tcustom_effect_tooltip = tooltip_white_line',
-        '\tcustom_effect_tooltip = RUS_BM_recovery_tt',
+        f'\tcustom_effect_tooltip = {PROJECT_RECOVERY_HINT}',
         '}',
     ]
     construction = [
