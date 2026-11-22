@@ -185,7 +185,7 @@ RUS_tesla_company_on_remove = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_tesla_company_refreshing } }
 		clr_country_flag = RUS_tesla_company_hired
-		remove_dynamic_modifier = { modifier = RUS_tesla_company_consumer_goods_modifier }
+		hidden_effect = { remove_dynamic_modifier = { modifier = RUS_tesla_company_consumer_goods_modifier } }
 		clear_variable = RUS_tesla_company_consumer_goods
 		RUS_tesla_sync_company_programmes = yes
 	}
