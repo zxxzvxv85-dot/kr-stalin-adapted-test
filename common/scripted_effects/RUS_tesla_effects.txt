@@ -137,9 +137,41 @@ RUS_tesla_apply_electrification_focus_reward = {
 	}
 }
 
+RUS_tesla_refresh_company_consumer_goods = {
+	if = {
+		limit = { has_country_flag = RUS_tesla_company_hired }
+		set_temp_variable = { RUS_tesla_updated_consumer_goods = 0 }
+		if = {
+			limit = {
+				has_dlc_aat = yes
+				has_military_industrial_organization = RUS_tesla_electrical_organisation
+			}
+			mio:RUS_tesla_electrical_organisation = {
+				set_temp_variable = { RUS_tesla_updated_consumer_goods = number_of_unlocked_traits }
+			}
+			multiply_temp_variable = { RUS_tesla_updated_consumer_goods = 0.02 }
+		}
+		if = {
+			limit = {
+				OR = {
+					NOT = { has_variable = RUS_tesla_company_consumer_goods }
+					NOT = { check_variable = { RUS_tesla_company_consumer_goods = RUS_tesla_updated_consumer_goods } }
+				}
+			}
+			set_variable = { RUS_tesla_company_consumer_goods = RUS_tesla_updated_consumer_goods }
+			force_update_dynamic_modifier = yes
+		}
+		if = {
+			limit = { NOT = { has_dynamic_modifier = { modifier = RUS_tesla_company_consumer_goods_modifier } } }
+			add_dynamic_modifier = { modifier = RUS_tesla_company_consumer_goods_modifier }
+		}
+	}
+}
+
 RUS_tesla_company_on_add = {
 	set_country_flag = RUS_tesla_company_hired
 	set_country_flag = RUS_tesla_mio_unlocked
+	RUS_tesla_refresh_company_consumer_goods = yes
 	RUS_tesla_apply_electrification_focus_reward = yes
 	if = {
 		limit = { NOT = { has_country_flag = RUS_tesla_minesweeper_unlock_event_fired } }
@@ -153,6 +185,8 @@ RUS_tesla_company_on_remove = {
 	if = {
 		limit = { NOT = { has_country_flag = RUS_tesla_company_refreshing } }
 		clr_country_flag = RUS_tesla_company_hired
+		remove_dynamic_modifier = { modifier = RUS_tesla_company_consumer_goods_modifier }
+		clear_variable = RUS_tesla_company_consumer_goods
 		RUS_tesla_sync_company_programmes = yes
 	}
 }
