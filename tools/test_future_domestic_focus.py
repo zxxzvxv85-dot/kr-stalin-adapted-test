@@ -10,7 +10,9 @@ from itertools import product
 from PIL import Image
 from hoi4_politics_blocks import load, parse
 from education_reform_content import education_focuses
-from future_economic_preview_content import focus_rewards as economic_preview_rewards
+from future_economic_preview_content import (
+    PROJECT_RECOVERY_HINT, RURAL_UPGRADE_HINT, focus_rewards as economic_preview_rewards,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = 'RUS_future_domestic_'
@@ -243,12 +245,29 @@ def main():
     adaptation=by_id[PREFIX+'249']
     assert not adaptation.children('prerequisite'), 'The latest drawing makes adaptation an independent root'
     assert not any(v.value('focus')==PREFIX+'151' for v in adaptation.children('mutually_exclusive'))
+    autonomy = by_id[PREFIX+'486'].one('completion_reward')
+    assert RURAL_UPGRADE_HINT in [tip.v for tip in autonomy.children('custom_effect_tooltip')]
+    upgrade = next(effect for effect in autonomy.children('hidden_effect')
+                   if effect.children('random_owned_controlled_state'))
+    draws = upgrade.children('random_owned_controlled_state')
+    assert len(draws) == 5
+    selected = draws[0].value('set_state_flag')
+    for draw in draws:
+        limit = draw.one('limit')
+        assert limit.value('is_core_of') == 'ROOT'
+        assert {c.v for c in limit.one('OR').children('has_state_category')} == {'two', 'three', 'four'}
+        assert limit.one('NOT').value('has_state_flag') == draw.value('set_state_flag') == selected
+        assert draw.value('increase_state_category_by_one_level') == 'yes'
+    cleanup = upgrade.one('every_owned_state')
+    assert cleanup.one('limit').value('has_state_flag') == cleanup.value('clr_state_flag') == selected
     for language in ['simp_chinese','english','russian']:
         raw=(ROOT/f'localisation/{language}/RUS_future_domestic_l_{language}.yml').read_bytes()
         assert raw.startswith(b'\xef\xbb\xbf')
         keys=re.findall(r'^\s+([^ :]+):0 ',raw.decode('utf-8-sig'),re.M)
-        assert len(keys)==len(set(keys))==343
-        assert set(keys)==ids|{i+'_desc' for i in ids}|{'RUS_future_domestic_preview_only_tt'}
+        assert len(keys)==len(set(keys))
+        assert set(keys)==ids|{i+'_desc' for i in ids}|{
+            'RUS_future_domestic_preview_only_tt', PROJECT_RECOVERY_HINT, RURAL_UPGRADE_HINT,
+        }
         assert '第一个五年计划（' not in raw.decode('utf-8-sig')
         assert '奠基经济发展（' not in raw.decode('utf-8-sig')
         for suffix,name in {'424':'为发展奠基','432':'地方行政名头','439':'扩大紧急权力',

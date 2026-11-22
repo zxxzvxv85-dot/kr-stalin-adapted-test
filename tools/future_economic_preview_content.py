@@ -13,6 +13,36 @@ PROJECT_RECOVERY_TEXT = {
     'russian': 'Каждый завершённый дорожный или железнодорожный проект, открытый этим фокусом, ослабляет эффект §YЧёрного понедельника§! на §Gодну ступень§!.',
 }
 
+RURAL_UPGRADE_COUNT = 5
+RURAL_UPGRADE_HINT = 'RUS_future_domestic_rural_upgrade_tt'
+RURAL_UPGRADE_TEXT = {
+    'simp_chinese': f'随机选取至多§G{RURAL_UPGRADE_COUNT}§!个拥有并控制的核心乡村地区，地区等级各提高§G一级§!。',
+    'english': f'Increase the state category by §Gone level§! in up to §G{RURAL_UPGRADE_COUNT}§! random owned and controlled rural core states.',
+    'russian': f'Повышает категорию на §Gодин уровень§! в случайных сельских регионах (до §G{RURAL_UPGRADE_COUNT}§!), которыми мы владеем и которые контролируем и считаем национальными.',
+}
+
+
+def rural_upgrade_reward():
+    # KR's FOP_AND_agricultiral_economy_reforms uses the same random scope
+    # and native category upgrade. Mark draws to avoid hitting a state twice.
+    selected = 'RUS_future_domestic_rural_upgrade_selected'
+    draw = [
+        '\trandom_owned_controlled_state = {',
+        f'\t\tlimit = {{ is_core_of = ROOT NOT = {{ has_state_flag = {selected} }}',
+        '\t\t\tOR = { has_state_category = two has_state_category = three has_state_category = four }',
+        '\t\t}',
+        f'\t\tset_state_flag = {selected}',
+        '\t\tincrease_state_category_by_one_level = yes',
+        '\t}',
+    ]
+    return [
+        f'custom_effect_tooltip = {RURAL_UPGRADE_HINT}',
+        'hidden_effect = {',
+        *(draw * RURAL_UPGRADE_COUNT),
+        f'\tevery_owned_state = {{ limit = {{ has_state_flag = {selected} }} clr_state_flag = {selected} }}',
+        '}',
+    ]
+
 
 def focus_rewards():
     recovery = [
@@ -38,6 +68,7 @@ def focus_rewards():
         '# RUS_EASY_MODE_TECH_END',
     ]
     return {
+        '486': rural_upgrade_reward(),
         '804': [
             'if = {',
             '\tlimit = { has_dlc_aat = yes }',

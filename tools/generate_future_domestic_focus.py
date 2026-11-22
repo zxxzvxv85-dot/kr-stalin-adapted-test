@@ -22,7 +22,8 @@ from football_event_content import focus_reward as football_focus_reward
 from red_army_decree_content import focus_reward as decree_focus_reward, outputs as decree_outputs
 import disordered_industry
 from future_economic_preview_content import (
-    PROJECT_RECOVERY_HINT, PROJECT_RECOVERY_TEXT, focus_rewards as economic_preview_rewards,
+    PROJECT_RECOVERY_HINT, PROJECT_RECOVERY_TEXT, RURAL_UPGRADE_HINT, RURAL_UPGRADE_TEXT,
+    focus_rewards as economic_preview_rewards,
 )
 from national_plan_catalog import PROJECTS
 from national_plan_focuses import unlock_rewards
@@ -353,7 +354,8 @@ def render_outputs():
             'russian': 'Этот фокус находится на стадии проектирования и пока недоступен.'}
     for lang in tips:
         rows = ['l_'+lang+':', ' RUS_future_domestic_preview_only_tt:0 '+json.dumps(tips[lang], ensure_ascii=False),
-                ' '+PROJECT_RECOVERY_HINT+':0 '+json.dumps(PROJECT_RECOVERY_TEXT[lang], ensure_ascii=False)]
+                ' '+PROJECT_RECOVERY_HINT+':0 '+json.dumps(PROJECT_RECOVERY_TEXT[lang], ensure_ascii=False),
+                ' '+RURAL_UPGRADE_HINT+':0 '+json.dumps(RURAL_UPGRADE_TEXT[lang], ensure_ascii=False)]
         for n in nodes:
             # Keep source titles on other language UIs until translations are authored.
             desc = color_poster_categories(implemented[n['suffix']]['description']) if lang=='simp_chinese' and n['suffix'] in implemented else ''

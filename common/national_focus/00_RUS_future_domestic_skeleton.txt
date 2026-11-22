@@ -2204,6 +2204,45 @@ shared_focus = {
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_160 }
 	completion_reward = {
+		custom_effect_tooltip = RUS_future_domestic_rural_upgrade_tt
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT NOT = { has_state_flag = RUS_future_domestic_rural_upgrade_selected }
+					OR = { has_state_category = two has_state_category = three has_state_category = four }
+				}
+				set_state_flag = RUS_future_domestic_rural_upgrade_selected
+				increase_state_category_by_one_level = yes
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT NOT = { has_state_flag = RUS_future_domestic_rural_upgrade_selected }
+					OR = { has_state_category = two has_state_category = three has_state_category = four }
+				}
+				set_state_flag = RUS_future_domestic_rural_upgrade_selected
+				increase_state_category_by_one_level = yes
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT NOT = { has_state_flag = RUS_future_domestic_rural_upgrade_selected }
+					OR = { has_state_category = two has_state_category = three has_state_category = four }
+				}
+				set_state_flag = RUS_future_domestic_rural_upgrade_selected
+				increase_state_category_by_one_level = yes
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT NOT = { has_state_flag = RUS_future_domestic_rural_upgrade_selected }
+					OR = { has_state_category = two has_state_category = three has_state_category = four }
+				}
+				set_state_flag = RUS_future_domestic_rural_upgrade_selected
+				increase_state_category_by_one_level = yes
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT NOT = { has_state_flag = RUS_future_domestic_rural_upgrade_selected }
+					OR = { has_state_category = two has_state_category = three has_state_category = four }
+				}
+				set_state_flag = RUS_future_domestic_rural_upgrade_selected
+				increase_state_category_by_one_level = yes
+			}
+			every_owned_state = { limit = { has_state_flag = RUS_future_domestic_rural_upgrade_selected } clr_state_flag = RUS_future_domestic_rural_upgrade_selected }
+		}
 		unlock_decision_tooltip = RUS_np_moscow_rural
 		if = { limit = { hidden_trigger = { NOT = { has_variable = RUS_disordered_industry_first_policy } } } custom_effect_tooltip = RUS_disordered_industry_cooperative_first_tt hidden_effect = { set_variable = { RUS_disordered_industry_first_policy = 2 } } }
 		RUS_disordered_industry_preview = yes
