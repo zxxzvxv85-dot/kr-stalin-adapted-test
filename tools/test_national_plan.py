@@ -530,7 +530,7 @@ class PlanTests(unittest.TestCase):
         p=next(p for p in PROJECTS if p['key']=='bearing')
         for policy, both, cancel, consumed in (
             (False,True,False,.8), (True,False,False,.8),
-            (True,True,False,.7), (True,True,True,.8),
+            (True,True,False,.5), (True,True,True,.8),
         ):
             m=Model().initialize()
             if not policy:

@@ -33,7 +33,7 @@ ACCOUNTING_FOCUS = 'RUS_future_domestic_625'
 COORDINATION_FOCUS = 'RUS_future_domestic_626'
 LONG_RANGE_FOCUS = 'RUS_future_domestic_182'
 PROJECTS_REQUIRED = 30
-GOAL_REFUND = .30
+GOAL_REFUND = .50
 REGIONAL_DURATION_FACTOR = .90
 LONG_RANGE_SCORE = 1
 FEDERAL_POLICIES = {
@@ -328,27 +328,27 @@ defined_text = {{
         ])
         refund, refund_condition, duration, duration_condition, score, requirement = {
             'simp_chinese': ('正常竣工时返还的§C建设资源§!比例',
-                             '两项追加目标均已达成',
+                             '若两项追加目标均已达成',
                              '工业与资源类决议所需时间',
-                             '所在工业区已有公路或铁路工程竣工',
+                             '若所在工业区已有公路或铁路工程竣工',
                              '工业决议竣工获得的§Y一五计划分数§!',
                              '至少完成 {required} 项不同的工业决议（当前：§Y[?RUS_np_completed_projects|0]§!）'),
             'english': ('§CConstruction Resource§! Refund on Completion',
-                        'With both additional objectives met',
+                        'If both additional objectives are met',
                         'Industry and Resource Decision Duration',
-                        'In industrial regions with a completed road or railway project',
+                        'If a road or railway project has been completed in the industrial region',
                         '§YFirst Five-Year Plan Score§! per Completed Industrial Decision',
                         'Complete at least {required} distinct industrial decisions (current: §Y[?RUS_np_completed_projects|0]§!)'),
             'russian': ('Возврат §Cстроительных ресурсов§! при завершении проекта',
-                        'Выполнены обе дополнительные задачи',
+                        'Если выполнены обе дополнительные задачи',
                         'Срок выполнения промышленных и ресурсных решений',
-                        'В промышленном районе завершён дорожный или железнодорожный проект',
+                        'Если в промышленном районе завершён дорожный или железнодорожный проект',
                         '§YОчки первой пятилетки§! за завершённое промышленное решение',
                         'Завершено не менее {required} разных промышленных решений (сейчас: §Y[?RUS_np_completed_projects|0]§!)'),
         }[lang]
         policy_text = {
-            'accounting': f'£RUS_np_resources_texticon£ {refund}: §G{GOAL_REFUND:.0%}§!\\n§g{refund_condition}§!',
-            'coordination': f'£clock_texticon {duration}: §G-{1-REGIONAL_DURATION_FACTOR:.0%}§!\\n§g{duration_condition}§!',
+            'accounting': f'§g{refund_condition}§!\\n£RUS_np_resources_texticon£ {refund}: §G{GOAL_REFUND:.0%}§!',
+            'coordination': f'§g{duration_condition}§!\\n£clock_texticon {duration}: §G-{1-REGIONAL_DURATION_FACTOR:.0%}§!',
             'long_range': f'£decision_icon_small£ {score}: §G+{LONG_RANGE_SCORE}§!',
         }
         for policy, value in policy_text.items():
