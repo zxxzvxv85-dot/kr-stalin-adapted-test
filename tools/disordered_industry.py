@@ -11,6 +11,8 @@ FEDERAL_PICTURE = DISCOUNT_IDEA
 FEDERAL_TEXTURE = 'gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_169.png'
 DISCOUNT = f'has_idea = {DISCOUNT_IDEA}'
 COOPERATIVE_IDEA = PREFIX + '_cooperative'
+COOPERATIVE_TEXTURE = 'gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_166.png'
+COOPERATIVE_PLAN_IDEA = COOPERATIVE_IDEA + '_planned'
 COOPERATIVE_FOCUS = 'RUS_future_domestic_166'
 COOPERATIVE_PRODUCTION_FOCUS = 'RUS_future_domestic_629'
 LABOR_OVERSIGHT_FOCUS = 'RUS_future_domestic_179'
@@ -19,6 +21,11 @@ DEMOCRATIC_EFFICIENCY_FOCUS = 'RUS_future_domestic_177'
 PRODUCERS_PLAN_FOCUS = 'RUS_future_domestic_631'
 PRODUCERS_PLAN_IDEA = 'RUS_producers_common_plan'
 PRODUCERS_EDUCATION_COST_FACTOR = .9
+COOPERATIVE_EFFECTS = {
+    COOPERATIVE_PRODUCTION_FOCUS: 'crop_bonus',
+    LABOR_OVERSIGHT_FOCUS: 'agriculture_score',
+    DEMOCRATIC_EFFICIENCY_FOCUS: 'machine_wear',
+}
 TRUSTS_IDEA = PREFIX + '_trusts'
 COOPERATIVE_MONTHLY_EDUCATION = 0.5
 TRUSTS_DAILY_RESOURCES = 0.5
@@ -142,7 +149,7 @@ def economy_branch(edges):
 def focus_reward(focus, branch):
     effects = []
     if focus == PRODUCERS_PLAN_FOCUS:
-        effects.append(f'add_ideas = {PRODUCERS_PLAN_IDEA}')
+        effects.append(f'effect_tooltip = {{ swap_ideas = {{ remove_idea = {COOPERATIVE_IDEA} add_idea = {COOPERATIVE_PLAN_IDEA} }} }}')
     suffix = focus.rsplit('_', 1)[-1]
     policy = POLICIES.get(suffix)
     if policy:
@@ -163,12 +170,8 @@ def focus_reward(focus, branch):
         effects.append(f'custom_effect_tooltip = {PREFIX}_{FEDERAL_POLICIES[focus]}_tt')
     if focus == COORDINATION_FOCUS:
         effects.append('hidden_effect = { RUS_np_refresh = yes }')
-    if focus == COOPERATIVE_PRODUCTION_FOCUS:
-        effects.append(f'custom_effect_tooltip = {PREFIX}_crop_bonus_tt')
-    if focus == LABOR_OVERSIGHT_FOCUS:
-        effects.append(f'custom_effect_tooltip = {PREFIX}_agriculture_score_tt')
-    if focus == DEMOCRATIC_EFFICIENCY_FOCUS:
-        effects.append(f'custom_effect_tooltip = {PREFIX}_machine_wear_tt')
+    if focus in COOPERATIVE_EFFECTS:
+        effects.append(f'custom_effect_tooltip = {PREFIX}_{COOPERATIVE_EFFECTS[focus]}_tt')
     if focus == PRODUCERS_PLAN_FOCUS:
         effects.append('hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } RUS_education_refresh = yes } }')
     return effects
@@ -180,7 +183,7 @@ def route_requirement(suffix):
             f'check_variable = {{ {CHOICE} = {ROUTE_ORDER.index(route)+1} }} }}')
 
 
-def idea_previews(tiers, federal_tiers):
+def idea_previews(tiers, route_tiers):
     # Generic recovery can use the engine's idea diff. The final previews
     # join deltas and scripted bonuses so the engine cannot split the blocks.
     def preview(name, swaps, fallback=None, route=None):
@@ -201,22 +204,28 @@ def idea_previews(tiers, federal_tiers):
             lines.append(f'\telse = {{ {fallback} = yes }}')
         return [*lines, '}', '']
 
-    lines = preview(PREVIEW, [*zip(tiers, tiers[1:]),
-                              *zip(federal_tiers, [*federal_tiers[1:], DISCOUNT_IDEA])])
-    federal_transition = f'{PREVIEW}_federal_transition'
-    lines.extend(preview(federal_transition, zip(tiers[:9], federal_tiers[1:]), PREVIEW))
+    swaps = list(zip(tiers, tiers[1:]))
+    for route, variants in route_tiers.items():
+        swaps.extend(zip(variants, [*variants[1:], f'{PREFIX}_{route}']))
+    lines = preview(PREVIEW, swaps)
     for route in ROUTE_ORDER:
         final = f'{PREFIX}_{route}'
+        fallback = PREVIEW
+        if route in route_tiers:
+            fallback = f'{PREVIEW}_{route}_transition'
+            lines.extend(preview(fallback, zip(tiers[:9], route_tiers[route][1:]), PREVIEW))
         lines.extend(preview(f'{PREVIEW}_{route}',
                              [(tiers[9], final), (tiers[10], final)],
-                             federal_transition if route == 'federal' else PREVIEW,
-                             route))
+                             fallback, route))
     return lines
 
 
 def outputs(branch):
     tiers = [f'{PREFIX}_{index}' for index in range(11)]
-    federal_tiers = [f'{DISCOUNT_IDEA}_{index}' for index in range(10)]
+    route_tiers = {route: [f'{PREFIX}_{route}_{index}' for index in range(10)]
+                   for route in ('federal', 'cooperative')}
+    federal_tiers = route_tiers['federal']
+    cooperative_tiers = route_tiers['cooperative']
     definitions = {}
     for index, idea in enumerate(tiers):
         remaining = Decimal(10-index)/10
@@ -228,33 +237,34 @@ def outputs(branch):
         if trade:
             definitions[idea]['resource_trade_cost_bonus_per_factory'] = trade
         definitions[idea].update(production_speed_rail_way_factor=.025, global_building_slots=1)
-    definitions.update({federal: definitions[base] for base, federal in zip(tiers, federal_tiers)})
+    for variants in route_tiers.values():
+        definitions.update({variant: definitions[base] for base, variant in zip(tiers, variants)})
     definitions.update({f'{PREFIX}_{suffix}': mod for suffix,mod in FINALS.items()})
+    definitions[COOPERATIVE_PLAN_IDEA] = dict(FINALS['cooperative'], stability_weekly=.0025,
+                                              political_power_factor=.05)
     ideas = ['ideas = {', '\tcountry = {']
     for idea, modifiers in definitions.items():
         federal = idea in federal_tiers or idea == DISCOUNT_IDEA
-        picture = FEDERAL_PICTURE if federal else 'POL_disjointed_industry'
+        cooperative = idea in [COOPERATIVE_IDEA, COOPERATIVE_PLAN_IDEA, *cooperative_tiers]
+        picture = (FEDERAL_PICTURE if federal else COOPERATIVE_IDEA if cooperative
+                   else 'POL_disjointed_industry')
         ideas.extend([f'\t\t{idea} = {{', f'\t\t\tpicture = {picture}',
                       '\t\t\tallowed = { original_tag = RUS }', '\t\t\tremoval_cost = -1',
                       '\t\t\tmodifier = {'])
         ideas.extend(f'\t\t\t\t{key} = {value}' for key, value in modifiers.items())
+        if idea == COOPERATIVE_PLAN_IDEA:
+            ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PRODUCERS_PLAN_IDEA}_education_cost_tt')
         ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_research_active_tt')
         if idea in tiers or federal:
             ideas.extend(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_{policy}_active_tt'
                          for policy in FEDERAL_POLICIES.values())
+        if cooperative:
+            ideas.extend(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_{policy}_active_tt'
+                         for policy in COOPERATIVE_EFFECTS.values())
         ideas.extend(['\t\t\t}', '\t\t}'])
-    ideas.extend(f'''		{PRODUCERS_PLAN_IDEA} = {{
-			picture = generic_planning
-			allowed = {{ original_tag = RUS }}
-			removal_cost = -1
-			modifier = {{
-				stability_weekly = 0.0025
-				political_power_factor = 0.05
-				custom_modifier_tooltip = {PRODUCERS_PLAN_IDEA}_education_cost_tt
-			}}
-		}}
-	}}
-}}'''.splitlines())
+    # Keep the old ID resolvable until existing saves migrate on refresh.
+    ideas.extend(['\t}', '\thidden_ideas = {',
+                  f'\t\t{PRODUCERS_PLAN_IDEA} = {{ allowed = {{ always = no }} }}', '\t}', '}'])
 
     # Recompute from completed IDs so a replay or save reload cannot add a layer twice.
     count = PREFIX + '_count'
@@ -264,10 +274,15 @@ def outputs(branch):
               f'\t\tset_temp_variable = {{ {count} = 0 }}']
     for focus in branch:
         effect.append(f'\t\tif = {{ limit = {{ has_completed_focus = {focus} }} add_to_temp_variable = {{ {count} = 1 }} }}')
-    cases = [(f'check_variable = {{ {count} > 9 }} has_completed_focus = RUS_future_domestic_{focus}',
-              f'{PREFIX}_{route}') for focus, route in ROUTES.items()]
-    cases.extend((f'has_completed_focus = {FEDERAL_FOCUS} check_variable = {{ {count} = {index} }}', idea)
-                 for index, idea in enumerate(federal_tiers))
+    cases = []
+    for focus, route in ROUTES.items():
+        condition = f'check_variable = {{ {count} > 9 }} has_completed_focus = RUS_future_domestic_{focus}'
+        if route == 'cooperative':
+            cases.append((f'{condition} has_completed_focus = {PRODUCERS_PLAN_FOCUS}', COOPERATIVE_PLAN_IDEA))
+        cases.append((condition, f'{PREFIX}_{route}'))
+    for focus, route in ((FEDERAL_FOCUS, 'federal'), (COOPERATIVE_FOCUS, 'cooperative')):
+        cases.extend((f'has_completed_focus = {focus} check_variable = {{ {count} = {index} }}', idea)
+                     for index, idea in enumerate(route_tiers[route]))
     cases.extend([(f'check_variable = {{ {count} > 9 }}',tiers[10]),
                   *((f'check_variable = {{ {count} = {index} }}',tiers[index]) for index in range(10))])
     for index, (condition, idea) in enumerate(cases):
@@ -280,16 +295,16 @@ def outputs(branch):
                        '\t\t\t\tRUS_np_refresh_prices = yes',
                        '\t\t\t}', '\t\t}'])
     effect.extend(['\t}',
-                   f'\tif = {{ limit = {{ original_tag = RUS has_completed_focus = {PRODUCERS_PLAN_FOCUS} NOT = {{ has_idea = {PRODUCERS_PLAN_IDEA} }} }}',
-                   f'\t\tadd_ideas = {PRODUCERS_PLAN_IDEA}',
+                   f'\tif = {{ limit = {{ has_idea = {PRODUCERS_PLAN_IDEA} }}',
+                   f'\t\tremove_ideas = {{ {PRODUCERS_PLAN_IDEA} }}',
                    '\t}', '}', ''])
-    effect.extend(idea_previews(tiers, federal_tiers))
+    effect.extend(idea_previews(tiers, route_tiers))
     effect.extend(f'''{MONTHLY_EDUCATION} = {{
 \tif = {{
 \t\tlimit = {{
 \t\t\thas_socialist_government = yes
 \t\t\thas_country_flag = RUS_education_system_active
-\t\t\thas_idea = {COOPERATIVE_IDEA}
+\t\t\tOR = {{ has_idea = {COOPERATIVE_IDEA} has_idea = {COOPERATIVE_PLAN_IDEA} }}
 \t\t}}
 \t\tadd_to_variable = {{ RUS_basic_education_level = {COOPERATIVE_MONTHLY_EDUCATION} }}
 \t\tadd_to_variable = {{ RUS_higher_education_level = {COOPERATIVE_MONTHLY_EDUCATION} }}
@@ -307,6 +322,10 @@ def outputs(branch):
 	spriteType = {{
 		name = "GFX_idea_{FEDERAL_PICTURE}"
 		texturefile = "{FEDERAL_TEXTURE}"
+	}}
+	spriteType = {{
+		name = "GFX_idea_{COOPERATIVE_IDEA}"
+		texturefile = "{COOPERATIVE_TEXTURE}"
 	}}
 }}
 ''',
@@ -337,7 +356,8 @@ defined_text = {{
 ''',
     }
     policy_loc = Path('common/scripted_localisation/RUS_disordered_industry_loc.txt')
-    for focus, policy in FEDERAL_POLICIES.items():
+    policy_tooltips = FEDERAL_POLICIES | COOPERATIVE_EFFECTS
+    for focus, policy in policy_tooltips.items():
         result[policy_loc] += f'''
 defined_text = {{
 	name = RUSIndustrialPolicy_{policy}
@@ -407,8 +427,9 @@ defined_text = {{
             'long_range': f'£decision_icon_small£ {score}: §G+{LONG_RANGE_SCORE}§!',
         }
         for policy, value in policy_text.items():
-            lines.extend([f' {PREFIX}_{policy}_tt:0 "{value}"',
-                          f' {PREFIX}_{policy}_active_tt:0 "[RUSIndustrialPolicy_{policy}]"'])
+            lines.append(f' {PREFIX}_{policy}_tt:0 "{value}"')
+        for policy in policy_tooltips.values():
+            lines.append(f' {PREFIX}_{policy}_active_tt:0 "[RUSIndustrialPolicy_{policy}]"')
         lines.append(f' {PREFIX}_long_range_requires_tt:0 "{requirement.format(required=PROJECTS_REQUIRED)}"')
         basic_text, higher_text, education_condition, resources_text, resources_condition, heading = {
             'simp_chinese': ('每月§C基础教育水平§!', '每月§Y高等教育水平§!', '教育系统启用后',
@@ -480,7 +501,7 @@ defined_text = {{
             lines.append(f' {PREFIX}_{route}_requires_tt:0 "{requirement}"')
         for idea in definitions:
             name = (f'${PREFIX}_federal_name$' if idea == DISCOUNT_IDEA or idea in federal_tiers else
-                    f'${PREFIX}_cooperative_name$' if idea == COOPERATIVE_IDEA else
+                    f'${PREFIX}_cooperative_name$' if idea in [COOPERATIVE_IDEA, COOPERATIVE_PLAN_IDEA, *cooperative_tiers] else
                     '[RUSIndustrialSituationName]' if idea in tiers else label)
             lines.extend([f' {idea}:0 "{name}"', f' {idea}_desc:0 "${OLD}_desc$"'])
         result[Path(f'localisation/{lang}/RUS_disordered_industry_l_{lang}.yml')] = '\n'.join(lines)+'\n'

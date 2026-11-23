@@ -218,6 +218,47 @@ class PlanTests(unittest.TestCase):
         self.assertEqual(sprite.value('texturefile').strip('"'), industry.FEDERAL_TEXTURE)
         self.assertTrue((ROOT/industry.FEDERAL_TEXTURE).is_file())
 
+    def test_cooperative_spirit_keeps_route_icon_and_merges_producers_plan(self):
+        m = Model()
+        m.focuses = {'RUS_future_domestic_'+s for s in ('424', '621', '420', '421', '422', '486', '377', '487')}
+        m.ideas = {industry.OLD}
+        m.focuses.add(industry.COOPERATIVE_FOCUS)
+        m.call(industry.REFRESH)
+        intermediate = industry.COOPERATIVE_IDEA+'_9'
+        self.assertEqual(m.ideas, {intermediate})
+        m.focuses.add('RUS_future_domestic_160')
+        m.call(industry.REFRESH)
+        self.assertEqual(m.ideas, {industry.COOPERATIVE_IDEA})
+        m.focuses.add(industry.PRODUCERS_PLAN_FOCUS)
+        m.ideas.add(industry.PRODUCERS_PLAN_IDEA)
+        for _ in range(2):
+            m.call(industry.REFRESH)
+            self.assertEqual(m.ideas, {industry.COOPERATIVE_PLAN_IDEA})
+        m.flags.add('RUS_education_system_active')
+        m.call(industry.MONTHLY_EDUCATION)
+        self.assertEqual(m.vars['RUS_basic_education_level'], 50.5)
+        self.assertEqual(m.vars['RUS_higher_education_level'], 50.5)
+
+        ideas = load(ROOT/'common/ideas/RUS_disordered_industry.txt')[0].one('country')
+        for key in (intermediate, industry.COOPERATIVE_IDEA, industry.COOPERATIVE_PLAN_IDEA):
+            self.assertEqual(ideas.one(key).value('picture'), industry.COOPERATIVE_IDEA)
+        modifiers = ideas.one(industry.COOPERATIVE_PLAN_IDEA).one('modifier')
+        self.assertEqual(float(modifiers.value('stability_weekly')), .0025)
+        self.assertEqual(float(modifiers.value('political_power_factor')), .05)
+        self.assertIn(industry.PRODUCERS_PLAN_IDEA+'_education_cost_tt',
+                      [tip.v for tip in modifiers.children('custom_modifier_tooltip')])
+        scripted_loc = load(ROOT/'common/scripted_localisation/RUS_disordered_industry_loc.txt')
+        for focus, policy in industry.COOPERATIVE_EFFECTS.items():
+            key = f'{industry.PREFIX}_{policy}_active_tt'
+            for spirit in (intermediate, industry.COOPERATIVE_IDEA, industry.COOPERATIVE_PLAN_IDEA):
+                self.assertIn(key, [tip.v for tip in ideas.one(spirit).one('modifier').children('custom_modifier_tooltip')])
+            loc = next(node for node in scripted_loc if node.value('name') == 'RUSIndustrialPolicy_'+policy)
+            self.assertEqual(loc.one('text').one('trigger').value('has_completed_focus'), focus)
+        sprites = load(ROOT/'interface/RUS_disordered_industry.gfx')[0].children('spriteType')
+        sprite = next(s for s in sprites if s.value('name').strip('"') == 'GFX_idea_'+industry.COOPERATIVE_IDEA)
+        self.assertEqual(sprite.value('texturefile').strip('"'), industry.COOPERATIVE_TEXTURE)
+        self.assertTrue((ROOT/industry.COOPERATIVE_TEXTURE).is_file())
+
     def test_federal_discount_changes_pp_and_reserves_discounted_budget(self):
         m = Model().initialize()
         p = next(p for p in PROJECTS if base_pp(p) == 'RUS_ic_cost_low')
