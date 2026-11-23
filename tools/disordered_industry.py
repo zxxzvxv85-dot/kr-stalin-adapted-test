@@ -8,10 +8,10 @@ REFRESH = PREFIX + '_refresh'
 PREVIEW = PREFIX + '_preview'
 DISCOUNT_IDEA = PREFIX + '_federal'
 FEDERAL_PICTURE = DISCOUNT_IDEA
-FEDERAL_TEXTURE = 'gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_169.png'
+FEDERAL_TEXTURE = 'gfx/interface/ideas/RUS_disordered_industry_federal.png'
 DISCOUNT = f'has_idea = {DISCOUNT_IDEA}'
 COOPERATIVE_IDEA = PREFIX + '_cooperative'
-COOPERATIVE_TEXTURE = 'gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_166.png'
+COOPERATIVE_TEXTURE = 'gfx/interface/ideas/RUS_disordered_industry_cooperative.png'
 COOPERATIVE_PLAN_IDEA = COOPERATIVE_IDEA + '_planned'
 COOPERATIVE_FOCUS = 'RUS_future_domestic_166'
 COOPERATIVE_PRODUCTION_FOCUS = 'RUS_future_domestic_629'
@@ -251,16 +251,15 @@ def outputs(branch):
         ideas.extend([f'\t\t{idea} = {{', f'\t\t\tpicture = {picture}',
                       '\t\t\tallowed = { original_tag = RUS }', '\t\t\tremoval_cost = -1',
                       '\t\t\tmodifier = {'])
-        ideas.extend(f'\t\t\t\t{key} = {value}' for key, value in modifiers.items())
-        if idea == COOPERATIVE_PLAN_IDEA:
-            ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PRODUCERS_PLAN_IDEA}_education_cost_tt')
-        ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_research_active_tt')
+        ideas.extend(f'\t\t\t\t{key} = {value}' for key, value in modifiers.items()
+                     if not cooperative or key != 'custom_modifier_tooltip')
+        if not cooperative:
+            ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_research_active_tt')
         if idea in tiers or federal:
             ideas.extend(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_{policy}_active_tt'
                          for policy in FEDERAL_POLICIES.values())
         if cooperative:
-            ideas.extend(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_{policy}_active_tt'
-                         for policy in COOPERATIVE_EFFECTS.values())
+            ideas.append(f'\t\t\t\tcustom_modifier_tooltip = {idea}_effects_tt')
         ideas.extend(['\t\t\t}', '\t\t}'])
     # Keep the old ID resolvable until existing saves migrate on refresh.
     ideas.extend(['\t}', '\thidden_ideas = {',
@@ -358,12 +357,26 @@ defined_text = {{
     policy_loc = Path('common/scripted_localisation/RUS_disordered_industry_loc.txt')
     policy_tooltips = FEDERAL_POLICIES | COOPERATIVE_EFFECTS
     for focus, policy in policy_tooltips.items():
+        tooltip = f'{policy}_tt' if focus in FEDERAL_POLICIES else f'{policy}_row_tt'
         result[policy_loc] += f'''
 defined_text = {{
 	name = RUSIndustrialPolicy_{policy}
 	text = {{
 		trigger = {{ has_completed_focus = {focus} }}
-		localization_key = {PREFIX}_{policy}_tt
+		localization_key = {PREFIX}_{tooltip}
+	}}
+	text = {{ localization_key = {PREFIX}_research_blank_tt }}
+}}
+'''
+    reform_trigger = ' '.join(f'has_completed_focus = {focus}' for focus in COOPERATIVE_EFFECTS)
+    for name, key in (('RUSCooperativeReform', 'reform_group'),
+                      ('RUSCooperativeReformAfterEducation', 'reform_group_after_education')):
+        result[policy_loc] += f'''
+defined_text = {{
+	name = {name}
+	text = {{
+		trigger = {{ OR = {{ {reform_trigger} }} }}
+		localization_key = {PREFIX}_{key}_tt
 	}}
 	text = {{ localization_key = {PREFIX}_research_blank_tt }}
 }}
@@ -428,7 +441,7 @@ defined_text = {{
         }
         for policy, value in policy_text.items():
             lines.append(f' {PREFIX}_{policy}_tt:0 "{value}"')
-        for policy in policy_tooltips.values():
+        for policy in FEDERAL_POLICIES.values():
             lines.append(f' {PREFIX}_{policy}_active_tt:0 "[RUSIndustrialPolicy_{policy}]"')
         lines.append(f' {PREFIX}_long_range_requires_tt:0 "{requirement.format(required=PROJECTS_REQUIRED)}"')
         basic_text, higher_text, education_condition, resources_text, resources_condition, heading = {
@@ -460,9 +473,23 @@ defined_text = {{
         }[lang]
         lines.extend([
             f' {PREFIX}_cooperative_name:0 "{cooperative_name}"',
-            f' {PREFIX}_crop_bonus_tt:0 "§g{reform}§!\\n{crops}"',
-            f' {PREFIX}_agriculture_score_tt:0 "§g{reform}§!\\n£decision_icon_small£ {score_label}: §G+{LABOR_OVERSIGHT_SCORE}§!"',
-            f' {PREFIX}_machine_wear_tt:0 "§g{reform}§!\\n£RUS_nat_text_machinery£ {wear}: §G-5%§!"',
+            f' {PREFIX}_reform_group_tt:0 "§g{reform}§![RUSIndustrialPolicy_crop_bonus][RUSIndustrialPolicy_agriculture_score][RUSIndustrialPolicy_machine_wear]"',
+            f' {PREFIX}_reform_group_after_education_tt:0 "\\n${PREFIX}_reform_group_tt$"',
+        ])
+        reform_rows = {
+            'crop_bonus': crops,
+            'agriculture_score': f'£decision_icon_small£ {score_label}: §G+{LABOR_OVERSIGHT_SCORE}§!',
+            'machine_wear': f'£RUS_nat_text_machinery£ {wear}: §G-5%§!',
+        }
+        for policy, row in reform_rows.items():
+            lines.extend([f' {PREFIX}_{policy}_tt:0 "§g{reform}§!\\n{row}"',
+                          f' {PREFIX}_{policy}_row_tt:0 "\\n{row}"'])
+        for idea in cooperative_tiers:
+            lines.append(f' {idea}_effects_tt:0 "[RUSCooperativeReform]"')
+        education_block = '$' + ROUTE_BONUS_TOOLTIPS['cooperative'] + '$[RUSCooperativeReformAfterEducation]'
+        lines.extend([
+            f' {COOPERATIVE_IDEA}_effects_tt:0 "{education_block}"',
+            f' {COOPERATIVE_PLAN_IDEA}_effects_tt:0 "${PRODUCERS_PLAN_IDEA}_education_cost_tt$\\n{education_block}"',
         ])
         education_cost = {
             'simp_chinese': '教育改革决议政治点数花费',

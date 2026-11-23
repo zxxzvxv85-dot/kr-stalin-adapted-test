@@ -245,15 +245,17 @@ class PlanTests(unittest.TestCase):
         modifiers = ideas.one(industry.COOPERATIVE_PLAN_IDEA).one('modifier')
         self.assertEqual(float(modifiers.value('stability_weekly')), .0025)
         self.assertEqual(float(modifiers.value('political_power_factor')), .05)
-        self.assertIn(industry.PRODUCERS_PLAN_IDEA+'_education_cost_tt',
-                      [tip.v for tip in modifiers.children('custom_modifier_tooltip')])
+        self.assertEqual(modifiers.value('custom_modifier_tooltip'), industry.COOPERATIVE_PLAN_IDEA+'_effects_tt')
         scripted_loc = load(ROOT/'common/scripted_localisation/RUS_disordered_industry_loc.txt')
         for focus, policy in industry.COOPERATIVE_EFFECTS.items():
-            key = f'{industry.PREFIX}_{policy}_active_tt'
-            for spirit in (intermediate, industry.COOPERATIVE_IDEA, industry.COOPERATIVE_PLAN_IDEA):
-                self.assertIn(key, [tip.v for tip in ideas.one(spirit).one('modifier').children('custom_modifier_tooltip')])
             loc = next(node for node in scripted_loc if node.value('name') == 'RUSIndustrialPolicy_'+policy)
             self.assertEqual(loc.one('text').one('trigger').value('has_completed_focus'), focus)
+            self.assertEqual(loc.one('text').value('localization_key'), f'{industry.PREFIX}_{policy}_row_tt')
+        localisation = (ROOT/'localisation/simp_chinese/RUS_disordered_industry_l_simp_chinese.yml').read_text(encoding='utf-8-sig')
+        group = next(line for line in localisation.splitlines() if f'{industry.PREFIX}_reform_group_tt:0' in line)
+        self.assertEqual(group.count('土改启用后'), 1)
+        self.assertEqual(group.count('[RUSIndustrialPolicy_'), 3)
+        self.assertNotIn(r'\n\n', localisation)
         sprites = load(ROOT/'interface/RUS_disordered_industry.gfx')[0].children('spriteType')
         sprite = next(s for s in sprites if s.value('name').strip('"') == 'GFX_idea_'+industry.COOPERATIVE_IDEA)
         self.assertEqual(sprite.value('texturefile').strip('"'), industry.COOPERATIVE_TEXTURE)

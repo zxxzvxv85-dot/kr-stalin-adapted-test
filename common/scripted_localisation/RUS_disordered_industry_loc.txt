@@ -51,7 +51,7 @@ defined_text = {
 	name = RUSIndustrialPolicy_crop_bonus
 	text = {
 		trigger = { has_completed_focus = RUS_future_domestic_629 }
-		localization_key = RUS_disordered_industry_crop_bonus_tt
+		localization_key = RUS_disordered_industry_crop_bonus_row_tt
 	}
 	text = { localization_key = RUS_disordered_industry_research_blank_tt }
 }
@@ -60,7 +60,7 @@ defined_text = {
 	name = RUSIndustrialPolicy_agriculture_score
 	text = {
 		trigger = { has_completed_focus = RUS_future_domestic_179 }
-		localization_key = RUS_disordered_industry_agriculture_score_tt
+		localization_key = RUS_disordered_industry_agriculture_score_row_tt
 	}
 	text = { localization_key = RUS_disordered_industry_research_blank_tt }
 }
@@ -69,7 +69,25 @@ defined_text = {
 	name = RUSIndustrialPolicy_machine_wear
 	text = {
 		trigger = { has_completed_focus = RUS_future_domestic_177 }
-		localization_key = RUS_disordered_industry_machine_wear_tt
+		localization_key = RUS_disordered_industry_machine_wear_row_tt
+	}
+	text = { localization_key = RUS_disordered_industry_research_blank_tt }
+}
+
+defined_text = {
+	name = RUSCooperativeReform
+	text = {
+		trigger = { OR = { has_completed_focus = RUS_future_domestic_629 has_completed_focus = RUS_future_domestic_179 has_completed_focus = RUS_future_domestic_177 } }
+		localization_key = RUS_disordered_industry_reform_group_tt
+	}
+	text = { localization_key = RUS_disordered_industry_research_blank_tt }
+}
+
+defined_text = {
+	name = RUSCooperativeReformAfterEducation
+	text = {
+		trigger = { OR = { has_completed_focus = RUS_future_domestic_629 has_completed_focus = RUS_future_domestic_179 has_completed_focus = RUS_future_domestic_177 } }
+		localization_key = RUS_disordered_industry_reform_group_after_education_tt
 	}
 	text = { localization_key = RUS_disordered_industry_research_blank_tt }
 }
