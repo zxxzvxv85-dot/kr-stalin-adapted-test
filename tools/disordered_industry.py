@@ -486,10 +486,11 @@ defined_text = {{
                           f' {PREFIX}_{policy}_row_tt:0 "\\n{row}"'])
         for idea in cooperative_tiers:
             lines.append(f' {idea}_effects_tt:0 "[RUSCooperativeReform]"')
-        education_block = '$' + ROUTE_BONUS_TOOLTIPS['cooperative'] + '$[RUSCooperativeReformAfterEducation]'
+        education_block = '$' + ROUTE_BONUS_TOOLTIPS['cooperative'] + '$'
+        reform_block = '[RUSCooperativeReformAfterEducation]'
         lines.extend([
-            f' {COOPERATIVE_IDEA}_effects_tt:0 "{education_block}"',
-            f' {COOPERATIVE_PLAN_IDEA}_effects_tt:0 "${PRODUCERS_PLAN_IDEA}_education_cost_tt$\\n{education_block}"',
+            f' {COOPERATIVE_IDEA}_effects_tt:0 "{education_block}{reform_block}"',
+            f' {COOPERATIVE_PLAN_IDEA}_effects_tt:0 "{education_block}\\n${PRODUCERS_PLAN_IDEA}_education_cost_tt${reform_block}"',
         ])
         education_cost = {
             'simp_chinese': '教育改革决议政治点数花费',
