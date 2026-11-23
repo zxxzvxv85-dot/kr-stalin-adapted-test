@@ -486,13 +486,13 @@ defined_text = {{
             'english': ('per Civilian Factory', 'Quarterly Wheat Yield', 'Land reform score above §Y100§! (current: §Y[?RUS_agri_display_score|2]§!)'),
             'russian': ('за каждую гражданскую фабрику', 'Квартальный урожай пшеницы', 'Очки земельной реформы выше §Y100§! (сейчас: §Y[?RUS_agri_display_score|2]§!)'),
         }[lang]
-        def factory_effect(icon, label, amount):
+        def factory_effect(icon, label, amount, color='G'):
             name = f'{factory}{label}' if lang == 'simp_chinese' else f'{label} {factory}'
-            return f'{icon} {name}: §G{amount}§!'
+            return f'{icon} {name}: §{color}{amount}§!'
         democratic_effects = '\\n'.join([
             f'£RUS_nat_text_machinery£ {wear}: §G-5%§!',
             factory_effect('£RUS_nat_text_food£', wheat, '+0.05'),
-            factory_effect('£consumer_goods_texticon£', '$MODIFIER_CONSUMER_GOODS_EXPECTED_VALUE$', '-0.02%'),
+            factory_effect('£consumer_goods_texticon£', '$MODIFIER_CONSUMER_GOODS_EXPECTED_VALUE$', '-0.02%', color='Y'),
         ])
         lines.extend([
             f' {PREFIX}_cooperative_name:0 "{cooperative_name}"',
