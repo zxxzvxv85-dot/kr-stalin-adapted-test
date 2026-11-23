@@ -643,6 +643,12 @@ set_variable = { RUS_nat_cooperative_yield = 0.2 }
 multiply_variable = { RUS_nat_cooperative_yield = RUS_nat_fraction }
 add_to_variable = { RUS_nat_wheat_yield = RUS_nat_cooperative_yield }
 }
+if = { limit = { has_completed_focus = RUS_future_domestic_177 }
+set_variable = { RUS_nat_democratic_wheat = num_of_civilian_factories }
+divide_variable = { RUS_nat_democratic_wheat = 20 }
+multiply_variable = { RUS_nat_democratic_wheat = RUS_nat_fraction }
+add_to_variable = { RUS_nat_wheat_yield = RUS_nat_democratic_wheat }
+}
 add_to_variable = { RUS_nat_harvest = RUS_nat_wheat_yield }
 set_variable = { RUS_nat_rye_rate = RUS_agri_rye_base }
 set_variable = { RUS_nat_tmp = RUS_agri_rye_fatigue }
@@ -2447,7 +2453,22 @@ set_variable = { RUS_nat_eng_machine_shipped = 1 }
 }
 }
 
+RUS_nat_democratic_consumption = {
+if = { limit = { has_country_flag = RUS_nat_enabled has_completed_focus = RUS_future_domestic_177 }
+set_variable = { RUS_nat_democratic_consumer_next = num_of_civilian_factories }
+divide_variable = { RUS_nat_democratic_consumer_next = -5000 }
+if = { limit = { OR = { NOT = { check_variable = { RUS_nat_democratic_consumer = RUS_nat_democratic_consumer_next } } NOT = { has_dynamic_modifier = { modifier = RUS_disordered_industry_democratic_consumer } } } }
+set_variable = { RUS_nat_democratic_consumer = RUS_nat_democratic_consumer_next }
+if = { limit = { NOT = { has_dynamic_modifier = { modifier = RUS_disordered_industry_democratic_consumer } } }
+add_dynamic_modifier = { modifier = RUS_disordered_industry_democratic_consumer }
+}
+force_update_dynamic_modifier = yes
+}
+}
+}
+
 RUS_nat_refresh = {
+RUS_nat_democratic_consumption = yes
 set_variable = { RUS_nat_remaining = RUS_nat_quarter_end }
 subtract_from_variable = { RUS_nat_remaining = global.num_days }
 clamp_variable = { var = RUS_nat_remaining min = 0 max = 92 }

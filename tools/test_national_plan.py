@@ -243,6 +243,8 @@ class PlanTests(unittest.TestCase):
         for key in (intermediate, industry.COOPERATIVE_IDEA, industry.COOPERATIVE_PLAN_IDEA):
             self.assertEqual(ideas.one(key).value('picture'), industry.COOPERATIVE_IDEA)
         modifiers = ideas.one(industry.COOPERATIVE_PLAN_IDEA).one('modifier')
+        self.assertEqual(float(ideas.one(industry.COOPERATIVE_IDEA).one('modifier').value('consumer_goods_expected_value')), .05)
+        self.assertEqual(float(modifiers.value('consumer_goods_expected_value')), .05)
         self.assertEqual(float(modifiers.value('stability_weekly')), .0025)
         self.assertEqual(float(modifiers.value('political_power_factor')), .05)
         self.assertEqual(modifiers.value('custom_modifier_tooltip'), industry.COOPERATIVE_PLAN_IDEA+'_effects_tt')
@@ -260,6 +262,16 @@ class PlanTests(unittest.TestCase):
         sprite = next(s for s in sprites if s.value('name').strip('"') == 'GFX_idea_'+industry.COOPERATIVE_IDEA)
         self.assertEqual(sprite.value('texturefile').strip('"'), industry.COOPERATIVE_TEXTURE)
         self.assertTrue((ROOT/industry.COOPERATIVE_TEXTURE).is_file())
+
+    def test_democratic_efficiency_requires_more_than_100_reform_points(self):
+        focuses = load(ROOT/'common/national_focus/00_RUS_future_domestic_skeleton.txt')
+        focus = next(n for n in focuses if n.value('id') == industry.DEMOCRATIC_EFFICIENCY_FOCUS)
+        gate = next(n for n in focus.one('available').children('custom_trigger_tooltip')
+                    if n.one('check_variable'))
+        m = Model()
+        for score, available in ((99, False), (100, False), (100.01, True)):
+            m.vars['RUS_agri_display_score'] = score
+            self.assertEqual(m.check([gate]), available)
 
     def test_federal_discount_changes_pp_and_reserves_discounted_budget(self):
         m = Model().initialize()

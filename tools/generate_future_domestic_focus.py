@@ -300,6 +300,11 @@ def render_outputs():
                      '\t\t\ttooltip = RUS_disordered_industry_long_range_requires_tt',
                      '\t\t\tRUS_np_long_range_ready = yes',
                      '\t\t}']
+        if key == disordered_industry.DEMOCRATIC_EFFICIENCY_FOCUS:
+            text += ['\t\tcustom_trigger_tooltip = {',
+                     '\t\t\ttooltip = RUS_disordered_industry_democratic_efficiency_requires_tt',
+                     '\t\t\tcheck_variable = { RUS_agri_display_score > 100 }',
+                     '\t\t}']
         text += ['\t}']
         if node['phase']=='domestic':
             text += ['\tallow_branch = { NOT = { has_government = national_populist } }']

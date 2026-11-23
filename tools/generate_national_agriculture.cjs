@@ -29,6 +29,8 @@ const mode = flag(n('enabled'));
 const success = flag('RUS_maximalist_land_reform_success');
 const failure = flag('RUS_maximalist_land_reform_failure');
 const active = flag('RUS_maximalist_land_reform_in_progress');
+const democraticEfficiency = 'has_completed_focus = RUS_future_domestic_177';
+const democraticConsumerModifier = 'RUS_disordered_industry_democratic_consumer';
 const easyAdvisorMultiplier = variable => `if = { limit = { has_idea = RUS_andrey_kolegayev_advisor }
 if = { limit = { has_country_flag = RUS_easy_mode_enabled is_ai = no } multiply_variable = { ${n(variable)} = 1.10 } }
 else = { multiply_variable = { ${n(variable)} = 1.05 } }
@@ -159,7 +161,9 @@ effect('yield', v('harvest',0)+v('mechanisation',n('coverage_sum'))+
  easyAdvisorMultiplier(c+'_yield')+iff(ck('technical_support','=',1),mul(c+'_yield',1.05))+
  (['wheat','rye','beet'].includes(c)?iff('check_variable = { RUS_np_fertilizer > 0 }',v('np_fertility',1)+add('np_fertility','RUS_np_fertilizer')+mul(c+'_yield',n('np_fertility')))+
  iff('has_completed_focus = RUS_future_domestic_629 has_country_flag = RUS_agri_management_unlocked NOT = { has_country_flag = RUS_maximalist_land_reform_failure }',
-   v('cooperative_yield',c==='beet'?.3:.2)+mul('cooperative_yield',n('fraction'))+add(c+'_yield',n('cooperative_yield'))):'')+add('harvest',n(c+'_yield'))).join(''));
+   v('cooperative_yield',c==='beet'?.3:.2)+mul('cooperative_yield',n('fraction'))+add(c+'_yield',n('cooperative_yield'))):'')+
+ (c==='wheat'?iff(democraticEfficiency,v('democratic_wheat','num_of_civilian_factories')+div('democratic_wheat',20)+mul('democratic_wheat',n('fraction'))+add('wheat_yield',n('democratic_wheat'))):'')+
+ add('harvest',n(c+'_yield'))).join(''));
 const groups = [['food',['wheat','rye']],['beet',['beet']],['textile',['flax','cotton']]];
 effect('consume',groups.map(([g,cs])=>v(g+'_available',0)+cs.map(c=>add(g+'_available',n(c+'_work'))).join('')+v(g+'_need',n(g+'_demand'))+mul(g+'_need',n('fraction'))+
  v(g+'_delivered',n(g+'_available'))+cl(g+'_delivered',0,n(g+'_need'))+v(g+'_ratio',1)+iff(ck(g+'_need','>',0),v(g+'_ratio',n(g+'_delivered'))+div(g+'_ratio',n(g+'_need')))+
@@ -180,7 +184,13 @@ effect('trade',v('income',0)+crops.map(c=>v(c+'_sold',0)+v(c+'_income',0)).join(
  v('free',n('machine_work'))+v('tmp',n('target'))+mul('tmp',.25)+sub('free',n('tmp'))+
  iff(`NOT = { ${ck('free','<',n(o+'_machine_quantity'))} } NOT = { ${ck('installed','<',n('target'))} }`,
  v('price',1.1)+iff(ck('actual','=',1),add('price',n('machine_market')))+cl('price',.4,1.5)+mul('price',150)+mul('price',n(o+'_machine_quantity'))+add('income',n('price'))+sub('machine_work',n(o+'_machine_quantity'))+iff(ck('actual','=',1),v(o+'_machine_shipped',1))))).join(''));
-effect('refresh',v('remaining',n('quarter_end'))+sub('remaining','global.num_days')+cl('remaining',0,92)+`set_variable = { RUS_agri_days_remaining = ${n('remaining')} }\n`+call('totals')+call('parameters')+
+effect('democratic_consumption',iff(`${mode} ${democraticEfficiency}`,
+ v('democratic_consumer_next','num_of_civilian_factories')+div('democratic_consumer_next',-5000)+
+ iff(`OR = { NOT = { ${ck('democratic_consumer','=',n('democratic_consumer_next'))} } NOT = { has_dynamic_modifier = { modifier = ${democraticConsumerModifier} } } }`,
+ v('democratic_consumer',n('democratic_consumer_next'))+
+ iff(`NOT = { has_dynamic_modifier = { modifier = ${democraticConsumerModifier} } }`,`add_dynamic_modifier = { modifier = ${democraticConsumerModifier} }\n`)+
+ 'force_update_dynamic_modifier = yes\n')));
+effect('refresh',call('democratic_consumption')+v('remaining',n('quarter_end'))+sub('remaining','global.num_days')+cl('remaining',0,92)+`set_variable = { RUS_agri_days_remaining = ${n('remaining')} }\n`+call('totals')+call('parameters')+
  v('fraction',n('elapsed'))+add('fraction',n('remaining'))+div('fraction',n('season_length'))+v('actual',0)+call('yield')+
  crops.map(c=>v(c+'_work',n(c+'_stock'))+add(c+'_work',n(c+'_yield'))).join('')+call('consume')+v('machine_work',n('machine_stock'))+call('trade')+v('preview_income',n('income'))+
  crops.map(c=>v(c+'_preview_income',n(c+'_income'))+v(c+'_preview_rate',n(c+'_rate'))+mul(c+'_preview_rate',n('mechanisation'))+mul(c+'_preview_rate',n('fraction'))+
@@ -230,7 +240,7 @@ effect('settle',iff(ck('elapsed','>',0),
  v('fraction',n('elapsed'))+div('fraction',n('season_length'))+v('actual',1)+call('yield')+crops.map(c=>v(c+'_work',n(c+'_stock'))+add(c+'_work',n(c+'_yield'))+v(c+'_last_yield',n(c+'_yield'))+v(c+'_last_market',a(c+'_market'))).join('')+
  call('emergency_fill')+call('consume')+
  v('loss_rate',n('wear'))+iff('check_variable = { RUS_agri_weather < 0 }',add('loss_rate',.025))+sub('loss_rate',n('repair_support'))+iff(flag('RUS_np_initialized'),sub('loss_rate','RUS_np_repair'))+
- iff('has_completed_focus = RUS_future_domestic_177',sub('loss_rate',.05))+cl('loss_rate',0,.125)+v('loss',n('installed'))+mul('loss',n('loss_rate'))+mul('loss',n('fraction'))+sub('installed',n('loss'))+call('install')+
+ iff(democraticEfficiency,sub('loss_rate',.05))+cl('loss_rate',0,.125)+v('loss',n('installed'))+mul('loss',n('loss_rate'))+mul('loss',n('fraction'))+sub('installed',n('loss'))+call('install')+
  v('machine_work',n('machine_stock'))+call('trade')+`add_cic = ${n('income')}\n`+v('machine_stock',n('machine_work'))+v('last_income',n('income'))+v('last_loss',n('loss'))+v('last_weather','RUS_agri_weather')+v('last_machine_market',n('machine_market'))+v('last_season',n('season'))+
  v('last_crop_orders',0)+cropBuyers.map(o=>add('last_crop_orders',n(o+'_shipped'))).join('')+v('last_machine_orders',0)+['fra','eng'].map(o=>add('last_machine_orders',n(o+'_machine_shipped'))).join('')+
  v('retention',.95)+advisorRetention('retention')+

@@ -3165,6 +3165,10 @@ shared_focus = {
 			tooltip = RUS_future_domestic_preview_only_tt
 			always = no
 		}
+		custom_trigger_tooltip = {
+			tooltip = RUS_disordered_industry_democratic_efficiency_requires_tt
+			check_variable = { RUS_agri_display_score > 100 }
+		}
 	}
 	allow_branch = { NOT = { has_government = national_populist } }
 	prerequisite = { focus = RUS_future_domestic_179 }
@@ -3173,6 +3177,7 @@ shared_focus = {
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
 		custom_effect_tooltip = RUS_disordered_industry_machine_wear_tt
+		hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled } RUS_nat_refresh = yes } }
 	}
 	ai_will_do = { factor = 0 }
 }

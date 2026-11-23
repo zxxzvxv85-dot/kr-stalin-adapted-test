@@ -77,7 +77,7 @@ FINALS = {
                     custom_modifier_tooltip=ROUTE_BONUS_TOOLTIPS['federal']),
     'cooperative': dict(production_cost_infrastructure_factor=-.25,
                         resource_trade_cost_bonus_per_factory=2, stability_factor=.05,
-                        consumer_goods_expected_value=.025, global_building_slots_factor=.10,
+                        consumer_goods_expected_value=.05, global_building_slots_factor=.10,
                         monthly_population=.10, production_cost_arms_factory_factor=.10,
                         military_industrial_organization_funds_gain=-.20, research_speed_factor=-.05,
                         custom_modifier_tooltip=ROUTE_BONUS_TOOLTIPS['cooperative']),
@@ -172,6 +172,8 @@ def focus_reward(focus, branch):
         effects.append('hidden_effect = { RUS_np_refresh = yes }')
     if focus in COOPERATIVE_EFFECTS:
         effects.append(f'custom_effect_tooltip = {PREFIX}_{COOPERATIVE_EFFECTS[focus]}_tt')
+    if focus == DEMOCRATIC_EFFICIENCY_FOCUS:
+        effects.append('hidden_effect = { if = { limit = { has_country_flag = RUS_nat_enabled } RUS_nat_refresh = yes } }')
     if focus == PRODUCERS_PLAN_FOCUS:
         effects.append('hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } RUS_education_refresh = yes } }')
     return effects
@@ -317,6 +319,14 @@ def outputs(branch):
 }}
 '''
     result = {
+        Path('common/dynamic_modifiers/RUS_disordered_industry.txt'): f'''{PREFIX}_democratic_consumer = {{
+	enable = {{
+		has_country_flag = RUS_nat_enabled
+		has_completed_focus = {DEMOCRATIC_EFFICIENCY_FOCUS}
+	}}
+	consumer_goods_expected_value = RUS_nat_democratic_consumer
+}}
+''',
         Path('interface/RUS_disordered_industry.gfx'): f'''spriteTypes = {{
 	spriteType = {{
 		name = "GFX_idea_{FEDERAL_PICTURE}"
@@ -471,15 +481,30 @@ defined_text = {{
             'english': 'Quarterly Machinery Wear',
             'russian': 'Квартальный износ сельхозтехники',
         }[lang]
+        factory, wheat, requirement = {
+            'simp_chinese': ('每座民用工厂', '季度小麦产量', '土改分数大于 §Y100§!（当前：§Y[?RUS_agri_display_score|2]§!）'),
+            'english': ('per Civilian Factory', 'Quarterly Wheat Yield', 'Land reform score above §Y100§! (current: §Y[?RUS_agri_display_score|2]§!)'),
+            'russian': ('за каждую гражданскую фабрику', 'Квартальный урожай пшеницы', 'Очки земельной реформы выше §Y100§! (сейчас: §Y[?RUS_agri_display_score|2]§!)'),
+        }[lang]
+        def factory_effect(icon, label, amount):
+            name = f'{factory}{label}' if lang == 'simp_chinese' else f'{label} {factory}'
+            return f'{icon} {name}: §G{amount}§!'
+        democratic_effects = '\\n'.join([
+            f'£RUS_nat_text_machinery£ {wear}: §G-5%§!',
+            factory_effect('£RUS_nat_text_food£', wheat, '+0.05'),
+            factory_effect('£consumer_goods_texticon£', '$MODIFIER_CONSUMER_GOODS_EXPECTED_VALUE$', '-0.02%'),
+        ])
         lines.extend([
             f' {PREFIX}_cooperative_name:0 "{cooperative_name}"',
+            f' {PREFIX}_democratic_efficiency_requires_tt:0 "{requirement}"',
+            f' {PREFIX}_democratic_consumer:0 "${PREFIX}_cooperative_name$"',
             f' {PREFIX}_reform_group_tt:0 "§g{reform}§![RUSIndustrialPolicy_crop_bonus][RUSIndustrialPolicy_agriculture_score][RUSIndustrialPolicy_machine_wear]"',
             f' {PREFIX}_reform_group_after_education_tt:0 "\\n${PREFIX}_reform_group_tt$"',
         ])
         reform_rows = {
             'crop_bonus': crops,
             'agriculture_score': f'£decision_icon_small£ {score_label}: §G+{LABOR_OVERSIGHT_SCORE}§!',
-            'machine_wear': f'£RUS_nat_text_machinery£ {wear}: §G-5%§!',
+            'machine_wear': democratic_effects,
         }
         for policy, row in reform_rows.items():
             lines.extend([f' {PREFIX}_{policy}_tt:0 "§g{reform}§!\\n{row}"',

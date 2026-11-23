@@ -133,6 +133,23 @@ test('democratic efficiency cuts in-service wear by five percentage points, with
   run(c,'settle');assert.equal(val(c,'loss_rate'),expected);assert.equal(val(c,'last_loss'),400*expected);
  }
 });
+test('democratic efficiency scales wheat and consumer expectations with the current civilian factory count',()=>{
+ const c=fresh();
+ set(c,'fraction',1);
+ c.vars.num_of_civilian_factories=50;
+ run(c,'yield');
+ const baseline=val(c,'wheat_yield');
+ c.focuses.push('RUS_future_domestic_177');
+ run(c,'yield');
+ assert.ok(Math.abs(val(c,'wheat_yield')-baseline-2.5)<1e-8);
+ run(c,'democratic_consumption');
+ assert.equal(val(c,'democratic_consumer'),-.01);
+ c.vars.num_of_civilian_factories=100;
+ run(c,'yield');
+ assert.ok(Math.abs(val(c,'wheat_yield')-baseline-5)<1e-8);
+ run(c,'democratic_consumption');
+ assert.equal(val(c,'democratic_consumer'),-.02);
+});
 test('hard annual caps: domestic score 12, political power 200, including repeated partial arithmetic',()=>{
  const c=fresh();c.flags.RUS_maximalist_land_reform_in_progress=true;for(const g of ['food','beet','textile']){set(c,g+'_ratio',1);set(c,g+'_left',0);}set(c,'task',3);set(c,'mean_coverage',0);set(c,'fraction',1);set(c,'eligible_days',92);
  for(let i=0;i<6;i++)run(c,'award');assert.equal(val(c,'domestic_year'),12);assert.equal(c.pp,200);assert.equal(c.vars.RUS_maximalist_land_reform_score,12);
