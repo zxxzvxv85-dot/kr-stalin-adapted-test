@@ -638,6 +638,11 @@ set_variable = { RUS_nat_np_fertility = 1 }
 add_to_variable = { RUS_nat_np_fertility = RUS_np_fertilizer }
 multiply_variable = { RUS_nat_wheat_yield = RUS_nat_np_fertility }
 }
+if = { limit = { has_completed_focus = RUS_future_domestic_629 has_country_flag = RUS_agri_management_unlocked NOT = { has_country_flag = RUS_maximalist_land_reform_failure } }
+set_variable = { RUS_nat_cooperative_yield = 0.2 }
+multiply_variable = { RUS_nat_cooperative_yield = RUS_nat_fraction }
+add_to_variable = { RUS_nat_wheat_yield = RUS_nat_cooperative_yield }
+}
 add_to_variable = { RUS_nat_harvest = RUS_nat_wheat_yield }
 set_variable = { RUS_nat_rye_rate = RUS_agri_rye_base }
 set_variable = { RUS_nat_tmp = RUS_agri_rye_fatigue }
@@ -667,6 +672,11 @@ set_variable = { RUS_nat_np_fertility = 1 }
 add_to_variable = { RUS_nat_np_fertility = RUS_np_fertilizer }
 multiply_variable = { RUS_nat_rye_yield = RUS_nat_np_fertility }
 }
+if = { limit = { has_completed_focus = RUS_future_domestic_629 has_country_flag = RUS_agri_management_unlocked NOT = { has_country_flag = RUS_maximalist_land_reform_failure } }
+set_variable = { RUS_nat_cooperative_yield = 0.2 }
+multiply_variable = { RUS_nat_cooperative_yield = RUS_nat_fraction }
+add_to_variable = { RUS_nat_rye_yield = RUS_nat_cooperative_yield }
+}
 add_to_variable = { RUS_nat_harvest = RUS_nat_rye_yield }
 set_variable = { RUS_nat_beet_rate = RUS_agri_beet_base }
 set_variable = { RUS_nat_tmp = RUS_agri_beet_fatigue }
@@ -695,6 +705,11 @@ if = { limit = { check_variable = { RUS_np_fertilizer > 0 } }
 set_variable = { RUS_nat_np_fertility = 1 }
 add_to_variable = { RUS_nat_np_fertility = RUS_np_fertilizer }
 multiply_variable = { RUS_nat_beet_yield = RUS_nat_np_fertility }
+}
+if = { limit = { has_completed_focus = RUS_future_domestic_629 has_country_flag = RUS_agri_management_unlocked NOT = { has_country_flag = RUS_maximalist_land_reform_failure } }
+set_variable = { RUS_nat_cooperative_yield = 0.3 }
+multiply_variable = { RUS_nat_cooperative_yield = RUS_nat_fraction }
+add_to_variable = { RUS_nat_beet_yield = RUS_nat_cooperative_yield }
 }
 add_to_variable = { RUS_nat_harvest = RUS_nat_beet_yield }
 set_variable = { RUS_nat_flax_rate = RUS_agri_flax_base }
@@ -3031,6 +3046,9 @@ add_to_variable = { RUS_nat_loss_rate = 0.025 }
 subtract_from_variable = { RUS_nat_loss_rate = RUS_nat_repair_support }
 if = { limit = { has_country_flag = RUS_np_initialized }
 subtract_from_variable = { RUS_nat_loss_rate = RUS_np_repair }
+}
+if = { limit = { has_completed_focus = RUS_future_domestic_177 }
+subtract_from_variable = { RUS_nat_loss_rate = 0.05 }
 }
 clamp_variable = { var = RUS_nat_loss_rate min = 0 max = 0.125 }
 set_variable = { RUS_nat_loss = RUS_nat_installed }

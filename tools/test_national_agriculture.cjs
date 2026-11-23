@@ -125,6 +125,14 @@ test('filled installation and 5000 machinery storage halt production without man
 test('adverse weather and repairs modify fixed quarterly wear, and stored machines do not wear',()=>{
  const c=fresh();set(c,'elapsed',92);set(c,'fraction',1);set(c,'installed',400);set(c,'machine_stock',100);set(c,'coverage_sum',92);set(c,'eligible_days',92);set(c,'boundary',1);set(c,'wear',.1);set(c,'repair_support',.05);c.vars.RUS_agri_weather=-.4;c.flags.RUS_agri_allocation_locked=true;run(c,'settle');assert.equal(val(c,'loss_rate'),.075);assert.equal(val(c,'last_loss'),30);assert.equal(val(c,'installed'),470);assert.equal(val(c,'machine_stock'),0);
 });
+test('democratic efficiency cuts in-service wear by five percentage points, with a zero floor',()=>{
+ for(const [wear, expected] of [[.1,.05],[.05,0]]){
+  const c=fresh();c.focuses.push('RUS_future_domestic_177');c.flags.RUS_agri_allocation_locked=true;
+  set(c,'elapsed',92);set(c,'fraction',1);set(c,'installed',400);set(c,'coverage_sum',92);
+  set(c,'boundary',1);set(c,'wear',wear);c.vars.RUS_agri_weather=0;
+  run(c,'settle');assert.equal(val(c,'loss_rate'),expected);assert.equal(val(c,'last_loss'),400*expected);
+ }
+});
 test('hard annual caps: domestic score 12, political power 200, including repeated partial arithmetic',()=>{
  const c=fresh();c.flags.RUS_maximalist_land_reform_in_progress=true;for(const g of ['food','beet','textile']){set(c,g+'_ratio',1);set(c,g+'_left',0);}set(c,'task',3);set(c,'mean_coverage',0);set(c,'fraction',1);set(c,'eligible_days',92);
  for(let i=0;i<6;i++)run(c,'award');assert.equal(val(c,'domestic_year'),12);assert.equal(c.pp,200);assert.equal(c.vars.RUS_maximalist_land_reform_score,12);

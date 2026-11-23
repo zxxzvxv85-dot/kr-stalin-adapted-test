@@ -643,4 +643,14 @@ RUS_agri_compute_crop_returns = {
 			set_variable = { RUS_agri_cotton_return = RUS_agri_cotton_investment }
 		}
 	}
+	if = {
+		limit = {
+			has_completed_focus = RUS_future_domestic_629
+			has_country_flag = RUS_agri_management_unlocked
+			NOT = { has_country_flag = RUS_maximalist_land_reform_failure }
+		}
+		add_to_variable = { RUS_agri_wheat_return = 0.2 }
+		add_to_variable = { RUS_agri_rye_return = 0.2 }
+		add_to_variable = { RUS_agri_beet_return = 0.3 }
+	}
 }

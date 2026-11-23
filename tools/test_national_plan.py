@@ -826,6 +826,16 @@ class PlanTests(unittest.TestCase):
         # A goal first reached on the final callback is also credited.
         m=Model().initialize();m.start(p);m.states[219]['infrastructure']=3;m.vars[var(p,'left')]=0;m.call(var(p,'finish'))
         self.assertEqual(m.vars['RUS_basic_education_level'],51)
+    def test_labor_oversight_credits_agricultural_completion_once(self):
+        p = next(p for p in PROJECTS if p['key']=='bobrik')
+        for result, expected in (('finish', 2), ('cancel', 0)):
+            m = Model().initialize()
+            m.flags.add('RUS_maximalist_land_reform_in_progress')
+            m.start(p)
+            m.call(var(p,result))
+            m.call(var(p,'finish'))
+            self.assertEqual(m.vars.get('land_awarded',0), expected)
+
     def test_five_education_and_two_land_score_rewards(self):
         edu=[p['key'] for p in PROJECTS if any('RUS_np_award_education = yes' in x[2] for x in goals(p))]
         land=[p['key'] for p in PROJECTS if any('RUS_np_award_land_score = yes' in x[2] for x in goals(p))]

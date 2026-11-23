@@ -2819,6 +2819,7 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_rostselmash
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
+		custom_effect_tooltip = RUS_disordered_industry_crop_bonus_tt
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -2989,6 +2990,7 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_project_izhevsk_mechanical_plant
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
+		custom_effect_tooltip = RUS_disordered_industry_agriculture_score_tt
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -3143,8 +3145,10 @@ shared_focus = {
 	prerequisite = { focus = RUS_future_domestic_179 }
 	completion_reward = {
 		unlock_decision_tooltip = RUS_np_gaz
+		add_ideas = RUS_producers_common_plan
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
+		hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } RUS_education_refresh = yes } }
 	}
 	ai_will_do = { factor = 0 }
 }
@@ -3168,6 +3172,7 @@ shared_focus = {
 		unlock_decision_tooltip = RUS_np_leningrad_logistics
 		RUS_disordered_industry_preview = yes
 		hidden_effect = { RUS_disordered_industry_refresh = yes }
+		custom_effect_tooltip = RUS_disordered_industry_machine_wear_tt
 	}
 	ai_will_do = { factor = 0 }
 }

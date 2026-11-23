@@ -12,6 +12,7 @@ from disordered_industry import (
     RESEARCH_REDUCTION, RESEARCH_STEP, TRUSTS_IDEA, TRUSTS_DAILY_RESOURCES,
     ACCOUNTING_FOCUS, COORDINATION_FOCUS, LONG_RANGE_FOCUS, PROJECTS_REQUIRED,
     GOAL_REFUND, REGIONAL_DURATION_FACTOR, LONG_RANGE_SCORE,
+    LABOR_OVERSIGHT_FOCUS, LABOR_OVERSIGHT_SCORE,
 )
 from national_plan_catalog import current_place_names
 
@@ -20,6 +21,13 @@ DEC='common/decisions/RUS decisions (Russia).txt'
 FX='common/scripted_effects/RUS_national_plan_effects.txt'
 DM='common/dynamic_modifiers/RUS_national_plan_modifiers.txt'
 P='RUS_np_'
+LABOR_OVERSIGHT = (
+    f'has_completed_focus = {LABOR_OVERSIGHT_FOCUS} '
+    'has_country_flag = RUS_agri_management_unlocked '
+    'NOT = { has_country_flag = RUS_maximalist_land_reform_failure } '
+    'OR = { has_country_flag = RUS_maximalist_land_reform_in_progress '
+    'has_country_flag = RUS_maximalist_land_reform_success }'
+)
 SCORE_FILE='common/scripted_effects/RUS_stalin_five_year_plan_effects.txt'
 SCORE_HOOK='\t\t# NATIONAL_PLAN_PENDING_SCORE\n\t\tRUS_np_flush_plan_score = yes\n'
 
@@ -303,6 +311,8 @@ def patch_node(node,p):
     original=managed_base(p)
     field('remove_effect',[
         b('effect_tooltip',[original]).strip(),'custom_effect_tooltip = '+var(p,'score_tt'),*goal_tooltips(p),
+        *([iff('hidden_trigger = { '+LABOR_OVERSIGHT+' }',
+               ['custom_effect_tooltip = RUS_np_labor_score_tt'])] if p['kind']=='agriculture' else []),
         'hidden_effect = { '+call(p,'finish')+' }'])
     # The managed ledger never refunds PP (the old Central Asia cancellation
     # did). Its legacy UI flags are cleared by the common release handler.
@@ -494,7 +504,9 @@ def project_effects(p):
     reward=[call(p,'goals'),managed_base(p),add(P+'pending_plan_score',project_score(p)),
         iff(f'has_completed_focus = {LONG_RANGE_FOCUS}', [add(P+'pending_plan_score',LONG_RANGE_SCORE)]),
         *(['set_country_flag = RUS_first_five_year_plan_tankograd_completed'] if k=='create_tankograd' else []),
-        'RUS_np_flush_plan_score = yes',iff('NOT = { '+flag(p,'completed')+' }',bonus),'set_country_flag = '+var(p,'completed'),
+        'RUS_np_flush_plan_score = yes',iff('NOT = { '+flag(p,'completed')+' }',bonus),
+        *([iff(LABOR_OVERSIGHT, land_score_credit(LABOR_OVERSIGHT_SCORE))] if p['kind']=='agriculture' else []),
+        'set_country_flag = '+var(p,'completed'),
         sv(P+'consumed',var(p,'paid')),
         iff(f'has_completed_focus = {ACCOUNTING_FOCUS} '+flag(p,'goal_1')+' '+flag(p,'goal_2'),
             [mul(P+'consumed',1-GOAL_REFUND)]),
@@ -503,6 +515,9 @@ def project_effects(p):
     finish=[call(p,'tick'),iff(owned(p),reward),b('else',[call(p,'cancel')]).strip()]
     out.append(b(var(p,'finish'),[iff(running(p),finish)]))
     return ''.join(out)
+
+def land_score_credit(points):
+    return [sv('RUS_agri_score_award',points),'RUS_agri_credit_score = yes','RUS_nat_refresh = yes']
 
 def management():
     out=[]
@@ -652,7 +667,7 @@ def augment(out):
     effects.append(b('RUS_np_award_resources',['custom_effect_tooltip = RUS_np_resources_award_tt',
         'hidden_effect = { '+add(P+'available',15)+' '+add(P+'bonus_resources',15)+' }']))
     effects.append(b('RUS_np_award_land_score',['custom_effect_tooltip = RUS_np_land_award_tt',b('hidden_effect',[
-        sv('RUS_agri_score_award',5),'RUS_agri_credit_score = yes','RUS_nat_refresh = yes']).strip()]))
+        *land_score_credit(5)]).strip()]))
     out[FX]='# Generated national plan. Original scoring weights and spirit stages retained.\n'+''.join(effects)
     out[FX]='\n'.join(line.rstrip() for line in out[FX].split('\n'))
     dm=[b('RUS_np_transport_network',['enable = { RUS_np_context = yes }','production_speed_buildings_factor = RUS_np_transport_bonus','industrial_capacity_factory = RUS_np_transport_bonus'])]
@@ -705,6 +720,7 @@ def localisations():
     l['RUS_np_education_award_tt']='£RUS_edu_basic_texticon£ §C基础教育水平§!：§G+1.00§!\\n£RUS_edu_higher_texticon£ §Y高等教育水平§!：§G+0.50§!'
     l['RUS_np_resources_award_tt']='§C建设资源§!：§G+15.00§!'
     l['RUS_np_land_award_tt']='土地改革分数：§G+5§!'
+    l['RUS_np_labor_score_tt']=f'土改分数（$RUS_future_domestic_179$）：§G+{LABOR_OVERSIGHT_SCORE}§!'
     l['RUS_np_farm_credit_tt']='农业建设获得§G100§!单位农机。'
     l['RUS_np_fertilizer_reward_tt']='小麦、黑麦与甜菜产量：§G+3.00%§!'
     l['RUS_np_rural_reward_tt']='每日农机供应：§G+2§!\\n农机损耗率：§G-1.00%§!'

@@ -539,6 +539,18 @@ class EducationTests(unittest.TestCase):
             m.vars.pop('RUS_edu_repeat_cost_literacy');m.call('RUS_education_refresh')
             self.assertAlmostEqual(m.vars['RUS_edu_cost_literacy'],expected*a['cost']/(a['cost']+15))
 
+    def test_producers_common_plan_discounts_all_education_decision_prices(self):
+        m = initialized()
+        m.flags.add('RUS_edu_central')
+        m.vars['RUS_edu_repeat_cost_literacy'] = 15
+        m.call('RUS_education_refresh')
+        keys = ['RUS_edu_cost_'+a['id'] for a in ACTIVITIES+CONTROLS]
+        before = {k: m.vars[k] for k in keys}
+        m.done.add('RUS_future_domestic_631')
+        m.call('RUS_education_refresh')
+        for key in keys:
+            self.assertAlmostEqual(m.vars[key], before[key] * .9)
+
     def test_mass_mood_has_180_then_360_days_and_no_permanent_heat_change(self):
         m=initialized();m.flags.add('RUS_edu_era');m.vars[VARS['heat']]=90;m.call('RUS_education_start_mass_campaign')
         self.assertIn('RUS_education_mass_hesitation',m.ideas)

@@ -13,6 +13,7 @@ from education_reform_content import (ACTIVITIES, CONTROLS, BODY, POOL_CAPS, KIN
     HEAT_ECONOMIC_MODIFIERS, HEAT_WEEKLY_STABILITY_THRESHOLD, HEAT_WEEKLY_STABILITY_MAX_LOSS,EDUCATION_GAIN_CAPS,
     HEAT_QUALITY_CURVATURE,HEAT_QUALITY_WINDOW,HEAT_STABILITY_PRESSURE,HEAT_POLITICAL_PRESSURE,color_poster_categories,LOWER_IS_BETTER)
 from education_poster_expansion import (MILITARY_GATE, AGRICULTURE_GATE, STATE_REWARDS, CATEGORY_ICONS)
+from disordered_industry import PRODUCERS_PLAN_FOCUS, PRODUCERS_EDUCATION_COST_FACTOR
 
 ROOT = Path(__file__).resolve().parents[1]
 DESIGN = Path('tools/design/education_system_20261024')
@@ -369,6 +370,7 @@ def refresh_lines():
             lines+=mul_if(v,'RUS_edu_era',.75)
             lines+=cond('has_idea = RUS_mikhail_kalinin_advisor',[mul(v,.85)])
             lines+=cond(repeat_condition(a),[mul(v,1.5)])
+        lines+=cond(f'has_completed_focus = {PRODUCERS_PLAN_FOCUS}',[mul(v,PRODUCERS_EDUCATION_COST_FACTOR)])
         for m,award in a['permanent_modifiers'].items():
             v=delta(a,m)
             lines += [setv(v,POOL_CAPS[m]),op('subtract_from',v,pv(m))]+clamp(v,min(0,award),max(0,award))

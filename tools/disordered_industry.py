@@ -11,6 +11,14 @@ FEDERAL_PICTURE = DISCOUNT_IDEA
 FEDERAL_TEXTURE = 'gfx/interface/goals/RUS_future_domestic/RUS_future_domestic_169.png'
 DISCOUNT = f'has_idea = {DISCOUNT_IDEA}'
 COOPERATIVE_IDEA = PREFIX + '_cooperative'
+COOPERATIVE_FOCUS = 'RUS_future_domestic_166'
+COOPERATIVE_PRODUCTION_FOCUS = 'RUS_future_domestic_629'
+LABOR_OVERSIGHT_FOCUS = 'RUS_future_domestic_179'
+LABOR_OVERSIGHT_SCORE = 2
+DEMOCRATIC_EFFICIENCY_FOCUS = 'RUS_future_domestic_177'
+PRODUCERS_PLAN_FOCUS = 'RUS_future_domestic_631'
+PRODUCERS_PLAN_IDEA = 'RUS_producers_common_plan'
+PRODUCERS_EDUCATION_COST_FACTOR = .9
 TRUSTS_IDEA = PREFIX + '_trusts'
 COOPERATIVE_MONTHLY_EDUCATION = 0.5
 TRUSTS_DAILY_RESOURCES = 0.5
@@ -133,6 +141,8 @@ def economy_branch(edges):
 
 def focus_reward(focus, branch):
     effects = []
+    if focus == PRODUCERS_PLAN_FOCUS:
+        effects.append(f'add_ideas = {PRODUCERS_PLAN_IDEA}')
     suffix = focus.rsplit('_', 1)[-1]
     policy = POLICIES.get(suffix)
     if policy:
@@ -153,6 +163,14 @@ def focus_reward(focus, branch):
         effects.append(f'custom_effect_tooltip = {PREFIX}_{FEDERAL_POLICIES[focus]}_tt')
     if focus == COORDINATION_FOCUS:
         effects.append('hidden_effect = { RUS_np_refresh = yes }')
+    if focus == COOPERATIVE_PRODUCTION_FOCUS:
+        effects.append(f'custom_effect_tooltip = {PREFIX}_crop_bonus_tt')
+    if focus == LABOR_OVERSIGHT_FOCUS:
+        effects.append(f'custom_effect_tooltip = {PREFIX}_agriculture_score_tt')
+    if focus == DEMOCRATIC_EFFICIENCY_FOCUS:
+        effects.append(f'custom_effect_tooltip = {PREFIX}_machine_wear_tt')
+    if focus == PRODUCERS_PLAN_FOCUS:
+        effects.append('hidden_effect = { if = { limit = { has_country_flag = RUS_education_system_active } RUS_education_refresh = yes } }')
     return effects
 
 
@@ -225,7 +243,18 @@ def outputs(branch):
             ideas.extend(f'\t\t\t\tcustom_modifier_tooltip = {PREFIX}_{policy}_active_tt'
                          for policy in FEDERAL_POLICIES.values())
         ideas.extend(['\t\t\t}', '\t\t}'])
-    ideas.extend(['\t}', '}'])
+    ideas.extend(f'''		{PRODUCERS_PLAN_IDEA} = {{
+			picture = generic_planning
+			allowed = {{ original_tag = RUS }}
+			removal_cost = -1
+			modifier = {{
+				stability_weekly = 0.0025
+				political_power_factor = 0.05
+				custom_modifier_tooltip = {PRODUCERS_PLAN_IDEA}_education_cost_tt
+			}}
+		}}
+	}}
+}}'''.splitlines())
 
     # Recompute from completed IDs so a replay or save reload cannot add a layer twice.
     count = PREFIX + '_count'
@@ -250,7 +279,10 @@ def outputs(branch):
                        f'\t\t\t\tadd_ideas = {idea}',
                        '\t\t\t\tRUS_np_refresh_prices = yes',
                        '\t\t\t}', '\t\t}'])
-    effect.extend(['\t}', '}', ''])
+    effect.extend(['\t}',
+                   f'\tif = {{ limit = {{ original_tag = RUS has_completed_focus = {PRODUCERS_PLAN_FOCUS} NOT = {{ has_idea = {PRODUCERS_PLAN_IDEA} }} }}',
+                   f'\t\tadd_ideas = {PRODUCERS_PLAN_IDEA}',
+                   '\t}', '}', ''])
     effect.extend(idea_previews(tiers, federal_tiers))
     effect.extend(f'''{MONTHLY_EDUCATION} = {{
 \tif = {{
@@ -286,6 +318,10 @@ def outputs(branch):
 	text = {{
 		trigger = {{ has_completed_focus = {FEDERAL_FOCUS} }}
 		localization_key = {PREFIX}_federal_name
+	}}
+	text = {{
+		trigger = {{ has_completed_focus = {COOPERATIVE_FOCUS} }}
+		localization_key = {PREFIX}_cooperative_name
 	}}
 	text = {{ localization_key = {OLD} }}
 }}
@@ -386,9 +422,36 @@ defined_text = {{
                         'При открытом строительном счёте', ' — изменение эффектов:'),
         }[lang]
         gain = f'§G+{COOPERATIVE_MONTHLY_EDUCATION}§!'
-        education_text = (f'£RUS_edu_basic_texticon£ {basic_text}: {gain}\\n'
-                          f'£RUS_edu_higher_texticon£ {higher_text}: {gain}\\n'
-                          f'§g{education_condition}§!')
+        education_text = (f'§g{education_condition}§!\\n'
+                          f'£RUS_edu_basic_texticon£ {basic_text}: {gain}\\n'
+                          f'£RUS_edu_higher_texticon£ {higher_text}: {gain}')
+        cooperative_name, reform, crop_label, crop_names, score_label = {
+            'simp_chinese': ('工业现状：建立合作社', '土改启用后', '季度{crop}产量', ('小麦', '黑麦', '甜菜'), '农业配套工业决议竣工获得的§Y土改分数§!'),
+            'english': ('State of Industry: Establish Cooperatives', 'After land reform is enabled', 'Quarterly {crop} Yield', ('Wheat', 'Rye', 'Beet'), '§YLand Reform Score§! per Completed Agricultural Support Project'),
+            'russian': ('Состояние промышленности: Создание кооперативов', 'После запуска земельной реформы', 'Квартальная урожайность: {crop}', ('Пшеница', 'Рожь', 'Свёкла'), '§YОчки земельной реформы§! за завершение аграрного проекта'),
+        }[lang]
+        crops = '\\n'.join(f'{crop_label.format(crop=crop)}: §G+{gain}§!'
+                          for crop, gain in zip(crop_names, ('0.2', '0.2', '0.3')))
+        wear = {
+            'simp_chinese': '季度农机损耗率',
+            'english': 'Quarterly Machinery Wear',
+            'russian': 'Квартальный износ сельхозтехники',
+        }[lang]
+        lines.extend([
+            f' {PREFIX}_cooperative_name:0 "{cooperative_name}"',
+            f' {PREFIX}_crop_bonus_tt:0 "§g{reform}§!\\n{crops}"',
+            f' {PREFIX}_agriculture_score_tt:0 "§g{reform}§!\\n£decision_icon_small£ {score_label}: §G+{LABOR_OVERSIGHT_SCORE}§!"',
+            f' {PREFIX}_machine_wear_tt:0 "§g{reform}§!\\n£RUS_nat_text_machinery£ {wear}: §G-5%§!"',
+        ])
+        education_cost = {
+            'simp_chinese': '教育改革决议政治点数花费',
+            'english': 'Education Reform Decision Political Power Cost',
+            'russian': 'Затраты политической власти на решения по реформе образования',
+        }[lang]
+        lines.extend([
+            f' {PRODUCERS_PLAN_IDEA}:0 "$' + PRODUCERS_PLAN_FOCUS + '$"',
+            f' {PRODUCERS_PLAN_IDEA}_education_cost_tt:0 "£pol_power£ {education_cost}: §G-{1-PRODUCERS_EDUCATION_COST_FACTOR:.0%}§!"',
+        ])
         resources_text = ('£RUS_np_resources_texticon£ ' + resources_text.format(resources=TRUSTS_DAILY_RESOURCES)
                           + f'\\n§g{resources_condition}§!')
         lines.extend([f' {ROUTE_BONUS_TOOLTIPS["cooperative"]}:0 "{education_text}"',
@@ -417,6 +480,7 @@ defined_text = {{
             lines.append(f' {PREFIX}_{route}_requires_tt:0 "{requirement}"')
         for idea in definitions:
             name = (f'${PREFIX}_federal_name$' if idea == DISCOUNT_IDEA or idea in federal_tiers else
+                    f'${PREFIX}_cooperative_name$' if idea == COOPERATIVE_IDEA else
                     '[RUSIndustrialSituationName]' if idea in tiers else label)
             lines.extend([f' {idea}:0 "{name}"', f' {idea}_desc:0 "${OLD}_desc$"'])
         result[Path(f'localisation/{lang}/RUS_disordered_industry_l_{lang}.yml')] = '\n'.join(lines)+'\n'
