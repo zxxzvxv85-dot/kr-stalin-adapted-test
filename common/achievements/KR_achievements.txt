@@ -2271,52 +2271,49 @@ IRE_fighting_irish_achievement = {
 						has_country_flag = IRE_supported_ITA
 						ITA = {
 							is_subject = no
-							has_country_flag = ITA_united_italia
+							italy_country_has_reunited_italy = yes
 						}
 					}
 					AND = {
 						has_country_flag = IRE_supported_SRI
 						SRI = {
 							is_subject = no
-							has_country_flag = SRI_italy_unified_flag
+							italy_country_has_reunited_italy = yes
 						}
 					}
 					AND = {
 						has_country_flag = IRE_supported_SIC
 						SIC = {
 							is_subject = no
-							OR = {
-								has_country_flag = SIC_confed
-								has_country_flag = SIC_empire
-							}
+							italy_country_has_reunited_italy = yes
 						}
 					}
 					AND = {
 						has_country_flag = IRE_supported_SRD
 						SRD = {
 							is_subject = no
-							has_completed_focus = SRD_italia_riunita
+							italy_country_has_reunited_italy = yes
 						}
 					}
 					AND = {
 						has_country_flag = IRE_supported_PAP
 						PAP = {
 							is_subject = no
-							has_country_flag = ITA_united_italia
+							italy_country_has_reunited_italy = yes
 						}
 					}
 					AND = {
 						has_country_flag = IRE_supported_LOM
 						LOM = {
 							is_subject = no
-							has_country_flag = ITA_united_italia
+							italy_country_has_reunited_italy = yes
 						}
 					}
 					AND = {
 						has_country_flag = IRE_supported_VNC
 						VNC = {
 							is_subject = no
-							has_country_flag = ITA_united_italia
+							italy_country_has_reunited_italy = yes
 						}
 					}
 				}
@@ -2479,7 +2476,7 @@ ITA_bandiera_rossa_achievement = {
 					is_ai = no
 				}
 			}
-			has_country_flag = SRI_italy_unified_flag
+			italy_country_has_reunited_italy = yes
 			NOT = { country_exists = ITA }
 			NOT = { country_exists = SIC }
 			NOT = { country_exists = PAP }
@@ -2517,8 +2514,11 @@ ITA_going_into_business_achievement = {
 					is_ai = no
 				}
 			}
-			has_completed_focus = ITA_ani_elected
-			has_country_flag = ITA_united_italia
+			custom_override_tooltip = {
+				tooltip = ITA_the_ani_seized_power
+				has_government = national_populist
+			}
+			italy_country_has_reunited_italy = yes
 			NOT = { country_exists = SRI }
 			NOT = { country_exists = SIC }
 			NOT = { country_exists = PAP }
@@ -2556,7 +2556,7 @@ ITA_outside_bet_achievement = {
 					is_ai = no
 				}
 			}
-			has_completed_focus = SRD_italia_riunita
+			italy_country_has_reunited_italy = yes
 			NOT = { country_exists = SRI }
 			NOT = { country_exists = ITA }
 			NOT = { country_exists = SIC }
@@ -2594,8 +2594,11 @@ ITA_reversimento_achievement = {
 					is_ai = no
 				}
 			}
-			has_completed_focus = ITA_king_of_italy
-			has_country_flag = ITA_united_italia
+			custom_override_tooltip = {
+				tooltip = ITA_monarchy_has_been_established
+				has_government = authoritarian_democrat
+			}
+			italy_country_has_reunited_italy = yes
 			NOT = { country_exists = SRI }
 			NOT = { country_exists = SIC }
 			NOT = { country_exists = PAP }
@@ -2639,7 +2642,7 @@ ITA_risposta_meridionale_achievement = {
 			NOT = { country_exists = ITA }
 			OR = {
 				NOT = { country_exists = SRD }
-				SRD = { is_subject_of = SIC }
+				has_subject = SRD
 			}
 		}
 		else_if = {
@@ -2723,13 +2726,9 @@ ITA_thought_and_action_achievement = {
 			}
 			custom_override_tooltip = {
 				tooltip = ITA_republic_survives_tooltip
-				has_completed_focus = ITA_social_liberal_victory
-				NOT = {
-					has_completed_focus = ITA_ani_elected
-					has_completed_focus = ITA_king_of_italy
-				}
+				has_elected_government = yes
 			}
-			has_country_flag = ITA_united_italia
+			italy_country_has_reunited_italy = yes
 			NOT = { country_exists = SRI }
 			NOT = { country_exists = SIC }
 			NOT = { country_exists = PAP }
